@@ -1,0 +1,20 @@
+# generated stuff
+build
+.git
+.github
+src/**/*.d.ts
+src/abis
+
+# public
+public/index.html
+
+# Every commit this is changed. NO MORE!
+.prettier.rc
+.yarn.rc
+tsconfig.json
+tsconfig.*.json
+.eslintrc.json
+
+# local stuff
+.yalc
+.vscode
