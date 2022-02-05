@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest an idea for improving the UX of the DW3B Interface
+about: Suggest an idea for improving the UX of the PASTELLE interface
 title: ''
 labels: 'improvement'
 assignees: ''

@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Describe an issue in the DW3B interface
+about: Describe an issue in the PASTELLE interface
 title: ''
 labels: bug
 assignees: ''

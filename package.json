@@ -1,6 +1,6 @@
 {
-  "name": "@w3stside/dw3b",
-  "description": "d-W3b - Decentralised Web3 Web App built on TS - React - Redux",
+  "name": "pastelle-ui",
+  "description": "PASTELLE Web Interface",
   "homepage": ".",
   "main": "dist/interface.js",
   "module": "dist/interface.esm.js",

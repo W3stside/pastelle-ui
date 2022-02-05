@@ -5,12 +5,12 @@ on:
   pull_request:
     types: [opened, synchronize]
   push:
-    branches: [master, develop]
+    branches: [main, develop]
     tags: [v*]
 
 
 env:
-  REPO_NAME_SLUG: dw3b
+  REPO_NAME_SLUG: pastelle-ui
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
