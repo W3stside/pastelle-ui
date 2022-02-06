@@ -14,9 +14,11 @@ const ITEM_DESCRIPTION = `
 Virgil didnt make it through 7 layers of hell and write about it for you to not buy this shirt. 
 Fuck you and your feelings. And learn to read italian because thats what the shirt is written in.
 
-Big shout to Matheiu Houang in Bordeaux for the painting on the front.
-@mathieuhouang
+Big shout to Matheiu Sato in Bordeaux for the painting on the front.
+@mathieusato
 `
+const COLLABORATOR = 'Mathieu Sato'
+const COLLABORATOR_SOCIAL_URL = 'https://instagram.com/mathieusato'
 
 export default {
   itemColor: '#a2c2fa',
@@ -24,5 +26,9 @@ export default {
   itemMediaList: ITEM_MEDIA_LIST,
   itemSizesList: ITEM_SIZES_LIST,
   itemDescription: ITEM_DESCRIPTION,
+  itemArtistInfo: {
+    artist: COLLABORATOR,
+    social: COLLABORATOR_SOCIAL_URL
+  },
   key: nanoid()
 } as HomeItem
