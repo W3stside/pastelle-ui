@@ -21,7 +21,11 @@ export default function Carousel({ buttonColor, mediaList, mediaStartIndex, onCa
     }),
     [mediaList.length]
   )
-
+  // get a ref to the carouselImageboi
+  const carouselImageRef = useRef<HTMLImageElement | null>(null)
+  useEffect(() => {
+    carouselImageRef.current?.focus()
+  }, [])
   // get a ref to the carouselboi
   const carouselRef = useRef<HTMLDivElement | null>(null)
   // we need to hold and updated cache of the carousel parent's width in px
@@ -37,7 +41,6 @@ export default function Carousel({ buttonColor, mediaList, mediaStartIndex, onCa
     <CarouselContainer id="#carousel-container" ref={carouselRef}>
       {mediaList.map(({ image }, index) => {
         if (!parentWidth) return null
-
         const isCurrentStep = index === selectedStep
         // has multiple steps and is on last item
         const isLastStep = isMultipleCarousel && selectedStep === lastStepIndex
@@ -76,7 +79,7 @@ export default function Carousel({ buttonColor, mediaList, mediaStartIndex, onCa
             justifyContent={'center'}
             $calculatedWidth={calculatedWidth + 'px'}
           >
-            <img src={image} />
+            <img src={image} ref={carouselImageRef} />
             {isMultipleCarousel && (
               <CarouselButtonContainer>
                 <CarouselButton onClick={onPrevious} buttonColor={buttonColor}>
