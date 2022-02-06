@@ -35,3 +35,17 @@ declare module '*.webm' {
   const src: string;
   export default src;
 }
+
+declare namespace React {
+  type PropsWithChildrenAndTheme<P> = P & { children?: React.ReactNode; theme?: DefaultTheme }
+  
+  interface FunctionComponentWithTheme<P = Record<any, any>> {
+    (props: PropsWithChildrenAndTheme<P>, context?: any): React.ReactElement<any, any> | null
+    propTypes?: React.WeakValidationMap<P>
+    contextTypes?: React.ValidationMap<any>
+    defaultProps?: Partial<P>
+    displayName?: string
+  }
+  
+  export type TFC<P = Record<any, any>> = FunctionComponentWithTheme<P>
+}
