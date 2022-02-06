@@ -1,8 +1,10 @@
+import { TFC } from 'react'
 import styled, { css } from 'styled-components/macro'
 import { transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
-import { TYPE } from 'theme'
+import { ItemPageProps } from './AsideWithVideo'
+import { ExternalLink, TYPE } from 'theme'
 
 const saturateAnimation = css`
   @keyframes saturate {
@@ -181,3 +183,28 @@ export const ItemContainer = styled(Row)`
     }
   }
 `
+
+export const ItalicStrikethrough = styled.i`
+  text-decoration: line-through;
+`
+
+export const ItemCredits: TFC = ({ children }) => (
+  <TYPE.black fontSize={14} padding="13px 8px" fontWeight={300} width="100%">
+    {children}
+  </TYPE.black>
+)
+
+export const ItemArtistInfo = (props: ItemPageProps['itemArtistInfo'] | undefined) => {
+  if (!props) return null
+
+  const { artist, social } = props
+
+  return (
+    <TYPE.black fontSize={14} padding={2} fontWeight={300}>
+      <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> x {artist}
+      <br />
+      <br />
+      <ExternalLink href={social}>{social}</ExternalLink>
+    </TYPE.black>
+  )
+}

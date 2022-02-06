@@ -1,10 +1,18 @@
 import { ReactNode, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
-import { ItemContainer, ItemAsidePanel, ItemHeader, /* Strikethrough, */ VideoContentWrapper } from './styleds'
+import {
+  ItemContainer,
+  ItemAsidePanel,
+  ItemHeader,
+  VideoContentWrapper,
+  ItemCredits,
+  ItalicStrikethrough,
+  ItemArtistInfo
+} from './styleds'
 
-import { TYPE } from 'theme'
 import { ApparelItem } from 'mock/apparel/types'
+import { TYPE } from 'theme'
 
 // TODO: move to APPAREL TYPES or sth
 type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
@@ -15,8 +23,17 @@ export interface ItemPageProps {
   itemMediaList: ApparelItem[]
   itemSizesList: ItemSizes[]
   itemDescription: ReactNode
+  itemArtistInfo?: {
+    artist: string
+    social: string
+  }
 }
 
+const PASTELLE_CREDIT = (
+  <>
+    Homegrown at <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> labs
+  </>
+)
 const DEFAULT_MEDIA_START_INDEX = 0
 
 // TODO: fix props, pass steps, sizes etc
@@ -25,7 +42,8 @@ export default function ItemPage({
   itemHeader,
   itemMediaList,
   itemSizesList,
-  itemDescription
+  itemDescription,
+  itemArtistInfo
 }: ItemPageProps) {
   const [mediaStartIndex, setMediaStartIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setMediaStartIndex(index)
@@ -37,6 +55,8 @@ export default function ItemPage({
           {/* <Strikethrough /> */}
           {itemHeader}
         </ItemHeader>
+        {/* Credits */}
+        <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
         {/* Item carousel */}
         <Carousel
           buttonColor={itemColor}
