@@ -80,8 +80,8 @@ export const VideoContentWrapper = styled(Row)`
   z-index: 1;
 
   video {
-    // lock the video to container size
-    width: 100%;
+    // lock the video to 16:9 ratio
+    height: calc(100vw * (9 / 16));
 
     ${saturateAnimation}
 
