@@ -1,7 +1,7 @@
 name: CI
 
 on:
-  # build on PR creation/updates, also when pushing to master/develop, or create a release
+  # build on PR creation/updates, also when pushing to main/develop, or create a release
   pull_request:
     types: [opened, synchronize]
   push:
@@ -169,12 +169,12 @@ jobs:
             src/locales
           key: ${{ runner.os }}-generatedFiles-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Build Web Apps
+      - name: Build PASTELLE ui
         run: yarn build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        # if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build
