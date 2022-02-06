@@ -10,7 +10,7 @@ const FooterWrapper = styled(SectionFrame)`
 
 const Footer = () => {
   return (
-    <FooterWrapper>
+    <FooterWrapper as="footer">
       <ThemeToggleBar />
     </FooterWrapper>
   )

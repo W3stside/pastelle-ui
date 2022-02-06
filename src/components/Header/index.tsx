@@ -139,7 +139,7 @@ const Title = styled.a`
 
 const activeClassName = 'ACTIVE'
 
-const StyledNavLink = styled(NavLink).attrs({
+export const StyledNavLink = styled(NavLink).attrs({
   activeClassName
 })`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -201,7 +201,7 @@ export default function Header() {
   const { chainId } = useActiveWeb3React()
 
   return (
-    <HeaderFrame>
+    <HeaderFrame as="header">
       <HeaderRow>
         <Title href="/#">
           {/* <Sabrecon>

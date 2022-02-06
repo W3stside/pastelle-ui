@@ -117,11 +117,10 @@ export const ItemAsidePanel = styled(Column)`
 `
 
 export const ItemContainer = styled(Row)`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   justify-content: center;
   align-items: stretch;
-  margin: auto;
 
   position: relative;
 

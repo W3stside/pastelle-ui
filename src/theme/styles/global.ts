@@ -5,6 +5,10 @@ import { getThemeColours, setTextColour, setBgColour } from '../utils'
 import { ThemeModes } from '../styled'
 
 export const TopGlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+
   html,
   input,
   textarea,
@@ -29,9 +33,6 @@ export const TopGlobalStyle = createGlobalStyle`
     padding: 0;
   }
 
-  * {
-    box-sizing: border-box;
-  }
   
   html {
     font-variant: none;
@@ -42,9 +43,40 @@ export const TopGlobalStyle = createGlobalStyle`
   }
 
   body {
-    min-height: 100vh;
+    // BG
     background-position: 0 -30vh;
     background-repeat: no-repeat;
+  }
+
+  body > div#root {
+    // LAYOUT
+    min-height: 100vh;
+    display: grid;
+    grid-template-areas:  'header header'
+                          'nav main'
+                          'footer footer';
+    grid-template-columns: minmax(auto, 12em) 5fr;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  header {
+    grid-area: header;
+  }
+
+  footer {
+    grid-area: footer;
+  }
+
+  nav {
+    grid-area: nav;
+  }
+
+  article {
+    grid-area: main;
+  }
+
+  nav, article {
+    overflow-y: auto;
   }
 
   a {
@@ -87,4 +119,9 @@ export const ThemedGlobalStyle = createGlobalStyle`
 
     transition: background-color, background-image, color 0.3s ease-in-out;
   }
+
+  header, nav, footer {
+    background: ${({ theme }) => transparentize(0.1, theme.red2)};
+  }
+
 `
