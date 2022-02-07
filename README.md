@@ -1,4 +1,4 @@
-# _PASTELLE_ 
+# _PASTELLE_
 
 [![Styled With Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/)
 
