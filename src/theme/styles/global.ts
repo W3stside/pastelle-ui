@@ -50,13 +50,14 @@ export const TopGlobalStyle = createGlobalStyle`
 
   body > div#root {
     // LAYOUT
-    min-height: 100vh;
+    height: 100vh;
     display: grid;
     grid-template-areas:  'header header'
                           'nav main'
                           'footer footer';
     grid-template-columns: minmax(auto, max-content) 5fr;
     grid-template-rows: auto 1fr auto;
+    overflow: hidden;
   }
 
   header {

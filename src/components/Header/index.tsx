@@ -1,6 +1,3 @@
-import { NavLink } from 'react-router-dom'
-import { darken } from 'polished'
-
 import styled from 'styled-components/macro'
 
 // import Logo from 'assets/png/logo/compressed.png'
@@ -13,6 +10,7 @@ import { Row, RowFixed, YellowCard } from 'components/Layout'
 import { SectionFrame } from 'components/Layout/Section'
 
 import { NETWORK_LABELS } from 'blockchain/constants'
+import { StyledNavLink } from './styleds'
 
 const HeaderFrame = styled(SectionFrame)`
   top: 0;
@@ -136,35 +134,6 @@ const Title = styled.a`
 //     transform: rotate(-5deg);
 //   }
 // `
-
-const activeClassName = 'ACTIVE'
-
-export const StyledNavLink = styled(NavLink).attrs({
-  activeClassName
-})`
-  ${({ theme }) => theme.flexRowNoWrap}
-  align-items: left;
-  border-radius: 3rem;
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-  color: ${({ theme }) => theme.text2};
-  font-size: ${({ theme }) => theme.buttons.font.size.normal};
-  width: fit-content;
-  margin: 0 12px;
-  font-weight: 500;
-
-  &.${activeClassName} {
-    border-radius: ${({ theme }) => theme.buttons.borderRadius};
-    font-weight: 800;
-    color: ${({ theme }) => theme.text1};
-  }
-
-  :hover,
-  :focus {
-    color: ${({ theme }) => darken(0.1, theme.text1)};
-  }
-`
 
 // const StyledExternalLink = styled(ExternalLink).attrs({
 //   activeClassName

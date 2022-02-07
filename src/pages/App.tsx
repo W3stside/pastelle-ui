@@ -5,7 +5,8 @@ import ThemeViewer from 'components/ThemeViewer'
 import Popups from 'components/Popups'
 import Web3ReactManager from 'components/blockchain/Web3ReactManager'
 
-import Header, { StyledNavLink } from 'components/Header'
+import Header from 'components/Header'
+import { StyledNavLink } from 'components/Header/styleds'
 // import Footer from 'components/Footer'
 
 import Home from 'pages/Home'

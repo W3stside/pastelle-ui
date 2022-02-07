@@ -1,4 +1,5 @@
 import { TFC } from 'react'
+import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
 import { transparentize } from 'polished'
 
@@ -67,12 +68,12 @@ const textShadowAnimation = css<{ itemColor: string }>`
 `
 
 export const VideoContentWrapper = styled(Row)`
-  position: relative;
-  z-index: 1;
+  z-index: -1;
 
   video {
     // lock the video to 16:9 ratio
     height: calc(100vw * (9 / 16));
+    // height: 100%;
 
     filter: contrast(1.8) saturate(1) blur(0.5px);
 
@@ -103,6 +104,29 @@ export const ItemHeader = styled(TYPE.largeHeader)<ItemHeaderProps>`
       animation-iteration-count: 3;
       animation-delay: 1s;
     `}
+`
+
+export const ItemSubHeader = styled(TYPE.black).attrs(() => ({
+  fontSize: 16,
+  padding: 2,
+  fontWeight: 300,
+  fontStyle: 'italic'
+}))<{ bgColor?: string }>`
+  background: ${({ bgColor = 'transparent' }) =>
+    `linear-gradient(90deg, ${bgColor} 0%, ${transparentize(0.3, bgColor)} 35%, transparent 70%)`};
+  width: 100%;
+`
+
+export const ItemBreadcrumb = styled(NavLink)`
+  color: ${({ theme }) => theme.black};
+  font-size: 10px;
+  font-weight: 300;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  > span:first-child {
+    margin: 0 5px;
+  }
 `
 
 export const ItemAsidePanel = styled(Column)`
@@ -137,7 +161,7 @@ export const ItemContainer = styled(Row)`
   }
 
   > ${VideoContentWrapper} {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -236,4 +260,19 @@ export const FloatingStrip = ({ color, ...rest }: FloatingColoredBlock & { color
   <FloatingBlockContainer {...rest}>
     <FloatingColouredBlock color={color} />
   </FloatingBlockContainer>
+)
+
+export const BreadcrumbWrapper = styled(ItemSubHeader)`
+  display: flex;
+  gap: 5px;
+  margin-bottom: -24px;
+  z-index: 100;
+  padding-top: 4px;
+  font-size: 12px;
+`
+
+export const PASTELLE_CREDIT = (
+  <>
+    Homegrown at <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> labs
+  </>
 )
