@@ -156,7 +156,7 @@ export const StyledNavLink = styled(NavLink).attrs({
 
   &.${activeClassName} {
     border-radius: ${({ theme }) => theme.buttons.borderRadius};
-    font-weight: 600;
+    font-weight: 800;
     color: ${({ theme }) => theme.text1};
   }
 

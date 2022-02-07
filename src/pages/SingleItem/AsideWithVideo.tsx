@@ -1,4 +1,5 @@
 import { ReactNode, useState } from 'react'
+import styled from 'styled-components/macro'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
@@ -8,11 +9,13 @@ import {
   VideoContentWrapper,
   ItemCredits,
   ItalicStrikethrough,
-  ItemArtistInfo
+  ItemArtistInfo,
+  FloatingStrip
 } from './styleds'
 
 import { ApparelItem } from 'mock/apparel/types'
 import { TYPE } from 'theme'
+import { darken, transparentize } from 'polished'
 
 // TODO: move to APPAREL TYPES or sth
 type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
@@ -36,6 +39,17 @@ const PASTELLE_CREDIT = (
 )
 const DEFAULT_MEDIA_START_INDEX = 0
 
+export const ItemSubHeader = styled(TYPE.black).attrs(() => ({
+  fontSize: 16,
+  padding: 2,
+  fontWeight: 200,
+  fontStyle: 'italic'
+}))<{ bgColor?: string }>`
+  background: ${({ bgColor = 'transparent' }) =>
+    `linear-gradient(90deg, ${bgColor} 0%, ${transparentize(0.3, bgColor)} 35%, transparent 70%)`};
+  width: 100%;
+`
+
 // TODO: fix props, pass steps, sizes etc
 export default function ItemPage({
   itemColor,
@@ -51,12 +65,6 @@ export default function ItemPage({
   return (
     <ItemContainer>
       <ItemAsidePanel id="#shirt-aside-panel">
-        <ItemHeader fontSize="65px" itemColor={itemColor} animation>
-          {/* <Strikethrough /> */}
-          {itemHeader}
-        </ItemHeader>
-        {/* Credits */}
-        <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
         {/* Item carousel */}
         <Carousel
           buttonColor={itemColor}
@@ -64,11 +72,24 @@ export default function ItemPage({
           mediaStartIndex={mediaStartIndex}
           onCarouselChange={onCarouselChange}
         />
+        <br />
+        <ItemHeader
+          fontSize="100px"
+          fontWeight={200}
+          /* marginBottom={-55} */ marginTop={-55}
+          itemColor={itemColor}
+          animation
+        >
+          {/* <Strikethrough /> */}
+          {itemHeader}
+        </ItemHeader>
+        <br />
+        <ItemSubHeader bgColor={itemColor}>CREDIT</ItemSubHeader>
+        {/* Credits */}
+        <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
         {/* Size selector */}
         <br />
-        <TYPE.black fontSize={16} padding={2} fontWeight={700}>
-          Choose a size
-        </TYPE.black>
+        <ItemSubHeader bgColor={itemColor}>CHOOSE A SIZE</ItemSubHeader>
         <br />
         <Row>
           <select>
@@ -79,16 +100,24 @@ export default function ItemPage({
         </Row>
         <br />
         {/* Item description */}
-        <TYPE.black fontSize={16} padding={2} fontWeight={700}>
-          Description
-        </TYPE.black>
+        <ItemSubHeader bgColor={itemColor}>DESCRIPTION</ItemSubHeader>
         <br />
         <Row>
-          <TYPE.black fontSize={16} padding={2} fontWeight={300}>
+          <TYPE.black fontSize={18} padding={2} fontWeight={300}>
             {itemDescription}
           </TYPE.black>
         </Row>
+        {/* VISUAL */}
+        <FloatingStrip
+          color={transparentize(0.4, itemColor)}
+          top={280}
+          left={-106}
+          rotation={15}
+          gradientBase={darken(0.56, itemColor)}
+          gradientEnd={itemColor}
+        />
       </ItemAsidePanel>
+      {/* Item Video content */}
       <VideoContentWrapper id="#video-content-wrapper">
         {itemMediaList.map(({ video }, index) => {
           const isSelected = index === mediaStartIndex

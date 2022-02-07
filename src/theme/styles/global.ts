@@ -55,7 +55,7 @@ export const TopGlobalStyle = createGlobalStyle`
     grid-template-areas:  'header header'
                           'nav main'
                           'footer footer';
-    grid-template-columns: minmax(auto, 12em) 5fr;
+    grid-template-columns: minmax(auto, max-content) 5fr;
     grid-template-rows: auto 1fr auto;
   }
 

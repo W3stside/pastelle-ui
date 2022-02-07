@@ -9,19 +9,10 @@ import { ExternalLink, TYPE } from 'theme'
 const saturateAnimation = css`
   @keyframes saturate {
     0% {
-      filter: saturate(0);
+      filter: contrast(1.8) saturate(20) blur(5px);
     }
-    25% {
-      filter: saturate(0.8);
-    }
-    50% {
-      filter: saturate(2);
-    }
-    75% {
-      filter: saturate(3.7);
-    }
-    100% {
-      filter: saturate(5);
+    10% {
+      filter: contrast(1.8) saturate(1) blur(0.8px);
     }
   }
 `
@@ -83,6 +74,8 @@ export const VideoContentWrapper = styled(Row)`
     // lock the video to 16:9 ratio
     height: calc(100vw * (9 / 16));
 
+    filter: contrast(1.8) saturate(1) blur(0.5px);
+
     ${saturateAnimation}
 
     animation-name: saturate;
@@ -96,6 +89,7 @@ export const Strikethrough = styled.div`
 `
 export type ItemHeaderProps = { animation?: boolean; itemColor: string }
 export const ItemHeader = styled(TYPE.largeHeader)<ItemHeaderProps>`
+  z-index: 100;
   font-style: italic;
   letter-spacing: 7px;
 
@@ -208,3 +202,38 @@ export const ItemArtistInfo = (props: ItemPageProps['itemArtistInfo'] | undefine
     </TYPE.black>
   )
 }
+type FloatingColoredBlock = {
+  width?: number
+  height?: number
+  top?: number
+  left?: number
+  gradientBase?: string
+  gradientEnd?: string
+  rotation?: number
+}
+export const FloatingBlockContainer = styled.div<FloatingColoredBlock>`
+  position: absolute;
+  background-image: ${({ gradientBase = 'rgba(33, 114, 229, 0.1)', gradientEnd = 'rgba(33, 36, 41, 1)' }) =>
+    `radial-gradient(50% 50% at 50% 50%, ${gradientBase} 0%, ${gradientEnd} 100%)`};
+
+  transform: rotate(${({ rotation = 45 }) => rotation}deg);
+
+  width: ${({ width = 755 }) => width}px;
+  height: ${({ height = 292 }) => height}px;
+  top: ${({ top = 57 }) => top}px;
+  left: ${({ left = -106 }) => left}px;
+
+  z-index: -1;
+`
+
+const FloatingColouredBlock = styled.div<{ color: string }>`
+  height: 100%;
+  width: 100%;
+  background: ${({ color }) => color};
+`
+
+export const FloatingStrip = ({ color, ...rest }: FloatingColoredBlock & { color: string }) => (
+  <FloatingBlockContainer {...rest}>
+    <FloatingColouredBlock color={color} />
+  </FloatingBlockContainer>
+)
