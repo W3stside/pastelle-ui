@@ -85,12 +85,12 @@ export default function ItemPage({
           {itemHeader}
         </ItemHeader>
         <br />
-        <ItemSubHeader bgColor={itemColor}>CREDIT</ItemSubHeader>
+        <ItemSubHeader bgColor={transparentize(0.2, itemColor)}>CREDIT</ItemSubHeader>
         {/* Credits */}
         <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
         {/* Size selector */}
         <br />
-        <ItemSubHeader bgColor={itemColor}>CHOOSE A SIZE</ItemSubHeader>
+        <ItemSubHeader bgColor={transparentize(0.2, itemColor)}>CHOOSE A SIZE</ItemSubHeader>
         <br />
         <Row>
           <select style={{ width: '50%' }}>
@@ -101,7 +101,7 @@ export default function ItemPage({
         </Row>
         <br />
         {/* Item description */}
-        <ItemSubHeader bgColor={itemColor}>DESCRIPTION</ItemSubHeader>
+        <ItemSubHeader bgColor={transparentize(0.2, itemColor)}>DESCRIPTION</ItemSubHeader>
         <br />
         <Row>
           <TYPE.black fontSize={18} padding={2} fontWeight={300}>
@@ -115,7 +115,7 @@ export default function ItemPage({
           left={-106}
           rotation={15}
           gradientBase={darken(0.56, itemColor)}
-          gradientEnd={itemColor}
+          gradientEnd={transparentize(1, itemColor)}
         />
       </ItemAsidePanel>
       {/* Item Video content */}

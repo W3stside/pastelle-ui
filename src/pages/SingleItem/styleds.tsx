@@ -113,7 +113,7 @@ export const ItemSubHeader = styled(TYPE.black).attrs(() => ({
   fontStyle: 'italic'
 }))<{ bgColor?: string }>`
   background: ${({ bgColor = 'transparent' }) =>
-    `linear-gradient(90deg, ${bgColor} 0%, ${transparentize(0.3, bgColor)} 35%, transparent 70%)`};
+    `linear-gradient(15deg, ${bgColor} 0%, ${transparentize(1, bgColor)} 35%, transparent 70%)`};
   width: 100%;
 `
 
