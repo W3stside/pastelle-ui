@@ -109,7 +109,7 @@ export const ItemAsidePanel = styled(Column)`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  padding: 5px;
+  // padding: 5px;
 `
 
 export const ItemContainer = styled(Row)`

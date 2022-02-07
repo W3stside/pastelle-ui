@@ -7,7 +7,7 @@ export const CarouselStep = styled(Row)<{ $calculatedWidth: string }>`
   width: ${({ $calculatedWidth }) => $calculatedWidth};
 
   img {
-    max-width: 98%;
+    max-width: 100%;
     box-shadow: 3px 6px 8px 0px #686868ad;
   }
 
