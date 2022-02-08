@@ -1,28 +1,31 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { CarouselContainer, CarouselStep, CarouselButtonContainer, CarouselButton } from './styleds'
-import { ApparelItem } from 'mock/apparel/types'
-import { useModalOpen, useToggleModal } from 'state/application/hooks'
-import { ApplicationModal } from 'state/application/reducer'
-import Modal from 'components/Modal'
 
 type CarouselProps = {
+  fixedHeight?: string
   buttonColor: string
-  mediaList: ApparelItem[]
+  imageList: string[]
   mediaStartIndex: number
   onCarouselChange?: (index: number) => void
 }
 
-export default function Carousel({ buttonColor, mediaList, mediaStartIndex, onCarouselChange }: CarouselProps) {
+export default function Carousel({
+  fixedHeight,
+  buttonColor,
+  imageList,
+  mediaStartIndex,
+  onCarouselChange
+}: CarouselProps) {
   const [selectedStep, setSelectedStep] = useState(mediaStartIndex)
   const [parentWidth, setParentWidth] = useState<number | undefined>()
 
   const { isMultipleCarousel, lastStepIndex } = useMemo(
     () => ({
-      isMultipleCarousel: mediaList.length > 0,
-      lastStepIndex: mediaList.length - 1
+      isMultipleCarousel: imageList.length > 0,
+      lastStepIndex: imageList.length - 1
     }),
-    [mediaList.length]
+    [imageList.length]
   )
   // get a ref to the carouselImageboi
   const carouselImageRef = useRef<HTMLImageElement | null>(null)
@@ -40,13 +43,10 @@ export default function Carousel({ buttonColor, mediaList, mediaStartIndex, onCa
     }
   })
 
-  const toggleModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
-  const showLargeImage = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
-
   return (
-    <CarouselContainer id="#carousel-container" ref={carouselRef}>
+    <CarouselContainer id="#carousel-container" ref={carouselRef} fixedHeight={fixedHeight}>
       {/* CAROUSEL CONTENT */}
-      {mediaList.map(({ imageMedia: { small, large } }, index) => {
+      {imageList.map((image, index) => {
         if (!parentWidth) return null
         const isCurrentStep = index === selectedStep
         // has multiple steps and is on last item
@@ -86,11 +86,7 @@ export default function Carousel({ buttonColor, mediaList, mediaStartIndex, onCa
             justifyContent={'center'}
             $calculatedWidth={calculatedWidth + 'px'}
           >
-            {/* LARGE IMAGE MODAL */}
-            <Modal isOpen={showLargeImage} onDismiss={toggleModal} minHeight={1000}>
-              <img src={large} />
-            </Modal>
-            <img src={small} ref={carouselImageRef} onClick={toggleModal} />
+            <img src={image} ref={carouselImageRef} />
             {isMultipleCarousel && (
               <CarouselButtonContainer>
                 <CarouselButton onClick={onPrevious} buttonColor={buttonColor}>

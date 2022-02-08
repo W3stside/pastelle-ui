@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
@@ -18,6 +18,10 @@ import { ApparelItem } from 'mock/apparel/types'
 import { TYPE } from 'theme'
 import { darken, transparentize } from 'polished'
 import { useBreadcrumb } from 'components/Breadcrumb'
+
+import Modal from 'components/Modal'
+import { useToggleModal, useModalOpen } from 'state/application/hooks'
+import { ApplicationModal } from 'state/application/reducer'
 
 // TODO: move to APPAREL TYPES or sth
 type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
@@ -52,15 +56,23 @@ export default function ItemPage({
   itemDescription,
   itemArtistInfo
 }: ItemPageProps) {
-  const [mediaStartIndex, setMediaStartIndex] = useState(DEFAULT_MEDIA_START_INDEX)
-  const onCarouselChange = (index: number) => setMediaStartIndex(index)
+  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
+  const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
+
+  // MODALS
+  const toggleModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
+  const showLargeImage = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
 
   // TODO: un-mock
   const { breadcrumbs, lastCrumb } = useBreadcrumb()
 
+  // Split images lists
+  const smallImagesList = useMemo(() => itemMediaList.map(({ imageMedia: { small } }) => small), [itemMediaList])
+  const largeImagesList = useMemo(() => itemMediaList.map(({ imageMedia: { large } }) => large), [itemMediaList])
+
   return (
-    <ItemContainer>
-      <ItemAsidePanel id="#shirt-aside-panel">
+    <ItemContainer id="#item-container">
+      <ItemAsidePanel id="#item-aside-panel">
         {/* BREADCRUMBS */}
         <Row marginBottom={-25} style={{ zIndex: 100 }} padding="5px">
           {breadcrumbs?.map((crumb, index) => {
@@ -76,8 +88,8 @@ export default function ItemPage({
         {/* Item carousel */}
         <Carousel
           buttonColor={itemColor}
-          mediaList={itemMediaList}
-          mediaStartIndex={mediaStartIndex}
+          imageList={smallImagesList}
+          mediaStartIndex={currentCarouselIndex}
           onCarouselChange={onCarouselChange}
         />
         <br />
@@ -92,8 +104,21 @@ export default function ItemPage({
           {itemHeader}
         </ItemHeader>
         <br />
-        <ItemSubHeader bgColor={transparentize(0.2, itemColor)}>CREDIT</ItemSubHeader>
+        <TYPE.black
+          width="100%"
+          padding={2}
+          css={`
+            > u {
+              cursor: pointer;
+            }
+          `}
+          onClick={toggleModal}
+        >
+          <u>[see full image +]</u>
+        </TYPE.black>
+        <br />
         {/* Credits */}
+        <ItemSubHeader bgColor={transparentize(0.2, itemColor)}>CREDIT</ItemSubHeader>
         <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
         {/* Size selector */}
         <br />
@@ -128,7 +153,7 @@ export default function ItemPage({
       {/* Item Video content */}
       <VideoContentWrapper id="#video-content-wrapper">
         {itemMediaList.map(({ videoMedia: { video, poster } }, index) => {
-          const isSelected = index === mediaStartIndex
+          const isSelected = index === currentCarouselIndex
           if (!isSelected) return null
 
           return (
@@ -138,6 +163,17 @@ export default function ItemPage({
           )
         })}
       </VideoContentWrapper>
+      {/* LARGE IMAGE MODAL */}
+      <Modal isOpen={showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
+        {/* <ItemLargeImage src={itemMediaList[currentCarouselIndex].imageMedia.large} /> */}
+        <Carousel
+          buttonColor={itemColor}
+          imageList={largeImagesList}
+          mediaStartIndex={currentCarouselIndex}
+          onCarouselChange={onCarouselChange}
+          fixedHeight="auto"
+        />
+      </Modal>
     </ItemContainer>
   )
 }

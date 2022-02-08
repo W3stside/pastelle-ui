@@ -14,7 +14,7 @@ export const CarouselStep = styled(Row)<{ $calculatedWidth: string }>`
   transition: width 0.3s ease-out;
 `
 
-export const CarouselContainer = styled.div`
+export const CarouselContainer = styled.div<{ fixedHeight?: string }>`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -23,7 +23,7 @@ export const CarouselContainer = styled.div`
   // no shrink
   flex: 1 0 auto;
   width: 100%;
-  height: 480px;
+  height: ${({ fixedHeight = '480px' }) => fixedHeight};
 `
 // #a1c3f9
 export const CarouselButton = styled.div<{ buttonColor: string }>`

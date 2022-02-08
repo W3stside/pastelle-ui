@@ -9,7 +9,13 @@ const AnimatedDialogOverlay = animated(DialogOverlay)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
   &[data-reach-dialog-overlay] {
-    z-index: 2;
+    z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
     background-color: transparent;
     overflow: hidden;
 
@@ -24,7 +30,7 @@ const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
 const AnimatedDialogContent = animated(DialogContent)
 // destructure to not pass custom props to Dialog DOM element
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...rest }) => (
+const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLargeImageModal, ...rest }) => (
   <AnimatedDialogContent {...rest} />
 )).attrs({
   'aria-label': 'dialog'
@@ -37,13 +43,16 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
     border: 1px solid ${({ theme }) => theme.bg1};
     box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.95, theme.shadow1)};
     padding: 0px;
-    width: 50vw;
+    width: ${({ isLargeImageModal }) => (isLargeImageModal ? '90' : '50')}vh;
     overflow-y: auto;
     overflow-x: hidden;
 
     align-self: ${({ mobile }) => (mobile ? 'flex-end' : 'center')};
 
-    max-width: 420px;
+    max-width: ${({ maxHeight, isLargeImageModal = false }) =>
+      css`
+        ${isLargeImageModal ? maxHeight + 'vh' : '420px'}
+      `};
     ${({ maxHeight }) =>
       maxHeight &&
       css`
@@ -74,6 +83,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, ...r
 `
 
 interface ModalProps {
+  isLargeImageModal?: boolean
   isOpen: boolean
   onDismiss: () => void
   minHeight?: number | false
@@ -84,6 +94,7 @@ interface ModalProps {
 }
 
 export default function Modal({
+  isLargeImageModal = false,
   isOpen,
   onDismiss,
   minHeight = false,
@@ -135,6 +146,7 @@ export default function Modal({
                 minHeight={minHeight}
                 maxHeight={maxHeight}
                 mobile={isMobile}
+                isLargeImageModal={isLargeImageModal}
               >
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
                 {!initialFocusRef && isMobile ? <div tabIndex={1} /> : null}
