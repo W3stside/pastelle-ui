@@ -1,13 +1,24 @@
 import { nanoid } from '@reduxjs/toolkit'
-import FRONT_IMAGE from 'assets/apparel/leer/images/front.jpg'
-import BACK_IMAGE from 'assets/apparel/leer/images/back.jpg'
-import FRONT_VIDEO from 'assets/apparel/leer/webm/front.webm'
-import BACK_VIDEO from 'assets/apparel/leer/webm/back.webm'
+import FRONT_IMAGE_LARGE from 'assets/apparel/leer/images/front-large.jpg'
+import BACK_IMAGE_LARGE from 'assets/apparel/leer/images/back-large.jpg'
+import FRONT_IMAGE_SMALL from 'assets/apparel/leer/images/front-small.jpg'
+import BACK_IMAGE_SMALL from 'assets/apparel/leer/images/back-small.jpg'
+import FRONT_VIDEO from 'assets/apparel/leer/video/front.webm'
+import BACK_VIDEO from 'assets/apparel/leer/video/back.webm'
+import FRONT_VIDEO_POSTER from 'assets/apparel/leer/video/front-poster.png'
+import BACK_VIDEO_POSTER from 'assets/apparel/leer/video/back-poster.png'
 import { ApparelItem, HomeItem } from './types'
+import { SocialType } from 'pages/SingleItem/AsideWithVideo'
 
 const ITEM_MEDIA_LIST: ApparelItem[] = [
-  { image: FRONT_IMAGE, video: FRONT_VIDEO },
-  { image: BACK_IMAGE, video: BACK_VIDEO }
+  {
+    imageMedia: { large: FRONT_IMAGE_LARGE, small: FRONT_IMAGE_SMALL },
+    videoMedia: { video: FRONT_VIDEO, poster: FRONT_VIDEO_POSTER }
+  },
+  {
+    imageMedia: { large: BACK_IMAGE_LARGE, small: BACK_IMAGE_SMALL },
+    videoMedia: { video: BACK_VIDEO, poster: BACK_VIDEO_POSTER }
+  }
 ]
 const ITEM_SIZES_LIST = ['LARGE', 'MEDIUM', 'SMALL']
 const ITEM_DESCRIPTION = `
@@ -17,8 +28,11 @@ Fuck you and your feelings. And learn to read italian because thats what the shi
 Big shout to Matheiu Sato in Bordeaux for the painting on the front.
 @mathieusato
 `
+
 const COLLABORATOR = 'Mathieu Sato'
-const COLLABORATOR_SOCIAL_URL = 'https://instagram.com/mathieusato'
+const COLLABORATOR_SOCIAL = [
+  { type: SocialType.INSTAGRAM, url: 'https://instagram.com/mathieusato', display: '@mathieusato' }
+]
 
 export default {
   itemColor: '#a2c2fa',
@@ -28,7 +42,7 @@ export default {
   itemDescription: ITEM_DESCRIPTION,
   itemArtistInfo: {
     artist: COLLABORATOR,
-    social: COLLABORATOR_SOCIAL_URL
+    social: COLLABORATOR_SOCIAL
   },
   key: nanoid()
 } as HomeItem
