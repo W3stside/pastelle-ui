@@ -73,8 +73,8 @@ export const VideoContentWrapper = styled(Row)`
 
   video {
     // lock the video to 16:9 ratio
-    height: calc(100vw * (9 / 16));
-    // height: 100%;
+    // height: calc(100vw * (9 / 16));
+    height: 100%;
 
     filter: contrast(1.8) saturate(1) blur(0.5px);
 
