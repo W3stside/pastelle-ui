@@ -23,7 +23,10 @@ const ITEM_MEDIA_LIST: ApparelItem[] = [
 const ITEM_SIZES_LIST = ['LARGE', 'MEDIUM', 'SMALL']
 const ITEM_DESCRIPTION = `
 Virgil didnt make it through 7 layers of hell and write about it for you to not buy this shirt. 
-Fuck you and your feelings. And learn to read italian because thats what the shirt is written in.
+
+E io ch’avea d’error la testa cinta,
+dissi: Maestro, che è quel ch’i’ odo?
+e che gent’ è che par nel duol sì vinta?
 
 Big shout to Matheiu Sato in Bordeaux for the painting on the front.
 @mathieusato
