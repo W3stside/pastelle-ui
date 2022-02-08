@@ -2,6 +2,9 @@ import { useState, useMemo, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { CarouselContainer, CarouselStep, CarouselButtonContainer, CarouselButton } from './styleds'
 import { ApparelItem } from 'mock/apparel/types'
+import { useModalOpen, useToggleModal } from 'state/application/hooks'
+import { ApplicationModal } from 'state/application/reducer'
+import Modal from 'components/Modal'
 
 type CarouselProps = {
   buttonColor: string
@@ -37,9 +40,13 @@ export default function Carousel({ buttonColor, mediaList, mediaStartIndex, onCa
     }
   })
 
+  const toggleModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
+  const showLargeImage = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
+
   return (
     <CarouselContainer id="#carousel-container" ref={carouselRef}>
-      {mediaList.map(({ image }, index) => {
+      {/* CAROUSEL CONTENT */}
+      {mediaList.map(({ imageMedia: { small, large } }, index) => {
         if (!parentWidth) return null
         const isCurrentStep = index === selectedStep
         // has multiple steps and is on last item
@@ -79,7 +86,11 @@ export default function Carousel({ buttonColor, mediaList, mediaStartIndex, onCa
             justifyContent={'center'}
             $calculatedWidth={calculatedWidth + 'px'}
           >
-            <img src={image} ref={carouselImageRef} />
+            {/* LARGE IMAGE MODAL */}
+            <Modal isOpen={showLargeImage} onDismiss={toggleModal} minHeight={1000}>
+              <img src={large} />
+            </Modal>
+            <img src={small} ref={carouselImageRef} onClick={toggleModal} />
             {isMultipleCarousel && (
               <CarouselButtonContainer>
                 <CarouselButton onClick={onPrevious} buttonColor={buttonColor}>

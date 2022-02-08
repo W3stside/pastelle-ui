@@ -5,7 +5,8 @@ export type PopupContent = React.ReactNode
 export enum ApplicationModal {
   WALLET,
   SETTINGS,
-  MENU
+  MENU,
+  ITEM_LARGE_IMAGE
 }
 
 type PopupList = Array<{ key: string; show: boolean; content: PopupContent; removeAfterMs: number | null }>

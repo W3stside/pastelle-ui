@@ -22,6 +22,13 @@ import { useBreadcrumb } from 'components/Breadcrumb'
 // TODO: move to APPAREL TYPES or sth
 type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
 
+export enum SocialType {
+  INSTAGRAM = 'INSTAGRAM',
+  TIKTOK = 'TIKTOK',
+  DEVIANTART = 'DEVIANTART',
+  DRIBBBLE = 'DRIBBBLE',
+  BEHANCE = 'BEHANCE'
+}
 export interface ItemPageProps {
   itemColor: string
   itemHeader: string
@@ -30,7 +37,7 @@ export interface ItemPageProps {
   itemDescription: ReactNode
   itemArtistInfo?: {
     artist: string
-    social: string
+    social: { type: SocialType; url: string; display: string }[]
   }
 }
 
@@ -120,12 +127,12 @@ export default function ItemPage({
       </ItemAsidePanel>
       {/* Item Video content */}
       <VideoContentWrapper id="#video-content-wrapper">
-        {itemMediaList.map(({ video }, index) => {
+        {itemMediaList.map(({ videoMedia: { video, poster } }, index) => {
           const isSelected = index === mediaStartIndex
           if (!isSelected) return null
 
           return (
-            <video loop muted autoPlay key={index}>
+            <video loop muted autoPlay key={index} poster={poster}>
               <source src={video} type="video/webm" />
             </video>
           )

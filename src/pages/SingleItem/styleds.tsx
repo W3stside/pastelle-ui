@@ -4,8 +4,9 @@ import styled, { css } from 'styled-components/macro'
 import { transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
-import { ItemPageProps } from './AsideWithVideo'
+import { ItemPageProps, SocialType } from './AsideWithVideo'
 import { ExternalLink, TYPE } from 'theme'
+import { Dribbble, Instagram } from 'react-feather'
 
 const saturateAnimation = css`
   @keyframes saturate {
@@ -148,7 +149,9 @@ export const ItemContainer = styled(Row)`
     position: relative;
     justify-content: flex-start;
 
-    margin-right: auto;
+    margin: 10px auto 10px 10px;
+    border: 2px solid transparent;
+    
     height: 100%;
     width: 100%;
     max-width: 500px;
@@ -212,6 +215,23 @@ export const ItemCredits: TFC = ({ children }) => (
   </TYPE.black>
 )
 
+function _showSocialUrl(type: SocialType) {
+  switch (type) {
+    case SocialType.INSTAGRAM:
+      return <Instagram />
+    case SocialType.DEVIANTART:
+      return <Instagram />
+    case SocialType.DRIBBBLE:
+      return <Dribbble />
+    case SocialType.TIKTOK:
+      return <Instagram />
+    case SocialType.BEHANCE:
+      return <Instagram />
+    default:
+      return null
+  }
+}
+
 export const ItemArtistInfo = (props: ItemPageProps['itemArtistInfo'] | undefined) => {
   if (!props) return null
 
@@ -222,7 +242,15 @@ export const ItemArtistInfo = (props: ItemPageProps['itemArtistInfo'] | undefine
       <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> x {artist}
       <br />
       <br />
-      <ExternalLink href={social}>{social}</ExternalLink>
+      {social.map(({ type, url, display }) => (
+        <ExternalLink
+          key={url}
+          href={url}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', gap: 5 }}
+        >
+          {_showSocialUrl(type)} {display}
+        </ExternalLink>
+      ))}
     </TYPE.black>
   )
 }
@@ -235,6 +263,7 @@ type FloatingColoredBlock = {
   gradientEnd?: string
   rotation?: number
 }
+
 export const FloatingBlockContainer = styled.div<FloatingColoredBlock>`
   position: absolute;
   background-image: ${({ gradientBase = 'rgba(33, 114, 229, 0.1)', gradientEnd = 'rgba(33, 36, 41, 1)' }) =>
