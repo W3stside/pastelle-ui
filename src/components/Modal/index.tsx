@@ -38,6 +38,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
   overflow-y: auto;
 
   &[data-reach-dialog-content] {
+    outline: none;
     margin: 0 0 2rem 0;
     background-color: ${({ theme }) => theme.bg0};
     border: 1px solid ${({ theme }) => theme.bg1};
