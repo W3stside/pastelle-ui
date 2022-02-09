@@ -6,7 +6,7 @@ import styled from 'styled-components/macro'
 
 // import Menu from 'components/Menu'
 import DynamicHeaderLogo from 'components/Header/DynamicLogoHeader'
-import { Row, RowFixed, YellowCard } from 'components/Layout'
+import { Row, RowFixed /*, YellowCard */ } from 'components/Layout'
 import { SectionFrame } from 'components/Layout/Section'
 
 // import { NETWORK_LABELS } from 'blockchain/constants'
@@ -101,7 +101,7 @@ const HeaderLinks = styled(Row)`
 //  `};
 // `
 
-const NetworkCard = styled(YellowCard)`
+/* const NetworkCard = styled(YellowCard)`
   border-radius: 12px;
   padding: 8px 12px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -112,7 +112,7 @@ const NetworkCard = styled(YellowCard)`
     text-overflow: ellipsis;
     flex-shrink: 1;
   `};
-`
+` */
 
 const Title = styled.a`
   display: flex;
