@@ -95,11 +95,11 @@ const HeaderLinks = styled(Row)`
 //   } */
 // `
 
-const HideSmall = styled.span`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
-`
+// const HideSmall = styled.span`
+//  ${({ theme }) => theme.mediaWidth.upToSmall`
+//    display: none;
+//  `};
+// `
 
 const NetworkCard = styled(YellowCard)`
   border-radius: 12px;
