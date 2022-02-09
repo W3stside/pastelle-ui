@@ -20,7 +20,7 @@ import TransactionUpdater from 'state/transactions/updater'
 import UserUpdater from 'state/user/updater'
 
 import ThemeProvider from 'theme'
-import { TopGlobalStyle, ThemedGlobalStyle } from 'theme/styles/global'
+import { TopGlobalStyle, ThemedGlobalStyle, FontStyles } from 'theme/styles/global'
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { nodeRemoveChildFix } from 'utils/node'
@@ -48,6 +48,7 @@ function Updaters() {
 ReactDOM.render(
   <StrictMode>
     {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
+    <FontStyles />
     <TopGlobalStyle />
     <Provider store={store}>
       <HashRouter>

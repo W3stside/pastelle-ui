@@ -3,6 +3,9 @@ import { transparentize } from 'polished'
 
 import { getThemeColours, setTextColour, setBgColour } from '../utils'
 import { ThemeModes } from '../styled'
+import FontStyles from './fonts'
+
+export { FontStyles }
 
 export const TopGlobalStyle = createGlobalStyle`
   * {
@@ -13,7 +16,7 @@ export const TopGlobalStyle = createGlobalStyle`
   input,
   textarea,
   button {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', 'Inter', sans-serif;
     font-display: fallback;
   }
   
@@ -22,7 +25,7 @@ export const TopGlobalStyle = createGlobalStyle`
     input,
     textarea,
     button {
-      font-family: 'Inter var', sans-serif;
+      font-family: 'Roboto', 'Inter var', sans-serif;
     }
   }
   

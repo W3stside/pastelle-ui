@@ -36,6 +36,11 @@ declare module '*.webm' {
   export default src;
 }
 
+declare module '*.ttf' {
+  const src: string;
+  export default src;
+}
+
 declare namespace React {
   type PropsWithChildrenAndTheme<P> = P & { children?: React.ReactNode; theme?: DefaultTheme }
   
