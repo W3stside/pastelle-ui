@@ -7,6 +7,7 @@ import { Column, Row } from 'components/Layout'
 import { ItemPageProps, SocialType } from './AsideWithVideo'
 import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
+import Button from 'components/Button'
 
 const saturateAnimation = css`
   @keyframes saturate {
@@ -74,7 +75,7 @@ export const VideoContentWrapper = styled(Row)`
   video {
     // lock the video to 16:9 ratio
     // height: calc(100vw * (9 / 16));
-    height: 100%;
+    width: 100%;
 
     filter: contrast(1.8) saturate(1) blur(0.5px);
 
@@ -90,10 +91,15 @@ export const Strikethrough = styled.div`
   height: 5px;
 `
 export type ItemHeaderProps = { animation?: boolean; itemColor: string }
-export const ItemHeader = styled(TYPE.largeHeader)<ItemHeaderProps>`
+export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
   z-index: 100;
   font-style: italic;
   letter-spacing: 7px;
+  font-size: 100px;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    font-size: 65px;
+  `}
 
   ${({ animation = false }) => animation && textShadowAnimation}
   ${({ animation = false, itemColor }) =>
@@ -137,7 +143,7 @@ export const ItemAsidePanel = styled(Column)`
   // padding: 5px;
 `
 
-export const ItemContainer = styled(Row)`
+export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT' }>`
   width: 100%;
   height: 100%;
   justify-content: center;
@@ -147,7 +153,7 @@ export const ItemContainer = styled(Row)`
 
   > ${ItemAsidePanel} {
     position: relative;
-    justify-content: flex-start;
+    justify-content: ${({ side = 'LEFT' }) => (side === 'LEFT' ? 'flex-start' : 'flex-end')};
 
     margin: 10px auto 10px 10px;
     border: 2px solid transparent;
@@ -161,6 +167,11 @@ export const ItemContainer = styled(Row)`
 
     background: ${({ theme }) => transparentize(0.1, theme.white)};
     // background: ${({ theme }) => transparentize(0.1, theme.red2)};
+
+    ${({ theme }) => theme.mediaWidth.upToSmall`
+      border: none;
+      margin: 0;
+  `}
   }
 
   > ${VideoContentWrapper} {
@@ -305,3 +316,25 @@ export const PASTELLE_CREDIT = (
     Homegrown at <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> labs
   </>
 )
+
+export const VideoControlButton = styled(Button)`
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 10;
+  z-index: 200;
+
+  > ${ItemSubHeader} {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 5px;
+    color: ${({ theme }) => theme.white};
+  }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+      display: none;
+  `}
+`

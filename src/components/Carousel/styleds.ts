@@ -21,7 +21,7 @@ export const CarouselContainer = styled.div<{ fixedHeight?: string }>`
   align-items: center;
 
   // no shrink
-  flex: 1 0 auto;
+  // flex: 1 0 auto;
   width: 100%;
   height: ${({ fixedHeight = '480px' }) => fixedHeight};
 `

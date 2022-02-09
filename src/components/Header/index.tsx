@@ -1,15 +1,15 @@
 import styled from 'styled-components/macro'
 
 // import Logo from 'assets/png/logo/compressed.png'
-import { useActiveWeb3React } from 'blockchain/hooks'
+// import { useActiveWeb3React } from 'blockchain/hooks'
 // import { ExternalLink } from 'theme'
 
-import Menu from 'components/Menu'
+// import Menu from 'components/Menu'
 import DynamicHeaderLogo from 'components/Header/DynamicLogoHeader'
 import { Row, RowFixed, YellowCard } from 'components/Layout'
 import { SectionFrame } from 'components/Layout/Section'
 
-import { NETWORK_LABELS } from 'blockchain/constants'
+// import { NETWORK_LABELS } from 'blockchain/constants'
 import { StyledNavLink } from './styleds'
 
 const HeaderFrame = styled(SectionFrame)`
@@ -24,20 +24,20 @@ const HeaderControls = styled.div`
   justify-self: flex-end;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
-    flex-direction: row;
-    justify-content: space-between;
-    justify-self: center;
-    width: 100%;
-    max-width: 960px;
-    padding: 1rem;
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    z-index: 99;
-    height: 72px;
-    border-radius: 12px 12px 0 0;
-    background-color: ${({ theme }) => theme.bg1};
+    // flex-direction: row;
+    // justify-content: space-between;
+    // justify-self: center;
+    // width: 100%;
+    // max-width: 960px;
+    // padding: 1rem;
+    // position: fixed;
+    // bottom: 0px;
+    // left: 0px;
+    // width: 100%;
+    // z-index: 99;
+    // height: 72px;
+    // border-radius: 12px 12px 0 0;
+    // background-color: ${({ theme }) => theme.bg1};
   `};
 `
 
@@ -47,8 +47,8 @@ const HeaderElement = styled.div`
   gap: 8px;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
-   flex-direction: row-reverse;
-    align-items: center;
+  //  flex-direction: row-reverse;
+  //   align-items: center;
   `};
 `
 
@@ -59,7 +59,7 @@ const HeaderElementWrap = styled.div`
 
 const HeaderRow = styled(RowFixed)`
   ${({ theme }) => theme.mediaWidth.upToMedium`
-   width: 100%;
+  //  width: 100%;
   `};
 `
 
@@ -167,7 +167,7 @@ const Title = styled.a`
 // `
 
 export default function Header() {
-  const { chainId } = useActiveWeb3React()
+  // const { chainId } = useActiveWeb3React()
 
   return (
     <HeaderFrame as="header">
@@ -189,11 +189,11 @@ export default function Header() {
       </HeaderRow>
       <HeaderControls>
         <HeaderElement>
-          <HideSmall>
+          {/* <HideSmall>
             {chainId && NETWORK_LABELS[chainId] && (
               <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
             )}
-          </HideSmall>
+          </HideSmall> */}
           {/* <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
@@ -203,9 +203,7 @@ export default function Header() {
             <Web3Status />
           </AccountElement> */}
         </HeaderElement>
-        <HeaderElementWrap>
-          <Menu />
-        </HeaderElementWrap>
+        <HeaderElementWrap>{/* <Menu /> */}</HeaderElementWrap>
       </HeaderControls>
     </HeaderFrame>
   )

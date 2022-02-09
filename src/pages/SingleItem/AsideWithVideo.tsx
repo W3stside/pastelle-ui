@@ -5,7 +5,6 @@ import {
   ItemContainer,
   ItemAsidePanel,
   ItemHeader,
-  VideoContentWrapper,
   ItemCredits,
   ItemArtistInfo,
   FloatingStrip,
@@ -22,6 +21,7 @@ import { useBreadcrumb } from 'components/Breadcrumb'
 import Modal from 'components/Modal'
 import { useToggleModal, useModalOpen } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/reducer'
+import { ItemVideoContent } from './ItemVideoContent'
 
 // TODO: move to APPAREL TYPES or sth
 type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
@@ -93,13 +93,7 @@ export default function ItemPage({
           onCarouselChange={onCarouselChange}
         />
         <br />
-        <ItemHeader
-          fontSize="100px"
-          fontWeight={200}
-          /* marginBottom={-55} */ marginTop={-55}
-          itemColor={itemColor}
-          animation
-        >
+        <ItemHeader fontWeight={200} /* marginBottom={-55} */ marginTop={-55} itemColor={itemColor} animation>
           {/* <Strikethrough /> */}
           {itemHeader}
         </ItemHeader>
@@ -151,18 +145,7 @@ export default function ItemPage({
         />
       </ItemAsidePanel>
       {/* Item Video content */}
-      <VideoContentWrapper id="#video-content-wrapper">
-        {itemMediaList.map(({ videoMedia: { video, poster } }, index) => {
-          const isSelected = index === currentCarouselIndex
-          if (!isSelected) return null
-
-          return (
-            <video loop muted autoPlay key={index} poster={poster}>
-              <source src={video} type="video/webm" />
-            </video>
-          )
-        })}
-      </VideoContentWrapper>
+      <ItemVideoContent itemMediaList={itemMediaList} currentCarouselIndex={currentCarouselIndex} />
       {/* LARGE IMAGE MODAL */}
       <Modal isOpen={showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
         <Carousel

@@ -6,28 +6,10 @@ import Popups from 'components/Popups'
 import Web3ReactManager from 'components/blockchain/Web3ReactManager'
 
 import Header from 'components/Header'
-import { StyledNavLink } from 'components/Header/styleds'
 // import Footer from 'components/Footer'
 
 import Home from 'pages/Home'
-import styled from 'styled-components/macro'
-
-const Navigation = styled.nav`
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: start;
-  align-items: start;
-
-  text-align: left;
-
-  padding: 10px;
-  gap: 10px;
-
-  // all links in nav
-  > a {
-    font-size: 16px;
-  }
-`
+import Navigation from 'components/Navigation'
 
 export default function App() {
   return (
@@ -37,11 +19,7 @@ export default function App() {
         {/* HEADER */}
         <Header />
         {/* SIDE-NAV */}
-        <Navigation>
-          <StyledNavLink to="/#">{'// LONGSLEEVE'}</StyledNavLink>
-          <StyledNavLink to="/#">{'// SHORTSLEEVE'}</StyledNavLink>
-          <StyledNavLink to="/#">{'// HOODIES'}</StyledNavLink>
-        </Navigation>
+        <Navigation />
         {/* ARTICLE CONTENT */}
         <Switch>
           <Route exact path="/" component={Home} />
