@@ -86,7 +86,7 @@ export default function Carousel({
             justifyContent={'center'}
             $calculatedWidth={calculatedWidth + 'px'}
           >
-            <img src={image} ref={carouselImageRef} />
+            <img src={image} ref={carouselImageRef} decoding="async" loading="lazy" />
             {isMultipleCarousel && (
               <CarouselButtonContainer>
                 <CarouselButton onClick={onPrevious} buttonColor={buttonColor}>

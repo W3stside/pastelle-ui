@@ -165,7 +165,6 @@ export default function ItemPage({
       </VideoContentWrapper>
       {/* LARGE IMAGE MODAL */}
       <Modal isOpen={showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
-        {/* <ItemLargeImage src={itemMediaList[currentCarouselIndex].imageMedia.large} /> */}
         <Carousel
           buttonColor={itemColor}
           imageList={largeImagesList}
