@@ -6,7 +6,7 @@ import styled from 'styled-components/macro'
 
 // import Menu from 'components/Menu'
 import DynamicHeaderLogo from 'components/Header/DynamicLogoHeader'
-import { Row, RowFixed, YellowCard } from 'components/Layout'
+import { Row, RowFixed /*, YellowCard */ } from 'components/Layout'
 import { SectionFrame } from 'components/Layout/Section'
 
 // import { NETWORK_LABELS } from 'blockchain/constants'
