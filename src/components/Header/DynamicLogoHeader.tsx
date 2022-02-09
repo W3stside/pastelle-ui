@@ -22,8 +22,12 @@ export default function DynamicHeaderLogo(props: DynamicHeaderLogoProps) {
   */
   const constructedLogo = useMemo(() => {
     if (!width) return null
+    if (width < MEDIA_WIDTHS.upToExtraSmall) {
+      return 'PSTLE'
+      // width < 960px
+    }
     // width < 720px
-    if (width < MEDIA_WIDTHS.upToSmall) {
+    else if (width < MEDIA_WIDTHS.upToSmall) {
       return 'PASTELLE'
       // width < 960px
     } else if (width < MEDIA_WIDTHS.upToMedium) {
