@@ -151,6 +151,10 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT' }>`
 
   position: relative;
 
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    justify-content: stretch;
+  `}
+
   > ${ItemAsidePanel} {
     position: relative;
     justify-content: ${({ side = 'LEFT' }) => (side === 'LEFT' ? 'flex-start' : 'flex-end')};
@@ -161,6 +165,10 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT' }>`
     height: 100%;
     width: 100%;
     max-width: 500px;
+
+    ${({ theme }) => theme.mediaWidth.upToSmall`
+      max-width: 100%;
+    `}
 
     overflow-x: hidden;
     z-index: 2;
