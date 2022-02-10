@@ -5,6 +5,7 @@ import { Row } from 'components/Layout'
 export const CarouselStep = styled(Row)<{ $calculatedWidth: string }>`
   position: relative;
   width: ${({ $calculatedWidth }) => $calculatedWidth};
+  height: ${({ $calculatedWidth }) => $calculatedWidth};
 
   img {
     max-width: 100%;
