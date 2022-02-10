@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from 'react'
+import { ForwardedRef, forwardRef, ReactNode, useMemo, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
@@ -48,14 +48,10 @@ export interface ItemPageProps {
 const DEFAULT_MEDIA_START_INDEX = 0
 
 // TODO: fix props, pass steps, sizes etc
-export default function ItemPage({
-  itemColor,
-  itemHeader,
-  itemMediaList,
-  itemSizesList,
-  itemDescription,
-  itemArtistInfo
-}: ItemPageProps) {
+export default forwardRef(function ItemPage(
+  { itemColor, itemHeader, itemMediaList, itemSizesList, itemDescription, itemArtistInfo }: ItemPageProps,
+  forwardedRef: ForwardedRef<HTMLDivElement>
+) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
 
@@ -71,7 +67,7 @@ export default function ItemPage({
   const largeImagesList = useMemo(() => itemMediaList.map(({ imageMedia: { large } }) => large), [itemMediaList])
 
   return (
-    <ItemContainer id="#item-container">
+    <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ ref={forwardedRef}>
       <ItemAsidePanel id="#item-aside-panel">
         {/* BREADCRUMBS */}
         <Row marginBottom={-25} style={{ zIndex: 100 }} padding="5px">
@@ -144,7 +140,10 @@ export default function ItemPage({
           gradientEnd={transparentize(1, itemColor)}
         />
       </ItemAsidePanel>
-      {/* Item Video content */}
+      {/*
+       * Item Video content
+       * Not displayed unless page content is on screen
+       */}
       <ItemVideoContent itemMediaList={itemMediaList} currentCarouselIndex={currentCarouselIndex} />
       {/* LARGE IMAGE MODAL */}
       <Modal isOpen={showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
@@ -158,4 +157,4 @@ export default function ItemPage({
       </Modal>
     </ItemContainer>
   )
-}
+})
