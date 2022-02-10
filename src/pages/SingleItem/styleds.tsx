@@ -143,7 +143,7 @@ export const ItemAsidePanel = styled(Column)`
   // padding: 5px;
 `
 
-export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT' }>`
+export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingItem?: boolean }>`
   width: 100%;
   height: 100%;
   justify-content: center;
