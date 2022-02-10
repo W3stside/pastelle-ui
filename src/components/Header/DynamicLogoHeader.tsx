@@ -14,12 +14,6 @@ type DynamicHeaderLogoProps = TextProps & ItemHeaderProps
 export default function DynamicHeaderLogo(props: DynamicHeaderLogoProps) {
   const { width } = useWindowSize()
 
-  /* 
-    upToExtraSmall: 500,
-    upToSmall: 720,
-    upToMedium: 960,
-    upToLarge: 1280
-  */
   const constructedLogo = useMemo(() => {
     if (!width) return null
     if (width < MEDIA_WIDTHS.upToExtraSmall) {
