@@ -1,11 +1,14 @@
 import styled from 'styled-components/macro'
 import { AsideWithVideo } from 'pages/SingleItem'
-import HOME_ITEMS_LIST from 'mock/apparel'
+
 import { useState, useRef, useEffect, MutableRefObject } from 'react'
+import { useCatalogItemFromURL } from './hooks'
 
-export const PageArticle = styled.article``
+import MOCK_CATALOG_MAP from 'mock/apparel'
 
-export default function Home() {
+export const CatalogContainer = styled.article``
+
+export default function Catalog() {
   // Logic to check if we're currently viewing this item
   const [, setIsViewingItem] = useState(false)
   const itemRef = useRef<HTMLDivElement | undefined>(undefined)
@@ -28,15 +31,15 @@ export default function Home() {
       setIsViewingItem(false)
     }
   })
+
+  // get catalog item from data and url
+  const itemData = useCatalogItemFromURL(MOCK_CATALOG_MAP)
+
+  if (!itemData) return null
+
   return (
-    <PageArticle ref={pageArticleRef}>
-      {HOME_ITEMS_LIST.map(({ key, ...restItemData }) => (
-        <AsideWithVideo
-          key={key}
-          ref={(itemRef as unknown) as MutableRefObject<HTMLDivElement | null>}
-          {...restItemData}
-        />
-      ))}
-    </PageArticle>
+    <CatalogContainer ref={pageArticleRef}>
+      <AsideWithVideo ref={(itemRef as unknown) as MutableRefObject<HTMLDivElement | null>} {...itemData} />
+    </CatalogContainer>
   )
 }
