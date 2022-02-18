@@ -1,3 +1,4 @@
+import { Redirect } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import { AsideWithVideo } from 'pages/SingleItem'
 
@@ -35,7 +36,7 @@ export default function Catalog() {
   // get catalog item from data and url
   const itemData = useCatalogItemFromURL(MOCK_CATALOG_MAP)
 
-  if (!itemData) return null
+  if (!itemData) return <Redirect to="/404" />
 
   return (
     <CatalogContainer ref={pageArticleRef}>

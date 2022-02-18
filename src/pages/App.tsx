@@ -10,6 +10,7 @@ import Header from 'components/Header'
 
 import Catalog from 'pages/Catalog'
 import Navigation from 'components/Navigation'
+import NotFound from './Error/NotFound'
 
 // TODO: move
 // Redirects to swap but only replace the pathname
@@ -21,7 +22,7 @@ export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
     <Redirect
       to={{
         ...location,
-        pathname: `catalog/${DEFAULT_CATALOG_YEAR}/${DEFAULT_CATALOG_SEASON}/${DEFAULT_CATALOG_START_ITEM}`
+        pathname: `/catalog/${DEFAULT_CATALOG_YEAR}/${DEFAULT_CATALOG_SEASON}/${DEFAULT_CATALOG_START_ITEM}`
       }}
     />
   )
@@ -40,7 +41,9 @@ export default function App() {
         <Switch>
           <Route exact strict path="/catalog/:year/:season/:itemName" component={Catalog} />
           <Route exact path="/theme" component={ThemeViewer} />
+          <Route exact path="/404" component={NotFound} />
           <Route component={RedirectPathToCatalogOnly} />
+          <Route component={NotFound} />
         </Switch>
         {/* FOOTER */}
         {/* <Footer /> */}
