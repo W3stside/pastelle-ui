@@ -7,7 +7,7 @@ import FRONT_VIDEO from 'assets/apparel/leer/video/front.webm'
 import BACK_VIDEO from 'assets/apparel/leer/video/back.webm'
 import FRONT_VIDEO_POSTER from 'assets/apparel/leer/video/front-poster-lq.jpg'
 import BACK_VIDEO_POSTER from 'assets/apparel/leer/video/back-poster-lq.jpg'
-import { ApparelItem, HomeItem } from './types'
+import { ApparelItem, CatalogItem } from './types'
 import { SocialType } from 'pages/SingleItem/AsideWithVideo'
 
 const ITEM_MEDIA_LIST: ApparelItem[] = [
@@ -48,4 +48,4 @@ export default {
     social: COLLABORATOR_SOCIAL
   },
   key: nanoid()
-} as HomeItem
+} as CatalogItem

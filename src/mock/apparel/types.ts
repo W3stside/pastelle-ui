@@ -10,5 +10,13 @@ export type ApparelItem = {
     poster: string
   }
 }
-export type HomeItem = ItemPageProps & { key: string }
-export type HomeItemsList = HomeItem[]
+export type CatalogSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL'
+export type CatalogItem = ItemPageProps & { key: string }
+export type CatalogSeasonsMap = {
+  [key in CatalogSeason]: {
+    [item: string]: CatalogItem
+  }
+}
+export type CatalogItemsMap = {
+  [year: string]: Partial<CatalogSeasonsMap>
+}
