@@ -50,7 +50,7 @@ const DEFAULT_MEDIA_START_INDEX = 0
 // TODO: fix props, pass steps, sizes etc
 export default forwardRef(function ItemPage(
   { itemColor, itemHeader, itemMediaList, itemSizesList, itemDescription, itemArtistInfo }: ItemPageProps,
-  forwardedRef: ForwardedRef<HTMLDivElement>
+  ref: ForwardedRef<HTMLDivElement>
 ) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
@@ -67,7 +67,7 @@ export default forwardRef(function ItemPage(
   const largeImagesList = useMemo(() => itemMediaList.map(({ imageMedia: { large } }) => large), [itemMediaList])
 
   return (
-    <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ ref={forwardedRef}>
+    <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ ref={ref}>
       <ItemAsidePanel id="#item-aside-panel">
         {/* BREADCRUMBS */}
         <Row marginBottom={-25} style={{ zIndex: 100 }} padding="5px">
