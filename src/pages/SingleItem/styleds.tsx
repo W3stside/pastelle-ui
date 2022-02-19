@@ -69,17 +69,29 @@ const textShadowAnimation = css<{ itemColor: string }>`
   }
 `
 
+export const fadeInAnimation = css`
+  @keyframes fadeIn {
+    0% {
+      filter: contrast(0) blur(100px);
+    }
+    100% {
+      filter: contrast(1) blur(0px);
+    }
+  }
+`
+
 export const VideoContentWrapper = styled(Row)`
   z-index: -1;
 
   video {
     // lock the video to 16:9 ratio
     // height: calc(100vw * (9 / 16));
+    // height: 100%;
     width: 100%;
 
     filter: contrast(1.8) saturate(1) blur(0.5px);
 
-    ${saturateAnimation}
+    ${saturateAnimation};
 
     animation-name: saturate;
     animation-duration: 10.4s;
@@ -150,6 +162,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingIte
   align-items: stretch;
 
   position: relative;
+  overflow: hidden;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     justify-content: stretch;
@@ -159,8 +172,9 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingIte
     position: relative;
     justify-content: ${({ side = 'LEFT' }) => (side === 'LEFT' ? 'flex-start' : 'flex-end')};
 
-    margin: 10px auto 10px 10px;
-    border: 2px solid transparent;
+    // margin: 10px auto 10px 10px;
+    margin-right: auto;
+    // border: 2px solid transparent;
     
     height: 100%;
     width: 100%;
@@ -184,7 +198,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingIte
 
   > ${VideoContentWrapper} {
     // visibility: ${({ isViewingItem }) => (isViewingItem ? 'show' : 'hidden')};
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;

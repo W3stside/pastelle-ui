@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, ReactNode, useMemo, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
@@ -48,10 +48,15 @@ export interface ItemPageProps {
 const DEFAULT_MEDIA_START_INDEX = 0
 
 // TODO: fix props, pass steps, sizes etc
-export default forwardRef(function ItemPage(
-  { itemColor, itemHeader, itemMediaList, itemSizesList, itemDescription, itemArtistInfo }: ItemPageProps,
-  ref: ForwardedRef<HTMLDivElement>
-) {
+export default function ItemPage({
+  itemColor,
+  itemHeader,
+  itemMediaList,
+  itemSizesList,
+  itemDescription,
+  itemArtistInfo,
+  style
+}: ItemPageProps & { style?: any }) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
 
@@ -67,7 +72,7 @@ export default forwardRef(function ItemPage(
   const largeImagesList = useMemo(() => itemMediaList.map(({ imageMedia: { large } }) => large), [itemMediaList])
 
   return (
-    <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ ref={ref}>
+    <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ style={style}>
       <ItemAsidePanel id="#item-aside-panel">
         {/* BREADCRUMBS */}
         <Row marginBottom={-25} style={{ zIndex: 100 }} padding="5px">
@@ -157,4 +162,4 @@ export default forwardRef(function ItemPage(
       </Modal>
     </ItemContainer>
   )
-})
+}

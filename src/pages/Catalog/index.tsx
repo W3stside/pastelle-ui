@@ -2,45 +2,112 @@ import { Redirect } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import { AsideWithVideo } from 'pages/SingleItem'
 
-import { useState, useRef, useEffect, MutableRefObject } from 'react'
-import { useCatalogItemFromURL } from './hooks'
+import { useState, useRef, useEffect } from 'react'
+import { useCatalogItemFromURL, useMockGetCatalogData } from './hooks'
 
-import MOCK_CATALOG_MAP from 'mock/apparel'
+import { fadeInAnimation } from 'pages/SingleItem/styleds'
 
-export const CatalogContainer = styled.article``
+import { useWheel } from '@use-gesture/react'
+import { Lethargy } from 'lethargy'
+import clamp from 'lodash.clamp'
+
+export const CatalogContainer = styled.article`
+  overflow: hidden;
+  filter: contrast(1) blur(0px);
+
+  ${fadeInAnimation};
+
+  animation-name: fadeIn;
+  animation-duration: 0.8s;
+`
+
+const lethargy = new Lethargy()
+
+const Scroller = styled.div`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: calc(100% - 500px);
+  z-index: 900;
+
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+    width: 100%;
+  `}
+`
 
 export default function Catalog() {
-  // Logic to check if we're currently viewing this item
-  const [, setIsViewingItem] = useState(false)
-  const itemRef = useRef<HTMLDivElement | undefined>(undefined)
-  const pageArticleRef = useRef<HTMLDivElement | null>(null)
+  const [index, setIndex] = useState(0)
 
-  console.log('itemRef', itemRef.current)
+  // ref to entire Catalog container
+  const catalogRef = useRef<HTMLDivElement | null>(null)
+  const [ref, setRef] = useState<HTMLDivElement | undefined>()
+
   useEffect(() => {
-    if (!itemRef.current) return
-    const itemPage = itemRef.current
+    console.debug('CATALOG REF', catalogRef?.current)
+    setRef(catalogRef?.current ?? undefined)
+  }, [])
 
-    function handleOnScrollDetect(event: Event) {
-      console.warn('ITEM PAGE SCROLL EVENT', event)
-      setIsViewingItem(true)
-    }
+  // get push control
+  // const { push } = useHistory()
 
-    itemPage.onscroll = handleOnScrollDetect
+  // mock hook for async fetching of catalog data
+  const { data: mockCatalogData } = useMockGetCatalogData({ year: 2022, season: 'FALL' })
+  // get catalog item from data and url
+  const { seasonList, currentItem } = useCatalogItemFromURL(mockCatalogData)
+  // const catalogLastIndex = seasonList.length - 1
 
-    return () => {
-      itemPage.removeEventListener('onscroll', handleOnScrollDetect)
-      setIsViewingItem(false)
+  const bind = useWheel(({ event, last, memo: wait = false }) => {
+    if (!last) {
+      const s = lethargy.check(event)
+      if (s) {
+        if (!wait) {
+          setIndex(i => clamp(i - s, 0, seasonList.length - 1))
+          return true
+        }
+        // TODO: check
+        return false
+      } else {
+        return false
+      }
+    } else {
+      return false
     }
   })
 
-  // get catalog item from data and url
-  const itemData = useCatalogItemFromURL(MOCK_CATALOG_MAP)
+  /* useScrollDirection<HTMLDivElement>({
+    ref: pageArticleRef,
+    scrollUpCb: () => {
+      console.debug('SCROLL STATS::DIRECTION > UP')
+      push('/catalog/2022/FALL/' + seasonList[itemIndex === catalogLastIndex ? 0 : itemIndex + 1])
+      window.scrollTo(0, 3)
+    },
+    scrollDownCb: () => {
+      console.debug('SCROLL STATS::DIRECTION > DOWN')
+      push('/catalog/2022/FALL/' + seasonList[itemIndex === 0 ? catalogLastIndex : itemIndex - 1])
+      window.scrollTo(0, 3)
+    }
+  }) */
 
-  if (!itemData) return <Redirect to="/404" />
+  if (!currentItem) return <Redirect to="/404" />
 
   return (
-    <CatalogContainer ref={pageArticleRef}>
-      <AsideWithVideo ref={(itemRef as unknown) as MutableRefObject<HTMLDivElement | null>} {...itemData} />
+    <CatalogContainer ref={catalogRef}>
+      {ref && (
+        <div
+          style={{
+            height: '100%',
+            transform: `translateY(${-index * ref.clientHeight}px)`,
+            transition: 'transform 350ms ease-in-out'
+          }}
+        >
+          {/* scroll div */}
+          <Scroller style={{ transform: `translateY(${index * ref.clientHeight}px)` }} {...bind()} />
+          {seasonList.map(({ key, ...seasonItem }) => (
+            <AsideWithVideo key={key} {...seasonItem} />
+          ))}
+        </div>
+      )}
     </CatalogContainer>
   )
 }
