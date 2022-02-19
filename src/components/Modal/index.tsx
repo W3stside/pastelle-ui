@@ -1,7 +1,7 @@
 import { DialogContent, DialogOverlay } from '@reach/dialog'
 import { transparentize } from 'polished'
 import { animated, useSpring, useTransition } from 'react-spring'
-import { useGesture } from 'react-use-gesture'
+import { useGesture } from '@use-gesture/react'
 import styled, { css } from 'styled-components/macro'
 import { isMobile } from 'utils'
 
@@ -104,7 +104,7 @@ export default function Modal({
   className,
   children
 }: ModalProps) {
-  const fadeTransition = useTransition(isOpen, null, {
+  const fadeTransition = useTransition(isOpen, {
     config: { duration: 200 },
     from: { opacity: 0 },
     enter: { opacity: 1 },
@@ -117,7 +117,7 @@ export default function Modal({
       set({
         y: state.down ? state.movement[1] : 0
       })
-      if (state.movement[1] > 300 || (state.velocity > 3 && state.direction[1] > 0)) {
+      if (state.movement[1] > 300 || (state.direction[1] > 3 && state.direction[1] > 0)) {
         onDismiss()
       }
     }
@@ -125,13 +125,12 @@ export default function Modal({
 
   return (
     <>
-      {fadeTransition.map(
-        ({ item, key, props }) =>
+      {fadeTransition(
+        (styles, item) =>
           item && (
             <StyledDialogOverlay
               className={className}
-              key={key}
-              style={props}
+              style={styles}
               onDismiss={onDismiss}
               initialFocusRef={initialFocusRef}
               unstable_lockFocusAcrossFrames={false}

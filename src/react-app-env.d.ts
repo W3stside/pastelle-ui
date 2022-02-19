@@ -5,6 +5,7 @@ declare module '@metamask/jazzicon' {
 }
 
 declare module 'fortmatic'
+declare module 'lethargy'
 
 interface Window {
   ethereum?: {

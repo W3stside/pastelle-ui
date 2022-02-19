@@ -21,13 +21,13 @@ const LogoImg = styled.img`
 function _getTogglerIcon(mode: ThemeModes): IconDefinition | null {
   switch (mode) {
     case ThemeModes.LIGHT:
-      return faSun
+      return faSun as IconDefinition
     case ThemeModes.DARK:
-      return faMoon
+      return faMoon as IconDefinition
     case ThemeModes.GULF:
       return null
     default:
-      return faSmileWink
+      return faSmileWink as IconDefinition
   }
 }
 
