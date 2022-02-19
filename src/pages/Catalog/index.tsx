@@ -23,7 +23,7 @@ export const CatalogContainer = styled.article`
 
 const lethargy = new Lethargy()
 
-const Scroller = styled.div`
+const Scroller = styled.div<{ index: number; clientHeight: number }>`
   position: absolute;
   right: 0;
   bottom: 0;
@@ -31,9 +31,18 @@ const Scroller = styled.div`
   width: calc(100% - 500px);
   z-index: 900;
 
+  transform: ${({ index, clientHeight }) => `translateY(${index * clientHeight}px)`};
+
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     width: 100%;
   `}
+`
+
+const ScrollerContainer = styled.div<{ index: number; clientHeight: number }>`
+  height: 100%;
+
+  transform: ${({ index, clientHeight }) => `translateY(${-index * clientHeight}px)`};
+  transition: transform 350ms ease-in-out;
 `
 
 export default function Catalog() {
@@ -94,19 +103,13 @@ export default function Catalog() {
   return (
     <CatalogContainer ref={catalogRef}>
       {ref && (
-        <div
-          style={{
-            height: '100%',
-            transform: `translateY(${-index * ref.clientHeight}px)`,
-            transition: 'transform 350ms ease-in-out'
-          }}
-        >
+        <ScrollerContainer index={index} clientHeight={ref.clientHeight}>
           {/* scroll div */}
-          <Scroller style={{ transform: `translateY(${index * ref.clientHeight}px)` }} {...bind()} />
+          <Scroller index={index} clientHeight={ref.clientHeight} {...bind()} />
           {seasonList.map(({ key, ...seasonItem }) => (
             <AsideWithVideo key={key} {...seasonItem} />
           ))}
-        </div>
+        </ScrollerContainer>
       )}
     </CatalogContainer>
   )
