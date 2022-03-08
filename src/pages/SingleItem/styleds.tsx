@@ -103,7 +103,7 @@ export const Strikethrough = styled.div`
   background-color: ${({ theme }) => theme.white};
   height: 5px;
 `
-export type ItemHeaderProps = { animation?: boolean; itemColor: string }
+export type ItemHeaderProps = { animation?: boolean; animationDelay?: boolean; itemColor: string }
 export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
   z-index: 100;
   font-style: italic;
@@ -115,14 +115,14 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
   `}
 
   ${({ animation = false }) => animation && textShadowAnimation}
-  ${({ animation = false, itemColor }) =>
+  ${({ animation = false, animationDelay = true, itemColor }) =>
     animation &&
     `
       text-shadow: 10px 2px 2px ${itemColor};
       animation-name: textShadowAnimation;
       animation-duration: 10s;
       animation-iteration-count: 3;
-      animation-delay: 1s;
+      ${animationDelay && 'animation-delay: 1s;'}
     `}
 `
 
@@ -347,7 +347,7 @@ export const VideoControlButton = styled(Button)`
   right: 0;
   bottom: 0;
   padding: 10;
-  z-index: 200;
+  z-index: 950;
 
   > ${ItemSubHeader} {
     display: flex;

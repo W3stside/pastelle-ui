@@ -48,8 +48,8 @@ export interface Colors {
 }
 
 export enum ThemeModes {
-  DARK = 'DARK',
   LIGHT = 'LIGHT',
+  DARK = 'DARK',
   // add whatever themes u want here...
   VAMPIRE = 'VAMPIRE',
   CHAMELEON = 'CHAMELEON'

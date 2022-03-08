@@ -12,6 +12,7 @@ import { useThemeManager } from 'state/user/hooks'
 
 import vampireIcon from 'assets/png/vampire.png'
 import chameleonIcon from 'assets/png/chameleon.png'
+import { ItemSubHeader } from 'pages/SingleItem/styleds'
 
 const LogoImg = styled.img`
   max-width: 100%;
@@ -48,7 +49,7 @@ const ThemeToggleBar: React.FC = () => {
 
   return (
     <>
-      <ThemeToggle
+      {/* <ThemeToggle
         mode={theme.autoDetect}
         size={BSV.DEFAULT}
         variant={theme.autoDetect ? BV.PRIMARY : BV.DISABLED}
@@ -57,8 +58,9 @@ const ThemeToggleBar: React.FC = () => {
         onClick={() => setAutoDetect(!theme.autoDetect)}
       >
         Auto
-      </ThemeToggle>
-      {THEME_LIST.map(([key, name], index) => {
+      </ThemeToggle> */}
+      <ItemSubHeader color="#fff">THEME</ItemSubHeader>
+      {THEME_LIST.slice(1).map(([key, name], index) => {
         const isActiveMode = theme.mode === name
         const icon = _getTogglerIcon(name)
 

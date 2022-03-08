@@ -106,10 +106,6 @@ export const VAMPIRE_COLOURS = {
 }
 
 export const CHAMELEON_COLOURS = {
-  ...LIGHT_COLOURS,
-  bg1: 'yellow',
-  bg2: '#8e52f5',
-  bg3: '#38fbdb',
-  bg4: '#122c5a',
-  bg5: '#0c1e3e'
+  ...DARK_COLOURS,
+  bg1: 'lightblue'
 }

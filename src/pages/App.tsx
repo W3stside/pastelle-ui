@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom'
+import styled from 'styled-components/macro'
 
 import ThemeViewer from 'components/ThemeViewer'
 import Popups from 'components/Popups'
@@ -12,7 +13,7 @@ import Catalog from 'pages/Catalog'
 import Navigation from 'components/Navigation'
 import NotFound from './Error/NotFound'
 import { useCatalogByYearAndSeason } from 'state/catalog/hooks'
-import { RowFixed } from 'components/Layout'
+import { ItemHeader } from './SingleItem/styleds'
 
 // TODO: move
 // Redirects to swap but only replace the pathname
@@ -30,6 +31,14 @@ export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
   )
 }
 
+const FixedContainer = styled.div`
+  position: fixed;
+  top: 25%;
+  bottom: 25%;
+  left: 25%;
+  right: 25%;
+`
+
 export default function App() {
   // We need something to show. We'll go with catalog by year and season, why not.
   // if there isn't yet data, show something else
@@ -37,9 +46,11 @@ export default function App() {
 
   if (!catalogBySeason)
     return (
-      <RowFixed>
-        <h1>Loading...</h1>
-      </RowFixed>
+      <FixedContainer>
+        <ItemHeader itemColor="#FFBEBC" animation animationDelay={false}>
+          PSTLE
+        </ItemHeader>
+      </FixedContainer>
     )
 
   return (
