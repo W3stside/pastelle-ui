@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro'
 
-// import Logo from 'assets/png/logo/compressed.png'
+import Logo from 'assets/png/chalk.png'
 // import { useActiveWeb3React } from 'blockchain/hooks'
 // import { ExternalLink } from 'theme'
 
@@ -111,12 +111,12 @@ const Title = styled.a`
   }
 `
 
-// const Sabrecon = styled.div`
-//   transition: transform 0.3s ease;
-//   :hover {
-//     transform: rotate(-5deg);
-//   }
-// `
+const Pastellecon = styled.div`
+  transition: transform 0.3s ease;
+  :hover {
+    transform: rotate(-5deg);
+  }
+`
 
 // const StyledExternalLink = styled(ExternalLink).attrs({
 //   activeClassName
@@ -156,9 +156,9 @@ export default function Header() {
     <HeaderFrame as="header">
       <HeaderRow>
         <Title href="/#">
-          {/* <Sabrecon>
+          <Pastellecon>
             <img width="40px" src={Logo} alt="logo" />
-          </Sabrecon> */}
+          </Pastellecon>
         </Title>
         <DynamicHeaderLogo itemColor="#dda0ddb3" fontSize={60} fontWeight={100} color={'ghostwhite'} />
         <HeaderLinks>
