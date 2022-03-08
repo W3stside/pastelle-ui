@@ -125,7 +125,7 @@ export const ThemedGlobalStyle = createGlobalStyle`
   }
 
   header, nav, footer {
-    background: ${({ theme }) => transparentize(0.1, theme.red2)};
+    background: ${({ theme }) => transparentize(0.1, theme.bg1)};
   }
 
 `

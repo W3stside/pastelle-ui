@@ -100,9 +100,16 @@ export const DARK_COLOURS = {
   secondary3: '#17000b26'
 }
 
-export const GULF_COLOURS = {
+export const VAMPIRE_COLOURS = {
+  ...DARK_COLOURS,
+  bg1: DEFAULT_COLOURS.red2
+}
+
+export const CHAMELEON_COLOURS = {
   ...LIGHT_COLOURS,
-  bg1: '#b0e0e6',
-  bg2: '#7dbbcd',
-  bg3: '#d4946f'
+  bg1: 'yellow',
+  bg2: '#8e52f5',
+  bg3: '#38fbdb',
+  bg4: '#122c5a',
+  bg5: '#0c1e3e'
 }

@@ -1,6 +1,6 @@
 import { DefaultTheme, FlattenSimpleInterpolation, css } from 'styled-components/macro'
 
-import { LIGHT_COLOURS, DARK_COLOURS, DEFAULT_COLOURS, GULF_COLOURS } from './styles'
+import { LIGHT_COLOURS, DARK_COLOURS, DEFAULT_COLOURS, VAMPIRE_COLOURS, CHAMELEON_COLOURS } from './styles'
 import { ThemeModes, Colors } from './styled'
 
 export function getThemeColours(colourTheme: ThemeModes): Colors {
@@ -13,8 +13,11 @@ export function getThemeColours(colourTheme: ThemeModes): Colors {
     case ThemeModes.DARK:
       THEME_COLOURS = DARK_COLOURS
       break
-    case ThemeModes.GULF:
-      THEME_COLOURS = GULF_COLOURS
+    case ThemeModes.VAMPIRE:
+      THEME_COLOURS = VAMPIRE_COLOURS
+      break
+    case ThemeModes.CHAMELEON:
+      THEME_COLOURS = CHAMELEON_COLOURS
       break
   }
   return {

@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro'
+import { useCallback } from 'react'
 import { THEME_LIST, ThemeModes } from 'theme/styled'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,25 +10,25 @@ import { ThemeToggle } from './ThemeToggle'
 import { BSV, BV } from '../Button'
 import { useThemeManager } from 'state/user/hooks'
 
-import gulfLogoBlack from 'assets/png/gulfBlackPng.png'
-import gulfLogoColour from 'assets/png/gulfPng.png'
-import { Row } from '../Layout'
-import { useCallback } from 'react'
+import vampireIcon from 'assets/png/vampire.png'
+import chameleonIcon from 'assets/png/chameleon.png'
 
 const LogoImg = styled.img`
   max-width: 100%;
 `
 
-function _getTogglerIcon(mode: ThemeModes): IconDefinition | null {
+function _getTogglerIcon(mode: ThemeModes): { icon: IconDefinition | string | null; isDark: boolean } {
   switch (mode) {
     case ThemeModes.LIGHT:
-      return faSun as IconDefinition
+      return { icon: faSun as IconDefinition, isDark: false }
     case ThemeModes.DARK:
-      return faMoon as IconDefinition
-    case ThemeModes.GULF:
-      return null
+      return { icon: faMoon as IconDefinition, isDark: false }
+    case ThemeModes.VAMPIRE:
+      return { icon: vampireIcon, isDark: true }
+    case ThemeModes.CHAMELEON:
+      return { icon: chameleonIcon, isDark: false }
     default:
-      return faSmileWink as IconDefinition
+      return { icon: faSmileWink as IconDefinition, isDark: false }
   }
 }
 
@@ -46,7 +47,7 @@ const ThemeToggleBar: React.FC = () => {
   )
 
   return (
-    <Row>
+    <>
       <ThemeToggle
         mode={theme.autoDetect}
         size={BSV.DEFAULT}
@@ -72,15 +73,15 @@ const ThemeToggleBar: React.FC = () => {
             key={key + '_' + index}
             disabled={isActiveMode}
           >
-            {icon ? (
-              <FontAwesomeIcon icon={icon} size="lg" />
-            ) : (
-              <LogoImg src={isActiveMode ? gulfLogoColour : gulfLogoBlack} />
-            )}
+            {typeof icon?.icon === 'string' ? (
+              <LogoImg src={icon.icon} style={{ filter: `invert(${isActiveMode && icon.isDark ? 1 : 0})` }} />
+            ) : icon.icon ? (
+              <FontAwesomeIcon icon={icon.icon} size="lg" />
+            ) : null}
           </ThemeToggle>
         )
       })}
-    </Row>
+    </>
   )
 }
 

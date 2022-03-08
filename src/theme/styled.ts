@@ -51,7 +51,8 @@ export enum ThemeModes {
   DARK = 'DARK',
   LIGHT = 'LIGHT',
   // add whatever themes u want here...
-  GULF = 'GULF'
+  VAMPIRE = 'VAMPIRE',
+  CHAMELEON = 'CHAMELEON'
 }
 
 export type Theme = {

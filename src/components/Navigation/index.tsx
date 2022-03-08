@@ -3,7 +3,8 @@ import Button from 'components/Button'
 import { StyledNavLink } from 'components/Header/styleds'
 import { Menu, X } from 'react-feather'
 import { useMemo, useState } from 'react'
-import { Row } from 'components/Layout'
+import { Column, Row } from 'components/Layout'
+import ThemeToggleBar from 'components/ThemeToggler'
 
 const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean }>`
   display: flex;
@@ -60,6 +61,10 @@ const MobileNavOrb = styled(Button)`
   `};
 `
 
+const ThemeColumn = styled(Column)`
+  margin: auto auto 0 0;
+`
+
 export default function Navigation() {
   const [isNavOpen, setIsNavOpen] = useState(false)
 
@@ -88,6 +93,10 @@ export default function Navigation() {
         <StyledNavLink to="/#">{'// LONGSLEEVE'}</StyledNavLink>
         <StyledNavLink to="/#">{'// SHORTSLEEVE'}</StyledNavLink>
         <StyledNavLink to="/#">{'// HOODIES'}</StyledNavLink>
+        {/* THEME TOGGLER */}
+        <ThemeColumn>
+          <ThemeToggleBar />
+        </ThemeColumn>
       </NavigationStepsWrapper>
     </>
   )
