@@ -165,18 +165,21 @@ export default function ItemPage({
        * Item Video content
        * Not displayed unless page content is on screen
        */}
-      <ItemVideoContent itemMediaList={itemMediaList} currentCarouselIndex={currentCarouselIndex} />
-      {/* LARGE IMAGE MODAL */}
       {isActive && (
-        <Modal isOpen={showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
-          <Carousel
-            buttonColor={itemColor}
-            imageList={largeImagesList}
-            mediaStartIndex={currentCarouselIndex}
-            onCarouselChange={onCarouselChange}
-            fixedHeight="auto"
-          />
-        </Modal>
+        <>
+          <ItemVideoContent itemMediaList={itemMediaList} currentCarouselIndex={currentCarouselIndex} />
+          {/* LARGE IMAGE MODAL */}
+
+          <Modal isOpen={showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
+            <Carousel
+              buttonColor={itemColor}
+              imageList={largeImagesList}
+              mediaStartIndex={currentCarouselIndex}
+              onCarouselChange={onCarouselChange}
+              fixedHeight="auto"
+            />
+          </Modal>
+        </>
       )}
     </ItemContainer>
   )
