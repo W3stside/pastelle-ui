@@ -38,9 +38,11 @@ const COLLABORATOR_SOCIAL = [
   { type: SocialType.INSTAGRAM, url: 'https://instagram.com/full_flex', display: '@full_flex' }
 ]
 
+const itemName = 'SOLA'
+
 export default {
   itemColor: '#dbbbb9',
-  itemHeader: 'ESTRELA',
+  itemHeader: itemName,
   itemMediaList: ITEM_MEDIA_LIST,
   itemSizesList: ITEM_SIZES_LIST,
   itemDescription: ITEM_DESCRIPTION,
@@ -48,5 +50,5 @@ export default {
     artist: COLLABORATOR,
     social: COLLABORATOR_SOCIAL
   },
-  key: 'ESTRELA-' + nanoid()
+  key: itemName + '-' + nanoid()
 } as CatalogItem
