@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
@@ -22,10 +22,7 @@ import Modal from 'components/Modal'
 import { useToggleModal, useModalOpen } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/reducer'
 import { ItemVideoContent } from './ItemVideoContent'
-import { useHistory } from 'react-router-dom'
-import { useCatalogItemFromURL } from 'pages/Catalog/hooks'
-import { BASE_CATALOG_URL } from 'pages/Catalog'
-import { useCatalog } from 'state/catalog/hooks'
+import { useCatalogItemFromURL, useUpdateURLFromCatalogItem } from 'pages/Catalog/hooks'
 
 // TODO: move to APPAREL TYPES or sth
 type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
@@ -70,22 +67,10 @@ export default function ItemPage({
   const smallImagesList = useMemo(() => itemMediaList.map(({ imageMedia: { small } }) => small), [itemMediaList])
   const largeImagesList = useMemo(() => itemMediaList.map(({ imageMedia: { large } }) => large), [itemMediaList])
 
-  const { replace } = useHistory()
-  // mock hook for async fetching of catalog data
-  const fullCatalog = useCatalog()
   // get catalog item from data and url
-  const { seasonList, currentItem } = useCatalogItemFromURL(fullCatalog)
-  // update url
-  useEffect(() => {
-    const urlNeedsUpdate = isActive && currentItem?.itemHeader !== itemHeader
-
-    if (urlNeedsUpdate) {
-      const currentItemKey = seasonList[itemIndex]?.key
-      if (!currentItemKey) return
-
-      replace(BASE_CATALOG_URL + currentItemKey.split('-')[0])
-    }
-  }, [currentItem?.itemHeader, isActive, itemHeader, itemIndex, replace, seasonList])
+  const { seasonList, currentItem } = useCatalogItemFromURL()
+  // update URL (if necessary) to reflect current item
+  useUpdateURLFromCatalogItem({ seasonList, currentItem, isActive, itemIndex, itemKey: itemHeader })
 
   return (
     <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ style={style}>
@@ -111,7 +96,6 @@ export default function ItemPage({
         />
         <br />
         <ItemHeader fontWeight={200} /* marginBottom={-55} */ marginTop={-55} itemColor={itemColor} animation>
-          {/* <Strikethrough /> */}
           {itemHeader}
         </ItemHeader>
         <br />

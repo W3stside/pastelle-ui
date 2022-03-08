@@ -21,7 +21,7 @@ import UserUpdater from 'state/user/updater'
 import CatalogUpdater from 'state/catalog/updater'
 
 import ThemeProvider from 'theme'
-import { TopGlobalStyle, ThemedGlobalStyle, FontStyles } from 'theme/styles/global'
+import { TopGlobalStyle, ThemedGlobalComponent, FontStyles } from 'theme/styles/global'
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { nodeRemoveChildFix } from 'utils/node'
@@ -59,7 +59,7 @@ ReactDOM.render(
             <Updaters />
             <ThemeProvider>
               {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-              <ThemedGlobalStyle />
+              <ThemedGlobalComponent />
               <App />
             </ThemeProvider>
           </Web3ProviderNetwork>

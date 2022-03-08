@@ -24,20 +24,6 @@ const HeaderControls = styled.div`
   justify-self: flex-end;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
-    // flex-direction: row;
-    // justify-content: space-between;
-    // justify-self: center;
-    // width: 100%;
-    // max-width: 960px;
-    // padding: 1rem;
-    // position: fixed;
-    // bottom: 0px;
-    // left: 0px;
-    // width: 100%;
-    // z-index: 99;
-    // height: 72px;
-    // border-radius: 12px 12px 0 0;
-    // background-color: ${({ theme }) => theme.bg1};
   `};
 `
 
@@ -47,8 +33,6 @@ const HeaderElement = styled.div`
   gap: 8px;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
-  //  flex-direction: row-reverse;
-  //   align-items: center;
   `};
 `
 
@@ -59,7 +43,6 @@ const HeaderElementWrap = styled.div`
 
 const HeaderRow = styled(RowFixed)`
   ${({ theme }) => theme.mediaWidth.upToMedium`
-  //  width: 100%;
   `};
 `
 
@@ -180,7 +163,7 @@ export default function Header() {
         <DynamicHeaderLogo itemColor="#dda0ddb3" fontSize={60} fontWeight={100} color={'ghostwhite'} />
         <HeaderLinks>
           <StyledNavLink to="/#">{'// SHOP'}</StyledNavLink>
-          <StyledNavLink to="/theme">{'// THEME'}</StyledNavLink>
+          <StyledNavLink to="/theme">{'// ABOUT US'}</StyledNavLink>
           {/* <StyledNavLink to="#">Header Link</StyledNavLink> */}
           {/* <StyledExternalLink href="#">
             External Link <span style={{ fontSize: '11px' }}>↗</span>

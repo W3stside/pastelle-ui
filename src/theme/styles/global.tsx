@@ -4,6 +4,8 @@ import { transparentize } from 'polished'
 import { getThemeColours, setTextColour, setBgColour } from '../utils'
 import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
+import { useAppColourTheme } from 'state/user/hooks'
+import { useCatalogItemFromURL } from 'pages/Catalog/hooks'
 
 export { FontStyles }
 
@@ -107,7 +109,7 @@ export const TopGlobalStyle = createGlobalStyle`
   }
 `
 
-export const ThemedGlobalStyle = createGlobalStyle`
+export const ThemedGlobalStyle = createGlobalStyle<{ frameBgColor?: string }>`
   html {
     ${setTextColour('text1')}
     ${setBgColour('bg2')}
@@ -125,7 +127,15 @@ export const ThemedGlobalStyle = createGlobalStyle`
   }
 
   header, nav, footer {
-    background: ${({ theme }) => transparentize(0.1, theme.bg1)};
+    background: ${({ theme, frameBgColor }) => frameBgColor || transparentize(0.1, theme.bg1)};
   }
-
 `
+
+export const ThemedGlobalComponent = () => {
+  const theme = useAppColourTheme()
+  const { currentItem } = useCatalogItemFromURL()
+
+  const frameBgColor = theme.mode === ThemeModes.CHAMELEON ? currentItem?.itemColor : undefined
+
+  return <ThemedGlobalStyle frameBgColor={frameBgColor} />
+}

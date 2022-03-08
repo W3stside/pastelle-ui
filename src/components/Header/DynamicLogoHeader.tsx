@@ -17,7 +17,7 @@ export default function DynamicHeaderLogo(props: DynamicHeaderLogoProps) {
   const constructedLogo = useMemo(() => {
     if (!width) return null
     if (width < MEDIA_WIDTHS.upToExtraSmall) {
-      return 'PSTLE'
+      return 'PSTL'
       // width < 960px
     }
     // width < 720px

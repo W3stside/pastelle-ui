@@ -9,7 +9,8 @@ import { AsideWithVideo } from 'pages/SingleItem'
 import { useCatalogItemFromURL } from './hooks'
 
 import { fadeInAnimation } from 'pages/SingleItem/styleds'
-import { useCatalog } from 'state/catalog/hooks'
+
+export const BASE_CATALOG_URL = '/catalog/2022/FALL/'
 
 export const CatalogContainer = styled.article`
   overflow: hidden;
@@ -44,7 +45,7 @@ const ScrollerContainer = styled.div<{ index: number; clientHeight: number }>`
   transform: ${({ index, clientHeight }) => `translateY(${-index * clientHeight}px)`};
   transition: transform 350ms ease-in-out;
 `
-export const BASE_CATALOG_URL = '/catalog/2022/FALL/'
+
 export default function Catalog() {
   const [index, setIndex] = useState(0)
 
@@ -60,10 +61,8 @@ export default function Catalog() {
   // const { replace } = useHistory()
   // const locationApi = useLocation()
 
-  // mock hook for async fetching of catalog data
-  const fullCatalog = useCatalog()
   // get catalog item from data and url
-  const { seasonList, currentItem } = useCatalogItemFromURL(fullCatalog)
+  const { seasonList, currentItem } = useCatalogItemFromURL()
 
   // set URL to reflect current item
   /* useEffect(() => {

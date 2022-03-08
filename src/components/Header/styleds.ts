@@ -13,7 +13,7 @@ export const StyledNavLink = styled(NavLink).attrs({
   outline: none;
   cursor: pointer;
   text-decoration: none;
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.text3};
   font-size: ${({ theme }) => theme.buttons.font.size.normal};
   width: fit-content;
   margin: 0 12px;

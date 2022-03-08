@@ -48,7 +48,7 @@ export default function App() {
     return (
       <FixedContainer>
         <ItemHeader itemColor="#FFBEBC" animation animationDelay={false}>
-          PSTLE
+          PSTL
         </ItemHeader>
       </FixedContainer>
     )
