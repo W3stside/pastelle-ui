@@ -26,12 +26,10 @@ const ITEM_MEDIA_LIST: ApparelItem[] = [
   }
 ]
 const ITEM_SIZES_LIST = ['LARGE', 'MEDIUM', 'SMALL']
-const ITEM_DESCRIPTION = `
-Motivated by the fresh smell of street spilled, slightly warm, Sagres beer from the night before, our very own co-founder Felix Lutsch, aka "Lone Tree", found inspiration in the armless and legless bust of Lady Estrela.
-
-Home grown in LX.
-@full_flex
-`
+const ITEM_DESCRIPTION = [
+  `Motivated by the fresh smell of street spilled, slightly warm, Sagres beer from the night before, our very own co-founder Felix Lutsch, aka "Lone Tree", found inspiration in the armless and legless bust of Lady Estrela.`,
+  `Home grown in LX. @full_flex`
+]
 
 const COLLABORATOR = 'Felix Lutsch'
 const COLLABORATOR_SOCIAL = [

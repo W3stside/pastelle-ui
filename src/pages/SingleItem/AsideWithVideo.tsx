@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
@@ -32,7 +32,7 @@ export interface ItemPageProps {
   itemHeader: string
   itemMediaList: ApparelItem[]
   itemSizesList: ItemSizes[]
-  itemDescription: ReactNode
+  itemDescription: string[]
   itemArtistInfo?: {
     artist: string
     social: { type: SocialType; url: string; display: string }[]
@@ -120,7 +120,7 @@ export default function ItemPage({
         <ItemSubHeader bgColor={transparentize(0.2, itemColor)}>CHOOSE A SIZE</ItemSubHeader>
         <br />
         <Row>
-          <select style={{ width: '50%' }}>
+          <select disabled style={{ width: '50%' }}>
             {itemSizesList.map((size, index) => (
               <option key={size + '_' + index}>{size}</option>
             ))}
@@ -132,7 +132,9 @@ export default function ItemPage({
         <br />
         <Row>
           <TYPE.black fontSize={18} padding={2} fontWeight={300}>
-            {itemDescription}
+            {itemDescription.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
           </TYPE.black>
         </Row>
         {/* VISUAL */}
@@ -149,22 +151,19 @@ export default function ItemPage({
        * Item Video content
        * Not displayed unless page content is on screen
        */}
-      {isActive && (
-        <>
-          <ItemVideoContent itemMediaList={itemMediaList} currentCarouselIndex={currentCarouselIndex} />
-          {/* LARGE IMAGE MODAL */}
 
-          <Modal isOpen={showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
-            <Carousel
-              buttonColor={itemColor}
-              imageList={largeImagesList}
-              mediaStartIndex={currentCarouselIndex}
-              onCarouselChange={onCarouselChange}
-              fixedHeight="auto"
-            />
-          </Modal>
-        </>
-      )}
+      <ItemVideoContent hide={!isActive} itemMediaList={itemMediaList} currentCarouselIndex={currentCarouselIndex} />
+      {/* LARGE IMAGE MODAL */}
+
+      <Modal isOpen={isActive && showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
+        <Carousel
+          buttonColor={itemColor}
+          imageList={largeImagesList}
+          mediaStartIndex={currentCarouselIndex}
+          onCarouselChange={onCarouselChange}
+          fixedHeight="auto"
+        />
+      </Modal>
     </ItemContainer>
   )
 }

@@ -9,8 +9,9 @@ const CONTROL_BUTTON_SIZE = 20
 
 export const ItemVideoContent = ({
   itemMediaList,
-  currentCarouselIndex
-}: { currentCarouselIndex: number } & Pick<ItemPageProps, 'itemMediaList'>) => {
+  currentCarouselIndex,
+  hide
+}: { currentCarouselIndex: number; hide: boolean } & Pick<ItemPageProps, 'itemMediaList'>) => {
   const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -46,6 +47,8 @@ export const ItemVideoContent = ({
   }, [videoStatus])
 
   const isPaused = videoStatus === 'PAUSED'
+
+  if (hide) return null
 
   return (
     <>

@@ -21,16 +21,14 @@ const ITEM_MEDIA_LIST: ApparelItem[] = [
   }
 ]
 const ITEM_SIZES_LIST = ['LARGE', 'MEDIUM', 'SMALL']
-const ITEM_DESCRIPTION = `
-Virgil didnt make it through 7 layers of hell and write about it for you to not buy this shirt. 
-
-E io ch’avea d’error la testa cinta,
-dissi: Maestro, che è quel ch’i’ odo?
-e che gent’ è che par nel duol sì vinta?
-
-Big shout to Mathieu Sato in Bordeaux for the painting on the front.
-@mathieusato
-`
+const ITEM_DESCRIPTION = [
+  `“And I — my head oppressed by horror — said: "Master, what is it that I hear? Who are those people so defeated by
+  their pain?"`,
+  `And he to me: "This miserable way is taken by the sorry souls of those who lived without disgrace and without
+  praise. They now commingle with the coward angels, the company of those who were not rebels nor faithful to their
+  God, but stood apart. The heavens, that their beauty not be lessened, have cast them out, nor will deep Hell
+  receive them — even the wicked cannot glory in them.”`
+]
 
 const COLLABORATOR = 'Mathieu Sato'
 const COLLABORATOR_SOCIAL = [
