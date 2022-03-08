@@ -57,20 +57,8 @@ export default function Catalog() {
     setRef(catalogRef?.current ?? undefined)
   }, [])
 
-  // get replace control
-  // const { replace } = useHistory()
-  // const locationApi = useLocation()
-
   // get catalog item from data and url
   const { seasonList, currentItem } = useCatalogItemFromURL()
-
-  // set URL to reflect current item
-  /* useEffect(() => {
-    const currentItemKey = seasonList[index]?.key
-    if (!currentItemKey) return
-
-    replace(BASE_CATALOG_URL + currentItemKey.split('-')[0])
-  }, [index, replace, seasonList]) */
 
   const bind = useWheel(
     ({ event, last, memo: wait = false }) => {

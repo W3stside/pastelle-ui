@@ -163,7 +163,7 @@ export default function Header() {
         <DynamicHeaderLogo itemColor="#dda0ddb3" fontSize={60} fontWeight={100} color={'ghostwhite'} />
         <HeaderLinks>
           <StyledNavLink to="/#">{'// SHOP'}</StyledNavLink>
-          <StyledNavLink to="/theme">{'// ABOUT US'}</StyledNavLink>
+          <StyledNavLink to="/aboutus">{'// ABOUT US'}</StyledNavLink>
           {/* <StyledNavLink to="#">Header Link</StyledNavLink> */}
           {/* <StyledExternalLink href="#">
             External Link <span style={{ fontSize: '11px' }}>↗</span>

@@ -198,7 +198,6 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingIte
   }
 
   > ${VideoContentWrapper} {
-    // visibility: ${({ isViewingItem }) => (isViewingItem ? 'show' : 'hidden')};
     position: absolute;
     top: 0;
     left: 0;

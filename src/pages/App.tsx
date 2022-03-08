@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom'
 import styled from 'styled-components/macro'
 
-import ThemeViewer from 'components/ThemeViewer'
+import AboutUs from 'pages/AboutUs'
 import Popups from 'components/Popups'
 import Web3ReactManager from 'components/blockchain/Web3ReactManager'
 
@@ -64,7 +64,7 @@ export default function App() {
         {/* ARTICLE CONTENT */}
         <Switch>
           <Route exact strict path="/catalog/:year/:season/:itemName" component={Catalog} />
-          <Route exact path="/theme" component={ThemeViewer} />
+          <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/404" component={NotFound} />
           <Route component={RedirectPathToCatalogOnly} />
           <Route component={NotFound} />
