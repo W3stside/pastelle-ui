@@ -11,6 +11,8 @@ import Header from 'components/Header'
 import Catalog from 'pages/Catalog'
 import Navigation from 'components/Navigation'
 import NotFound from './Error/NotFound'
+import { useCatalogByYearAndSeason } from 'state/catalog/hooks'
+import { RowFixed } from 'components/Layout'
 
 // TODO: move
 // Redirects to swap but only replace the pathname
@@ -29,6 +31,17 @@ export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
 }
 
 export default function App() {
+  // We need something to show. We'll go with catalog by year and season, why not.
+  // if there isn't yet data, show something else
+  const catalogBySeason = useCatalogByYearAndSeason({ year: '2022', season: 'FALL' })
+
+  if (!catalogBySeason)
+    return (
+      <RowFixed>
+        <h1>Loading...</h1>
+      </RowFixed>
+    )
+
   return (
     <Web3ReactManager>
       <Suspense fallback={null}>

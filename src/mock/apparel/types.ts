@@ -11,11 +11,14 @@ export type ApparelItem = {
   }
 }
 export type CatalogSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL'
-export type CatalogItem = ItemPageProps & { key: string }
+export type CatalogItem = ItemPageProps & { season: CatalogSeason; key: string }
+// returns { ITEM_NAME: ITEM_OBJECT }
+export type CatalogSeasonItemMap = {
+  [item: string]: CatalogItem
+}
+// returns { SEASON_NAME: MAP_OF_ITEMS }
 export type CatalogSeasonsMap = {
-  [key in CatalogSeason]: {
-    [item: string]: CatalogItem
-  }
+  [key in CatalogSeason]: CatalogSeasonItemMap | undefined
 }
 export type CatalogItemsMap = {
   [year: string]: Partial<CatalogSeasonsMap>

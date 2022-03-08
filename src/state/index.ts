@@ -4,6 +4,9 @@ import { save, load } from 'redux-localstorage-simple'
 
 import user from 'state/user/reducer'
 import { application } from 'state/application/reducer'
+// APPAREL
+import { catalog } from 'state/catalog/reducer'
+// BLOCKCHAIN
 import { blockchain } from 'state/blockchain/reducer'
 import { multicall } from 'state/multicall/reducer'
 import { transactions } from 'state/transactions/reducer'
@@ -16,7 +19,11 @@ const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
 
 const store = configureStore({
   reducer: {
+    // APPAREL
+    catalog,
+    // MISC
     application,
+    // BLOCKCHAIN
     blockchain,
     multicall,
     transactions,

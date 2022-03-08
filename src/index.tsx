@@ -18,6 +18,7 @@ import store from 'state'
 import BlockchainUpdater from 'state/blockchain/updater'
 import TransactionUpdater from 'state/transactions/updater'
 import UserUpdater from 'state/user/updater'
+import CatalogUpdater from 'state/catalog/updater'
 
 import ThemeProvider from 'theme'
 import { TopGlobalStyle, ThemedGlobalStyle, FontStyles } from 'theme/styles/global'
@@ -41,6 +42,7 @@ function Updaters() {
       <UserUpdater />
       <BlockchainUpdater />
       <TransactionUpdater />
+      <CatalogUpdater />
     </>
   )
 }

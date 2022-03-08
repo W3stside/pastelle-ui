@@ -5,8 +5,8 @@ import BACK_IMAGE_LARGE from 'assets/apparel/estrela/images/back-large.jpg'
 import FRONT_IMAGE_SMALL from 'assets/apparel/estrela/images/front-small.jpg'
 import BACK_IMAGE_SMALL from 'assets/apparel/estrela/images/back-small.jpg'
 // VIDEO
-import FRONT_VIDEO from 'assets/apparel/leer/video/front.webm'
-import BACK_VIDEO from 'assets/apparel/leer/video/back.webm'
+import BACK_VIDEO from 'assets/apparel/leer/video/front.webm'
+import FRONT_VIDEO from 'assets/apparel/leer/video/back.webm'
 import FRONT_VIDEO_POSTER from 'assets/apparel/leer/video/front-poster-lq.jpg'
 import BACK_VIDEO_POSTER from 'assets/apparel/leer/video/back-poster-lq.jpg'
 // misc
@@ -48,5 +48,5 @@ export default {
     artist: COLLABORATOR,
     social: COLLABORATOR_SOCIAL
   },
-  key: nanoid()
+  key: 'ESTRELA-' + nanoid()
 } as CatalogItem

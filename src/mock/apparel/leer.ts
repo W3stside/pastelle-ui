@@ -47,5 +47,5 @@ export default {
     artist: COLLABORATOR,
     social: COLLABORATOR_SOCIAL
   },
-  key: nanoid()
+  key: 'LEER-' + nanoid()
 } as CatalogItem

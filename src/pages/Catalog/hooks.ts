@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { CatalogItemsMap, CatalogSeason } from 'mock/apparel/types'
+import { CatalogItemsMap, CatalogSeason, CatalogSeasonItemMap } from 'mock/apparel/types'
 import { delay } from 'utils'
 
 import MOCK_CATALOG_MAP from 'mock/apparel'
@@ -34,15 +34,24 @@ type FetchCatalogDataProps = {
   season: CatalogSeason
 }
 
-export function useMockGetCatalogData(params: FetchCatalogDataProps) {
+export function useMockFetchCatalogData(params: FetchCatalogDataProps) {
   console.debug('MOCK::fetching mock catalog data', params)
   const { season, year } = params
 
-  return useSWR<CatalogItemsMap>(
+  return useSWR<CatalogSeasonItemMap>(
     ['catalog', season, year],
-    () => (season && year ? delay(2300, MOCK_CATALOG_MAP) : {}),
+    () => (year && season ? delay(2300, MOCK_CATALOG_MAP.get(year.toString())?.[season]) : {}),
     {
       refreshInterval: 20000
     }
   )
+}
+
+export function useMockFetchCatalogDataByYear(year: number) {
+  return {
+    WINTER: useMockFetchCatalogData({ year, season: 'WINTER' }),
+    SPRING: useMockFetchCatalogData({ year, season: 'SPRING' }),
+    SUMMER: useMockFetchCatalogData({ year, season: 'SUMMER' }),
+    FALL: useMockFetchCatalogData({ year, season: 'FALL' })
+  }
 }
