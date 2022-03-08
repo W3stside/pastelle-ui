@@ -25,7 +25,8 @@ export function useCatalogItemFromURL(catalogMap?: CatalogItemsMap) {
 
   return {
     seasonList,
-    currentItem
+    currentItem,
+    pathname
   }
 }
 

@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
@@ -13,7 +13,7 @@ import {
   ItemBreadcrumb
 } from './styleds'
 
-import { ApparelItem } from 'mock/apparel/types'
+import { ApparelItem, SocialType } from 'mock/apparel/types'
 import { TYPE } from 'theme'
 import { darken, transparentize } from 'polished'
 import { useBreadcrumb } from 'components/Breadcrumb'
@@ -22,17 +22,14 @@ import Modal from 'components/Modal'
 import { useToggleModal, useModalOpen } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/reducer'
 import { ItemVideoContent } from './ItemVideoContent'
+import { useHistory } from 'react-router-dom'
+import { useCatalogItemFromURL } from 'pages/Catalog/hooks'
+import { BASE_CATALOG_URL } from 'pages/Catalog'
+import { useCatalog } from 'state/catalog/hooks'
 
 // TODO: move to APPAREL TYPES or sth
 type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
 
-export enum SocialType {
-  INSTAGRAM = 'INSTAGRAM',
-  TIKTOK = 'TIKTOK',
-  DEVIANTART = 'DEVIANTART',
-  DRIBBBLE = 'DRIBBBLE',
-  BEHANCE = 'BEHANCE'
-}
 export interface ItemPageProps {
   itemColor: string
   itemHeader: string
@@ -55,8 +52,10 @@ export default function ItemPage({
   itemSizesList,
   itemDescription,
   itemArtistInfo,
-  style
-}: ItemPageProps & { style?: any }) {
+  itemIndex,
+  style,
+  isActive
+}: ItemPageProps & { itemIndex: number; style?: any; isActive: boolean }) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
 
@@ -70,6 +69,23 @@ export default function ItemPage({
   // Split images lists
   const smallImagesList = useMemo(() => itemMediaList.map(({ imageMedia: { small } }) => small), [itemMediaList])
   const largeImagesList = useMemo(() => itemMediaList.map(({ imageMedia: { large } }) => large), [itemMediaList])
+
+  const { replace } = useHistory()
+  // mock hook for async fetching of catalog data
+  const fullCatalog = useCatalog()
+  // get catalog item from data and url
+  const { seasonList, currentItem } = useCatalogItemFromURL(fullCatalog)
+  // update url
+  useEffect(() => {
+    const urlNeedsUpdate = isActive && currentItem?.itemHeader !== itemHeader
+
+    if (urlNeedsUpdate) {
+      const currentItemKey = seasonList[itemIndex]?.key
+      if (!currentItemKey) return
+
+      replace(BASE_CATALOG_URL + currentItemKey.split('-')[0])
+    }
+  }, [currentItem?.itemHeader, isActive, itemHeader, itemIndex, replace, seasonList])
 
   return (
     <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ style={style}>
@@ -151,15 +167,17 @@ export default function ItemPage({
        */}
       <ItemVideoContent itemMediaList={itemMediaList} currentCarouselIndex={currentCarouselIndex} />
       {/* LARGE IMAGE MODAL */}
-      <Modal isOpen={showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
-        <Carousel
-          buttonColor={itemColor}
-          imageList={largeImagesList}
-          mediaStartIndex={currentCarouselIndex}
-          onCarouselChange={onCarouselChange}
-          fixedHeight="auto"
-        />
-      </Modal>
+      {isActive && (
+        <Modal isOpen={showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
+          <Carousel
+            buttonColor={itemColor}
+            imageList={largeImagesList}
+            mediaStartIndex={currentCarouselIndex}
+            onCarouselChange={onCarouselChange}
+            fixedHeight="auto"
+          />
+        </Modal>
+      )}
     </ItemContainer>
   )
 }

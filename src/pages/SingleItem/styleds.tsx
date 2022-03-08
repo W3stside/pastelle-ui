@@ -4,10 +4,11 @@ import styled, { css } from 'styled-components/macro'
 import { transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
-import { ItemPageProps, SocialType } from './AsideWithVideo'
+import { ItemPageProps } from './AsideWithVideo'
 import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
+import { SocialType } from 'mock/apparel/types'
 
 const saturateAnimation = css`
   @keyframes saturate {

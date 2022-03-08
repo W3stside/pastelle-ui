@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import { useWheel } from '@use-gesture/react'
 import { Lethargy } from 'lethargy'
@@ -45,7 +44,7 @@ const ScrollerContainer = styled.div<{ index: number; clientHeight: number }>`
   transform: ${({ index, clientHeight }) => `translateY(${-index * clientHeight}px)`};
   transition: transform 350ms ease-in-out;
 `
-const BASE_CATALOG_URL = '/catalog/2022/FALL/'
+export const BASE_CATALOG_URL = '/catalog/2022/FALL/'
 export default function Catalog() {
   const [index, setIndex] = useState(0)
 
@@ -106,8 +105,8 @@ export default function Catalog() {
         <ScrollerContainer index={index} clientHeight={ref.clientHeight}>
           {/* scroll div */}
           <Scroller index={index} clientHeight={ref.clientHeight} {...bind()} />
-          {seasonList.map(({ key, ...seasonItem }) => (
-            <AsideWithVideo key={key} {...seasonItem} />
+          {seasonList.map(({ key, ...seasonItem }, mapIndex) => (
+            <AsideWithVideo itemIndex={index} isActive={index === mapIndex} key={key} {...seasonItem} />
           ))}
         </ScrollerContainer>
       )}

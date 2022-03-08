@@ -11,7 +11,7 @@ import FRONT_VIDEO_POSTER from 'assets/apparel/leer/video/front-poster-lq.jpg'
 import BACK_VIDEO_POSTER from 'assets/apparel/leer/video/back-poster-lq.jpg'
 // misc
 import { ApparelItem, CatalogItem } from './types'
-import { SocialType } from 'pages/SingleItem/AsideWithVideo'
+import { SocialType } from './types'
 
 const ITEM_MEDIA_LIST: ApparelItem[] = [
   // FRONT CONTENT

@@ -1,5 +1,13 @@
 import { ItemPageProps } from 'pages/SingleItem/AsideWithVideo'
 
+export enum SocialType {
+  INSTAGRAM = 'INSTAGRAM',
+  TIKTOK = 'TIKTOK',
+  DEVIANTART = 'DEVIANTART',
+  DRIBBBLE = 'DRIBBBLE',
+  BEHANCE = 'BEHANCE'
+}
+
 export type ApparelItem = {
   imageMedia: {
     large: string
