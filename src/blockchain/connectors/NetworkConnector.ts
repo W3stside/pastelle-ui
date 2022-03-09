@@ -1,6 +1,7 @@
 import { ConnectorUpdate } from '@web3-react/types'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import invariant from 'tiny-invariant'
+import { devDebug } from 'utils/logging'
 
 interface NetworkConnectorArguments {
   urls: { [chainId: number]: string }
@@ -51,7 +52,7 @@ class MiniRpcProvider implements AsyncSendable {
   }
 
   public readonly clearBatch = async () => {
-    console.debug('Clearing batch', this.batch)
+    devDebug('Clearing batch', this.batch)
     const batch = this.batch
     this.batch = []
     this.batchTimeoutId = null

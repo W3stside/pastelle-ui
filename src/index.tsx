@@ -25,6 +25,7 @@ import { TopGlobalStyle, ThemedGlobalComponent, FontStyles } from 'theme/styles/
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { nodeRemoveChildFix } from 'utils/node'
+import { devLog } from 'utils/logging'
 
 // Node removeChild hackaround
 // based on: https://github.com/facebook/react/issues/11538#issuecomment-417504600
@@ -74,7 +75,7 @@ async function deleteAllCaches() {
   const cacheNames = (await caches.keys()) || []
 
   cacheNames.map(cacheName => {
-    console.log('[worker] Delete cache', cacheName)
+    devLog('[worker] Delete cache', cacheName)
     // Delete old caches
     // https://developers.google.com/web/ilt/pwa/caching-files-with-service-worker#removing_outdated_caches
     return caches.delete(cacheName)
@@ -90,16 +91,16 @@ async function unregisterAllWorkers() {
 }
 
 if ('serviceWorker' in navigator) {
-  console.log('[worker] Unregister worker...')
+  devLog('[worker] Unregister worker...')
   serviceWorkerRegistration.unregister()
 
-  console.log('[worker] Deleting all caches...')
+  devLog('[worker] Deleting all caches...')
   deleteAllCaches()
-    .then(() => console.log('[worker] All caches have been deleted'))
+    .then(() => devLog('[worker] All caches have been deleted'))
     .catch(console.error)
 
-  console.log('[worker] Unregistering all workers...')
+  devLog('[worker] Unregistering all workers...')
   unregisterAllWorkers()
-    .then(() => console.log('[worker] All workers have been unregistered'))
+    .then(() => devLog('[worker] All workers have been unregistered'))
     .catch(console.error)
 }

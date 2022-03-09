@@ -7,6 +7,7 @@ import { useActiveWeb3React } from 'blockchain/hooks'
 import { useBlockNumber } from 'state/blockchain/hooks'
 import { addMulticallListeners, ListenerOptions, removeMulticallListeners } from './actions'
 import { Call, parseCallKey, toCallKey } from './utils'
+import { devDebug } from 'utils/logging'
 
 export interface Result extends ReadonlyArray<any> {
   readonly [key: string]: any
@@ -135,7 +136,7 @@ export function toCallState(
     try {
       result = contractInterface.decodeFunctionResult(fragment, data)
     } catch (error) {
-      console.debug('Result data parsing failed', fragment, data)
+      devDebug('Result data parsing failed', fragment, data)
       return {
         valid: true,
         loading: false,

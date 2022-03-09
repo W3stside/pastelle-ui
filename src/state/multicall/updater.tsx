@@ -11,6 +11,7 @@ import { useBlockNumber } from 'state/blockchain/hooks'
 import { AppState } from '../index'
 import { errorFetchingMulticallResults, fetchingMulticallResults, updateMulticallResults } from './actions'
 import { Call, parseCallKey, toCallKey } from './utils'
+import { devDebug } from 'utils/logging'
 
 const DEFAULT_CALL_GAS_REQUIRED = 1_000_000
 
@@ -25,7 +26,7 @@ export async function fetchChunk(
   chunk: Call[],
   blockNumber: number
 ): Promise<{ success: boolean; returnData: string }[]> {
-  console.debug('Fetching chunk', chunk, blockNumber)
+  devDebug('Fetching chunk', chunk, blockNumber)
   try {
     const { returnData } = await multicall.callStatic.multicall(
       chunk.map(obj => ({
@@ -62,7 +63,7 @@ export async function fetchChunk(
     } else if (error.code === -32603 || error.message?.indexOf('execution ran out of gas') !== -1) {
       if (chunk.length > 1) {
         if (process.env.NODE_ENV === 'development') {
-          console.debug('Splitting a chunk in 2', chunk)
+          devDebug('Splitting a chunk in 2', chunk)
         }
         const half = Math.floor(chunk.length / 2)
         const [c0, c1] = await Promise.all([
@@ -229,11 +230,11 @@ export default function Updater(): null {
               if (process.env.NODE_ENV === 'development') {
                 returnData.forEach((returnData, ix) => {
                   if (!returnData.success) {
-                    console.debug('Call failed', chunk[ix], returnData)
+                    devDebug('Call failed', chunk[ix], returnData)
                   }
                 })
               } else {
-                console.debug('Calls errored in fetch', erroredCalls)
+                devDebug('Calls errored in fetch', erroredCalls)
               }
               dispatch(
                 errorFetchingMulticallResults({
@@ -246,7 +247,7 @@ export default function Updater(): null {
           })
           .catch((error: any) => {
             if (error.isCancelledError) {
-              console.debug('Cancelled fetch for blockNumber', latestBlockNumber, chunk, chainId)
+              devDebug('Cancelled fetch for blockNumber', latestBlockNumber, chunk, chainId)
               return
             }
             console.error('Failed to fetch multicall chunk', chunk, chainId, error)

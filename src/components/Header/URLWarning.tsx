@@ -2,6 +2,7 @@ import styled from 'styled-components/macro'
 
 import { AlertTriangle, X } from 'react-feather'
 import { isMobile } from 'react-device-detect'
+import { devLog } from 'utils/logging'
 
 const PhishAlert = styled.div<{ isActive: boolean }>`
   width: 100%;
@@ -30,7 +31,7 @@ export default function URLWarning(): JSX.Element | null {
         <AlertTriangle style={{ marginRight: 6 }} size={12} /> Make sure the URL is
         <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>{APP_URL}</code>
       </div>
-      <StyledClose size={12} onClick={console.log} />
+      <StyledClose size={12} onClick={devLog} />
     </PhishAlert>
   ) : window.location.hostname === PHISH_ALERT_URL ? (
     <PhishAlert isActive>
@@ -39,7 +40,7 @@ export default function URLWarning(): JSX.Element | null {
         <code style={{ padding: '0 4px', display: 'inline', fontWeight: 'bold' }}>{APP_URL}</code> - bookmark it to be
         safe.
       </div>
-      <StyledClose size={12} onClick={console.log} />
+      <StyledClose size={12} onClick={devLog} />
     </PhishAlert>
   ) : null
 }
