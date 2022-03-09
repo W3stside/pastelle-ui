@@ -148,6 +148,10 @@ export const ItemBreadcrumb = styled(NavLink)`
     margin: 0 5px;
   }
 `
+export const ItemDescription = styled(TYPE.black).attrs({ fontSize: 18, padding: 2, fontWeight: 400 })`
+  text-transform: uppercase;
+  font-style: italic;
+`
 
 export const ItemAsidePanel = styled(Column)`
   display: flex;

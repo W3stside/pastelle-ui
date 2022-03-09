@@ -5,6 +5,7 @@ import {
   ItemContainer,
   ItemAsidePanel,
   ItemHeader,
+  ItemDescription,
   ItemCredits,
   ItemArtistInfo,
   FloatingStrip,
@@ -131,11 +132,11 @@ export default function ItemPage({
         <ItemSubHeader bgColor={transparentize(0.2, itemColor)}>DESCRIPTION</ItemSubHeader>
         <br />
         <Row>
-          <TYPE.black fontSize={18} padding={2} fontWeight={300}>
+          <ItemDescription>
             {itemDescription.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
-          </TYPE.black>
+          </ItemDescription>
         </Row>
         {/* VISUAL */}
         <FloatingStrip
