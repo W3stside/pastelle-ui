@@ -85,7 +85,7 @@ export const VideoContentWrapper = styled(Row)<{ hide?: boolean }>`
   z-index: -1;
 
   opacity: 1;
-  ${({ hide }) => hide && `opacity: 0.3;`}
+  ${({ hide }) => hide && `opacity: 0;`}
   transition: opacity 0.8s ease-in-out;
 
   video {

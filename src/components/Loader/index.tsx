@@ -20,16 +20,23 @@ const StyledSVG = styled.svg<{ size: string; stroke?: string }>`
   }
 `
 
-const FixedContainer = styled.div`
+type StyleParams = {
+  top?: string
+  right?: string
+  bottom?: string
+  left?: string
+}
+
+const FixedContainer = styled.div<StyleParams>`
   position: fixed;
-  top: 25%;
-  bottom: 25%;
-  left: 25%;
-  right: 25%;
+  top: ${({ top = '25%' }) => top};
+  bottom: ${({ bottom = '25%' }) => bottom};
+  left: ${({ left = '25%' }) => left};
+  right: ${({ right = '25%' }) => right};
 `
 
-export const FixedAnimatedLoader = ({ loadText }: { loadText: ReactNode }) => (
-  <FixedContainer>
+export const FixedAnimatedLoader = ({ loadText, ...styleParams }: { loadText: ReactNode } & StyleParams) => (
+  <FixedContainer {...styleParams}>
     <ItemHeader itemColor="#FFBEBC" animation animationDelay={false}>
       {loadText}
     </ItemHeader>

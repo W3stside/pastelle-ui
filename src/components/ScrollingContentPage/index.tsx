@@ -226,7 +226,7 @@ export function ScrollingContentPage<D>({ data, dataItem, IterableComponent }: P
 
   return (
     <ArticleFadeInContainer>
-      <FixedAnimatedLoader loadText="PASTELLE APPAREL" />
+      <FixedAnimatedLoader loadText="PASTELLE APPAREL" left="50%" />
       <ScrollerContainer>
         {/* scroll div */}
         {<Scroller ref={targetRef} />}
