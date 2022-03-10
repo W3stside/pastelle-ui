@@ -18,7 +18,7 @@ const ImageContainer = styled(AutoColumn)`
   overflow-y: auto;
 
   > img {
-    max-width: 100%;
+    height: 100vh;
   }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`

@@ -6,24 +6,34 @@ import { AsideWithScrollableImages } from 'pages/SingleItem/AsideWithScrollableI
 // assets
 import david from 'assets/images/aboutus/david.jpeg'
 import felix_david from 'assets/images/aboutus/felix_david_train_cropped.jpg'
+import artists from 'assets/images/aboutus/artists-mathieu.jpeg'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
 
-const FILE_NAME = 'AboutUs.md'
-const FILE_PATH = BASE_MARKDOWN_PATH + FILE_NAME
+function _buildMarkdownPath(subfolder: string, fileName: string) {
+  return BASE_MARKDOWN_PATH + subfolder + fileName
+}
+const SUB_FOLDER = 'AboutUs/'
 
 const ABOUT_US_CONTENT = [
   // general about section
   {
     header: 'ABOUT US',
-    markdown: FILE_PATH,
+    markdown: _buildMarkdownPath(SUB_FOLDER, 'AboutUs.md'),
     image: felix_david,
     key: nanoid()
   },
-  // sustainability
+  // pillars
   {
-    header: 'SUSTAINABILITY',
-    markdown: FILE_PATH,
+    header: 'PILLARS',
+    markdown: _buildMarkdownPath(SUB_FOLDER, 'Pillars.md'),
     image: david,
+    key: nanoid()
+  },
+  // artists
+  {
+    header: 'ARTISTS',
+    markdown: _buildMarkdownPath(SUB_FOLDER, 'Artists.md'),
+    image: artists,
     key: nanoid()
   }
 ]

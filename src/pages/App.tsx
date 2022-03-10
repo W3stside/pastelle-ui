@@ -35,7 +35,7 @@ export default function App() {
   // if there isn't yet data, show something else
   const catalogBySeason = useCatalogByYearAndSeason({ year: '2022', season: 'FALL' })
 
-  if (!catalogBySeason) return <FixedAnimatedLoader loadText="PASTL" />
+  if (!catalogBySeason) return <FixedAnimatedLoader loadText="PSTL" />
 
   return (
     <Web3ReactManager>
