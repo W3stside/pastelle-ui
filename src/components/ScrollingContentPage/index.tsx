@@ -7,7 +7,6 @@ import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { ChevronUp, ChevronDown } from 'react-feather'
 import { useSprings, a } from '@react-spring/web'
-import useDebouncedChangeHandler from 'hooks/useDebouncedChangeHandler'
 import { FixedAnimatedLoader } from 'components/Loader'
 
 const lethargy = new Lethargy()
@@ -140,13 +139,7 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
   const targetRef = useRef<HTMLDivElement | null>(null)
   const [target, setRef] = useState<HTMLDivElement>()
   const [height, setHeight] = useState<number>(0)
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  const [debouncedCurrentIndex, setDebouncedCurrentIndex] = useDebouncedChangeHandler(
-    currentIndex,
-    setCurrentIndex,
-    1000
-  )
+  const [currentIndex, setCurrentIndex] = useState(prev.current[0])
 
   const getIndex = useCallback((y, l = items.length) => (y < 0 ? y + l : y) % l, [items])
   const getPos = useCallback((i, firstVisible, firstVisibleIndex) => getIndex(i - firstVisible + firstVisibleIndex), [
@@ -176,8 +169,7 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
         const rank = firstVisible - (y < 0 ? items.length : 0) + position - firstVisibleIndex
         const configPos = dy > 0 ? position : items.length - position
         const yAxis = (-y % (height * items.length)) + height * rank
-        // set the current index
-        setDebouncedCurrentIndex(getIndex(y, items.length))
+
         return {
           y: yAxis,
           immediate: dy < 0 ? prevPosition > position : prevPosition < position,
@@ -186,8 +178,9 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
         }
       })
       prev.current = [firstVisible, firstVisibleIndex]
+      setCurrentIndex(prev.current[0])
     },
-    [getIndex, height, items.length, visible, api, getPos, setDebouncedCurrentIndex]
+    [getIndex, height, items.length, visible, api, getPos]
   )
 
   const wheelOffset = useRef(0)
@@ -217,7 +210,7 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
     target,
     targetRef,
     height,
-    currentIndex: debouncedCurrentIndex
+    currentIndex
   }
 }
 
