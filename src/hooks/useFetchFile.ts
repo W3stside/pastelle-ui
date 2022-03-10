@@ -1,31 +1,24 @@
-import { useEffect, useState } from 'react'
+import useSWR from 'swr'
 
 function getErrorMessage(filePath: string, res: Response): string {
   return `Error fetching file ${filePath} - status: ${res.statusText}`
 }
 
 export default function useFetchFile(filePath: string) {
-  const [file, setFile] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const { data: file, isValidating, error } = useSWR(filePath, () =>
+    fetch(filePath)
+      .then(async res => {
+        if (res.ok) {
+          const fileContent = await res.text()
+          return fileContent
+        } else {
+          throw getErrorMessage(filePath, res)
+        }
+      })
+      .catch(error => {
+        throw error
+      })
+  )
 
-  useEffect(() => {
-    const fetchFile = async () => {
-      await fetch(filePath)
-        .then(async res => {
-          if (res.ok) {
-            const fileContent = await res.text()
-            setFile(fileContent)
-          } else {
-            setError(getErrorMessage(filePath, res))
-          }
-        })
-        .catch(res => {
-          setError(`Error fetching file ${filePath} - status: ${res.statusText}`)
-        })
-    }
-
-    fetchFile()
-  }, [filePath])
-
-  return { file, error }
+  return { file, loading: isValidating, error }
 }

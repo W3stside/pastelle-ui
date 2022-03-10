@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+import { ItemHeader } from 'pages/SingleItem/styleds'
 import styled, { keyframes } from 'styled-components/macro'
 
 const rotate = keyframes`
@@ -17,6 +19,22 @@ const StyledSVG = styled.svg<{ size: string; stroke?: string }>`
     stroke: ${({ stroke, theme }) => stroke ?? theme.primary1};
   }
 `
+
+const FixedContainer = styled.div`
+  position: fixed;
+  top: 25%;
+  bottom: 25%;
+  left: 25%;
+  right: 25%;
+`
+
+export const FixedAnimatedLoader = ({ loadText }: { loadText: ReactNode }) => (
+  <FixedContainer>
+    <ItemHeader itemColor="#FFBEBC" animation animationDelay={false}>
+      {loadText}
+    </ItemHeader>
+  </FixedContainer>
+)
 
 /**
  * Takes in custom size and stroke for circle color, default to primary color as fill,

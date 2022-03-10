@@ -24,6 +24,7 @@ import { useToggleModal, useModalOpen } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/reducer'
 import { ItemVideoContent } from './ItemVideoContent'
 import { useCatalogItemFromURL, useUpdateURLFromCatalogItem } from 'pages/Catalog/hooks'
+import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 
 // TODO: move to APPAREL TYPES or sth
 type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
@@ -51,9 +52,9 @@ export default function ItemPage({
   itemDescription,
   itemArtistInfo,
   itemIndex,
-  style,
-  isActive
-}: ItemPageProps & { itemIndex: number; style?: any; isActive: boolean }) {
+  isActive,
+  style
+}: ItemPageProps & ScrollableContentComponentBaseProps & { style?: any }) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
 

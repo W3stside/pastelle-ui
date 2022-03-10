@@ -4,9 +4,10 @@ import ReactMarkdown, { ReactMarkdownProps } from 'react-markdown'
 import { HeadingRenderer } from './renderers'
 import useFetchFile from 'hooks/useFetchFile'
 import { LinkScrollable, Link } from 'components/Link'
+import { FixedAnimatedLoader } from 'components/Loader'
 
 interface MarkdownParams {
-  contentFile: string
+  filePath: string
 }
 
 export function Markdown(props: { children?: string }) {
@@ -21,8 +22,11 @@ const MarkdownContent = (props: ReactMarkdownProps & { children: string }) => (
   />
 )
 
-export function MarkdownRenderer({ contentFile }: MarkdownParams) {
-  const { error, file } = useFetchFile(contentFile)
+export function MarkdownRenderer({ filePath }: MarkdownParams) {
+  const { error, loading, file } = useFetchFile(filePath)
+
+  if (loading) return <FixedAnimatedLoader loadText="PASTL" />
+
   return (
     <>
       {file && <MarkdownContent>{file}</MarkdownContent>}
