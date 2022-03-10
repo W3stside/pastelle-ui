@@ -1,15 +1,18 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import styled from 'styled-components/macro'
-import { useWheel } from '@use-gesture/react'
+import { useGesture, useWheel } from '@use-gesture/react'
 import { Lethargy } from 'lethargy'
 import clamp from 'lodash.clamp'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { ChevronUp, ChevronDown } from 'react-feather'
+import { useSprings, a } from '@react-spring/web'
+import useDebouncedChangeHandler from 'hooks/useDebouncedChangeHandler'
+import { FixedAnimatedLoader } from 'components/Loader'
 
 const lethargy = new Lethargy()
 
-const Scroller = styled.div<{ index: number; clientHeight: number }>`
+const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
   position: absolute;
   right: 0;
   bottom: 0;
@@ -17,17 +20,14 @@ const Scroller = styled.div<{ index: number; clientHeight: number }>`
   width: calc(100% - 500px);
   z-index: 900;
 
-  transform: ${({ index, clientHeight }) => `translateY(${index * clientHeight}px)`};
-
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     width: 100%;
   `}
 `
 
-const ScrollerContainer = styled.div<{ index: number; clientHeight: number }>`
+const ScrollerContainer = styled.div<{ index?: number; clientHeight?: number }>`
   height: 100%;
 
-  transform: ${({ index, clientHeight }) => `translateY(${-index * clientHeight}px)`};
   transition: transform 350ms ease-in-out;
 `
 
@@ -93,15 +93,15 @@ export function ScrollingContentIndicator({
 
 type Params<P> = ScrollingContentPageParams<P> & Omit<ScrollingIndicatorParams, 'isLastIndex'>
 
-export function ScrollingContentPage<D>({ data, dataItem, IterableComponent, ...scrollingIndicatorProps }: Params<D>) {
+export function useWheelScrollAnimation(data: any[]) {
   const [index, setIndex] = useState(0)
 
   // ref to entire Catalog container
-  const catalogRef = useRef<HTMLDivElement | null>(null)
+  const componentRef = useRef<HTMLDivElement | null>(null)
   const [ref, setRef] = useState<HTMLDivElement | undefined>()
   // set container ref to state
   useEffect(() => {
-    setRef(catalogRef?.current ?? undefined)
+    setRef(componentRef?.current ?? undefined)
   }, [])
 
   const bind = useWheel(
@@ -123,28 +123,122 @@ export function ScrollingContentPage<D>({ data, dataItem, IterableComponent, ...
       }
     },
     {
-      rubberband: 0.3
+      rubberband: 0.1
     }
   )
 
-  // if (!currentItem) return <Redirect to="/404" />
+  return {
+    index,
+    ref,
+    bind,
+    componentRef
+  }
+}
+const SPRING_CONFIG = undefined // { tension: 600, friction: 300 }
+export function useViewPagerAnimation({ items, visible = 1 }: any) {
+  const prev = useRef([0, 1])
+  const targetRef = useRef<HTMLDivElement | null>(null)
+  const [target, setRef] = useState<HTMLDivElement>()
+  const [height, setHeight] = useState<number>(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const [debouncedCurrentIndex, setDebouncedCurrentIndex] = useDebouncedChangeHandler(
+    currentIndex,
+    setCurrentIndex,
+    1000
+  )
+
+  const getIndex = useCallback((y, l = items.length) => (y < 0 ? y + l : y) % l, [items])
+  const getPos = useCallback((i, firstVisible, firstVisibleIndex) => getIndex(i - firstVisible + firstVisibleIndex), [
+    getIndex
+  ])
+  const [springs, api] = useSprings(items.length, i => ({ y: (i < items.length - 1 ? i : -1) * height }))
+  // set container ref height to state
+  useEffect(() => {
+    if (targetRef?.current?.clientWidth) {
+      setRef(targetRef.current ?? undefined)
+      setHeight(targetRef.current.clientHeight)
+    }
+  }, [])
+
+  const runSprings = useCallback(
+    (y, dy) => {
+      const firstVisible = getIndex(Math.floor(y / height) % items.length)
+      const firstVisibleIndex = dy < 0 ? items.length - visible - 1 : 1
+      api.start(i => {
+        const position = getPos(i, firstVisible, firstVisibleIndex)
+        const prevPosition = getPos(i, prev.current[0], prev.current[1])
+        const rank = firstVisible - (y < 0 ? items.length : 0) + position - firstVisibleIndex
+        const configPos = dy > 0 ? position : items.length - position
+        const yAxis = (-y % (height * items.length)) + height * rank
+        // set the current index
+        setDebouncedCurrentIndex(getIndex(y, items.length))
+        return {
+          y: yAxis,
+          immediate: dy < 0 ? prevPosition > position : prevPosition < position,
+          // config: { tension: (1 + items.length - configPos) * 600, friction: 30 + configPos }
+          config: SPRING_CONFIG || { tension: 600, friction: 30 + configPos * 80 }
+        }
+      })
+      prev.current = [firstVisible, firstVisibleIndex]
+    },
+    [getIndex, height, items.length, visible, api, getPos, setDebouncedCurrentIndex]
+  )
+
+  const wheelOffset = useRef(0)
+  const dragOffset = useRef(0)
+
+  useGesture(
+    {
+      onDrag: ({ offset: [y], direction: [dx] }) => {
+        if (dx) {
+          dragOffset.current = -y
+          runSprings(wheelOffset.current + -y, -dx)
+        }
+      },
+      onWheel: ({ event, offset: [, y], direction: [, dy] }) => {
+        event.preventDefault()
+        if (dy) {
+          wheelOffset.current = y
+          runSprings(dragOffset.current + y, dy)
+        }
+      }
+    },
+    { target }
+  )
+
+  return {
+    springs,
+    target,
+    targetRef,
+    height,
+    currentIndex: debouncedCurrentIndex
+  }
+}
+
+export function ScrollingContentPage<D>({ data, dataItem, IterableComponent }: Params<D>) {
+  const { springs, targetRef, height, currentIndex } = useViewPagerAnimation({ items: data, visible: 1 })
+
   if (!dataItem) return null
 
-  const noContentOrSingular = data.length < 1
-  const isLastIndex = data.length - 1 === index
-
   return (
-    <ArticleFadeInContainer ref={catalogRef}>
-      {!noContentOrSingular && <ScrollingContentIndicator isLastIndex={isLastIndex} {...scrollingIndicatorProps} />}
-      {ref && (
-        <ScrollerContainer index={index} clientHeight={ref.clientHeight}>
-          {/* scroll div */}
-          <Scroller index={index} clientHeight={ref.clientHeight} {...bind()} />
-          {data.map((props, mapIndex) => {
-            return <IterableComponent itemIndex={index} isActive={index === mapIndex} key={mapIndex} {...props} />
-          })}
-        </ScrollerContainer>
-      )}
+    <ArticleFadeInContainer>
+      <FixedAnimatedLoader loadText="PASTELLE APPAREL" />
+      <ScrollerContainer>
+        {/* scroll div */}
+        {<Scroller style={{ touchAction: 'none' }} ref={targetRef} />}
+        {springs.map(({ y }, i) => {
+          return (
+            <a.div
+              id="#animated-div"
+              key={i}
+              style={{ position: 'absolute', width: '100%', willChange: 'transform', height, y }}
+            >
+              <IterableComponent isActive={currentIndex === i} itemIndex={currentIndex} key={i} {...data[i]} />
+            </a.div>
+          )
+        })}
+      </ScrollerContainer>
     </ArticleFadeInContainer>
   )
 }
