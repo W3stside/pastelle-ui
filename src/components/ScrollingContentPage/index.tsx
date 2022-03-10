@@ -8,6 +8,7 @@ import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { ChevronUp, ChevronDown } from 'react-feather'
 import { useSprings, a } from '@react-spring/web'
 import { FixedAnimatedLoader } from 'components/Loader'
+import useDebounce from 'hooks/useDebounce'
 
 const lethargy = new Lethargy()
 
@@ -141,15 +142,13 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
   const [height, setHeight] = useState<number>(0)
   const [currentIndex, setCurrentIndex] = useState(prev.current[0])
 
+  const currentIndexDebounced = useDebounce(currentIndex, 400)
+
   const getIndex = useCallback((y, l = items.length) => (y < 0 ? y + l : y) % l, [items])
   const getPos = useCallback((i, firstVisible, firstVisibleIndex) => getIndex(i - firstVisible + firstVisibleIndex), [
     getIndex
   ])
-  const [springs, api] = useSprings(
-    items.length,
-    i => ({ y: (i < items.length - 1 ? i : -1) * height, delay: 1000 }),
-    []
-  )
+  const [springs, api] = useSprings(items.length, i => ({ y: (i < items.length - 1 ? i : -1) * height }), [])
   // set container ref height to state
   useEffect(() => {
     if (targetRef?.current?.clientWidth) {
@@ -210,7 +209,7 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
     target,
     targetRef,
     height,
-    currentIndex
+    currentIndex: currentIndexDebounced
   }
 }
 
