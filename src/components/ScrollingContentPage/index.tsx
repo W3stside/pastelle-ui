@@ -152,7 +152,11 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
   const getPos = useCallback((i, firstVisible, firstVisibleIndex) => getIndex(i - firstVisible + firstVisibleIndex), [
     getIndex
   ])
-  const [springs, api] = useSprings(items.length, i => ({ y: (i < items.length - 1 ? i : -1) * height }))
+  const [springs, api] = useSprings(
+    items.length,
+    i => ({ y: (i < items.length - 1 ? i : -1) * height, delay: 1000 }),
+    []
+  )
   // set container ref height to state
   useEffect(() => {
     if (targetRef?.current?.clientWidth) {
@@ -165,6 +169,7 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
     (y, dy) => {
       const firstVisible = getIndex(Math.floor(y / height) % items.length)
       const firstVisibleIndex = dy < 0 ? items.length - visible - 1 : 1
+
       api.start(i => {
         const position = getPos(i, firstVisible, firstVisibleIndex)
         const prevPosition = getPos(i, prev.current[0], prev.current[1])
@@ -190,10 +195,10 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
 
   useGesture(
     {
-      onDrag: ({ offset: [y], direction: [dx] }) => {
-        if (dx) {
+      onDrag: ({ offset: [, y], direction: [, dy] }) => {
+        if (dy) {
           dragOffset.current = -y
-          runSprings(wheelOffset.current + -y, -dx)
+          runSprings(wheelOffset.current + -y, -dy)
         }
       },
       onWheel: ({ event, offset: [, y], direction: [, dy] }) => {
@@ -204,7 +209,7 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
         }
       }
     },
-    { target }
+    { target, eventOptions: { passive: false } }
   )
 
   return {
