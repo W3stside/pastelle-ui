@@ -48,11 +48,11 @@ export const ItemVideoContent = ({
 
   const isPaused = videoStatus === 'PAUSED'
 
-  if (hide) return null
+  // if (hide) return null
 
   return (
     <>
-      <VideoContentWrapper id="#video-content-wrapper">
+      <VideoContentWrapper id="#video-content-wrapper" hide={hide}>
         {itemMediaList.map(({ videoMedia: { video, poster } }, index) => {
           const isSelected = index === currentCarouselIndex
           if (!isSelected) return null

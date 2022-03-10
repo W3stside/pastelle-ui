@@ -20,6 +20,8 @@ const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
   width: calc(100% - 500px);
   z-index: 900;
 
+  touch-action: none;
+
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     width: 100%;
   `}
@@ -135,7 +137,7 @@ export function useWheelScrollAnimation(data: any[]) {
   }
 }
 const SPRING_CONFIG = undefined // { tension: 600, friction: 300 }
-export function useViewPagerAnimation({ items, visible = 1 }: any) {
+export function useViewPagerAnimation({ items, visible = 0 }: any) {
   const prev = useRef([0, 1])
   const targetRef = useRef<HTMLDivElement | null>(null)
   const [target, setRef] = useState<HTMLDivElement>()
@@ -212,7 +214,11 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
     currentIndex: currentIndexDebounced
   }
 }
-
+const AnimatedDivContainer = styled(a.div)`
+  position: absolute;
+  width: 100%;
+  will-change: transform;
+`
 export function ScrollingContentPage<D>({ data, dataItem, IterableComponent }: Params<D>) {
   const { springs, targetRef, height, currentIndex } = useViewPagerAnimation({ items: data, visible: 1 })
 
@@ -223,16 +229,12 @@ export function ScrollingContentPage<D>({ data, dataItem, IterableComponent }: P
       <FixedAnimatedLoader loadText="PASTELLE APPAREL" />
       <ScrollerContainer>
         {/* scroll div */}
-        {<Scroller style={{ touchAction: 'none' }} ref={targetRef} />}
+        {<Scroller ref={targetRef} />}
         {springs.map(({ y }, i) => {
           return (
-            <a.div
-              id="#animated-div"
-              key={i}
-              style={{ position: 'absolute', width: '100%', willChange: 'transform', height, y }}
-            >
+            <AnimatedDivContainer key={i} style={{ height, y }}>
               <IterableComponent isActive={currentIndex === i} itemIndex={currentIndex} key={i} {...data[i]} />
-            </a.div>
+            </AnimatedDivContainer>
           )
         })}
       </ScrollerContainer>

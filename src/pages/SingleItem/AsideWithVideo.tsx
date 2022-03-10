@@ -163,7 +163,7 @@ export default function ItemPage({
        * Not displayed unless page content is on screen
        */}
 
-      <ItemVideoContent itemMediaList={itemMediaList} currentCarouselIndex={currentCarouselIndex} />
+      <ItemVideoContent hide={!isActive} itemMediaList={itemMediaList} currentCarouselIndex={currentCarouselIndex} />
       {/* LARGE IMAGE MODAL */}
 
       <Modal isOpen={isActive && showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
