@@ -66,8 +66,17 @@ export default function ItemPage({
   const { breadcrumbs, lastCrumb } = useBreadcrumb()
 
   // Split images lists
-  const smallImagesList = useMemo(() => itemMediaList.map(({ imageMedia: { small } }) => small), [itemMediaList])
-  const largeImagesList = useMemo(() => itemMediaList.map(({ imageMedia: { large } }) => large), [itemMediaList])
+  const { smallImagesList, largeImagesList } = useMemo(() => {
+    const smallImagesList: string[] = []
+    const largeImagesList: string[] = []
+
+    itemMediaList.forEach(({ imageMedia: { small, large } }) => {
+      smallImagesList.push(small)
+      largeImagesList.push(large)
+    })
+
+    return { smallImagesList, largeImagesList }
+  }, [itemMediaList])
 
   // get catalog item from data and url
   const { seasonList, currentItem } = useCatalogItemFromURL()

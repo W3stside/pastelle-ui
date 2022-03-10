@@ -8,7 +8,9 @@ const catalogItems: Map<number | string, Partial<CatalogSeasonsMap>> = new Map()
 catalogItems.set('2022', {
   FALL: {
     LEER,
-    SOLA
+    SOLA,
+    LEER2: LEER,
+    SOLA2: SOLA
   }
 })
 

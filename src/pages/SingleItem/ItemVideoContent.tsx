@@ -11,7 +11,7 @@ export const ItemVideoContent = ({
   itemMediaList,
   currentCarouselIndex,
   hide
-}: { currentCarouselIndex: number; hide: boolean } & Pick<ItemPageProps, 'itemMediaList'>) => {
+}: { currentCarouselIndex: number; hide?: boolean } & Pick<ItemPageProps, 'itemMediaList'>) => {
   const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -48,11 +48,11 @@ export const ItemVideoContent = ({
 
   const isPaused = videoStatus === 'PAUSED'
 
-  if (hide) return null
+  // if (hide) return null
 
   return (
     <>
-      <VideoContentWrapper id="#video-content-wrapper">
+      <VideoContentWrapper id="#video-content-wrapper" hide={hide}>
         {itemMediaList.map(({ videoMedia: { video, poster } }, index) => {
           const isSelected = index === currentCarouselIndex
           if (!isSelected) return null
