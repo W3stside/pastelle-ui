@@ -1,4 +1,4 @@
-## HOW DO WE WORK WITH ARTISTS
+## HOW WE WORK WITH ARTISTS
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Fames ac turpis egestas sed tempus urna et pharetra pharetra. Amet est placerat in egestas erat imperdiet. Turpis egestas pretium aenean pharetra magna ac placerat vestibulum. Et sollicitudin ac orci phasellus. Blandit massa enim nec dui nunc mattis enim ut tellus. Feugiat in ante metus dictum. Lectus urna duis convallis convallis tellus id interdum velit laoreet. Sit amet venenatis urna cursus eget nunc. Ac ut consequat semper viverra nam. Aliquam faucibus purus in massa tempor nec feugiat nisl. Diam maecenas ultricies mi eget mauris pharetra et ultrices neque. Sed vulputate odio ut enim blandit volutpat maecenas volutpat blandit. Tortor at auctor urna nunc id. Ipsum a arcu cursus vitae congue mauris rhoncus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Feugiat nibh sed pulvinar proin gravida hendrerit lectus. Morbi non arcu risus quis varius.
 
 ## HOW DO I COLLAB WITH YOU GUYS?
