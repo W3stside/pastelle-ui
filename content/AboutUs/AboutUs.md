@@ -1,5 +1,5 @@
 ## WHEN
-Mentally established at the peak of fidget spinners, and legally established in 2022, Pastelle is
+Mentally and sexually established at the peak of fidget spinners, and legally established in 2022, Pastelle is
 headquarted in Lisboa, with Portugal standing firmly as the base of operations for the complete lifecycle
 of our streetwear.
 
