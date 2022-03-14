@@ -9,7 +9,7 @@ import {
   ItemDescription,
   ItemCredits,
   ItemArtistInfo,
-  FloatingStrip,
+  // FloatingStrip,
   PASTELLE_CREDIT,
   ItemSubHeader,
   ItemBreadcrumb
@@ -17,7 +17,7 @@ import {
 
 import { ApparelItem, SocialType } from 'mock/apparel/types'
 import { TYPE } from 'theme'
-import { darken, transparentize } from 'polished'
+import { /* darken, */ transparentize } from 'polished'
 import { useBreadcrumb } from 'components/Breadcrumb'
 
 import Modal from 'components/Modal'
@@ -152,14 +152,14 @@ export default function ItemPage({
           </ItemDescription>
         </Row>
         {/* VISUAL */}
-        <FloatingStrip
+        {/* <FloatingStrip
           color={transparentize(0.4, itemColor)}
           top={280}
           left={-106}
           rotation={15}
           gradientBase={darken(0.56, itemColor)}
           gradientEnd={transparentize(1, itemColor)}
-        />
+        /> */}
       </ItemAsidePanel>
       {/*
        * Item Video content
