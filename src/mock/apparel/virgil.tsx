@@ -39,7 +39,8 @@ const COLLABORATOR_SOCIAL = [
 const itemName = 'VIRGIL'
 
 export default {
-  itemColor: '#a2c2fa',
+  // itemColor: '#a2c2fa',
+  itemColor: '#427da2',
   itemHeader: itemName,
   itemLogo: LOGO,
   itemMediaList: ITEM_MEDIA_LIST,
