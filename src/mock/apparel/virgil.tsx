@@ -1,12 +1,12 @@
 import { nanoid } from '@reduxjs/toolkit'
-import FRONT_IMAGE_LARGE from 'assets/apparel/leer/images/front-large.jpg'
-import BACK_IMAGE_LARGE from 'assets/apparel/leer/images/back-large.jpg'
-import FRONT_IMAGE_SMALL from 'assets/apparel/leer/images/front-small.jpg'
-import BACK_IMAGE_SMALL from 'assets/apparel/leer/images/back-small.jpg'
-import FRONT_VIDEO from 'assets/apparel/leer/video/front.webm'
-import BACK_VIDEO from 'assets/apparel/leer/video/back.webm'
-import FRONT_VIDEO_POSTER from 'assets/apparel/leer/video/front-poster-lq.jpg'
-import BACK_VIDEO_POSTER from 'assets/apparel/leer/video/back-poster-lq.jpg'
+import FRONT_IMAGE_LARGE from 'assets/apparel/virgil/images/front-large.png'
+import BACK_IMAGE_LARGE from 'assets/apparel/virgil/images/back-large.png'
+import FRONT_IMAGE_SMALL from 'assets/apparel/virgil/images/front-small.png'
+import BACK_IMAGE_SMALL from 'assets/apparel/virgil/images/back-small.png'
+import FRONT_VIDEO from 'assets/apparel/virgil/video/front.webm'
+import BACK_VIDEO from 'assets/apparel/virgil/video/back.webm'
+import FRONT_VIDEO_POSTER from 'assets/apparel/virgil/video/front-poster-lq.jpg'
+import BACK_VIDEO_POSTER from 'assets/apparel/virgil/video/back-poster-lq.jpg'
 import { ApparelItem, CatalogItem } from './types'
 import { SocialType } from './types'
 
@@ -35,9 +35,11 @@ const COLLABORATOR_SOCIAL = [
   { type: SocialType.INSTAGRAM, url: 'https://instagram.com/mathieusato', display: '@mathieusato' }
 ]
 
+const itemName = 'VIRGIL'
+
 export default {
   itemColor: '#a2c2fa',
-  itemHeader: 'L E E R',
+  itemHeader: itemName,
   itemMediaList: ITEM_MEDIA_LIST,
   itemSizesList: ITEM_SIZES_LIST,
   itemDescription: ITEM_DESCRIPTION,
@@ -45,5 +47,5 @@ export default {
     artist: COLLABORATOR,
     social: COLLABORATOR_SOCIAL
   },
-  key: 'LEER-' + nanoid()
+  key: itemName + '-' + nanoid()
 } as CatalogItem

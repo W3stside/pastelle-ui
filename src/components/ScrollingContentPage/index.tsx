@@ -6,7 +6,7 @@ import clamp from 'lodash.clamp'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { ChevronUp, ChevronDown } from 'react-feather'
-import { useSprings, a } from '@react-spring/web'
+import { useSprings, a, config } from '@react-spring/web'
 import { FixedAnimatedLoader } from 'components/Loader'
 import useDebounce from 'hooks/useDebounce'
 
@@ -136,52 +136,112 @@ export function useWheelScrollAnimation(data: any[]) {
     componentRef
   }
 }
-const SPRING_CONFIG = undefined // { tension: 600, friction: 300 }
+const SPRING_CONFIG = { ...config.stiff, tension: 260 }
+/**
+ *
+ * @param a input
+ * @param b constraint 1 (can be low or high)
+ * @param c constraint 2 (can be low or high)
+ * @returns number closer to b or c
+ */
+const _closerTo = (a: number, b: number, c: number) => (Math.abs(c - a) >= Math.abs(b - a) ? b : c)
+function _getLimits(point: number, mult: number): number[] {
+  const range = point / mult
+  const highPoint = mult * Math.ceil(range)
+  const bounds = [highPoint - mult, highPoint]
+
+  return bounds
+}
+function _calcAnchorPos(point: number, mult: number) {
+  const [limitA, limitB] = _getLimits(point, mult)
+
+  return _closerTo(point, limitA, limitB)
+}
+
+function _getNearestAxisPoint(point: number, multiple: number) {
+  const anchorPoint = _calcAnchorPos(point, multiple)
+
+  return anchorPoint
+}
+interface ScrollSpringParams {
+  i: number
+  y: number
+  dy: number
+  my: number
+  active: boolean
+  firstVis: number
+  firstVisIdx: number
+}
+
 export function useViewPagerAnimation({ items, visible = 0 }: any) {
   const prev = useRef([0, 1])
   const targetRef = useRef<HTMLDivElement | null>(null)
   const [target, setRef] = useState<HTMLDivElement>()
   const [height, setHeight] = useState<number>(0)
-  const [currentIndex, setCurrentIndex] = useState(prev.current[0])
 
+  // set container ref height to state
+  useEffect(() => {
+    if (targetRef?.current?.clientWidth) {
+      setRef(targetRef.current ?? undefined)
+    }
+
+    target?.clientHeight && setHeight(target.clientHeight)
+  }, [target?.clientHeight])
+
+  const [currentIndex, setCurrentIndex] = useState(prev.current[0])
   const currentIndexDebounced = useDebounce(currentIndex, 400)
 
   const getIndex = useCallback((y, l = items.length) => (y < 0 ? y + l : y) % l, [items])
   const getPos = useCallback((i, firstVisible, firstVisibleIndex) => getIndex(i - firstVisible + firstVisibleIndex), [
     getIndex
   ])
-  const [springs, api] = useSprings(items.length, i => ({ y: (i < items.length - 1 ? i : -1) * height }), [])
-  // set container ref height to state
-  useEffect(() => {
-    if (targetRef?.current?.clientWidth) {
-      setRef(targetRef.current ?? undefined)
-      setHeight(targetRef.current.clientHeight)
-    }
-  }, [])
+
+  // const [nearestYAnchorPoint, setNearestYAnchorPoint] = useState(0)
+  // const debouncedNYPoint = useDebounce(nearestYAnchorPoint, 100)
+
+  const [springs, api] = useSprings(
+    items.length,
+    i => ({
+      scale: 1,
+      y: (i < items.length - 1 ? i : -1) * height
+    }),
+    [height]
+  )
+
+  const calculateApiLogic = useCallback(
+    ({ i, y, dy, my, active, firstVis, firstVisIdx }: ScrollSpringParams) => {
+      const position = getPos(i, firstVis, firstVisIdx)
+      const prevPosition = getPos(i, prev.current[0], prev.current[1])
+      const rank = firstVis - (y < 0 ? items.length : 0) + position - firstVisIdx
+      // const configPos = dy > 0 ? position : items.length - position
+      const yPos = clamp((-y % (height * items.length)) + height * rank, -height, height)
+      const scale = active ? Math.max(1 - Math.abs(my) / height / 2, 0.8) : 1
+
+      const anchorPoint = _getNearestAxisPoint(yPos, height)
+
+      return {
+        y: active ? yPos : anchorPoint,
+        scale,
+        immediate: dy < 0 ? prevPosition > position : prevPosition < position,
+        // config: { tension: (1 + items.length - configPos) * 600, friction: 30 + configPos * 40 }
+        config: SPRING_CONFIG
+      }
+    },
+    [getPos, height, items.length]
+  )
 
   const runSprings = useCallback(
-    (y, dy) => {
-      const firstVisible = getIndex(Math.floor(y / height) % items.length)
-      const firstVisibleIndex = dy < 0 ? items.length - visible - 1 : 1
+    (y, dy, my, active) => {
+      const itemPosition = Math.floor(y / height) % items.length
+      const firstVis = getIndex(itemPosition)
+      const firstVisIdx = dy < 0 ? items.length - visible - 1 : 1
 
-      api.start(i => {
-        const position = getPos(i, firstVisible, firstVisibleIndex)
-        const prevPosition = getPos(i, prev.current[0], prev.current[1])
-        const rank = firstVisible - (y < 0 ? items.length : 0) + position - firstVisibleIndex
-        const configPos = dy > 0 ? position : items.length - position
-        const yAxis = (-y % (height * items.length)) + height * rank
+      api.start(i => calculateApiLogic({ i, y, dy, my, active, firstVis, firstVisIdx }))
 
-        return {
-          y: yAxis,
-          immediate: dy < 0 ? prevPosition > position : prevPosition < position,
-          // config: { tension: (1 + items.length - configPos) * 600, friction: 30 + configPos }
-          config: SPRING_CONFIG || { tension: 600, friction: 30 + configPos * 80 }
-        }
-      })
-      prev.current = [firstVisible, firstVisibleIndex]
+      prev.current = [firstVis, firstVisIdx]
       setCurrentIndex(prev.current[0])
     },
-    [getIndex, height, items.length, visible, api, getPos]
+    [height, items.length, getIndex, visible, api, calculateApiLogic]
   )
 
   const wheelOffset = useRef(0)
@@ -189,21 +249,26 @@ export function useViewPagerAnimation({ items, visible = 0 }: any) {
 
   useGesture(
     {
-      onDrag: ({ offset: [, y], direction: [, dy] }) => {
+      onDrag: ({ active, offset: [, y], movement: [, my], direction: [, dy] }) => {
         if (dy) {
-          dragOffset.current = -y
-          runSprings(wheelOffset.current + -y, -dy)
+          const aY = _getNearestAxisPoint(y, height)
+          dragOffset.current = -aY ?? -y
+          runSprings(wheelOffset.current + -y, -dy, -my, active)
         }
       },
-      onWheel: ({ event, offset: [, y], direction: [, dy] }) => {
+      onWheel: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
         event.preventDefault()
         if (dy) {
-          wheelOffset.current = y
-          runSprings(dragOffset.current + y, dy)
+          const aY = _getNearestAxisPoint(y, height)
+          wheelOffset.current = aY ?? y
+          runSprings(dragOffset.current + y, dy, my, active)
         }
       }
     },
-    { target, eventOptions: { passive: false } }
+    {
+      target,
+      eventOptions: { passive: false }
+    }
   )
 
   return {
@@ -226,13 +291,13 @@ export function ScrollingContentPage<D>({ data, dataItem, IterableComponent }: P
 
   return (
     <ArticleFadeInContainer>
-      <FixedAnimatedLoader loadText="PASTELLE APPAREL" left="50%" />
+      <FixedAnimatedLoader loadText="PASTELLE APPAREL" left="50%" animation />
       <ScrollerContainer>
         {/* scroll div */}
         {<Scroller ref={targetRef} />}
-        {springs.map(({ y }, i) => {
+        {springs.map(({ y, scale }, i) => {
           return (
-            <AnimatedDivContainer key={i} style={{ height, y }}>
+            <AnimatedDivContainer key={i} style={{ scale, height, y }}>
               <IterableComponent isActive={currentIndex === i} itemIndex={currentIndex} key={i} {...data[i]} />
             </AnimatedDivContainer>
           )

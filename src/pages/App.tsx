@@ -18,7 +18,7 @@ import { FixedAnimatedLoader } from 'components/Loader'
 // Redirects to swap but only replace the pathname
 const DEFAULT_CATALOG_YEAR = '2022'
 const DEFAULT_CATALOG_SEASON = 'FALL'
-const DEFAULT_CATALOG_START_ITEM = 'LEER'
+const DEFAULT_CATALOG_START_ITEM = 'VIRGIL'
 export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
   return (
     <Redirect

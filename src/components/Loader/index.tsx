@@ -35,9 +35,14 @@ const FixedContainer = styled.div<StyleParams>`
   right: ${({ right = '25%' }) => right};
 `
 
-export const FixedAnimatedLoader = ({ loadText, ...styleParams }: { loadText: ReactNode } & StyleParams) => (
+export const FixedAnimatedLoader = ({
+  loadText,
+  animation = true,
+  animationDelay = false,
+  ...styleParams
+}: { loadText: ReactNode; animation?: boolean; animationDelay?: boolean } & StyleParams) => (
   <FixedContainer {...styleParams}>
-    <ItemHeader itemColor="#FFBEBC" animation animationDelay={false}>
+    <ItemHeader itemColor="#FFBEBC" animation={animation} animationDelay={animationDelay}>
       {loadText}
     </ItemHeader>
   </FixedContainer>

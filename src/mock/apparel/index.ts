@@ -1,16 +1,16 @@
 import { CatalogSeasonsMap } from './types'
 // APPAREL DATA
-import LEER from 'mock/apparel/leer'
-import SOLA from 'mock/apparel/estrela'
+import VIRGIL from 'mock/apparel/virgil'
+import ELLEX from 'mock/apparel/ellex'
+import WITCH from 'mock/apparel/witch'
 
 const catalogItems: Map<number | string, Partial<CatalogSeasonsMap>> = new Map()
 
 catalogItems.set('2022', {
   FALL: {
-    LEER,
-    SOLA,
-    LEER2: LEER,
-    SOLA2: SOLA
+    VIRGIL,
+    ELLEX,
+    WITCH
   }
 })
 

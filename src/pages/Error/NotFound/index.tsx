@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import ButtonPrimary from 'components/Button'
-import pastelle404IMG from 'assets/apparel/leer/images/back-large.jpg'
+import pastelle404IMG from 'assets/apparel/virgil/images/back-large.jpg'
 import { ItemHeader } from 'pages/SingleItem/styleds'
 
 const Container = styled.div`
