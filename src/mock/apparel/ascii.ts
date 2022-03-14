@@ -30,7 +30,7 @@ const ITEM_DESCRIPTION = [`...`, `...`, `Home grown in LX @ pastelle labs`]
 const itemName = 'ASCII'
 
 export default {
-  itemColor: '#75bf39',
+  itemColor: '#8f55e999',
   itemHeader: itemName,
   itemMediaList: ITEM_MEDIA_LIST,
   itemSizesList: ITEM_SIZES_LIST,
