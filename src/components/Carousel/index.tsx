@@ -17,8 +17,9 @@ export default function Carousel({
   mediaStartIndex,
   onCarouselChange
 }: CarouselProps) {
-  const [selectedStep, setSelectedStep] = useState(mediaStartIndex)
+  const [ref, setRef] = useState<HTMLDivElement>()
   const [parentWidth, setParentWidth] = useState<number | undefined>()
+  const [selectedStep, setSelectedStep] = useState(mediaStartIndex)
 
   const { isMultipleCarousel, lastStepIndex } = useMemo(
     () => ({
@@ -29,19 +30,30 @@ export default function Carousel({
   )
   // get a ref to the carouselImageboi
   const carouselImageRef = useRef<HTMLImageElement | null>(null)
-  useEffect(() => {
-    carouselImageRef.current?.focus()
-  }, [])
-  // get a ref to the carouselboi
   const carouselRef = useRef<HTMLDivElement | null>(null)
+
+  // set ref states and focus carousel
+  useEffect(() => {
+    setRef(carouselRef.current ?? undefined)
+    setParentWidth(ref?.parentElement?.offsetWidth)
+
+    ref?.focus()
+  }, [ref])
+
+  // get a ref to the carouselboi
   // we need to hold and updated cache of the carousel parent's width in px
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (carouselRef.current) {
-      const { parentElement } = carouselRef.current
-      setParentWidth(parentElement?.offsetWidth)
+    function handleResize() {
+      setParentWidth(ref?.parentElement?.offsetWidth)
     }
-  })
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [parentWidth, ref?.parentElement?.offsetWidth])
 
   return (
     <CarouselContainer id="#carousel-container" ref={carouselRef} fixedHeight={fixedHeight}>

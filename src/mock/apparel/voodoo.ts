@@ -1,15 +1,15 @@
 import { nanoid } from '@reduxjs/toolkit'
 // IMAGES
-import FRONT_IMAGE_LARGE from 'assets/apparel/witch/images/front-large.jpg'
-import BACK_IMAGE_LARGE from 'assets/apparel/witch/images/back-large.jpg'
-import FRONT_IMAGE_SMALL from 'assets/apparel/witch/images/front-small.jpg'
-import BACK_IMAGE_SMALL from 'assets/apparel/witch/images/back-small.jpg'
-// import LOGO from 'assets/apparel/witch/images/logo.png'
+import FRONT_IMAGE_LARGE from 'assets/apparel/voodoo/images/front-large.png'
+import BACK_IMAGE_LARGE from 'assets/apparel/voodoo/images/back-large.png'
+import FRONT_IMAGE_SMALL from 'assets/apparel/voodoo/images/front-small.png'
+import BACK_IMAGE_SMALL from 'assets/apparel/voodoo/images/back-small.png'
+import LOGO from 'assets/apparel/voodoo/images/logo.png'
 // VIDEO
-import BACK_VIDEO from 'assets/apparel/witch/video/front.webm'
-import FRONT_VIDEO from 'assets/apparel/witch/video/back.webm'
-import FRONT_VIDEO_POSTER from 'assets/apparel/witch/video/front-poster-lq.jpg'
-import BACK_VIDEO_POSTER from 'assets/apparel/witch/video/back-poster-lq.jpg'
+import BACK_VIDEO from 'assets/apparel/voodoo/video/front.webm'
+import FRONT_VIDEO from 'assets/apparel/voodoo/video/back.webm'
+import FRONT_VIDEO_POSTER from 'assets/apparel/voodoo/video/front-poster-lq.jpg'
+import BACK_VIDEO_POSTER from 'assets/apparel/voodoo/video/back-poster-lq.jpg'
 // misc
 import { ApparelItem, CatalogItem } from './types'
 // import { SocialType } from './types'
@@ -33,12 +33,12 @@ const ITEM_DESCRIPTION = [
   `Home grown in LX @ pastelle labs`
 ]
 
-const itemName = 'WITCH'
+const itemName = 'VOODOO'
 
 export default {
   itemColor: '#8f55e999',
   itemHeader: itemName,
-  // itemLogo: LOGO,
+  itemLogo: LOGO,
   itemMediaList: ITEM_MEDIA_LIST.reverse(),
   itemSizesList: ITEM_SIZES_LIST,
   itemDescription: ITEM_DESCRIPTION,

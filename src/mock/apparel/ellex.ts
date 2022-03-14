@@ -1,9 +1,9 @@
 import { nanoid } from '@reduxjs/toolkit'
 // IMAGES
-import FRONT_IMAGE_LARGE from 'assets/apparel/ellex/images/front-large.jpg'
-import BACK_IMAGE_LARGE from 'assets/apparel/ellex/images/back-large.jpg'
-import FRONT_IMAGE_SMALL from 'assets/apparel/ellex/images/front-small.jpg'
-import BACK_IMAGE_SMALL from 'assets/apparel/ellex/images/back-small.jpg'
+import FRONT_IMAGE_LARGE from 'assets/apparel/ellex/images/front-large.png'
+import BACK_IMAGE_LARGE from 'assets/apparel/ellex/images/back-large.png'
+import FRONT_IMAGE_SMALL from 'assets/apparel/ellex/images/front-small.png'
+import BACK_IMAGE_SMALL from 'assets/apparel/ellex/images/back-small.png'
 // VIDEO
 import BACK_VIDEO from 'assets/apparel/ellex/video/front.webm'
 import FRONT_VIDEO from 'assets/apparel/ellex/video/back.webm'
