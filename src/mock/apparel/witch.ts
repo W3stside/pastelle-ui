@@ -35,7 +35,7 @@ const ITEM_DESCRIPTION = [
 const itemName = 'WITCH'
 
 export default {
-  itemColor: '#bdafd3',
+  itemColor: '#8f55e999',
   itemHeader: itemName,
   itemMediaList: ITEM_MEDIA_LIST.reverse(),
   itemSizesList: ITEM_SIZES_LIST,
