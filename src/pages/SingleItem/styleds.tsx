@@ -130,6 +130,10 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
     `}
 `
 
+export const ItemLogo = styled.img`
+  max-width: 100%;
+`
+
 export const ItemSubHeader = styled(TYPE.black).attrs(() => ({
   fontSize: 16,
   padding: 2,

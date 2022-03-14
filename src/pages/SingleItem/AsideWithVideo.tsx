@@ -5,6 +5,7 @@ import {
   ItemContainer,
   ItemAsidePanel,
   ItemHeader,
+  ItemLogo,
   ItemDescription,
   ItemCredits,
   ItemArtistInfo,
@@ -32,6 +33,7 @@ type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
 export interface ItemPageProps {
   itemColor: string
   itemHeader: string
+  itemLogo?: string
   itemMediaList: ApparelItem[]
   itemSizesList: ItemSizes[]
   itemDescription: string[]
@@ -47,6 +49,7 @@ const DEFAULT_MEDIA_START_INDEX = 0
 export default function ItemPage({
   itemColor,
   itemHeader,
+  itemLogo,
   itemMediaList,
   itemSizesList,
   itemDescription,
@@ -107,7 +110,7 @@ export default function ItemPage({
         />
         <br />
         <ItemHeader fontWeight={200} /* marginBottom={-55} */ marginTop={-55} itemColor={itemColor} animation>
-          {itemHeader}
+          {itemLogo ? <ItemLogo src={itemLogo} /> : itemHeader}
         </ItemHeader>
         <br />
         <TYPE.black

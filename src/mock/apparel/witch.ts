@@ -4,6 +4,7 @@ import FRONT_IMAGE_LARGE from 'assets/apparel/witch/images/front-large.jpg'
 import BACK_IMAGE_LARGE from 'assets/apparel/witch/images/back-large.jpg'
 import FRONT_IMAGE_SMALL from 'assets/apparel/witch/images/front-small.jpg'
 import BACK_IMAGE_SMALL from 'assets/apparel/witch/images/back-small.jpg'
+// import LOGO from 'assets/apparel/witch/images/logo.png'
 // VIDEO
 import BACK_VIDEO from 'assets/apparel/witch/video/front.webm'
 import FRONT_VIDEO from 'assets/apparel/witch/video/back.webm'
@@ -37,6 +38,7 @@ const itemName = 'WITCH'
 export default {
   itemColor: '#8f55e999',
   itemHeader: itemName,
+  // itemLogo: LOGO,
   itemMediaList: ITEM_MEDIA_LIST.reverse(),
   itemSizesList: ITEM_SIZES_LIST,
   itemDescription: ITEM_DESCRIPTION,
