@@ -7,6 +7,7 @@ import FRONT_VIDEO from 'assets/apparel/virgil/video/front.webm'
 import BACK_VIDEO from 'assets/apparel/virgil/video/back.webm'
 import FRONT_VIDEO_POSTER from 'assets/apparel/virgil/video/front-poster-lq.jpg'
 import BACK_VIDEO_POSTER from 'assets/apparel/virgil/video/back-poster-lq.jpg'
+import LOGO from 'assets/apparel/virgil/images/logo.png'
 import { ApparelItem, CatalogItem } from './types'
 import { SocialType } from './types'
 
@@ -40,6 +41,7 @@ const itemName = 'VIRGIL'
 export default {
   itemColor: '#a2c2fa',
   itemHeader: itemName,
+  itemLogo: LOGO,
   itemMediaList: ITEM_MEDIA_LIST,
   itemSizesList: ITEM_SIZES_LIST,
   itemDescription: ITEM_DESCRIPTION,
