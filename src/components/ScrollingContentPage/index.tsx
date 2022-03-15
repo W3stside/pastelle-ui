@@ -5,7 +5,6 @@ import clamp from 'lodash.clamp'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { useSprings, a, config } from '@react-spring/web'
 import { FixedAnimatedLoader } from 'components/Loader'
-import useDebounce from 'hooks/useDebounce'
 import { ScrollingIndicatorParams } from 'components/ScrollingIndicator'
 
 const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
@@ -83,37 +82,50 @@ interface ScrollSpringParams {
   firstVisIdx: number
 }
 
-export function useViewPagerAnimation({ items, visible = 0 }: any) {
+export function useViewPagerAnimation({ items, visible = 1 }: any) {
   const prev = useRef([0, 1])
   const targetRef = useRef<HTMLDivElement | null>(null)
   const [target, setRef] = useState<HTMLDivElement>()
   const [height, setHeight] = useState<number>(0)
 
   // set container ref height to state
+  // adjust clientHeight on window resize
   useEffect(() => {
-    if (targetRef?.current?.clientWidth) {
-      setRef(targetRef.current ?? undefined)
+    if (targetRef?.current && !target) {
+      setRef(targetRef.current)
     }
 
-    target?.clientHeight && setHeight(target.clientHeight)
-  }, [target?.clientHeight])
+    if (target && !height) {
+      setHeight(target.clientHeight)
+    }
+
+    // resize handler - update clientHeight
+    const _handleWindowResize = () => target?.clientHeight && setHeight(target.clientHeight)
+
+    window.addEventListener('resize', _handleWindowResize)
+
+    return () => {
+      window.removeEventListener('resize', _handleWindowResize)
+    }
+  }, [height, target])
 
   const [currentIndex, setCurrentIndex] = useState(prev.current[0])
-  const currentIndexDebounced = useDebounce(currentIndex, 400)
 
   const getIndex = useCallback((y, l = items.length) => (y < 0 ? y + l : y) % l, [items])
   const getPos = useCallback((i, firstVisible, firstVisibleIndex) => getIndex(i - firstVisible + firstVisibleIndex), [
     getIndex
   ])
 
-  // const [nearestYAnchorPoint, setNearestYAnchorPoint] = useState(0)
-  // const debouncedNYPoint = useDebounce(nearestYAnchorPoint, 100)
-
   const [springs, api] = useSprings(
     items.length,
     i => ({
       scale: 1,
-      y: (i < items.length - 1 ? i : -1) * height
+      y: (i < items.length - 1 ? i : -1) * height,
+      onRest: ({ value: { y } }) => {
+        if (y === 0 && height > 0) {
+          setCurrentIndex(i)
+        }
+      }
     }),
     [height]
   )
@@ -149,7 +161,6 @@ export function useViewPagerAnimation({ items, visible = 0 }: any) {
       api.start(i => calculateApiLogic({ i, y, dy, my, active, firstVis, firstVisIdx }))
 
       prev.current = [firstVis, firstVisIdx]
-      setCurrentIndex(prev.current[0])
     },
     [height, items.length, getIndex, visible, api, calculateApiLogic]
   )
@@ -188,7 +199,7 @@ export function useViewPagerAnimation({ items, visible = 0 }: any) {
     target,
     targetRef,
     height,
-    currentIndex: currentIndexDebounced
+    currentIndex
   }
 }
 const AnimatedDivContainer = styled(a.div)`
