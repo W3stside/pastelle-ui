@@ -1,32 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import styled from 'styled-components/macro'
 import { useGesture } from '@use-gesture/react'
-import clamp from 'lodash.clamp'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
-import { useSprings, a, config } from '@react-spring/web'
+import { useSprings, config } from '@react-spring/web'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/ScrollingIndicator'
-
-const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  width: calc(100% - 500px);
-  z-index: 900;
-
-  touch-action: none;
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    width: 100%;
-  `}
-`
-
-const ScrollerContainer = styled.div`
-  height: 100%;
-
-  transition: transform 350ms ease-in-out;
-`
+import { ScrollerContainer, Scroller, AnimatedDivContainer } from './styleds'
 
 interface ScrollingContentPageParams<D> {
   data: D[]
@@ -85,6 +63,8 @@ interface ScrollSpringParams {
 export function useViewPagerAnimation({ items, visible = 1 }: any) {
   const prev = useRef([0, 1])
   const targetRef = useRef<HTMLDivElement | null>(null)
+
+  const [currentIndex, setCurrentIndex] = useState(prev.current[0])
   const [target, setRef] = useState<HTMLDivElement>()
   const [height, setHeight] = useState<number>(0)
 
@@ -101,20 +81,12 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
 
     // resize handler - update clientHeight
     const _handleWindowResize = () => target?.clientHeight && setHeight(target.clientHeight)
-
     window.addEventListener('resize', _handleWindowResize)
 
     return () => {
       window.removeEventListener('resize', _handleWindowResize)
     }
   }, [height, target])
-
-  const [currentIndex, setCurrentIndex] = useState(prev.current[0])
-
-  const getIndex = useCallback((y, l = items.length) => (y < 0 ? y + l : y) % l, [items])
-  const getPos = useCallback((i, firstVisible, firstVisibleIndex) => getIndex(i - firstVisible + firstVisibleIndex), [
-    getIndex
-  ])
 
   const [springs, api] = useSprings(
     items.length,
@@ -130,13 +102,18 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
     [height]
   )
 
+  const getIndex = useCallback((y, l = items.length) => (y < 0 ? y + l : y) % l, [items])
+  const getPos = useCallback((i, firstVisible, firstVisibleIndex) => getIndex(i - firstVisible + firstVisibleIndex), [
+    getIndex
+  ])
+
   const calculateApiLogic = useCallback(
     ({ i, y, dy, my, active, firstVis, firstVisIdx }: ScrollSpringParams) => {
       const position = getPos(i, firstVis, firstVisIdx)
       const prevPosition = getPos(i, prev.current[0], prev.current[1])
       const rank = firstVis - (y < 0 ? items.length : 0) + position - firstVisIdx
       // const configPos = dy > 0 ? position : items.length - position
-      const yPos = clamp((-y % (height * items.length)) + height * rank, -height, height)
+      const yPos = (-y % (height * items.length)) + height * rank
       const scale = active ? Math.max(1 - Math.abs(my) / height / 2, 0.8) : 1
 
       const anchorPoint = _getNearestAxisPoint(yPos, height)
@@ -180,6 +157,7 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
       },
       onWheel: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
         event.preventDefault()
+
         if (dy) {
           const aY = _getNearestAxisPoint(y, height)
           wheelOffset.current = aY ?? y
@@ -202,11 +180,7 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
     currentIndex
   }
 }
-const AnimatedDivContainer = styled(a.div)`
-  position: absolute;
-  width: 100%;
-  will-change: transform;
-`
+
 export function ScrollingContentPage<D>({ data, dataItem, IterableComponent, ...indicatorProps }: Params<D>) {
   const { springs, targetRef, height, currentIndex } = useViewPagerAnimation({ items: data, visible: 1 })
 

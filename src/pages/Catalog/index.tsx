@@ -1,8 +1,9 @@
-import { AsideWithVideo } from 'pages/SingleItem'
-
+// import { lazy, Suspense } from 'react'
 import { useCatalogItemFromURL } from './hooks'
-
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
+
+// const AsideWithVideo = lazy(() => import('pages/SingleItem'))
+import AsideWithVideo from 'pages/SingleItem'
 
 export const BASE_CATALOG_URL = '/catalog/2022/FALL/'
 
@@ -11,6 +12,7 @@ export default function Catalog() {
   const { seasonList, currentItem } = useCatalogItemFromURL()
 
   return (
+    // <Suspense fallback={<p>Loading</p>}>
     <ScrollingContentPage
       data={seasonList}
       dataItem={currentItem}
@@ -20,5 +22,6 @@ export default function Catalog() {
       bgColor="#ffffffdb"
       onlyOne="TOP"
     />
+    // </Suspense>
   )
 }

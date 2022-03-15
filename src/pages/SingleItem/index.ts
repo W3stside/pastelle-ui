@@ -1,3 +1,3 @@
 import AsideWithVideo from './AsideWithVideo'
 
-export { AsideWithVideo }
+export default AsideWithVideo
