@@ -5,7 +5,7 @@ import clamp from 'lodash.clamp'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { useSprings, a, config } from '@react-spring/web'
 import { FixedAnimatedLoader } from 'components/Loader'
-import { ScrollingIndicatorParams } from 'components/ScrollingIndicator'
+import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/ScrollingIndicator'
 
 const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
   position: absolute;
@@ -207,7 +207,7 @@ const AnimatedDivContainer = styled(a.div)`
   width: 100%;
   will-change: transform;
 `
-export function ScrollingContentPage<D>({ data, dataItem, IterableComponent }: Params<D>) {
+export function ScrollingContentPage<D>({ data, dataItem, IterableComponent, ...indicatorProps }: Params<D>) {
   const { springs, targetRef, height, currentIndex } = useViewPagerAnimation({ items: data, visible: 1 })
 
   if (!dataItem) return null
@@ -221,6 +221,7 @@ export function ScrollingContentPage<D>({ data, dataItem, IterableComponent }: P
         {springs.map(({ y, scale }, i) => {
           return (
             <AnimatedDivContainer key={i} style={{ scale, height, y }}>
+              <ScrollingContentIndicator {...indicatorProps} />
               <IterableComponent isActive={currentIndex === i} itemIndex={currentIndex} key={i} {...data[i]} />
             </AnimatedDivContainer>
           )

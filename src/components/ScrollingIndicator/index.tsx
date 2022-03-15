@@ -1,10 +1,9 @@
 import styled from 'styled-components/macro'
-import { ChevronUp, ChevronDown } from 'react-feather'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 
 export type ScrollingIndicatorParams = ScrollingIndicatorStyleProps & {
   baseContentMessage: string
-  isLastIndex: boolean
+  onlyOne?: 'TOP' | 'BOTTOM'
 }
 
 export interface ScrollingIndicatorStyleProps {
@@ -37,16 +36,22 @@ const Wrapper = styled.div<ScrollingIndicatorStyleProps>`
 
 export function ScrollingContentIndicator({
   baseContentMessage = 'MORE CONTENT',
-  isLastIndex,
+  onlyOne,
+  // isLastIndex,
   ...styleProps
 }: ScrollingIndicatorParams) {
   return (
-    <Wrapper {...styleProps} top={isLastIndex ? '0px' : undefined} bottom={isLastIndex ? undefined : '0px'}>
-      <ItemSubHeader>
-        {baseContentMessage}
-        {isLastIndex ? ' ABOVE' : ' BELOW'}
-      </ItemSubHeader>
-      {isLastIndex ? <ChevronUp /> : <ChevronDown />}
-    </Wrapper>
+    <>
+      {onlyOne !== 'BOTTOM' && (
+        <Wrapper {...styleProps} top={'0px'}>
+          <ItemSubHeader>{baseContentMessage}</ItemSubHeader>
+        </Wrapper>
+      )}
+      {onlyOne !== 'TOP' && (
+        <Wrapper {...styleProps} bottom={'0px'}>
+          <ItemSubHeader>{baseContentMessage}</ItemSubHeader>
+        </Wrapper>
+      )}
+    </>
   )
 }

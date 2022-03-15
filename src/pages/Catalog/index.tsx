@@ -5,11 +5,7 @@ import { useCatalogItemFromURL } from './hooks'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
 
 export const BASE_CATALOG_URL = '/catalog/2022/FALL/'
-/* 
-  baseContentMessage="MORE CONTENT"
-  width="calc(100% - 500px)"
-  zIndex={100}
-*/
+
 export default function Catalog() {
   // get catalog item from data and url
   const { seasonList, currentItem } = useCatalogItemFromURL()
@@ -19,8 +15,10 @@ export default function Catalog() {
       data={seasonList}
       dataItem={currentItem}
       IterableComponent={AsideWithVideo}
-      baseContentMessage="MORE CONTENT"
+      baseContentMessage="SCROLL/DRAG FOR MORE SHIT!"
       width="calc(100% - 500px)"
+      bgColor="#ffffffdb"
+      onlyOne="TOP"
     />
   )
 }
