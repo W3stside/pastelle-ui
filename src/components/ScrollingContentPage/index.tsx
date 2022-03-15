@@ -1,16 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import styled from 'styled-components/macro'
-import { useGesture, useWheel } from '@use-gesture/react'
-import { Lethargy } from 'lethargy'
+import { useGesture } from '@use-gesture/react'
 import clamp from 'lodash.clamp'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
-import { ItemSubHeader } from 'pages/SingleItem/styleds'
-import { ChevronUp, ChevronDown } from 'react-feather'
 import { useSprings, a, config } from '@react-spring/web'
 import { FixedAnimatedLoader } from 'components/Loader'
 import useDebounce from 'hooks/useDebounce'
-
-const lethargy = new Lethargy()
+import { ScrollingIndicatorParams } from 'components/ScrollingIndicator'
 
 const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
   position: absolute;
@@ -27,7 +23,7 @@ const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
   `}
 `
 
-const ScrollerContainer = styled.div<{ index?: number; clientHeight?: number }>`
+const ScrollerContainer = styled.div`
   height: 100%;
 
   transition: transform 350ms ease-in-out;
@@ -44,97 +40,11 @@ export interface ScrollableContentComponentBaseProps {
   isActive: boolean
 }
 
-type ScrollingIndicatorParams = ScrollingIndicatorStyleProps & {
-  baseContentMessage: string
-  isLastIndex: boolean
-}
-
-interface ScrollingIndicatorStyleProps {
-  bgColor?: string
-  left?: string
-  top?: string
-  bottom?: string
-  padding?: string
-  height?: string
-  width?: string
-  zIndex?: number
-}
-
-const Wrapper = styled.div<ScrollingIndicatorStyleProps>`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${({ bgColor = '#fa9b6f' }) => bgColor};
-  color: ${({ color = '#000' }) => color};
-  right: 0;
-  ${({ left }) => left && `left: ${left};`}
-  ${({ top }) => top && `top: ${top};`}
-  ${({ bottom }) => bottom && `bottom: ${bottom};`}
-  height: ${({ height = '50px' }) => height};
-  width: ${({ width = '100%' }) => width};
-  padding: ${({ padding = '0 10px' }) => padding};
-  z-index: ${({ zIndex = 1 }) => zIndex};
-`
-
-export function ScrollingContentIndicator({
-  baseContentMessage = 'MORE CONTENT',
-  isLastIndex,
-  ...styleProps
-}: ScrollingIndicatorParams) {
-  return (
-    <Wrapper {...styleProps} top={isLastIndex ? '0px' : undefined} bottom={isLastIndex ? undefined : '0px'}>
-      <ItemSubHeader>
-        {baseContentMessage}
-        {isLastIndex ? ' ABOVE' : ' BELOW'}
-      </ItemSubHeader>
-      {isLastIndex ? <ChevronUp /> : <ChevronDown />}
-    </Wrapper>
-  )
-}
-
 type Params<P> = ScrollingContentPageParams<P> & Omit<ScrollingIndicatorParams, 'isLastIndex'>
 
-export function useWheelScrollAnimation(data: any[]) {
-  const [index, setIndex] = useState(0)
-
-  // ref to entire Catalog container
-  const componentRef = useRef<HTMLDivElement | null>(null)
-  const [ref, setRef] = useState<HTMLDivElement | undefined>()
-  // set container ref to state
-  useEffect(() => {
-    setRef(componentRef?.current ?? undefined)
-  }, [])
-
-  const bind = useWheel(
-    ({ event, last, memo: wait = false }) => {
-      if (!last) {
-        const s = lethargy.check(event)
-        if (s) {
-          if (!wait) {
-            setIndex(i => clamp(i - s, 0, data.length - 1))
-            return true
-          }
-          // TODO: check
-          return false
-        } else {
-          return false
-        }
-      } else {
-        return false
-      }
-    },
-    {
-      rubberband: 0.1
-    }
-  )
-
-  return {
-    index,
-    ref,
-    bind,
-    componentRef
-  }
+const CONFIG = {
+  SCROLL_SPEED_COEFFICIENT: 4,
+  DRAG_SPEED_COEFFICIENT: 0.5
 }
 const SPRING_CONFIG = { ...config.stiff, tension: 260 }
 /**
@@ -253,7 +163,8 @@ export function useViewPagerAnimation({ items, visible = 0 }: any) {
         if (dy) {
           const aY = _getNearestAxisPoint(y, height)
           dragOffset.current = -aY ?? -y
-          runSprings(wheelOffset.current + -y, -dy, -my, active)
+          const computedY = wheelOffset.current + -y / CONFIG.DRAG_SPEED_COEFFICIENT
+          runSprings(computedY, -dy, -my, active)
         }
       },
       onWheel: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
@@ -261,7 +172,8 @@ export function useViewPagerAnimation({ items, visible = 0 }: any) {
         if (dy) {
           const aY = _getNearestAxisPoint(y, height)
           wheelOffset.current = aY ?? y
-          runSprings(dragOffset.current + y, dy, my, active)
+          const computedY = dragOffset.current + y / CONFIG.SCROLL_SPEED_COEFFICIENT
+          runSprings(computedY, dy, my, active)
         }
       }
     },
@@ -294,7 +206,7 @@ export function ScrollingContentPage<D>({ data, dataItem, IterableComponent }: P
       <FixedAnimatedLoader loadText="PASTELLE APPAREL" left="50%" animation />
       <ScrollerContainer>
         {/* scroll div */}
-        {<Scroller ref={targetRef} />}
+        <Scroller ref={targetRef} />
         {springs.map(({ y, scale }, i) => {
           return (
             <AnimatedDivContainer key={i} style={{ scale, height, y }}>
