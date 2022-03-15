@@ -1,3 +1,4 @@
+import MainImage, { ImageProps } from 'components/MainImage'
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { CarouselContainer, CarouselStep, CarouselButtonContainer, CarouselButton } from './styleds'
@@ -6,6 +7,7 @@ type CarouselProps = {
   fixedHeight?: string
   buttonColor: string
   imageList: string[]
+  transformation: ImageProps['transformation']
   mediaStartIndex: number
   onCarouselChange?: (index: number) => void
 }
@@ -14,6 +16,7 @@ export default function Carousel({
   fixedHeight,
   buttonColor,
   imageList,
+  transformation,
   mediaStartIndex,
   onCarouselChange
 }: CarouselProps) {
@@ -58,7 +61,7 @@ export default function Carousel({
   return (
     <CarouselContainer id="#carousel-container" ref={carouselRef} fixedHeight={fixedHeight}>
       {/* CAROUSEL CONTENT */}
-      {imageList.map((image, index) => {
+      {imageList.map((path, index) => {
         if (!parentWidth) return null
         const isCurrentStep = index === selectedStep
         // has multiple steps and is on last item
@@ -98,7 +101,7 @@ export default function Carousel({
             justifyContent={'center'}
             $calculatedWidth={calculatedWidth + 'px'}
           >
-            <img src={image} ref={carouselImageRef} decoding="async" loading="lazy" />
+            <MainImage path={path} transformation={transformation} ref={carouselImageRef} />
             {isMultipleCarousel && (
               <CarouselButtonContainer>
                 <CarouselButton onClick={onPrevious} buttonColor={buttonColor}>

@@ -10,12 +10,13 @@ export enum SocialType {
 
 export type ApparelItem = {
   imageMedia: {
-    large: string
-    small: string
+    path: string
+    large: string | number
+    small: string | number
   }
   videoMedia: {
-    video: string
-    poster: string
+    path: string
+    lowq: string
   }
 }
 export type CatalogSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL'
@@ -30,4 +31,10 @@ export type CatalogSeasonsMap = {
 }
 export type CatalogItemsMap = {
   [year: string]: Partial<CatalogSeasonsMap>
+}
+export type BaseCatalogItem = {
+  year: number | string
+  season: CatalogSeason
+  name: string
+  color: string
 }

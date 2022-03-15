@@ -1,49 +1,44 @@
 import { nanoid } from '@reduxjs/toolkit'
+import { ApparelItem, BaseCatalogItem, CatalogItem } from './types'
+import { buildUrl } from './utils'
+
+const PARAMS: BaseCatalogItem = {
+  name: 'ELLEX',
+  color: '#dbbbb9',
+  season: 'FALL',
+  year: 2022
+}
+
+// APPAREL URLS
 // IMAGES
-import FRONT_IMAGE_LARGE from 'assets/apparel/ellex/images/front-large.png'
-import BACK_IMAGE_LARGE from 'assets/apparel/ellex/images/back-large.png'
-import FRONT_IMAGE_SMALL from 'assets/apparel/ellex/images/front-small.png'
-import BACK_IMAGE_SMALL from 'assets/apparel/ellex/images/back-small.png'
+const BACK_IMAGE = 'back-large_664zvVTRG.png'
+const FRONT_IMAGE = 'front-large_Cms4yOswP.png'
 // VIDEO
-import BACK_VIDEO from 'assets/apparel/ellex/video/front.webm'
-import FRONT_VIDEO from 'assets/apparel/ellex/video/back.webm'
-import FRONT_VIDEO_POSTER from 'assets/apparel/ellex/video/front-poster-lq.jpg'
-import BACK_VIDEO_POSTER from 'assets/apparel/ellex/video/back-poster-lq.jpg'
-// misc
-import { ApparelItem, CatalogItem } from './types'
-import { SocialType } from './types'
+const BACK_VIDEO = 'back_W76cqDjaR.webm'
+const FRONT_VIDEO = 'front_qNOpNgd2z.webm'
 
 const ITEM_MEDIA_LIST: ApparelItem[] = [
   // FRONT CONTENT
   {
-    imageMedia: { large: FRONT_IMAGE_LARGE, small: FRONT_IMAGE_SMALL },
-    videoMedia: { video: FRONT_VIDEO, poster: FRONT_VIDEO_POSTER }
+    imageMedia: { path: buildUrl(PARAMS, 'IMAGES', FRONT_IMAGE), large: 2000, small: 500 },
+    videoMedia: { path: buildUrl(PARAMS, 'VIDEOS', FRONT_VIDEO), lowq: 'q-10' }
   },
   // BACK CONTENT
   {
-    imageMedia: { large: BACK_IMAGE_LARGE, small: BACK_IMAGE_SMALL },
-    videoMedia: { video: BACK_VIDEO, poster: BACK_VIDEO_POSTER }
+    imageMedia: { path: buildUrl(PARAMS, 'IMAGES', BACK_IMAGE), large: 2000, small: 500 },
+    videoMedia: { path: buildUrl(PARAMS, 'VIDEOS', BACK_VIDEO), lowq: 'q-10' }
   }
 ]
 const ITEM_SIZES_LIST = ['LARGE', 'MEDIUM', 'SMALL']
 const ITEM_DESCRIPTION = [`LADY ESTRELA. LEFT. ALONE.`, `Home grown in LX. @full_flex`]
 
-const COLLABORATOR = 'Felix Lutsch'
-const COLLABORATOR_SOCIAL = [
-  { type: SocialType.INSTAGRAM, url: 'https://instagram.com/full_flex', display: '@full_flex' }
-]
-
-const itemName = 'ELLEX'
-
 export default {
-  itemColor: '#dbbbb9',
-  itemHeader: itemName,
+  itemColor: PARAMS.color,
+  itemHeader: PARAMS.name,
+  itemLogo: undefined,
   itemMediaList: ITEM_MEDIA_LIST.reverse(),
   itemSizesList: ITEM_SIZES_LIST,
   itemDescription: ITEM_DESCRIPTION,
-  itemArtistInfo: {
-    artist: COLLABORATOR,
-    social: COLLABORATOR_SOCIAL
-  },
-  key: itemName + '-' + nanoid()
+  itemArtistInfo: undefined,
+  key: PARAMS.name + '-' + nanoid()
 } as CatalogItem

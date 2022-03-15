@@ -6,6 +6,7 @@ declare module '@metamask/jazzicon' {
 
 declare module 'fortmatic'
 declare module 'lethargy'
+declare module 'imagekitio-react'
 
 interface Window {
   ethereum?: {

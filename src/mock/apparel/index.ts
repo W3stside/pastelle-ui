@@ -3,7 +3,7 @@ import { CatalogSeasonsMap } from './types'
 import VIRGIL from 'mock/apparel/virgil'
 import ELLEX from 'mock/apparel/ellex'
 import VOODOO from 'mock/apparel/voodoo'
-import ASCII from 'mock/apparel/ascii'
+import REBIRTH from 'mock/apparel/rebirth'
 
 const catalogItems: Map<number | string, Partial<CatalogSeasonsMap>> = new Map()
 
@@ -12,7 +12,7 @@ catalogItems.set('2022', {
     VIRGIL,
     ELLEX,
     VOODOO,
-    ASCII
+    REBIRTH
   }
 })
 

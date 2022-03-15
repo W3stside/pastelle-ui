@@ -1,11 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
   ItemContainer,
   ItemAsidePanel,
   ItemHeader,
-  ItemLogo,
   ItemDescription,
   ItemCredits,
   ItemArtistInfo,
@@ -26,6 +25,7 @@ import { ApplicationModal } from 'state/application/reducer'
 import { ItemVideoContent } from './ItemVideoContent'
 import { useCatalogItemFromURL, useUpdateURLFromCatalogItem } from 'pages/Catalog/hooks'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
+import MainImage from 'components/MainImage'
 
 // TODO: move to APPAREL TYPES or sth
 type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
@@ -73,9 +73,9 @@ export default function ItemPage({
     const smallImagesList: string[] = []
     const largeImagesList: string[] = []
 
-    itemMediaList.forEach(({ imageMedia: { small, large } }) => {
-      smallImagesList.push(small)
-      largeImagesList.push(large)
+    itemMediaList.forEach(({ imageMedia: { path } }) => {
+      smallImagesList.push(path)
+      largeImagesList.push(path)
     })
 
     return { smallImagesList, largeImagesList }
@@ -86,9 +86,12 @@ export default function ItemPage({
   // update URL (if necessary) to reflect current item
   useUpdateURLFromCatalogItem({ seasonList, currentItem, isActive, itemIndex, itemKey: itemHeader })
 
+  const asideRef = useRef<HTMLDivElement | null>(null)
+  const getAsideWidth = useCallback(() => asideRef.current?.clientWidth, [])
+
   return (
     <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ style={style}>
-      <ItemAsidePanel id="#item-aside-panel">
+      <ItemAsidePanel id="#item-aside-panel" ref={asideRef}>
         {/* BREADCRUMBS */}
         <Row marginBottom={-25} style={{ zIndex: 100 }} padding="5px">
           {breadcrumbs?.map((crumb, index) => {
@@ -105,12 +108,13 @@ export default function ItemPage({
         <Carousel
           buttonColor={itemColor}
           imageList={smallImagesList}
+          transformation={[{ width: itemMediaList[0].imageMedia.small }]}
           mediaStartIndex={currentCarouselIndex}
           onCarouselChange={onCarouselChange}
         />
         <br />
         <ItemHeader fontWeight={200} /* marginBottom={-55} */ marginTop={-55} itemColor={itemColor} animation>
-          {itemLogo ? <ItemLogo src={itemLogo} /> : itemHeader}
+          {itemLogo ? <MainImage path={itemLogo} transformation={[{ width: getAsideWidth() || 500 }]} /> : itemHeader}
         </ItemHeader>
         <br />
         <TYPE.black
@@ -173,6 +177,7 @@ export default function ItemPage({
         <Carousel
           buttonColor={itemColor}
           imageList={largeImagesList}
+          transformation={[{ width: itemMediaList[0].imageMedia.large }]}
           mediaStartIndex={currentCarouselIndex}
           onCarouselChange={onCarouselChange}
           fixedHeight="auto"

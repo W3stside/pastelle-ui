@@ -53,13 +53,14 @@ export const ItemVideoContent = ({
   return (
     <>
       <VideoContentWrapper id="#video-content-wrapper" hide={hide}>
-        {itemMediaList.map(({ videoMedia: { video, poster } }, index) => {
+        {itemMediaList.map(({ videoMedia: { path, lowq } }, index) => {
           const isSelected = index === currentCarouselIndex
           if (!isSelected) return null
 
           return (
-            <video loop muted autoPlay key={index} poster={poster} ref={videoRef}>
-              <source src={video} type="video/webm" />
+            <video loop muted autoPlay key={index} /* poster={poster} */ ref={videoRef}>
+              <source src={process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path + '?tr=' + lowq} type="video/webm" />
+              <source src={process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path} type="video/webm" />
               {/* <source src={videoMP4} type="video/mp4" /> */}
             </video>
           )

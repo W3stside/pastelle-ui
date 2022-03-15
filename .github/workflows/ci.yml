@@ -12,6 +12,11 @@ on:
 env:
   REPO_NAME_SLUG: pastelle-ui
   PR_NUMBER: ${{ github.event.number }}
+  REACT_APP_INFURA_KEY: ${{ secrets.REACT_APP_INFURA_KEY }}
+  REACT_APP_SUPPORTED_CHAIN_IDS: ${{ secrets.REACT_APP_SUPPORTED_CHAIN_IDS }}
+  REACT_APP_IMAGEKIT_PUBLIC_KEY: ${{ secrets.REACT_APP_IMAGEKIT_PUBLIC_KEY }}
+  REACT_APP_IMAGEKIT_PRIVATE_KEY: ${{ secrets.REACT_APP_IMAGEKIT_PRIVATE_KEY }}
+  REACT_APP_IMAGEKIT_URL_ENDPOINT: ${{ secrets.REACT_APP_IMAGEKIT_URL_ENDPOINT }}
 
 jobs:
   setup:
@@ -132,7 +137,7 @@ jobs:
         with:
           eslint: true
           prettier: true
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           auto_fix: ${{ github.event_name == 'pull_request' }}
 
   deploy:

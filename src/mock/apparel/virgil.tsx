@@ -1,24 +1,35 @@
 import { nanoid } from '@reduxjs/toolkit'
-import FRONT_IMAGE_LARGE from 'assets/apparel/virgil/images/front-large.png'
-import BACK_IMAGE_LARGE from 'assets/apparel/virgil/images/back-large.png'
-import FRONT_IMAGE_SMALL from 'assets/apparel/virgil/images/front-small.png'
-import BACK_IMAGE_SMALL from 'assets/apparel/virgil/images/back-small.png'
-import FRONT_VIDEO from 'assets/apparel/virgil/video/front.webm'
-import BACK_VIDEO from 'assets/apparel/virgil/video/back.webm'
-import FRONT_VIDEO_POSTER from 'assets/apparel/virgil/video/front-poster-lq.jpg'
-import BACK_VIDEO_POSTER from 'assets/apparel/virgil/video/back-poster-lq.jpg'
-import LOGO from 'assets/apparel/virgil/images/logo.png'
-import { ApparelItem, CatalogItem } from './types'
-import { SocialType } from './types'
+
+import { ApparelItem, CatalogItem, BaseCatalogItem, SocialType } from './types'
+import { buildUrl } from './utils'
+
+const PARAMS: BaseCatalogItem = {
+  name: 'VIRGIL',
+  // itemColor: '#a2c2fa',
+  color: '#427da2',
+  season: 'FALL',
+  year: 2022
+}
+
+// APPAREL URLS
+const LOGO = 'logo__cCch4BKNb8.png'
+// IMAGES
+const BACK_IMAGE = 'back-large_DSW6FgIcg.png'
+const FRONT_IMAGE = 'front-large_Z9l3Rr7SR.png'
+// VIDEO
+const BACK_VIDEO = 'back_W76cqDjaR.webm'
+const FRONT_VIDEO = 'front_qNOpNgd2z.webm'
 
 const ITEM_MEDIA_LIST: ApparelItem[] = [
+  // FRONT CONTENT
   {
-    imageMedia: { large: FRONT_IMAGE_LARGE, small: FRONT_IMAGE_SMALL },
-    videoMedia: { video: FRONT_VIDEO, poster: FRONT_VIDEO_POSTER }
+    imageMedia: { path: buildUrl(PARAMS, 'IMAGES', FRONT_IMAGE), large: 2000, small: 500 },
+    videoMedia: { path: buildUrl(PARAMS, 'VIDEOS', FRONT_VIDEO), lowq: 'q-10' }
   },
+  // BACK CONTENT
   {
-    imageMedia: { large: BACK_IMAGE_LARGE, small: BACK_IMAGE_SMALL },
-    videoMedia: { video: BACK_VIDEO, poster: BACK_VIDEO_POSTER }
+    imageMedia: { path: buildUrl(PARAMS, 'IMAGES', BACK_IMAGE), large: 2000, small: 500 },
+    videoMedia: { path: buildUrl(PARAMS, 'VIDEOS', BACK_VIDEO), lowq: 'q-10' }
   }
 ]
 const ITEM_SIZES_LIST = ['LARGE', 'MEDIUM', 'SMALL']
@@ -36,13 +47,10 @@ const COLLABORATOR_SOCIAL = [
   { type: SocialType.INSTAGRAM, url: 'https://instagram.com/mathieusato', display: '@mathieusato' }
 ]
 
-const itemName = 'VIRGIL'
-
 export default {
-  // itemColor: '#a2c2fa',
-  itemColor: '#427da2',
-  itemHeader: itemName,
-  itemLogo: LOGO,
+  itemColor: PARAMS.color,
+  itemHeader: PARAMS.name,
+  itemLogo: buildUrl(PARAMS, 'IMAGES', LOGO),
   itemMediaList: ITEM_MEDIA_LIST,
   itemSizesList: ITEM_SIZES_LIST,
   itemDescription: ITEM_DESCRIPTION,
@@ -50,5 +58,5 @@ export default {
     artist: COLLABORATOR,
     social: COLLABORATOR_SOCIAL
   },
-  key: itemName + '-' + nanoid()
+  key: PARAMS.name + '-' + nanoid()
 } as CatalogItem

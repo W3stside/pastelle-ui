@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import ButtonPrimary from 'components/Button'
-import pastelle404IMG from 'assets/apparel/virgil/images/back-large.jpg'
 import { ItemHeader } from 'pages/SingleItem/styleds'
+import MainImage from 'components/MainImage'
+
+const pastelle404IMG = '/APPAREL/2022/FALL/REBIRTH/IMAGES/front-large_Xp_n4aZ6fdS.png'
 
 const Container = styled.div`
   padding: 2rem;
@@ -40,7 +42,7 @@ export default function NotFound() {
     <article>
       <Container>
         <ItemHeader itemColor="#000">PAGE NOT FOUND!</ItemHeader>
-        <img src={pastelle404IMG} alt="Pastelle 404 not found" />
+        <MainImage path={pastelle404IMG} />
         <h2>The page you are looking for does not exist. </h2>
         <ButtonPrimary as={Link} to={'/'}>
           Back home
