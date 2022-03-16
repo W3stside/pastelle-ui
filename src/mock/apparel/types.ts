@@ -20,7 +20,7 @@ export type ApparelItem = {
   }
 }
 export type CatalogSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL'
-export type CatalogItem = ItemPageProps & { season: CatalogSeason; key: string }
+export type CatalogItem = ItemPageProps & { key: string }
 // returns { ITEM_NAME: ITEM_OBJECT }
 export type CatalogSeasonItemMap = {
   [item: string]: CatalogItem
@@ -37,4 +37,25 @@ export type BaseCatalogItem = {
   season: CatalogSeason
   name: string
   color: string
+}
+
+export type CollaboratorSocialData = { type: SocialType; url: string; display: string }[]
+
+export type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
+export type ItemMetadata = BaseCatalogItem & {
+  description: string[]
+  collaborator?: string
+  social?: CollaboratorSocialData
+}
+
+export type ItemMediaContent = {
+  logo?: string
+  images: {
+    front: string
+    back: string
+  }
+  videos: {
+    front: string
+    back: string
+  }
 }

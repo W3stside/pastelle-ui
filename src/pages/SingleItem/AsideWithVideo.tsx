@@ -14,7 +14,7 @@ import {
   ItemBreadcrumb
 } from './styleds'
 
-import { ApparelItem, SocialType } from 'mock/apparel/types'
+import { ApparelItem, CollaboratorSocialData, ItemSizes } from 'mock/apparel/types'
 import { TYPE } from 'theme'
 import { /* darken, */ transparentize } from 'polished'
 import { useBreadcrumb } from 'components/Breadcrumb'
@@ -27,9 +27,6 @@ import { useCatalogItemFromURL, useUpdateURLFromCatalogItem } from 'pages/Catalo
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import MainImage from 'components/MainImage'
 
-// TODO: move to APPAREL TYPES or sth
-type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
-
 export interface ItemPageProps {
   itemColor: string
   itemHeader: string
@@ -39,7 +36,7 @@ export interface ItemPageProps {
   itemDescription: string[]
   itemArtistInfo?: {
     artist: string
-    social: { type: SocialType; url: string; display: string }[]
+    social: CollaboratorSocialData
   }
 }
 
