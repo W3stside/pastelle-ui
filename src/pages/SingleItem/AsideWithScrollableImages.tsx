@@ -6,6 +6,7 @@ import { TYPE } from 'theme'
 import { ThemeModes } from 'theme/styled'
 import { getThemeColours } from 'theme/utils'
 import { ItemContainer, ItemAsidePanel, ItemHeader } from './styleds'
+import MainImage, { ImageKitTransformation } from 'components/MainImage'
 
 const AsideWithScrollableImagesContainer = styled(ItemContainer)`
   > ${ItemAsidePanel} {
@@ -42,7 +43,7 @@ const AboutUsTextContainer = styled(Row)`
 interface Params {
   header: ReactNode
   markdown: string
-  image: string
+  image: { path: string; transformation?: ImageKitTransformation }
   key: string
 }
 
@@ -60,7 +61,7 @@ export function AsideWithScrollableImages({ header, markdown, image }: Params) {
         </AboutUsTextContainer>
       </ItemAsidePanel>
       <ImageContainer>
-        <img src={image} />
+        <MainImage path={image.path} transformation={image.transformation} />
       </ImageContainer>
     </AsideWithScrollableImagesContainer>
   )

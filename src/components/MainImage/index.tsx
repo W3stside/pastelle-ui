@@ -1,7 +1,7 @@
 import { IKImage, IKContext } from 'imagekitio-react'
 import { forwardRef } from 'react'
 
-type ImageKitTransformation = { [x: string]: number | string }[]
+export type ImageKitTransformation = { [x: string]: number | string }[]
 
 export interface ImageProps {
   path: string
