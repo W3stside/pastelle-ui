@@ -1,16 +1,16 @@
-import { Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom'
 
-import AboutUs from 'pages/AboutUs'
-import Popups from 'components/Popups'
 import Web3ReactManager from 'components/blockchain/Web3ReactManager'
 
-import Header from 'components/Header'
-// import Footer from 'components/Footer'
+// const Footer = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "FOOTER" */ 'components/Footer'))
+const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
+const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
+const Catalog = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "CATALOG" */ 'pages/Catalog'))
+const AboutUs = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "ABOUTUS" */ 'pages/AboutUs'))
+const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Error/NotFound'))
+const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
 
-import Catalog from 'pages/Catalog'
-import Navigation from 'components/Navigation'
-import NotFound from './Error/NotFound'
 import { useCatalogByYearAndSeason } from 'state/catalog/hooks'
 import { FixedAnimatedLoader } from 'components/Loader'
 
@@ -39,7 +39,7 @@ export default function App() {
 
   return (
     <Web3ReactManager>
-      <Suspense fallback={null}>
+      <Suspense fallback={<FixedAnimatedLoader loadText="LOADING A BUNCH OF SHIT, HANG ON" animation={false} />}>
         <Popups />
         {/* HEADER */}
         <Header />
