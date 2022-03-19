@@ -5,8 +5,14 @@ import { Menu, X } from 'react-feather'
 import { useMemo, useState } from 'react'
 import { Column, Row } from 'components/Layout'
 import ThemeToggleBar from 'components/ThemeToggler'
+import { ItemSubHeader } from 'pages/SingleItem/styleds'
+import { getThemeColours } from 'theme/utils'
+import { ThemeModes } from 'theme/styled'
+import { CURRENT_SEASON, CURRENT_YEAR, SEASONS } from 'constants/config'
 
-const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean }>`
+const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; minWidth?: string }>`
+  width: ${({ width = 'auto' }) => width};
+  ${({ minWidth }) => minWidth && `min-width: ${minWidth};`}
   display: flex;
   flex-flow: column nowrap;
   justify-content: start;
@@ -15,7 +21,7 @@ const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean }>`
   text-align: left;
 
   padding: 10px;
-  gap: 10px;
+  gap: 0px;
 
   // all links in nav
   > a {
@@ -65,6 +71,16 @@ const ThemeColumn = styled(Column)`
   margin: auto auto 0 0;
 `
 
+const CatalogLabel = styled.span<{ active: boolean }>`
+  font-weight: ${({ active }) => (active ? 700 : 400)};
+  ${({ active }) =>
+    !active &&
+    `
+      text-decoration: line-through;
+      filter: blur(1.2px);
+    `}
+`
+
 export default function Navigation() {
   const [isNavOpen, setIsNavOpen] = useState(false)
 
@@ -89,10 +105,21 @@ export default function Navigation() {
   return (
     <>
       <MobileNavOrb onClick={toggleNav}>{NavToggleButton}</MobileNavOrb>
-      <NavigationStepsWrapper isOpen={isNavOpen}>
-        <StyledNavLink to="/#">{'// LONGSLEEVE'}</StyledNavLink>
-        <StyledNavLink to="/#">{'// SHORTSLEEVE'}</StyledNavLink>
-        <StyledNavLink to="/#">{'// HOODIES'}</StyledNavLink>
+      <NavigationStepsWrapper isOpen={isNavOpen} minWidth="150px">
+        <ItemSubHeader color={getThemeColours(ThemeModes.CHAMELEON).white}>
+          <strong>{'// CATALOGS'}</strong>
+        </ItemSubHeader>
+
+        {SEASONS.map(season => (
+          <StyledNavLink key={season} to={`/catalog/${CURRENT_YEAR}/${season}`}>
+            <ItemSubHeader padding="2px" color={getThemeColours(ThemeModes.CHAMELEON).white}>
+              <CatalogLabel active={season === CURRENT_SEASON}>
+                {season} - {CURRENT_YEAR}
+              </CatalogLabel>
+            </ItemSubHeader>
+          </StyledNavLink>
+        ))}
+
         {/* THEME TOGGLER */}
         <ThemeColumn>
           <ThemeToggleBar />
