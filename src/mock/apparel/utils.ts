@@ -1,19 +1,21 @@
 import { nanoid } from '@reduxjs/toolkit'
 import { SHIRT_SIZES, STORE_IMAGE_SIZES } from 'constants/config'
-import { BaseCatalogItem, CatalogItem, ItemMediaContent, ItemMetadata } from './types'
+import { BaseCatalogItem, CatalogItem, ItemMetadata } from './types'
+
+type BuildItemParamOptions = { noLogo?: boolean }
 
 export function buildUrl({ year, name, season }: BaseCatalogItem, type: 'VIDEOS' | 'IMAGES', id: string) {
   return `/APPAREL/${year}/${season}/${name}/${type}/${id}`
 }
 
-export function buildItemParams(params: ItemMetadata, media: ItemMediaContent): Omit<CatalogItem, 'season'> {
+export function buildItemParams(params: ItemMetadata, options?: BuildItemParamOptions): Omit<CatalogItem, 'season'> {
   return Object.assign(
     {},
     {
       itemColor: params.color,
       itemHeader: params.name,
       itemDescription: params.description,
-      itemLogo: media.logo && buildUrl(params as BaseCatalogItem, 'IMAGES', media.logo),
+      itemLogo: !options?.noLogo ? buildUrl(params as BaseCatalogItem, 'IMAGES', 'logo.png') : undefined,
       itemSizesList: SHIRT_SIZES,
       itemArtistInfo:
         params.collaborator && params.social
@@ -29,20 +31,20 @@ export function buildItemParams(params: ItemMetadata, media: ItemMediaContent): 
         // FRONT CONTENT
         {
           imageMedia: {
-            path: buildUrl(params, 'IMAGES', media.images.front),
+            path: buildUrl(params, 'IMAGES', 'front-large.png'),
             large: STORE_IMAGE_SIZES.LARGE,
             small: STORE_IMAGE_SIZES.SMALL
           },
-          videoMedia: { path: buildUrl(params, 'VIDEOS', media.videos.front), lowq: 'q-10' }
+          videoMedia: { path: buildUrl(params, 'VIDEOS', 'front.webm'), lowq: 'q-10' }
         },
         // BACK CONTENT
         {
           imageMedia: {
-            path: buildUrl(params, 'IMAGES', media.images.back),
+            path: buildUrl(params, 'IMAGES', 'back-large.png'),
             large: STORE_IMAGE_SIZES.LARGE,
             small: STORE_IMAGE_SIZES.SMALL
           },
-          videoMedia: { path: buildUrl(params, 'VIDEOS', media.videos.back), lowq: 'q-10' }
+          videoMedia: { path: buildUrl(params, 'VIDEOS', 'back.webm'), lowq: 'q-10' }
         }
       ]
     }

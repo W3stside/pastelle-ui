@@ -1,11 +1,12 @@
-import { /* CatalogSeasonItemMap, */ CatalogSeasonsMap } from './types'
+import { CatalogSeasonItemMap, CatalogSeasonsMap } from './types'
+import { buildItemParams } from 'mock/apparel/utils'
 
-import * as FALL_CATALOG from 'mock/apparel/2022/FALL'
+import * as FALL_CATALOG_INFO from 'mock/apparel/2022/FALL'
 
-/* const CATALOG = Object.entries(FALL_CATALOG).reduce((acc, [itemName, itemContent]) => {
-  acc[itemName] = itemContent
+const FALL_CATALOG = Object.entries(FALL_CATALOG_INFO).reduce((acc, [itemName, itemContent]) => {
+  acc[itemName] = buildItemParams(itemContent)
   return acc
-}, {} as CatalogSeasonItemMap) */
+}, {} as CatalogSeasonItemMap)
 
 const catalogItems: Map<number | string, Partial<CatalogSeasonsMap>> = new Map()
 

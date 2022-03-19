@@ -134,11 +134,12 @@ export const ItemLogo = styled.img`
   max-width: 100%;
 `
 
-export const ItemSubHeader = styled(TYPE.black).attrs(() => ({
+export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
   fontSize: 16,
   padding: 2,
   fontWeight: 300,
-  fontStyle: 'italic'
+  fontStyle: 'italic',
+  ...props
 }))<{ bgColor?: string }>`
   background: ${({ bgColor = 'transparent' }) =>
     `linear-gradient(15deg, ${bgColor} 0%, ${transparentize(1, bgColor)} 35%, transparent 70%)`};
