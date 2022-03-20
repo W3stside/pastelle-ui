@@ -12,8 +12,7 @@ export interface ImageProps {
 }
 
 const DEFAULT_LQ_IP = {
-  quality: 1,
-  blur: 0
+  quality: 1
 }
 
 function ApiImage({ path, transformation, lazy = true, lq = true, forwardedRef }: ImageProps) {

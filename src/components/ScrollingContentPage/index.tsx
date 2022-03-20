@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useGesture } from '@use-gesture/react'
-import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { useSprings, config } from '@react-spring/web'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/ScrollingIndicator'
@@ -15,6 +14,7 @@ interface ScrollingContentPageParams<D> {
 export interface ScrollableContentComponentBaseProps {
   itemIndex: number
   isActive: boolean
+  firstPaintOver?: boolean
 }
 
 type Params<P> = ScrollingContentPageParams<P> & Omit<ScrollingIndicatorParams, 'isLastIndex'>
@@ -68,6 +68,8 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
   const [target, setRef] = useState<HTMLDivElement>()
   const [height, setHeight] = useState<number>(0)
 
+  const [firstPaintOver, setFirstPaintOver] = useState(false)
+
   // set container ref height to state
   // adjust clientHeight on window resize
   useEffect(() => {
@@ -96,6 +98,12 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
       onRest: ({ value: { y } }) => {
         if (y === 0 && height > 0) {
           setCurrentIndex(i)
+        }
+
+        // useful in knowing when the FIRST animation has ended
+        // like for setup
+        if (!firstPaintOver) {
+          setFirstPaintOver(true)
         }
       }
     }),
@@ -177,17 +185,21 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
     target,
     targetRef,
     height,
-    currentIndex
+    currentIndex,
+    firstPaintOver
   }
 }
 
 export function ScrollingContentPage<D>({ data, dataItem, IterableComponent, ...indicatorProps }: Params<D>) {
-  const { springs, targetRef, height, currentIndex } = useViewPagerAnimation({ items: data, visible: 1 })
+  const { springs, targetRef, height, currentIndex, firstPaintOver } = useViewPagerAnimation({
+    items: data,
+    visible: 1
+  })
 
   if (!dataItem) return null
 
   return (
-    <ArticleFadeInContainer>
+    <>
       <FixedAnimatedLoader loadText="PASTELLE APPAREL" left="50%" animation />
       <ScrollerContainer>
         {/* scroll div */}
@@ -196,11 +208,17 @@ export function ScrollingContentPage<D>({ data, dataItem, IterableComponent, ...
           return (
             <AnimatedDivContainer key={i} style={{ scale, height, y }}>
               <ScrollingContentIndicator {...indicatorProps} />
-              <IterableComponent isActive={currentIndex === i} itemIndex={currentIndex} key={i} {...data[i]} />
+              <IterableComponent
+                firstPaintOver={firstPaintOver}
+                isActive={currentIndex === i}
+                itemIndex={currentIndex}
+                key={i}
+                {...data[i]}
+              />
             </AnimatedDivContainer>
           )
         })}
       </ScrollerContainer>
-    </ArticleFadeInContainer>
+    </>
   )
 }

@@ -4,6 +4,7 @@ import { BASE_MARKDOWN_PATH } from 'components/Markdown/constants'
 import { AsideWithScrollableImages } from 'pages/SingleItem/AsideWithScrollableImages'
 
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
+import { ArticleFadeInContainer } from 'components/Layout/Article'
 
 // assets
 const david = 'david_Je_k19QVb.jpeg'
@@ -41,12 +42,14 @@ const ABOUT_US_CONTENT = [
 
 export default function AboutUs() {
   return (
-    <ScrollingContentPage
-      data={ABOUT_US_CONTENT}
-      dataItem={ABOUT_US_CONTENT[0]}
-      IterableComponent={AsideWithScrollableImages}
-      baseContentMessage="MORE CONTENT"
-      width="calc(100% - 637px)"
-    />
+    <ArticleFadeInContainer id="ABOUTUS-ARTICLE">
+      <ScrollingContentPage
+        data={ABOUT_US_CONTENT}
+        dataItem={ABOUT_US_CONTENT[0]}
+        IterableComponent={AsideWithScrollableImages}
+        baseContentMessage="MORE CONTENT"
+        width="calc(100% - 637px)"
+      />
+    </ArticleFadeInContainer>
   )
 }

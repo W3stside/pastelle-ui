@@ -53,6 +53,7 @@ export default function ItemPage({
   itemArtistInfo,
   itemIndex,
   isActive,
+  firstPaintOver,
   style
 }: ItemPageProps & ScrollableContentComponentBaseProps & { style?: any }) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
@@ -167,7 +168,12 @@ export default function ItemPage({
        * Not displayed unless page content is on screen
        */}
 
-      <ItemVideoContent hide={!isActive} itemMediaList={itemMediaList} currentCarouselIndex={currentCarouselIndex} />
+      <ItemVideoContent
+        firstPaintOver={firstPaintOver}
+        hide={!isActive}
+        itemMediaList={itemMediaList}
+        currentCarouselIndex={currentCarouselIndex}
+      />
       {/* LARGE IMAGE MODAL */}
 
       <Modal isOpen={isActive && showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>

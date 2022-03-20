@@ -1,23 +1,25 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Pause, Play } from 'react-feather'
 
 import { ButtonVariations } from 'components/Button'
 import { ItemPageProps } from './AsideWithVideo'
 import { VideoContentWrapper, ItemSubHeader, VideoControlButton } from './styleds'
+import LazyVideo from 'components/LazyVideo'
 
 const CONTROL_BUTTON_SIZE = 20
 
 export const ItemVideoContent = ({
   itemMediaList,
   currentCarouselIndex,
-  hide
-}: { currentCarouselIndex: number; hide?: boolean } & Pick<ItemPageProps, 'itemMediaList'>) => {
+  firstPaintOver
+}: // hide
+{ currentCarouselIndex: number; hide?: boolean; firstPaintOver?: boolean } & Pick<ItemPageProps, 'itemMediaList'>) => {
   const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
 
   useEffect(() => {
-    if (!videoRef.current) return
-    const video = videoRef.current
+    if (!videoElement) return
+    const video = videoElement
 
     function handleOnPlaying() {
       setVideoStatus('PLAYING')
@@ -27,42 +29,48 @@ export const ItemVideoContent = ({
       setVideoStatus('PAUSED')
     }
 
-    video.onplaying = handleOnPlaying
-    video.onpause = handleOnPaused
+    video.addEventListener('playing', handleOnPlaying)
+    video.addEventListener('pause', handleOnPaused)
 
     return () => {
-      video.removeEventListener('onplaying', handleOnPlaying)
-      video.removeEventListener('onpaused', handleOnPaused)
+      video.removeEventListener('playing', handleOnPlaying)
+      video.removeEventListener('pause', handleOnPaused)
     }
-  }, [])
+  }, [videoElement])
 
   const toggleVideo = useCallback(() => {
-    if (!videoRef.current) return
+    if (!videoElement) return
 
     if (videoStatus === 'PAUSED') {
-      videoRef.current.play()
+      videoElement.play()
     } else {
-      videoRef.current.pause()
+      videoElement.pause()
     }
-  }, [videoStatus])
+  }, [videoElement, videoStatus])
 
   const isPaused = videoStatus === 'PAUSED'
 
+  // TODO: show loader and set hide to also depend on active index
   // if (hide) return null
 
   return (
     <>
-      <VideoContentWrapper id="#video-content-wrapper" hide={hide}>
+      <VideoContentWrapper id="#video-content-wrapper">
         {itemMediaList.map(({ videoMedia: { path, lowq } }, index) => {
           const isSelected = index === currentCarouselIndex
           if (!isSelected) return null
 
           return (
-            <video loop muted autoPlay key={index} /* poster={poster} */ ref={videoRef}>
-              <source src={process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path + '?tr=' + lowq} type="video/webm" />
-              <source src={process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path} type="video/webm" />
-              {/* <source src={videoMP4} type="video/mp4" /> */}
-            </video>
+            <LazyVideo
+              key={index}
+              ref={setVideoElement}
+              container={document.querySelector('#CATALOG-ARTICLE') as HTMLElement}
+              loadInView={firstPaintOver}
+              sourcesProps={[
+                { src: process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path + '?tr=' + lowq, type: 'video/webm' }
+              ]}
+              minHeight="100vh"
+            />
           )
         })}
       </VideoContentWrapper>
