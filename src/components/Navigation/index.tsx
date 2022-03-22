@@ -111,7 +111,7 @@ export default function Navigation() {
   return (
     <>
       <MobileNavOrb onClick={toggleNav}>{NavToggleButton}</MobileNavOrb>
-      <NavigationStepsWrapper isOpen={isNavOpen} minWidth="150px">
+      <NavigationStepsWrapper isOpen={isNavOpen} width="9vw" minWidth="150px">
         <ItemSubHeader color={getThemeColours(ThemeModes.CHAMELEON).white}>
           <strong>{'// CATALOGS'}</strong>
         </ItemSubHeader>
