@@ -94,7 +94,7 @@ export const VideoContentWrapper = styled(Row)<{ hide?: boolean }>`
     // height: calc(100vw * (9 / 16));
     height: 100%;
 
-    filter: contrast(1.8) saturate(1) blur(0.5px);
+    filter: contrast(1) saturate(1) blur(0px);
 
     ${saturateAnimation};
 

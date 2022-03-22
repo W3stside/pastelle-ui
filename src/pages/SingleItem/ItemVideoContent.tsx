@@ -67,8 +67,14 @@ export const ItemVideoContent = ({
               ref={setVideoElement}
               container={document.querySelector('#CATALOG-ARTICLE') as HTMLElement}
               loadInView={firstPaintOver}
+              videoProps={{
+                style: {
+                  marginLeft: 'auto'
+                }
+              }}
               sourcesProps={[
-                { src: process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path + '?tr=' + lowq, type: 'video/webm' }
+                { src: process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path, type: 'video/mp4' },
+                { src: process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path + '?tr=' + lowq, type: 'video/mp4' }
               ]}
               height="100%"
               Loader={Spinner}

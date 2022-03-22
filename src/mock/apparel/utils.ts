@@ -35,7 +35,7 @@ export function buildItemParams(params: ItemMetadata, options?: BuildItemParamOp
             large: STORE_IMAGE_SIZES.LARGE,
             small: STORE_IMAGE_SIZES.SMALL
           },
-          videoMedia: { path: buildUrl(params, 'VIDEOS', 'front.webm'), lowq: 'q-10' }
+          videoMedia: { path: buildUrl(params, 'VIDEOS', 'front.mp4'), lowq: 'q-5' }
         },
         // BACK CONTENT
         {
@@ -44,7 +44,7 @@ export function buildItemParams(params: ItemMetadata, options?: BuildItemParamOp
             large: STORE_IMAGE_SIZES.LARGE,
             small: STORE_IMAGE_SIZES.SMALL
           },
-          videoMedia: { path: buildUrl(params, 'VIDEOS', 'back.webm'), lowq: 'q-10' }
+          videoMedia: { path: buildUrl(params, 'VIDEOS', 'back.mp4'), lowq: 'q-5' }
         }
       ]
     }
