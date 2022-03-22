@@ -39,10 +39,6 @@ const VideoContainer = styled(Row)`
     right: 30%;
     z-index: 200;
   }
-
-  > video {
-    max-width: 100%;
-  }
 `
 
 const Spinner = ({ label = 'pstl' }: { label?: ReactNode }) => (

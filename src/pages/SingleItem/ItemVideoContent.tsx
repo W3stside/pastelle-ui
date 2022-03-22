@@ -70,7 +70,7 @@ export const ItemVideoContent = ({
               sourcesProps={[
                 { src: process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path + '?tr=' + lowq, type: 'video/webm' }
               ]}
-              minHeight="100vh"
+              height="100%"
               Loader={Spinner}
             />
           )
