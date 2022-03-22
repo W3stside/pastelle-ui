@@ -37,15 +37,17 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
 })`
   overflow-y: auto;
 
+  overflow: hidden;
+  border: none;
+
   &[data-reach-dialog-content] {
     outline: none;
     margin: 0 0 2rem 0;
     background-color: ${({ theme }) => theme.bg0};
-    border: 1px solid ${({ theme }) => theme.bg1};
     box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.95, theme.shadow1)};
     padding: 0px;
     width: ${({ isLargeImageModal }) => (isLargeImageModal ? '90' : '50')}vh;
-    overflow-y: auto;
+    overflow-y: ${({ isLargeImageModal }) => (!isLargeImageModal ? 'auto' : 'hidden')};
     overflow-x: hidden;
 
     align-self: ${({ mobile }) => (mobile ? 'flex-end' : 'center')};
