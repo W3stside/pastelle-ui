@@ -10,7 +10,8 @@ import MainImage, { ImageKitTransformation } from 'components/MainImage'
 
 const AsideWithScrollableImagesContainer = styled(ItemContainer)`
   > ${ItemAsidePanel} {
-    max-width: 665px;
+    width: 40vw;
+    max-width: 40vw;
   }
 `
 

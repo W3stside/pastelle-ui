@@ -48,7 +48,7 @@ export default function AboutUs() {
         dataItem={ABOUT_US_CONTENT[0]}
         IterableComponent={AsideWithScrollableImages}
         baseContentMessage="MORE CONTENT"
-        width="calc(100% - 637px)"
+        width={`60vw`}
       />
     </ArticleFadeInContainer>
   )
