@@ -10,6 +10,7 @@ type CarouselProps = {
   transformation: ImageProps['transformation']
   mediaStartIndex: number
   onCarouselChange?: (index: number) => void
+  onImageClick?: () => void
 }
 
 export default function Carousel({
@@ -18,7 +19,8 @@ export default function Carousel({
   imageList,
   transformation,
   mediaStartIndex,
-  onCarouselChange
+  onCarouselChange,
+  onImageClick
 }: CarouselProps) {
   const [ref, setRef] = useState<HTMLDivElement>()
   const [parentWidth, setParentWidth] = useState<number | undefined>()
@@ -68,7 +70,8 @@ export default function Carousel({
         const isLastStep = isMultipleCarousel && selectedStep === lastStepIndex
         const calculatedWidth = isCurrentStep ? parentWidth : 0
 
-        const onNext = () => {
+        const onNext = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+          e.stopPropagation()
           let indexToSet = undefined
           if (isLastStep) {
             indexToSet = 0
@@ -81,7 +84,8 @@ export default function Carousel({
           onCarouselChange && onCarouselChange(indexToSet)
         }
 
-        const onPrevious = () => {
+        const onPrevious = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+          e.stopPropagation()
           let indexToSet = undefined
           if (selectedStep === 0) {
             indexToSet = lastStepIndex
@@ -103,7 +107,7 @@ export default function Carousel({
           >
             <MainImage path={path} transformation={transformation} ref={carouselImageRef} />
             {isMultipleCarousel && (
-              <CarouselButtonContainer>
+              <CarouselButtonContainer onClick={onImageClick}>
                 <CarouselButton onClick={onPrevious} buttonColor={buttonColor}>
                   <ChevronLeft />
                 </CarouselButton>

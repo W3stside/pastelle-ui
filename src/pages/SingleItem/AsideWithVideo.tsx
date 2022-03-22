@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
   ItemContainer,
   ItemAsidePanel,
-  ItemHeader,
+  ItemHeader as ItemLogo,
   ItemDescription,
   ItemCredits,
   ItemArtistInfo,
@@ -15,8 +15,6 @@ import {
 } from './styleds'
 
 import { ApparelItem, CollaboratorSocialData, ItemSizes } from 'mock/apparel/types'
-import { TYPE } from 'theme'
-import { /* darken, */ transparentize } from 'polished'
 import { useBreadcrumb } from 'components/Breadcrumb'
 
 import Modal from 'components/Modal'
@@ -25,6 +23,9 @@ import { ApplicationModal } from 'state/application/reducer'
 import { ItemVideoContent } from './ItemVideoContent'
 import { useCatalogItemFromURL, useUpdateURLFromCatalogItem } from 'pages/Catalog/hooks'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
+import { ThemeModes } from 'theme/styled'
+import { getThemeColours } from 'theme/utils'
+import { BoxProps } from 'rebass'
 import MainImage from 'components/MainImage'
 
 export interface ItemPageProps {
@@ -40,8 +41,30 @@ export interface ItemPageProps {
   }
 }
 
-const DEFAULT_MEDIA_START_INDEX = 0
+function Breadcrumbs({
+  breadcrumbs,
+  lastCrumb,
+  ...rowProps
+}: {
+  breadcrumbs: string[]
+  lastCrumb: string | undefined
+} & BoxProps) {
+  return (
+    <Row {...rowProps} style={{ zIndex: 100 }}>
+      {breadcrumbs?.map((crumb, index) => {
+        const isLastCrumb = crumb === lastCrumb
+        return (
+          <ItemBreadcrumb key={crumb + '_' + index} to="/#">
+            <span>{!isLastCrumb ? crumb : <strong>{crumb}</strong>}</span>
+            {!isLastCrumb && <span>{'//'}</span>}
+          </ItemBreadcrumb>
+        )
+      })}
+    </Row>
+  )
+}
 
+const DEFAULT_MEDIA_START_INDEX = 0
 // TODO: fix props, pass steps, sizes etc
 export default function ItemPage({
   itemColor,
@@ -64,7 +87,7 @@ export default function ItemPage({
   const showLargeImage = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
 
   // TODO: un-mock
-  const { breadcrumbs, lastCrumb } = useBreadcrumb()
+  const breadcrumbs = useBreadcrumb()
 
   // Split images lists
   const { smallImagesList, largeImagesList } = useMemo(() => {
@@ -84,24 +107,12 @@ export default function ItemPage({
   // update URL (if necessary) to reflect current item
   useUpdateURLFromCatalogItem({ seasonList, currentItem, isActive, itemIndex, itemKey: itemHeader })
 
-  const asideRef = useRef<HTMLDivElement | null>(null)
-  const getAsideWidth = useCallback(() => asideRef.current?.clientWidth, [])
-
   return (
     <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ style={style}>
-      <ItemAsidePanel id="#item-aside-panel" ref={asideRef}>
-        {/* BREADCRUMBS */}
-        <Row marginBottom={-25} style={{ zIndex: 100 }} padding="5px">
-          {breadcrumbs?.map((crumb, index) => {
-            const isLastCrumb = crumb === lastCrumb
-            return (
-              <ItemBreadcrumb key={crumb + '_' + index} to="/#">
-                <span>{!isLastCrumb ? crumb : <strong>{crumb}</strong>}</span>
-                {!isLastCrumb && <span>{'//'}</span>}
-              </ItemBreadcrumb>
-            )
-          })}
-        </Row>
+      <ItemAsidePanel id="#item-aside-panel">
+        {/* Breadcrumbs */}
+        <Breadcrumbs {...breadcrumbs} padding="5px" marginBottom={-25} />
+
         {/* Item carousel */}
         <Carousel
           buttonColor={itemColor}
@@ -109,32 +120,33 @@ export default function ItemPage({
           transformation={[{ width: itemMediaList[0].imageMedia.small }]}
           mediaStartIndex={currentCarouselIndex}
           onCarouselChange={onCarouselChange}
+          onImageClick={toggleModal}
         />
+
         <br />
-        <ItemHeader fontWeight={200} /* marginBottom={-55} */ marginTop={-55} itemColor={itemColor} animation>
-          {itemLogo ? <MainImage path={itemLogo} transformation={[{ width: getAsideWidth() || 500 }]} /> : itemHeader}
-        </ItemHeader>
+
+        <ItemLogo fontWeight={200} marginTop={-90} marginBottom={-35} itemColor={itemColor} animation>
+          {itemLogo ? <MainImage path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
+        </ItemLogo>
+
         <br />
-        <TYPE.black
-          width="100%"
-          padding={2}
-          css={`
-            > u {
-              cursor: pointer;
-            }
-          `}
-          onClick={toggleModal}
-        >
-          <u>[see full image +]</u>
-        </TYPE.black>
-        <br />
+
         {/* Credits */}
-        <ItemSubHeader bgColor={transparentize(0.2, itemColor)}>CREDIT</ItemSubHeader>
+        <ItemSubHeader bgColor={itemColor}>
+          <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CREDIT</span>
+        </ItemSubHeader>
+
         <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
+
+        <br />
+
         {/* Size selector */}
+        <ItemSubHeader bgColor={itemColor}>
+          <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CHOOSE A SIZE</span>
+        </ItemSubHeader>
+
         <br />
-        <ItemSubHeader bgColor={transparentize(0.2, itemColor)}>CHOOSE A SIZE</ItemSubHeader>
-        <br />
+
         <Row>
           <select disabled style={{ width: '50%' }}>
             {itemSizesList.map((size, index) => (
@@ -142,10 +154,16 @@ export default function ItemPage({
             ))}
           </select>
         </Row>
+
         <br />
+
         {/* Item description */}
-        <ItemSubHeader bgColor={transparentize(0.2, itemColor)}>DESCRIPTION</ItemSubHeader>
+        <ItemSubHeader bgColor={itemColor}>
+          <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>DESCRIPTION</span>
+        </ItemSubHeader>
+
         <br />
+
         <Row>
           <ItemDescription>
             {itemDescription.map((paragraph, index) => (
@@ -153,29 +171,15 @@ export default function ItemPage({
             ))}
           </ItemDescription>
         </Row>
-        {/* VISUAL */}
-        {/* <FloatingStrip
-          color={transparentize(0.4, itemColor)}
-          top={280}
-          left={-106}
-          rotation={15}
-          gradientBase={darken(0.56, itemColor)}
-          gradientEnd={transparentize(1, itemColor)}
-        /> */}
       </ItemAsidePanel>
-      {/*
-       * Item Video content
-       * Not displayed unless page content is on screen
-       */}
-
       <ItemVideoContent
         firstPaintOver={firstPaintOver}
         hide={!isActive}
         itemMediaList={itemMediaList}
         currentCarouselIndex={currentCarouselIndex}
       />
-      {/* LARGE IMAGE MODAL */}
 
+      {/* LARGE IMAGE MODAL */}
       <Modal isOpen={isActive && showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
         <Carousel
           buttonColor={itemColor}

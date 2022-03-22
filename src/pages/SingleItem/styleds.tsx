@@ -9,6 +9,7 @@ import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/apparel/types'
+import { STORE_IMAGE_SIZES } from 'constants/config'
 
 const saturateAnimation = css`
   @keyframes saturate {
@@ -112,8 +113,13 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
   z-index: 100;
   font-style: italic;
   letter-spacing: 7px;
-  font-size: 100px;
+  font-size: 100px;  
 
+  // logo
+  > img {
+    max-width: 100%;
+  }
+  
   ${({ theme }) => theme.mediaWidth.upToSmall`
     font-size: 65px;
   `}
@@ -137,12 +143,14 @@ export const ItemLogo = styled.img`
 export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
   fontSize: 16,
   padding: 2,
-  fontWeight: 300,
+  fontWeight: 500,
   fontStyle: 'italic',
   ...props
-}))<{ bgColor?: string }>`
-  background: ${({ bgColor = 'transparent' }) =>
-    `linear-gradient(15deg, ${bgColor} 0%, ${transparentize(1, bgColor)} 35%, transparent 70%)`};
+}))<{ bgColor?: string; useGradient?: boolean }>`
+  background: ${({ useGradient = false, bgColor = 'transparent' }) =>
+    useGradient
+      ? `linear-gradient(15deg, ${bgColor} 0%, ${transparentize(1, bgColor)} 35%, transparent 70%)`
+      : bgColor};
   width: 100%;
 `
 
@@ -186,13 +194,13 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingIte
     position: relative;
     justify-content: ${({ side = 'LEFT' }) => (side === 'LEFT' ? 'flex-start' : 'flex-end')};
 
-    // margin: 10px auto 10px 10px;
     margin-right: auto;
-    // border: 2px solid transparent;
     
     height: 100%;
+    
+    // TODO: change this to be dynamic - LEGACY
     width: 100%;
-    max-width: 500px;
+    max-width: ${STORE_IMAGE_SIZES.SMALL}px;
 
     ${({ theme }) => theme.mediaWidth.upToSmall`
       max-width: 100%;
@@ -202,7 +210,6 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingIte
     z-index: 2;
 
     background: ${({ theme }) => transparentize(0.1, theme.white)};
-    // background: ${({ theme }) => transparentize(0.1, theme.red2)};
 
     ${({ theme }) => theme.mediaWidth.upToSmall`
       border: none;

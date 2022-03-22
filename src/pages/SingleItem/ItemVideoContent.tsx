@@ -5,6 +5,7 @@ import { ButtonVariations } from 'components/Button'
 import { ItemPageProps } from './AsideWithVideo'
 import { VideoContentWrapper, ItemSubHeader, VideoControlButton } from './styleds'
 import LazyVideo from 'components/LazyVideo'
+import { Spinner } from 'theme'
 
 const CONTROL_BUTTON_SIZE = 20
 
@@ -70,6 +71,7 @@ export const ItemVideoContent = ({
                 { src: process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path + '?tr=' + lowq, type: 'video/webm' }
               ]}
               minHeight="100vh"
+              Loader={Spinner}
             />
           )
         })}

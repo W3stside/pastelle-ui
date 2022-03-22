@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 
 export type ImageKitTransformation = { [x: string]: number | string }[]
 
-export interface ImageProps {
+export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   path: string
   lq?: boolean
   lazy?: boolean
@@ -12,10 +12,16 @@ export interface ImageProps {
 }
 
 const DEFAULT_LQ_IP = {
-  quality: 1
+  quality: 10
 }
 
-function ApiImage({ path, transformation, lazy = true, lq = true, forwardedRef }: ImageProps) {
+const DEFAULT_TRANSFORMATIONS = [
+  {
+    pr: true
+  }
+]
+
+function ApiImage({ path, transformation = [], lazy = true, lq = true, forwardedRef }: ImageProps) {
   const lqip = {
     ...DEFAULT_LQ_IP,
     active: lq
@@ -32,7 +38,7 @@ function ApiImage({ path, transformation, lazy = true, lq = true, forwardedRef }
         path={path}
         loading={lazy ? 'lazy' : 'eager'}
         lqip={lqip}
-        transformation={transformation}
+        transformation={[...DEFAULT_TRANSFORMATIONS, ...transformation]}
         ref={forwardedRef}
       />
     </IKContext>

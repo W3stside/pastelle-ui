@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, useEffect, useState } from 'react'
+import { ForwardedRef, forwardRef, ReactNode, useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 
 import Loader from 'components/Loader'
@@ -20,6 +20,7 @@ type LazyVideoProps = {
   sourcesProps: React.DetailedHTMLProps<React.SourceHTMLAttributes<HTMLSourceElement>, HTMLSourceElement>[]
   videoProps?: React.DetailedHTMLProps<React.VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement>
   loadInView?: boolean
+  Loader?: (...props: any[]) => JSX.Element
 } & WithContainer &
   BoxProps
 
@@ -44,6 +45,15 @@ const VideoContainer = styled(Row)`
   }
 `
 
+const Spinner = ({ label = 'pstl' }: { label?: ReactNode }) => (
+  <>
+    <ItemHeader itemColor={getThemeColours(ThemeModes.CHAMELEON).blue1} animation>
+      {label}
+    </ItemHeader>
+    <Loader size={'100px'} />
+  </>
+)
+
 const BASE_VIDEO_PROPS = { loop: true, muted: true, autoPlay: true, preload: 'none' }
 const BASE_INTERSECTION_OPTIONS = {
   threshold: 0.1
@@ -58,6 +68,7 @@ export default forwardRef(function LazyVideo(
     // and we dont want to check if in view before animation ends
     loadInView = true,
     container,
+    Loader = Spinner,
     ...boxProps
   }: LazyVideoProps,
   forwardRef: ForwardedRef<HTMLVideoElement>
@@ -100,14 +111,7 @@ export default forwardRef(function LazyVideo(
 
   return (
     <VideoContainer justifyContent="center" {...boxProps}>
-      {!loaded && (
-        <>
-          <ItemHeader itemColor={getThemeColours(ThemeModes.CHAMELEON).blue1} animation>
-            pstl
-          </ItemHeader>
-          <Loader size={'100px'} />
-        </>
-      )}
+      {!loaded && <Loader />}
       <video {...BASE_VIDEO_PROPS} {...videoProps} ref={setVideoElement}>
         {isInView
           ? sourcesProps.map(({ src, ...sourceProps }, index) => <source key={index} src={src} {...sourceProps} />)

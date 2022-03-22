@@ -24,7 +24,7 @@ export const CarouselContainer = styled.div<{ fixedHeight?: string }>`
   // no shrink
   // flex: 1 0 auto;
   width: 100%;
-  height: ${({ fixedHeight = '480px' }) => fixedHeight};
+  ${({ fixedHeight }) => `height: ${fixedHeight};`}
 `
 // #a1c3f9
 export const CarouselButton = styled.div<{ buttonColor: string }>`
@@ -55,4 +55,6 @@ export const CarouselButtonContainer = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+
+  cursor: pointer;
 `

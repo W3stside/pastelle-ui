@@ -1,4 +1,5 @@
 import { a } from '@react-spring/web'
+import { STORE_IMAGE_SIZES } from 'constants/config'
 import styled from 'styled-components/macro'
 
 export const AnimatedDivContainer = styled(a.div)`
@@ -12,7 +13,7 @@ export const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
   right: 0;
   bottom: 0;
   top: 0;
-  width: calc(100% - 500px);
+  width: calc(100% - ${STORE_IMAGE_SIZES.SMALL}px);
   z-index: 900;
 
   touch-action: none;

@@ -5,6 +5,7 @@ import { ScrollingContentPage } from 'components/ScrollingContentPage'
 // const AsideWithVideo = lazy(() => import('pages/SingleItem'))
 import AsideWithVideo from 'pages/SingleItem'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
+import { STORE_IMAGE_SIZES } from 'constants/config'
 
 export const BASE_CATALOG_URL = '/catalog/2022/FALL/'
 
@@ -19,7 +20,7 @@ export default function Catalog() {
         dataItem={currentItem}
         IterableComponent={AsideWithVideo}
         baseContentMessage="SCROLL/DRAG FOR MORE SHIT!"
-        width="calc(100% - 500px)"
+        width={`calc(100% - ${STORE_IMAGE_SIZES.SMALL}px)`}
         bgColor="#ffffffdb"
         onlyOne="TOP"
       />

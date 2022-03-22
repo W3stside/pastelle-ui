@@ -6,7 +6,8 @@ import { ItemMetadata, SocialType } from 'mock/apparel/types'
 export const VIRGIL: ItemMetadata = {
   name: 'VIRGIL',
   // color: '#a2c2fa', // LIGHTER
-  color: '#427da2',
+  // color: '#427da2', // blue
+  color: '#551d27', // red
   season: 'FALL',
   year: 2022,
   description: [
