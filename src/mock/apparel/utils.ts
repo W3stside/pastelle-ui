@@ -2,20 +2,20 @@ import { nanoid } from '@reduxjs/toolkit'
 import { SHIRT_SIZES, STORE_IMAGE_SIZES } from 'constants/config'
 import { BaseCatalogItem, CatalogItem, ItemMetadata } from './types'
 
-type BuildItemParamOptions = { noLogo?: boolean }
-
 export function buildUrl({ year, name, season }: BaseCatalogItem, type: 'VIDEOS' | 'IMAGES', id: string) {
   return `/APPAREL/${year}/${season}/${name}/${type}/${id}`
 }
 
-export function buildItemParams(params: ItemMetadata, options?: BuildItemParamOptions): Omit<CatalogItem, 'season'> {
+export function buildItemParams(params: ItemMetadata): Omit<CatalogItem, 'season'> {
   return Object.assign(
     {},
     {
       itemColor: params.color,
       itemHeader: params.name,
       itemDescription: params.description,
-      itemLogo: !options?.noLogo ? buildUrl(params as BaseCatalogItem, 'IMAGES', 'logo.png') : undefined,
+      itemLogo: buildUrl(params as BaseCatalogItem, 'IMAGES', 'logo.png'),
+      headerLogo: buildUrl(params as BaseCatalogItem, 'IMAGES', 'header.png'),
+      navLogo: buildUrl(params as BaseCatalogItem, 'IMAGES', 'nav-bar.png'),
       itemSizesList: SHIRT_SIZES,
       itemArtistInfo:
         params.collaborator && params.social

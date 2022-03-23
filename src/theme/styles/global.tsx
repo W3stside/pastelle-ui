@@ -6,12 +6,28 @@ import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
 import { useAppColourTheme } from 'state/user/hooks'
 import { useCatalogItemFromURL } from 'pages/Catalog/hooks'
+import { useMemo } from 'react'
 
 export { FontStyles }
 
 export const TopGlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
+    
+    &::-webkit-scrollbar {
+      width: 4px;
+      border-radius: 16px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      background: transparent;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: ghostwhite;
+      border-radius: 16px;
+      background-clip: padding-box;
+    }
+
   }
 
   html,
@@ -109,7 +125,23 @@ export const TopGlobalStyle = createGlobalStyle`
   }
 `
 
-export const ThemedGlobalStyle = createGlobalStyle<{ frameBgColor?: string }>`
+/* 
+export const DANTES_LAKE_WALK = 'https://ik.imagekit.io/pastelle/tr:q-40/APPAREL/2022/FALL/VIRGIL/IMAGES/nav-bar.png'
+const TINY_FORMAT = '?tr=h-1,w-1'
+const MAIN_FORMAT = '?tr=q-45'
+*/
+
+export const ThemedGlobalStyle = createGlobalStyle<{
+  frameBgColor?: string
+  headerLogo?: string
+  navLogo?: string
+}>`
+  * {
+    &::-webkit-scrollbar-thumb {
+      background: ${({ theme, frameBgColor = transparentize(1, theme.bg1) }) => frameBgColor};
+    }
+  }
+
   html {
     ${setTextColour('text1')}
     ${setBgColour('bg2')}
@@ -127,15 +159,52 @@ export const ThemedGlobalStyle = createGlobalStyle<{ frameBgColor?: string }>`
   }
 
   header, nav, footer {
-    background: ${({ theme, frameBgColor }) => frameBgColor || transparentize(0.1, theme.bg1)};
+    background: ${({ theme, frameBgColor = transparentize(1, theme.bg1) }) => frameBgColor};
   }
+
+  header {
+    background: ${({ headerLogo, theme, frameBgColor = transparentize(1, theme.bg1) }) =>
+      headerLogo
+        ? `url(${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + headerLogo}) center no-repeat, url(${process.env
+            .REACT_APP_IMAGEKIT_URL_ENDPOINT +
+            headerLogo +
+            '?tr=q-10'}) 0px 0px no-repeat`
+        : frameBgColor};
+      
+    background-color: ${({ theme, frameBgColor = transparentize(1, theme.bg1) }) => frameBgColor};
+    background-size: cover;
+    background-blend-mode: difference;
+
+    #header-links-container {
+      background-color: ${({ frameBgColor, theme }) => frameBgColor || transparentize(1, theme.bg1)};
+    }
+  }
+
+  nav {
+    background: ${({ navLogo, theme, frameBgColor = transparentize(1, theme.bg1) }) =>
+      navLogo
+        ? `url(${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + navLogo}) center no-repeat, url(${process.env
+            .REACT_APP_IMAGEKIT_URL_ENDPOINT +
+            navLogo +
+            '?tr=q-10'}) 5px repeat`
+        : frameBgColor};
+    background-color: ${({ theme, frameBgColor = transparentize(1, theme.bg1) }) => frameBgColor};
+    background-size: cover;
+    background-blend-mode: difference;
 `
 
 export const ThemedGlobalComponent = () => {
   const theme = useAppColourTheme()
   const { currentItem } = useCatalogItemFromURL()
 
-  const frameBgColor = theme.mode === ThemeModes.CHAMELEON ? currentItem?.itemColor : undefined
+  const { itemColor, navLogo, headerLogo } = useMemo(
+    () => ({
+      itemColor: theme.mode === ThemeModes.CHAMELEON ? currentItem?.itemColor : undefined,
+      navLogo: theme.mode === ThemeModes.CHAMELEON ? currentItem?.navLogo : undefined,
+      headerLogo: theme.mode === ThemeModes.CHAMELEON ? currentItem?.headerLogo : undefined
+    }),
+    [currentItem?.headerLogo, currentItem?.itemColor, currentItem?.navLogo, theme.mode]
+  )
 
-  return <ThemedGlobalStyle frameBgColor={frameBgColor} />
+  return <ThemedGlobalStyle frameBgColor={itemColor} headerLogo={headerLogo} navLogo={navLogo} />
 }

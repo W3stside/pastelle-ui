@@ -41,6 +41,11 @@ export interface ItemPageProps {
   }
 }
 
+export type ItemPageDesignsProps = {
+  headerLogo?: string
+  navLogo?: string
+}
+
 function Breadcrumbs({
   breadcrumbs,
   lastCrumb,

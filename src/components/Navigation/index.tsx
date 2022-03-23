@@ -10,13 +10,7 @@ import { getThemeColours } from 'theme/utils'
 import { ThemeModes } from 'theme/styled'
 import { CURRENT_SEASON, CURRENT_YEAR, SEASONS } from 'constants/config'
 
-export const DANTES_LAKE_WALK = 'https://ik.imagekit.io/pastelle/tr:q-40/APPAREL/2022/FALL/VIRGIL/IMAGES/nav-bar.png'
-const TINY_FORMAT = '?tr=h-1,w-1'
-const MAIN_FORMAT = '?tr=q-45'
-
 const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; minWidth?: string }>`
-  background: url(${DANTES_LAKE_WALK + MAIN_FORMAT}), url(${DANTES_LAKE_WALK + TINY_FORMAT}) center no-repeat;
-  background-size: cover;
   width: ${({ width = 'auto' }) => width};
   ${({ minWidth }) => minWidth && `min-width: ${minWidth};`}
   display: flex;
@@ -111,7 +105,7 @@ export default function Navigation() {
   return (
     <>
       <MobileNavOrb onClick={toggleNav}>{NavToggleButton}</MobileNavOrb>
-      <NavigationStepsWrapper isOpen={isNavOpen} width="9vw" minWidth="150px">
+      <NavigationStepsWrapper isOpen={isNavOpen} width="9vw" minWidth="170px">
         <ItemSubHeader color={getThemeColours(ThemeModes.CHAMELEON).white}>
           <strong>{'// CATALOGS'}</strong>
         </ItemSubHeader>

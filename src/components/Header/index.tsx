@@ -49,9 +49,16 @@ const HeaderRow = styled(RowFixed)`
 const HeaderLinks = styled(Row)`
   width: min-content;
   justify-content: center;
+  padding: 5px;
+  margin-left: 15px;
+
   > a {
     white-space: nowrap;
     flex: 1 0 auto;
+
+    font-size: 18px;
+    font-weight: 300;
+    color: ghostwhite;
   }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -161,7 +168,7 @@ export default function Header() {
           </Pastellecon>
         </Title>
         <DynamicHeaderLogo itemColor="#dda0ddb3" fontSize={60} fontWeight={100} color={'ghostwhite'} />
-        <HeaderLinks>
+        <HeaderLinks id="header-links-container">
           <StyledNavLink to="/#">{'// SHOP'}</StyledNavLink>
           <StyledNavLink to="/aboutus">{'// ABOUT US'}</StyledNavLink>
           {/* <StyledNavLink to="#">Header Link</StyledNavLink> */}
