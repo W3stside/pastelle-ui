@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useGesture } from '@use-gesture/react'
-import { useSprings, config } from '@react-spring/web'
+import { useSprings, SpringConfig } from '@react-spring/web'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/ScrollingIndicator'
 import { ScrollerContainer, Scroller, AnimatedDivContainer } from './styleds'
 
+import { Lethargy } from 'lethargy'
 interface ScrollingContentPageParams<D> {
   data: D[]
   dataItem: D | undefined
@@ -23,7 +24,8 @@ const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 4,
   DRAG_SPEED_COEFFICIENT: 0.5
 }
-const SPRING_CONFIG = { ...config.stiff, tension: 260 }
+const MAC_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 260 }
+const WHEEL_SPRING_CONFIG: SpringConfig = { friction: 40, tension: 100 }
 /**
  *
  * @param a input
@@ -58,7 +60,11 @@ interface ScrollSpringParams {
   active: boolean
   firstVis: number
   firstVisIdx: number
+  s: false | -1 | 1
 }
+
+// initialise Lethary
+const lethargy = new Lethargy()
 
 export function useViewPagerAnimation({ items, visible = 1 }: any) {
   const prev = useRef([0, 1])
@@ -106,6 +112,7 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
           setFirstPaintOver(true)
         }
       }
+      // config: WHEEL_SPRING_CONFIG // MAC_SPRING_CONFIG
     }),
     [height]
   )
@@ -116,7 +123,7 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
   ])
 
   const calculateApiLogic = useCallback(
-    ({ i, y, dy, my, active, firstVis, firstVisIdx }: ScrollSpringParams) => {
+    ({ i, y, dy, my, active, firstVis, firstVisIdx, s }: ScrollSpringParams) => {
       const position = getPos(i, firstVis, firstVisIdx)
       const prevPosition = getPos(i, prev.current[0], prev.current[1])
       const rank = firstVis - (y < 0 ? items.length : 0) + position - firstVisIdx
@@ -130,20 +137,21 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
         y: active ? yPos : anchorPoint,
         scale,
         immediate: dy < 0 ? prevPosition > position : prevPosition < position,
-        // config: { tension: (1 + items.length - configPos) * 600, friction: 30 + configPos * 40 }
-        config: SPRING_CONFIG
+        // set configs based on intertial vs non-intertial scroll
+        // s === false means intertial
+        config: s === false ? MAC_SPRING_CONFIG : WHEEL_SPRING_CONFIG
       }
     },
     [getPos, height, items.length]
   )
 
   const runSprings = useCallback(
-    (y, dy, my, active) => {
+    (y, dy, my, active, s) => {
       const itemPosition = Math.floor(y / height) % items.length
       const firstVis = getIndex(itemPosition)
       const firstVisIdx = dy < 0 ? items.length - visible - 1 : 1
 
-      api.start(i => calculateApiLogic({ i, y, dy, my, active, firstVis, firstVisIdx }))
+      api.start(i => calculateApiLogic({ i, y, dy, my, active, firstVis, firstVisIdx, s }))
 
       prev.current = [firstVis, firstVisIdx]
     },
@@ -160,17 +168,22 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
           const aY = _getNearestAxisPoint(y, height)
           dragOffset.current = -aY ?? -y
           const computedY = wheelOffset.current + -y / CONFIG.DRAG_SPEED_COEFFICIENT
-          runSprings(computedY, -dy, -my, active)
+          runSprings(computedY, -dy, -my, active, false)
         }
       },
       onWheel: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
         event.preventDefault()
 
+        // we need to check the scroll type... intertial vs linear
+        // -1/1 = linear down/up scroll, respectively.
+        // false = intertial
+        const s = lethargy.check(event)
+
         if (dy) {
           const aY = _getNearestAxisPoint(y, height)
           wheelOffset.current = aY ?? y
           const computedY = dragOffset.current + y / CONFIG.SCROLL_SPEED_COEFFICIENT
-          runSprings(computedY, dy, my, active)
+          runSprings(computedY, dy, my, active, s)
         }
       }
     },
