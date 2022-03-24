@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components/macro'
+import { createGlobalStyle, css } from 'styled-components/macro'
 import { transparentize } from 'polished'
 
 import { getThemeColours, setTextColour, setBgColour } from '../utils'
@@ -15,7 +15,9 @@ export const TopGlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     
     &::-webkit-scrollbar {
-      width: 4px;
+      // TODO: marked to find easier
+      // hide scrollbar
+      width: 0px;
       border-radius: 16px;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
@@ -131,14 +133,48 @@ const TINY_FORMAT = '?tr=h-1,w-1'
 const MAIN_FORMAT = '?tr=q-45'
 */
 
+export const flickerAnimation = css<{ frameBgColor?: string }>`
+  @keyframes flickerIn {
+    0% {
+      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(1, frameBgColor)};
+    }
+    5% {
+      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(0, frameBgColor)};
+    }
+    8% {
+      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(1, frameBgColor)};
+    }
+    9% {
+      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(0, frameBgColor)};
+    }
+    12% {
+      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(1, frameBgColor)};
+    }
+    18% {
+      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(0, frameBgColor)};
+    }
+    24% {
+      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(0, frameBgColor)};
+    }
+    28% {
+      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(1, frameBgColor)};
+    }
+    42% {
+      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(0, frameBgColor)};
+    }
+  }
+`
+
 export const ThemedGlobalStyle = createGlobalStyle<{
   frameBgColor?: string
   headerLogo?: string
   navLogo?: string
+  animation?: boolean
+  animationDelay?: number
 }>`
   * {
     &::-webkit-scrollbar-thumb {
-      background: ${({ theme, frameBgColor = transparentize(1, theme.bg1) }) => frameBgColor};
+      background: transparent;
     }
   }
 
@@ -188,9 +224,19 @@ export const ThemedGlobalStyle = createGlobalStyle<{
             navLogo +
             '?tr=q-10'}) 5px repeat`
         : frameBgColor};
-    background-color: ${({ theme, frameBgColor = transparentize(1, theme.bg1) }) => frameBgColor};
     background-size: cover;
     background-blend-mode: difference;
+    background-color: ${({ theme, frameBgColor = transparentize(1, theme.bg1) }) => frameBgColor};
+
+    ${({ animation = true }) => animation && flickerAnimation}
+    ${({ animation = true, animationDelay = 3 }) =>
+      animation &&
+      `
+        animation-name: flickerIn;
+        animation-duration: 4s;
+        animation-iteration-count: 2;
+        ${animationDelay && `animation-delay: ${animationDelay}s;`}
+    `}
 `
 
 export const ThemedGlobalComponent = () => {
