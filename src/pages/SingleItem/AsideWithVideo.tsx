@@ -26,7 +26,7 @@ import { ScrollableContentComponentBaseProps } from 'components/ScrollingContent
 import { ThemeModes } from 'theme/styled'
 import { getThemeColours } from 'theme/utils'
 import { BoxProps } from 'rebass'
-import MainImage from 'components/MainImage'
+import SmartImg from 'components/SmartImg'
 
 export interface ItemPageProps {
   itemColor: string
@@ -130,8 +130,8 @@ export default function ItemPage({
 
         <br />
 
-        <ItemLogo fontWeight={200} marginTop={-90} marginBottom={-35} itemColor={itemColor} animation>
-          {itemLogo ? <MainImage path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
+        <ItemLogo fontWeight={200} marginTop={-35} marginBottom={-30} itemColor={itemColor} animation>
+          {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
         </ItemLogo>
 
         <br />

@@ -6,7 +6,7 @@ import { TYPE } from 'theme'
 import { ThemeModes } from 'theme/styled'
 import { getThemeColours } from 'theme/utils'
 import { ItemContainer, ItemAsidePanel, ItemHeader } from './styleds'
-import MainImage, { ImageKitTransformation } from 'components/MainImage'
+import SmartImg, { ImageKitTransformation } from 'components/SmartImg'
 
 const AsideWithScrollableImagesContainer = styled(ItemContainer)`
   > ${ItemAsidePanel} {
@@ -62,7 +62,7 @@ export function AsideWithScrollableImages({ header, markdown, image }: Params) {
         </AboutUsTextContainer>
       </ItemAsidePanel>
       <ImageContainer>
-        <MainImage path={image.path} transformation={image.transformation} />
+        <SmartImg path={image.path} transformation={image.transformation} />
       </ImageContainer>
     </AsideWithScrollableImagesContainer>
   )

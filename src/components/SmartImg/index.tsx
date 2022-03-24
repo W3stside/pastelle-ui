@@ -44,9 +44,8 @@ function ApiImage({ path, transformation = [], lazy = true, lq = true, forwarded
     </IKContext>
   )
 }
-// eslint-disable-next-line react/display-name
-const ApiImageDefault = forwardRef((props: ImageProps, ref) => <ApiImage {...props} forwardedRef={ref} />)
+const SmartImg = forwardRef((props: ImageProps, ref) => <ApiImage {...props} forwardedRef={ref} />)
 
-ApiImage.displayName = 'ApiImage'
+SmartImg.displayName = 'ApiImage'
 
-export default ApiImageDefault
+export default SmartImg

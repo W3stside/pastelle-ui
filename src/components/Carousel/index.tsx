@@ -1,4 +1,4 @@
-import MainImage, { ImageProps } from 'components/MainImage'
+import SmartImg, { ImageProps } from 'components/SmartImg'
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { CarouselContainer, CarouselStep, CarouselButtonContainer, CarouselButton } from './styleds'
@@ -47,7 +47,6 @@ export default function Carousel({
 
   // get a ref to the carouselboi
   // we need to hold and updated cache of the carousel parent's width in px
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     function handleResize() {
       setParentWidth(ref?.parentElement?.offsetWidth)
@@ -105,7 +104,7 @@ export default function Carousel({
             justifyContent={'center'}
             $calculatedWidth={calculatedWidth + 'px'}
           >
-            <MainImage path={path} transformation={transformation} ref={carouselImageRef} />
+            <SmartImg path={path} transformation={transformation} ref={carouselImageRef} />
             {isMultipleCarousel && (
               <CarouselButtonContainer onClick={onImageClick}>
                 <CarouselButton onClick={onPrevious} buttonColor={buttonColor}>
