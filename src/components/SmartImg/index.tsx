@@ -15,11 +15,7 @@ const DEFAULT_LQ_IP = {
   quality: 10
 }
 
-const DEFAULT_TRANSFORMATIONS = [
-  {
-    pr: true
-  }
-]
+const DEFAULT_TRANSFORMATIONS = [{ pr: true }]
 
 function ApiImage({ path, transformation = [], lazy = true, lq = true, forwardedRef }: ImageProps) {
   const lqip = {

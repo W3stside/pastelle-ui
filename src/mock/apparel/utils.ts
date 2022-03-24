@@ -35,7 +35,7 @@ export function buildItemParams(params: ItemMetadata): Omit<CatalogItem, 'season
             large: STORE_IMAGE_SIZES.LARGE,
             small: STORE_IMAGE_SIZES.SMALL
           },
-          videoMedia: { path: buildUrl(params, 'VIDEOS', 'front.mp4'), lowq: 'q-5' }
+          videoMedia: { path: buildUrl(params, 'VIDEOS', 'front.mp4'), lowq: 'q-10' }
         },
         // BACK CONTENT
         {
@@ -44,7 +44,7 @@ export function buildItemParams(params: ItemMetadata): Omit<CatalogItem, 'season
             large: STORE_IMAGE_SIZES.LARGE,
             small: STORE_IMAGE_SIZES.SMALL
           },
-          videoMedia: { path: buildUrl(params, 'VIDEOS', 'back.mp4'), lowq: 'q-5' }
+          videoMedia: { path: buildUrl(params, 'VIDEOS', 'back.mp4'), lowq: 'q-10' }
         }
       ]
     }
