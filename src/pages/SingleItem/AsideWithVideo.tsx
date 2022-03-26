@@ -69,8 +69,8 @@ function Breadcrumbs({
   )
 }
 
-const DEFAULT_MEDIA_START_INDEX = 0
-// TODO: fix props, pass steps, sizes etc
+const DEFAULT_MEDIA_START_INDEX = 1
+
 export default function ItemPage({
   itemColor,
   itemHeader,
