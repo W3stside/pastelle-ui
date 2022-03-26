@@ -54,3 +54,21 @@ export const REBIRTH: ItemMetadata = {
   year: 2022,
   description: [`REBIRTH.`, '...', `Home grown in LX @ pastelle labs`]
 }
+
+// ================================================================================
+// ====================> REBIRTH: CONTENT
+// ================================================================================
+export const DAYDREAMING: ItemMetadata = {
+  name: 'DAYDREAMING',
+  color: '#7B649F',
+  season: 'FALL',
+  year: 2022,
+  description: [
+    `DAYDREAM.`,
+    'I WAS ASLEEP UNDER THE FLOWERS.',
+    `FOR A COUPLE OF HOURS...`,
+    'Homegrown @ pastelle labs'
+  ],
+  collaborator: 'EGON SCHIELE',
+  social: [{ type: SocialType.INSTAGRAM, url: 'https://www.wikiart.org/en/egon-schiele', display: 'EGON SCHIELE WIKI' }]
+}
