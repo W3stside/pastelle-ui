@@ -1,5 +1,7 @@
 import { ItemMetadata, SocialType } from 'mock/apparel/types'
 
+const HOME_GROWN_MESSAGE = 'Home grown in LX @ pastelle labs'
+
 // ================================================================================
 // ====================> VIRGIL: CONTENT
 // ================================================================================
@@ -30,7 +32,7 @@ export const VOODOO: ItemMetadata = {
   color: '#8f55e999',
   season: 'FALL',
   year: 2022,
-  description: [`1500uG +`, `Phasing in and out. Fractals.`, `Home grown in LX @ pastelle labs`]
+  description: [`1500uG +`, `Phasing in and out. Fractals.`, HOME_GROWN_MESSAGE]
 }
 
 // ================================================================================
@@ -41,7 +43,7 @@ export const ELLEX: ItemMetadata = {
   color: '#dbbbb9',
   season: 'FALL',
   year: 2022,
-  description: [`LADY ESTRELA.`, `Home grown in LX @ pastelle labs`]
+  description: [`LADY ESTRELA.`, HOME_GROWN_MESSAGE]
 }
 
 // ================================================================================
@@ -52,7 +54,7 @@ export const REBIRTH: ItemMetadata = {
   color: '#2c2c2c',
   season: 'FALL',
   year: 2022,
-  description: [`REBIRTH.`, '...', `Home grown in LX @ pastelle labs`]
+  description: [`REBIRTH.`, '...', HOME_GROWN_MESSAGE]
 }
 
 // ================================================================================
@@ -63,12 +65,7 @@ export const DAYDREAMING: ItemMetadata = {
   color: '#7B649F',
   season: 'FALL',
   year: 2022,
-  description: [
-    `DAYDREAM.`,
-    'I WAS ASLEEP UNDER THE FLOWERS.',
-    `FOR A COUPLE OF HOURS...`,
-    'Homegrown @ pastelle labs'
-  ],
+  description: [`DAYDREAM.`, 'I WAS ASLEEP UNDER THE FLOWERS.', `FOR A COUPLE OF HOURS...`],
   collaborator: 'EGON SCHIELE',
   social: [{ type: SocialType.INSTAGRAM, url: 'https://www.wikiart.org/en/egon-schiele', display: 'EGON SCHIELE WIKI' }]
 }
