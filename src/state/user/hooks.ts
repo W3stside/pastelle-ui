@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppState } from 'state'
 import { Theme, ThemeModes } from 'theme/styled'
 import { updateThemeAutoDetect, updateThemeMode } from './actions'
+import { initialState } from './reducer'
 
-export const useAppColourTheme = (): Theme => useSelector<AppState, Theme>(({ user }) => user.theme)
+export const useAppColourTheme = (): Theme =>
+  useSelector<AppState, Theme>(({ user }) => user.theme || initialState.theme)
 
 interface ThemeManager {
   theme: Theme

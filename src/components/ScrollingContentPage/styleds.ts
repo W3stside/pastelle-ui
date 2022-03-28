@@ -19,7 +19,7 @@ export const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
   touch-action: none;
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    width: 100%;
+    display: none;
   `}
 `
 

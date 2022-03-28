@@ -10,7 +10,6 @@ const Catalog = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "
 const AboutUs = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "ABOUTUS" */ 'pages/AboutUs'))
 const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Error/NotFound'))
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
-import VideoPage from './VideoTest'
 
 import { useCatalogByYearAndSeason } from 'state/catalog/hooks'
 import { FixedAnimatedLoader } from 'components/Loader'
@@ -50,7 +49,6 @@ export default function App() {
         <Switch>
           <Route exact strict path="/catalog/:year/:season/:itemName" component={Catalog} />
           <Route exact path="/aboutus" component={AboutUs} />
-          <Route exact path="/video" component={VideoPage} />
           <Route exact path="/404" component={NotFound} />
           <Route component={RedirectPathToCatalogOnly} />
           <Route component={NotFound} />
