@@ -143,22 +143,14 @@ export default function ItemPage({
         {noDescription ? null : mobileView ? (
           <>
             <br />
-            <ItemLogo fontWeight={200} marginTop={-35} marginBottom={-30} itemColor={itemColor} animation>
+            <ItemLogo fontWeight={200} marginTop={-55} marginBottom={-30} itemColor={itemColor} animation>
               {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
             </ItemLogo>
-            <br />
-            {/* Credits */}
-            <ItemSubHeader bgColor={itemColor}>
-              <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CREDIT</span>
-            </ItemSubHeader>
-            <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
-            <br />
-
             <Row
               style={{
                 position: 'fixed',
                 bottom: 0,
-                height: 110,
+                height: 60,
                 backgroundColor: 'lavender',
                 fontSize: '40px',
                 fontWeight: 100,
@@ -170,7 +162,7 @@ export default function ItemPage({
               justifyContent="center"
               onClick={handleMobileItemClick && handleMobileItemClick}
             >
-              CLICK TO VIEW MORE
+              TAP TO <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
             </Row>
           </>
         ) : (

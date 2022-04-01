@@ -111,7 +111,7 @@ export const Strikethrough = styled.div`
   background-color: ${({ theme }) => theme.white};
   height: 5px;
 `
-export type ItemHeaderProps = { animation?: boolean; animationDelay?: boolean; itemColor: string }
+export type ItemHeaderProps = { animation?: boolean; animationDelay?: boolean; itemColor: string; maxWidth?: string }
 export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
   z-index: 100;
   font-style: italic;
@@ -120,7 +120,7 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
 
   // logo
   > img {
-    max-width: 100%;
+    max-width: ${({ maxWidth = '100%' }) => maxWidth};
   }
   
   ${({ theme }) => theme.mediaWidth.upToSmall`

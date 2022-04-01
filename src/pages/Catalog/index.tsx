@@ -14,6 +14,8 @@ export default function Catalog() {
   // get catalog item from data and url
   const { seasonList, currentItem } = useCatalogItemFromURL()
 
+  const fHeight = isMobile ? 550 : undefined
+
   return (
     <ArticleFadeInContainer id="CATALOG-ARTICLE">
       <ScrollingContentPage
@@ -23,8 +25,9 @@ export default function Catalog() {
         baseContentMessage="SCROLL/DRAG FOR MORE SHIT!"
         width={`calc(100% - ${STORE_IMAGE_SIZES.SMALL}px)`}
         bgColor="#ffffffdb"
-        onlyOne="TOP"
+        onlyOne="BOTTOM"
         showIndicator={!isMobile}
+        fHeight={fHeight}
       />
     </ArticleFadeInContainer>
   )

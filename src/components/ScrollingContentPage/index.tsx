@@ -98,7 +98,7 @@ export function useViewPagerAnimation({
   const prev = useRef([0, 1])
 
   const [target, setContainerRef] = useStateRef(null, node => node)
-  const [height, setHeightRef] = useStateRef<number>(0, node => fHeight || node?.clientHeight - 50 || 0)
+  const [height, setHeightRef] = useStateRef<number>(0, node => fHeight || node?.clientHeight || 0)
 
   // handle window resizing
   useEffect(() => {
