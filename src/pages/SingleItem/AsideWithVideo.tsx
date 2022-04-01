@@ -39,6 +39,9 @@ export interface ItemPageProps {
     artist: string
     social: CollaboratorSocialData
   }
+  mobileView?: boolean
+  noVideo?: boolean
+  noDescription?: boolean
 }
 
 export type ItemPageDesignsProps = {
@@ -82,8 +85,16 @@ export default function ItemPage({
   itemIndex,
   isActive,
   firstPaintOver,
-  style
-}: ItemPageProps & ScrollableContentComponentBaseProps & { style?: any }) {
+  mobileView = false,
+  noVideo = false,
+  noDescription = false,
+  style,
+  handleMobileItemClick
+}: ItemPageProps &
+  ScrollableContentComponentBaseProps & {
+    style?: any
+    handleMobileItemClick?: React.MouseEventHandler<HTMLHeadingElement>
+  }) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
 
@@ -117,7 +128,6 @@ export default function ItemPage({
       <ItemAsidePanel id="#item-aside-panel">
         {/* Breadcrumbs */}
         <Breadcrumbs {...breadcrumbs} padding="5px" marginBottom={-25} />
-
         {/* Item carousel */}
         <Carousel
           buttonColor={itemColor}
@@ -128,61 +138,100 @@ export default function ItemPage({
           onImageClick={toggleModal}
         />
 
-        <br />
+        {/* Wrap everything else in a fragment */}
+        {noDescription ? null : mobileView ? (
+          <>
+            <br />
+            <ItemLogo fontWeight={200} marginTop={-35} marginBottom={-30} itemColor={itemColor} animation>
+              {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
+            </ItemLogo>
+            <br />
+            {/* Credits */}
+            <ItemSubHeader bgColor={itemColor}>
+              <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CREDIT</span>
+            </ItemSubHeader>
+            <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
+            <br />
 
-        <ItemLogo fontWeight={200} marginTop={-35} marginBottom={-30} itemColor={itemColor} animation>
-          {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
-        </ItemLogo>
+            <Row
+              style={{
+                position: 'fixed',
+                bottom: 0,
+                height: 110,
+                backgroundColor: 'lavender',
+                fontSize: '40px',
+                fontWeight: 100,
+                width: '100%',
+                color: '#000',
+                letterSpacing: -3.5
+              }}
+              alignItems="center"
+              justifyContent="center"
+              onClick={handleMobileItemClick && handleMobileItemClick}
+            >
+              CLICK TO VIEW MORE
+            </Row>
+          </>
+        ) : (
+          <>
+            <br />
+            <ItemLogo fontWeight={200} marginTop={-35} marginBottom={-30} itemColor={itemColor} animation>
+              {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
+            </ItemLogo>
 
-        <br />
+            <br />
 
-        {/* Credits */}
-        <ItemSubHeader bgColor={itemColor}>
-          <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CREDIT</span>
-        </ItemSubHeader>
+            {/* Credits */}
+            <ItemSubHeader bgColor={itemColor}>
+              <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CREDIT</span>
+            </ItemSubHeader>
 
-        <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
+            <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
 
-        <br />
+            <br />
 
-        {/* Size selector */}
-        <ItemSubHeader bgColor={itemColor}>
-          <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CHOOSE A SIZE</span>
-        </ItemSubHeader>
+            {/* Size selector */}
+            <ItemSubHeader bgColor={itemColor}>
+              <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CHOOSE A SIZE</span>
+            </ItemSubHeader>
 
-        <br />
+            <br />
 
-        <Row>
-          <select disabled style={{ width: '50%' }}>
-            {itemSizesList.map((size, index) => (
-              <option key={size + '_' + index}>{size}</option>
-            ))}
-          </select>
-        </Row>
+            <Row>
+              <select disabled style={{ width: '50%' }}>
+                {itemSizesList.map((size, index) => (
+                  <option key={size + '_' + index}>{size}</option>
+                ))}
+              </select>
+            </Row>
 
-        <br />
+            <br />
 
-        {/* Item description */}
-        <ItemSubHeader bgColor={itemColor}>
-          <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>DESCRIPTION</span>
-        </ItemSubHeader>
+            {/* Item description */}
+            <ItemSubHeader bgColor={itemColor}>
+              <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>DESCRIPTION</span>
+            </ItemSubHeader>
 
-        <br />
+            <br />
 
-        <Row>
-          <ItemDescription>
-            {itemDescription.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </ItemDescription>
-        </Row>
+            <Row>
+              <ItemDescription>
+                {itemDescription.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </ItemDescription>
+            </Row>
+          </>
+        )}
       </ItemAsidePanel>
-      <ItemVideoContent
-        firstPaintOver={firstPaintOver}
-        hide={!isActive}
-        itemMediaList={itemMediaList}
-        currentCarouselIndex={currentCarouselIndex}
-      />
+      {noVideo ? null : (
+        <ItemVideoContent
+          firstPaintOver={firstPaintOver}
+          hide={!isActive}
+          itemMediaList={itemMediaList}
+          currentCarouselIndex={currentCarouselIndex}
+        />
+      )}
 
       {/* LARGE IMAGE MODAL */}
       <Modal isOpen={isActive && showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>

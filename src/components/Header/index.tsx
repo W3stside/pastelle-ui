@@ -59,6 +59,10 @@ const HeaderLinks = styled(Row)`
     font-size: 18px;
     font-weight: 300;
     color: ghostwhite;
+
+    ${({ theme }) => theme.mediaWidth.upToSmall`
+      font-size: 12px;
+    `};
   }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -123,6 +127,10 @@ const Pastellecon = styled.div`
   :hover {
     transform: rotate(-5deg);
   }
+
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+    display: none;
+`};
 `
 
 // const StyledExternalLink = styled(ExternalLink).attrs({

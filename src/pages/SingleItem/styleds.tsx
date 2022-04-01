@@ -100,6 +100,10 @@ export const VideoContentWrapper = styled(Row)<{ hide?: boolean }>`
 
     animation-name: saturate;
     animation-duration: 10.4s;
+
+    ${({ theme }) => theme.mediaWidth.upToSmall`
+      display: none;
+    `}
   }
 `
 export const Strikethrough = styled.div`

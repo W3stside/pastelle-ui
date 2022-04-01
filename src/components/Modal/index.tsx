@@ -77,9 +77,16 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
       ${mobile &&
         css`
           width: 100vw;
+          height: 90vh;
+
           border-radius: 20px;
           border-bottom-left-radius: 0;
           border-bottom-right-radius: 0;
+          margin: auto;
+
+          img {
+            max-width: 150%;
+          }
         `}
     `}
   }
@@ -119,7 +126,7 @@ export default function Modal({
       set({
         y: state.down ? state.movement[1] : 0
       })
-      if (state.movement[1] > 300 || (state.direction[1] > 3 && state.direction[1] > 0)) {
+      if (state.movement[1] > 150 || (state.direction[1] > 3 && state.direction[1] > 0)) {
         onDismiss()
       }
     }
@@ -150,6 +157,23 @@ export default function Modal({
                 mobile={isMobile}
                 isLargeImageModal={isLargeImageModal}
               >
+                {isMobile && (
+                  <h1
+                    onClick={onDismiss}
+                    style={{
+                      background: '#AB92E1',
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: '5px 10px',
+                      textAlign: 'right',
+                      margin: 0
+                    }}
+                  >
+                    CLOSE
+                  </h1>
+                )}
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
                 {!initialFocusRef && isMobile ? <div tabIndex={1} /> : null}
                 {children}

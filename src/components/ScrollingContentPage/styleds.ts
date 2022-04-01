@@ -19,12 +19,13 @@ export const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
   touch-action: none;
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    display: none;
+    width: 100%;
   `}
 `
 
 export const ScrollerContainer = styled.div`
   height: 100%;
 
+  touch-action: none;
   transition: transform 350ms ease-in-out;
 `

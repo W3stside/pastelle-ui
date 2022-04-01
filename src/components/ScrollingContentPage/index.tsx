@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, SetStateAction } from 'react'
 import { useGesture } from '@use-gesture/react'
 import { useSprings, SpringConfig } from '@react-spring/web'
 import { FixedAnimatedLoader } from 'components/Loader'
@@ -6,9 +6,13 @@ import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/
 import { ScrollerContainer, Scroller, AnimatedDivContainer } from './styleds'
 
 import { Lethargy } from 'lethargy'
+import { isMobile } from 'utils'
 interface ScrollingContentPageParams<D> {
   data: D[]
   dataItem: D | undefined
+  fHeight?: number
+  hideHeight?: number
+  showIndicator?: boolean
   IterableComponent: (props: D & ScrollableContentComponentBaseProps) => JSX.Element
 }
 
@@ -25,7 +29,8 @@ const CONFIG = {
   DRAG_SPEED_COEFFICIENT: 0.5
 }
 const MAC_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 260 }
-const WHEEL_SPRING_CONFIG: SpringConfig = { friction: 40, tension: 100 }
+// const WHEEL_SPRING_CONFIG: SpringConfig = { friction: 40, tension: 100 }
+const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 50 }
 /**
  *
  * @param a input
@@ -66,35 +71,52 @@ interface ScrollSpringParams {
 // initialise Lethary
 const lethargy = new Lethargy()
 
-export function useViewPagerAnimation({ items, visible = 1 }: any) {
+function useStateRef<T>(defaultRef: T, processNode: (node: any) => SetStateAction<T>): [T, (newNode: any) => void] {
+  const [node, setNode] = useState<T>(defaultRef)
+  const setRef = useCallback(
+    newNode => {
+      setNode(processNode(newNode))
+    },
+    [processNode]
+  )
+  return [node, setRef]
+}
+
+export function useViewPagerAnimation({
+  items,
+  visible = 1,
+  fHeight
+}: // hideHeight
+{
+  items: any[]
+  visible: number
+  fHeight?: number
+  hideHeight?: number
+}) {
   const prev = useRef([0, 1])
-  const targetRef = useRef<HTMLDivElement | null>(null)
 
-  const [currentIndex, setCurrentIndex] = useState(prev.current[0])
-  const [target, setRef] = useState<HTMLDivElement>()
-  const [height, setHeight] = useState<number>(0)
+  const [target, setContainerRef] = useStateRef(null, node => node)
+  const [height, setHeightRef] = useStateRef<number>(0, node => fHeight || node?.clientHeight || 0)
 
-  const [firstPaintOver, setFirstPaintOver] = useState(false)
-
-  // set container ref height to state
-  // adjust clientHeight on window resize
+  // handle window resizing
   useEffect(() => {
-    if (targetRef?.current && !target) {
-      setRef(targetRef.current)
-    }
-
-    if (target && !height) {
-      setHeight(target.clientHeight)
-    }
-
     // resize handler - update clientHeight
-    const _handleWindowResize = () => target?.clientHeight && setHeight(target.clientHeight)
-    window.addEventListener('resize', _handleWindowResize)
+    const _handleWindowResize = () => !fHeight && target?.clientHeight && setHeightRef(target)
+    window?.addEventListener('resize', _handleWindowResize)
 
     return () => {
-      window.removeEventListener('resize', _handleWindowResize)
+      window?.removeEventListener('resize', _handleWindowResize)
     }
-  }, [height, target])
+  }, [fHeight, setHeightRef, target])
+
+  const setTargetRef = useCallback((node: any) => {
+    setContainerRef(node)
+    setHeightRef(node)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const [currentIndex, setCurrentIndex] = useState(prev.current[0])
+  const [firstPaintOver, setFirstPaintOver] = useState(false)
 
   const [springs, api] = useSprings(
     items.length,
@@ -127,9 +149,10 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
       const position = getPos(i, firstVis, firstVisIdx)
       const prevPosition = getPos(i, prev.current[0], prev.current[1])
       const rank = firstVis - (y < 0 ? items.length : 0) + position - firstVisIdx
+
       // const configPos = dy > 0 ? position : items.length - position
       const yPos = (-y % (height * items.length)) + height * rank
-      const scale = active ? Math.max(1 - Math.abs(my) / height / 2, 0.8) : 1
+      const scale = !isMobile && active ? Math.max(1 - Math.abs(my) / height / 2, 0.8) : 1
 
       const anchorPoint = _getNearestAxisPoint(yPos, height)
 
@@ -139,7 +162,7 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
         immediate: dy < 0 ? prevPosition > position : prevPosition < position,
         // set configs based on intertial vs non-intertial scroll
         // s === false means intertial
-        config: s === false ? MAC_SPRING_CONFIG : WHEEL_SPRING_CONFIG
+        config: isMobile ? MOBILE_SPRING_CONFIG : s === false ? MAC_SPRING_CONFIG : MAC_SPRING_CONFIG // WHEEL_SPRING_CONFIG
       }
     },
     [getPos, height, items.length]
@@ -196,41 +219,66 @@ export function useViewPagerAnimation({ items, visible = 1 }: any) {
   return {
     springs,
     target,
-    targetRef,
+    setTargetRef,
     height,
     currentIndex,
     firstPaintOver
   }
 }
 
-export function ScrollingContentPage<D>({ data, dataItem, IterableComponent, ...indicatorProps }: Params<D>) {
-  const { springs, targetRef, height, currentIndex, firstPaintOver } = useViewPagerAnimation({
+export function ScrollingContentPage<D>({
+  data,
+  dataItem,
+  fHeight,
+  // hideHeight,
+  showIndicator = true,
+  IterableComponent,
+  ...indicatorProps
+}: Params<D>) {
+  const [mobileView, setMobileView] = useState(false)
+  const { springs, setTargetRef, height, currentIndex, firstPaintOver } = useViewPagerAnimation({
     items: data,
-    visible: 1
+    visible: 1,
+    fHeight,
+    hideHeight: fHeight ? fHeight * 2 : undefined
   })
 
   if (!dataItem) return null
+
+  const mobileProps = isMobile ? { mobileView: true, handleMobileViewClick: () => setMobileView(state => !state) } : {}
 
   return (
     <>
       <FixedAnimatedLoader loadText="PASTELLE APPAREL" left="50%" animation />
       <ScrollerContainer>
         {/* scroll div */}
-        <Scroller ref={targetRef} />
-        {springs.map(({ y, scale }, i) => {
-          return (
-            <AnimatedDivContainer key={i} style={{ scale, height, y }}>
-              <ScrollingContentIndicator {...indicatorProps} />
-              <IterableComponent
-                firstPaintOver={firstPaintOver}
-                isActive={currentIndex === i}
-                itemIndex={currentIndex}
-                key={i}
-                {...data[i]}
-              />
-            </AnimatedDivContainer>
-          )
-        })}
+        {!mobileView && (
+          <Scroller ref={setTargetRef} onClick={mobileProps.mobileView && (mobileProps.handleMobileViewClick as any)} />
+        )}
+        {mobileView ? (
+          <IterableComponent
+            firstPaintOver={firstPaintOver}
+            isActive={true}
+            itemIndex={currentIndex}
+            {...data[currentIndex]}
+          />
+        ) : (
+          springs.map(({ y, scale }, i) => {
+            return (
+              <AnimatedDivContainer key={i} style={{ scale, height, y }}>
+                {showIndicator && <ScrollingContentIndicator {...indicatorProps} />}
+                <IterableComponent
+                  firstPaintOver={firstPaintOver}
+                  isActive={currentIndex === i}
+                  itemIndex={currentIndex}
+                  key={i}
+                  {...mobileProps}
+                  {...data[i]}
+                />
+              </AnimatedDivContainer>
+            )
+          })
+        )}
       </ScrollerContainer>
     </>
   )
