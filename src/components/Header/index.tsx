@@ -16,13 +16,15 @@ import PastelleLogoCursiveLong from 'assets/svg/pastelle-cursive-logo.svg'
 import { useMemo } from 'react'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
+import Navigation from 'components/Navigation'
+import { isMobile } from 'utils'
 
 const HeaderFrame = styled(SectionFrame)`
   top: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `
 
-const HeaderControls = styled.div`
+/* const HeaderControls = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -44,7 +46,7 @@ const HeaderElement = styled.div`
 const HeaderElementWrap = styled.div`
   display: flex;
   align-items: center;
-`
+` */
 
 const HeaderRow = styled(RowFixed)`
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -200,25 +202,26 @@ export default function Header() {
             External Link <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink> */}
         </HeaderLinks>
+        {isMobile && <Navigation navOrbProps={{ bgColor: 'transparent', menuSize: 30 }} />}
       </HeaderRow>
-      <HeaderControls>
+      {/* <HeaderControls>
         <HeaderElement>
-          {/* <HideSmall>
+          <HideSmall>
             {chainId && NETWORK_LABELS[chainId] && (
               <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
             )}
-          </HideSmall> */}
-          {/* <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
+          </HideSmall>
+          <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
             {account && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
                 {userEthBalance?.toSignificant(4)} ETH
               </BalanceText>
             ) : null}
             <Web3Status />
-          </AccountElement> */}
+          </AccountElement>
         </HeaderElement>
-        <HeaderElementWrap>{/* <Menu /> */}</HeaderElementWrap>
-      </HeaderControls>
+        <HeaderElementWrap><Menu /></HeaderElementWrap>
+      </HeaderControls>*/}
     </HeaderFrame>
   )
 }

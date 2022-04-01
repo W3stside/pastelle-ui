@@ -13,6 +13,7 @@ const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'compo
 
 import { useCatalogByYearAndSeason } from 'state/catalog/hooks'
 import { FixedAnimatedLoader } from 'components/Loader'
+import { isMobile } from 'utils'
 
 // TODO: move
 // Redirects to swap but only replace the pathname
@@ -44,7 +45,7 @@ export default function App() {
         {/* HEADER */}
         <Header />
         {/* SIDE-NAV */}
-        <Navigation />
+        {!isMobile && <Navigation />}
         {/* ARTICLE CONTENT */}
         <Switch>
           <Route exact strict path="/catalog/:year/:season/:itemName" component={Catalog} />

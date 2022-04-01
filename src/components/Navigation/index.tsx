@@ -42,9 +42,9 @@ const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; mi
   `}
 `
 
-const MobileNavOrb = styled(Button)`
+export const MobileNavOrb = styled(Button)<{ bgColor?: string }>`
   display: none;
-  background: ${({ theme }) => theme.red2};
+  background: ${({ theme, bgColor = theme.red2 }) => bgColor};
   color: ${({ theme }) => theme.white};
   cursor: pointer;
   z-index: 210;
@@ -59,7 +59,7 @@ const MobileNavOrb = styled(Button)`
     }
   }
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    position: fixed;
+    position: relative;
     bottom: 0; right: 0; margin: 10px;  
     display: flex;
     justify-content: center;
@@ -81,7 +81,7 @@ const CatalogLabel = styled.span<{ active: boolean }>`
     `}
 `
 
-export default function Navigation() {
+export default function Navigation({ navOrbProps }: any) {
   const [isNavOpen, setIsNavOpen] = useState(false)
 
   const toggleNav = () => {
@@ -93,18 +93,14 @@ export default function Navigation() {
   }
 
   const NavToggleButton = useMemo(() => {
-    return isNavOpen ? (
-      <X size={20} />
-    ) : (
-      <Row>
-        CATEGORIES <Menu size={20} />
-      </Row>
-    )
-  }, [isNavOpen])
+    return isNavOpen ? <X size={20} /> : <Menu size={navOrbProps?.menuSize || 20} />
+  }, [isNavOpen, navOrbProps?.menuSize])
 
   return (
     <>
-      <MobileNavOrb onClick={toggleNav}>{NavToggleButton}</MobileNavOrb>
+      <MobileNavOrb onClick={toggleNav} {...navOrbProps}>
+        {NavToggleButton}
+      </MobileNavOrb>
       <NavigationStepsWrapper isOpen={isNavOpen} width="9vw" minWidth="170px">
         <ItemSubHeader color={getThemeColours(ThemeModes.CHAMELEON).white}>
           <strong>{'// CATALOGS'}</strong>
