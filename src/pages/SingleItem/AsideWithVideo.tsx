@@ -130,6 +130,7 @@ export default function ItemPage({
         <Breadcrumbs {...breadcrumbs} padding="5px" marginBottom={-25} />
         {/* Item carousel */}
         <Carousel
+          showCarouselContentIndicators={!mobileView}
           buttonColor={itemColor}
           imageList={smallImagesList}
           transformation={[{ width: itemMediaList[0].imageMedia.small }]}

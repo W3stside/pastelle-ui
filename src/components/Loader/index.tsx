@@ -25,6 +25,7 @@ type StyleParams = {
   right?: string
   bottom?: string
   left?: string
+  width?: string
 }
 
 const FixedContainer = styled.div<StyleParams>`
@@ -33,6 +34,7 @@ const FixedContainer = styled.div<StyleParams>`
   bottom: ${({ bottom = '25%' }) => bottom};
   left: ${({ left = '25%' }) => left};
   right: ${({ right = '25%' }) => right};
+  width: ${({ width = 'auto' }) => width};
 `
 
 export const FixedAnimatedLoader = ({

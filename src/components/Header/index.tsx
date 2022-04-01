@@ -1,16 +1,21 @@
 import styled from 'styled-components/macro'
 
-import Logo from 'assets/png/chalk.png'
 // import { useActiveWeb3React } from 'blockchain/hooks'
 // import { ExternalLink } from 'theme'
 
 // import Menu from 'components/Menu'
-import DynamicHeaderLogo from 'components/Header/DynamicLogoHeader'
+// import DynamicHeaderLogo from 'components/Header/DynamicLogoHeader'
 import { Row, RowFixed /*, YellowCard */ } from 'components/Layout'
 import { SectionFrame } from 'components/Layout/Section'
 
 // import { NETWORK_LABELS } from 'blockchain/constants'
 import { StyledNavLink } from './styleds'
+
+import PastelleLogoSharpShort from 'assets/svg/PSTL-sharp.svg'
+import PastelleLogoCursiveLong from 'assets/svg/pastelle-cursive-logo.svg'
+import { useMemo } from 'react'
+import { useWindowSize } from 'hooks/useWindowSize'
+import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 
 const HeaderFrame = styled(SectionFrame)`
   top: 0;
@@ -129,7 +134,9 @@ const Pastellecon = styled.div`
   }
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    display: none;
+    > img {
+      width: 90px;
+    }
 `};
 `
 
@@ -166,16 +173,25 @@ const Pastellecon = styled.div`
 
 export default function Header() {
   // const { chainId } = useActiveWeb3React()
+  const { width } = useWindowSize()
+
+  const constructedLogo = useMemo(() => {
+    if (!width) return null
+    if (width < MEDIA_WIDTHS.upToExtraSmall) {
+      return PastelleLogoSharpShort
+      // width < 960px
+    } else {
+      return PastelleLogoCursiveLong
+    }
+  }, [width])
 
   return (
     <HeaderFrame as="header">
       <HeaderRow>
         <Title href="/#">
-          <Pastellecon>
-            <img width="40px" src={Logo} alt="logo" />
-          </Pastellecon>
+          <Pastellecon>{constructedLogo && <img width="170px" src={constructedLogo} alt="logo" />}</Pastellecon>
         </Title>
-        <DynamicHeaderLogo itemColor="#dda0ddb3" fontSize={60} fontWeight={100} color={'ghostwhite'} />
+        {/* <DynamicHeaderLogo itemColor="#dda0ddb3" fontSize={60} fontWeight={100} color={'ghostwhite'} /> */}
         <HeaderLinks id="header-links-container">
           <StyledNavLink to="/#">{'// SHOP'}</StyledNavLink>
           <StyledNavLink to="/aboutus">{'// ABOUT US'}</StyledNavLink>

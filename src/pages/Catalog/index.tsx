@@ -14,14 +14,11 @@ export default function Catalog() {
   // get catalog item from data and url
   const { seasonList, currentItem } = useCatalogItemFromURL()
 
-  const fHeight = undefined // isMobile && 382
-
   return (
     <ArticleFadeInContainer id="CATALOG-ARTICLE">
       <ScrollingContentPage
         data={seasonList}
         dataItem={currentItem}
-        fHeight={fHeight || undefined}
         IterableComponent={AsideWithVideo}
         baseContentMessage="SCROLL/DRAG FOR MORE SHIT!"
         width={`calc(100% - ${STORE_IMAGE_SIZES.SMALL}px)`}

@@ -7,6 +7,8 @@ import { ScrollerContainer, Scroller, AnimatedDivContainer } from './styleds'
 
 import { Lethargy } from 'lethargy'
 import { isMobile } from 'utils'
+import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
+
 interface ScrollingContentPageParams<D> {
   data: D[]
   dataItem: D | undefined
@@ -96,7 +98,7 @@ export function useViewPagerAnimation({
   const prev = useRef([0, 1])
 
   const [target, setContainerRef] = useStateRef(null, node => node)
-  const [height, setHeightRef] = useStateRef<number>(0, node => fHeight || node?.clientHeight || 0)
+  const [height, setHeightRef] = useStateRef<number>(0, node => fHeight || node?.clientHeight - 50 || 0)
 
   // handle window resizing
   useEffect(() => {
@@ -251,7 +253,7 @@ export function ScrollingContentPage<D>({
 
   return (
     <>
-      <FixedAnimatedLoader loadText="PASTELLE APPAREL" left="50%" animation />
+      <FixedAnimatedLoader loadText={<img src={PastelleIvoryOutlined} />} left="50%" animation width="40vw" />
       <ScrollerContainer>
         {/* scroll div */}
         {!mobileView && (

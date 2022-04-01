@@ -9,6 +9,7 @@ type CarouselProps = {
   imageList: string[]
   transformation: ImageProps['transformation']
   mediaStartIndex: number
+  showCarouselContentIndicators?: boolean
   onCarouselChange?: (index: number) => void
   onImageClick?: () => void
 }
@@ -19,6 +20,7 @@ export default function Carousel({
   imageList,
   transformation,
   mediaStartIndex,
+  showCarouselContentIndicators = true,
   onCarouselChange,
   onImageClick
 }: CarouselProps) {
@@ -105,7 +107,7 @@ export default function Carousel({
             $calculatedWidth={calculatedWidth + 'px'}
           >
             <SmartImg path={path} transformation={transformation} ref={carouselImageRef} />
-            {isMultipleCarousel && (
+            {showCarouselContentIndicators && isMultipleCarousel && (
               <CarouselButtonContainer onClick={onImageClick}>
                 <CarouselButton onClick={onPrevious} buttonColor={buttonColor}>
                   <ChevronLeft />
