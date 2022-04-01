@@ -48,7 +48,7 @@ export function ScrollingContentIndicator({
         </Wrapper>
       )}
       {onlyOne !== 'TOP' && (
-        <Wrapper {...styleProps} bottom={'50px'}>
+        <Wrapper {...styleProps} bottom={'0px'}>
           <ItemSubHeader>{baseContentMessage}</ItemSubHeader>
         </Wrapper>
       )}

@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useState } from 'react'
-import { Pause, Play } from 'react-feather'
+import { /* useCallback ,*/ useEffect, useState } from 'react'
+// import { Pause, Play } from 'react-feather'
 
-import { ButtonVariations } from 'components/Button'
+import /* ButtonVariations */ 'components/Button'
 import { ItemPageProps } from './AsideWithVideo'
-import { VideoContentWrapper, ItemSubHeader, VideoControlButton } from './styleds'
+import { VideoContentWrapper /* , ItemSubHeader, VideoControlButton */ } from './styleds'
 import LazyVideo from 'components/LazyVideo'
 import { Spinner } from 'theme'
 
-const CONTROL_BUTTON_SIZE = 20
+// const CONTROL_BUTTON_SIZE = 20
 
 export const ItemVideoContent = ({
   itemMediaList,
@@ -15,7 +15,7 @@ export const ItemVideoContent = ({
   firstPaintOver
 }: // hide
 { currentCarouselIndex: number; hide?: boolean; firstPaintOver?: boolean } & Pick<ItemPageProps, 'itemMediaList'>) => {
-  const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
+  const [, /* videoStatus */ setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export const ItemVideoContent = ({
     }
   }, [videoElement])
 
-  const toggleVideo = useCallback(() => {
+  /* const toggleVideo = useCallback(() => {
     if (!videoElement) return
 
     if (videoStatus === 'PAUSED') {
@@ -49,7 +49,7 @@ export const ItemVideoContent = ({
     }
   }, [videoElement, videoStatus])
 
-  const isPaused = videoStatus === 'PAUSED'
+  const isPaused = videoStatus === 'PAUSED' */
 
   // TODO: show loader and set hide to also depend on active index
   // if (hide) return null
@@ -82,7 +82,7 @@ export const ItemVideoContent = ({
           )
         })}
       </VideoContentWrapper>
-      {videoStatus && (
+      {/* videoStatus && (
         <VideoControlButton variant={ButtonVariations.THEME} onClick={toggleVideo}>
           <ItemSubHeader>
             VIDEO
@@ -93,7 +93,7 @@ export const ItemVideoContent = ({
             )}
           </ItemSubHeader>
         </VideoControlButton>
-      )}
+      ) */}
     </>
   )
 }

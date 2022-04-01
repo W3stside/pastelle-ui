@@ -32,7 +32,7 @@ const CONFIG = {
 }
 const MAC_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 260 }
 // const WHEEL_SPRING_CONFIG: SpringConfig = { friction: 40, tension: 100 }
-const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 50 }
+const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 50, mass: 1.8 }
 /**
  *
  * @param a input
@@ -104,8 +104,10 @@ export function useViewPagerAnimation({
   useEffect(() => {
     // resize handler - update clientHeight
     const _handleWindowResize = () => !fHeight && target?.clientHeight && setHeightRef(target)
-    window?.addEventListener('resize', _handleWindowResize)
 
+    window?.addEventListener('resize', _handleWindowResize)
+    // first run call
+    _handleWindowResize()
     return () => {
       window?.removeEventListener('resize', _handleWindowResize)
     }
@@ -259,7 +261,8 @@ export function ScrollingContentPage<D>({
         {!mobileView && (
           <Scroller ref={setTargetRef} onClick={mobileProps.mobileView && (mobileProps.handleMobileViewClick as any)} />
         )}
-        {mobileView ? (
+        {/* Were in mobile or the data passed only has 1 item, don't run loop animations */}
+        {mobileView || data.length === 1 ? (
           <IterableComponent
             firstPaintOver={firstPaintOver}
             isActive={true}

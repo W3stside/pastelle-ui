@@ -195,11 +195,11 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   }
 
   header, nav, footer {
-    background: ${({ theme, frameBgColor = transparentize(1, theme.bg1) }) => frameBgColor};
+    background: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
   }
 
   header {
-    background: ${({ headerLogo, theme, frameBgColor = transparentize(1, theme.bg1) }) =>
+    background: ${({ headerLogo, theme, frameBgColor = transparentize(0.3, theme.bg1) }) =>
       headerLogo
         ? `url(${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + headerLogo}) center no-repeat, url(${process.env
             .REACT_APP_IMAGEKIT_URL_ENDPOINT +
@@ -207,17 +207,17 @@ export const ThemedGlobalStyle = createGlobalStyle<{
             '?tr=q-10'}) 0px 0px no-repeat`
         : frameBgColor};
       
-    background-color: ${({ theme, frameBgColor = transparentize(1, theme.bg1) }) => frameBgColor};
+    background-color: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
     background-size: cover;
     background-blend-mode: difference;
 
     #header-links-container {
-      background-color: ${({ frameBgColor, theme }) => frameBgColor || transparentize(1, theme.bg1)};
+      background-color: ${({ frameBgColor, theme }) => frameBgColor || transparentize(0.3, theme.bg1)};
     }
   }
 
   nav {
-    background: ${({ navLogo, theme, frameBgColor = transparentize(1, theme.bg1) }) =>
+    background: ${({ navLogo, theme, frameBgColor = transparentize(0.3, theme.bg1) }) =>
       navLogo
         ? `url(${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + navLogo}) center no-repeat, url(${process.env
             .REACT_APP_IMAGEKIT_URL_ENDPOINT +
@@ -226,7 +226,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
         : frameBgColor};
     background-size: cover;
     background-blend-mode: difference;
-    background-color: ${({ theme, frameBgColor = transparentize(1, theme.bg1) }) => frameBgColor};
+    background-color: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
 
     ${({ animation = true }) => animation && flickerAnimation}
     ${({ animation = true, animationDelay = 3 }) =>

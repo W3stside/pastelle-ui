@@ -8,15 +8,7 @@ import { getThemeColours } from 'theme/utils'
 import { ItemContainer, ItemAsidePanel, ItemHeader } from './styleds'
 import SmartImg, { ImageKitTransformation } from 'components/SmartImg'
 
-const AsideWithScrollableImagesContainer = styled(ItemContainer)`
-  > ${ItemAsidePanel} {
-    width: 40vw;
-    max-width: 40vw;
-  }
-`
-
 const ImageContainer = styled(AutoColumn)`
-  width: 100%;
   overflow-y: auto;
 
   > img {
@@ -26,6 +18,17 @@ const ImageContainer = styled(AutoColumn)`
   ${({ theme }) => theme.mediaWidth.upToMedium`
     display: none;
   `}
+`
+
+const AsideWithScrollableImagesContainer = styled(ItemContainer)`
+  > ${ItemAsidePanel}, > ${ImageContainer} {
+    width: 700px;
+    max-width: 100%;
+  }
+
+  > ${ItemAsidePanel} {
+    padding: 30px 0;
+  }
 `
 
 const AboutUsHeader = styled(ItemHeader)`
@@ -52,7 +55,7 @@ export function AsideWithScrollableImages({ header, markdown, image }: Params) {
   return (
     <AsideWithScrollableImagesContainer id="#item-container" /* isViewingItem={isViewingItem} */>
       <ItemAsidePanel>
-        <AboutUsHeader itemColor={getThemeColours(ThemeModes.VAMPIRE).bg2} animation>
+        <AboutUsHeader fontWeight={100} itemColor={getThemeColours(ThemeModes.VAMPIRE).bg2} animation>
           {header}
         </AboutUsHeader>
         <AboutUsTextContainer>
