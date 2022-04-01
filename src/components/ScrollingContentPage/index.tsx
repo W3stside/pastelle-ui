@@ -123,10 +123,10 @@ export function useViewPagerAnimation({
     i => ({
       scale: 1,
       y: (i < items.length - 1 ? i : -1) * height,
-      onRest: ({ value: { y } }) => {
-        if (y === 0 && height > 0) {
-          setCurrentIndex(i)
-        }
+      onRest: () => {
+        // if (y === 0 && height > 0) {
+        //   setCurrentIndex(i)
+        // }
 
         // useful in knowing when the FIRST animation has ended
         // like for setup
@@ -155,6 +155,8 @@ export function useViewPagerAnimation({
       const scale = !isMobile && active ? Math.max(1 - Math.abs(my) / height / 2, 0.8) : 1
 
       const anchorPoint = _getNearestAxisPoint(yPos, height)
+
+      anchorPoint === 0 && setCurrentIndex(i)
 
       return {
         y: active ? yPos : anchorPoint,
