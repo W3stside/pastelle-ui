@@ -195,7 +195,7 @@ export default function Header() {
         </Title>
         {/* <DynamicHeaderLogo itemColor="#dda0ddb3" fontSize={60} fontWeight={100} color={'ghostwhite'} /> */}
         <HeaderLinks id="header-links-container">
-          <StyledNavLink to="/#">{'// SHOP'}</StyledNavLink>
+          <StyledNavLink to="/catalog/2022/FALL/">{'// SHOP'}</StyledNavLink>
           <StyledNavLink to="/aboutus">{'// ABOUT US'}</StyledNavLink>
           {/* <StyledNavLink to="#">Header Link</StyledNavLink> */}
           {/* <StyledExternalLink href="#">

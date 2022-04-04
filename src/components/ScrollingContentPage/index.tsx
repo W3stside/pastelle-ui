@@ -15,6 +15,7 @@ interface ScrollingContentPageParams<D> {
   fHeight?: number
   hideHeight?: number
   showIndicator?: boolean
+  onContentClick?: React.MouseEventHandler<HTMLDivElement>
   IterableComponent: (props: D & ScrollableContentComponentBaseProps) => JSX.Element
 }
 
@@ -256,10 +257,10 @@ export function ScrollingContentPage<D>({
   dataItem,
   fHeight,
   showIndicator = true,
+  onContentClick,
   IterableComponent,
   ...indicatorProps
 }: Params<D>) {
-  const [mobileView, setMobileView] = useState(false)
   const { springs, setTargetRef, height, currentIndex, firstPaintOver } = useViewPagerAnimation(data, {
     visible: 1,
     fHeight,
@@ -272,41 +273,28 @@ export function ScrollingContentPage<D>({
 
   if (!dataItem) return null
 
-  const mobileProps = isMobile ? { mobileView: true, handleMobileViewClick: () => setMobileView(state => !state) } : {}
-
   return (
     <>
       <FixedAnimatedLoader loadText={<img src={PastelleIvoryOutlined} />} left="50%" animation width="40vw" />
       <ScrollerContainer>
         {/* scroll div */}
-        {!mobileView && (
-          <Scroller ref={setTargetRef} onClick={mobileProps.mobileView && (mobileProps.handleMobileViewClick as any)} />
-        )}
+        <Scroller ref={setTargetRef} onClick={onContentClick && onContentClick} />
         {/* Were in mobile or the data passed only has 1 item, don't run loop animations */}
-        {mobileView || data.length === 1 ? (
-          <IterableComponent
-            firstPaintOver={firstPaintOver}
-            isActive={true}
-            itemIndex={currentIndex}
-            {...data[currentIndex]}
-          />
-        ) : (
-          springs.map(({ y, scale }, i) => {
-            return (
-              <AnimatedDivContainer key={i} style={{ scale, height, y }}>
-                {showIndicator && <ScrollingContentIndicator {...indicatorProps} />}
-                <IterableComponent
-                  firstPaintOver={firstPaintOver}
-                  isActive={currentIndex === i}
-                  itemIndex={currentIndex}
-                  key={i}
-                  {...mobileProps}
-                  {...data[i]}
-                />
-              </AnimatedDivContainer>
-            )
-          })
-        )}
+        {springs.map(({ y, scale }, i) => {
+          return (
+            <AnimatedDivContainer key={i} style={{ scale, height, y }}>
+              {showIndicator && <ScrollingContentIndicator {...indicatorProps} />}
+              <IterableComponent
+                firstPaintOver={firstPaintOver}
+                isActive={currentIndex === i}
+                itemIndex={currentIndex}
+                key={i}
+                mobileView={isMobile}
+                {...data[i]}
+              />
+            </AnimatedDivContainer>
+          )
+        })}
       </ScrollerContainer>
     </>
   )

@@ -60,12 +60,14 @@ export function useCatalogItemFromURL(options?: CatalogFromURLOptions) {
     [pathname]
   )
 
+  console.info('ITEM', item, pathname)
+
   // mock hook for async fetching of catalog data
   const catalogMap = useCatalog()
 
   const seasonMap = catalogMap?.[year.toUpperCase()]?.[season.toUpperCase() as CatalogSeason]
   const seasonList = Object.values(seasonMap || {})
-  const urlItem = seasonMap?.[item.toUpperCase()]
+  const urlItem = seasonMap?.[item]
   const currentItem = urlItem || seasonList[0]
 
   return {

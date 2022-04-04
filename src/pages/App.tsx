@@ -10,6 +10,7 @@ const Catalog = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "
 const AboutUs = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "ABOUTUS" */ 'pages/AboutUs'))
 const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Error/NotFound'))
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
+const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleItem'))
 
 import { useCatalogByYearAndSeason } from 'state/catalog/hooks'
 import { FixedAnimatedLoader } from 'components/Loader'
@@ -48,7 +49,8 @@ export default function App() {
         {!isMobile && <Navigation />}
         {/* ARTICLE CONTENT */}
         <Switch>
-          <Route exact strict path="/catalog/:year/:season" component={Catalog} />
+          <Route exact path="/catalog/:year/:season" component={Catalog} />
+          <Route exact strict path="/catalog/:year/:season/:item" component={SingleItem} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/404" component={NotFound} />
           {/* <Route component={RedirectPathToCatalogOnly} /> */}
