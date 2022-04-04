@@ -12,7 +12,7 @@ export const BASE_CATALOG_URL = '/catalog/2022/FALL/'
 
 export default function Catalog() {
   // get catalog item from data and url
-  const { seasonList, currentItem } = useCatalogItemFromURL()
+  const { seasonList, currentItem } = useCatalogItemFromURL({ randomiseData: true })
 
   const fHeight = isMobile ? 550 : undefined
 

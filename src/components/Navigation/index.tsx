@@ -11,6 +11,7 @@ import { ThemeModes } from 'theme/styled'
 import { CURRENT_SEASON, CURRENT_YEAR } from 'constants/config'
 import { useCatalogItemFromURL } from 'pages/Catalog/hooks'
 import { CatalogItem } from 'mock/apparel/types'
+import { useGetCurrentOnScreenItem } from 'state/catalog/hooks'
 
 const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; minWidth?: string }>`
   width: ${({ width = 'auto' }) => width};
@@ -88,7 +89,9 @@ function _buildItemUrl(catalogItem: CatalogItem) {
 }
 
 export default function Navigation({ navOrbProps }: any) {
-  const { seasonList, currentItem } = useCatalogItemFromURL()
+  const { seasonList } = useCatalogItemFromURL()
+  const currentItem = useGetCurrentOnScreenItem()
+
   const [isNavOpen, setIsNavOpen] = useState(false)
 
   const toggleNav = () => {

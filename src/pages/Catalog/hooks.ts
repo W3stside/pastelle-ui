@@ -46,7 +46,9 @@ function _getRandomArrayItem(arr: any[]) {
   return [newFirstItem, ...adjustedArrBeg, ...adjustedArrEnd]
 }
 
-export function useCatalogItemFromURL() {
+type CatalogFromURLOptions = { randomiseData: boolean }
+
+export function useCatalogItemFromURL(options?: CatalogFromURLOptions) {
   // we need to use the URL to determine what item we're currently viewing
   const { pathname } = useLocation()
   const [year = '', season = '', item = ''] = useMemo(
@@ -67,7 +69,7 @@ export function useCatalogItemFromURL() {
   const currentItem = urlItem || seasonList[0]
 
   return {
-    seasonList: _getRandomArrayItem(seasonList),
+    seasonList: options?.randomiseData ? _getRandomArrayItem(seasonList) : seasonList,
     currentItem,
     pathname
   }
