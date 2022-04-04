@@ -39,6 +39,7 @@ export interface ItemPageProps {
     artist: string
     social: CollaboratorSocialData
   }
+  itemKey: string
   mobileView?: boolean
   noVideo?: boolean
   noDescription?: boolean
@@ -83,6 +84,7 @@ export default function ItemPage({
   itemDescription,
   itemArtistInfo,
   itemIndex,
+  itemKey,
   isActive,
   firstPaintOver,
   mobileView = false,
@@ -121,7 +123,7 @@ export default function ItemPage({
   // get catalog item from data and url
   const { seasonList, currentItem } = useCatalogItemFromURL()
   // update URL (if necessary) to reflect current item
-  useUpdateURLFromCatalogItem({ seasonList, currentItem, isActive, itemIndex, itemKey: itemHeader })
+  useUpdateURLFromCatalogItem({ seasonList, currentItem, isActive, itemIndex, itemKey })
 
   return (
     <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ style={style}>

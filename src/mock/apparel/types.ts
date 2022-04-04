@@ -20,7 +20,7 @@ export type ApparelItem = {
   }
 }
 export type CatalogSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL'
-export type CatalogItem = ItemPageProps & ItemPageDesignsProps & { key: string }
+export type CatalogItem = ItemPageProps & ItemPageDesignsProps
 // returns { ITEM_NAME: ITEM_OBJECT }
 export type CatalogSeasonItemMap = {
   [item: string]: CatalogItem

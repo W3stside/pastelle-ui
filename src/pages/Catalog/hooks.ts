@@ -22,15 +22,15 @@ export function useUpdateURLFromCatalogItem(params: URLFromCatalogItemsParams) {
   const { replace } = useHistory()
   // update url
   useEffect(() => {
-    const urlNeedsUpdate = isActive && currentItem?.itemHeader !== itemKey
+    const urlNeedsUpdate = isActive && currentItem?.itemKey !== itemKey
 
     if (urlNeedsUpdate) {
-      const currentItemKey = seasonList[itemIndex]?.key
+      const currentItemKey = seasonList[itemIndex]?.itemKey
       if (!currentItemKey) return
 
       replace(BASE_CATALOG_URL + currentItemKey.split('-')[0])
     }
-  }, [currentItem?.itemHeader, isActive, itemKey, itemIndex, replace, seasonList])
+  }, [currentItem?.itemKey, isActive, itemKey, itemIndex, replace, seasonList])
 }
 
 export function useCatalogItemFromURL() {

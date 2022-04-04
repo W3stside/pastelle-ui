@@ -109,9 +109,11 @@ export default function Navigation({ navOrbProps }: any) {
         </ItemSubHeader>
 
         {seasonList.map(catalogItem => (
-          <StyledNavLink key={catalogItem.key} to={`/catalog/${CURRENT_YEAR}/${catalogItem}`}>
+          <StyledNavLink key={catalogItem.itemKey} to={`/catalog/${CURRENT_YEAR}/${catalogItem}`}>
             <ItemSubHeader padding="2px" color={getThemeColours(ThemeModes.CHAMELEON).white}>
-              <CatalogLabel active={catalogItem.key === currentItem?.key}>{catalogItem.itemHeader}</CatalogLabel>
+              <CatalogLabel active={catalogItem.itemKey === currentItem?.itemKey}>
+                {catalogItem.itemHeader}
+              </CatalogLabel>
             </ItemSubHeader>
           </StyledNavLink>
         ))}

@@ -24,7 +24,7 @@ export function buildItemParams(params: ItemMetadata): Omit<CatalogItem, 'season
               social: params.social
             }
           : undefined,
-      key: params.name + '-' + nanoid()
+      itemKey: params.name + '-' + nanoid()
     },
     {
       itemMediaList: [
