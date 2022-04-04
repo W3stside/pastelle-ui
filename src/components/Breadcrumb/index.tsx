@@ -1,6 +1,8 @@
-const MOCK_BREADCRUMB = ['Home', 'Longsleeve', 'VIRGIL']
+import { useGetCatalogDetailsFromURL } from 'pages/Catalog/hooks'
 
 export function useBreadcrumb() {
-  const lastCrumb = MOCK_BREADCRUMB.slice().pop()
-  return { breadcrumbs: MOCK_BREADCRUMB, lastCrumb }
+  const [, params] = useGetCatalogDetailsFromURL()
+
+  const lastCrumb = params.slice().pop()
+  return { breadcrumbs: params, lastCrumb }
 }

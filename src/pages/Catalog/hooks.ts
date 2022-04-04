@@ -33,34 +33,24 @@ export function useUpdateURLFromCatalogItem(params: URLFromCatalogItemsParams) {
   }, [currentItem?.itemKey, isActive, itemKey, itemIndex, replace, seasonList])
 }
 
-function _getRandomArrayItem(arr: any[]) {
-  const randomIndex = Math.round(Math.random() * arr.length)
-
-  // 0 index, return original arr
-  if (!randomIndex) return arr
-
-  const adjustedArrEnd = arr.slice(randomIndex)
-  const adjustedArrBeg = arr.slice(0, randomIndex - 1)
-  const newFirstItem = arr[randomIndex - 1]
-
-  return [newFirstItem, ...adjustedArrBeg, ...adjustedArrEnd]
-}
-
-type CatalogFromURLOptions = { randomiseData: boolean }
-
-export function useCatalogItemFromURL(options?: CatalogFromURLOptions) {
-  // we need to use the URL to determine what item we're currently viewing
+export function useGetCatalogDetailsFromURL(): [string, string[]] {
   const { pathname } = useLocation()
-  const [year = '', season = '', item = ''] = useMemo(
-    () =>
+
+  return useMemo(
+    () => [
+      pathname,
       pathname
         .substring(1)
         .split('/')
-        .slice(1),
+        .slice(1)
+    ],
     [pathname]
   )
+}
 
-  console.info('ITEM', item, pathname)
+export function useCatalogItemFromURL() {
+  // we need to use the URL to determine what item we're currently viewing
+  const [pathname, [year = '', season = '', item = '']] = useGetCatalogDetailsFromURL()
 
   // mock hook for async fetching of catalog data
   const catalogMap = useCatalog()
@@ -71,7 +61,7 @@ export function useCatalogItemFromURL(options?: CatalogFromURLOptions) {
   const currentItem = urlItem || seasonList[0]
 
   return {
-    seasonList: options?.randomiseData ? _getRandomArrayItem(seasonList) : seasonList,
+    seasonList,
     currentItem,
     pathname
   }

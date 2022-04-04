@@ -52,3 +52,17 @@ export const registerOnWindow = (registerMapping: Record<string, any>) => {
 export function isZero(hexNumberString: string) {
   return /^0x0*$/.test(hexNumberString)
 }
+
+// shitty array "randomiser"
+export function randomiseArray(arr: any[]) {
+  const randomIndex = Math.round(Math.random() * arr.length)
+
+  // 0 index, return original arr
+  if (!randomIndex) return arr
+
+  const adjustedArrEnd = arr.slice(randomIndex)
+  const adjustedArrBeg = arr.slice(0, randomIndex - 1)
+  const newFirstItem = arr[randomIndex - 1]
+
+  return [newFirstItem, ...adjustedArrBeg, ...adjustedArrEnd]
+}

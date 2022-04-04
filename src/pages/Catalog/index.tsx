@@ -14,7 +14,7 @@ export const BASE_CATALOG_URL = '/catalog/2022/FALL/'
 export default function Catalog() {
   const { push } = useHistory()
   // get catalog item from data and url
-  const { seasonList, currentItem } = useCatalogItemFromURL({ randomiseData: true })
+  const { seasonList, currentItem } = useCatalogItemFromURL()
   const onScreenItemId = useOnScreenItemID()
 
   const fHeight = isMobile ? 550 : undefined
@@ -25,12 +25,14 @@ export default function Catalog() {
     }
   }, [onScreenItemId, push])
 
+  const AsideWithVideoAux = useCallback(props => <AsideWithVideo {...props} showBreadCrumbs={false} />, [])
+
   return (
     <ArticleFadeInContainer id="CATALOG-ARTICLE">
       <ScrollingContentPage
         data={seasonList}
         dataItem={currentItem}
-        IterableComponent={AsideWithVideo}
+        IterableComponent={AsideWithVideoAux}
         baseContentMessage="SCROLL/DRAG FOR MORE SHIT!"
         width={`calc(100% - ${STORE_IMAGE_SIZES.SMALL}px)`}
         bgColor="#ffffffdb"

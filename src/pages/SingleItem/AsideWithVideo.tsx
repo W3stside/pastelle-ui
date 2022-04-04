@@ -73,7 +73,7 @@ function Breadcrumbs({
   )
 }
 
-const DEFAULT_MEDIA_START_INDEX = 1
+const DEFAULT_MEDIA_START_INDEX = 0
 
 export default function ItemPage({
   itemColor,
@@ -89,12 +89,14 @@ export default function ItemPage({
   mobileView = false,
   noVideo = false,
   noDescription = false,
+  showBreadCrumbs,
   style,
   handleMobileItemClick
 }: ItemPageProps &
   ScrollableContentComponentBaseProps & {
     style?: any
     handleMobileItemClick?: React.MouseEventHandler<HTMLHeadingElement>
+    showBreadCrumbs: boolean
   }) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
@@ -103,7 +105,6 @@ export default function ItemPage({
   const toggleModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
   const showLargeImage = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
 
-  // TODO: un-mock
   const breadcrumbs = useBreadcrumb()
 
   // Split images lists
@@ -119,6 +120,7 @@ export default function ItemPage({
     return { smallImagesList, largeImagesList }
   }, [itemMediaList])
 
+  // scrolling page current index set in state as on screen
   const setOnScreenId = useSetOnScreenItemID()
   useEffect(() => {
     if (isActive) {
@@ -126,16 +128,11 @@ export default function ItemPage({
     }
   }, [isActive, itemKey, setOnScreenId])
 
-  // get catalog item from data and url
-  // const { seasonList, currentItem } = useCatalogItemFromURL()
-  // // update URL (if necessary) to reflect current item
-  // useUpdateURLFromCatalogItem({ seasonList, currentItem, isActive, itemIndex, itemKey })
-
   return (
-    <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ style={style}>
+    <ItemContainer id="#item-container" style={style}>
       <ItemAsidePanel id="#item-aside-panel">
         {/* Breadcrumbs */}
-        <Breadcrumbs {...breadcrumbs} padding="5px" marginBottom={-25} />
+        {showBreadCrumbs && <Breadcrumbs {...breadcrumbs} padding="5px" marginBottom={-25} />}
         {/* Item carousel */}
         <Carousel
           showCarouselContentIndicators={!mobileView}

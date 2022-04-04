@@ -1,11 +1,13 @@
-import { ItemMetadata, SocialType } from 'mock/apparel/types'
+import { ItemMetadata, ItemMetaDataOptions, SocialType } from 'mock/apparel/types'
+
+type CustomItemMetaData = ItemMetadata & ItemMetaDataOptions
 
 const HOME_GROWN_MESSAGE = 'Home grown in LX @ pastelle labs'
 
 // ================================================================================
 // ====================> VIRGIL: CONTENT
 // ================================================================================
-export const VIRGIL: ItemMetadata = {
+export const VIRGIL: CustomItemMetaData = {
   name: 'VIRGIL',
   // color: '#a2c2fa', // LIGHTER
   // color: '#427da2', // blue
@@ -27,29 +29,31 @@ export const VIRGIL: ItemMetadata = {
 // ================================================================================
 // ====================> VOODOO: CONTENT
 // ================================================================================
-export const VOODOO: ItemMetadata = {
+export const VOODOO: CustomItemMetaData = {
   name: 'VOODOO',
   color: '#8f55e999',
   season: 'FALL',
   year: 2022,
-  description: [`1500uG +`, `Phasing in and out. Fractals.`, HOME_GROWN_MESSAGE]
+  description: [`1500uG +`, `Phasing in and out. Fractals.`, HOME_GROWN_MESSAGE],
+  reverseMediaOrder: true
 }
 
 // ================================================================================
 // ====================> ELLEX: CONTENT
 // ================================================================================
-export const ELLEX: ItemMetadata = {
+export const ELLEX: CustomItemMetaData = {
   name: 'ELLEX',
   color: '#dbbbb9',
   season: 'FALL',
   year: 2022,
-  description: [`LADY ESTRELA.`, HOME_GROWN_MESSAGE]
+  description: [`LADY ESTRELA.`, HOME_GROWN_MESSAGE],
+  reverseMediaOrder: true
 }
 
 // ================================================================================
 // ====================> REBIRTH: CONTENT
 // ================================================================================
-export const REBIRTH: ItemMetadata = {
+export const REBIRTH: CustomItemMetaData = {
   name: 'REBIRTH',
   color: '#2c2c2c',
   season: 'FALL',
@@ -58,14 +62,17 @@ export const REBIRTH: ItemMetadata = {
 }
 
 // ================================================================================
-// ====================> REBIRTH: CONTENT
+// ====================> DAYDREAMING: CONTENT
 // ================================================================================
-export const DAYDREAMING: ItemMetadata = {
+export const DAYDREAMING: CustomItemMetaData = {
   name: 'DAYDREAMING',
   color: '#7B649F',
   season: 'FALL',
   year: 2022,
   description: [`DAYDREAM.`, 'I WAS ASLEEP UNDER THE FLOWERS.', `FOR A COUPLE OF HOURS...`],
   collaborator: 'EGON SCHIELE',
-  social: [{ type: SocialType.INSTAGRAM, url: 'https://www.wikiart.org/en/egon-schiele', display: 'EGON SCHIELE WIKI' }]
+  social: [
+    { type: SocialType.INSTAGRAM, url: 'https://www.wikiart.org/en/egon-schiele', display: 'EGON SCHIELE WIKI' }
+  ],
+  reverseMediaOrder: true
 }

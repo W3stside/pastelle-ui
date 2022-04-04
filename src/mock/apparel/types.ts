@@ -47,6 +47,7 @@ export type ItemMetadata = BaseCatalogItem & {
   collaborator?: string
   social?: CollaboratorSocialData
 }
+export type ItemMetaDataOptions = { reverseMediaOrder?: boolean }
 
 export type ItemMediaContent = {
   logo?: string
