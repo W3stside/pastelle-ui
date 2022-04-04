@@ -20,13 +20,12 @@ import { isMobile } from 'utils'
 // Redirects to swap but only replace the pathname
 const DEFAULT_CATALOG_YEAR = '2022'
 const DEFAULT_CATALOG_SEASON = 'FALL'
-const DEFAULT_CATALOG_START_ITEM = 'VIRGIL'
 export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
   return (
     <Redirect
       to={{
         ...location,
-        pathname: `/catalog/${DEFAULT_CATALOG_YEAR}/${DEFAULT_CATALOG_SEASON}/${DEFAULT_CATALOG_START_ITEM}`
+        pathname: `/catalog/${DEFAULT_CATALOG_YEAR}/${DEFAULT_CATALOG_SEASON}/`
       }}
     />
   )
@@ -53,7 +52,7 @@ export default function App() {
           <Route exact strict path="/catalog/:year/:season/:item" component={SingleItem} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/404" component={NotFound} />
-          {/* <Route component={RedirectPathToCatalogOnly} /> */}
+          <Route component={RedirectPathToCatalogOnly} />
           <Route component={NotFound} />
         </Switch>
         {/* FOOTER */}
