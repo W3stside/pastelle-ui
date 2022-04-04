@@ -245,14 +245,17 @@ export const ThemedGlobalComponent = () => {
 
   const currentItem = useGetCurrentOnScreenItem()
 
-  const { itemColor, navLogo, headerLogo } = useMemo(
+  const { itemColor, navLogo, headerLogo, showAnimation } = useMemo(
     () => ({
       itemColor: theme.mode === ThemeModes.CHAMELEON ? currentItem?.itemColor : undefined,
       navLogo: theme.mode === ThemeModes.CHAMELEON ? currentItem?.navLogo : undefined,
-      headerLogo: theme.mode === ThemeModes.CHAMELEON ? currentItem?.headerLogo : undefined
+      headerLogo: theme.mode === ThemeModes.CHAMELEON ? currentItem?.headerLogo : undefined,
+      showAnimation: theme.mode === ThemeModes.CHAMELEON
     }),
     [currentItem?.headerLogo, currentItem?.itemColor, currentItem?.navLogo, theme.mode]
   )
 
-  return <ThemedGlobalStyle frameBgColor={itemColor} headerLogo={headerLogo} navLogo={navLogo} />
+  return (
+    <ThemedGlobalStyle frameBgColor={itemColor} headerLogo={headerLogo} navLogo={navLogo} animation={showAnimation} />
+  )
 }
