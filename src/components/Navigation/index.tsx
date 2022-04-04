@@ -8,8 +8,9 @@ import ThemeToggleBar from 'components/ThemeToggler'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { getThemeColours } from 'theme/utils'
 import { ThemeModes } from 'theme/styled'
-import { CURRENT_YEAR } from 'constants/config'
+import { CURRENT_SEASON, CURRENT_YEAR } from 'constants/config'
 import { useCatalogItemFromURL } from 'pages/Catalog/hooks'
+import { CatalogItem } from 'mock/apparel/types'
 
 const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; minWidth?: string }>`
   width: ${({ width = 'auto' }) => width};
@@ -82,6 +83,10 @@ const CatalogLabel = styled.span<{ active: boolean }>`
     `}
 `
 
+function _buildItemUrl(catalogItem: CatalogItem) {
+  return `/catalog/${CURRENT_YEAR}/${CURRENT_SEASON}/${catalogItem.itemHeader}`
+}
+
 export default function Navigation({ navOrbProps }: any) {
   const { seasonList, currentItem } = useCatalogItemFromURL()
   const [isNavOpen, setIsNavOpen] = useState(false)
@@ -109,7 +114,7 @@ export default function Navigation({ navOrbProps }: any) {
         </ItemSubHeader>
 
         {seasonList.map(catalogItem => (
-          <StyledNavLink key={catalogItem.itemKey} to={`/catalog/${CURRENT_YEAR}/${catalogItem}`}>
+          <StyledNavLink key={catalogItem.itemKey} to={_buildItemUrl(catalogItem)}>
             <ItemSubHeader padding="2px" color={getThemeColours(ThemeModes.CHAMELEON).white}>
               <CatalogLabel active={catalogItem.itemKey === currentItem?.itemKey}>
                 {catalogItem.itemHeader}

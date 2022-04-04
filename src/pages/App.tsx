@@ -51,7 +51,7 @@ export default function App() {
           <Route exact strict path="/catalog/:year/:season/:itemName" component={Catalog} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/404" component={NotFound} />
-          <Route component={RedirectPathToCatalogOnly} />
+          {/* <Route component={RedirectPathToCatalogOnly} /> */}
           <Route component={NotFound} />
         </Switch>
         {/* FOOTER */}
