@@ -31,7 +31,7 @@ export const VIRGIL: CustomItemMetaData = {
 // ================================================================================
 export const VOODOO: CustomItemMetaData = {
   name: 'VOODOO',
-  color: '#8f55e999',
+  color: '#26297a',
   season: 'FALL',
   year: 2022,
   description: [`1500uG +`, `Phasing in and out. Fractals.`, HOME_GROWN_MESSAGE],
