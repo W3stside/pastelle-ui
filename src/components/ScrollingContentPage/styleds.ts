@@ -6,14 +6,24 @@ export const AnimatedDivContainer = styled(a.div)`
   position: absolute;
   width: 100%;
   will-change: transform;
+
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0px 0px 50px 10px lightsalmon;
+  }
+
+  transition: box-shadow 0.2s ease-in-out;
 `
 
 export const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
   position: absolute;
   right: 0;
+  left: 0;
   bottom: 0;
   top: 0;
-  width: calc(100% - ${STORE_IMAGE_SIZES.SMALL}px);
+  cursor: pointer;
+  // width: calc(100% - ${STORE_IMAGE_SIZES.SMALL}px);
   z-index: 900;
 
   touch-action: none;

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
@@ -21,12 +21,12 @@ import Modal from 'components/Modal'
 import { useToggleModal, useModalOpen } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/reducer'
 import { ItemVideoContent } from './ItemVideoContent'
-import { useCatalogItemFromURL, useUpdateURLFromCatalogItem } from 'pages/Catalog/hooks'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import { ThemeModes } from 'theme/styled'
 import { getThemeColours } from 'theme/utils'
 import { BoxProps } from 'rebass'
 import SmartImg from 'components/SmartImg'
+import { useSetOnScreenItemID } from 'state/user/hooks'
 
 export interface ItemPageProps {
   itemColor: string
@@ -83,7 +83,6 @@ export default function ItemPage({
   itemSizesList,
   itemDescription,
   itemArtistInfo,
-  itemIndex,
   itemKey,
   isActive,
   firstPaintOver,
@@ -120,10 +119,17 @@ export default function ItemPage({
     return { smallImagesList, largeImagesList }
   }, [itemMediaList])
 
+  const setOnScreenId = useSetOnScreenItemID()
+  useEffect(() => {
+    if (isActive) {
+      setOnScreenId(itemKey)
+    }
+  }, [isActive, itemKey, setOnScreenId])
+
   // get catalog item from data and url
-  const { seasonList, currentItem } = useCatalogItemFromURL()
-  // update URL (if necessary) to reflect current item
-  useUpdateURLFromCatalogItem({ seasonList, currentItem, isActive, itemIndex, itemKey })
+  // const { seasonList, currentItem } = useCatalogItemFromURL()
+  // // update URL (if necessary) to reflect current item
+  // useUpdateURLFromCatalogItem({ seasonList, currentItem, isActive, itemIndex, itemKey })
 
   return (
     <ItemContainer id="#item-container" /* isViewingItem={isViewingItem} */ style={style}>
@@ -170,7 +176,7 @@ export default function ItemPage({
         ) : (
           <>
             <br />
-            <ItemLogo fontWeight={200} marginTop={-35} marginBottom={-30} itemColor={itemColor} animation>
+            <ItemLogo fontWeight={200} marginTop={-135} marginBottom={-30} itemColor={itemColor} animation>
               {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
             </ItemLogo>
 

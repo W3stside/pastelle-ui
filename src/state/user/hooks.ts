@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { AppDispatch, AppState } from 'state'
 import { Theme, ThemeModes } from 'theme/styled'
-import { updateThemeAutoDetect, updateThemeMode } from './actions'
+import { setOnScreenItemID, updateThemeAutoDetect, updateThemeMode } from './reducer'
 import { initialState } from './reducer'
 
-export const useAppColourTheme = (): Theme =>
-  useSelector<AppState, Theme>(({ user }) => user.theme || initialState.theme)
+export const useAppColourTheme = () => useSelector<AppState, Theme>(({ user }) => user.theme || initialState.theme)
 
 interface ThemeManager {
   theme: Theme
@@ -35,3 +34,10 @@ export function useThemeManager(): ThemeManager {
 
   return { theme, setMode, setAutoDetect }
 }
+
+export function useSetOnScreenItemID() {
+  const dispatch = useDispatch<AppDispatch>()
+
+  return useCallback((params: string) => dispatch(setOnScreenItemID(params)), [dispatch])
+}
+export const useOnScreenItemID = () => useSelector<AppState, string | null>(({ user }) => user.onScreenItemID)

@@ -33,6 +33,19 @@ export function useUpdateURLFromCatalogItem(params: URLFromCatalogItemsParams) {
   }, [currentItem?.itemKey, isActive, itemKey, itemIndex, replace, seasonList])
 }
 
+function _getRandomArrayItem(arr: any[]) {
+  const randomIndex = Math.round(Math.random() * arr.length)
+
+  // 0 index, return original arr
+  if (!randomIndex) return arr
+
+  const adjustedArrEnd = arr.slice(randomIndex)
+  const adjustedArrBeg = arr.slice(0, randomIndex - 1)
+  const newFirstItem = arr[randomIndex - 1]
+
+  return [newFirstItem, ...adjustedArrBeg, ...adjustedArrEnd]
+}
+
 export function useCatalogItemFromURL() {
   // we need to use the URL to determine what item we're currently viewing
   const { pathname } = useLocation()
@@ -50,10 +63,11 @@ export function useCatalogItemFromURL() {
 
   const seasonMap = catalogMap?.[year.toUpperCase()]?.[season.toUpperCase() as CatalogSeason]
   const seasonList = Object.values(seasonMap || {})
-  const currentItem = seasonMap?.[item.toUpperCase()]
+  const urlItem = seasonMap?.[item.toUpperCase()]
+  const currentItem = urlItem || seasonList[0]
 
   return {
-    seasonList,
+    seasonList: _getRandomArrayItem(seasonList),
     currentItem,
     pathname
   }

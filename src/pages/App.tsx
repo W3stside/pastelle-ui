@@ -48,7 +48,7 @@ export default function App() {
         {!isMobile && <Navigation />}
         {/* ARTICLE CONTENT */}
         <Switch>
-          <Route exact strict path="/catalog/:year/:season/:itemName" component={Catalog} />
+          <Route exact strict path="/catalog/:year/:season" component={Catalog} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/404" component={NotFound} />
           {/* <Route component={RedirectPathToCatalogOnly} /> */}

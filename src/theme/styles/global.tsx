@@ -5,8 +5,8 @@ import { getThemeColours, setTextColour, setBgColour } from '../utils'
 import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
 import { useAppColourTheme } from 'state/user/hooks'
-import { useCatalogItemFromURL } from 'pages/Catalog/hooks'
 import { useMemo } from 'react'
+import { useGetCurrentOnScreenItem } from 'state/catalog/hooks'
 
 export { FontStyles }
 
@@ -241,7 +241,8 @@ export const ThemedGlobalStyle = createGlobalStyle<{
 
 export const ThemedGlobalComponent = () => {
   const theme = useAppColourTheme()
-  const { currentItem } = useCatalogItemFromURL()
+
+  const currentItem = useGetCurrentOnScreenItem()
 
   const { itemColor, navLogo, headerLogo } = useMemo(
     () => ({

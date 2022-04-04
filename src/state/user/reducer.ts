@@ -1,15 +1,15 @@
-import { createReducer } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Theme, ThemeModes } from 'theme/styled'
-import { updateVersion } from 'state/global/actions'
-import { updateThemeMode, updateThemeAutoDetect } from './actions'
 
 const currentTimestamp = () => new Date().getTime()
 
 export interface UserState {
   theme: Theme
-  timestamp: number
+  // timestamp: number
   // the timestamp of the last updateVersion action
   lastUpdateVersionTimestamp?: number
+  // key string of current on screen item
+  onScreenItemID: string | null
 }
 
 export const initialState: UserState = {
@@ -17,20 +17,30 @@ export const initialState: UserState = {
     mode: ThemeModes.CHAMELEON,
     autoDetect: false
   },
-  timestamp: currentTimestamp()
+  // timestamp: currentTimestamp(),
+  onScreenItemID: null
 }
 
-export default createReducer(initialState, builder =>
-  builder
-    .addCase(updateVersion, state => {
+const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    updateVersion(state) {
       state.lastUpdateVersionTimestamp = currentTimestamp()
-    })
-    .addCase(updateThemeMode, (state, action) => {
+    },
+    updateThemeMode(state, action: PayloadAction<ThemeModes>) {
       state.theme.mode = action.payload
-      state.timestamp = currentTimestamp()
-    })
-    .addCase(updateThemeAutoDetect, (state, action) => {
+      // state.timestamp = currentTimestamp()
+    },
+    updateThemeAutoDetect(state, action: PayloadAction<boolean>) {
       state.theme.autoDetect = action.payload
-      state.timestamp = currentTimestamp()
-    })
-)
+      // state.timestamp = currentTimestamp()
+    },
+    setOnScreenItemID(state, action: PayloadAction<string | null>) {
+      state.onScreenItemID = action.payload
+      // state.timestamp = currentTimestamp()
+    }
+  }
+})
+export const { updateThemeAutoDetect, updateThemeMode, setOnScreenItemID } = userSlice.actions
+export const user = userSlice.reducer

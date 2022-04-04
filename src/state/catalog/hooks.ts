@@ -2,6 +2,8 @@ import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 import { batchUpdateCatalogByYear, updateCatalog } from './reducer'
 import { CatalogSeason, CatalogSeasonItemMap, CatalogSeasonsMap } from 'mock/apparel/types'
+import { useOnScreenItemID } from 'state/user/hooks'
+import { CURRENT_YEAR, CURRENT_SEASON } from 'constants/config'
 
 export function useCatalog() {
   return useAppSelector(state => state.catalog)
@@ -35,4 +37,11 @@ export function useBatchUpdateCatalogByYear() {
     (params: { year: string | number; catalog: CatalogSeasonsMap }) => dispatch(batchUpdateCatalogByYear(params)),
     [dispatch]
   )
+}
+
+export function useGetCurrentOnScreenItem() {
+  const catalog = useCatalogByYearAndSeason({ year: CURRENT_YEAR, season: CURRENT_SEASON })
+  const itemId = useOnScreenItemID()
+
+  return itemId ? catalog?.[itemId] : undefined
 }

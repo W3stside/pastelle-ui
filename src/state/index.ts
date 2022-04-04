@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { save, load } from 'redux-localstorage-simple'
 
-import user from 'state/user/reducer'
+import { user } from 'state/user/reducer'
 import { application } from 'state/application/reducer'
 // APPAREL
 import { catalog } from 'state/catalog/reducer'

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback, SetStateAction } from 'react'
 import { useGesture } from '@use-gesture/react'
-import { useSprings, SpringConfig } from '@react-spring/web'
+import { useSprings, SpringConfig, config } from '@react-spring/web'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/ScrollingIndicator'
 import { ScrollerContainer, Scroller, AnimatedDivContainer } from './styleds'
@@ -27,12 +27,12 @@ export interface ScrollableContentComponentBaseProps {
 type Params<P> = ScrollingContentPageParams<P> & Omit<ScrollingIndicatorParams, 'isLastIndex'>
 
 const CONFIG = {
-  SCROLL_SPEED_COEFFICIENT: 4,
+  SCROLL_SPEED_COEFFICIENT: 3.2,
   DRAG_SPEED_COEFFICIENT: 0.5
 }
-const MAC_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 260 }
+const MAC_SPRING_CONFIG: SpringConfig = config.stiff // { friction: 20, tension: 180 }
 // const WHEEL_SPRING_CONFIG: SpringConfig = { friction: 40, tension: 100 }
-const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 50, mass: 1.8 }
+const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 50, mass: 1 }
 /**
  *
  * @param a input
@@ -84,17 +84,29 @@ function useStateRef<T>(defaultRef: T, processNode: (node: any) => SetStateActio
   return [node, setRef]
 }
 
-export function useViewPagerAnimation({
-  items,
-  visible = 1,
-  fHeight
-}: // hideHeight
-{
-  items: any[]
-  visible: number
-  fHeight?: number
-  hideHeight?: number
-}) {
+export function useViewPagerAnimation(
+  items: any[],
+  {
+    visible = 1,
+    // fixed height - bypasses useRef
+    fHeight,
+    // snap nearest screen after scroll end
+    snapOnScroll = false,
+    scaleOptions = {
+      scaleOnScroll: 0.8,
+      initialScale: 1
+    }
+  }: {
+    scale?: number
+    visible: number
+    fHeight?: number
+    snapOnScroll?: boolean
+    scaleOptions?: {
+      scaleOnScroll?: number
+      initialScale: number
+    }
+  }
+) {
   const prev = useRef([0, 1])
 
   const [target, setContainerRef] = useStateRef(null, node => node)
@@ -125,7 +137,7 @@ export function useViewPagerAnimation({
   const [springs, api] = useSprings(
     items.length,
     i => ({
-      scale: 1,
+      scale: scaleOptions.initialScale,
       y: (i < items.length - 1 ? i : -1) * height,
       onRest: () => {
         // if (y === 0 && height > 0) {
@@ -156,14 +168,21 @@ export function useViewPagerAnimation({
 
       // const configPos = dy > 0 ? position : items.length - position
       const yPos = (-y % (height * items.length)) + height * rank
-      const scale = !isMobile && active ? Math.max(1 - Math.abs(my) / height / 2, 0.8) : 1
+      const scale =
+        scaleOptions?.scaleOnScroll && !isMobile && active
+          ? Math.max(1 - Math.abs(my) / height / 2, scaleOptions.scaleOnScroll)
+          : scaleOptions.initialScale
 
       const anchorPoint = _getNearestAxisPoint(yPos, height)
 
-      anchorPoint === 0 && setCurrentIndex(i)
+      // the frame at the 0 anchor point is the current one in frame
+      // set it as the current index - sets header, nav, etc
+      if (anchorPoint === 0) {
+        setCurrentIndex(i)
+      }
 
       return {
-        y: active ? yPos : anchorPoint,
+        y: active || !snapOnScroll ? yPos : anchorPoint,
         scale,
         immediate: dy < 0 ? prevPosition > position : prevPosition < position,
         // set configs based on intertial vs non-intertial scroll
@@ -171,7 +190,7 @@ export function useViewPagerAnimation({
         config: isMobile ? MOBILE_SPRING_CONFIG : s === false ? MAC_SPRING_CONFIG : MAC_SPRING_CONFIG // WHEEL_SPRING_CONFIG
       }
     },
-    [getPos, height, items.length]
+    [getPos, height, items.length, scaleOptions, snapOnScroll]
   )
 
   const runSprings = useCallback(
@@ -236,17 +255,19 @@ export function ScrollingContentPage<D>({
   data,
   dataItem,
   fHeight,
-  // hideHeight,
   showIndicator = true,
   IterableComponent,
   ...indicatorProps
 }: Params<D>) {
   const [mobileView, setMobileView] = useState(false)
-  const { springs, setTargetRef, height, currentIndex, firstPaintOver } = useViewPagerAnimation({
-    items: data,
+  const { springs, setTargetRef, height, currentIndex, firstPaintOver } = useViewPagerAnimation(data, {
     visible: 1,
     fHeight,
-    hideHeight: fHeight ? fHeight * 2 : undefined
+    snapOnScroll: false,
+    // defaults to 0.8 scale on scroll and 1 scale default
+    scaleOptions: {
+      initialScale: 0.87
+    }
   })
 
   if (!dataItem) return null
