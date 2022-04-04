@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback, SetStateAction } from 'react'
 import { useGesture } from '@use-gesture/react'
-import { useSprings, SpringConfig, config } from '@react-spring/web'
+import { useSprings, SpringConfig } from '@react-spring/web'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/ScrollingIndicator'
 import { ScrollerContainer, Scroller, AnimatedDivContainer } from './styleds'
@@ -30,7 +30,7 @@ const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 3.2,
   DRAG_SPEED_COEFFICIENT: 0.5
 }
-const MAC_SPRING_CONFIG: SpringConfig = config.stiff // { friction: 20, tension: 180 }
+const MAC_SPRING_CONFIG: SpringConfig = { friction: 90, tension: 280 }
 // const WHEEL_SPRING_CONFIG: SpringConfig = { friction: 40, tension: 100 }
 const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 50, mass: 1 }
 /**
