@@ -60,7 +60,7 @@ const ThemeToggleBar: React.FC = () => {
         Auto
       </ThemeToggle> */}
       <ItemSubHeader color="#fff">THEME</ItemSubHeader>
-      {THEME_LIST.slice(1).map(([key, name], index) => {
+      {THEME_LIST.slice(2).map(([key, name], index) => {
         const isActiveMode = theme.mode === name
         const icon = _getTogglerIcon(name)
 

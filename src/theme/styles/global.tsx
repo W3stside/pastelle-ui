@@ -1,5 +1,5 @@
 import { createGlobalStyle, css } from 'styled-components/macro'
-import { transparentize } from 'polished'
+import { darken, transparentize } from 'polished'
 
 import { getThemeColours, setTextColour, setBgColour } from '../utils'
 import { ThemeModes } from '../styled'
@@ -212,7 +212,8 @@ export const ThemedGlobalStyle = createGlobalStyle<{
     background-blend-mode: difference;
 
     #header-links-container {
-      background-color: ${({ frameBgColor, theme }) => frameBgColor || transparentize(0.3, theme.bg1)};
+      background-color: ${({ frameBgColor, theme }) =>
+        frameBgColor ? darken(0.05, frameBgColor) : transparentize(0.3, theme.bg1)};
     }
   }
 
