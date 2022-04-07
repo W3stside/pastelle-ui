@@ -25,7 +25,7 @@ export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
     <Redirect
       to={{
         ...location,
-        pathname: `/catalog/${DEFAULT_CATALOG_YEAR}/${DEFAULT_CATALOG_SEASON}/`
+        pathname: `/catalog/${DEFAULT_CATALOG_YEAR}/${DEFAULT_CATALOG_SEASON}`
       }}
     />
   )

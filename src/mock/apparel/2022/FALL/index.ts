@@ -76,3 +76,14 @@ export const DAYDREAMING: CustomItemMetaData = {
   ],
   reverseMediaOrder: true
 }
+
+// ================================================================================
+// ====================> ASCENDANCE: CONTENT
+// ================================================================================
+export const ASCENDANCE: CustomItemMetaData = {
+  name: 'ASCENDANCE',
+  color: '#749a96',
+  season: 'FALL',
+  year: 2022,
+  description: [`DIE.`, 'ASCEND.', `BECOME.`]
+}
