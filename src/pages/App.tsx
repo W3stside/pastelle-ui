@@ -25,7 +25,7 @@ export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
     <Redirect
       to={{
         ...location,
-        pathname: `/catalog/${DEFAULT_CATALOG_YEAR}/${DEFAULT_CATALOG_SEASON}`
+        pathname: `/goods/${DEFAULT_CATALOG_YEAR}/${DEFAULT_CATALOG_SEASON}/`
       }}
     />
   )
@@ -48,8 +48,8 @@ export default function App() {
         {!isMobile && <Navigation />}
         {/* ARTICLE CONTENT */}
         <Switch>
-          <Route exact path="/catalog/:year/:season" component={Catalog} />
-          <Route exact strict path="/catalog/:year/:season/:item" component={SingleItem} />
+          <Route exact path="/goods/:year/:season" component={Catalog} />
+          <Route exact strict path="/goods/:year/:season/:item" component={SingleItem} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/404" component={NotFound} />
           <Route component={RedirectPathToCatalogOnly} />

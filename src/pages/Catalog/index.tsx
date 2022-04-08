@@ -1,13 +1,14 @@
+import { useCallback } from 'react'
+import { useHistory } from 'react-router-dom'
+
 import { useCatalogItemFromURL } from './hooks'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
-
 import AsideWithVideo from 'pages/SingleItem/AsideWithVideo'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { isMobile } from 'utils'
-import { useCallback } from 'react'
-import { useHistory } from 'react-router-dom'
 import { useOnScreenItemID } from 'state/user/hooks'
+import { buildItemUrl } from 'utils/navigation'
 
 export const BASE_CATALOG_URL = '/catalog/2022/FALL/'
 
@@ -21,7 +22,7 @@ export default function Catalog() {
 
   const onContentClick = useCallback(() => {
     if (onScreenItemId) {
-      push(onScreenItemId)
+      push(buildItemUrl({ identifier: onScreenItemId }))
     }
   }, [onScreenItemId, push])
 
