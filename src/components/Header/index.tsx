@@ -19,6 +19,7 @@ import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 import Navigation from 'components/Navigation'
 import { isMobile } from 'utils'
 import { useLocation } from 'react-router-dom'
+import { CATALOG_URL } from 'constants/navigation'
 
 const HeaderFrame = styled(SectionFrame)`
   top: 0;
@@ -174,7 +175,6 @@ const Pastellecon = styled.div`
 // `}
 // `
 
-const CATALOG_URL = '/catalog/2022/FALL/'
 export default function Header() {
   // const { chainId } = useActiveWeb3React()
   const location = useLocation()
@@ -197,14 +197,16 @@ export default function Header() {
           <Pastellecon>{constructedLogo && <img width="170px" src={constructedLogo} alt="logo" />}</Pastellecon>
         </Title>
         {/* <DynamicHeaderLogo itemColor="#dda0ddb3" fontSize={60} fontWeight={100} color={'ghostwhite'} /> */}
-        <HeaderLinks id="header-links-container">
-          {location.pathname !== CATALOG_URL && <StyledNavLink to={CATALOG_URL}>{'FULL CATALOG'}</StyledNavLink>}
-          {/* <StyledNavLink to="/aboutus">{'// ABOUT US'}</StyledNavLink> */}
-          {/* <StyledNavLink to="#">Header Link</StyledNavLink> */}
-          {/* <StyledExternalLink href="#">
+        {location.pathname !== CATALOG_URL && (
+          <HeaderLinks id="header-links-container">
+            <StyledNavLink to={CATALOG_URL}>{'FULL CATALOG'}</StyledNavLink>
+            {/* <StyledNavLink to="/aboutus">{'// ABOUT US'}</StyledNavLink> */}
+            {/* <StyledNavLink to="#">Header Link</StyledNavLink> */}
+            {/* <StyledExternalLink href="#">
             External Link <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink> */}
-        </HeaderLinks>
+          </HeaderLinks>
+        )}
         {isMobile && <Navigation navOrbProps={{ bgColor: 'transparent', menuSize: 30 }} />}
       </HeaderRow>
       {/* <HeaderControls>

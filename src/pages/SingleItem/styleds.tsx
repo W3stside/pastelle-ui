@@ -173,11 +173,15 @@ export const ItemDescription = styled(TYPE.black).attrs({ fontSize: 18, padding:
   font-style: italic;
 `
 
+export const InnerContainer = styled(Column)`
+  width: 100%;
+  max-width: ${STORE_IMAGE_SIZES.SMALL}px;
+`
+
 export const ItemAsidePanel = styled(Column)`
   display: flex;
   flex-flow: column nowrap;
-  align-items: center;
-  // padding: 5px;
+  align-items: flex-start;
 `
 
 export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingItem?: boolean }>`
@@ -194,25 +198,22 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingIte
   `}
 
   > ${ItemAsidePanel} {
+    overflow-y: auto;
     position: relative;
     justify-content: ${({ side = 'LEFT' }) => (side === 'LEFT' ? 'flex-start' : 'flex-end')};
-
-    margin-right: auto;
     
     height: 100%;
-    
-    // TODO: change this to be dynamic - LEGACY
     width: 100%;
-    max-width: ${STORE_IMAGE_SIZES.SMALL}px;
 
-    ${({ theme }) => theme.mediaWidth.upToSmall`
-      max-width: 100%;
-    `}
+    > ${InnerContainer} {
+      background: ${({ theme }) => transparentize(0.1, theme.white)};
+      
+      ${({ theme }) => theme.mediaWidth.upToSmall`
+        max-width: 100%;
+      `}
+    }
 
-    overflow-x: hidden;
     z-index: 2;
-
-    background: ${({ theme }) => transparentize(0.1, theme.white)};
 
     ${({ theme }) => theme.mediaWidth.upToSmall`
       border: none;
@@ -383,4 +384,16 @@ export const VideoControlButton = styled(Button)`
   ${({ theme }) => theme.mediaWidth.upToSmall`
       display: none;
   `}
+`
+
+export const MobileItemCTA = styled(Row)`
+  position: fixed;
+  bottom: 0;
+  height: 60px;
+  background-color: lavender;
+  font-size: 40px;
+  font-weight: 100;
+  width: 100%;
+  color: #000;
+  letter-spacing: -3.5;
 `

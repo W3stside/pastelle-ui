@@ -6,6 +6,7 @@ export const CarouselStep = styled(Row)<{ $calculatedWidth: string }>`
   position: relative;
   width: ${({ $calculatedWidth }) => $calculatedWidth};
   height: ${({ $calculatedWidth }) => $calculatedWidth};
+  overflow-x: hidden;
 
   img {
     max-width: 100%;

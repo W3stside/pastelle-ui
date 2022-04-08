@@ -11,7 +11,9 @@ import {
   // FloatingStrip,
   PASTELLE_CREDIT,
   ItemSubHeader,
-  ItemBreadcrumb
+  ItemBreadcrumb,
+  MobileItemCTA,
+  InnerContainer
 } from './styleds'
 
 import { ApparelItem, CollaboratorSocialData, ItemSizes } from 'mock/apparel/types'
@@ -134,96 +136,89 @@ export default function ItemPage({
   return (
     <ItemContainer id="#item-container" style={style}>
       <ItemAsidePanel id="#item-aside-panel">
-        {/* Breadcrumbs */}
-        {showBreadCrumbs && <Breadcrumbs {...breadcrumbs} padding="5px" marginBottom={-25} />}
-        {/* Item carousel */}
-        <Carousel
-          showCarouselContentIndicators={!mobileView}
-          buttonColor={itemColor}
-          imageList={smallImagesList}
-          transformation={[{ width: itemMediaList[0].imageMedia.small }]}
-          mediaStartIndex={currentCarouselIndex}
-          onCarouselChange={onCarouselChange}
-          onImageClick={toggleModal}
-        />
+        <InnerContainer>
+          {/* Breadcrumbs */}
+          {showBreadCrumbs && <Breadcrumbs {...breadcrumbs} padding="5px" marginBottom={-25} />}
+          {/* Item carousel */}
+          <Carousel
+            showCarouselContentIndicators={!mobileView}
+            buttonColor={itemColor}
+            imageList={smallImagesList}
+            transformation={[{ width: itemMediaList[0].imageMedia.small }]}
+            mediaStartIndex={currentCarouselIndex}
+            onCarouselChange={onCarouselChange}
+            onImageClick={toggleModal}
+          />
 
-        {/* Wrap everything else in a fragment */}
-        {noDescription ? null : mobileView ? (
-          <>
-            <br />
-            <ItemLogo fontWeight={200} marginTop={-55} marginBottom={-30} itemColor={itemColor} animation>
-              {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
-            </ItemLogo>
-            <Row
-              style={{
-                position: 'fixed',
-                bottom: 0,
-                height: 60,
-                backgroundColor: 'lavender',
-                fontSize: '40px',
-                fontWeight: 100,
-                width: '100%',
-                color: '#000',
-                letterSpacing: -3.5
-              }}
-              alignItems="center"
-              justifyContent="center"
-              onClick={handleMobileItemClick && handleMobileItemClick}
-            >
-              TAP TO <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
-            </Row>
-          </>
-        ) : (
-          <>
-            <br />
-            <ItemLogo fontWeight={200} marginTop={-135} marginBottom={-30} itemColor={itemColor} animation>
-              {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
-            </ItemLogo>
+          {/* Wrap everything else in a fragment */}
+          {noDescription ? null : mobileView ? (
+            <>
+              <br />
+              <ItemLogo fontWeight={200} marginTop={-55} marginBottom={-30} itemColor={itemColor} animation>
+                {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
+              </ItemLogo>
+              <MobileItemCTA
+                alignItems="center"
+                justifyContent="center"
+                onClick={handleMobileItemClick && handleMobileItemClick}
+              >
+                TAP TO <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
+              </MobileItemCTA>
+            </>
+          ) : (
+            <>
+              <br />
+              <ItemLogo fontWeight={200} marginTop={-135} marginBottom={-30} itemColor={itemColor} animation>
+                {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
+              </ItemLogo>
 
-            <br />
+              <br />
 
-            {/* Credits */}
-            <ItemSubHeader bgColor={itemColor}>
-              <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CREDIT</span>
-            </ItemSubHeader>
+              {/* Credits */}
+              <ItemSubHeader bgColor={itemColor}>
+                <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CREDIT</span>
+              </ItemSubHeader>
 
-            <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
+              <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
 
-            <br />
+              <br />
 
-            {/* Size selector */}
-            <ItemSubHeader bgColor={itemColor}>
-              <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CHOOSE A SIZE</span>
-            </ItemSubHeader>
+              {/* Size selector */}
+              <ItemSubHeader bgColor={itemColor}>
+                <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>
+                  CHOOSE A SIZE
+                </span>
+              </ItemSubHeader>
 
-            <br />
+              <br />
 
-            <Row>
-              <select disabled style={{ width: '50%' }}>
-                {itemSizesList.map((size, index) => (
-                  <option key={size + '_' + index}>{size}</option>
-                ))}
-              </select>
-            </Row>
+              <Row>
+                <select disabled style={{ width: '50%' }}>
+                  {itemSizesList.map((size, index) => (
+                    <option key={size + '_' + index}>{size}</option>
+                  ))}
+                </select>
+              </Row>
 
-            <br />
+              <br />
 
-            {/* Item description */}
-            <ItemSubHeader bgColor={itemColor}>
-              <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>DESCRIPTION</span>
-            </ItemSubHeader>
+              {/* Item description */}
+              <ItemSubHeader bgColor={itemColor}>
+                <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>DESCRIPTION</span>
+              </ItemSubHeader>
 
-            <br />
+              <br />
 
-            <Row>
-              <ItemDescription>
-                {itemDescription.map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </ItemDescription>
-            </Row>
-          </>
-        )}
+              <Row>
+                <ItemDescription>
+                  {itemDescription.map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
+                </ItemDescription>
+              </Row>
+            </>
+          )}
+        </InnerContainer>
       </ItemAsidePanel>
       {noVideo ? null : (
         <ItemVideoContent

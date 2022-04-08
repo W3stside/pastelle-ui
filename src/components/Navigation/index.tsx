@@ -108,7 +108,7 @@ export default function Navigation({ navOrbProps }: any) {
       </MobileNavOrb>
       <NavigationStepsWrapper isOpen={isNavOpen} width="9vw" minWidth="170px">
         <ItemSubHeader color={getThemeColours(ThemeModes.CHAMELEON).white}>
-          <strong>{'QUICK ACCESS'}</strong>
+          <strong>{'MERCH'}</strong>
         </ItemSubHeader>
 
         {seasonList.map(catalogItem => (
