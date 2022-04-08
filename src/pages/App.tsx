@@ -49,7 +49,7 @@ export default function App() {
         {/* ARTICLE CONTENT */}
         <Switch>
           <Route exact path="/goods/:year/:season" component={Catalog} />
-          <Route exact strict path="/goods/:year/:season/:item" component={SingleItem} />
+          <Route exact path="/goods/:year/:season/:item" component={SingleItem} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/404" component={NotFound} />
           <Route component={RedirectPathToCatalogOnly} />
