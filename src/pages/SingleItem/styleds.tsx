@@ -171,6 +171,10 @@ export const ItemBreadcrumb = styled(NavLink)`
 export const ItemDescription = styled(TYPE.black).attrs({ fontSize: 18, padding: 2, fontWeight: 400 })`
   text-transform: uppercase;
   font-style: italic;
+
+  .item-description-p:first-child {
+    margin-top: 0;
+  }
 `
 
 export const InnerContainer = styled(Column)<{ bgColor?: string }>`

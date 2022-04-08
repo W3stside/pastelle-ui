@@ -6,7 +6,7 @@ import {
   ItemAsidePanel,
   ItemHeader as ItemLogo,
   ItemDescription,
-  // ItemCredits,
+  ItemCredits,
   ItemArtistInfo,
   // FloatingStrip,
   PASTELLE_CREDIT,
@@ -30,6 +30,7 @@ import { getThemeColours } from 'theme/utils'
 import { BoxProps } from 'rebass'
 import SmartImg from 'components/SmartImg'
 import { useSetOnScreenItemID } from 'state/user/hooks'
+import { TYPE } from 'theme'
 
 export interface ItemPageProps {
   itemColor: string
@@ -180,13 +181,13 @@ export default function ItemPage({
                 <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CREDIT</span>
               </ItemSubHeader>
 
-              {itemArtistInfo ? (
-                <ItemArtistInfo {...itemArtistInfo} bgColor={itemColor} />
-              ) : (
-                <HighlightedText bgColor={itemColor}>{PASTELLE_CREDIT}</HighlightedText>
-              )}
-
-              <br />
+              <ItemCredits>
+                {itemArtistInfo ? (
+                  <ItemArtistInfo {...itemArtistInfo} bgColor={itemColor} />
+                ) : (
+                  <HighlightedText bgColor={itemColor}>{PASTELLE_CREDIT}</HighlightedText>
+                )}
+              </ItemCredits>
 
               {/* Size selector */}
               <ItemSubHeader bgColor={itemColor}>
@@ -212,16 +213,16 @@ export default function ItemPage({
                 <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>DESCRIPTION</span>
               </ItemSubHeader>
 
-              <br />
-
               <Row>
-                <ItemDescription>
-                  {itemDescription.map((paragraph, index) => (
-                    <p key={index}>
-                      <HighlightedText bgColor={itemColor}>{paragraph}</HighlightedText>
-                    </p>
-                  ))}
-                </ItemDescription>
+                <TYPE.black padding={2}>
+                  <ItemDescription>
+                    {itemDescription.map((paragraph, index) => (
+                      <p key={index} className="item-description-p">
+                        <HighlightedText bgColor={itemColor}>{paragraph}</HighlightedText>
+                      </p>
+                    ))}
+                  </ItemDescription>
+                </TYPE.black>
               </Row>
             </>
           )}
