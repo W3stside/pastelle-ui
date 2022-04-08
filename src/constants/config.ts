@@ -6,6 +6,6 @@ export const CURRENT_SEASON: CatalogSeason = 'FALL'
 export const SEASONS: CatalogSeason[] = ['WINTER', 'SPRING', 'SUMMER', 'FALL']
 export const STORE_IMAGE_SIZES = {
   LARGE: 2000,
-  SMALL: 600
+  SMALL: 1000
 }
 export const SHIRT_SIZES: ItemSizes[] = ['X-LARGE', 'LARGE', 'MEDIUM', 'SMALL']
