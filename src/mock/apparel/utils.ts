@@ -13,7 +13,7 @@ export function buildItemParams(params: ItemMetadata & ItemMetaDataOptions): Omi
       imageMedia: {
         path: buildUrl(params, 'IMAGES', 'front-large.' + params?.imageExtension || 'png'),
         large: STORE_IMAGE_SIZES.LARGE,
-        small: STORE_IMAGE_SIZES.SMALL
+        small: STORE_IMAGE_SIZES.LARGE / 2
       },
       videoMedia: { path: buildUrl(params, 'VIDEOS', 'front.mp4'), lowq: 'q-10' }
     },
@@ -22,7 +22,7 @@ export function buildItemParams(params: ItemMetadata & ItemMetaDataOptions): Omi
       imageMedia: {
         path: buildUrl(params, 'IMAGES', 'back-large.' + params?.imageExtension || 'png'),
         large: STORE_IMAGE_SIZES.LARGE,
-        small: STORE_IMAGE_SIZES.SMALL
+        small: STORE_IMAGE_SIZES.LARGE / 2
       },
       videoMedia: { path: buildUrl(params, 'VIDEOS', 'back.mp4'), lowq: 'q-10' }
     }
