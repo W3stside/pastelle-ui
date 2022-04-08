@@ -1,7 +1,7 @@
 import { TFC } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
-import { transparentize } from 'polished'
+import { darken, transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
 import { ItemPageProps } from './AsideWithVideo'
@@ -173,9 +173,11 @@ export const ItemDescription = styled(TYPE.black).attrs({ fontSize: 18, padding:
   font-style: italic;
 `
 
-export const InnerContainer = styled(Column)`
+export const InnerContainer = styled(Column)<{ bgColor?: string }>`
   width: 100%;
   max-width: ${STORE_IMAGE_SIZES.SMALL}px;
+
+  background: ${({ theme, bgColor }) => (bgColor ? transparentize(0.62, bgColor) : transparentize(0.35, theme.white))};
 `
 
 export const ItemAsidePanel = styled(Column)`
@@ -206,8 +208,6 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingIte
     width: 100%;
 
     > ${InnerContainer} {
-      background: ${({ theme }) => transparentize(0.1, theme.white)};
-      
       ${({ theme }) => theme.mediaWidth.upToSmall`
         max-width: 100%;
       `}
@@ -290,14 +290,16 @@ function _showSocialUrl(type: SocialType) {
   }
 }
 
-export const ItemArtistInfo = (props: ItemPageProps['itemArtistInfo'] | undefined) => {
+export const ItemArtistInfo = (props: (ItemPageProps['itemArtistInfo'] & { bgColor: string }) | undefined) => {
   if (!props) return null
 
-  const { artist, social } = props
+  const { artist, social, bgColor } = props
 
   return (
     <TYPE.black fontSize={14} padding={2} fontWeight={300}>
-      <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> x {artist}
+      <HighlightedText bgColor={bgColor}>
+        <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> x {artist}
+      </HighlightedText>
       <br />
       <br />
       {social.map(({ type, url, display }) => (
@@ -396,4 +398,11 @@ export const MobileItemCTA = styled(Row)`
   width: 100%;
   color: #000;
   letter-spacing: -3.5;
+`
+
+export const HighlightedText = styled.span<{ color?: string; bgColor: string }>`
+  color: ${({ theme, color = theme.white }) => color};
+  background-color: ${({ bgColor }) => darken(0.3, bgColor)};
+  padding: 5px 10px;
+  line-height: 1.8;
 `

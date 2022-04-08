@@ -6,14 +6,15 @@ import {
   ItemAsidePanel,
   ItemHeader as ItemLogo,
   ItemDescription,
-  ItemCredits,
+  // ItemCredits,
   ItemArtistInfo,
   // FloatingStrip,
   PASTELLE_CREDIT,
   ItemSubHeader,
   ItemBreadcrumb,
   MobileItemCTA,
-  InnerContainer
+  InnerContainer,
+  HighlightedText
 } from './styleds'
 
 import { ApparelItem, CollaboratorSocialData, ItemSizes } from 'mock/apparel/types'
@@ -179,7 +180,11 @@ export default function ItemPage({
                 <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CREDIT</span>
               </ItemSubHeader>
 
-              <ItemCredits>{itemArtistInfo ? <ItemArtistInfo {...itemArtistInfo} /> : PASTELLE_CREDIT}</ItemCredits>
+              {itemArtistInfo ? (
+                <ItemArtistInfo {...itemArtistInfo} bgColor={itemColor} />
+              ) : (
+                <HighlightedText bgColor={itemColor}>{PASTELLE_CREDIT}</HighlightedText>
+              )}
 
               <br />
 
@@ -212,7 +217,9 @@ export default function ItemPage({
               <Row>
                 <ItemDescription>
                   {itemDescription.map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
+                    <p key={index}>
+                      <HighlightedText bgColor={itemColor}>{paragraph}</HighlightedText>
+                    </p>
                   ))}
                 </ItemDescription>
               </Row>
