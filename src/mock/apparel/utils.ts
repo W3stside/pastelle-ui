@@ -6,12 +6,15 @@ export function buildUrl({ year, name, season }: BaseCatalogItem, type: 'VIDEOS'
   return `/APPAREL/${year}/${season}/${name}/${type}/${id}`
 }
 
-export function buildItemParams(params: ItemMetadata & ItemMetaDataOptions): Omit<CatalogItem, 'season'> {
+export function buildItemParams({
+  imageExtension = 'png',
+  ...params
+}: ItemMetadata & ItemMetaDataOptions): Omit<CatalogItem, 'season'> {
   const mediaList = [
     // FRONT CONTENT
     {
       imageMedia: {
-        path: buildUrl(params, 'IMAGES', 'front-large.' + params?.imageExtension || 'png'),
+        path: buildUrl(params, 'IMAGES', 'front-large.' + imageExtension),
         large: STORE_IMAGE_SIZES.LARGE,
         small: STORE_IMAGE_SIZES.LARGE / 2
       },
@@ -20,7 +23,7 @@ export function buildItemParams(params: ItemMetadata & ItemMetaDataOptions): Omi
     // BACK CONTENT
     {
       imageMedia: {
-        path: buildUrl(params, 'IMAGES', 'back-large.' + params?.imageExtension || 'png'),
+        path: buildUrl(params, 'IMAGES', 'back-large.' + imageExtension),
         large: STORE_IMAGE_SIZES.LARGE,
         small: STORE_IMAGE_SIZES.LARGE / 2
       },
