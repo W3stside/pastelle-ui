@@ -11,7 +11,7 @@ export function buildItemParams(params: ItemMetadata & ItemMetaDataOptions): Omi
     // FRONT CONTENT
     {
       imageMedia: {
-        path: buildUrl(params, 'IMAGES', 'front-large.png'),
+        path: buildUrl(params, 'IMAGES', 'front-large.' + params?.imageExtension || 'png'),
         large: STORE_IMAGE_SIZES.LARGE,
         small: STORE_IMAGE_SIZES.SMALL
       },
@@ -20,7 +20,7 @@ export function buildItemParams(params: ItemMetadata & ItemMetaDataOptions): Omi
     // BACK CONTENT
     {
       imageMedia: {
-        path: buildUrl(params, 'IMAGES', 'back-large.png'),
+        path: buildUrl(params, 'IMAGES', 'back-large.' + params?.imageExtension || 'png'),
         large: STORE_IMAGE_SIZES.LARGE,
         small: STORE_IMAGE_SIZES.SMALL
       },

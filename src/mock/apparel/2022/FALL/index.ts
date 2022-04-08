@@ -23,7 +23,8 @@ export const VIRGIL: CustomItemMetaData = {
       receive them — even the wicked cannot glory in them.”`
   ],
   collaborator: 'Mathieu Sato',
-  social: [{ type: SocialType.INSTAGRAM, url: 'https://instagram.com/mathieusato', display: '@mathieusato' }]
+  social: [{ type: SocialType.INSTAGRAM, url: 'https://instagram.com/mathieusato', display: '@mathieusato' }],
+  imageExtension: 'jpg'
 }
 
 // ================================================================================
