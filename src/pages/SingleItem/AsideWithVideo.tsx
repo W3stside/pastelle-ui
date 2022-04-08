@@ -83,7 +83,8 @@ export default function ItemPage({
   itemSizesList,
   itemDescription,
   itemArtistInfo,
-  itemKey,
+  // TODO: reenable itemKey
+  // itemKey,
   isActive,
   firstPaintOver,
   mobileView = false,
@@ -124,9 +125,11 @@ export default function ItemPage({
   const setOnScreenId = useSetOnScreenItemID()
   useEffect(() => {
     if (isActive) {
-      setOnScreenId(itemKey)
+      // TODO: reenable itemKey
+      // setOnScreenId(itemKey)
+      setOnScreenId(itemHeader)
     }
-  }, [isActive, itemKey, setOnScreenId])
+  }, [isActive, /* itemKey, */ itemHeader, setOnScreenId])
 
   return (
     <ItemContainer id="#item-container" style={style}>

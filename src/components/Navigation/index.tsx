@@ -85,7 +85,9 @@ const CatalogLabel = styled.span<{ active: boolean }>`
 `
 
 function _buildItemUrl(catalogItem: CatalogItem) {
-  return `/catalog/${CURRENT_YEAR}/${CURRENT_SEASON}/${catalogItem.itemKey}`
+  // TODO: reenable itemKey
+  // return `/catalog/${CURRENT_YEAR}/${CURRENT_SEASON}/${catalogItem.itemKey}`
+  return `/catalog/${CURRENT_YEAR}/${CURRENT_SEASON}/${catalogItem.itemHeader}`
 }
 
 export default function Navigation({ navOrbProps }: any) {

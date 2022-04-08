@@ -85,5 +85,8 @@ export const ASCENDANCE: CustomItemMetaData = {
   color: '#749a96',
   season: 'FALL',
   year: 2022,
-  description: [`DIE.`, 'ASCEND.', `BECOME.`]
+  description: [`DIE.`, 'ASCEND.', `BECOME.`],
+  collaborator: 'MAX DIGI',
+  social: [{ type: SocialType.INSTAGRAM, url: 'https://instagram.com/max_digi', display: '@max_dg' }],
+  reverseMediaOrder: true
 }
