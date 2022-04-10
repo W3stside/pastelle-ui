@@ -405,13 +405,18 @@ export const VideoControlButton = styled(Button)`
 export const MobileItemCTA = styled(Row)`
   position: fixed;
   top: 0;
+  right: 0;
   height: 60px;
   background-color: lavender;
   font-size: 40px;
   font-weight: 100;
-  width: 100%;
+  width: calc(100% - 600px);
   color: #000;
   letter-spacing: -3.5;
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+      width: 100%;
+  `}
 `
 
 export const HighlightedText = styled.span<{ color?: string; bgColor: string }>`
