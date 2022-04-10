@@ -139,8 +139,18 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
     `}
 `
 
-export const ItemLogo = styled.img`
-  max-width: 100%;
+export const ItemLogo = styled.div<{ mobileView?: boolean; maxWidth?: string }>`
+  > img {
+    max-width: ${({ maxWidth = '100%' }) => maxWidth};
+  }
+
+  margin-top: ${({ mobileView = false }) => (mobileView ? '-135px' : '-35px')};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    margin-top: -35px;  
+  `}
+
+  z-index: 100;
 `
 
 export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
@@ -394,7 +404,7 @@ export const VideoControlButton = styled(Button)`
 
 export const MobileItemCTA = styled(Row)`
   position: fixed;
-  bottom: 0;
+  top: 0;
   height: 60px;
   background-color: lavender;
   font-size: 40px;

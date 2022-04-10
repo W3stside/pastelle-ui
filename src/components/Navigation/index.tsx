@@ -51,6 +51,7 @@ export const MobileNavOrb = styled(Button)<{ bgColor?: string }>`
   cursor: pointer;
   z-index: 210;
   gap: 5px;
+
   > ${Row} {
     gap: 5px;
     > svg {
@@ -66,6 +67,8 @@ export const MobileNavOrb = styled(Button)<{ bgColor?: string }>`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    margin-left: auto;
   `};
 `
 

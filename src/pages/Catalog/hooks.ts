@@ -6,7 +6,7 @@ import { CatalogItem, CatalogSeason, CatalogSeasonItemMap } from 'mock/apparel/t
 import { delay } from 'utils'
 
 import MOCK_CATALOG_MAP from 'mock/apparel'
-import { BASE_CATALOG_URL } from '.'
+import { CATALOG_URL } from 'constants/navigation'
 import { useCatalog } from 'state/catalog/hooks'
 
 type URLFromCatalogItemsParams = {
@@ -28,7 +28,7 @@ export function useUpdateURLFromCatalogItem(params: URLFromCatalogItemsParams) {
       const currentItemKey = seasonList[itemIndex]?.itemKey
       if (!currentItemKey) return
 
-      replace(BASE_CATALOG_URL + currentItemKey.split('-')[0])
+      replace(CATALOG_URL + currentItemKey.split('-')[0])
     }
   }, [currentItem?.itemKey, isActive, itemKey, itemIndex, replace, seasonList])
 }

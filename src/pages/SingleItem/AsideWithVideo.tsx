@@ -4,7 +4,7 @@ import Carousel from 'components/Carousel'
 import {
   ItemContainer,
   ItemAsidePanel,
-  ItemHeader as ItemLogo,
+  ItemLogo,
   ItemDescription,
   ItemCredits,
   ItemArtistInfo,
@@ -31,6 +31,7 @@ import { BoxProps } from 'rebass'
 import SmartImg from 'components/SmartImg'
 import { useSetOnScreenItemID } from 'state/user/hooks'
 import { TYPE } from 'theme'
+import { isMobile } from 'utils'
 
 export interface ItemPageProps {
   itemColor: string
@@ -156,7 +157,7 @@ export default function ItemPage({
           {noDescription ? null : mobileView ? (
             <>
               <br />
-              <ItemLogo fontWeight={200} marginTop={-55} marginBottom={-30} itemColor={itemColor} animation>
+              <ItemLogo mobileView>
                 {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
               </ItemLogo>
               <MobileItemCTA
@@ -164,17 +165,14 @@ export default function ItemPage({
                 justifyContent="center"
                 onClick={handleMobileItemClick && handleMobileItemClick}
               >
-                TAP TO <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
+                {isMobile ? 'TAP' : 'CLICK'} TO <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
               </MobileItemCTA>
             </>
           ) : (
             <>
-              <br />
-              <ItemLogo fontWeight={200} marginTop={-135} marginBottom={-30} itemColor={itemColor} animation>
+              <ItemLogo>
                 {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
               </ItemLogo>
-
-              <br />
 
               {/* Credits */}
               <ItemSubHeader bgColor={itemColor}>

@@ -26,6 +26,10 @@ export const CarouselContainer = styled.div<{ fixedHeight?: string }>`
   // flex: 1 0 auto;
   width: 100%;
   ${({ fixedHeight }) => `height: ${fixedHeight};`}
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    margin-top: 40px;  
+  `}
 `
 // #a1c3f9
 export const CarouselButton = styled.div<{ buttonColor: string }>`

@@ -10,8 +10,6 @@ import { isMobile } from 'utils'
 import { useOnScreenItemID } from 'state/user/hooks'
 import { buildItemUrl } from 'utils/navigation'
 
-export const BASE_CATALOG_URL = '/catalog/2022/FALL/'
-
 export default function Catalog() {
   const { push } = useHistory()
   // get catalog item from data and url
@@ -26,7 +24,7 @@ export default function Catalog() {
     }
   }, [onScreenItemId, push])
 
-  const AsideWithVideoAux = useCallback(props => <AsideWithVideo {...props} showBreadCrumbs={false} />, [])
+  const AsideWithVideoAux = useCallback(props => <AsideWithVideo {...props} mobileView showBreadCrumbs={false} />, [])
 
   return (
     <ArticleFadeInContainer id="CATALOG-ARTICLE">
@@ -38,7 +36,7 @@ export default function Catalog() {
         width={`calc(100% - ${STORE_IMAGE_SIZES.SMALL}px)`}
         bgColor="#ffffffdb"
         onlyOne="BOTTOM"
-        showIndicator={!isMobile}
+        showIndicator={false}
         fHeight={fHeight}
         onContentClick={onContentClick}
       />

@@ -51,8 +51,7 @@ const HeaderElementWrap = styled.div`
 ` */
 
 const HeaderRow = styled(RowFixed)`
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-  `};
+  width: 100%;
 `
 
 const HeaderLinks = styled(Row)`

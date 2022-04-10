@@ -5,7 +5,6 @@ import { FixedAnimatedLoader } from 'components/Loader'
 import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/ScrollingIndicator'
 import { ScrollerContainer, Scroller, AnimatedDivContainer } from './styleds'
 
-import { Lethargy } from 'lethargy'
 import { isMobile } from 'utils'
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 
@@ -68,11 +67,7 @@ interface ScrollSpringParams {
   active: boolean
   firstVis: number
   firstVisIdx: number
-  s: false | -1 | 1
 }
-
-// initialise Lethary
-const lethargy = new Lethargy()
 
 function useStateRef<T>(defaultRef: T, processNode: (node: any) => SetStateAction<T>): [T, (newNode: any) => void] {
   const [node, setNode] = useState<T>(defaultRef)
@@ -162,7 +157,7 @@ export function useViewPagerAnimation(
   ])
 
   const calculateApiLogic = useCallback(
-    ({ i, y, dy, my, active, firstVis, firstVisIdx, s }: ScrollSpringParams) => {
+    ({ i, y, dy, my, active, firstVis, firstVisIdx }: ScrollSpringParams) => {
       const position = getPos(i, firstVis, firstVisIdx)
       const prevPosition = getPos(i, prev.current[0], prev.current[1])
       const rank = firstVis - (y < 0 ? items.length : 0) + position - firstVisIdx
@@ -188,19 +183,19 @@ export function useViewPagerAnimation(
         immediate: dy < 0 ? prevPosition > position : prevPosition < position,
         // set configs based on intertial vs non-intertial scroll
         // s === false means intertial
-        config: isMobile ? MOBILE_SPRING_CONFIG : s === false ? MAC_SPRING_CONFIG : MAC_SPRING_CONFIG // WHEEL_SPRING_CONFIG
+        config: isMobile ? MOBILE_SPRING_CONFIG : MAC_SPRING_CONFIG // WHEEL_SPRING_CONFIG
       }
     },
     [getPos, height, items.length, scaleOptions, snapOnScroll]
   )
 
   const runSprings = useCallback(
-    (y, dy, my, active, s) => {
+    (y, dy, my, active) => {
       const itemPosition = Math.floor(y / height) % items.length
       const firstVis = getIndex(itemPosition)
       const firstVisIdx = dy < 0 ? items.length - visible - 1 : 1
 
-      api.start(i => calculateApiLogic({ i, y, dy, my, active, firstVis, firstVisIdx, s }))
+      api.start(i => calculateApiLogic({ i, y, dy, my, active, firstVis, firstVisIdx }))
 
       prev.current = [firstVis, firstVisIdx]
     },
@@ -217,7 +212,7 @@ export function useViewPagerAnimation(
           const aY = _getNearestAxisPoint(y, height)
           dragOffset.current = -aY ?? -y
           const computedY = wheelOffset.current + -y / CONFIG.DRAG_SPEED_COEFFICIENT
-          runSprings(computedY, -dy, -my, active, false)
+          runSprings(computedY, -dy, -my, active)
         }
       },
       onWheel: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
@@ -226,13 +221,12 @@ export function useViewPagerAnimation(
         // we need to check the scroll type... intertial vs linear
         // -1/1 = linear down/up scroll, respectively.
         // false = intertial
-        const s = lethargy.check(event)
 
         if (dy) {
           const aY = _getNearestAxisPoint(y, height)
           wheelOffset.current = aY ?? y
           const computedY = dragOffset.current + y / CONFIG.SCROLL_SPEED_COEFFICIENT
-          runSprings(computedY, dy, my, active, s)
+          runSprings(computedY, dy, my, active)
         }
       }
     },
@@ -289,7 +283,6 @@ export function ScrollingContentPage<D>({
                 isActive={currentIndex === i}
                 itemIndex={currentIndex}
                 key={i}
-                mobileView={isMobile}
                 {...data[i]}
               />
             </AnimatedDivContainer>
