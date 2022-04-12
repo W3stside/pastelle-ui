@@ -188,8 +188,6 @@ export const ItemDescription = styled(TYPE.black).attrs({ fontSize: 18, padding:
 export const InnerContainer = styled(Column)<{ bgColor?: string }>`
   width: 100%;
   max-width: ${STORE_IMAGE_SIZES.SMALL}px;
-  // max-width: 40vw;
-  // min-width: 60vw;
 
   background: ${({ theme, bgColor }) => (bgColor ? transparentize(0.62, bgColor) : transparentize(0.35, theme.white))};
 `
@@ -223,8 +221,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; mobileView?:
 
     > ${InnerContainer} {
       position: relative;
-      background: ${({ theme, mobileView, bgColor }) =>
-        mobileView && bgColor ? transparentize(0.62, bgColor) : transparentize(0.35, theme.white)};
+      background: ${({ theme }) => transparentize(0.35, theme.white)};
 
       ${({ theme }) => theme.mediaWidth.upToSmall`
         max-width: 100%;
