@@ -11,7 +11,7 @@ import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 interface ScrollingContentPageParams<D> {
   data: D[]
   dataItem: D | undefined
-  fHeight?: number
+  fixedHeight?: number
   hideHeight?: number
   showIndicator?: boolean
   onContentClick?: React.MouseEventHandler<HTMLDivElement>
@@ -80,12 +80,16 @@ function useStateRef<T>(defaultRef: T, processNode: (node: any) => SetStateActio
   return [node, setRef]
 }
 
+const MINIMUM_CATALOG_ITEM_HEIGHT = 773
+
 export function useViewPagerAnimation(
   items: any[],
   {
     visible = 1,
     // fixed height - bypasses useRef
-    fHeight,
+    fixedHeight,
+    // minimum height to render catalog
+    minHeight = MINIMUM_CATALOG_ITEM_HEIGHT,
     // snap nearest screen after scroll end
     snapOnScroll = false,
     scaleOptions = {
@@ -95,7 +99,8 @@ export function useViewPagerAnimation(
   }: {
     scale?: number
     visible: number
-    fHeight?: number
+    fixedHeight?: number
+    minHeight?: number
     snapOnScroll?: boolean
     scaleOptions?: {
       scaleOnScroll?: number
@@ -106,12 +111,15 @@ export function useViewPagerAnimation(
   const prev = useRef([0, 1])
 
   const [target, setContainerRef] = useStateRef(null, node => node)
-  const [height, setHeightRef] = useStateRef<number>(0, node => fHeight || node?.clientHeight || 0)
+  const [height, setHeightRef] = useStateRef<number>(
+    0,
+    node => fixedHeight || Math.min(node?.clientHeight, minHeight) || 0
+  )
 
   // handle window resizing
   useEffect(() => {
     // resize handler - update clientHeight
-    const _handleWindowResize = () => !fHeight && target?.clientHeight && setHeightRef(target)
+    const _handleWindowResize = () => !fixedHeight && target?.clientHeight && setHeightRef(target)
 
     window?.addEventListener('resize', _handleWindowResize)
     // first run call
@@ -119,7 +127,7 @@ export function useViewPagerAnimation(
     return () => {
       window?.removeEventListener('resize', _handleWindowResize)
     }
-  }, [fHeight, setHeightRef, target])
+  }, [fixedHeight, setHeightRef, target])
 
   const setTargetRef = useCallback((node: any) => {
     setContainerRef(node)
@@ -249,7 +257,7 @@ export function useViewPagerAnimation(
 export function ScrollingContentPage<D>({
   data,
   dataItem,
-  fHeight,
+  fixedHeight,
   showIndicator = true,
   onContentClick,
   IterableComponent,
@@ -257,7 +265,7 @@ export function ScrollingContentPage<D>({
 }: Params<D>) {
   const { springs, setTargetRef, height, currentIndex, firstPaintOver } = useViewPagerAnimation(data, {
     visible: 1,
-    fHeight,
+    fixedHeight,
     snapOnScroll: false,
     // defaults to 0.8 scale on scroll and 1 scale default
     scaleOptions: {

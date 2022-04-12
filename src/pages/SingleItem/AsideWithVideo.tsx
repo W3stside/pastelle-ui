@@ -137,7 +137,7 @@ export default function ItemPage({
   }, [isActive, /* itemKey, */ itemHeader, setOnScreenId])
 
   return (
-    <ItemContainer id="#item-container" style={style}>
+    <ItemContainer id="#item-container" style={style} mobileView={mobileView} bgColor={itemColor}>
       <ItemAsidePanel id="#item-aside-panel">
         <InnerContainer>
           {/* Breadcrumbs */}
@@ -157,7 +157,7 @@ export default function ItemPage({
           {noDescription ? null : mobileView ? (
             <>
               <br />
-              <ItemLogo mobileView>
+              <ItemLogo>
                 {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
               </ItemLogo>
               <MobileItemCTA

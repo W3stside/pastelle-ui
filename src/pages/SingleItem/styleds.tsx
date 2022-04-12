@@ -144,8 +144,6 @@ export const ItemLogo = styled.div<{ mobileView?: boolean; maxWidth?: string }>`
     max-width: ${({ maxWidth = '100%' }) => maxWidth};
   }
 
-  margin-top: ${({ mobileView = false }) => (mobileView ? '-135px' : '-35px')};
-
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin-top: -35px;  
   `}
@@ -190,6 +188,8 @@ export const ItemDescription = styled(TYPE.black).attrs({ fontSize: 18, padding:
 export const InnerContainer = styled(Column)<{ bgColor?: string }>`
   width: 100%;
   max-width: ${STORE_IMAGE_SIZES.SMALL}px;
+  // max-width: 40vw;
+  // min-width: 60vw;
 
   background: ${({ theme, bgColor }) => (bgColor ? transparentize(0.62, bgColor) : transparentize(0.35, theme.white))};
 `
@@ -200,7 +200,7 @@ export const ItemAsidePanel = styled(Column)`
   align-items: flex-start;
 `
 
-export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingItem?: boolean }>`
+export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; mobileView?: boolean; bgColor?: string }>`
   width: 100%;
   height: 100%;
   justify-content: center;
@@ -222,9 +222,30 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; isViewingIte
     width: 100%;
 
     > ${InnerContainer} {
+      position: relative;
+      background: ${({ theme, mobileView, bgColor }) =>
+        mobileView && bgColor ? transparentize(0.62, bgColor) : transparentize(0.35, theme.white)};
+
       ${({ theme }) => theme.mediaWidth.upToSmall`
         max-width: 100%;
       `}
+
+      > ${ItemLogo} {
+        margin-top: ${({ mobileView = false }) => (mobileView ? '0' : '-35px')};
+      }
+
+      ${({ mobileView }) =>
+        mobileView &&
+        `
+        min-height: 100%;
+
+        ${ItemLogo} {
+          position: absolute;
+          // width: ${STORE_IMAGE_SIZES.SMALL}px;
+          bottom: 0;
+          left: 0; right: 0;
+        `}
+      }
     }
 
     z-index: 2;
@@ -403,6 +424,7 @@ export const VideoControlButton = styled(Button)`
 `
 
 export const MobileItemCTA = styled(Row)`
+  display: none;
   position: fixed;
   top: 0;
   right: 0;
@@ -416,6 +438,7 @@ export const MobileItemCTA = styled(Row)`
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
       width: 100%;
+      display: block;
   `}
 `
 

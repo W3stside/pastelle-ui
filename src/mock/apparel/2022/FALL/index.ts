@@ -87,5 +87,6 @@ export const ASCENDANCE: CustomItemMetaData = {
   season: 'FALL',
   year: 2022,
   description: [`DIE.`, 'ASCEND.', `BECOME.`],
-  reverseMediaOrder: true
+  reverseMediaOrder: true,
+  imageExtension: 'jpg'
 }

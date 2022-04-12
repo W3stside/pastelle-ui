@@ -16,7 +16,7 @@ export default function Catalog() {
   const { seasonList, currentItem } = useCatalogItemFromURL()
   const onScreenItemId = useOnScreenItemID()
 
-  const fHeight = isMobile ? 550 : undefined
+  const fixedHeight = isMobile ? 550 : undefined
 
   const onContentClick = useCallback(() => {
     if (onScreenItemId) {
@@ -37,7 +37,7 @@ export default function Catalog() {
         bgColor="#ffffffdb"
         onlyOne="BOTTOM"
         showIndicator={false}
-        fHeight={fHeight}
+        fixedHeight={fixedHeight}
         onContentClick={onContentClick}
       />
     </ArticleFadeInContainer>
