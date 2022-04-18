@@ -9,7 +9,7 @@ import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/apparel/types'
-import { STORE_IMAGE_SIZES } from 'constants/config'
+import { STORE_IMAGE_SIZES, CATALOG_MAX_WIDTH } from 'constants/config'
 
 const saturateAnimation = css`
   @keyframes saturate {
@@ -200,6 +200,7 @@ export const ItemAsidePanel = styled(Column)`
 
 export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; mobileView?: boolean; bgColor?: string }>`
   width: 100%;
+  max-width: ${CATALOG_MAX_WIDTH}px;
   height: 100%;
   justify-content: center;
   align-items: stretch;
@@ -239,7 +240,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; mobileView?:
         ${ItemLogo} {
           position: absolute;
           // width: ${STORE_IMAGE_SIZES.SMALL}px;
-          bottom: 0;
+          bottom: -55px;
           left: 0; right: 0;
         `}
       }

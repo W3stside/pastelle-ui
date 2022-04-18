@@ -9,3 +9,4 @@ export const STORE_IMAGE_SIZES = {
   SMALL: 600
 }
 export const SHIRT_SIZES: ItemSizes[] = ['X-LARGE', 'LARGE', 'MEDIUM', 'SMALL']
+export const CATALOG_MAX_WIDTH = 1700

@@ -75,7 +75,8 @@ export const DAYDREAMING: CustomItemMetaData = {
   social: [
     { type: SocialType.INSTAGRAM, url: 'https://www.wikiart.org/en/egon-schiele', display: 'EGON SCHIELE WIKI' }
   ],
-  reverseMediaOrder: true
+  reverseMediaOrder: true,
+  imageExtension: 'jpg'
 }
 
 // ================================================================================
