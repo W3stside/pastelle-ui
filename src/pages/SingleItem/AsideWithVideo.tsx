@@ -147,7 +147,7 @@ export default function ItemPage({
             showCarouselContentIndicators={!mobileView}
             buttonColor={itemColor}
             imageList={smallImagesList}
-            transformation={[{ width: itemMediaList[0].imageMedia.small }]}
+            transformation={[{ width: itemMediaList[0].imageMedia.small, height: itemMediaList[0].imageMedia.small }]}
             mediaStartIndex={currentCarouselIndex}
             onCarouselChange={onCarouselChange}
             onImageClick={toggleModal}
@@ -240,7 +240,9 @@ export default function ItemPage({
         <Carousel
           buttonColor={itemColor}
           imageList={largeImagesList}
-          transformation={[{ width: itemMediaList[0].imageMedia.large }]}
+          transformation={[
+            { width: itemMediaList[0].imageMedia.large, height: itemMediaList[0].imageMedia.large, xc: 500, yc: 500 }
+          ]}
           mediaStartIndex={currentCarouselIndex}
           onCarouselChange={onCarouselChange}
           fixedHeight="auto"
