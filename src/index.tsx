@@ -4,7 +4,10 @@ import './i18n'
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 
 import { StrictMode } from 'react'
+// PROVIDERS
 import { Provider } from 'react-redux'
+import ApolloProvider from 'provider/Apollo'
+import ThemeProvider from 'theme'
 
 import ReactDOM from 'react-dom'
 import { HashRouter } from 'react-router-dom'
@@ -20,7 +23,6 @@ import TransactionUpdater from 'state/transactions/updater'
 import UserUpdater from 'state/user/updater'
 import CatalogUpdater from 'state/catalog/updater'
 
-import ThemeProvider from 'theme'
 import { TopGlobalStyle, ThemedGlobalComponent, FontStyles } from 'theme/styles/global'
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
@@ -53,20 +55,22 @@ ReactDOM.render(
     {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
     <FontStyles />
     <TopGlobalStyle />
-    <Provider store={store}>
-      <HashRouter>
-        <Web3ReactProvider getLibrary={getLibrary}>
-          <Web3ProviderNetwork getLibrary={getLibrary}>
-            <Updaters />
-            <ThemeProvider>
-              {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-              <ThemedGlobalComponent />
-              <App />
-            </ThemeProvider>
-          </Web3ProviderNetwork>
-        </Web3ReactProvider>
-      </HashRouter>
-    </Provider>
+    <ApolloProvider>
+      <Provider store={store}>
+        <HashRouter>
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <Web3ProviderNetwork getLibrary={getLibrary}>
+              <Updaters />
+              <ThemeProvider>
+                {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
+                <ThemedGlobalComponent />
+                <App />
+              </ThemeProvider>
+            </Web3ProviderNetwork>
+          </Web3ReactProvider>
+        </HashRouter>
+      </Provider>
+    </ApolloProvider>
   </StrictMode>,
   document.getElementById('root')
 )

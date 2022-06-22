@@ -15,6 +15,7 @@ const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages
 import { useCatalogByYearAndSeason } from 'state/catalog/hooks'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { isMobile } from 'utils'
+import { gql, useQuery } from '@apollo/client'
 
 // TODO: move
 // Redirects to swap but only replace the pathname
@@ -31,7 +32,66 @@ export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
   )
 }
 
+const QUERY = gql`
+  query getFiveProducts {
+    products(first: 5) {
+      nodes {
+        id
+        title
+        description
+        descriptionHtml
+        sizes: options {
+          values
+        }
+        updatedAt
+        featuredImage {
+          url
+        }
+        media(first: 6) {
+          nodes {
+            ... on MediaImage {
+              mediaContentType
+              image {
+                id
+                url
+                altText
+                width
+                height
+              }
+            }
+            ... on Video {
+              mediaContentType
+              id
+              previewImage {
+                url
+              }
+              sources {
+                mimeType
+                url
+              }
+            }
+            ... on ExternalVideo {
+              mediaContentType
+              id
+              embedUrl
+              host
+            }
+          }
+        }
+        color: metafield(namespace: "custom", key: "color") {
+          value
+        }
+        artistInfo: metafield(namespace: "custom", key: "artistInfo") {
+          value
+        }
+      }
+    }
+  }
+`
+
 export default function App() {
+  const response = useQuery(QUERY)
+  console.debug('=== 🚀 APOLLO QUERY ===', response)
   // We need something to show. We'll go with catalog by year and season, why not.
   // if there isn't yet data, show something else
   const catalogBySeason = useCatalogByYearAndSeason({ year: '2022', season: 'FALL' })

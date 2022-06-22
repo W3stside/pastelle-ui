@@ -15,6 +15,7 @@
     "node": ">=14.0.0"
   },
   "devDependencies": {
+    "@apollo/client": "^3.6.8",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
     "@craco/craco": "^5.7.0",
     "@ethersproject/experimental": "^5.4.0",
@@ -80,6 +81,7 @@
     "eslint-plugin-react-hooks": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "ethers": "^5.4.6",
+    "graphql": "^16.5.0",
     "i18next": "^15.0.9",
     "i18next-browser-languagedetector": "^3.0.1",
     "i18next-xhr-backend": "^2.0.1",
