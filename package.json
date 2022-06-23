@@ -25,6 +25,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-fontawesome": "^0.1.8",
     "@gnosis.pm/safe-service-client": "^1.1.1",
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typescript-operations": "^2.4.2",
     "@lingui/cli": "^3.9.0",
     "@lingui/loader": "^3.9.0",
     "@lingui/macro": "^3.9.0",
@@ -74,6 +76,7 @@
     "cids": "^1.0.0",
     "copy-to-clipboard": "^3.2.0",
     "cross-env": "^7.0.2",
+    "dotenv": "^16.0.1",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
@@ -143,7 +146,8 @@
     "contracts:compile": "yarn contracts:compile:abi",
     "postinstall": "yarn contracts:compile && yarn i18n:compile",
     "eject": "react-scripts eject",
-    "dedup": "npx yarn-deduplicate"
+    "dedup": "npx yarn-deduplicate",
+    "graphql:generate": "DOTENV_CONFIG_PATH=\".env.local\" graphql-codegen --require dotenv/config --config codegen.yml ./src/shopify/graphql"
   },
   "eslintConfig": {
     "extends": "react-app",
