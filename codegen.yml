@@ -5,7 +5,7 @@ schema:
 
 documents: 'src/**/!(*.d).{ts,tsx}'
 generates:
-  ./src/shopify/graphql/types.ts:
+  ./src/shopify/graphql/types/_generated_.ts:
     plugins:
       - typescript
       - typescript-operations
