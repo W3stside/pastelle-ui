@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { CatalogItemsMap, CatalogSeason, CatalogSeasonItemMap, CatalogSeasonsMap } from 'mock/apparel/types'
+import { CatalogItemsMap, CatalogSeason, CatalogSeasonItemMap, CatalogSeasonsMap } from 'mock/types'
 
 export type CatalogState = CatalogItemsMap
 
