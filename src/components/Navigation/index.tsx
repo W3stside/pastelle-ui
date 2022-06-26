@@ -8,7 +8,7 @@ import ThemeToggleBar from 'components/ThemeToggler'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { getThemeColours } from 'theme/utils'
 import { ThemeModes } from 'theme/styled'
-import { useCatalogItemFromURL } from 'pages/Catalog/hooks'
+import { useCurrentCollectionProducts } from 'pages/Catalog/hooks'
 import { useGetCurrentOnScreenItem } from 'state/catalog/hooks'
 import { buildItemUrl } from 'utils/navigation'
 
@@ -87,8 +87,8 @@ const CatalogLabel = styled.span<{ active: boolean }>`
 `
 
 export default function Navigation({ navOrbProps }: any) {
-  const { seasonList } = useCatalogItemFromURL()
-  const currentItem = useGetCurrentOnScreenItem()
+  const { productsList: products } = useCurrentCollectionProducts()
+  const currentProduct = useGetCurrentOnScreenItem()
 
   const [isNavOpen, setIsNavOpen] = useState(false)
 
@@ -114,13 +114,10 @@ export default function Navigation({ navOrbProps }: any) {
           <strong>{'MERCH'}</strong>
         </ItemSubHeader>
 
-        {seasonList.map(catalogItem => (
-          // TODO: reenable itemKey
-          <StyledNavLink key={catalogItem.itemKey} to={buildItemUrl({ identifier: catalogItem.itemHeader })}>
+        {products.map(product => (
+          <StyledNavLink key={product.id} to={buildItemUrl({ identifier: product.title })}>
             <ItemSubHeader padding="2px" color={getThemeColours(ThemeModes.CHAMELEON).white}>
-              <CatalogLabel active={catalogItem.itemKey === currentItem?.itemKey}>
-                {catalogItem.itemHeader}
-              </CatalogLabel>
+              <CatalogLabel active={product.id === currentProduct?.id}>{product.title}</CatalogLabel>
             </ItemSubHeader>
           </StyledNavLink>
         ))}

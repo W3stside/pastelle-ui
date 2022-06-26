@@ -6,7 +6,7 @@ import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core'
 import { StrictMode } from 'react'
 // PROVIDERS
 import { Provider } from 'react-redux'
-import ApolloProvider from 'provider/Apollo'
+import ApolloProvider from 'shopify/graphql/ApolloProvider'
 import ThemeProvider from 'theme'
 
 import ReactDOM from 'react-dom'

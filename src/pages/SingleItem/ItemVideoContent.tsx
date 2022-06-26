@@ -1,20 +1,22 @@
 import { /* useCallback ,*/ useEffect, useState } from 'react'
 // import { Pause, Play } from 'react-feather'
 
-import /* ButtonVariations */ 'components/Button'
-import { ItemPageProps } from './AsideWithVideo'
+// import /* ButtonVariations */ 'components/Button'
 import { VideoContentWrapper /* , ItemSubHeader, VideoControlButton */ } from './styleds'
 import LazyVideo from 'components/LazyVideo'
 import { Spinner } from 'theme'
+import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 
 // const CONTROL_BUTTON_SIZE = 20
 
-export const ItemVideoContent = ({
-  itemMediaList,
-  currentCarouselIndex,
-  firstPaintOver
-}: // hide
-{ currentCarouselIndex: number; hide?: boolean; firstPaintOver?: boolean } & Pick<ItemPageProps, 'itemMediaList'>) => {
+interface Params {
+  videos: FragmentProductVideoFragment[]
+  firstPaintOver?: boolean
+  currentCarouselIndex: number
+  // hide?: boolean
+}
+
+export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver /* , hide */ }: Params) => {
   const [, /* videoStatus */ setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
 
@@ -57,7 +59,7 @@ export const ItemVideoContent = ({
   return (
     <>
       <VideoContentWrapper id="#video-content-wrapper">
-        {itemMediaList.map(({ videoMedia: { path, lowq } }, index) => {
+        {videos.map(({ sources }, index) => {
           const isSelected = index === currentCarouselIndex
           if (!isSelected) return null
 
@@ -72,10 +74,9 @@ export const ItemVideoContent = ({
                   marginLeft: 'auto'
                 }
               }}
-              sourcesProps={[
-                { src: process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path, type: 'video/mp4' },
-                { src: process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path + '?tr=' + lowq, type: 'video/mp4' }
-              ]}
+              sourcesProps={sources
+                .map(({ url, mimeType }) => ({ src: url, type: mimeType }))
+                .filter(({ type }) => type === 'video/mp4')}
               height="100%"
               Loader={Spinner}
             />

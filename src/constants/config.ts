@@ -1,4 +1,4 @@
-import { CatalogSeason, ItemSizes } from 'mock/apparel/types'
+import { CatalogSeason, ItemSizes } from 'mock/types'
 
 export const CURRENT_YEAR = new Date().getFullYear()
 export const CURRENT_SEASON: CatalogSeason = 'FALL'

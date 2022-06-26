@@ -4,11 +4,11 @@ import styled, { css } from 'styled-components/macro'
 import { darken, transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
-import { ItemPageProps } from './AsideWithVideo'
+import { ProductPageProps } from './AsideWithVideo'
 import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
-import { SocialType } from 'mock/apparel/types'
+import { SocialType } from 'mock/types'
 import { STORE_IMAGE_SIZES, CATALOG_MAX_WIDTH } from 'constants/config'
 
 const saturateAnimation = css`
@@ -306,7 +306,7 @@ export const ItemCredits: TFC = ({ children }) => (
   </TYPE.black>
 )
 
-function _showSocialUrl(type: SocialType) {
+function _showSocialUrl(type: string | SocialType) {
   switch (type) {
     case SocialType.INSTAGRAM:
       return <Instagram />
@@ -323,27 +323,25 @@ function _showSocialUrl(type: SocialType) {
   }
 }
 
-export const ItemArtistInfo = (props: (ItemPageProps['itemArtistInfo'] & { bgColor: string }) | undefined) => {
+export const ItemArtistInfo = (props: (ProductPageProps['artistInfo'] & { bgColor: string }) | undefined) => {
   if (!props) return null
 
-  const { artist, social, bgColor } = props
+  const { name, type, url, display, bgColor } = props
 
   return (
     <TYPE.black fontSize={14} padding={2} fontWeight={300}>
       <HighlightedText bgColor={bgColor}>
-        <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> x {artist}
+        <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> x {name}
       </HighlightedText>
       <br />
       <br />
-      {social.map(({ type, url, display }) => (
-        <ExternalLink
-          key={url}
-          href={url}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', gap: 5 }}
-        >
-          {_showSocialUrl(type)} {display}
-        </ExternalLink>
-      ))}
+      <ExternalLink
+        key={url}
+        href={url}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', gap: 5 }}
+      >
+        {_showSocialUrl(type)} {display}
+      </ExternalLink>
     </TYPE.black>
   )
 }
