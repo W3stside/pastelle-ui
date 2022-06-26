@@ -1,4 +1,4 @@
-import { ItemPageProps, ItemPageDesignsProps } from 'pages/SingleItem/AsideWithVideo'
+import { ProductPageProps, ItemPageDesignsProps } from 'pages/SingleItem/AsideWithVideo'
 
 export enum SocialType {
   INSTAGRAM = 'INSTAGRAM',
@@ -20,7 +20,7 @@ export type ApparelItem = {
   }
 }
 export type CatalogSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL'
-export type CatalogItem = ItemPageProps & ItemPageDesignsProps
+export type CatalogItem = ProductPageProps & ItemPageDesignsProps
 // returns { ITEM_NAME: ITEM_OBJECT }
 export type CatalogSeasonItemMap = {
   [item: string]: CatalogItem
