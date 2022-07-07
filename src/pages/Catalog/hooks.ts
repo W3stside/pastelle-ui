@@ -1,36 +1,37 @@
-import useSWR from 'swr'
 import { useEffect, useMemo } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { CatalogItem, CatalogSeason, CatalogSeasonItemMap } from 'mock/apparel/types'
-import { delay } from 'utils'
+import { CatalogItem } from 'mock/types'
 
-import MOCK_CATALOG_MAP from 'mock/apparel'
 import { CATALOG_URL } from 'constants/navigation'
-import { useCatalog } from 'state/catalog/hooks'
+import { useQuery } from '@apollo/client'
+import { QUERY_GET_COLLECTION } from 'shopify/graphql/queries/collections'
+import { GetCollectionQuery, GetCollectionQueryVariables } from 'shopify/graphql/types'
+import { mapShopifyProductToProps } from 'shopify/utils'
+import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
 
 type URLFromCatalogItemsParams = {
-  seasonList: CatalogItem[]
-  currentItem: CatalogItem | undefined
+  products: CatalogItem[]
+  currentProduct: CatalogItem | undefined
   isActive: boolean
-  itemKey: string
-  itemIndex: number
+  id: string
+  index: number
 }
 
 export function useUpdateURLFromCatalogItem(params: URLFromCatalogItemsParams) {
-  const { seasonList, currentItem, isActive, itemKey, itemIndex } = params
+  const { products, currentProduct, isActive, id, index } = params
   const { replace } = useHistory()
   // update url
   useEffect(() => {
-    const urlNeedsUpdate = isActive && currentItem?.itemKey !== itemKey
+    const urlNeedsUpdate = isActive && currentProduct?.id !== id
 
     if (urlNeedsUpdate) {
-      const currentItemKey = seasonList[itemIndex]?.itemKey
+      const currentItemKey = products[index]?.id
       if (!currentItemKey) return
 
       replace(CATALOG_URL + currentItemKey.split('-')[0])
     }
-  }, [currentItem?.itemKey, isActive, itemKey, itemIndex, replace, seasonList])
+  }, [currentProduct?.id, isActive, id, index, replace, products])
 }
 
 export function useGetCatalogDetailsFromURL(): [string, string[]] {
@@ -48,47 +49,56 @@ export function useGetCatalogDetailsFromURL(): [string, string[]] {
   )
 }
 
-export function useCatalogItemFromURL() {
-  // we need to use the URL to determine what item we're currently viewing
-  const [pathname, [year = '', season = '', item = '']] = useGetCatalogDetailsFromURL()
+export function useCollections(variables: GetCollectionQueryVariables) {
+  return useQuery<GetCollectionQuery, GetCollectionQueryVariables>(QUERY_GET_COLLECTION, {
+    variables
+  })
+}
 
-  // mock hook for async fetching of catalog data
-  const catalogMap = useCatalog()
+export const DEFAULT_CURRENT_COLLECTION_VARIABLES = {
+  collectionAmount: 1,
+  productAmt: 10,
+  imageAmt: 20
+}
 
-  const seasonMap = catalogMap?.[year.toUpperCase()]?.[season.toUpperCase() as CatalogSeason]
-  const seasonList = Object.values(seasonMap || {})
-  const urlItem = seasonMap?.[item]
-  const currentItem = urlItem || seasonList[0]
+export function useCurrentCollectionProducts(
+  variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
+) {
+  const { data, error } = useCollections(variables)
 
-  return {
-    seasonList,
-    currentItem,
-    pathname
+  // TODO: fix
+  if (error) {
+    console.error(error)
   }
+
+  // collection
+  const collection = data?.collections?.nodes[0]
+  // products from collection
+  const products = mapShopifyProductToProps(collection?.products.nodes)
+  // [PRODUCT_NAME]: PRODUCT
+  const productsMap = products.reduce((acc, prod: ProductPageProps) => {
+    acc[prod.title] = prod
+
+    return acc
+  }, {} as Record<string, ProductPageProps>)
+
+  return { productsMap, productsList: products }
 }
 
-type FetchCatalogDataProps = {
-  year: number | string
-  season: CatalogSeason
-}
+export function useCurrentCollectionProductsFromUrl(
+  variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
+) {
+  // we need to use the URL to determine what item we're currently viewing
+  const [pathname, [, , item = '']] = useGetCatalogDetailsFromURL()
 
-export function useMockFetchCatalogData(params: FetchCatalogDataProps) {
-  const { season, year } = params
+  const { productsMap, productsList } = useCurrentCollectionProducts(variables)
 
-  return useSWR<CatalogSeasonItemMap>(
-    ['catalog', season, year],
-    () => (year && season ? delay(2300, MOCK_CATALOG_MAP.get(year.toString())?.[season]) : {}),
-    {
-      refreshInterval: 20000
-    }
-  )
-}
+  const urlItem = productsMap[item]
+  const currentProduct = urlItem || productsList[0]
 
-export function useMockFetchCatalogDataByYear(year: number) {
   return {
-    WINTER: useMockFetchCatalogData({ year, season: 'WINTER' }),
-    SPRING: useMockFetchCatalogData({ year, season: 'SPRING' }),
-    SUMMER: useMockFetchCatalogData({ year, season: 'SUMMER' }),
-    FALL: useMockFetchCatalogData({ year, season: 'FALL' })
+    products: productsList,
+    currentProduct,
+    pathname
   }
 }

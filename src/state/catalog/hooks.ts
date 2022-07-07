@@ -1,9 +1,10 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 import { batchUpdateCatalogByYear, updateCatalog } from './reducer'
-import { CatalogSeason, CatalogSeasonItemMap, CatalogSeasonsMap } from 'mock/apparel/types'
+import { CatalogSeason, CatalogSeasonItemMap, CatalogSeasonsMap } from 'mock/types'
 import { useOnScreenItemID } from 'state/user/hooks'
-import { CURRENT_YEAR, CURRENT_SEASON } from 'constants/config'
+import { DEFAULT_CURRENT_COLLECTION_VARIABLES, useCurrentCollectionProducts } from 'pages/Catalog/hooks'
+import { GetCollectionQueryVariables } from 'shopify/graphql/types'
 
 export function useCatalog() {
   return useAppSelector(state => state.catalog)
@@ -39,9 +40,11 @@ export function useBatchUpdateCatalogByYear() {
   )
 }
 
-export function useGetCurrentOnScreenItem() {
-  const catalog = useCatalogByYearAndSeason({ year: CURRENT_YEAR, season: CURRENT_SEASON })
+export function useGetCurrentOnScreenItem(
+  variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
+) {
+  const { productsMap } = useCurrentCollectionProducts(variables)
   const itemId = useOnScreenItemID()
 
-  return itemId ? catalog?.[itemId] : undefined
+  return itemId ? productsMap?.[itemId] : undefined
 }

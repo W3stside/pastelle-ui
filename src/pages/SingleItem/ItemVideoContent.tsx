@@ -1,26 +1,24 @@
-import { /* useCallback ,*/ useEffect, useState } from 'react'
-// import { Pause, Play } from 'react-feather'
+import { useCallback, useEffect, useState } from 'react'
 
-import /* ButtonVariations */ 'components/Button'
-import { ItemPageProps } from './AsideWithVideo'
-import { VideoContentWrapper /* , ItemSubHeader, VideoControlButton */ } from './styleds'
+import { ItemSubHeader, VideoContentWrapper, VideoControlButton } from './styleds'
 import LazyVideo from 'components/LazyVideo'
 import { Spinner } from 'theme'
+import { FragmentProductVideoFragment } from 'shopify/graphql/types'
+import { ButtonVariations } from 'components/Button'
+import { Play, Pause } from 'react-feather'
 
-// const CONTROL_BUTTON_SIZE = 20
-
-export const ItemVideoContent = ({
-  itemMediaList,
-  currentCarouselIndex,
-  firstPaintOver
-}: // hide
-{ currentCarouselIndex: number; hide?: boolean; firstPaintOver?: boolean } & Pick<ItemPageProps, 'itemMediaList'>) => {
-  const [, /* videoStatus */ setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
+interface Params {
+  videos: FragmentProductVideoFragment[]
+  firstPaintOver?: boolean
+  currentCarouselIndex: number
+}
+const CONTROL_BUTTON_SIZE = 12
+export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver }: Params) => {
+  const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
 
   useEffect(() => {
     if (!videoElement) return
-    const video = videoElement
 
     function handleOnPlaying() {
       setVideoStatus('PLAYING')
@@ -30,34 +28,32 @@ export const ItemVideoContent = ({
       setVideoStatus('PAUSED')
     }
 
-    video.addEventListener('playing', handleOnPlaying)
-    video.addEventListener('pause', handleOnPaused)
+    videoElement.addEventListener('playing', handleOnPlaying)
+    videoElement.addEventListener('pause', handleOnPaused)
 
     return () => {
-      video.removeEventListener('playing', handleOnPlaying)
-      video.removeEventListener('pause', handleOnPaused)
+      videoElement.removeEventListener('playing', handleOnPlaying)
+      videoElement.removeEventListener('pause', handleOnPaused)
     }
   }, [videoElement])
 
-  /* const toggleVideo = useCallback(() => {
+  const isPaused = videoStatus === 'PAUSED'
+
+  const toggleVideo = useCallback(() => {
+    console.debug('CLICKING VIDEO')
     if (!videoElement) return
 
-    if (videoStatus === 'PAUSED') {
+    if (isPaused) {
       videoElement.play()
     } else {
       videoElement.pause()
     }
-  }, [videoElement, videoStatus])
-
-  const isPaused = videoStatus === 'PAUSED' */
-
-  // TODO: show loader and set hide to also depend on active index
-  // if (hide) return null
+  }, [isPaused, videoElement])
 
   return (
     <>
       <VideoContentWrapper id="#video-content-wrapper">
-        {itemMediaList.map(({ videoMedia: { path, lowq } }, index) => {
+        {videos.map(({ sources }, index) => {
           const isSelected = index === currentCarouselIndex
           if (!isSelected) return null
 
@@ -72,28 +68,27 @@ export const ItemVideoContent = ({
                   marginLeft: 'auto'
                 }
               }}
-              sourcesProps={[
-                { src: process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path, type: 'video/mp4' },
-                { src: process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + path + '?tr=' + lowq, type: 'video/mp4' }
-              ]}
+              sourcesProps={sources
+                .map(({ url, mimeType }) => ({ src: url, type: mimeType }))
+                .filter(({ type }) => type === 'video/mp4')}
               height="100%"
               Loader={Spinner}
+              onClick={toggleVideo}
             />
           )
         })}
       </VideoContentWrapper>
-      {/* videoStatus && (
-        <VideoControlButton variant={ButtonVariations.THEME} onClick={toggleVideo}>
+      {videoStatus && (
+        <VideoControlButton variant={ButtonVariations.SECONDARY} onClick={toggleVideo}>
           <ItemSubHeader>
-            VIDEO
             {isPaused ? (
               <Play color="ghostwhite" fill="ghostwhite" size={CONTROL_BUTTON_SIZE} />
             ) : (
-              <Pause size={CONTROL_BUTTON_SIZE} />
+              <Pause color="ghostwhite" fill="ghostwhite" size={CONTROL_BUTTON_SIZE} />
             )}
           </ItemSubHeader>
         </VideoControlButton>
-      ) */}
+      )}
     </>
   )
 }

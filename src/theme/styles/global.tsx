@@ -201,10 +201,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   header {
     background: ${({ headerLogo, theme, frameBgColor = transparentize(0.3, theme.bg1) }) =>
       headerLogo
-        ? `url(${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + headerLogo}) center no-repeat, url(${process.env
-            .REACT_APP_IMAGEKIT_URL_ENDPOINT +
-            headerLogo +
-            '?tr=q-10'}) 0px 0px no-repeat`
+        ? `url(${headerLogo}) center no-repeat, url(${headerLogo + '?tr=q-10'}) 0px 0px no-repeat`
         : frameBgColor};
       
     background-color: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
@@ -219,12 +216,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
 
   nav {
     background: ${({ navLogo, theme, frameBgColor = transparentize(0.3, theme.bg1) }) =>
-      navLogo
-        ? `url(${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + navLogo}) center no-repeat, url(${process.env
-            .REACT_APP_IMAGEKIT_URL_ENDPOINT +
-            navLogo +
-            '?tr=q-10'}) 5px repeat`
-        : frameBgColor};
+      navLogo ? `url(${navLogo}) center no-repeat, url(${navLogo + '?tr=q-10'}) 5px repeat` : frameBgColor};
     background-size: cover;
     background-blend-mode: difference;
     background-color: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
@@ -247,12 +239,12 @@ export const ThemedGlobalComponent = () => {
 
   const { itemColor, navLogo, headerLogo, showAnimation } = useMemo(
     () => ({
-      itemColor: theme.mode === ThemeModes.CHAMELEON ? currentItem?.itemColor : undefined,
+      itemColor: theme.mode === ThemeModes.CHAMELEON ? currentItem?.color : undefined,
       navLogo: theme.mode === ThemeModes.CHAMELEON ? currentItem?.navLogo : undefined,
       headerLogo: theme.mode === ThemeModes.CHAMELEON ? currentItem?.headerLogo : undefined,
       showAnimation: theme.mode === ThemeModes.CHAMELEON
     }),
-    [currentItem?.headerLogo, currentItem?.itemColor, currentItem?.navLogo, theme.mode]
+    [currentItem?.headerLogo, currentItem?.color, currentItem?.navLogo, theme.mode]
   )
 
   return (

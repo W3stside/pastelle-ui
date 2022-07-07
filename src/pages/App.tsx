@@ -12,9 +12,10 @@ const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Err
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
 const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleItem'))
 
-import { useCatalogByYearAndSeason } from 'state/catalog/hooks'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { isMobile } from 'utils'
+import { useQuery } from '@apollo/client'
+import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
 
 // TODO: move
 // Redirects to swap but only replace the pathname
@@ -32,11 +33,9 @@ export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
 }
 
 export default function App() {
-  // We need something to show. We'll go with catalog by year and season, why not.
-  // if there isn't yet data, show something else
-  const catalogBySeason = useCatalogByYearAndSeason({ year: '2022', season: 'FALL' })
+  const { loading } = useQuery(QUERY_PRODUCT, { variables: { amount: 5, imageAmt: 20 } })
 
-  if (!catalogBySeason) return <FixedAnimatedLoader loadText="PSTL" />
+  if (loading) return <FixedAnimatedLoader loadText="PSTL" />
 
   return (
     <Web3ReactManager>

@@ -1,5 +1,5 @@
 import { CURRENT_SEASON, CURRENT_YEAR } from 'constants/config'
-import { CatalogSeason } from 'mock/apparel/types'
+import { CatalogSeason } from 'mock/types'
 
 type ItemUrlProps = { year?: string | number; season?: CatalogSeason; identifier: string }
 export function buildItemUrl({ year = CURRENT_YEAR, season = CURRENT_SEASON, identifier }: ItemUrlProps) {

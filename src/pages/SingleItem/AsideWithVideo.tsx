@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { SyntheticEvent, useEffect, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
@@ -17,7 +17,6 @@ import {
   HighlightedText
 } from './styleds'
 
-import { ApparelItem, CollaboratorSocialData, ItemSizes } from 'mock/apparel/types'
 import { useBreadcrumb } from 'components/Breadcrumb'
 
 import Modal from 'components/Modal'
@@ -32,19 +31,26 @@ import SmartImg from 'components/SmartImg'
 import { useSetOnScreenItemID } from 'state/user/hooks'
 import { TYPE } from 'theme'
 import { isMobile } from 'utils'
+import {
+  FragmentProductVideoFragment,
+  FragmentProductImageFragment,
+  ProductSizes,
+  ProductArtistInfo
+} from 'shopify/graphql/types'
 
-export interface ItemPageProps {
-  itemColor: string
-  itemHeader: string
-  itemLogo?: string
-  itemMediaList: ApparelItem[]
-  itemSizesList: ItemSizes[]
-  itemDescription: string[]
-  itemArtistInfo?: {
-    artist: string
-    social: CollaboratorSocialData
-  }
-  itemKey: string
+export interface ProductPageProps {
+  color: string
+  title: string
+  logo?: string
+  headerLogo?: string
+  navLogo?: string
+  images: FragmentProductImageFragment[]
+  videos: FragmentProductVideoFragment[]
+  // media: (FragmentProductExternalVideoFragment | FragmentProductVideoFragment)[]
+  sizes: ProductSizes[]
+  description: string
+  artistInfo?: ProductArtistInfo
+  id: string
   mobileView?: boolean
   noVideo?: boolean
   noDescription?: boolean
@@ -79,17 +85,20 @@ function Breadcrumbs({
 }
 
 const DEFAULT_MEDIA_START_INDEX = 0
+const DEFAULT_SIZE_SELECTED: ProductSizes = ProductSizes.M
 
 export default function ItemPage({
-  itemColor,
-  itemHeader,
-  itemLogo,
-  itemMediaList,
-  itemSizesList,
-  itemDescription,
-  itemArtistInfo,
-  // TODO: reenable itemKey
-  // itemKey,
+  color = '#000',
+  title,
+  logo,
+  images = [],
+  videos = [],
+  // media,
+  sizes = [],
+  description,
+  artistInfo,
+  // TODO: re-enable id
+  // id,
   isActive,
   firstPaintOver,
   mobileView = false,
@@ -98,7 +107,7 @@ export default function ItemPage({
   showBreadCrumbs,
   style,
   handleMobileItemClick
-}: ItemPageProps &
+}: ProductPageProps &
   ScrollableContentComponentBaseProps & {
     style?: any
     handleMobileItemClick?: React.MouseEventHandler<HTMLHeadingElement>
@@ -113,31 +122,22 @@ export default function ItemPage({
 
   const breadcrumbs = useBreadcrumb()
 
-  // Split images lists
-  const { smallImagesList, largeImagesList } = useMemo(() => {
-    const smallImagesList: string[] = []
-    const largeImagesList: string[] = []
+  const [, setSize] = useState<ProductSizes>(DEFAULT_SIZE_SELECTED)
+  const handleSetSize = (event: SyntheticEvent<HTMLOptionElement>) => setSize(event.currentTarget.value as ProductSizes)
 
-    itemMediaList.forEach(({ imageMedia: { path } }) => {
-      smallImagesList.push(path)
-      largeImagesList.push(path)
-    })
-
-    return { smallImagesList, largeImagesList }
-  }, [itemMediaList])
+  const imageUrls = images.map(image => image.url)
 
   // scrolling page current index set in state as on screen
   const setOnScreenId = useSetOnScreenItemID()
   useEffect(() => {
     if (isActive) {
-      // TODO: reenable itemKey
-      // setOnScreenId(itemKey)
-      setOnScreenId(itemHeader)
+      // TODO: use id
+      setOnScreenId(title)
     }
-  }, [isActive, /* itemKey, */ itemHeader, setOnScreenId])
+  }, [isActive, title, setOnScreenId])
 
   return (
-    <ItemContainer id="#item-container" style={style} mobileView={mobileView} bgColor={itemColor}>
+    <ItemContainer id="#item-container" style={style} mobileView={mobileView} bgColor={color}>
       <ItemAsidePanel id="#item-aside-panel">
         <InnerContainer>
           {/* Breadcrumbs */}
@@ -145,9 +145,9 @@ export default function ItemPage({
           {/* Item carousel */}
           <Carousel
             showCarouselContentIndicators={!mobileView}
-            buttonColor={itemColor}
-            imageList={smallImagesList}
-            transformation={[{ width: itemMediaList[0].imageMedia.small, height: itemMediaList[0].imageMedia.small }]}
+            buttonColor={color}
+            imageList={imageUrls}
+            transformation={[{ width: (images[0]?.width || 2000) / 2, height: (images[0]?.height || 2000) / 2 }]}
             mediaStartIndex={currentCarouselIndex}
             onCarouselChange={onCarouselChange}
             onImageClick={toggleModal}
@@ -157,9 +157,7 @@ export default function ItemPage({
           {noDescription ? null : mobileView ? (
             <>
               <br />
-              <ItemLogo>
-                {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
-              </ItemLogo>
+              <ItemLogo>{logo ? <SmartImg path={logo} transformation={[{ quality: 60 }]} /> : title}</ItemLogo>
               <MobileItemCTA
                 alignItems="center"
                 justifyContent="center"
@@ -170,25 +168,23 @@ export default function ItemPage({
             </>
           ) : (
             <>
-              <ItemLogo>
-                {itemLogo ? <SmartImg path={itemLogo} transformation={[{ quality: 60 }]} /> : itemHeader}
-              </ItemLogo>
+              <ItemLogo>{logo ? <SmartImg path={logo} transformation={[{ quality: 60 }]} /> : title}</ItemLogo>
 
               {/* Credits */}
-              <ItemSubHeader bgColor={itemColor}>
+              <ItemSubHeader bgColor={color}>
                 <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CREDIT</span>
               </ItemSubHeader>
 
               <ItemCredits>
-                {itemArtistInfo ? (
-                  <ItemArtistInfo {...itemArtistInfo} bgColor={itemColor} />
+                {artistInfo ? (
+                  <ItemArtistInfo {...artistInfo} bgColor={color} />
                 ) : (
-                  <HighlightedText bgColor={itemColor}>{PASTELLE_CREDIT}</HighlightedText>
+                  <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
                 )}
               </ItemCredits>
 
               {/* Size selector */}
-              <ItemSubHeader bgColor={itemColor}>
+              <ItemSubHeader bgColor={color}>
                 <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>
                   CHOOSE A SIZE
                 </span>
@@ -198,8 +194,10 @@ export default function ItemPage({
 
               <Row>
                 <select disabled style={{ width: '50%' }}>
-                  {itemSizesList.map((size, index) => (
-                    <option key={size + '_' + index}>{size}</option>
+                  {sizes.map((size, index) => (
+                    <option key={size + '_' + index} onChange={handleSetSize}>
+                      {size}
+                    </option>
                   ))}
                 </select>
               </Row>
@@ -207,19 +205,13 @@ export default function ItemPage({
               <br />
 
               {/* Item description */}
-              <ItemSubHeader bgColor={itemColor}>
+              <ItemSubHeader bgColor={color}>
                 <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>DESCRIPTION</span>
               </ItemSubHeader>
 
               <Row>
                 <TYPE.black padding={2}>
-                  <ItemDescription>
-                    {itemDescription.map((paragraph, index) => (
-                      <p key={index} className="item-description-p">
-                        <HighlightedText bgColor={itemColor}>{paragraph}</HighlightedText>
-                      </p>
-                    ))}
-                  </ItemDescription>
+                  <ItemDescription dangerouslySetInnerHTML={{ __html: description }}></ItemDescription>
                 </TYPE.black>
               </Row>
             </>
@@ -227,22 +219,15 @@ export default function ItemPage({
         </InnerContainer>
       </ItemAsidePanel>
       {noVideo ? null : (
-        <ItemVideoContent
-          firstPaintOver={firstPaintOver}
-          hide={!isActive}
-          itemMediaList={itemMediaList}
-          currentCarouselIndex={currentCarouselIndex}
-        />
+        <ItemVideoContent firstPaintOver={firstPaintOver} videos={videos} currentCarouselIndex={currentCarouselIndex} />
       )}
 
       {/* LARGE IMAGE MODAL */}
       <Modal isOpen={isActive && showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
         <Carousel
-          buttonColor={itemColor}
-          imageList={largeImagesList}
-          transformation={[
-            { width: itemMediaList[0].imageMedia.large, height: itemMediaList[0].imageMedia.large, xc: 500, yc: 500 }
-          ]}
+          buttonColor={color}
+          imageList={imageUrls}
+          transformation={[{ width: images[0]?.width || 2000, height: images[0]?.height || 2000, xc: 500, yc: 500 }]}
           mediaStartIndex={currentCarouselIndex}
           onCarouselChange={onCarouselChange}
           fixedHeight="auto"
