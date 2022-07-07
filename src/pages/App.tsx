@@ -12,7 +12,6 @@ const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Err
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
 const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleItem'))
 
-// import { useCatalogByYearAndSeason } from 'state/catalog/hooks'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { isMobile } from 'utils'
 import { useQuery } from '@apollo/client'

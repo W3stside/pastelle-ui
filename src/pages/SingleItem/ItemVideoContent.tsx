@@ -1,28 +1,24 @@
-import { /* useCallback ,*/ useEffect, useState } from 'react'
-// import { Pause, Play } from 'react-feather'
+import { useCallback, useEffect, useState } from 'react'
 
-// import /* ButtonVariations */ 'components/Button'
-import { VideoContentWrapper /* , ItemSubHeader, VideoControlButton */ } from './styleds'
+import { ItemSubHeader, VideoContentWrapper, VideoControlButton } from './styleds'
 import LazyVideo from 'components/LazyVideo'
 import { Spinner } from 'theme'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
-
-// const CONTROL_BUTTON_SIZE = 20
+import { ButtonVariations } from 'components/Button'
+import { Play, Pause } from 'react-feather'
 
 interface Params {
   videos: FragmentProductVideoFragment[]
   firstPaintOver?: boolean
   currentCarouselIndex: number
-  // hide?: boolean
 }
-
-export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver /* , hide */ }: Params) => {
-  const [, /* videoStatus */ setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
+const CONTROL_BUTTON_SIZE = 12
+export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver }: Params) => {
+  const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
 
   useEffect(() => {
     if (!videoElement) return
-    const video = videoElement
 
     function handleOnPlaying() {
       setVideoStatus('PLAYING')
@@ -32,29 +28,27 @@ export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver 
       setVideoStatus('PAUSED')
     }
 
-    video.addEventListener('playing', handleOnPlaying)
-    video.addEventListener('pause', handleOnPaused)
+    videoElement.addEventListener('playing', handleOnPlaying)
+    videoElement.addEventListener('pause', handleOnPaused)
 
     return () => {
-      video.removeEventListener('playing', handleOnPlaying)
-      video.removeEventListener('pause', handleOnPaused)
+      videoElement.removeEventListener('playing', handleOnPlaying)
+      videoElement.removeEventListener('pause', handleOnPaused)
     }
   }, [videoElement])
 
-  /* const toggleVideo = useCallback(() => {
+  const isPaused = videoStatus === 'PAUSED'
+
+  const toggleVideo = useCallback(() => {
+    console.debug('CLICKING VIDEO')
     if (!videoElement) return
 
-    if (videoStatus === 'PAUSED') {
+    if (isPaused) {
       videoElement.play()
     } else {
       videoElement.pause()
     }
-  }, [videoElement, videoStatus])
-
-  const isPaused = videoStatus === 'PAUSED' */
-
-  // TODO: show loader and set hide to also depend on active index
-  // if (hide) return null
+  }, [isPaused, videoElement])
 
   return (
     <>
@@ -79,22 +73,22 @@ export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver 
                 .filter(({ type }) => type === 'video/mp4')}
               height="100%"
               Loader={Spinner}
+              onClick={toggleVideo}
             />
           )
         })}
       </VideoContentWrapper>
-      {/* videoStatus && (
-        <VideoControlButton variant={ButtonVariations.THEME} onClick={toggleVideo}>
+      {videoStatus && (
+        <VideoControlButton variant={ButtonVariations.SECONDARY} onClick={toggleVideo}>
           <ItemSubHeader>
-            VIDEO
             {isPaused ? (
               <Play color="ghostwhite" fill="ghostwhite" size={CONTROL_BUTTON_SIZE} />
             ) : (
-              <Pause size={CONTROL_BUTTON_SIZE} />
+              <Pause color="ghostwhite" fill="ghostwhite" size={CONTROL_BUTTON_SIZE} />
             )}
           </ItemSubHeader>
         </VideoControlButton>
-      ) */}
+      )}
     </>
   )
 }

@@ -4,16 +4,11 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { CatalogItem } from 'mock/types'
 
 import { CATALOG_URL } from 'constants/navigation'
-// import { useCatalog } from 'state/catalog/hooks'
 import { useQuery } from '@apollo/client'
 import { QUERY_GET_COLLECTION } from 'shopify/graphql/queries/collections'
 import { GetCollectionQuery, GetCollectionQueryVariables } from 'shopify/graphql/types'
 import { mapShopifyProductToProps } from 'shopify/utils'
 import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
-
-/* function _filterEmpty(item: any) {
-  return !!item && Object.keys(item).length !== 0
-} */
 
 type URLFromCatalogItemsParams = {
   products: CatalogItem[]
@@ -69,18 +64,18 @@ export const DEFAULT_CURRENT_COLLECTION_VARIABLES = {
 export function useCurrentCollectionProducts(
   variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
 ) {
-  // mock hook for async fetching of catalog data
   const { data, error } = useCollections(variables)
 
+  // TODO: fix
   if (error) {
     console.error(error)
   }
 
-  // TODO: fix types
   // collection
   const collection = data?.collections?.nodes[0]
+  // products from collection
   const products = mapShopifyProductToProps(collection?.products.nodes)
-  // TODO: fix types
+  // [PRODUCT_NAME]: PRODUCT
   const productsMap = products.reduce((acc, prod: ProductPageProps) => {
     acc[prod.title] = prod
 

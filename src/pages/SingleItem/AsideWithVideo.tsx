@@ -131,11 +131,10 @@ export default function ItemPage({
   const setOnScreenId = useSetOnScreenItemID()
   useEffect(() => {
     if (isActive) {
-      // TODO: reenable id
-      // setOnScreenId(id)
+      // TODO: use id
       setOnScreenId(title)
     }
-  }, [isActive, /* id, */ title, setOnScreenId])
+  }, [isActive, title, setOnScreenId])
 
   return (
     <ItemContainer id="#item-container" style={style} mobileView={mobileView} bgColor={color}>
@@ -212,11 +211,7 @@ export default function ItemPage({
 
               <Row>
                 <TYPE.black padding={2}>
-                  <ItemDescription dangerouslySetInnerHTML={{ __html: description }}>
-                    {/* <p className="item-description-p">
-                      <HighlightedText bgColor={color || '#000'} dangerouslySetInnerHTML={{ __html: description }} />
-                    </p> */}
-                  </ItemDescription>
+                  <ItemDescription dangerouslySetInnerHTML={{ __html: description }}></ItemDescription>
                 </TYPE.black>
               </Row>
             </>
@@ -224,12 +219,7 @@ export default function ItemPage({
         </InnerContainer>
       </ItemAsidePanel>
       {noVideo ? null : (
-        <ItemVideoContent
-          firstPaintOver={firstPaintOver}
-          videos={videos}
-          currentCarouselIndex={currentCarouselIndex}
-          // hide={!isActive}
-        />
+        <ItemVideoContent firstPaintOver={firstPaintOver} videos={videos} currentCarouselIndex={currentCarouselIndex} />
       )}
 
       {/* LARGE IMAGE MODAL */}

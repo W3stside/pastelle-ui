@@ -401,8 +401,9 @@ export const VideoControlButton = styled(Button)`
   cursor: pointer;
   position: absolute;
   right: 0;
-  bottom: 0;
+  top: 0;
   padding: 10;
+  border-radius: 0 0 0 10px;
   z-index: 950;
 
   > ${ItemSubHeader} {
@@ -411,7 +412,7 @@ export const VideoControlButton = styled(Button)`
     justify-content: space-evenly;
     align-items: center;
     gap: 5px;
-    color: ${({ theme }) => theme.white};
+    color: ${({ theme }) => theme.black};
   }
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
