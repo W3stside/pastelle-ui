@@ -71,18 +71,6 @@ export const TopGlobalStyle = createGlobalStyle`
     background-repeat: no-repeat;
   }
 
-  body > div#root {
-    // LAYOUT
-    height: 100vh;
-    display: grid;
-    grid-template-areas:  'header header'
-                          'nav main'
-                          'footer footer';
-    grid-template-columns: minmax(auto, max-content) 5fr;
-    grid-template-rows: auto 1fr auto;
-    overflow: hidden;
-  }
-
   header {
     grid-area: header;
   }
@@ -109,6 +97,17 @@ export const TopGlobalStyle = createGlobalStyle`
   
   button {
     user-select: none;
+  }
+
+  body > div#root {
+    height: 100vh;
+    display: grid;
+    grid-template-areas:  'header header'
+                          'nav main'
+                          'footer footer';
+    grid-template-columns: minmax(auto, max-content) 5fr;
+    grid-template-rows: auto 1fr auto;
+    overflow: hidden;
   }
 
   select {
@@ -192,6 +191,18 @@ export const ThemedGlobalStyle = createGlobalStyle<{
       );`}
 
     transition: background-color, background-image, color 0.3s ease-in-out;
+
+    ${({ theme }) => theme.mediaWidth.upToSmall`
+      > div#root {
+        grid-template-areas:  'header header'
+                              'main main'
+                              'footer footer';
+                              
+        > nav {
+          display: none;
+        }
+      }
+    `}
   }
 
   header, nav, footer {

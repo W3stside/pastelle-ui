@@ -13,7 +13,6 @@ const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'compo
 const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleItem'))
 
 import { FixedAnimatedLoader } from 'components/Loader'
-import { isMobile } from 'utils'
 import { useQuery } from '@apollo/client'
 import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
 
@@ -44,7 +43,7 @@ export default function App() {
         {/* HEADER */}
         <Header />
         {/* SIDE-NAV */}
-        {!isMobile && <Navigation />}
+        <Navigation />
         {/* ARTICLE CONTENT */}
         <Switch>
           <Route exact path="/goods/:year/:season" component={Catalog} />

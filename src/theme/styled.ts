@@ -88,6 +88,14 @@ declare module 'styled-components' {
       upToLarge: ThemedCssFunction<DefaultTheme>
     }
 
+    // from media size
+    fromMediaWidth: {
+      fromExtraSmall: ThemedCssFunction<DefaultTheme>
+      fromSmall: ThemedCssFunction<DefaultTheme>
+      fromMedium: ThemedCssFunction<DefaultTheme>
+      fromLarge: ThemedCssFunction<DefaultTheme>
+    }
+
     // css snippets
     flexColumnNoWrap: FlattenSimpleInterpolation
     flexRowNoWrap: FlattenSimpleInterpolation

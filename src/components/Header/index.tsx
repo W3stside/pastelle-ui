@@ -17,7 +17,6 @@ import { useMemo } from 'react'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 import Navigation from 'components/Navigation'
-import { isMobile } from 'utils'
 import { useLocation } from 'react-router-dom'
 import { CATALOG_URL } from 'constants/navigation'
 
@@ -52,6 +51,12 @@ const HeaderElementWrap = styled.div`
 
 const HeaderRow = styled(RowFixed)`
   width: 100%;
+
+  ${({ theme }) => theme.fromMediaWidth.fromSmall`
+      nav {
+        display: none;
+      }
+  `};
 `
 
 const HeaderLinks = styled(Row)`
@@ -206,7 +211,7 @@ export default function Header() {
           </StyledExternalLink> */}
           </HeaderLinks>
         )}
-        {isMobile && <Navigation navOrbProps={{ bgColor: 'transparent', menuSize: 30 }} />}
+        <Navigation navOrbProps={{ bgColor: 'transparent', menuSize: 30 }} />
       </HeaderRow>
       {/* <HeaderControls>
         <HeaderElement>

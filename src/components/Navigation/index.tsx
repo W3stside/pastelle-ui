@@ -32,7 +32,7 @@ const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; mi
 
   z-index: 200;
 
-  ${({ theme, isOpen }) => theme.mediaWidth.upToExtraSmall`
+  ${({ theme, isOpen }) => theme.mediaWidth.upToSmall`
     display: ${isOpen ? 'flex' : 'none'};
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -61,7 +61,7 @@ export const MobileNavOrb = styled(Button)<{ bgColor?: string }>`
       transition: transform 0.3s ease-in-out;
     }
   }
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+  ${({ theme }) => theme.mediaWidth.upToSmall`
     position: relative;
     bottom: 0; right: 0; margin: 10px;  
     display: flex;

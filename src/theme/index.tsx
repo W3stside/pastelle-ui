@@ -5,7 +5,7 @@ import { Text, TextProps } from 'rebass'
 import { useAppColourTheme } from 'state/user/hooks'
 import { ThemeModes, Colors } from './styled'
 import { getThemeColours } from './utils'
-import { mediaWidthTemplates as mediaWidth } from './styles/mediaQueries'
+import { mediaWidthTemplates as mediaWidth, fromMediaWidthTemplates as fromMediaWidth } from './styles/mediaQueries'
 
 export * from './components'
 
@@ -75,6 +75,8 @@ const DEFAULT_THEME: Partial<DefaultTheme> = {
   },
   // media queries
   mediaWidth,
+  // from size queries
+  fromMediaWidth,
   // css snippets
   // can be used in components
   // like: ${({ theme }) => theme.flexColumnNoWrap}
