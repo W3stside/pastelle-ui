@@ -100,10 +100,14 @@ export default forwardRef(function LazyVideo(
     }
   }, [videoElement])
 
-  const isInView = useDetectScrollIntoView(loadInView ? videoElement : undefined, {
-    ...BASE_INTERSECTION_OPTIONS,
-    root: container
-  })
+  const isInView = useDetectScrollIntoView(
+    loadInView ? videoElement : undefined,
+    {
+      ...BASE_INTERSECTION_OPTIONS,
+      root: container
+    },
+    !loadInView
+  )
 
   return (
     <VideoContainer justifyContent="center" {...boxProps}>

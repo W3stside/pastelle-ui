@@ -101,6 +101,7 @@ export default function ItemPage({
   // id,
   isActive,
   firstPaintOver,
+  loadInView,
   mobileView = false,
   noVideo = false,
   noDescription = false,
@@ -152,10 +153,7 @@ export default function ItemPage({
             mediaStartIndex={currentCarouselIndex}
             onCarouselChange={onCarouselChange}
             onImageClick={toggleModal}
-            loadInViewOptions={{
-              container: document,
-              conditionalCheck: firstPaintOver
-            }}
+            loadInViewOptions={loadInView}
           />
 
           {/* Wrap everything else in a fragment */}

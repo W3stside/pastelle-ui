@@ -33,10 +33,15 @@ function ApiImage({ path, transformation = [], loadInView, lazy = true, lq = tru
 
   // load if in view only!
   const [refToSet, ref] = useEffectRef<HTMLSpanElement>(null)
-  const isInView = useDetectScrollIntoView(!!loadInView?.conditionalCheck ? ref?.current : undefined, {
-    ...BASE_INTERSECTION_OPTIONS,
-    root: loadInView?.container || document
-  })
+  const isInView = useDetectScrollIntoView(
+    !!loadInView?.conditionalCheck ? ref?.current : undefined,
+    {
+      ...BASE_INTERSECTION_OPTIONS,
+      root: loadInView?.container || document
+    },
+    // default view state
+    loadInView === undefined ? true : false
+  )
 
   return !isFullUrl ? (
     <IKContext

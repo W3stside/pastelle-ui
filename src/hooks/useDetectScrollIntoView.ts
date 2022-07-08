@@ -5,9 +5,10 @@ export type LoadInView = {
 }
 export default function useDetectScrollIntoView(
   elem: HTMLElement | null | undefined,
-  options: IntersectionObserverInit | undefined
+  options: IntersectionObserverInit | undefined,
+  defaultView: boolean
 ) {
-  const [isInView, setIsInView] = useState(false)
+  const [isInView, setIsInView] = useState(defaultView)
 
   useEffect(() => {
     if (!elem) return

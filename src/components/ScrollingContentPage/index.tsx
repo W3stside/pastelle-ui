@@ -4,6 +4,7 @@ import { ScrollerContainer, Scroller, AnimatedDivContainer } from './styleds'
 
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 import useScrollingPageAnimation from 'hooks/useScrollingPageAnimation'
+import { LoadInView } from 'hooks/useDetectScrollIntoView'
 
 interface ScrollingContentPageParams<D> {
   data: D[]
@@ -19,6 +20,7 @@ export interface ScrollableContentComponentBaseProps {
   itemIndex: number
   isActive: boolean
   firstPaintOver: boolean
+  loadInView?: LoadInView
 }
 
 type Params<P> = ScrollingContentPageParams<P> & Omit<ScrollingIndicatorParams, 'isLastIndex'>
@@ -56,6 +58,10 @@ export function ScrollingContentPage<D>({
             <AnimatedDivContainer key={i} style={{ scale, height, y }}>
               {showIndicator && <ScrollingContentIndicator {...indicatorProps} />}
               <IterableComponent
+                loadInView={{
+                  container: document,
+                  conditionalCheck: firstPaintOver
+                }}
                 firstPaintOver={firstPaintOver}
                 isActive={currentIndex === i}
                 itemIndex={currentIndex}

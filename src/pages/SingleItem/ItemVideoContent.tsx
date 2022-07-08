@@ -40,7 +40,6 @@ export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver 
   const isPaused = videoStatus === 'PAUSED'
 
   const toggleVideo = useCallback(() => {
-    console.debug('CLICKING VIDEO')
     if (!videoElement) return
 
     if (isPaused) {
