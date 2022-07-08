@@ -10,6 +10,7 @@ import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
 import { STORE_IMAGE_SIZES, CATALOG_MAX_WIDTH } from 'constants/config'
+import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 
 const saturateAnimation = css`
   @keyframes saturate {
@@ -238,10 +239,15 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; mobileView?:
         min-height: 100%;
 
         ${ItemLogo} {
-          position: absolute;
-          // width: ${STORE_IMAGE_SIZES.SMALL}px;
+          position: fixed;
+          max-width ${STORE_IMAGE_SIZES.SMALL}px;
           bottom: -55px;
           left: 0; right: 0;
+
+          @media only screen and (max-width: ${MEDIA_WIDTHS.upToSmall}) {
+            position: absolute;
+            max-width: 100%;
+          } 
         `}
       }
     }

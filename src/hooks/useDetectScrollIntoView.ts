@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
-
+export type LoadInView = {
+  container: Document | Element
+  conditionalCheck?: boolean
+}
 export default function useDetectScrollIntoView(
   elem: HTMLElement | null | undefined,
   options: IntersectionObserverInit | undefined

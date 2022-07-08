@@ -8,7 +8,7 @@ export default function SingleItem() {
 
   return (
     <ArticleFadeInContainer id="CATALOG-ARTICLE">
-      <AsideWithVideo {...currentProduct} isActive itemIndex={0} showBreadCrumbs />
+      <AsideWithVideo {...currentProduct} firstPaintOver isActive itemIndex={0} showBreadCrumbs />
     </ArticleFadeInContainer>
   )
 }

@@ -1,4 +1,5 @@
 import SmartImg, { ImageProps } from 'components/SmartImg'
+import { LoadInView } from 'hooks/useDetectScrollIntoView'
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { CarouselContainer, CarouselStep, CarouselButtonContainer, CarouselButton } from './styleds'
@@ -10,6 +11,7 @@ type CarouselProps = {
   transformation: ImageProps['transformation']
   mediaStartIndex: number
   showCarouselContentIndicators?: boolean
+  loadInViewOptions?: LoadInView
   onCarouselChange?: (index: number) => void
   onImageClick?: () => void
 }
@@ -21,6 +23,7 @@ export default function Carousel({
   transformation,
   mediaStartIndex,
   showCarouselContentIndicators = true,
+  loadInViewOptions,
   onCarouselChange,
   onImageClick
 }: CarouselProps) {
@@ -106,7 +109,12 @@ export default function Carousel({
             justifyContent={'center'}
             $calculatedWidth={calculatedWidth + 'px'}
           >
-            <SmartImg path={path} transformation={transformation} ref={carouselImageRef} />
+            <SmartImg
+              path={path}
+              transformation={transformation}
+              ref={carouselImageRef}
+              loadInView={loadInViewOptions}
+            />
             {showCarouselContentIndicators && isMultipleCarousel && (
               <CarouselButtonContainer onClick={onImageClick}>
                 <CarouselButton onClick={onPrevious} buttonColor={buttonColor}>

@@ -147,17 +147,32 @@ export default function ItemPage({
             showCarouselContentIndicators={!mobileView}
             buttonColor={color}
             imageList={imageUrls}
+            // TODO: kinda irrelevant rn since shopify CDN
             transformation={[{ width: (images[0]?.width || 2000) / 2, height: (images[0]?.height || 2000) / 2 }]}
             mediaStartIndex={currentCarouselIndex}
             onCarouselChange={onCarouselChange}
             onImageClick={toggleModal}
+            loadInViewOptions={{
+              container: document,
+              conditionalCheck: firstPaintOver
+            }}
           />
 
           {/* Wrap everything else in a fragment */}
           {noDescription ? null : mobileView ? (
             <>
               <br />
-              <ItemLogo>{logo ? <SmartImg path={logo} transformation={[{ quality: 60 }]} /> : title}</ItemLogo>
+              <ItemLogo>
+                {logo ? (
+                  <SmartImg
+                    path={logo}
+                    transformation={[{ quality: 60 }]}
+                    loadInView={{ container: document, conditionalCheck: firstPaintOver }}
+                  />
+                ) : (
+                  title
+                )}
+              </ItemLogo>
               <MobileItemCTA
                 alignItems="center"
                 justifyContent="center"
