@@ -14,7 +14,8 @@ import {
   ItemBreadcrumb,
   MobileItemCTA,
   InnerContainer,
-  HighlightedText
+  HighlightedText,
+  ItemLogoCssImport
 } from './styleds'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
@@ -160,7 +161,7 @@ export default function ItemPage({
           {noDescription ? null : mobileView ? (
             <>
               <br />
-              <ItemLogo>
+              {/* <ItemLogo>
                 {logo ? (
                   <SmartImg
                     path={logo}
@@ -170,7 +171,8 @@ export default function ItemPage({
                 ) : (
                   title
                 )}
-              </ItemLogo>
+              </ItemLogo> */}
+              {logo ? <ItemLogoCssImport logoUri={logo} /> : <ItemLogo>{title}</ItemLogo>}
               <MobileItemCTA
                 alignItems="center"
                 justifyContent="center"

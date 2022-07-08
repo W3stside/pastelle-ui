@@ -152,6 +152,17 @@ export const ItemLogo = styled.div<{ mobileView?: boolean; maxWidth?: string }>`
   z-index: 100;
 `
 
+export const ItemLogoCssImport = styled(ItemLogo)<{ logoUri: string }>`
+  position: fixed;
+  // width: 710px;
+  // bottom: -55px;
+  // left: -45px;
+  // right: 0;
+  background: ${({ logoUri }) => `url(${logoUri}) center no-repeat, url(${logoUri}?tr=q-2) center no-repeat`};
+  background-size: contain;
+  height: 300px;
+`
+
 export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
   fontSize: 16,
   padding: 2,
@@ -241,8 +252,8 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; mobileView?:
         ${ItemLogo} {
           position: fixed;
           max-width ${STORE_IMAGE_SIZES.SMALL}px;
-          bottom: -55px;
-          left: 0; right: 0;
+          bottom: -40px;
+          left: 0px; right: 0;
 
           @media only screen and (max-width: ${MEDIA_WIDTHS.upToSmall}) {
             position: absolute;
