@@ -1,8 +1,14 @@
 import SmartImg, { ImageProps } from 'components/SmartImg'
 import { LoadInView } from 'hooks/useDetectScrollIntoView'
-import { useState, useMemo, useRef, useEffect } from 'react'
+import useStateRef from 'hooks/useStateRef'
+import { useState, useMemo, /* useRef, */ useEffect, forwardRef, ForwardedRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
-import { CarouselContainer, CarouselStep, CarouselButtonContainer, CarouselButton } from './styleds'
+import {
+  CarouselContainer,
+  CarouselStep as CarouselStepContainer,
+  CarouselButtonContainer,
+  CarouselButton
+} from './styleds'
 
 type CarouselProps = {
   fixedHeight?: string
@@ -16,6 +22,61 @@ type CarouselProps = {
   onImageClick?: () => void
 }
 
+type CarouselStepsProps = {
+  index: number
+  imageProps: ImageProps
+  buttonColor: string
+  calculatedWidth: number
+  showCarouselContentIndicators: boolean
+  isMultipleCarousel: boolean
+
+  forwardedRef?: ForwardedRef<unknown>
+
+  onImageClick: (() => void) | undefined
+  onNext: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  onPrev: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+}
+
+function CarouselStepWithoutRef(props: CarouselStepsProps) {
+  const {
+    index,
+    imageProps,
+    buttonColor,
+    calculatedWidth,
+    showCarouselContentIndicators,
+    isMultipleCarousel,
+    forwardedRef,
+    onImageClick,
+    onNext,
+    onPrev
+  } = props
+
+  return (
+    <CarouselStepContainer
+      ref={forwardedRef ?? null}
+      id={'#carousel-step-' + index}
+      justifyContent="center"
+      $calculatedWidth={calculatedWidth + 'px'}
+    >
+      <SmartImg {...imageProps} />
+      {showCarouselContentIndicators && isMultipleCarousel && (
+        <CarouselButtonContainer onClick={onImageClick}>
+          <CarouselButton onClick={onPrev} buttonColor={buttonColor}>
+            <ChevronLeft />
+          </CarouselButton>
+          <CarouselButton onClick={onNext} buttonColor={buttonColor}>
+            <ChevronRight />
+          </CarouselButton>
+        </CarouselButtonContainer>
+      )}
+    </CarouselStepContainer>
+  )
+}
+
+const CarouselStep = forwardRef(function CarouselStep(props: CarouselStepsProps, ref) {
+  return <CarouselStepWithoutRef {...props} forwardedRef={ref} />
+})
+
 export default function Carousel({
   fixedHeight,
   buttonColor,
@@ -27,7 +88,6 @@ export default function Carousel({
   onCarouselChange,
   onImageClick
 }: CarouselProps) {
-  const [ref, setRef] = useState<HTMLDivElement>()
   const [parentWidth, setParentWidth] = useState<number | undefined>()
   const [selectedStep, setSelectedStep] = useState(mediaStartIndex)
 
@@ -38,23 +98,22 @@ export default function Carousel({
     }),
     [imageList.length]
   )
-  // get a ref to the carouselImageboi
-  const carouselImageRef = useRef<HTMLImageElement | null>(null)
-  const carouselRef = useRef<HTMLDivElement | null>(null)
 
-  // set ref states and focus carousel
+  // ref to carousel container
+  const [carouselContainer, setCarouselContainerRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+  // set carouselContainer states and focus carousel
+
   useEffect(() => {
-    setRef(carouselRef.current ?? undefined)
-    setParentWidth(ref?.parentElement?.offsetWidth)
+    setParentWidth(carouselContainer?.parentElement?.offsetWidth)
 
-    ref?.focus()
-  }, [ref])
+    carouselContainer?.focus()
+  }, [carouselContainer])
 
-  // get a ref to the carouselboi
+  // get a carouselContainer to the carouselboi
   // we need to hold and updated cache of the carousel parent's width in px
   useEffect(() => {
     function handleResize() {
-      setParentWidth(ref?.parentElement?.offsetWidth)
+      setParentWidth(carouselContainer?.parentElement?.offsetWidth)
     }
 
     window.addEventListener('resize', handleResize)
@@ -62,10 +121,10 @@ export default function Carousel({
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [parentWidth, ref?.parentElement?.offsetWidth])
+  }, [parentWidth, carouselContainer?.parentElement?.offsetWidth])
 
   return (
-    <CarouselContainer id="#carousel-container" ref={carouselRef} fixedHeight={fixedHeight}>
+    <CarouselContainer id="#carousel-container" ref={setCarouselContainerRef} fixedHeight={fixedHeight}>
       {/* CAROUSEL CONTENT */}
       {imageList.map((path, index) => {
         if (!parentWidth) return null
@@ -104,28 +163,19 @@ export default function Carousel({
 
         return (
           <CarouselStep
-            id={'#carousel-step-' + index}
             key={index}
-            justifyContent={'center'}
-            $calculatedWidth={calculatedWidth + 'px'}
-          >
-            <SmartImg
-              path={path}
-              transformation={transformation}
-              ref={carouselImageRef}
-              loadInView={loadInViewOptions}
-            />
-            {showCarouselContentIndicators && isMultipleCarousel && (
-              <CarouselButtonContainer onClick={onImageClick}>
-                <CarouselButton onClick={onPrevious} buttonColor={buttonColor}>
-                  <ChevronLeft />
-                </CarouselButton>
-                <CarouselButton onClick={onNext} buttonColor={buttonColor}>
-                  <ChevronRight />
-                </CarouselButton>
-              </CarouselButtonContainer>
-            )}
-          </CarouselStep>
+            index={index}
+            calculatedWidth={calculatedWidth}
+            showCarouselContentIndicators={showCarouselContentIndicators}
+            isMultipleCarousel={isMultipleCarousel}
+            buttonColor={buttonColor}
+            // cbs&handlers
+            onNext={onNext}
+            onPrev={onPrevious}
+            onImageClick={onImageClick}
+            // image props
+            imageProps={{ path, transformation, loadInView: loadInViewOptions }}
+          />
         )
       })}
     </CarouselContainer>

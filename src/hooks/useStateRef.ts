@@ -5,6 +5,7 @@ export default function useStateRef<T>(
   processNode: (node: any) => SetStateAction<T>
 ): [T, (newNode: any) => void] {
   const [node, setNode] = useState<T>(defaultRef)
+
   const setRef = useCallback(
     newNode => {
       setNode(processNode(newNode))

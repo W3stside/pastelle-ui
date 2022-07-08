@@ -2,14 +2,23 @@ import styled from 'styled-components/macro'
 import { transparentize } from 'polished'
 import { Row } from 'components/Layout'
 
-export const CarouselStep = styled(Row)<{ $calculatedWidth: string }>`
+export const CarouselStep = styled(Row)<{ $calculatedWidth: string; $forceFillByHeight?: boolean }>`
   position: relative;
   width: ${({ $calculatedWidth }) => $calculatedWidth};
   height: ${({ $calculatedWidth }) => $calculatedWidth};
   overflow-x: hidden;
 
+  // TODO: BE SURE THIS ISNT SHITTY
+  align-items: flex-start;
+
   img {
     max-width: 100%;
+    ${({ $forceFillByHeight }) =>
+      $forceFillByHeight &&
+      `
+      max-width: unset;
+      height: 100%;
+    `}
     box-shadow: 3px 6px 8px 0px #686868ad;
   }
 
