@@ -252,7 +252,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; mobileView?:
         ${ItemLogo} {
           position: fixed;
           max-width ${STORE_IMAGE_SIZES.SMALL}px;
-          bottom: -40px;
+          bottom: -55px;
           left: 0px; right: 0;
 
           @media only screen and (max-width: ${MEDIA_WIDTHS.upToSmall}) {
