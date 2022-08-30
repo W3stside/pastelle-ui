@@ -141,7 +141,7 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
 `
 
 export const ItemLogo = styled.div<{ mobileView?: boolean; maxWidth?: string }>`
-  > img {
+  img {
     max-width: ${({ maxWidth = '100%' }) => maxWidth};
   }
 

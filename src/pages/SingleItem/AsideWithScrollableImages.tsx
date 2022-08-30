@@ -65,7 +65,7 @@ export function AsideWithScrollableImages({ header, markdown, image }: Params) {
         </AboutUsTextContainer>
       </ItemAsidePanel>
       <ImageContainer>
-        <SmartImg path={image.path} transformation={image.transformation} />
+        <SmartImg defaultPath={image.path} transformation={image.transformation} />
       </ImageContainer>
     </AsideWithScrollableImagesContainer>
   )

@@ -1,12 +1,12 @@
-import { forwardRef } from 'react'
+import { forwardRef, useMemo } from 'react'
 import { IKImage, IKContext } from 'imagekitio-react'
 import useDetectScrollIntoView, { LoadInView } from 'hooks/useDetectScrollIntoView'
 import useEffectRef from 'hooks/useEffectRef'
 
-export type ImageKitTransformation = { [x: string]: number | string }[]
+export type ImageKitTransformation = { [x: string]: undefined | number | string | boolean }[]
 
-export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  path: string
+interface BaseImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+  pathSrcSet?: { [sizekey: string | number]: string }
   lq?: boolean
   lazy?: boolean
   forwardedRef?: React.ForwardedRef<any>
@@ -14,23 +14,57 @@ export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   loadInView?: LoadInView
 }
 
+type ImagePropsWithDefaultImage = BaseImageProps & {
+  ikPath?: undefined
+  defaultPath: string
+}
+
+type ImagePropsWithIkImage = BaseImageProps & {
+  ikPath: string
+  defaultPath?: undefined
+}
+
+export type SmartImageProps = ImagePropsWithDefaultImage | ImagePropsWithIkImage
+
 const DEFAULT_LQ_IP = {
-  quality: 10
+  quality: 20,
+  blur: 6
 }
 
 const DEFAULT_TRANSFORMATIONS = [{ pr: true }]
 const BASE_INTERSECTION_OPTIONS = {
   threshold: 0.1
 }
-function ApiImage({ path, transformation = [], loadInView, lazy = true, lq = true, forwardedRef }: ImageProps) {
-  const lqip = {
-    ...DEFAULT_LQ_IP,
-    active: lq
-  }
 
-  // test that path is a full url vs an addon i.e for imagekit
-  const isFullUrl = new RegExp(/https?/gm).test(path)
-
+export function ApiImage({
+  defaultPath,
+  pathSrcSet,
+  transformation,
+  loadInView,
+  lazy,
+  lq,
+  forwardedRef
+}: ImagePropsWithDefaultImage): JSX.Element | null
+export function ApiImage({
+  ikPath,
+  pathSrcSet,
+  transformation,
+  loadInView,
+  lazy,
+  lq,
+  forwardedRef
+}: ImagePropsWithIkImage): JSX.Element | null
+export function ApiImage({
+  ikPath,
+  defaultPath,
+  pathSrcSet,
+  transformation = DEFAULT_TRANSFORMATIONS,
+  loadInView,
+  lazy = true,
+  lq = true,
+  forwardedRef,
+  ...rest
+}: SmartImageProps): JSX.Element | null {
   // load if in view only!
   const [refToSet, ref] = useEffectRef<HTMLSpanElement>(null)
   const isInView = useDetectScrollIntoView(
@@ -43,7 +77,12 @@ function ApiImage({ path, transformation = [], loadInView, lazy = true, lq = tru
     loadInView === undefined ? true : false
   )
 
-  return !isFullUrl ? (
+  const [LQIP, derivedTransformations] = useMemo(() => [{ ...DEFAULT_LQ_IP, active: lq }, transformation], [
+    lq,
+    transformation
+  ])
+
+  return ikPath ? (
     <IKContext
       publicKey={process.env.REACT_APP_IMAGEKIT_PUBLIC_KEY}
       urlEndpoint={process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}
@@ -53,23 +92,34 @@ function ApiImage({ path, transformation = [], loadInView, lazy = true, lq = tru
       {/* Observable span to detect if in view */}
       <span ref={refToSet} />
       <IKImage
-        path={isInView ? path : undefined}
+        // path={new URL(ikPath).pathname}
+        src={!isInView ? undefined : ikPath}
         loading={lazy ? 'lazy' : 'eager'}
-        lqip={lqip}
-        transformation={[...DEFAULT_TRANSFORMATIONS, ...transformation]}
+        lqip={LQIP}
+        transformation={derivedTransformations}
         ref={forwardedRef}
+        width={derivedTransformations[0]?.width}
       />
     </IKContext>
-  ) : (
+  ) : defaultPath ? (
     <>
       {/* Observable span to detect if in view */}
       <span ref={refToSet} />
-      <img src={isInView ? path : undefined} loading="lazy" ref={forwardedRef} />
+      {
+        <picture>
+          {/* e.g [500, "shopify.com/thing_500.px"] // [1280, "shopify.com/thing_1280.px"] */}
+          {pathSrcSet &&
+            Object.entries(pathSrcSet).map(([size, url]) => (
+              <source key={url} media={`(max-width: ${size}px)`} srcSet={url} />
+            ))}
+          <img src={!isInView ? undefined : defaultPath} loading="lazy" ref={forwardedRef} {...rest} />
+        </picture>
+      }
     </>
-  )
+  ) : null
 }
-const SmartImg = forwardRef((props: ImageProps, ref) => <ApiImage {...props} forwardedRef={ref} />)
 
+const SmartImg = forwardRef((props: SmartImageProps, ref) => <ApiImage {...(props as any)} forwardedRef={ref} />)
 SmartImg.displayName = 'SmartImg'
 
 export default SmartImg

@@ -42,7 +42,7 @@ export default function NotFound() {
     <article>
       <Container>
         <ItemHeader itemColor="#000">PAGE NOT FOUND!</ItemHeader>
-        <SmartImg path={pastelle404IMG} />
+        <SmartImg defaultPath={pastelle404IMG} />
         <h2>The page you are looking for does not exist. </h2>
         <ButtonPrimary as={Link} to={'/'}>
           Back home

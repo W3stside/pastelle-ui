@@ -1,6 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from 'react'
 import { Row } from 'components/Layout'
-import Carousel from 'components/Carousel'
+import Carousel, { GenericImageSrcSet } from 'components/Carousel'
 import {
   ItemContainer,
   ItemAsidePanel,
@@ -38,6 +38,7 @@ import {
   ProductSizes,
   ProductArtistInfo
 } from 'shopify/graphql/types'
+import useStateRef from 'hooks/useStateRef'
 
 export interface ProductPageProps {
   color: string
@@ -122,14 +123,24 @@ export default function ItemPage({
   const toggleModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
   const showLargeImage = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
 
+  /// BREADCRUMBS
   const breadcrumbs = useBreadcrumb()
 
+  // IMAGES
   const [, setSize] = useState<ProductSizes>(DEFAULT_SIZE_SELECTED)
   const handleSetSize = (event: SyntheticEvent<HTMLOptionElement>) => setSize(event.currentTarget.value as ProductSizes)
+  const imageUrls = images.map<GenericImageSrcSet>(({ url, url500, url720, url960, url1280 }) => ({
+    defaultUrl: url,
+    '500': url500,
+    '720': url720,
+    '960': url960,
+    '1280': url1280
+  }))
 
-  const imageUrls = images.map(image => image.url)
-
-  // scrolling page current index set in state as on screen
+  /**
+   * SIDE EFFECTS
+   */
+  // 1. scrolling page current index set in state as on screen
   const setOnScreenId = useSetOnScreenItemID()
   useEffect(() => {
     if (isActive) {
@@ -138,10 +149,13 @@ export default function ItemPage({
     }
   }, [isActive, title, setOnScreenId])
 
+  // inner container ref
+  const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+
   return (
     <ItemContainer id="#item-container" style={style} mobileView={mobileView} bgColor={color}>
       <ItemAsidePanel id="#item-aside-panel">
-        <InnerContainer>
+        <InnerContainer ref={setRef}>
           {/* Breadcrumbs */}
           {showBreadCrumbs && <Breadcrumbs {...breadcrumbs} padding="5px" marginBottom={-25} />}
           {/* Item carousel */}
@@ -149,8 +163,6 @@ export default function ItemPage({
             showCarouselContentIndicators={!mobileView}
             buttonColor={color}
             imageList={imageUrls}
-            // TODO: kinda irrelevant rn since shopify CDN
-            transformation={[{ width: (images[0]?.width || 2000) / 2, height: (images[0]?.height || 2000) / 2 }]}
             mediaStartIndex={currentCarouselIndex}
             onCarouselChange={onCarouselChange}
             onImageClick={toggleModal}
@@ -183,7 +195,18 @@ export default function ItemPage({
             </>
           ) : (
             <>
-              <ItemLogo>{logo ? <SmartImg path={logo} transformation={[{ quality: 60 }]} /> : title}</ItemLogo>
+              <ItemLogo>
+                {logo ? (
+                  <SmartImg
+                    ikPath={logo}
+                    transformation={[{ width: innerContainerRef?.clientWidth, quality: 80, pr: true }]}
+                    loading="lazy"
+                    lq
+                  />
+                ) : (
+                  title
+                )}
+              </ItemLogo>
 
               {/* Credits */}
               <ItemSubHeader bgColor={color}>

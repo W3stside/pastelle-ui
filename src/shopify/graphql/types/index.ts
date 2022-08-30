@@ -31,3 +31,11 @@ export type ProductBrandingAssets = {
 }
 export type ProductsList = GetCollectionQuery['collections']['nodes'][0]['products']['nodes']
 export type Product = ProductsList[0]
+export type ProductImagesSrcSet = {
+  url500: string
+  url720: string
+  url960: string
+  url1280: string
+  url: string
+}
+export type ProductImageSrcSetKeys = 'url' | 'url500' | 'url720' | 'url960' | 'url1280'

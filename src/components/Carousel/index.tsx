@@ -1,4 +1,4 @@
-import SmartImg, { ImageProps } from 'components/SmartImg'
+import SmartImg, { SmartImageProps } from 'components/SmartImg'
 import { LoadInView } from 'hooks/useDetectScrollIntoView'
 import useStateRef from 'hooks/useStateRef'
 import { useState, useMemo, /* useRef, */ useEffect, forwardRef, ForwardedRef } from 'react'
@@ -10,11 +10,12 @@ import {
   CarouselButton
 } from './styleds'
 
+export type GenericImageSrcSet = { defaultUrl: string } & { [sizeKey: string]: string }
 type CarouselProps = {
   fixedHeight?: string
   buttonColor: string
-  imageList: string[]
-  transformation: ImageProps['transformation']
+  imageList: GenericImageSrcSet[]
+  transformation?: SmartImageProps['transformation']
   mediaStartIndex: number
   showCarouselContentIndicators?: boolean
   loadInViewOptions?: LoadInView
@@ -24,7 +25,7 @@ type CarouselProps = {
 
 type CarouselStepsProps = {
   index: number
-  imageProps: ImageProps
+  imageProps: SmartImageProps
   buttonColor: string
   calculatedWidth: number
   showCarouselContentIndicators: boolean
@@ -102,7 +103,6 @@ export default function Carousel({
   // ref to carousel container
   const [carouselContainer, setCarouselContainerRef] = useStateRef<HTMLDivElement | null>(null, node => node)
   // set carouselContainer states and focus carousel
-
   useEffect(() => {
     setParentWidth(carouselContainer?.parentElement?.offsetWidth)
 
@@ -123,10 +123,20 @@ export default function Carousel({
     }
   }, [parentWidth, carouselContainer?.parentElement?.offsetWidth])
 
+  const smartImageTransformation = useMemo(
+    () => [
+      {
+        width: carouselContainer?.clientWidth,
+        pr: true
+      }
+    ],
+    [carouselContainer?.clientWidth]
+  )
+
   return (
     <CarouselContainer id="#carousel-container" ref={setCarouselContainerRef} fixedHeight={fixedHeight}>
       {/* CAROUSEL CONTENT */}
-      {imageList.map((path, index) => {
+      {imageList.map(({ defaultUrl, ...urlRest }, index) => {
         if (!parentWidth) return null
         const isCurrentStep = index === selectedStep
         // has multiple steps and is on last item
@@ -174,7 +184,12 @@ export default function Carousel({
             onPrev={onPrevious}
             onImageClick={onImageClick}
             // image props
-            imageProps={{ path, transformation, loadInView: loadInViewOptions }}
+            imageProps={{
+              defaultPath: defaultUrl,
+              pathSrcSet: urlRest,
+              transformation: transformation || smartImageTransformation,
+              loadInView: loadInViewOptions
+            }}
           />
         )
       })}

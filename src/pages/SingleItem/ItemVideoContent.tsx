@@ -52,13 +52,13 @@ export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver 
   return (
     <>
       <VideoContentWrapper id="#video-content-wrapper">
-        {videos.map(({ sources }, index) => {
+        {videos.map(({ id, sources }, index) => {
           const isSelected = index === currentCarouselIndex
           if (!isSelected) return null
 
           return (
             <LazyVideo
-              key={index}
+              key={id}
               ref={setVideoElement}
               container={document.querySelector('#CATALOG-ARTICLE') as HTMLElement}
               loadInView={firstPaintOver}
