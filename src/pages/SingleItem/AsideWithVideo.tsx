@@ -268,7 +268,6 @@ export default function ItemPage({
           transformation={[{ width: images[0]?.width || 2000, height: images[0]?.height || 2000, xc: 500, yc: 500 }]}
           mediaStartIndex={currentCarouselIndex}
           onCarouselChange={onCarouselChange}
-          fixedHeight="auto"
         />
       </Modal>
     </ItemContainer>

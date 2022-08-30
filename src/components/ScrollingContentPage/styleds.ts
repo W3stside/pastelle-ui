@@ -14,6 +14,10 @@ export const AnimatedDivContainer = styled(a.div)`
   }
 
   transition: box-shadow 0.2s ease-in-out;
+
+  box-shadow: 0px 1px 20px 9px #f0e4e8a3;
+  border-radius: 9px;
+  overflow: hidden;
 `
 
 export const Scroller = styled.div<{ index?: number; clientHeight?: number }>`

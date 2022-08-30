@@ -98,7 +98,6 @@ export function ApiImage({
         lqip={LQIP}
         transformation={derivedTransformations}
         ref={forwardedRef}
-        width={derivedTransformations[0]?.width}
       />
     </IKContext>
   ) : defaultPath ? (

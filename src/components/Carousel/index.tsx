@@ -27,7 +27,8 @@ type CarouselStepsProps = {
   index: number
   imageProps: SmartImageProps
   buttonColor: string
-  calculatedWidth: number
+  parentWidth: number
+  transformAmount: number
   showCarouselContentIndicators: boolean
   isMultipleCarousel: boolean
 
@@ -43,7 +44,8 @@ function CarouselStepWithoutRef(props: CarouselStepsProps) {
     index,
     imageProps,
     buttonColor,
-    calculatedWidth,
+    transformAmount,
+    parentWidth,
     showCarouselContentIndicators,
     isMultipleCarousel,
     forwardedRef,
@@ -55,9 +57,11 @@ function CarouselStepWithoutRef(props: CarouselStepsProps) {
   return (
     <CarouselStepContainer
       ref={forwardedRef ?? null}
-      id={'#carousel-step-' + index}
+      id={'carousel-step-' + index}
       justifyContent="center"
-      $calculatedWidth={calculatedWidth + 'px'}
+      $transformAmount={transformAmount}
+      $width={parentWidth}
+      $height={parentWidth}
     >
       <SmartImg {...imageProps} />
       {showCarouselContentIndicators && isMultipleCarousel && (
@@ -134,14 +138,18 @@ export default function Carousel({
   )
 
   return (
-    <CarouselContainer id="#carousel-container" ref={setCarouselContainerRef} fixedHeight={fixedHeight}>
+    <CarouselContainer
+      id="#carousel-container"
+      ref={setCarouselContainerRef}
+      fixedHeight={fixedHeight || parentWidth + 'px'}
+    >
       {/* CAROUSEL CONTENT */}
       {imageList.map(({ defaultUrl, ...urlRest }, index) => {
         if (!parentWidth) return null
         const isCurrentStep = index === selectedStep
         // has multiple steps and is on last item
         const isLastStep = isMultipleCarousel && selectedStep === lastStepIndex
-        const calculatedWidth = isCurrentStep ? parentWidth : 0
+        const calculatedWidth = isCurrentStep ? 0 : parentWidth
 
         const onNext = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
           e.stopPropagation()
@@ -175,7 +183,8 @@ export default function Carousel({
           <CarouselStep
             key={index}
             index={index}
-            calculatedWidth={calculatedWidth}
+            parentWidth={parentWidth}
+            transformAmount={calculatedWidth}
             showCarouselContentIndicators={showCarouselContentIndicators}
             isMultipleCarousel={isMultipleCarousel}
             buttonColor={buttonColor}
