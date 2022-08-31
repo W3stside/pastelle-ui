@@ -2,10 +2,12 @@ import { a } from '@react-spring/web'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import styled from 'styled-components/macro'
 
-export const AnimatedDivContainer = styled(a.div)`
+export const AnimatedDivContainer = styled(a.div)<{ $maxWidth?: string }>`
   position: absolute;
   width: 100%;
   will-change: transform;
+
+  max-width: ${({ $maxWidth }) => ($maxWidth ? $maxWidth : 'none')};
 
   cursor: pointer;
 

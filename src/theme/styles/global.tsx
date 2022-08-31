@@ -126,12 +126,6 @@ export const TopGlobalStyle = createGlobalStyle`
   }
 `
 
-/* 
-export const DANTES_LAKE_WALK = 'https://ik.imagekit.io/pastelle/tr:q-40/APPAREL/2022/FALL/VIRGIL/IMAGES/nav-bar.png'
-const TINY_FORMAT = '?tr=h-1,w-1'
-const MAIN_FORMAT = '?tr=q-45'
-*/
-
 export const flickerAnimation = css<{ frameBgColor?: string }>`
   @keyframes flickerIn {
     0% {

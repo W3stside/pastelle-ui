@@ -1,9 +1,9 @@
 import styled from 'styled-components/macro'
 import { fadeInAnimation } from 'pages/SingleItem/styleds'
 
-const portugalBg = process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + '/portugal-bg_Rqj8jTKhFmds.jpg?tr=q-25'
+const portugalBg = process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + '/portugal-bg_Rqj8jTKhFmds.jpg?tr=pr-true,q-25'
 const portugalBgLq =
-  process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + '/portugal-bg_Rqj8jTKhFmds.jpg?tr=h-1,w-1:h-1152,w-528'
+  process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + '/portugal-bg_Rqj8jTKhFmds.jpg?tr=pr-true,q-1,h-1,w-1:h-1152,w-528'
 
 export const ArticleFadeInContainer = styled.article`
   overflow: hidden;
