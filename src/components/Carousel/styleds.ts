@@ -6,17 +6,18 @@ export const CarouselStep = styled(Row)<{
   $transformAmount: number
   $forceFillByHeight?: boolean
   $width: number
-  $height: number
+  $height?: string
 }>`
   position: absolute;
   top: 0;
   left: 0;
   transform: ${({ $transformAmount }) => `translateX(${$transformAmount}px)`};
   width: ${({ $width }) => $width}px;
-  height: ${({ $height }) => $height}px;
-  overflow-x: hidden;
+  ${({ $forceFillByHeight, $height }) =>
+    ($forceFillByHeight || $height) && `height: ${$forceFillByHeight ? '100%' : $height};`}
+  overflow: hidden;
 
-  z-index: ${({ $transformAmount }) => $transformAmount};
+  z-index: ${({ $transformAmount }) => ($transformAmount > 0 ? 1 : 0)};
 
   // TODO: BE SURE THIS ISNT SHITTY
   align-items: flex-start;
@@ -37,7 +38,7 @@ export const CarouselStep = styled(Row)<{
     $transformAmount > 0 ? 'transform 1s ease-in-out;' : 'transform 0.7s ease-out'};
 `
 
-export const CarouselContainer = styled.div<{ fixedHeight?: string }>`
+export const CarouselContainer = styled.div<{ fixedHeight?: string; catalogView?: boolean }>`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -51,6 +52,22 @@ export const CarouselContainer = styled.div<{ fixedHeight?: string }>`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin-top: 40px;  
   `}
+
+  ${({ theme, catalogView }) => theme.fromMediaWidth.fromExtraLarge`
+    ${catalogView &&
+      `
+      justify-content: space-between;
+      overflow: visible;
+
+      > ${CarouselStep} {
+        position: relative;
+
+        width: 35%;
+        transform: none;
+        z-index: 99999;
+      }
+    `}
+  `}
 `
 // #a1c3f9
 export const CarouselButton = styled.div<{ buttonColor: string }>`
@@ -59,7 +76,6 @@ export const CarouselButton = styled.div<{ buttonColor: string }>`
   justify-content: center;
   height: 100%;
   width: 20px;
-  margin: 0 4px;
   background-color: ${({ buttonColor }) => transparentize(1, buttonColor)};
 
   cursor: pointer;

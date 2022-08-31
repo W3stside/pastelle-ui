@@ -4,14 +4,16 @@ export const MEDIA_WIDTHS = {
   upToExtraSmall: 500,
   upToSmall: 720,
   upToMedium: 960,
-  upToLarge: 1280
+  upToLarge: 1280,
+  upToExtraLarge: 1440
 }
 
 const FROM_MEDIA_WIDTHS = {
   fromExtraSmall: MEDIA_WIDTHS.upToExtraSmall,
   fromSmall: MEDIA_WIDTHS.upToSmall,
   fromMedium: MEDIA_WIDTHS.upToMedium,
-  fromLarge: MEDIA_WIDTHS.upToLarge
+  fromLarge: MEDIA_WIDTHS.upToLarge,
+  fromExtraLarge: MEDIA_WIDTHS.upToExtraLarge
 }
 
 type MediaWidthKeys = keyof typeof MEDIA_WIDTHS
@@ -44,7 +46,7 @@ export const fromMediaWidthTemplates = Object.keys(FROM_MEDIA_WIDTHS).reduce<Fro
       b: CSSObject,
       c: CSSObject
     ): ThemedCssFunction<DefaultTheme> | FlattenSimpleInterpolation => css`
-      @media (min-width: ${FROM_MEDIA_WIDTHS[size as FromMediaWidthKeys]}px) {
+      @media (min-width: ${FROM_MEDIA_WIDTHS[size as FromMediaWidthKeys] + 1}px) {
         ${css(a, b, c)}
       }
     `

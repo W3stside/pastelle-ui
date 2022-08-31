@@ -31,7 +31,7 @@ const Container = styled.div`
       max-width: 287px;
     }
     h2 {
-      font-size: 16px;
+      font-size: 1.6rem;
       text-align: center;
     }
   `}

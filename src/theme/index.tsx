@@ -11,6 +11,7 @@ export * from './components'
 
 const TextWrapper = styled(Text)<{ color: keyof Colors }>`
   color: ${({ color, theme }): string => (theme as never)[color]};
+  font-size: 1.2rem;
 `
 
 export const TYPE = {
@@ -27,19 +28,19 @@ export const TYPE = {
     return <TextWrapper fontWeight={500} color="white" {...props} />
   },
   body(props: TextProps): ReactElement {
-    return <TextWrapper fontWeight={400} fontSize={16} color="text1" {...props} />
+    return <TextWrapper fontWeight={400} fontSize={'1.6rem'} color="text1" {...props} />
   },
   largeHeader(props: TextProps): ReactElement {
-    return <TextWrapper fontWeight={600} fontSize={24} {...props} />
+    return <TextWrapper fontWeight={600} fontSize={'2.4rem'} {...props} />
   },
   mediumHeader(props: TextProps): ReactElement {
-    return <TextWrapper fontWeight={500} fontSize={20} {...props} />
+    return <TextWrapper fontWeight={500} fontSize={'2rem'} {...props} />
   },
   subHeader(props: TextProps): ReactElement {
-    return <TextWrapper fontWeight={400} fontSize={14} {...props} />
+    return <TextWrapper fontWeight={400} fontSize={'1.4rem'} {...props} />
   },
   small(props: TextProps): ReactElement {
-    return <TextWrapper fontWeight={500} fontSize={11} {...props} />
+    return <TextWrapper fontWeight={500} fontSize={'1.1rem'} {...props} />
   },
   blue(props: TextProps): ReactElement {
     return <TextWrapper fontWeight={500} color="primary1" {...props} />
@@ -54,7 +55,7 @@ export const TYPE = {
     return <TextWrapper fontWeight={500} color="bg3" {...props} />
   },
   italic(props: TextProps): ReactElement {
-    return <TextWrapper fontWeight={500} fontSize={12} fontStyle={'italic'} color="text2" {...props} />
+    return <TextWrapper fontWeight={500} fontSize={'1.2rem'} fontStyle={'italic'} color="text2" {...props} />
   },
   error({ error, ...props }: { error: boolean } & TextProps): ReactElement {
     return <TextWrapper fontWeight={500} color={error ? 'red1' : 'text2'} {...props} />
@@ -65,9 +66,9 @@ const DEFAULT_THEME: Partial<DefaultTheme> = {
   buttons: {
     font: {
       size: {
-        small: '10px',
-        normal: '12px',
-        large: '16px'
+        small: '1rem',
+        normal: '1.2rem',
+        large: '1.6rem'
       }
     },
     borderRadius: '16px',

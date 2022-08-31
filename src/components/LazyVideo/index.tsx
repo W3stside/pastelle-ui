@@ -31,7 +31,7 @@ const VideoContainer = styled(Row)`
     position: absolute;
     right: 15%;
     letter-spacing: -8px;
-    font-size: 76px;
+    font-size: 7.6rem;
   }
 
   > svg {

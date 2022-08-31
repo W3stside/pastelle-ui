@@ -32,11 +32,11 @@ const AsideWithScrollableImagesContainer = styled(ItemContainer)`
 `
 
 const AboutUsHeader = styled(ItemHeader)`
-  font-size: 70px;
+  font-size: 7rem;
   white-space: nowrap;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    font-size: 45px;
+    font-size: 4.5rem;
   `}
 `
 

@@ -69,12 +69,12 @@ const HeaderLinks = styled(Row)`
     white-space: nowrap;
     flex: 1 0 auto;
 
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: 300;
     color: ghostwhite;
 
     ${({ theme }) => theme.mediaWidth.upToSmall`
-      font-size: 12px;
+      font-size: 1.2rem;
     `};
   }
 

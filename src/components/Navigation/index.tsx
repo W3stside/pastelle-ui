@@ -27,7 +27,7 @@ const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; mi
 
   // all links in nav
   > a {
-    font-size: 16px;
+    font-size: 1.6rem;
   }
 
   z-index: 200;

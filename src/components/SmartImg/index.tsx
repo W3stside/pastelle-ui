@@ -2,6 +2,7 @@ import { forwardRef, useMemo } from 'react'
 import { IKImage, IKContext } from 'imagekitio-react'
 import useDetectScrollIntoView, { LoadInView } from 'hooks/useDetectScrollIntoView'
 import useEffectRef from 'hooks/useEffectRef'
+import styled from 'styled-components/macro'
 
 export type ImageKitTransformation = { [x: string]: undefined | number | string | boolean }[]
 
@@ -26,14 +27,18 @@ type ImagePropsWithIkImage = BaseImageProps & {
 
 export type SmartImageProps = ImagePropsWithDefaultImage | ImagePropsWithIkImage
 
+const StyledPicture = styled.picture`
+  height: 100%;
+`
+
 const DEFAULT_LQ_IP = {
   quality: 20,
   blur: 6
 }
-
 const DEFAULT_TRANSFORMATIONS = [{ pr: true }]
 const BASE_INTERSECTION_OPTIONS = {
-  threshold: 0.1
+  threshold: 0.1,
+  delay: 1000
 }
 
 export function ApiImage({
@@ -74,7 +79,7 @@ export function ApiImage({
       root: loadInView?.container || document
     },
     // default view state
-    loadInView === undefined ? true : false
+    loadInView === undefined
   )
 
   const [LQIP, derivedTransformations] = useMemo(() => [{ ...DEFAULT_LQ_IP, active: lq }, transformation], [
@@ -105,14 +110,14 @@ export function ApiImage({
       {/* Observable span to detect if in view */}
       <span ref={refToSet} />
       {
-        <picture>
+        <StyledPicture>
           {/* e.g [500, "shopify.com/thing_500.px"] // [1280, "shopify.com/thing_1280.px"] */}
           {pathSrcSet &&
             Object.entries(pathSrcSet).map(([size, url]) => (
               <source key={url} media={`(max-width: ${size}px)`} srcSet={url} />
             ))}
           <img src={!isInView ? undefined : defaultPath} loading="lazy" ref={forwardedRef} {...rest} />
-        </picture>
+        </StyledPicture>
       }
     </>
   ) : null

@@ -35,7 +35,7 @@ export function ScrollingContentPage<D>({
   IterableComponent,
   ...indicatorProps
 }: Params<D>) {
-  const { springs, setTargetRef, height, currentIndex, firstPaintOver } = useScrollingPageAnimation(data, {
+  const { springs, setTargetRef, height, currentIndex, restSet } = useScrollingPageAnimation(data, {
     visible: 1,
     fixedHeight,
     snapOnScroll: false,
@@ -61,9 +61,9 @@ export function ScrollingContentPage<D>({
               <IterableComponent
                 loadInView={{
                   container: document,
-                  conditionalCheck: firstPaintOver
+                  conditionalCheck: restSet.size === data.length
                 }}
-                firstPaintOver={firstPaintOver}
+                firstPaintOver={restSet.size === data.length}
                 isActive={currentIndex === i}
                 itemIndex={currentIndex}
                 key={i}

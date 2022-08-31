@@ -11,7 +11,7 @@ export default function useDetectScrollIntoView(
   const [isInView, setIsInView] = useState(defaultView)
 
   useEffect(() => {
-    if (!elem) return
+    if (!elem || isInView) return
 
     const observerCb: IntersectionObserverCallback = ([entry]: IntersectionObserverEntry[], observer) => {
       if (entry.isIntersecting) {
@@ -28,7 +28,7 @@ export default function useDetectScrollIntoView(
     return () => {
       observer.disconnect()
     }
-  }, [elem, options])
+  }, [elem, options, isInView])
 
   return isInView
 }

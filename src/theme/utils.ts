@@ -1,4 +1,4 @@
-import { DefaultTheme, FlattenSimpleInterpolation, css } from 'styled-components/macro'
+import { DefaultTheme, FlattenSimpleInterpolation, css, CSSObject, SimpleInterpolation } from 'styled-components/macro'
 
 import { LIGHT_COLOURS, DARK_COLOURS, DEFAULT_COLOURS, VAMPIRE_COLOURS, CHAMELEON_COLOURS } from './styles'
 import { ThemeModes, Colors } from './styled'
@@ -39,3 +39,14 @@ export const setTextColour = (themeColour: keyof Colors) => ({ theme }: ThemePro
   css`
     color: ${theme[themeColour]};
   `
+
+export const whenMediaLarge = (first: CSSObject | TemplateStringsArray, ...interpolations: SimpleInterpolation[]) => ({
+  theme
+}: {
+  theme: DefaultTheme
+}) => theme.fromMediaWidth.fromLarge(first, ...interpolations)
+
+export const whenMediaExtraLarge = (
+  first: CSSObject | TemplateStringsArray,
+  ...interpolations: SimpleInterpolation[]
+) => ({ theme }: { theme: DefaultTheme }) => theme.fromMediaWidth.fromExtraLarge(first, ...interpolations)

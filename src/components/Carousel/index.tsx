@@ -19,6 +19,7 @@ type CarouselProps = {
   mediaStartIndex: number
   showCarouselContentIndicators?: boolean
   loadInViewOptions?: LoadInView
+  catalogView?: boolean
   onCarouselChange?: (index: number) => void
   onImageClick?: () => void
 }
@@ -61,7 +62,7 @@ function CarouselStepWithoutRef(props: CarouselStepsProps) {
       justifyContent="center"
       $transformAmount={transformAmount}
       $width={parentWidth}
-      $height={parentWidth}
+      $forceFillByHeight
     >
       <SmartImg {...imageProps} />
       {showCarouselContentIndicators && isMultipleCarousel && (
@@ -90,6 +91,7 @@ export default function Carousel({
   mediaStartIndex,
   showCarouselContentIndicators = true,
   loadInViewOptions,
+  catalogView = false,
   onCarouselChange,
   onImageClick
 }: CarouselProps) {
@@ -142,6 +144,7 @@ export default function Carousel({
       id="#carousel-container"
       ref={setCarouselContainerRef}
       fixedHeight={fixedHeight || parentWidth + 'px'}
+      catalogView={catalogView}
     >
       {/* CAROUSEL CONTENT */}
       {imageList.map(({ defaultUrl, ...urlRest }, index) => {

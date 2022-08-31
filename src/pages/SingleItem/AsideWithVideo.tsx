@@ -15,7 +15,7 @@ import {
   MobileItemCTA,
   InnerContainer,
   HighlightedText,
-  ItemLogoCssImport
+  ItemLogoCatalogView
 } from './styleds'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
@@ -53,7 +53,7 @@ export interface ProductPageProps {
   description: string
   artistInfo?: ProductArtistInfo
   id: string
-  mobileView?: boolean
+  catalogView?: boolean
   noVideo?: boolean
   noDescription?: boolean
 }
@@ -72,7 +72,7 @@ function Breadcrumbs({
   lastCrumb: string | undefined
 } & BoxProps) {
   return (
-    <Row {...rowProps} style={{ zIndex: 100 }}>
+    <Row {...rowProps} style={{ position: 'absolute', top: 0, left: 0, margin: 5, zIndex: 100 }}>
       {breadcrumbs?.map((crumb, index) => {
         const isLastCrumb = crumb === lastCrumb
         return (
@@ -93,6 +93,8 @@ export default function ItemPage({
   color = '#000',
   title,
   logo,
+  navLogo,
+  headerLogo,
   images = [],
   videos = [],
   // media,
@@ -104,7 +106,7 @@ export default function ItemPage({
   isActive,
   firstPaintOver,
   loadInView,
-  mobileView = false,
+  catalogView = false,
   noVideo = false,
   noDescription = false,
   showBreadCrumbs,
@@ -152,39 +154,42 @@ export default function ItemPage({
   // inner container ref
   const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)
 
+  // logo to use
+  const catalogLogo = navLogo || headerLogo
+
   return (
-    <ItemContainer id="#item-container" style={style} mobileView={mobileView} bgColor={color}>
+    <ItemContainer id="#item-container" style={style} catalogView={catalogView} bgColor={color}>
       <ItemAsidePanel id="#item-aside-panel">
         <InnerContainer ref={setRef}>
           {/* Breadcrumbs */}
-          {showBreadCrumbs && <Breadcrumbs {...breadcrumbs} padding="5px" marginBottom={-25} />}
+          {showBreadCrumbs && <Breadcrumbs {...breadcrumbs} marginTop={'5px'} marginLeft={'5px'} marginBottom={-25} />}
           {/* Item carousel */}
           <Carousel
-            showCarouselContentIndicators={!mobileView}
+            showCarouselContentIndicators={!catalogView}
             buttonColor={color}
             imageList={imageUrls}
             mediaStartIndex={currentCarouselIndex}
             onCarouselChange={onCarouselChange}
             onImageClick={toggleModal}
             loadInViewOptions={loadInView}
+            catalogView={catalogView}
+            fixedHeight={catalogView ? '100%' : undefined}
           />
 
           {/* Wrap everything else in a fragment */}
-          {noDescription ? null : mobileView ? (
+          {noDescription ? null : catalogView ? (
             <>
-              <br />
-              {/* <ItemLogo>
-                {logo ? (
-                  <SmartImg
-                    path={logo}
-                    transformation={[{ quality: 60 }]}
-                    loadInView={{ container: document, conditionalCheck: firstPaintOver }}
-                  />
-                ) : (
-                  title
-                )}
-              </ItemLogo> */}
-              {logo ? <ItemLogoCssImport logoUri={logo} /> : <ItemLogo>{title}</ItemLogo>}
+              {catalogLogo ? (
+                <ItemLogoCatalogView logoUri={catalogLogo} $bgColor="ghostwhite" />
+              ) : (
+                <ItemLogo
+                  $marginTop={
+                    innerContainerRef?.clientWidth ? `calc(${innerContainerRef?.clientWidth}px / -7)` : undefined
+                  }
+                >
+                  {title}
+                </ItemLogo>
+              )}
               <MobileItemCTA
                 alignItems="center"
                 justifyContent="center"
@@ -231,13 +236,7 @@ export default function ItemPage({
               <br />
 
               <Row>
-                <select disabled style={{ width: '50%' }}>
-                  {sizes.map((size, index) => (
-                    <option key={size + '_' + index} onChange={handleSetSize}>
-                      {size}
-                    </option>
-                  ))}
-                </select>
+                <SizeSelector sizes={sizes} callback={handleSetSize} styles={{ marginLeft: 20, width: '50%' }} />
               </Row>
 
               <br />
@@ -256,7 +255,7 @@ export default function ItemPage({
           )}
         </InnerContainer>
       </ItemAsidePanel>
-      {noVideo ? null : (
+      {noVideo || catalogView ? null : (
         <ItemVideoContent firstPaintOver={firstPaintOver} videos={videos} currentCarouselIndex={currentCarouselIndex} />
       )}
 
@@ -271,5 +270,25 @@ export default function ItemPage({
         />
       </Modal>
     </ItemContainer>
+  )
+}
+
+function SizeSelector({
+  sizes,
+  styles,
+  callback
+}: {
+  sizes: ProductSizes[]
+  styles: Record<string, string | number>
+  callback: (event: SyntheticEvent<HTMLOptionElement>) => void
+}) {
+  return (
+    <select style={styles}>
+      {sizes.map((size, index) => (
+        <option key={size + '_' + index} onChange={callback}>
+          {size}
+        </option>
+      ))}
+    </select>
   )
 }

@@ -9,8 +9,7 @@ import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
-import { STORE_IMAGE_SIZES } from 'constants/config'
-import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
+import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES } from 'constants/config'
 
 const saturateAnimation = css`
   @keyframes saturate {
@@ -117,7 +116,7 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
   z-index: 100;
   font-style: italic;
   letter-spacing: 7px;
-  font-size: 100px;  
+  font-size: 10rem;  
 
   // logo
   > img {
@@ -125,7 +124,7 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
   }
   
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    font-size: 65px;
+    font-size: 6.5rem;
   `}
 
   ${({ animation = false }) => animation && textShadowAnimation}
@@ -140,13 +139,13 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
     `}
 `
 
-export const ItemLogo = styled.div<{ mobileView?: boolean; maxWidth?: string }>`
+export const ItemLogo = styled.div<{ catalogView?: boolean; $maxWidth?: string; $marginTop?: string }>`
   img {
-    max-width: ${({ maxWidth = '100%' }) => maxWidth};
+    max-width: ${({ $maxWidth = '100%' }) => $maxWidth};
   }
 
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    margin-top: -35px;  
+  ${({ theme, $marginTop = '-35px' }) => theme.mediaWidth.upToSmall`
+    margin-top: ${$marginTop};  
   `}
 
   z-index: 100;
@@ -154,17 +153,38 @@ export const ItemLogo = styled.div<{ mobileView?: boolean; maxWidth?: string }>`
 
 export const ItemLogoCssImport = styled(ItemLogo)<{ logoUri: string }>`
   position: fixed;
-  // width: 710px;
-  // bottom: -55px;
-  // left: -45px;
-  // right: 0;
-  background: ${({ logoUri }) => `url(${logoUri}) center no-repeat, url(${logoUri}?tr=q-2) center no-repeat`};
-  background-size: contain;
+  background: ${({ logoUri }) =>
+    `url(${logoUri}?tr=pr-true,q-80) center, url(${logoUri}?tr=pr-true,q-1) center no-repeat`};
+  background-size: cover;
   height: 300px;
 `
 
+export const ItemLogoCatalogView = styled(ItemLogoCssImport)<{ $bgColor: string }>`
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-size: contain;
+  background-blend-mode: difference;
+  background-color: ${({ $bgColor }) => $bgColor};
+  /* animation-name: flickerIn;
+  animation-duration: 4s;
+  animation-iteration-count: 2;
+  animation-delay: 3s; */
+  height: auto;
+  max-width: 35%;
+
+  // SMALL SCREENS
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    position: absolute;
+    max-width: 100%;
+  `}
+`
+
 export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
-  fontSize: 16,
+  fontSize: '1.6rem',
   padding: 2,
   fontWeight: 500,
   fontStyle: 'italic',
@@ -179,7 +199,7 @@ export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
 
 export const ItemBreadcrumb = styled(NavLink)`
   color: ${({ theme }) => theme.black};
-  font-size: 10px;
+  font-size: 1rem;
   font-weight: 300;
   text-decoration: none;
   text-transform: uppercase;
@@ -188,7 +208,7 @@ export const ItemBreadcrumb = styled(NavLink)`
     margin: 0 5px;
   }
 `
-export const ItemDescription = styled(TYPE.black).attrs({ fontSize: 18, padding: 2, fontWeight: 400 })`
+export const ItemDescription = styled(TYPE.black).attrs({ fontSize: '1.8rem', padding: 2, fontWeight: 400 })`
   text-transform: uppercase;
   font-style: italic;
 
@@ -210,7 +230,7 @@ export const ItemAsidePanel = styled(Column)`
   align-items: flex-start;
 `
 
-export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; mobileView?: boolean; bgColor?: string }>`
+export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?: boolean; bgColor?: string }>`
   width: 100%;
   height: 100%;
   justify-content: center;
@@ -235,30 +255,25 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; mobileView?:
       position: relative;
       background: ${({ theme }) => transparentize(0.35, theme.white)};
 
+      > ${ItemLogo} {
+        margin-top: ${({ catalogView = false }) => (catalogView ? '0' : '-35px')};
+      }
+
+      // MEDIA QUERIES
       ${({ theme }) => theme.mediaWidth.upToSmall`
         max-width: 100%;
       `}
 
-      > ${ItemLogo} {
-        margin-top: ${({ mobileView = false }) => (mobileView ? '0' : '-35px')};
-      }
+      ${({ theme, catalogView }) => theme.fromMediaWidth.fromExtraLarge`
+        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
 
-      ${({ mobileView }) =>
-        mobileView &&
-        `
-        min-height: 100%;
-
-        ${ItemLogo} {
-          position: fixed;
-          max-width ${STORE_IMAGE_SIZES.SMALL}px;
-          bottom: -55px;
-          left: 0px; right: 0;
-
-          @media only screen and (max-width: ${MEDIA_WIDTHS.upToSmall}) {
-            position: absolute;
-            max-width: 100%;
-          } 
+        ${catalogView &&
+          `
+          width: 100%;
+          max-width: unset;
+          overflow: hidden;
         `}
+      `}
       }
     }
 
@@ -317,7 +332,7 @@ export const ItalicStrikethrough = styled.i`
 `
 
 export const ItemCredits: TFC = ({ children }) => (
-  <TYPE.black fontSize={14} padding="13px 8px" fontWeight={300} width="100%">
+  <TYPE.black fontSize={'1.4rem'} padding="13px 8px" fontWeight={300} width="100%">
     {children}
   </TYPE.black>
 )
@@ -386,27 +401,6 @@ export const FloatingBlockContainer = styled.div<FloatingColoredBlock>`
   z-index: -1;
 `
 
-const FloatingColouredBlock = styled.div<{ color: string }>`
-  height: 100%;
-  width: 100%;
-  background: ${({ color }) => color};
-`
-
-export const FloatingStrip = ({ color, ...rest }: FloatingColoredBlock & { color: string }) => (
-  <FloatingBlockContainer {...rest}>
-    <FloatingColouredBlock color={color} />
-  </FloatingBlockContainer>
-)
-
-export const BreadcrumbWrapper = styled(ItemSubHeader)`
-  display: flex;
-  gap: 5px;
-  margin-bottom: -24px;
-  z-index: 100;
-  padding-top: 4px;
-  font-size: 12px;
-`
-
 export const PASTELLE_CREDIT = (
   <>
     Homegrown at <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> labs
@@ -443,7 +437,7 @@ export const MobileItemCTA = styled(Row)`
   right: 0;
   height: 60px;
   background-color: lavender;
-  font-size: 40px;
+  font-size: 4rem;
   font-weight: 100;
   width: calc(100% - 600px);
   color: #000;

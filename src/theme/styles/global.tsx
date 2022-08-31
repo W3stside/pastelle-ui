@@ -1,7 +1,7 @@
 import { createGlobalStyle, css } from 'styled-components/macro'
 import { darken, transparentize } from 'polished'
 
-import { getThemeColours, setTextColour, setBgColour } from '../utils'
+import { getThemeColours, setTextColour, setBgColour, whenMediaExtraLarge } from '../utils'
 import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
 import { useAppColourTheme } from 'state/user/hooks'
@@ -199,6 +199,14 @@ export const ThemedGlobalStyle = createGlobalStyle<{
     `}
   }
 
+  html,body {
+    ${whenMediaExtraLarge(
+      css`
+        font-size: 0.5vw;
+      ` as TemplateStringsArray
+    )}
+  }
+
   header, nav, footer {
     background: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
   }
@@ -206,7 +214,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   header {
     background: ${({ headerLogo, theme, frameBgColor = transparentize(0.3, theme.bg1) }) =>
       headerLogo
-        ? `url(${headerLogo}) center no-repeat, url(${headerLogo + '?tr=q-10'}) 0px 0px no-repeat`
+        ? `url(${headerLogo}?tr=pr-true,q-80) center no-repeat, url(${headerLogo}?tr=pr-true,q-10) 0px 0px no-repeat`
         : frameBgColor};
       
     background-color: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
@@ -221,7 +229,9 @@ export const ThemedGlobalStyle = createGlobalStyle<{
 
   nav {
     background: ${({ navLogo, theme, frameBgColor = transparentize(0.3, theme.bg1) }) =>
-      navLogo ? `url(${navLogo}) center no-repeat, url(${navLogo + '?tr=q-10'}) 5px repeat` : frameBgColor};
+      navLogo
+        ? `url(${navLogo}?tr=pr-true,q-80) center no-repeat, url(${navLogo}?tr=pr-true,q-10) 5px repeat`
+        : frameBgColor};
     background-size: cover;
     background-blend-mode: difference;
     background-color: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};

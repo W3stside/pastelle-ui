@@ -103,7 +103,9 @@ export default function useScrollingPageAnimation(
   }, [])
 
   const [currentIndex, setCurrentIndex] = useState(prev.current[0])
-  const [firstPaintOver, setFirstPaintOver] = useState(false)
+  // const [firstPaintOver, setFirstPaintOver] = useState(false)
+
+  const [restSet, setRestSet] = useState(new Set())
 
   const [springs, api] = useSprings(
     items.length,
@@ -111,14 +113,11 @@ export default function useScrollingPageAnimation(
       scale: scaleOptions.initialScale,
       y: (i < items.length - 1 ? i : -1) * height,
       onRest: () => {
-        // if (y === 0 && height > 0) {
-        //   setCurrentIndex(i)
-        // }
-
         // useful in knowing when the FIRST animation has ended
         // like for setup
-        if (!firstPaintOver) {
-          setFirstPaintOver(true)
+        if (!restSet.has(i)) {
+          const map = restSet.add(i)
+          setRestSet(map)
         }
       }
       // config: WHEEL_SPRING_CONFIG // MAC_SPRING_CONFIG
@@ -217,6 +216,7 @@ export default function useScrollingPageAnimation(
     setTargetRef,
     height,
     currentIndex,
-    firstPaintOver
+    // firstPaintOver,
+    restSet
   }
 }

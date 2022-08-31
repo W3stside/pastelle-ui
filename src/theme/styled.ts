@@ -86,6 +86,7 @@ declare module 'styled-components' {
       upToSmall: ThemedCssFunction<DefaultTheme>
       upToMedium: ThemedCssFunction<DefaultTheme>
       upToLarge: ThemedCssFunction<DefaultTheme>
+      upToExtraLarge: ThemedCssFunction<DefaultTheme>
     }
 
     // from media size
@@ -94,6 +95,7 @@ declare module 'styled-components' {
       fromSmall: ThemedCssFunction<DefaultTheme>
       fromMedium: ThemedCssFunction<DefaultTheme>
       fromLarge: ThemedCssFunction<DefaultTheme>
+      fromExtraLarge: ThemedCssFunction<DefaultTheme>
     }
 
     // css snippets

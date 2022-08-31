@@ -24,7 +24,18 @@ export default function Catalog() {
     }
   }, [onScreenItemId, push])
 
-  const AsideWithVideoAux = useCallback(props => <AsideWithVideo {...props} mobileView showBreadCrumbs={false} />, [])
+  const AsideWithVideoAux = useCallback(
+    props => (
+      <AsideWithVideo
+        {...props}
+        // catalog mode
+        catalogView
+        showBreadCrumbs={false}
+        loadInView={{ container: document, conditionalCheck: true }}
+      />
+    ),
+    []
+  )
 
   return (
     <ArticleFadeInContainer id="CATALOG-ARTICLE">
