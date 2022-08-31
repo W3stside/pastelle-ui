@@ -12,6 +12,8 @@ const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Err
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
 const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleItem'))
 
+import PastelleCursiveLoader from 'components/Loader/PastelleCursiveLoader'
+
 import { FixedAnimatedLoader } from 'components/Loader'
 import { useQuery } from '@apollo/client'
 import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
@@ -34,11 +36,11 @@ export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
 export default function App() {
   const { loading } = useQuery(QUERY_PRODUCT, { variables: { amount: 5, imageAmt: 20 } })
 
-  if (loading) return <FixedAnimatedLoader loadText="PSTL" />
+  if (loading) return <FixedAnimatedLoader loadText={<PastelleCursiveLoader />} />
 
   return (
     <Web3ReactManager>
-      <Suspense fallback={<FixedAnimatedLoader loadText="PSTL" />}>
+      <Suspense fallback={<FixedAnimatedLoader loadText={<PastelleCursiveLoader />} />}>
         <Popups />
         {/* HEADER */}
         <Header />
