@@ -39,6 +39,7 @@ import {
 } from 'shopify/graphql/types'
 import useStateRef from 'hooks/useStateRef'
 import SizeSelector from 'components/SizeSelector'
+import { STORE_IMAGE_SIZES } from 'constants/config'
 
 export interface ProductPageProps {
   bgColor: string
@@ -90,7 +91,6 @@ function Breadcrumbs({
 const DEFAULT_MEDIA_START_INDEX = 0
 
 export default function ItemPage({
-  bgColor = 'transparent',
   color = '#000',
   title,
   logo,
@@ -155,7 +155,7 @@ export default function ItemPage({
 
   const DynamicInnerContainer = useMemo(() => (catalogView ? InnerCatalogContainer : InnerContainer), [catalogView])
 
-  // logo to use
+  // catalog display logo to use
   const catalogLogo = navLogo || headerLogo
 
   return (
@@ -184,7 +184,6 @@ export default function ItemPage({
                 <ItemLogoCatalogView logoUri={catalogLogo} $bgColor="ghostwhite" />
               ) : (
                 <ItemLogo
-                  $bgColor={bgColor}
                   $marginTop={
                     innerContainerRef?.clientWidth ? `calc(${innerContainerRef?.clientWidth}px / -7)` : undefined
                   }
@@ -202,7 +201,7 @@ export default function ItemPage({
             </>
           ) : (
             <>
-              <ItemLogo $bgColor={bgColor}>
+              <ItemLogo>
                 {logo ? (
                   <SmartImg
                     ikPath={logo}
@@ -218,7 +217,7 @@ export default function ItemPage({
               {/* ITEM CONTENT: description, credits, etc */}
               <ItemContentContainer padding={'0 10px'}>
                 {/* Credits */}
-                <ItemSubHeader useGradient bgColor={color} label="CREDIT CREDIT CREDIT" />
+                <ItemSubHeader useGradient bgColor={color} label="... CREDIT" />
                 <ItemCredits>
                   {artistInfo ? (
                     <ItemArtistInfo {...artistInfo} bgColor={color} />
@@ -268,7 +267,12 @@ export default function ItemPage({
         <Carousel
           buttonColor={color}
           imageList={imageUrls}
-          transformation={[{ width: images[0]?.width || 2000, height: images[0]?.height || 2000, xc: 500, yc: 500 }]}
+          transformation={[
+            {
+              width: images[0]?.width || STORE_IMAGE_SIZES.LARGE,
+              height: images[0]?.height || STORE_IMAGE_SIZES.LARGE /* , xc: 500, yc: 500 */
+            }
+          ]}
           mediaStartIndex={currentCarouselIndex}
           onCarouselChange={onCarouselChange}
         />

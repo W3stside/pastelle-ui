@@ -141,12 +141,13 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
 `
 
 export const ItemLogo = styled.div<{
-  $bgColor: string
+  $bgColor?: string
   catalogView?: boolean
   $maxWidth?: string
   $marginTop?: string
 }>`
-  background: ${({ $bgColor }) => $bgColor};
+  ${({ $bgColor }) => $bgColor && `background-color: ${$bgColor};`}
+  z-index: 100;
 
   img {
     max-width: ${({ $maxWidth = '100%' }) => $maxWidth};
@@ -155,8 +156,6 @@ export const ItemLogo = styled.div<{
   ${({ theme, $marginTop = '-35px' }) => theme.mediaWidth.upToSmall`
     margin-top: ${$marginTop};  
   `}
-
-  z-index: 100;
 `
 
 export const ItemLogoCssImport = styled(ItemLogo)<{ logoUri: string }>`
@@ -299,10 +298,6 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
       width: 100%;
       max-width: ${STORE_IMAGE_SIZES.SMALL}px;
 
-      > ${ItemLogo} {
-        margin-top: ${({ catalogView = false }) => (catalogView ? '0' : '-35px')};
-      }
-
       // MEDIA QUERIES --> LARGE and up
       ${({ theme }) => theme.fromMediaWidth.fromLarge`
         max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
@@ -313,6 +308,9 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
       // INNER CATALOG CONTAINER (NO CAROUSEL INTERACTION)
       // ----------------------- //
     > ${InnerCatalogContainer} {
+      > ${ItemLogo} {
+        margin-top: 0px;
+      }
       // MEDIA QUERIES --> SMALL and below
       ${({ theme }) => theme.mediaWidth.upToSmall`
         height: 100%;
@@ -393,7 +391,13 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
 
     // ITEM INNER CONTAINER (CAROUSEL WORKS)
     > ${InnerContainer} {
+      > ${ItemLogo} {
+        margin-top: -75px;
 
+        > img {
+          margin: 0 0 -21px 0;
+        }
+      }
       // // MEDIA QUERIES --> SMALL and below
       ${({ theme }) => theme.mediaWidth.upToSmall`
         max-width: 100%;
