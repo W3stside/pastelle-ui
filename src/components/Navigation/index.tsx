@@ -2,8 +2,7 @@ import styled from 'styled-components/macro'
 import Button from 'components/Button'
 import { Menu, X } from 'react-feather'
 import { useCallback, useMemo, useState } from 'react'
-import { Column, Row } from 'components/Layout'
-import ThemeToggleBar from 'components/ThemeToggler'
+import { Row } from 'components/Layout'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { getThemeColours } from 'theme/utils'
 import { ThemeModes } from 'theme/styled'
@@ -74,10 +73,6 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   `};
 `
 
-const ThemeColumn = styled(Column)`
-  margin: auto auto 0 0;
-`
-
 const CatalogLabel = styled.span<{ active: boolean }>`
   font-weight: ${({ active }) => (active ? 700 : 400)};
   ${({ active }) =>
@@ -143,8 +138,8 @@ export default function Navigation({
         {NavToggleButton}
       </MobileNavOrb>
       <NavigationStepsWrapper isOpen={isNavOpen} width="9vw" minWidth="170px">
-        <ItemSubHeader color={getThemeColours(ThemeModes.CHAMELEON).white}>
-          <strong>{'MERCH'}</strong>
+        <ItemSubHeader color={getThemeColours(ThemeModes.CHAMELEON).white} margin="0">
+          <strong>MERCH DROP #1</strong>
         </ItemSubHeader>
 
         <NavLinkWrapper>
@@ -152,6 +147,7 @@ export default function Navigation({
             <SideEffectNavLink key={product.id} onClick={e => handleNavMove(e, product)}>
               <ItemSubHeader
                 padding="2px"
+                margin="0"
                 fontSize={isNavOpen ? '3.5rem' : '1.6rem'}
                 color={getThemeColours(ThemeModes.CHAMELEON).white}
               >
@@ -160,11 +156,6 @@ export default function Navigation({
             </SideEffectNavLink>
           ))}
         </NavLinkWrapper>
-
-        {/* THEME TOGGLER */}
-        <ThemeColumn>
-          <ThemeToggleBar />
-        </ThemeColumn>
       </NavigationStepsWrapper>
     </>
   )

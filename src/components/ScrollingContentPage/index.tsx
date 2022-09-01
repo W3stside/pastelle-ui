@@ -41,7 +41,8 @@ export function ScrollingContentPage<D>({
     snapOnScroll: false,
     // defaults to 0.8 scale on scroll and 1 scale default
     scaleOptions: {
-      initialScale: 0.87
+      initialScale: 0.92
+      // scaleOnScroll: 0.55
     }
   })
 

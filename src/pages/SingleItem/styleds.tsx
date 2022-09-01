@@ -202,6 +202,7 @@ export const ItemLogoCatalogView = styled(ItemLogoCssImport)<{ $bgColor: string 
 export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
   fontSize: '1.6rem',
   padding: 2,
+  margin: '2rem 0',
   fontWeight: 500,
   fontStyle: 'italic',
   ...props
@@ -246,6 +247,8 @@ export const ItemDescription = styled(TYPE.black).attrs({ fontSize: '1.8rem', pa
     margin-top: 0;
   }
 `
+
+export const ItemContentContainer = styled(Column)``
 
 export const InnerContainer = styled(Column)<{ bgColor?: string }>`
   background: ${({ theme, bgColor }) => (bgColor ? transparentize(0.62, bgColor) : transparentize(0.35, theme.white))};

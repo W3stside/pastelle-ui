@@ -8,7 +8,6 @@ import {
   ItemDescription,
   ItemCredits,
   ItemArtistInfo,
-  // FloatingStrip,
   PASTELLE_CREDIT,
   ItemSubHeader,
   ItemBreadcrumb,
@@ -16,7 +15,8 @@ import {
   InnerContainer,
   HighlightedText,
   ItemLogoCatalogView,
-  InnerCatalogContainer
+  InnerCatalogContainer,
+  ItemContentContainer
 } from './styleds'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
@@ -38,8 +38,7 @@ import {
   ProductArtistInfo
 } from 'shopify/graphql/types'
 import useStateRef from 'hooks/useStateRef'
-import styled from 'styled-components/macro'
-import { lighten, transparentize } from 'polished'
+import SizeSelector from 'components/SizeSelector'
 
 export interface ProductPageProps {
   bgColor: string
@@ -89,7 +88,6 @@ function Breadcrumbs({
 }
 
 const DEFAULT_MEDIA_START_INDEX = 0
-const DEFAULT_SIZE_SELECTED: ProductSizes = ProductSizes.M
 
 export default function ItemPage({
   bgColor = 'transparent',
@@ -217,55 +215,46 @@ export default function ItemPage({
                 )}
               </ItemLogo>
 
-              {/* Credits */}
-              <ItemSubHeader useGradient bgColor={color} label="CREDIT CREDIT CREDIT" />
-              <ItemCredits>
-                {artistInfo ? (
-                  <ItemArtistInfo {...artistInfo} bgColor={color} />
-                ) : (
-                  <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
-                )}
-              </ItemCredits>
+              {/* ITEM CONTENT: description, credits, etc */}
+              <ItemContentContainer padding={'0 10px'}>
+                {/* Credits */}
+                <ItemSubHeader useGradient bgColor={color} label="CREDIT CREDIT CREDIT" />
+                <ItemCredits>
+                  {artistInfo ? (
+                    <ItemArtistInfo {...artistInfo} bgColor={color} />
+                  ) : (
+                    <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
+                  )}
+                </ItemCredits>
 
-              {/* Size selector */}
-              <ItemSubHeader useGradient bgColor={color} label="CHOOSE A SIZE AND VIEW ITEM ON MODEL" />
-              <br />
-              <Row>
-                <ItemDescription>
-                  <Row>
-                    Size: <SizeSelector sizes={sizes} $color={color} />
-                  </Row>
-                </ItemDescription>
-              </Row>
-              <br />
-              <Row>
-                <TYPE.black padding="0px 10px">
+                {/* Size selector */}
+                <ItemSubHeader useGradient bgColor={color} label="CHOOSE A SIZE AND VIEW ITEM ON MODEL" />
+                <SizeSelector sizes={sizes} color={color} margin="20px 0" />
+                <Row>
                   <ItemDescription>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Platea dictumst vestibulum rhoncus est pellentesque elit
-                      ullamcorper. In ornare quam viverra orci sagittis eu volutpat odio facilisis. In eu mi bibendum
-                      neque egestas congue quisque egestas.{' '}
-                    </p>
-                    <p>
-                      Et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit. Mauris sit amet massa vitae
-                      tortor. Augue lacus viverra vitae congue eu consequat ac. Nunc mi ipsum faucibus vitae aliquet.
-                      Nibh ipsum consequat nisl vel pretium lectus quam id. Et magnis dis parturient montes. Semper
-                      auctor neque vitae tempus. Non enim praesent elementum facilisis leo vel fringilla est
-                      ullamcorper. Sed felis eget velit aliquet sagittis. Ullamcorper a lacus vestibulum sed. Ut
-                      pharetra sit amet aliquam id diam maecenas ultricies mi.
-                    </p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper. In
+                    ornare quam viverra orci sagittis eu volutpat odio facilisis. In eu mi bibendum neque egestas congue
+                    quisque egestas.
+                    <br />
+                    <br />
+                    Et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit. Mauris sit amet massa vitae
+                    tortor. Augue lacus viverra vitae congue eu consequat ac. Nunc mi ipsum faucibus vitae aliquet. Nibh
+                    ipsum consequat nisl vel pretium lectus quam id. Et magnis dis parturient montes. Semper auctor
+                    neque vitae tempus. Non enim praesent elementum facilisis leo vel fringilla est ullamcorper. Sed
+                    felis eget velit aliquet sagittis. Ullamcorper a lacus vestibulum sed. Ut pharetra sit amet aliquam
+                    id diam maecenas ultricies mi.
                   </ItemDescription>
-                </TYPE.black>
-              </Row>
+                </Row>
 
-              {/* Item description */}
-              <ItemSubHeader useGradient bgColor={color} label="MERCH DESCRIPTION AND CARE INSTRUCTIONS" />
-              <Row>
-                <TYPE.black padding={'10px'}>
-                  <ItemDescription dangerouslySetInnerHTML={{ __html: description }}></ItemDescription>
-                </TYPE.black>
-              </Row>
+                {/* Item description */}
+                <ItemSubHeader useGradient bgColor={color} label="MERCH DESCRIPTION AND CARE INSTRUCTIONS" />
+                <Row>
+                  <TYPE.black padding={'10px'}>
+                    <ItemDescription dangerouslySetInnerHTML={{ __html: description }}></ItemDescription>
+                  </TYPE.black>
+                </Row>
+              </ItemContentContainer>
             </>
           )}
         </DynamicInnerContainer>
@@ -285,54 +274,5 @@ export default function ItemPage({
         />
       </Modal>
     </ItemContainer>
-  )
-}
-
-interface SizeSelectorProps {
-  sizes: ProductSizes[]
-  $color?: string
-}
-
-const SquareSelectDiv = styled.div``
-const GridSelect = styled.div<Pick<SizeSelectorProps, '$color'>>`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
-  align-items: center;
-  background: ${transparentize(0.84, 'black')};
-  gap: 1px;
-  padding: 1px;
-
-  margin-left: 10px;
-
-  > ${SquareSelectDiv} {
-    cursor: pointer;
-    background-color: ${({ theme }) => theme.white};
-    padding: 10px 20px;
-    text-align: center;
-    font-weight: 700;
-
-    flex: 0 1 22%;
-
-    &:hover {
-      background-color: ${({ theme, $color = theme.white }) => lighten(0.08, $color)};
-    }
-
-    transition: background-color 0.3s ease-out;
-  }
-`
-
-function SizeSelector({ sizes, ...styleProps }: SizeSelectorProps) {
-  const [, setSize] = useState<ProductSizes>(DEFAULT_SIZE_SELECTED)
-  const handleSetSize = (size: ProductSizes) => setSize(size)
-
-  return (
-    <GridSelect {...styleProps}>
-      {sizes.map((size, index) => (
-        <SquareSelectDiv key={size + '_' + index} onChange={() => handleSetSize(size)}>
-          {size}
-        </SquareSelectDiv>
-      ))}
-    </GridSelect>
   )
 }
