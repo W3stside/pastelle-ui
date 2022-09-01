@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { AppState, useAppSelector, useAppDispatch } from 'state'
-import { checkedTransaction, finalizeTransaction } from '../transactions/reducer'
+import { checkedTransaction, finalizeTransaction } from '../blockchainTransactions/reducer'
 import { addPopup, ApplicationModal, PopupContent, removePopup, setOpenModal } from './reducer'
 
 export function useModalOpen(modal: ApplicationModal): boolean {

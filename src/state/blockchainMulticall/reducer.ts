@@ -36,7 +36,7 @@ const initialState: MulticallState = {
   callResults: {}
 }
 
-export const multicall = createReducer(initialState, builder =>
+export const blockchainMulticall = createReducer(initialState, builder =>
   builder
     .addCase(
       addMulticallListeners,

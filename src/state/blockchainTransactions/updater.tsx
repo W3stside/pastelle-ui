@@ -31,7 +31,7 @@ export default function Updater(): null {
 
   const lastBlockNumber = useBlockNumber()
 
-  const state = useAppSelector(state => state.transactions)
+  const state = useAppSelector(state => state.blockchainTransactions)
 
   // show popup on confirm
   const addPopup = useAddPopup()

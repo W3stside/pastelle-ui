@@ -18,7 +18,7 @@ import Identicon from 'components/Identicon'
 import Button from 'components/Button'
 import { ExternalLink as LinkIcon } from 'react-feather'
 import { ExternalLink, LinkStyledButton, TYPE } from 'theme'
-import { useClearAllTransactions } from 'state/transactions/hooks'
+import { useClearAllTransactions } from 'state/blockchainTransactions/hooks'
 
 const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};

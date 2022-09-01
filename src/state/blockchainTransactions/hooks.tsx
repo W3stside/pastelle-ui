@@ -59,7 +59,7 @@ export function useTransactionAdder(): TransactionAdder {
 export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
   const { chainId } = useActiveWeb3React()
 
-  const state = useAppSelector(state => state.transactions)
+  const state = useAppSelector(state => state.blockchainTransactions)
 
   return chainId ? state[chainId] ?? {} : {}
 }

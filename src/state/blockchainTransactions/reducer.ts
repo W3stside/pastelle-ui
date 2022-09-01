@@ -185,4 +185,4 @@ export const {
   replaceTransaction,
   updateSafeTransaction
 } = transactionsSlice.actions
-export const transactions = transactionsSlice.reducer
+export const blockchainTransactions = transactionsSlice.reducer

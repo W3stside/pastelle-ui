@@ -19,7 +19,7 @@ import App from './pages/App'
 
 import store from 'state'
 import BlockchainUpdater from 'state/blockchain/updater'
-import TransactionUpdater from 'state/transactions/updater'
+import TransactionUpdater from 'state/blockchainTransactions/updater'
 import UserUpdater from 'state/user/updater'
 import CatalogUpdater from 'state/catalog/updater'
 

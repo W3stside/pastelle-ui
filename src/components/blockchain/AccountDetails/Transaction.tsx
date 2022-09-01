@@ -4,7 +4,7 @@ import { CheckCircle, Triangle } from 'react-feather'
 import { useActiveWeb3React } from 'blockchain/hooks'
 import { getEtherscanLink } from 'blockchain/utils'
 import { ExternalLink } from 'theme'
-import { useAllTransactions } from 'state/transactions/hooks'
+import { useAllTransactions } from 'state/blockchainTransactions/hooks'
 import { RowFixed } from 'components/Layout'
 import Loader from 'components/Loader'
 

@@ -48,7 +48,7 @@ export function useCallsData(
   { blocksPerFetch }: ListenerOptions = { blocksPerFetch: 1 }
 ): CallResult[] {
   const { chainId } = useActiveWeb3React()
-  const callResults = useAppSelector(state => state.multicall.callResults)
+  const callResults = useAppSelector(state => state.blockchainMulticall.callResults)
   const dispatch = useAppDispatch()
 
   const serializedCallKeys: string = useMemo(

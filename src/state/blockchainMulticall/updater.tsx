@@ -17,18 +17,18 @@ const DEFAULT_CALL_GAS_REQUIRED = 1_000_000
 
 /**
  * Fetches a chunk of calls, enforcing a minimum block number constraint
- * @param multicall multicall contract to fetch against
+ * @param blockchainMulticall blockchainMulticall contract to fetch against
  * @param chunk chunk of calls to make
  * @param blockNumber block number passed as the block tag in the eth_call
  */
 export async function fetchChunk(
-  multicall: UniswapInterfaceMulticall,
+  blockchainMulticall: UniswapInterfaceMulticall,
   chunk: Call[],
   blockNumber: number
 ): Promise<{ success: boolean; returnData: string }[]> {
   devDebug('Fetching chunk', chunk, blockNumber)
   try {
-    const { returnData } = await multicall.callStatic.multicall(
+    const { returnData } = await blockchainMulticall.callStatic.multicall(
       chunk.map(obj => ({
         target: obj.address,
         callData: obj.callData,
@@ -67,8 +67,8 @@ export async function fetchChunk(
         }
         const half = Math.floor(chunk.length / 2)
         const [c0, c1] = await Promise.all([
-          fetchChunk(multicall, chunk.slice(0, half), blockNumber),
-          fetchChunk(multicall, chunk.slice(half, chunk.length), blockNumber)
+          fetchChunk(blockchainMulticall, chunk.slice(0, half), blockNumber),
+          fetchChunk(blockchainMulticall, chunk.slice(half, chunk.length), blockNumber)
         ])
         return c0.concat(c1)
       }
@@ -85,7 +85,7 @@ export async function fetchChunk(
  * @param chainId the current chain id
  */
 export function activeListeningKeys(
-  allListeners: AppState['multicall']['callListeners'],
+  allListeners: AppState['blockchainMulticall']['callListeners'],
   chainId?: number
 ): { [callKey: string]: number } {
   if (!allListeners || !chainId) return {}
@@ -116,7 +116,7 @@ export function activeListeningKeys(
  * @param latestBlockNumber the latest block number
  */
 export function outdatedListeningKeys(
-  callResults: AppState['multicall']['callResults'],
+  callResults: AppState['blockchainMulticall']['callResults'],
   listeningKeys: { [callKey: string]: number },
   chainId: number | undefined,
   latestBlockNumber: number | undefined
@@ -145,7 +145,7 @@ export function outdatedListeningKeys(
 
 export default function Updater(): null {
   const dispatch = useAppDispatch()
-  const state = useAppSelector(state => state.multicall)
+  const state = useAppSelector(state => state.blockchainMulticall)
   // wait for listeners to settle before triggering updates
   const debouncedListeners = useDebounce(state.callListeners, 100)
   const latestBlockNumber = useBlockNumber()
@@ -250,7 +250,7 @@ export default function Updater(): null {
               devDebug('Cancelled fetch for blockNumber', latestBlockNumber, chunk, chainId)
               return
             }
-            console.error('Failed to fetch multicall chunk', chunk, chainId, error)
+            console.error('Failed to fetch blockchainMulticall chunk', chunk, chainId, error)
             dispatch(
               errorFetchingMulticallResults({
                 calls: chunk,
