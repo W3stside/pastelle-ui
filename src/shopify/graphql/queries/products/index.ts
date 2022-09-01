@@ -31,6 +31,9 @@ export const QUERY_PRODUCT = gql`
         brandingAssetMap: metafield(namespace: "custom", key: "brandingassetmap") {
           value
         }
+        bgColor: metafield(namespace: "custom", key: "bgColor") {
+          value
+        }
         color: metafield(namespace: "custom", key: "color") {
           value
         }

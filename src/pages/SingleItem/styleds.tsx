@@ -286,7 +286,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
     }
 
       // ----------------------- //
-      // INNER CATALOG CONTAINER 
+      // INNER CATALOG CONTAINER (NO CAROUSEL INTERACTION)
       // ----------------------- //
     > ${InnerCatalogContainer} {
       // MEDIA QUERIES --> SMALL and below
@@ -310,6 +310,15 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
       // CAROUSEL CONTAINER 
       // ----------------------- //
       > ${CarouselContainer} {
+        > ${CarouselStep} {
+          height: 100%;
+
+          img {
+            max-width: unset;
+            height: 100%;
+          }
+        }
+        
         ${({ theme }) => theme.mediaWidth.upToSmall`
           margin-top: 50px;
         `}
@@ -358,13 +367,24 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
       }
     }
 
-    // ITEM INNER CONTAINER
+    // ITEM INNER CONTAINER (CAROUSEL WORKS)
     > ${InnerContainer} {
 
       // // MEDIA QUERIES --> SMALL and below
       ${({ theme }) => theme.mediaWidth.upToSmall`
         max-width: 100%;
       `}
+
+      > ${CarouselContainer} {
+        > ${CarouselStep} {
+          height: 100%;
+
+          img {
+            max-width: unset;
+            height: 100%;
+          }
+        }
+      }
     }
   }
 

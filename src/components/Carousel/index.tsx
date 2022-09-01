@@ -63,7 +63,6 @@ function CarouselStepWithoutRef(props: CarouselStepsProps) {
       justifyContent="center"
       $transformAmount={transformAmount}
       $width={parentWidth}
-      $forceFillByHeight
     >
       <SmartImg {...imageProps} />
       {showCarouselContentIndicators && isMultipleCarousel && (

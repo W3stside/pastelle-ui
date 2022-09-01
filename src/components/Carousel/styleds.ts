@@ -4,7 +4,6 @@ import { Row } from 'components/Layout'
 
 export const CarouselStep = styled(Row)<{
   $transformAmount: number
-  $forceFillByHeight?: boolean
   $width: number
   $height?: string
 }>`
@@ -13,8 +12,7 @@ export const CarouselStep = styled(Row)<{
   left: 0;
   transform: ${({ $transformAmount }) => `translateX(${$transformAmount}px)`};
   width: ${({ $width }) => $width}px;
-  ${({ $forceFillByHeight, $height }) =>
-    ($forceFillByHeight || $height) && `height: ${$forceFillByHeight ? '100%' : $height};`}
+  ${({ $height }) => $height && `height: ${$height};`}
   overflow: hidden;
 
   z-index: ${({ $transformAmount }) => ($transformAmount > 0 ? 1 : 0)};
@@ -24,12 +22,6 @@ export const CarouselStep = styled(Row)<{
 
   img {
     max-width: 100%;
-    ${({ $forceFillByHeight }) =>
-      $forceFillByHeight &&
-      `
-      max-width: unset;
-      height: 100%;
-    `}
     box-shadow: 3px 6px 8px 0px #686868ad;
   }
 
