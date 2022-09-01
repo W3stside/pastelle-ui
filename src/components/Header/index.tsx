@@ -52,7 +52,7 @@ const HeaderElementWrap = styled.div`
 const HeaderRow = styled(RowFixed)`
   width: 100%;
 
-  ${({ theme }) => theme.fromMediaWidth.fromSmall`
+  ${({ theme }) => theme.fromMediaWidth.fromMedium`
       nav {
         display: none;
       }

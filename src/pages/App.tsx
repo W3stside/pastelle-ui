@@ -42,10 +42,11 @@ export default function App() {
     <Web3ReactManager>
       <Suspense fallback={<FixedAnimatedLoader loadText={<PastelleCursiveLoader />} />}>
         <Popups />
+
         {/* HEADER */}
         <Header />
         {/* SIDE-NAV */}
-        <Navigation />
+        <Navigation mobileHide />
         {/* ARTICLE CONTENT */}
         <Switch>
           <Route exact path="/goods/:year/:season" component={Catalog} />

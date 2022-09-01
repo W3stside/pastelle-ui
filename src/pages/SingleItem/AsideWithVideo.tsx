@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useState } from 'react'
+import { SyntheticEvent, useEffect, useMemo, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel, { GenericImageSrcSet } from 'components/Carousel'
 import {
@@ -15,7 +15,8 @@ import {
   MobileItemCTA,
   InnerContainer,
   HighlightedText,
-  ItemLogoCatalogView
+  ItemLogoCatalogView,
+  InnerCatalogContainer
 } from './styleds'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
@@ -154,13 +155,15 @@ export default function ItemPage({
   // inner container ref
   const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)
 
+  const DynamicInnerContainer = useMemo(() => (catalogView ? InnerCatalogContainer : InnerContainer), [catalogView])
+
   // logo to use
   const catalogLogo = navLogo || headerLogo
 
   return (
     <ItemContainer id="#item-container" style={style} catalogView={catalogView} bgColor={color}>
       <ItemAsidePanel id="#item-aside-panel">
-        <InnerContainer ref={setRef}>
+        <DynamicInnerContainer ref={setRef}>
           {/* Breadcrumbs */}
           {showBreadCrumbs && <Breadcrumbs {...breadcrumbs} marginTop={'5px'} marginLeft={'5px'} marginBottom={-25} />}
           {/* Item carousel */}
@@ -253,7 +256,7 @@ export default function ItemPage({
               </Row>
             </>
           )}
-        </InnerContainer>
+        </DynamicInnerContainer>
       </ItemAsidePanel>
       {noVideo || catalogView ? null : (
         <ItemVideoContent firstPaintOver={firstPaintOver} videos={videos} currentCarouselIndex={currentCarouselIndex} />

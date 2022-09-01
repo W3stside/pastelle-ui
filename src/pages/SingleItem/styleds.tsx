@@ -10,6 +10,7 @@ import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
 import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES } from 'constants/config'
+import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
 
 const saturateAnimation = css`
   @keyframes saturate {
@@ -174,12 +175,20 @@ export const ItemLogoCatalogView = styled(ItemLogoCssImport)<{ $bgColor: string 
   animation-iteration-count: 2;
   animation-delay: 3s; */
   height: auto;
-  max-width: 35%;
+  max-width: 30%;
+  z-index: 0;
 
-  // SMALL SCREENS
+  // MEDIA QUERIES --> SMALL and below
   ${({ theme }) => theme.mediaWidth.upToSmall`
     position: absolute;
     max-width: 100%;
+    height: 100%;
+    // z-index: 1;
+  `}
+
+  // MEDIA QUERIES --> LARGE and below
+  ${({ theme }) => theme.mediaWidth.upToLarge`
+    margin: 0 0 0 auto;
   `}
 `
 
@@ -218,11 +227,10 @@ export const ItemDescription = styled(TYPE.black).attrs({ fontSize: '1.8rem', pa
 `
 
 export const InnerContainer = styled(Column)<{ bgColor?: string }>`
-  width: 100%;
-  max-width: ${STORE_IMAGE_SIZES.SMALL}px;
-
   background: ${({ theme, bgColor }) => (bgColor ? transparentize(0.62, bgColor) : transparentize(0.35, theme.white))};
 `
+
+export const InnerCatalogContainer = styled(InnerContainer)``
 
 export const ItemAsidePanel = styled(Column)`
   display: flex;
@@ -251,38 +259,113 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
     height: 100%;
     width: 100%;
 
-    > ${InnerContainer} {
+    z-index: 2;
+
+    // MEDIA QUERIES --> SMALL and below
+    ${({ theme }) => theme.mediaWidth.upToSmall`
+      border: none;
+      margin: 0;
+    `}
+
+    // BOTH CONTAINERS
+    > ${InnerCatalogContainer}, > ${InnerContainer} {
       position: relative;
       background: ${({ theme }) => transparentize(0.35, theme.white)};
+      
+      width: 100%;
+      max-width: ${STORE_IMAGE_SIZES.SMALL}px;
 
       > ${ItemLogo} {
         margin-top: ${({ catalogView = false }) => (catalogView ? '0' : '-35px')};
       }
 
-      // MEDIA QUERIES
+      // MEDIA QUERIES --> LARGE and up
+      ${({ theme }) => theme.fromMediaWidth.fromLarge`
+        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
+      `}
+    }
+
+      // ----------------------- //
+      // INNER CATALOG CONTAINER 
+      // ----------------------- //
+    > ${InnerCatalogContainer} {
+      // MEDIA QUERIES --> SMALL and below
       ${({ theme }) => theme.mediaWidth.upToSmall`
+        height: 100%;
+        padding: 15px;
+      `}
+      // MEDIA QUERIES --> LARGE and below
+      ${({ theme }) => theme.mediaWidth.upToLarge`
+        height: 100%;
         max-width: 100%;
       `}
-
-      ${({ theme, catalogView }) => theme.fromMediaWidth.fromExtraLarge`
-        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
-
-        ${catalogView &&
-          `
-          width: 100%;
-          max-width: unset;
-          overflow: hidden;
-        `}
+      // MEDIA QUERIES --> LARGE and up
+      ${({ theme }) => theme.fromMediaWidth.fromLarge`
+        width: 100%;
+        max-width: unset;
+        overflow: hidden;
       `}
+
+      // ----------------------- //
+      // CAROUSEL CONTAINER 
+      // ----------------------- //
+      > ${CarouselContainer} {
+        ${({ theme }) => theme.mediaWidth.upToSmall`
+          margin-top: 50px;
+        `}
+        // MEDIA QUERIES --> LARGE and below
+        ${({ theme }) => theme.mediaWidth.upToLarge`
+          > ${CarouselStep} {
+            width: auto;
+            z-index: 1;
+          
+            &:not(:first-child) {
+              transform: none;
+              z-index: 0;
+            }
+          }
+        `}
+        // MEDIA QUERIES --> LARGE and up
+        ${({ theme }) => theme.fromMediaWidth.fromLarge`  
+          justify-content: space-between;
+          overflow: visible;
+
+          > ${CarouselStep} {
+            position: relative;
+            width: 40%;
+            transform: none;
+            z-index: 5;
+          }
+        `}
+      }
+
+      // ----------------------- //
+      // ITEM CATALOG LOGO
+      // ----------------------- //
+      > ${ItemLogoCatalogView} {
+        // MEDIA QUERIES --> SMALL and below
+        ${({ theme }) => theme.mediaWidth.upToSmall`
+          max-width: 100%;
+        `}
+        // MEDIA QUERIES --> LARGE and below
+        ${({ theme }) => theme.fromMediaWidth.fromSmall`
+          max-width: 50%;
+        `}
+        // MEDIA QUERIES --> LARGE and below
+        ${({ theme }) => theme.fromMediaWidth.fromLarge`
+          max-width: 35%;
+        `}
       }
     }
 
-    z-index: 2;
+    // ITEM INNER CONTAINER
+    > ${InnerContainer} {
 
-    ${({ theme }) => theme.mediaWidth.upToSmall`
-      border: none;
-      margin: 0;
-  `}
+      // // MEDIA QUERIES --> SMALL and below
+      ${({ theme }) => theme.mediaWidth.upToSmall`
+        max-width: 100%;
+      `}
+    }
   }
 
   > ${VideoContentWrapper} {
@@ -435,7 +518,8 @@ export const MobileItemCTA = styled(Row)`
   position: fixed;
   top: 0;
   right: 0;
-  height: 60px;
+  height: auto;
+  text-align: center;
   background-color: lavender;
   font-size: 4rem;
   font-weight: 100;

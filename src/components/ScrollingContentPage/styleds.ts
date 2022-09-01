@@ -17,7 +17,7 @@ export const AnimatedDivContainer = styled(a.div)<{ $maxWidth?: string }>`
 
   transition: box-shadow 0.2s ease-in-out;
 
-  box-shadow: 0px 1px 20px 9px #f0e4e8a3;
+  box-shadow: 0px 1px 20px 9px #00000029;
   border-radius: 9px;
   overflow: hidden;
 `

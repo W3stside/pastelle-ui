@@ -47,26 +47,14 @@ export const CarouselContainer = styled.div<{ fixedHeight?: string; catalogView?
   position: relative;
   overflow: hidden;
   width: 100%;
+  z-index: 1;
   ${({ fixedHeight }) => `height: ${fixedHeight};`}
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    margin-top: 40px;  
-  `}
-
-  ${({ theme, catalogView }) => theme.fromMediaWidth.fromExtraLarge`
-    ${catalogView &&
-      `
-      justify-content: space-between;
-      overflow: visible;
-
-      > ${CarouselStep} {
-        position: relative;
-
-        width: 35%;
-        transform: none;
-        z-index: 99999;
+    > ${CarouselStep} {
+        max-width: 100%;
+        height: auto;
       }
-    `}
   `}
 `
 // #a1c3f9

@@ -2,7 +2,7 @@ import styled from 'styled-components/macro'
 import Button from 'components/Button'
 import { StyledNavLink } from 'components/Header/styleds'
 import { Menu, X } from 'react-feather'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Column, Row } from 'components/Layout'
 import ThemeToggleBar from 'components/ThemeToggler'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
@@ -11,6 +11,8 @@ import { ThemeModes } from 'theme/styled'
 import { useCurrentCollectionProducts } from 'pages/Catalog/hooks'
 import { useGetCurrentOnScreenItem } from 'state/catalog/hooks'
 import { buildItemUrl } from 'utils/navigation'
+import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
+import { useHistory } from 'react-router-dom'
 
 const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; minWidth?: string }>`
   width: ${({ width = 'auto' }) => width};
@@ -32,7 +34,7 @@ const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; mi
 
   z-index: 200;
 
-  ${({ theme, isOpen }) => theme.mediaWidth.upToSmall`
+  ${({ theme, isOpen }) => theme.mediaWidth.upToMedium`
     display: ${isOpen ? 'flex' : 'none'};
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -43,8 +45,8 @@ const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; mi
     opacity: ${isOpen ? 1 : 0};
   `}
 `
-
-export const MobileNavOrb = styled(Button)<{ bgColor?: string }>`
+type MobileNavProps = { menuSize?: number; bgColor?: string }
+export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boolean }>`
   display: none;
   background: ${({ theme, bgColor = theme.red2 }) => bgColor};
   color: ${({ theme }) => theme.white};
@@ -61,10 +63,10 @@ export const MobileNavOrb = styled(Button)<{ bgColor?: string }>`
       transition: transform 0.3s ease-in-out;
     }
   }
-  ${({ theme }) => theme.mediaWidth.upToSmall`
+  ${({ theme, mobileHide }) => theme.mediaWidth.upToMedium`
+    display: ${mobileHide ? 'none' : 'flex'};
     position: relative;
     bottom: 0; right: 0; margin: 10px;  
-    display: flex;
     justify-content: center;
     align-items: center;
 
@@ -79,34 +81,62 @@ const ThemeColumn = styled(Column)`
 const CatalogLabel = styled.span<{ active: boolean }>`
   font-weight: ${({ active }) => (active ? 700 : 400)};
   ${({ active }) =>
-    !active &&
+    active &&
     `
       text-decoration: line-through;
-      filter: blur(1.2px);
+      text-decoration-thickness: from-font;
+      font-size: larger;
+      // filter: blur(1.2px);
     `}
 `
 
-export default function Navigation({ navOrbProps }: any) {
+const SideEffectNavLink = styled.span`
+  cursor: pointer;
+`
+
+const NavLinkWrapper = styled.div`
+  background: #1d1d1d;
+  padding: 10px;
+`
+
+export default function Navigation({
+  navOrbProps,
+  mobileHide
+}: {
+  navOrbProps?: MobileNavProps
+  mobileHide?: boolean
+}) {
   const { productsList: products } = useCurrentCollectionProducts()
   const currentProduct = useGetCurrentOnScreenItem()
+  const history = useHistory()
 
   const [isNavOpen, setIsNavOpen] = useState(false)
 
-  const toggleNav = () => {
+  const toggleNav = useCallback(() => {
     if (isNavOpen) {
       setIsNavOpen(false)
     } else {
       setIsNavOpen(true)
     }
-  }
+  }, [isNavOpen])
 
   const NavToggleButton = useMemo(() => {
     return isNavOpen ? <X size={20} /> : <Menu size={navOrbProps?.menuSize || 20} />
   }, [isNavOpen, navOrbProps?.menuSize])
 
+  const handleNavMove = useCallback(
+    (_, product: ProductPageProps) => {
+      toggleNav()
+
+      const url = buildItemUrl({ identifier: product.title })
+      history.push(url)
+    },
+    [history, toggleNav]
+  )
+
   return (
     <>
-      <MobileNavOrb onClick={toggleNav} {...navOrbProps}>
+      <MobileNavOrb onClick={toggleNav} mobileHide={mobileHide} {...navOrbProps}>
         {NavToggleButton}
       </MobileNavOrb>
       <NavigationStepsWrapper isOpen={isNavOpen} width="9vw" minWidth="170px">
@@ -114,13 +144,19 @@ export default function Navigation({ navOrbProps }: any) {
           <strong>{'MERCH'}</strong>
         </ItemSubHeader>
 
-        {products.map(product => (
-          <StyledNavLink key={product.id} to={buildItemUrl({ identifier: product.title })}>
-            <ItemSubHeader padding="2px" color={getThemeColours(ThemeModes.CHAMELEON).white}>
-              <CatalogLabel active={product.id === currentProduct?.id}>{product.title}</CatalogLabel>
-            </ItemSubHeader>
-          </StyledNavLink>
-        ))}
+        <NavLinkWrapper>
+          {products.map(product => (
+            <SideEffectNavLink key={product.id} onClick={e => handleNavMove(e, product)}>
+              <ItemSubHeader
+                padding="2px"
+                fontSize={isNavOpen ? '3.5rem' : '1.6rem'}
+                color={getThemeColours(ThemeModes.CHAMELEON).white}
+              >
+                <CatalogLabel active={product.id === currentProduct?.id}>{product.title}</CatalogLabel>
+              </ItemSubHeader>
+            </SideEffectNavLink>
+          ))}
+        </NavLinkWrapper>
 
         {/* THEME TOGGLER */}
         <ThemeColumn>
