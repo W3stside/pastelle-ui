@@ -52,7 +52,9 @@ const Spinner = ({ label = 'pstl' }: { label?: ReactNode }) => (
 
 const BASE_VIDEO_PROPS = { loop: true, muted: true, autoPlay: true, preload: 'none' }
 const BASE_INTERSECTION_OPTIONS = {
-  threshold: 0.1
+  threshold: 0.1,
+  trackVisibility: true,
+  delay: 300
 }
 
 export default forwardRef(function LazyVideo(

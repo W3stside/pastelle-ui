@@ -14,7 +14,7 @@ export default function useDetectScrollIntoView(
     if (!elem || isInView) return
 
     const observerCb: IntersectionObserverCallback = ([entry]: IntersectionObserverEntry[], observer) => {
-      if (entry.isIntersecting) {
+      if ((entry as any)?.isVisible || entry.isIntersecting) {
         setIsInView(true)
         observer.unobserve(elem)
       }

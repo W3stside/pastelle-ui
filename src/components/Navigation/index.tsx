@@ -2,7 +2,7 @@ import styled from 'styled-components/macro'
 import Button from 'components/Button'
 import { StyledNavLink } from 'components/Header/styleds'
 import { Menu, X } from 'react-feather'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Column, Row } from 'components/Layout'
 import ThemeToggleBar from 'components/ThemeToggler'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
@@ -13,6 +13,7 @@ import { useGetCurrentOnScreenItem } from 'state/catalog/hooks'
 import { buildItemUrl } from 'utils/navigation'
 import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
 import { useHistory } from 'react-router-dom'
+import useOnResize from 'hooks/useOnResize'
 
 const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; minWidth?: string }>`
   width: ${({ width = 'auto' }) => width};
@@ -126,13 +127,16 @@ export default function Navigation({
 
   const handleNavMove = useCallback(
     (_, product: ProductPageProps) => {
-      toggleNav()
+      isNavOpen && toggleNav()
 
       const url = buildItemUrl({ identifier: product.title })
       history.push(url)
     },
-    [history, toggleNav]
+    [history, isNavOpen, toggleNav]
   )
+
+  // close open nav on resize
+  useOnResize(() => setIsNavOpen(false), [isNavOpen])
 
   return (
     <>
