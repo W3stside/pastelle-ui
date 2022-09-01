@@ -42,6 +42,7 @@ export const mapShopifyProductToProps = (data: ProductsList = []): ProductPagePr
       navLogo: brandingAssetsMap?.navBar,
       description: datum.descriptionHtml,
       // metafields
+      bgColor: getMetafields(datum.bgColor)?.toString() as string,
       color: getMetafields(datum.color)?.toString() as string,
       artistInfo: getMetafields(datum.artistInfo) as ProductArtistInfo,
       // TODO: fix

@@ -140,7 +140,14 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
     `}
 `
 
-export const ItemLogo = styled.div<{ catalogView?: boolean; $maxWidth?: string; $marginTop?: string }>`
+export const ItemLogo = styled.div<{
+  $bgColor: string
+  catalogView?: boolean
+  $maxWidth?: string
+  $marginTop?: string
+}>`
+  background: ${({ $bgColor }) => $bgColor};
+
   img {
     max-width: ${({ $maxWidth = '100%' }) => $maxWidth};
   }
@@ -198,12 +205,26 @@ export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
   fontWeight: 500,
   fontStyle: 'italic',
   ...props
-}))<{ bgColor?: string; useGradient?: boolean }>`
+}))<{ bgColor?: string; useGradient?: boolean; label?: string }>`
   background: ${({ useGradient = false, bgColor = 'transparent' }) =>
-    useGradient
-      ? `linear-gradient(15deg, ${bgColor} 0%, ${transparentize(1, bgColor)} 35%, transparent 70%)`
-      : bgColor};
+    useGradient ? `linear-gradient(15deg, ${darken(0.06, bgColor)} 0%, ${bgColor} 70%)` : bgColor};
   width: 100%;
+
+  ${({ theme, label }) =>
+    label &&
+    `
+    &:before {
+      content: "${label}";
+      color: ${theme.white};
+    }
+    // for repeating header effect
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
+    white-space: nowrap;
+    gap: 7px;
+  
+  `}
 `
 
 export const ItemBreadcrumb = styled(NavLink)`
@@ -318,7 +339,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
             height: 100%;
           }
         }
-        
+
         ${({ theme }) => theme.mediaWidth.upToSmall`
           margin-top: 50px;
         `}
@@ -397,7 +418,8 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
   }
 
   select {
-    min-width: 15ch;
+    text-align: center;
+    min-width: 50px;
     max-width: 100%;
     border: 1px solid var(--select-border);
     border-radius: 0.25em;

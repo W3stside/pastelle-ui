@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Row } from 'components/Layout'
 import Carousel, { GenericImageSrcSet } from 'components/Carousel'
 import {
@@ -26,8 +26,6 @@ import { useToggleModal, useModalOpen } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/reducer'
 import { ItemVideoContent } from './ItemVideoContent'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
-import { ThemeModes } from 'theme/styled'
-import { getThemeColours } from 'theme/utils'
 import { BoxProps } from 'rebass'
 import SmartImg from 'components/SmartImg'
 import { useSetOnScreenItemID } from 'state/user/hooks'
@@ -40,8 +38,11 @@ import {
   ProductArtistInfo
 } from 'shopify/graphql/types'
 import useStateRef from 'hooks/useStateRef'
+import styled from 'styled-components/macro'
+import { lighten, transparentize } from 'polished'
 
 export interface ProductPageProps {
+  bgColor: string
   color: string
   title: string
   logo?: string
@@ -91,6 +92,7 @@ const DEFAULT_MEDIA_START_INDEX = 0
 const DEFAULT_SIZE_SELECTED: ProductSizes = ProductSizes.M
 
 export default function ItemPage({
+  bgColor = 'transparent',
   color = '#000',
   title,
   logo,
@@ -130,8 +132,6 @@ export default function ItemPage({
   const breadcrumbs = useBreadcrumb()
 
   // IMAGES
-  const [, setSize] = useState<ProductSizes>(DEFAULT_SIZE_SELECTED)
-  const handleSetSize = (event: SyntheticEvent<HTMLOptionElement>) => setSize(event.currentTarget.value as ProductSizes)
   const imageUrls = images.map<GenericImageSrcSet>(({ url, url500, url720, url960, url1280 }) => ({
     defaultUrl: url,
     '500': url500,
@@ -186,6 +186,7 @@ export default function ItemPage({
                 <ItemLogoCatalogView logoUri={catalogLogo} $bgColor="ghostwhite" />
               ) : (
                 <ItemLogo
+                  $bgColor={bgColor}
                   $marginTop={
                     innerContainerRef?.clientWidth ? `calc(${innerContainerRef?.clientWidth}px / -7)` : undefined
                   }
@@ -203,7 +204,7 @@ export default function ItemPage({
             </>
           ) : (
             <>
-              <ItemLogo>
+              <ItemLogo $bgColor={bgColor}>
                 {logo ? (
                   <SmartImg
                     ikPath={logo}
@@ -217,10 +218,7 @@ export default function ItemPage({
               </ItemLogo>
 
               {/* Credits */}
-              <ItemSubHeader bgColor={color}>
-                <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>CREDIT</span>
-              </ItemSubHeader>
-
+              <ItemSubHeader useGradient bgColor={color} label="CREDIT CREDIT CREDIT" />
               <ItemCredits>
                 {artistInfo ? (
                   <ItemArtistInfo {...artistInfo} bgColor={color} />
@@ -230,27 +228,41 @@ export default function ItemPage({
               </ItemCredits>
 
               {/* Size selector */}
-              <ItemSubHeader bgColor={color}>
-                <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>
-                  CHOOSE A SIZE
-                </span>
-              </ItemSubHeader>
-
+              <ItemSubHeader useGradient bgColor={color} label="CHOOSE A SIZE AND VIEW ITEM ON MODEL" />
               <br />
-
               <Row>
-                <SizeSelector sizes={sizes} callback={handleSetSize} styles={{ marginLeft: 20, width: '50%' }} />
+                <ItemDescription>
+                  <Row>
+                    Size: <SizeSelector sizes={sizes} $color={color} />
+                  </Row>
+                </ItemDescription>
+              </Row>
+              <br />
+              <Row>
+                <TYPE.black padding="0px 10px">
+                  <ItemDescription>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Platea dictumst vestibulum rhoncus est pellentesque elit
+                      ullamcorper. In ornare quam viverra orci sagittis eu volutpat odio facilisis. In eu mi bibendum
+                      neque egestas congue quisque egestas.{' '}
+                    </p>
+                    <p>
+                      Et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit. Mauris sit amet massa vitae
+                      tortor. Augue lacus viverra vitae congue eu consequat ac. Nunc mi ipsum faucibus vitae aliquet.
+                      Nibh ipsum consequat nisl vel pretium lectus quam id. Et magnis dis parturient montes. Semper
+                      auctor neque vitae tempus. Non enim praesent elementum facilisis leo vel fringilla est
+                      ullamcorper. Sed felis eget velit aliquet sagittis. Ullamcorper a lacus vestibulum sed. Ut
+                      pharetra sit amet aliquam id diam maecenas ultricies mi.
+                    </p>
+                  </ItemDescription>
+                </TYPE.black>
               </Row>
 
-              <br />
-
               {/* Item description */}
-              <ItemSubHeader bgColor={color}>
-                <span style={{ fontWeight: 500, color: getThemeColours(ThemeModes.CHAMELEON).white }}>DESCRIPTION</span>
-              </ItemSubHeader>
-
+              <ItemSubHeader useGradient bgColor={color} label="MERCH DESCRIPTION AND CARE INSTRUCTIONS" />
               <Row>
-                <TYPE.black padding={2}>
+                <TYPE.black padding={'10px'}>
                   <ItemDescription dangerouslySetInnerHTML={{ __html: description }}></ItemDescription>
                 </TYPE.black>
               </Row>
@@ -276,22 +288,51 @@ export default function ItemPage({
   )
 }
 
-function SizeSelector({
-  sizes,
-  styles,
-  callback
-}: {
+interface SizeSelectorProps {
   sizes: ProductSizes[]
-  styles: Record<string, string | number>
-  callback: (event: SyntheticEvent<HTMLOptionElement>) => void
-}) {
+  $color?: string
+}
+
+const SquareSelectDiv = styled.div``
+const GridSelect = styled.div<Pick<SizeSelectorProps, '$color'>>`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  background: ${transparentize(0.84, 'black')};
+  gap: 1px;
+  padding: 1px;
+
+  margin-left: 10px;
+
+  > ${SquareSelectDiv} {
+    cursor: pointer;
+    background-color: ${({ theme }) => theme.white};
+    padding: 10px 20px;
+    text-align: center;
+    font-weight: 700;
+
+    flex: 0 1 22%;
+
+    &:hover {
+      background-color: ${({ theme, $color = theme.white }) => lighten(0.08, $color)};
+    }
+
+    transition: background-color 0.3s ease-out;
+  }
+`
+
+function SizeSelector({ sizes, ...styleProps }: SizeSelectorProps) {
+  const [, setSize] = useState<ProductSizes>(DEFAULT_SIZE_SELECTED)
+  const handleSetSize = (size: ProductSizes) => setSize(size)
+
   return (
-    <select style={styles}>
+    <GridSelect {...styleProps}>
       {sizes.map((size, index) => (
-        <option key={size + '_' + index} onChange={callback}>
+        <SquareSelectDiv key={size + '_' + index} onChange={() => handleSetSize(size)}>
           {size}
-        </option>
+        </SquareSelectDiv>
       ))}
-    </select>
+    </GridSelect>
   )
 }
