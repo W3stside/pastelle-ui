@@ -122,7 +122,8 @@ export default function Carousel({
     function handleResize() {
       setParentWidth(carouselContainer?.parentElement?.offsetWidth)
     },
-    [parentWidth, carouselContainer?.parentElement?.offsetWidth]
+    parentWidth,
+    carouselContainer?.parentElement?.offsetWidth
   )
 
   const smartImageTransformation = useMemo(

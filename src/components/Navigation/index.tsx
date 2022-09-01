@@ -1,8 +1,7 @@
 import styled from 'styled-components/macro'
 import Button from 'components/Button'
-import { StyledNavLink } from 'components/Header/styleds'
 import { Menu, X } from 'react-feather'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Column, Row } from 'components/Layout'
 import ThemeToggleBar from 'components/ThemeToggler'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
@@ -136,7 +135,7 @@ export default function Navigation({
   )
 
   // close open nav on resize
-  useOnResize(() => setIsNavOpen(false), [isNavOpen])
+  useOnResize(() => setIsNavOpen(false), isNavOpen)
 
   return (
     <>
