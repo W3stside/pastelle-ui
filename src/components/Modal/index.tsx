@@ -82,7 +82,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
     margin: auto;
 
     img {
-      max-width: 150%;
+      max-width: 180%;
       margin: auto;
     }
     // TODO: remove
@@ -169,27 +169,27 @@ export default function Modal({
                 mobile={isMobile}
                 isLargeImageModal={isLargeImageModal}
               >
-                {isMobile && (
-                  <h1
-                    onClick={onDismiss}
-                    style={{
-                      background: '#AB92E1',
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      padding: '5px 10px',
-                      textAlign: 'right',
-                      margin: 0
-                    }}
-                  >
-                    CLOSE
-                  </h1>
-                )}
                 {/* prevents the automatic focusing of inputs on mobile by the reach dialog */}
                 {!initialFocusRef && isMobile ? <div tabIndex={1} /> : null}
                 {children}
               </StyledDialogContent>
+              {isMobile && (
+                <h1
+                  onClick={onDismiss}
+                  style={{
+                    background: '#AB92E1',
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    margin: 10,
+                    padding: '5px 10px',
+                    textAlign: 'right'
+                  }}
+                >
+                  CLOSE
+                </h1>
+              )}
             </StyledDialogOverlay>
           )
       )}

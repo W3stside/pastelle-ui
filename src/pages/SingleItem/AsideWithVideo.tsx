@@ -22,7 +22,7 @@ import {
 
 import { useBreadcrumb } from 'components/Breadcrumb'
 
-import { useToggleModal, useModalOpen } from 'state/application/hooks'
+import { useToggleModal, useModalOpen, useCloseModals } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/reducer'
 import { ItemVideoContent } from './ItemVideoContent'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
@@ -127,6 +127,7 @@ export default function ItemPage({
 
   // MODALS
   const toggleModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
+  const closeModals = useCloseModals()
   const showLargeImage = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
 
   /// BREADCRUMBS
@@ -161,6 +162,7 @@ export default function ItemPage({
       <LargeImageCarouselModal
         isOpen={isActive && showLargeImage}
         toggleModal={toggleModal}
+        dismissModal={closeModals}
         // Carousel props
         buttonColor={color}
         imageList={imageUrls}
