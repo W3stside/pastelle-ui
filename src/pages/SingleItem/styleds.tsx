@@ -373,6 +373,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
           margin-top: 50px;
           > ${CarouselStep} {
             width: auto;
+            justify-content: center;            
           }
         `}
         // MEDIA QUERIES --> SMALL and above
@@ -388,9 +389,15 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
           }
         `}
 
-        ${({ theme }) => theme.mediaWidth.upToLarge`
+        ${({ theme }) => theme.fromMediaWidth.fromMedium`
           > ${CarouselStep} {
             justify-content: flex-start;            
+          }
+        `}
+
+        ${({ theme }) => theme.fromMediaWidth.fromLarge`
+          > ${CarouselStep} {
+            justify-content: center;            
           }
         `}
 
