@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Row } from 'components/Layout'
-import Carousel, { GenericImageSrcSet } from 'components/Carousel'
+import Carousel from 'components/Carousel'
 import {
   ItemContainer,
   ItemAsidePanel,
@@ -16,12 +16,12 @@ import {
   HighlightedText,
   ItemLogoCatalogView,
   InnerCatalogContainer,
-  ItemContentContainer
+  ItemContentContainer,
+  SubItemDescription
 } from './styleds'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
 
-import Modal from 'components/Modal'
 import { useToggleModal, useModalOpen } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/reducer'
 import { ItemVideoContent } from './ItemVideoContent'
@@ -29,7 +29,6 @@ import { ScrollableContentComponentBaseProps } from 'components/ScrollingContent
 import { BoxProps } from 'rebass'
 import SmartImg from 'components/SmartImg'
 import { useSetOnScreenItemID } from 'state/user/hooks'
-import { TYPE } from 'theme'
 import { isMobile } from 'utils'
 import {
   FragmentProductVideoFragment,
@@ -40,6 +39,9 @@ import {
 import useStateRef from 'hooks/useStateRef'
 import SizeSelector from 'components/SizeSelector'
 import { STORE_IMAGE_SIZES } from 'constants/config'
+import { getImageSizeMap } from 'shopify/utils'
+import LargeImageCarouselModal from 'components/LargeImageCarouselModal'
+import ShippingSvg from 'assets/svg/shipping.svg'
 
 export interface ProductPageProps {
   bgColor: string
@@ -91,6 +93,7 @@ function Breadcrumbs({
 const DEFAULT_MEDIA_START_INDEX = 0
 
 export default function ItemPage({
+  bgColor,
   color = '#000',
   title,
   logo,
@@ -130,13 +133,7 @@ export default function ItemPage({
   const breadcrumbs = useBreadcrumb()
 
   // IMAGES
-  const imageUrls = images.map<GenericImageSrcSet>(({ url, url500, url720, url960, url1280 }) => ({
-    defaultUrl: url,
-    '500': url500,
-    '720': url720,
-    '960': url960,
-    '1280': url1280
-  }))
+  const imageUrls = getImageSizeMap(images)
 
   /**
    * SIDE EFFECTS
@@ -159,124 +156,133 @@ export default function ItemPage({
   const catalogLogo = navLogo || headerLogo
 
   return (
-    <ItemContainer id="#item-container" style={style} catalogView={catalogView} bgColor={color}>
-      <ItemAsidePanel id="#item-aside-panel">
-        <DynamicInnerContainer ref={setRef}>
-          {/* Breadcrumbs */}
-          {showBreadCrumbs && <Breadcrumbs {...breadcrumbs} marginTop={'5px'} marginLeft={'5px'} marginBottom={-25} />}
-          {/* Item carousel */}
-          <Carousel
-            showCarouselContentIndicators={!catalogView}
-            buttonColor={color}
-            imageList={imageUrls}
-            mediaStartIndex={currentCarouselIndex}
-            onCarouselChange={onCarouselChange}
-            onImageClick={toggleModal}
-            loadInViewOptions={loadInView}
-            catalogView={catalogView}
-            fixedHeight={catalogView ? '100%' : undefined}
-          />
+    <>
+      {/* Large images */}
+      <LargeImageCarouselModal
+        isOpen={isActive && showLargeImage}
+        toggleModal={toggleModal}
+        // Carousel props
+        buttonColor={color}
+        imageList={imageUrls}
+        transformation={[
+          {
+            width: images[0]?.width || STORE_IMAGE_SIZES.LARGE,
+            height: images[0]?.height || STORE_IMAGE_SIZES.LARGE /* , xc: 500, yc: 500 */
+          }
+        ]}
+        mediaStartIndex={currentCarouselIndex}
+        onCarouselChange={onCarouselChange}
+      />
+      {/* Item content */}
+      <ItemContainer id="#item-container" style={style} catalogView={catalogView} bgColor={bgColor}>
+        <ItemAsidePanel id="#item-aside-panel">
+          <DynamicInnerContainer ref={setRef}>
+            {/* Breadcrumbs */}
+            {showBreadCrumbs && (
+              <Breadcrumbs {...breadcrumbs} marginTop={'5px'} marginLeft={'5px'} marginBottom={-25} />
+            )}
+            {/* Item carousel */}
+            <Carousel
+              showCarouselContentIndicators={!catalogView}
+              buttonColor={color}
+              imageList={imageUrls}
+              mediaStartIndex={currentCarouselIndex}
+              onCarouselChange={onCarouselChange}
+              onImageClick={toggleModal}
+              loadInViewOptions={loadInView}
+              catalogView={catalogView}
+              fixedHeight={catalogView ? '100%' : undefined}
+            />
 
-          {/* Wrap everything else in a fragment */}
-          {noDescription ? null : catalogView ? (
-            <>
-              {catalogLogo ? (
-                <ItemLogoCatalogView logoUri={catalogLogo} $bgColor="ghostwhite" />
-              ) : (
-                <ItemLogo
-                  $marginTop={
-                    innerContainerRef?.clientWidth ? `calc(${innerContainerRef?.clientWidth}px / -7)` : undefined
-                  }
-                >
-                  {title}
-                </ItemLogo>
-              )}
-              <MobileItemCTA
-                alignItems="center"
-                justifyContent="center"
-                onClick={handleMobileItemClick && handleMobileItemClick}
-              >
-                {isMobile ? 'TAP' : 'CLICK'} TO <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
-              </MobileItemCTA>
-            </>
-          ) : (
-            <>
-              <ItemLogo>
-                {logo ? (
-                  <SmartImg
-                    ikPath={logo}
-                    transformation={[{ width: innerContainerRef?.clientWidth, quality: 80, pr: true }]}
-                    loading="lazy"
-                    lq
-                  />
+            {/* Wrap everything else in a fragment */}
+            {noDescription ? null : catalogView ? (
+              <>
+                {catalogLogo ? (
+                  <ItemLogoCatalogView logoUri={catalogLogo} $bgColor="ghostwhite" />
                 ) : (
-                  title
+                  <ItemLogo
+                    $marginTop={
+                      innerContainerRef?.clientWidth ? `calc(${innerContainerRef?.clientWidth}px / -7)` : undefined
+                    }
+                  >
+                    {title}
+                  </ItemLogo>
                 )}
-              </ItemLogo>
-
-              {/* ITEM CONTENT: description, credits, etc */}
-              <ItemContentContainer padding={'0 10px'}>
-                {/* Credits */}
-                <ItemSubHeader useGradient bgColor={color} label="... CREDIT" />
-                <ItemCredits>
-                  {artistInfo ? (
-                    <ItemArtistInfo {...artistInfo} bgColor={color} />
+                <MobileItemCTA
+                  alignItems="center"
+                  justifyContent="center"
+                  onClick={handleMobileItemClick && handleMobileItemClick}
+                >
+                  {isMobile ? 'TAP' : 'CLICK'} TO <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
+                </MobileItemCTA>
+              </>
+            ) : (
+              <>
+                <ItemLogo>
+                  {logo ? (
+                    <SmartImg
+                      ikPath={logo}
+                      transformation={[{ width: innerContainerRef?.clientWidth, quality: 80, pr: true }]}
+                      loading="lazy"
+                      lq
+                    />
                   ) : (
-                    <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
+                    title
                   )}
-                </ItemCredits>
+                </ItemLogo>
 
-                {/* Size selector */}
-                <ItemSubHeader useGradient bgColor={color} label="CHOOSE A SIZE AND VIEW ITEM ON MODEL" />
-                <SizeSelector sizes={sizes} color={color} margin="20px 0" />
-                <Row>
-                  <ItemDescription>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper. In
-                    ornare quam viverra orci sagittis eu volutpat odio facilisis. In eu mi bibendum neque egestas congue
-                    quisque egestas.
-                    <br />
-                    <br />
-                    Et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit. Mauris sit amet massa vitae
-                    tortor. Augue lacus viverra vitae congue eu consequat ac. Nunc mi ipsum faucibus vitae aliquet. Nibh
-                    ipsum consequat nisl vel pretium lectus quam id. Et magnis dis parturient montes. Semper auctor
-                    neque vitae tempus. Non enim praesent elementum facilisis leo vel fringilla est ullamcorper. Sed
-                    felis eget velit aliquet sagittis. Ullamcorper a lacus vestibulum sed. Ut pharetra sit amet aliquam
-                    id diam maecenas ultricies mi.
-                  </ItemDescription>
-                </Row>
+                {/* ITEM CONTENT: description, credits, etc */}
+                <ItemContentContainer padding="0 1.5rem 3rem">
+                  {/* Credits */}
+                  <ItemSubHeader useGradient bgColor={color} label="... CREDIT" />
+                  <ItemContentContainer padding={'0 3rem'}>
+                    <ItemCredits>
+                      {artistInfo ? (
+                        <ItemArtistInfo {...artistInfo} bgColor={color} />
+                      ) : (
+                        <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
+                      )}
+                    </ItemCredits>
+                  </ItemContentContainer>
 
-                {/* Item description */}
-                <ItemSubHeader useGradient bgColor={color} label="MERCH DESCRIPTION AND CARE INSTRUCTIONS" />
-                <Row>
-                  <TYPE.black padding={'10px'}>
+                  {/* Size selector */}
+                  <ItemSubHeader useGradient bgColor={color} label="CHOOSE SIZE + VIEW LIVE" />
+                  <ItemContentContainer margin="20px 0" padding={'0 3rem'}>
+                    <SubItemDescription>SELECT A SIZE BELOW TO SEE IT ON THE MODEL</SubItemDescription>
+                    <SizeSelector sizes={sizes} color={bgColor} margin="20px 0" />
+
+                    <SubItemDescription>
+                      **Showcase is meant to help you see what your merch in the selected size looks like on an actual
+                      person similar to your size.
+                      <br />
+                      <br />
+                      Compare that to using some dumb fucking sizing chart that never works, AND requires measuring tape
+                      that literally zero people on this planet own, or have time for.
+                    </SubItemDescription>
+
+                    <SubItemDescription>
+                      <img src={ShippingSvg} /> FREE SHIPPING OVER 200€
+                    </SubItemDescription>
+                  </ItemContentContainer>
+
+                  {/* Item description */}
+                  <ItemSubHeader useGradient bgColor={color} label="INFO + CARE INSTRUCTIONS" />
+                  <ItemContentContainer padding={'0 3rem'}>
                     <ItemDescription dangerouslySetInnerHTML={{ __html: description }}></ItemDescription>
-                  </TYPE.black>
-                </Row>
-              </ItemContentContainer>
-            </>
-          )}
-        </DynamicInnerContainer>
-      </ItemAsidePanel>
-      {noVideo || catalogView ? null : (
-        <ItemVideoContent firstPaintOver={firstPaintOver} videos={videos} currentCarouselIndex={currentCarouselIndex} />
-      )}
-
-      {/* LARGE IMAGE MODAL */}
-      <Modal isOpen={isActive && showLargeImage} onDismiss={toggleModal} isLargeImageModal>
-        <Carousel
-          buttonColor={color}
-          imageList={imageUrls}
-          transformation={[
-            {
-              width: images[0]?.width || STORE_IMAGE_SIZES.LARGE,
-              height: images[0]?.height || STORE_IMAGE_SIZES.LARGE /* , xc: 500, yc: 500 */
-            }
-          ]}
-          mediaStartIndex={currentCarouselIndex}
-          onCarouselChange={onCarouselChange}
-        />
-      </Modal>
-    </ItemContainer>
+                  </ItemContentContainer>
+                </ItemContentContainer>
+              </>
+            )}
+          </DynamicInnerContainer>
+        </ItemAsidePanel>
+        {noVideo || catalogView ? null : (
+          <ItemVideoContent
+            firstPaintOver={firstPaintOver}
+            videos={videos}
+            currentCarouselIndex={currentCarouselIndex}
+          />
+        )}
+      </ItemContainer>
+    </>
   )
 }

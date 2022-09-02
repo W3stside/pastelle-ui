@@ -30,7 +30,7 @@ export const CarouselStep = styled(Row)<{
     $transformAmount > 0 ? 'transform 1s ease-in-out;' : 'transform 0.7s ease-out'};
 `
 
-export const CarouselContainer = styled.div<{ fixedHeight?: string; catalogView?: boolean }>`
+export const CarouselContainer = styled.div<{ fixedHeight?: string }>`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -49,7 +49,7 @@ export const CarouselContainer = styled.div<{ fixedHeight?: string; catalogView?
       }
   `}
 `
-// #a1c3f9
+
 export const CarouselButton = styled.div<{ buttonColor: string }>`
   display: flex;
   align-items: center;

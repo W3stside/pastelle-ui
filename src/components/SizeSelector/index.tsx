@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components/macro'
-import { transparentize, lighten } from 'polished'
+import { transparentize } from 'polished'
 import { ProductSizes } from 'shopify/graphql/types'
 import { DEFAULT_SIZE_SELECTED } from 'constants/config'
 import { Row, RowProps } from 'components/Layout'
@@ -17,7 +17,6 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
   flex-flow: row wrap;
   justify-content: space-evenly;
   align-items: center;
-  background: ${transparentize(0.84, 'black')};
   gap: 1px;
   padding: 1px;
 
@@ -28,17 +27,17 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background-color: ${({ theme }) => theme.white};
+    background-color: #fff;
     padding: 10px 20px;
     text-align: center;
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 400;
 
-    height: 40px;
+    height: 50px;
     flex: 1 1 24%;
 
     &:hover {
-      background-color: ${({ theme, color = theme.white }) => lighten(0.08, color)};
+      background-color: ${({ theme, color = theme.white }) => transparentize(0.7, color)};
     }
 
     transition: background-color 0.3s ease-out;

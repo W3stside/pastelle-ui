@@ -1,5 +1,7 @@
+import { GenericImageSrcSet } from 'components/Carousel'
 import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
 import {
+  FragmentProductImageFragment,
   FragmentProductVideoFragment,
   ProductArtistInfo,
   ProductBrandingAssets,
@@ -52,4 +54,14 @@ export const mapShopifyProductToProps = (data: ProductsList = []): ProductPagePr
       sizes: getMetafields(datum.sizes[0].values) as ProductSizes[]
     }
   })
+}
+
+export function getImageSizeMap(images: FragmentProductImageFragment[]) {
+  return images.map<GenericImageSrcSet>(({ url, url500, url720, url960, url1280 }) => ({
+    defaultUrl: url,
+    '500': url500,
+    '720': url720,
+    '960': url960,
+    '1280': url1280
+  }))
 }

@@ -44,7 +44,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
     outline: none;
     margin: 0 0 2rem 0;
     background-color: ${({ theme }) => theme.bg0};
-    box-shadow: 0 4px 8px 0 ${({ theme }) => transparentize(0.95, theme.shadow1)};
+    box-shadow: 0px 4px 8px 0px ${({ theme }) => transparentize(0.95, theme.shadow1)};
     padding: 0px;
     width: ${({ isLargeImageModal }) => (isLargeImageModal ? '90' : '50')}vh;
     overflow-y: ${({ isLargeImageModal }) => (!isLargeImageModal ? 'auto' : 'hidden')};
@@ -69,26 +69,38 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
     display: flex;
     border-radius: 20px;
     ${({ theme }) => theme.mediaWidth.upToMedium`
-      width: 65vw;
+      width: 90vw;
       margin: 0;
     `}
     ${({ theme, mobile }) => theme.mediaWidth.upToSmall`
-      width:  85vw;
-      ${mobile &&
-        css`
-          width: 100vw;
-          height: 90vh;
+    width: 100%;
+    // height: 90vh;
 
-          border-radius: 20px;
-          border-bottom-left-radius: 0;
-          border-bottom-right-radius: 0;
-          margin: auto;
+    border-radius: 20px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin: auto;
 
-          img {
-            max-width: 150%;
-          }
-        `}
-    `}
+    img {
+      max-width: 150%;
+      margin: auto;
+    }
+    // TODO: remove
+    ${mobile &&
+      css`
+        width: 100vw;
+        height: 90vh;
+
+        border-radius: 20px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin: auto;
+
+        img {
+          max-width: 150%;
+        }
+      `}
+  `}
   }
 `
 
@@ -148,7 +160,7 @@ export default function Modal({
                 {...(isMobile
                   ? {
                       ...bind(),
-                      style: { transform: y.interpolate(y => `translateY(${(y as number) > 0 ? y : 0}px)`) }
+                      style: { transform: y.to(y => `translateY(${(y as number) > 0 ? y : 0}px)`) }
                     }
                   : {})}
                 aria-label="dialog content"

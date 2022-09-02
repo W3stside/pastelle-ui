@@ -11,6 +11,7 @@ import Button from 'components/Button'
 import { SocialType } from 'mock/types'
 import { DEFAULT_IK_TRANSFORMS, FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES } from 'constants/config'
 import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
+import { fromExtraLarge, fromLarge } from 'theme/utils'
 
 const saturateAnimation = css`
   @keyframes saturate {
@@ -154,7 +155,7 @@ export const ItemLogo = styled.div<{
   }
 
   ${({ theme, $marginTop = '-35px' }) => theme.mediaWidth.upToSmall`
-    margin-top: ${$marginTop};  
+  margin-top: ${$marginTop};  
   `}
 `
 
@@ -199,7 +200,7 @@ export const ItemLogoCatalogView = styled(ItemLogoCssImport)<{ $bgColor: string 
 `
 
 export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
-  fontSize: '1.6rem',
+  fontSize: '1.8rem',
   padding: 2,
   margin: '2rem 0',
   fontWeight: 500,
@@ -216,14 +217,14 @@ export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
     &:before {
       content: "${label}";
       color: ${theme.white};
+      padding: 0 1rem;
     }
     // for repeating header effect
     display: flex;
     justify-content: flex-end;
     overflow: hidden;
-    white-space: nowrap;
+    white-space: break-word;
     gap: 7px;
-  
   `}
 `
 
@@ -238,7 +239,13 @@ export const ItemBreadcrumb = styled(NavLink)`
     margin: 0 5px;
   }
 `
-export const ItemDescription = styled(TYPE.black).attrs({ fontSize: '1.8rem', padding: 2, fontWeight: 400 })`
+export const ItemDescription = styled(TYPE.black).attrs(props => ({
+  fontSize: '1.8rem',
+  padding: 0,
+  fontWeight: 500,
+  lineHeight: 1.2,
+  ...props
+}))`
   text-transform: uppercase;
   font-style: italic;
 
@@ -247,10 +254,24 @@ export const ItemDescription = styled(TYPE.black).attrs({ fontSize: '1.8rem', pa
   }
 `
 
+export const SubItemDescription = styled(ItemDescription).attrs(props => ({
+  ...props,
+  padding: '1.8rem',
+  margin: '20px 0',
+  backgroundColor: 'ghostwhite',
+  fontWeight: 400
+}))`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+`
+
 export const ItemContentContainer = styled(Column)``
 
 export const InnerContainer = styled(Column)<{ bgColor?: string }>`
-  background: ${({ theme, bgColor }) => (bgColor ? transparentize(0.62, bgColor) : transparentize(0.35, theme.white))};
+  /* background: ${({ theme, bgColor }) =>
+    bgColor ? transparentize(0.62, bgColor) : transparentize(0.35, theme.white)}; */
 `
 
 export const InnerCatalogContainer = styled(InnerContainer)``
@@ -293,14 +314,22 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
     // BOTH CONTAINERS
     > ${InnerCatalogContainer}, > ${InnerContainer} {
       position: relative;
-      background: ${({ theme }) => transparentize(0.35, theme.white)};
+      background: ${({ theme, bgColor = theme.white }) => `linear-gradient(${bgColor} 30%, ${theme.white} 55%)`};
+      box-shadow: 10px 0px 50px 5px black;
       
       width: 100%;
       max-width: ${STORE_IMAGE_SIZES.SMALL}px;
 
       // MEDIA QUERIES --> LARGE and up
-      ${({ theme }) => theme.fromMediaWidth.fromLarge`
+      ${({ theme, bgColor = theme.white }) => fromLarge`
         max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
+        background: linear-gradient(${bgColor} 35%, ${theme.white} 60%);
+      `}
+
+      // MEDIA QUERIES --> X-LARGE and up
+      ${({ theme, bgColor = theme.white }) => fromExtraLarge`
+        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
+        background: linear-gradient(${bgColor} 55%, ${theme.white} 80%);
       `}
     }
 
@@ -401,15 +430,28 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
     // ITEM INNER CONTAINER (CAROUSEL WORKS)
     > ${InnerContainer} {
       > ${ItemLogo} {
+        width: 100%;
         margin-top: -75px;
 
         > img {
           margin: 0 0 -21px 0;
         }
+
+        ${fromLarge`
+          width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
+        `}
+        ${fromExtraLarge`
+          width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
+        `}
       }
       // // MEDIA QUERIES --> SMALL and below
       ${({ theme }) => theme.mediaWidth.upToSmall`
         max-width: 100%;
+
+        > ${ItemContentContainer} {
+          padding-left: 0;
+          padding-right: 0;
+        }
       `}
 
       > ${CarouselContainer} {
@@ -501,7 +543,7 @@ export const ItemArtistInfo = (props: (ProductPageProps['artistInfo'] & { bgColo
   const { name, type, url, display, bgColor } = props
 
   return (
-    <TYPE.black fontSize={14} padding={2} fontWeight={300}>
+    <TYPE.black fontSize={'1.8rem'} padding={2} fontWeight={300}>
       <HighlightedText bgColor={bgColor}>
         <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> x {name}
       </HighlightedText>

@@ -12,7 +12,7 @@ import {
 } from './styleds'
 
 export type GenericImageSrcSet = { defaultUrl: string } & { [sizeKey: string]: string }
-type CarouselProps = {
+export type CarouselProps = {
   fixedHeight?: string
   buttonColor: string
   imageList: GenericImageSrcSet[]
@@ -21,22 +21,20 @@ type CarouselProps = {
   showCarouselContentIndicators?: boolean
   loadInViewOptions?: LoadInView
   catalogView?: boolean
+  fullSizeContent?: boolean
   onCarouselChange?: (index: number) => void
   onImageClick?: () => void
 }
 
-type CarouselStepsProps = {
+type CarouselStepsProps = Pick<CarouselProps, 'buttonColor' | 'showCarouselContentIndicators' | 'onImageClick'> & {
   index: number
   imageProps: SmartImageProps
-  buttonColor: string
   parentWidth: number
   transformAmount: number
-  showCarouselContentIndicators: boolean
   isMultipleCarousel: boolean
 
   forwardedRef?: ForwardedRef<unknown>
 
-  onImageClick: (() => void) | undefined
   onNext: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   onPrev: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
@@ -91,7 +89,7 @@ export default function Carousel({
   mediaStartIndex,
   showCarouselContentIndicators = true,
   loadInViewOptions,
-  catalogView = false,
+  fullSizeContent,
   onCarouselChange,
   onImageClick
 }: CarouselProps) {
@@ -140,7 +138,6 @@ export default function Carousel({
       id="#carousel-container"
       ref={setCarouselContainerRef}
       fixedHeight={fixedHeight || parentWidth + 'px'}
-      catalogView={catalogView}
     >
       {/* CAROUSEL CONTENT */}
       {imageList.map(({ defaultUrl, ...urlRest }, index) => {
@@ -194,7 +191,7 @@ export default function Carousel({
             // image props
             imageProps={{
               defaultPath: defaultUrl,
-              pathSrcSet: urlRest,
+              pathSrcSet: fullSizeContent ? undefined : urlRest,
               transformation: transformation || smartImageTransformation,
               loadInView: loadInViewOptions
             }}
