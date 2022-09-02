@@ -346,10 +346,10 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
             width: auto;
           }
         `}
-        // MEDIA QUERIES --> LARGE and below
+        // MEDIA QUERIES --> SMALL and above
         ${({ theme }) => theme.fromMediaWidth.fromSmall`
           > ${CarouselStep} {
-            width: 80%;
+            max-width: 80%;
             z-index: 1;
           
             &:not(:first-child) {
@@ -358,6 +358,13 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
             }
           }
         `}
+
+        ${({ theme }) => theme.mediaWidth.upToLarge`
+          > ${CarouselStep} {
+            justify-content: flex-start;            
+          }
+        `}
+
         // MEDIA QUERIES --> LARGE and up
         ${({ theme }) => theme.fromMediaWidth.fromLarge`  
           justify-content: space-between;
