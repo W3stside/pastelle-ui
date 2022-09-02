@@ -263,7 +263,7 @@ export default function ItemPage({
       )}
 
       {/* LARGE IMAGE MODAL */}
-      <Modal isOpen={isActive && showLargeImage} onDismiss={toggleModal} isLargeImageModal={true}>
+      <Modal isOpen={isActive && showLargeImage} onDismiss={toggleModal} isLargeImageModal>
         <Carousel
           buttonColor={color}
           imageList={imageUrls}

@@ -313,7 +313,6 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
       }
       // MEDIA QUERIES --> SMALL and below
       ${({ theme }) => theme.mediaWidth.upToSmall`
-        height: 100%;
         padding: 15px;
       `}
       // MEDIA QUERIES --> LARGE and below
@@ -343,11 +342,14 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
 
         ${({ theme }) => theme.mediaWidth.upToSmall`
           margin-top: 50px;
-        `}
-        // MEDIA QUERIES --> LARGE and below
-        ${({ theme }) => theme.mediaWidth.upToLarge`
           > ${CarouselStep} {
             width: auto;
+          }
+        `}
+        // MEDIA QUERIES --> LARGE and below
+        ${({ theme }) => theme.fromMediaWidth.fromSmall`
+          > ${CarouselStep} {
+            width: 80%;
             z-index: 1;
           
             &:not(:first-child) {
