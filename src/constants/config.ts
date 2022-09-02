@@ -16,3 +16,10 @@ export const FIXED_IMAGE_SIZE_CONSTRAINTS = {
   fromExtraLarge: '30vw'
 }
 export const DEFAULT_SIZE_SELECTED: ProductSizes = ProductSizes.L
+
+export const DEFAULT_IK_TRANSFORMS = {
+  LQ: 'pr-true,q-10',
+  HQ: 'pr-true',
+  LQ_LOGO: 'pr-true,q-1',
+  HQ_LOGO: 'pr-true,q-85'
+}

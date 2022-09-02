@@ -9,7 +9,7 @@ import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
-import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES } from 'constants/config'
+import { DEFAULT_IK_TRANSFORMS, FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES } from 'constants/config'
 import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
 
 const saturateAnimation = css`
@@ -161,7 +161,7 @@ export const ItemLogo = styled.div<{
 export const ItemLogoCssImport = styled(ItemLogo)<{ logoUri: string }>`
   position: fixed;
   background: ${({ logoUri }) =>
-    `url(${logoUri}?tr=pr-true,q-80) center, url(${logoUri}?tr=pr-true,q-1) center no-repeat`};
+    `url(${logoUri}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) center, url(${logoUri}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) center no-repeat`};
   background-size: cover;
   height: 300px;
 `

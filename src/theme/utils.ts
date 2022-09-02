@@ -40,13 +40,24 @@ export const setTextColour = (themeColour: keyof Colors) => ({ theme }: ThemePro
     color: ${theme[themeColour]};
   `
 
-export const whenMediaLarge = (first: CSSObject | TemplateStringsArray, ...interpolations: SimpleInterpolation[]) => ({
-  theme
-}: {
-  theme: DefaultTheme
-}) => theme.fromMediaWidth.fromLarge(first, ...interpolations)
-
-export const whenMediaExtraLarge = (
+const whenMediaSmallerThan = (size: keyof DefaultTheme['mediaWidth']) => (
   first: CSSObject | TemplateStringsArray,
   ...interpolations: SimpleInterpolation[]
-) => ({ theme }: { theme: DefaultTheme }) => theme.fromMediaWidth.fromExtraLarge(first, ...interpolations)
+) => ({ theme }: { theme: DefaultTheme }) => theme.mediaWidth[size]`${css(first, ...interpolations)}`
+
+export const upToExtraSmall = whenMediaSmallerThan('upToExtraSmall')
+export const upToSmall = whenMediaSmallerThan('upToSmall')
+export const upToMedium = whenMediaSmallerThan('upToMedium')
+export const upToLarge = whenMediaSmallerThan('upToLarge')
+export const upToExtraLarge = whenMediaSmallerThan('upToExtraLarge')
+
+const whenMediaLargerThan = (size: keyof DefaultTheme['fromMediaWidth']) => (
+  first: CSSObject | TemplateStringsArray,
+  ...interpolations: SimpleInterpolation[]
+) => ({ theme }: { theme: DefaultTheme }) => theme.fromMediaWidth[size]`${css(first, ...interpolations)}`
+
+export const fromExtraSmall = whenMediaLargerThan('fromExtraSmall')
+export const fromSmall = whenMediaLargerThan('fromSmall')
+export const fromMedium = whenMediaLargerThan('fromMedium')
+export const fromLarge = whenMediaLargerThan('fromLarge')
+export const fromExtraLarge = whenMediaLargerThan('fromExtraLarge')

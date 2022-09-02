@@ -1,12 +1,13 @@
 import { createGlobalStyle, css } from 'styled-components/macro'
 import { darken, transparentize } from 'polished'
 
-import { getThemeColours, setTextColour, setBgColour, whenMediaExtraLarge } from '../utils'
+import { getThemeColours, setTextColour, setBgColour, fromExtraLarge } from '../utils'
 import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
 import { useAppColourTheme } from 'state/user/hooks'
 import { useMemo } from 'react'
 import { useGetCurrentOnScreenItem } from 'state/catalog/hooks'
+import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
 
 export { FontStyles }
 
@@ -200,11 +201,9 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   }
 
   html,body {
-    ${whenMediaExtraLarge(
-      css`
-        font-size: 0.5vw;
-      ` as TemplateStringsArray
-    )}
+    ${fromExtraLarge`
+      font-size: 0.5vw;
+    `}
   }
 
   header, nav, footer {
@@ -214,7 +213,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   header {
     background: ${({ headerLogo, theme, frameBgColor = transparentize(0.3, theme.bg1) }) =>
       headerLogo
-        ? `url(${headerLogo}?tr=pr-true,q-80) center no-repeat, url(${headerLogo}?tr=pr-true,q-10) 0px 0px no-repeat`
+        ? `url(${headerLogo}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) center no-repeat, url(${headerLogo}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) 0px 0px no-repeat`
         : frameBgColor};
       
     background-color: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
@@ -230,7 +229,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   nav {
     background: ${({ navLogo, theme, frameBgColor = transparentize(0.3, theme.bg1) }) =>
       navLogo
-        ? `url(${navLogo}?tr=pr-true,q-80) center no-repeat, url(${navLogo}?tr=pr-true,q-10) 5px repeat`
+        ? `url(${navLogo}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) center no-repeat, url(${navLogo}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) 5px repeat`
         : frameBgColor};
     background-size: cover;
     background-blend-mode: difference;
