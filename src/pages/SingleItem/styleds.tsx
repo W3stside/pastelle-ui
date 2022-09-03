@@ -1,7 +1,7 @@
 import { TFC } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
-import { darken, transparentize } from 'polished'
+import { darken } from 'polished'
 
 import { Column, Row } from 'components/Layout'
 import { ProductPageProps } from './AsideWithVideo'
@@ -11,7 +11,7 @@ import Button from 'components/Button'
 import { SocialType } from 'mock/types'
 import { DEFAULT_IK_TRANSFORMS, FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES } from 'constants/config'
 import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
-import { fromExtraLarge, fromLarge } from 'theme/utils'
+import { fromExtraLarge, fromLarge, upToSmall } from 'theme/utils'
 
 const saturateAnimation = css`
   @keyframes saturate {
@@ -269,12 +269,11 @@ export const SubItemDescription = styled(ItemDescription).attrs(props => ({
 
 export const ItemContentContainer = styled(Column)``
 
-export const InnerContainer = styled(Column)<{ bgColor?: string }>`
-  /* background: ${({ theme, bgColor }) =>
-    bgColor ? transparentize(0.62, bgColor) : transparentize(0.35, theme.white)}; */
-`
-
-export const InnerCatalogContainer = styled(InnerContainer)``
+// CATALOG NON-CAROUSEL VIEW vs NON-CATALOG CAROUSEL ACTIVE VIEW
+// w/carousel
+export const InnerContainer = styled(Column)<{ bgColor?: string }>``
+// w.o carousel (catalog)
+export const InnerCatalogContainer = styled(Column)<{ bgColor?: string }>``
 
 export const ItemAsidePanel = styled(Column)`
   display: flex;
@@ -311,31 +310,20 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
       margin: 0;
     `}
 
-    // BOTH CONTAINERS
+    //  *
+    //  * BOTH INNER CONTAINERS
+    //  *
     > ${InnerCatalogContainer}, > ${InnerContainer} {
       position: relative;
       background: ${({ theme, bgColor = theme.white }) => `linear-gradient(${bgColor} 30%, ${theme.white} 55%)`};
       box-shadow: 10px 0px 50px 5px black;
       
       width: 100%;
-      max-width: ${STORE_IMAGE_SIZES.SMALL}px;
-
-      // MEDIA QUERIES --> LARGE and up
-      ${({ theme, bgColor = theme.white }) => fromLarge`
-        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
-        background: linear-gradient(${bgColor} 35%, ${theme.white} 60%);
-      `}
-
-      // MEDIA QUERIES --> X-LARGE and up
-      ${({ theme, bgColor = theme.white }) => fromExtraLarge`
-        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
-        background: linear-gradient(${bgColor} 55%, ${theme.white} 80%);
-      `}
     }
 
-      // ----------------------- //
-      // INNER CATALOG CONTAINER (NO CAROUSEL INTERACTION)
-      // ----------------------- //
+    //  *
+    //  * INNER CATALOG CONTAINER WITHOUT CAROUSEL
+    //  * 
     > ${InnerCatalogContainer} {
       > ${ItemLogo} {
         margin-top: 0px;
@@ -434,8 +422,34 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
       }
     }
 
-    // ITEM INNER CONTAINER (CAROUSEL WORKS)
+    //  *
+    //  * INNER CONTAINER WITH CAROUSEL
+    //  *
     > ${InnerContainer} {
+      max-width: ${STORE_IMAGE_SIZES.SMALL}px;
+
+      // MEDIA QUERIES --> SMALL and below
+      ${upToSmall`
+        max-width: 100%;
+
+        > ${ItemContentContainer} {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      `}
+      
+      // MEDIA QUERIES --> LARGE and up
+      ${({ theme, bgColor = theme.white }) => fromLarge`
+        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
+        background: linear-gradient(${bgColor} 35%, ${theme.white} 60%);
+      `}
+
+      // MEDIA QUERIES --> X-LARGE and up
+      ${({ theme, bgColor = theme.white }) => fromExtraLarge`
+        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
+        background: linear-gradient(${bgColor} 55%, ${theme.white} 80%);
+      `}
+
       > ${ItemLogo} {
         width: 100%;
         margin-top: -75px;
@@ -451,15 +465,6 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
           width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
         `}
       }
-      // // MEDIA QUERIES --> SMALL and below
-      ${({ theme }) => theme.mediaWidth.upToSmall`
-        max-width: 100%;
-
-        > ${ItemContentContainer} {
-          padding-left: 0;
-          padding-right: 0;
-        }
-      `}
 
       > ${CarouselContainer} {
         > ${CarouselStep} {

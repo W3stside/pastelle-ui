@@ -259,7 +259,7 @@ export default function ItemPage({
                       <br />
                       <br />
                       Compare that to using some dumb fucking sizing chart that never works, AND requires measuring tape
-                      that literally zero people on this planet own, or have time for.
+                      that literally zero people on this planet own.
                     </SubItemDescription>
 
                     <SubItemDescription>
