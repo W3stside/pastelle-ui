@@ -147,6 +147,7 @@ export const ItemLogo = styled.div<{
   $maxWidth?: string
   $marginTop?: string
 }>`
+  display: flex;
   ${({ $bgColor }) => $bgColor && `background-color: ${$bgColor};`}
   z-index: 100;
 
@@ -209,7 +210,7 @@ export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
   ...props
 }))<{ bgColor?: string; useGradient?: boolean; label?: string }>`
   background: ${({ useGradient = false, bgColor = 'transparent' }) =>
-    useGradient ? `linear-gradient(15deg, ${darken(0.06, bgColor)} 0%, ${bgColor} 70%)` : bgColor};
+    useGradient ? `linear-gradient(15deg, ${bgColor} 0%, ${darken(0.1, bgColor)} 80%)` : bgColor};
   width: 100%;
 
   ${({ theme, label }) =>
@@ -457,7 +458,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
         `}
 
         > img {
-          margin: 0 0 -23px 0;
+          margin: 0;
         }
       }
 
@@ -522,7 +523,7 @@ export const ItalicStrikethrough = styled.i`
 `
 
 export const ItemCredits: TFC = ({ children }) => (
-  <TYPE.black fontSize={'1.4rem'} padding="13px 8px" fontWeight={300} width="100%">
+  <TYPE.black fontSize={'1.4rem'} padding="1.3rem 0.8rem" fontWeight={300} width="100%">
     {children}
   </TYPE.black>
 )
@@ -643,6 +644,6 @@ export const MobileItemCTA = styled(Row)`
 export const HighlightedText = styled.span<{ color?: string; bgColor: string }>`
   color: ${({ theme, color = theme.white }) => color};
   background-color: ${({ bgColor }) => darken(0.3, bgColor)};
-  padding: 5px 10px;
+  padding: 0.5rem 1rem;
   line-height: 1.8;
 `
