@@ -79,7 +79,7 @@ const HeaderLinks = styled(Row)`
   }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
-    padding: 1rem 0 1rem 1rem;
+    padding: 1rem 0;
     justify-content: flex-end;
 `};
 `

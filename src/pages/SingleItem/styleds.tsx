@@ -151,11 +151,12 @@ export const ItemLogo = styled.div<{
   z-index: 100;
 
   img {
+    width: 100%;
     max-width: ${({ $maxWidth = '100%' }) => $maxWidth};
   }
 
   ${({ theme, $marginTop = '-35px' }) => theme.mediaWidth.upToSmall`
-  margin-top: ${$marginTop};  
+    margin-top: ${$marginTop};  
   `}
 `
 
@@ -446,7 +447,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
 
       > ${ItemLogo} {
         width: 100%;
-        margin-top: -75px;        
+        margin-top: -14.9%;        
 
         ${fromLarge`
           width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
@@ -456,7 +457,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
         `}
 
         > img {
-          margin: 0 0 -21px 0;
+          margin: 0 0 -23px 0;
         }
       }
 
@@ -627,7 +628,7 @@ export const MobileItemCTA = styled(Row)`
   height: auto;
   text-align: center;
   background-color: lavender;
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 100;
   width: calc(100% - 600px);
   color: #000;

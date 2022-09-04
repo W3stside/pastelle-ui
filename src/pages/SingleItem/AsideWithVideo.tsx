@@ -29,7 +29,6 @@ import { ScrollableContentComponentBaseProps } from 'components/ScrollingContent
 import { BoxProps } from 'rebass'
 import SmartImg from 'components/SmartImg'
 import { useSetOnScreenItemID } from 'state/user/hooks'
-import { isMobile } from 'utils'
 import {
   FragmentProductVideoFragment,
   FragmentProductImageFragment,
@@ -215,7 +214,7 @@ export default function ItemPage({
                   justifyContent="center"
                   onClick={handleMobileItemClick && handleMobileItemClick}
                 >
-                  {isMobile ? 'TAP' : 'CLICK'} TO <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
+                  <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
                 </MobileItemCTA>
               </>
             ) : (
@@ -224,7 +223,7 @@ export default function ItemPage({
                   {logo ? (
                     <SmartImg
                       ikPath={logo}
-                      transformation={[{ width: innerContainerRef?.clientWidth, quality: 80, pr: true }]}
+                      transformation={[{ width: innerContainerRef?.clientWidth, quality: 100, pr: true }]}
                       loading="lazy"
                       lq
                     />
@@ -234,7 +233,7 @@ export default function ItemPage({
                 </ItemLogo>
 
                 {/* ITEM CONTENT: description, credits, etc */}
-                <ItemContentContainer padding="0 1.5rem 3rem">
+                <ItemContentContainer padding="0 0 3rem">
                   {/* Credits */}
                   <ItemSubHeader useGradient bgColor={color} label="... CREDIT" />
                   <ItemContentContainer padding={'0 3rem'}>
