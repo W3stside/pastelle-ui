@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 
 import { CatalogItem } from 'mock/types'
 
-import { CATALOG_URL } from 'constants/navigation'
+import { DEFAULT_CATALOG_URL } from 'constants/config'
 import { useQuery } from '@apollo/client'
 import { QUERY_GET_COLLECTION } from 'shopify/graphql/queries/collections'
 import { GetCollectionQuery, GetCollectionQueryVariables } from 'shopify/graphql/types'
@@ -29,7 +29,7 @@ export function useUpdateURLFromCatalogItem(params: URLFromCatalogItemsParams) {
       const currentItemKey = products[index]?.id
       if (!currentItemKey) return
 
-      replace(CATALOG_URL + currentItemKey.split('-')[0])
+      replace(DEFAULT_CATALOG_URL + currentItemKey.split('-')[0])
     }
   }, [currentProduct?.id, isActive, id, index, replace, products])
 }
@@ -89,11 +89,11 @@ export function useCurrentCollectionProductsFromUrl(
   variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
 ) {
   // we need to use the URL to determine what item we're currently viewing
-  const [pathname, [, , item = '']] = useGetCatalogDetailsFromURL()
+  const [pathname, [productName]] = useGetCatalogDetailsFromURL()
 
   const { productsMap, productsList } = useCurrentCollectionProducts(variables)
 
-  const urlItem = productsMap[item]
+  const urlItem = productsMap[productName]
   const currentProduct = urlItem || productsList[0]
 
   return {

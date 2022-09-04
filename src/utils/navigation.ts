@@ -1,9 +1,7 @@
-import { CURRENT_SEASON, CURRENT_YEAR } from 'constants/config'
-import { CatalogSeason } from 'mock/types'
+import { CURRENT_DROP } from 'constants/config'
 
-type ItemUrlProps = { year?: string | number; season?: CatalogSeason; identifier: string }
-export function buildItemUrl({ year = CURRENT_YEAR, season = CURRENT_SEASON, identifier }: ItemUrlProps) {
+type ItemUrlProps = { drop?: string | number; identifier: string }
+export function buildItemUrl({ drop = CURRENT_DROP, identifier }: ItemUrlProps) {
   // TODO: reenable itemKey
-  // return `/goods/${year}/${season}/${identifier}`
-  return `/goods/${year}/${season}/${identifier}`
+  return `/drop-${drop}/${identifier}`
 }

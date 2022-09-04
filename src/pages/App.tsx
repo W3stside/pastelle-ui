@@ -17,17 +17,14 @@ import PastelleCursiveLoader from 'components/Loader/PastelleCursiveLoader'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { useQuery } from '@apollo/client'
 import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
+import { DEFAULT_CATALOG_URL } from 'constants/config'
 
-// TODO: move
-// Redirects to swap but only replace the pathname
-const DEFAULT_CATALOG_YEAR = '2022'
-const DEFAULT_CATALOG_SEASON = 'FALL'
 export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
   return (
     <Redirect
       to={{
         ...location,
-        pathname: `/goods/${DEFAULT_CATALOG_YEAR}/${DEFAULT_CATALOG_SEASON}/`
+        pathname: DEFAULT_CATALOG_URL
       }}
     />
   )
@@ -49,8 +46,8 @@ export default function App() {
         <Navigation mobileHide />
         {/* ARTICLE CONTENT */}
         <Switch>
-          <Route exact path="/goods/:year/:season" component={Catalog} />
-          <Route exact path="/goods/:year/:season/:item" component={SingleItem} />
+          <Route exact path="/drop-:drop/catalog" component={Catalog} />
+          <Route exact path="/drop-:drop/:item" component={SingleItem} />
           <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/404" component={NotFound} />
           <Route component={RedirectPathToCatalogOnly} />

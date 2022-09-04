@@ -17,8 +17,8 @@ import { useMemo } from 'react'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 import Navigation from 'components/Navigation'
-import { useLocation } from 'react-router-dom'
-import { CATALOG_URL } from 'constants/navigation'
+import { NavLink, useLocation } from 'react-router-dom'
+import { DEFAULT_CATALOG_URL } from 'constants/config'
 
 const HeaderFrame = styled(SectionFrame)`
   top: 0;
@@ -121,7 +121,7 @@ const HeaderLinks = styled(Row)`
   `};
 ` */
 
-const Title = styled.a`
+const Title = styled(NavLink)`
   display: flex;
   align-items: center;
   pointer-events: auto;
@@ -197,13 +197,13 @@ export default function Header() {
   return (
     <HeaderFrame as="header">
       <HeaderRow>
-        <Title href="/#">
+        <Title to="/#">
           <Pastellecon>{constructedLogo && <img width="170px" src={constructedLogo} alt="logo" />}</Pastellecon>
         </Title>
         {/* <DynamicHeaderLogo itemColor="#dda0ddb3" fontSize={60} fontWeight={100} color={'ghostwhite'} /> */}
-        {location.pathname !== CATALOG_URL && (
+        {location.pathname !== DEFAULT_CATALOG_URL && (
           <HeaderLinks id="header-links-container">
-            <StyledNavLink to={CATALOG_URL}>{'FULL CATALOG'}</StyledNavLink>
+            <StyledNavLink to={DEFAULT_CATALOG_URL}>{'FULL CATALOG'}</StyledNavLink>
             {/* <StyledNavLink to="/aboutus">{'// ABOUT US'}</StyledNavLink> */}
             {/* <StyledNavLink to="#">Header Link</StyledNavLink> */}
             {/* <StyledExternalLink href="#">
