@@ -2,7 +2,6 @@ import styled from 'styled-components/macro'
 import Button from 'components/Button'
 import { Menu, X } from 'react-feather'
 import { useCallback, useMemo, useState } from 'react'
-import { Row } from 'components/Layout'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { getThemeColours } from 'theme/utils'
 import { ThemeModes } from 'theme/styled'
@@ -53,15 +52,21 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   z-index: 210;
   gap: 5px;
 
-  > ${Row} {
-    gap: 5px;
+  > div {
+    display: flex;
+    padding: 10px;
+    background: #000;
+
+    border-radius: 10px;
+
     > svg {
       &:hover {
         transform: rotateZ(180deg);
       }
-      transition: transform 0.3s ease-in-out;
+      transition: transform 0.5s ease-in-out;
     }
   }
+
   ${({ theme, mobileHide }) => theme.mediaWidth.upToMedium`
     display: ${mobileHide ? 'none' : 'flex'};
     position: relative;
@@ -116,7 +121,7 @@ export default function Navigation({
   }, [isNavOpen])
 
   const NavToggleButton = useMemo(() => {
-    return isNavOpen ? <X size={20} /> : <Menu size={navOrbProps?.menuSize || 20} />
+    return <div>{isNavOpen ? <X size={20} /> : <Menu size={navOrbProps?.menuSize || 20} />}</div>
   }, [isNavOpen, navOrbProps?.menuSize])
 
   const handleNavMove = useCallback(

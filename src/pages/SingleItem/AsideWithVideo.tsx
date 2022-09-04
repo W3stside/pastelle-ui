@@ -235,7 +235,7 @@ export default function ItemPage({
                 {/* ITEM CONTENT: description, credits, etc */}
                 <ItemContentContainer padding="0 0 3rem">
                   {/* Credits */}
-                  <ItemSubHeader useGradient bgColor={color} label="... CREDIT" margin="0 0 2rem" />
+                  <ItemSubHeader useGradient bgColor={color} label="CREDIT" margin="0 0 2rem" />
                   <ItemContentContainer padding={'0 3rem'}>
                     <ItemCredits>
                       {artistInfo ? (
