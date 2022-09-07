@@ -7,7 +7,6 @@ import Web3ReactManager from 'components/blockchain/Web3ReactManager'
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
 const Catalog = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "CATALOG" */ 'pages/Catalog'))
-const AboutUs = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "ABOUTUS" */ 'pages/AboutUs'))
 const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Error/NotFound'))
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
 const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleItem'))
@@ -48,7 +47,6 @@ export default function App() {
         <Switch>
           <Route exact path="/drop-:drop/catalog" component={Catalog} />
           <Route exact path="/drop-:drop/:item" component={SingleItem} />
-          <Route exact path="/aboutus" component={AboutUs} />
           <Route exact path="/404" component={NotFound} />
           <Route component={RedirectPathToCatalogOnly} />
           <Route component={NotFound} />

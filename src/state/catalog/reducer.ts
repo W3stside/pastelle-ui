@@ -1,59 +1,34 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { CatalogItemsMap, CatalogSeason, CatalogSeasonItemMap, CatalogSeasonsMap } from 'mock/types'
+import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
 
-export type CatalogState = CatalogItemsMap
-
-export type BlockNumberState = {
-  chainId: number
-  blockNumber: number
+export type ProductPageMap = Record<string, ProductPageProps>
+export type CatalogState = {
+  [drop: string]: ProductPageMap | null
+} & {
+  current: ProductPageMap | null
 }
 
 const initialState: CatalogState = {
-  '2022': {
-    WINTER: {},
-    SPRING: {},
-    SUMMER: {},
-    FALL: {}
-  }
+  current: null
 }
 
-type UpdateCatalogParams = { year: number | string; catalog: CatalogSeasonsMap }
-
-type UpdateCatalogBySeasonParams = { year: number | string; season: CatalogSeason; catalog: CatalogSeasonItemMap }
+type UpdateCatalogParams = { drop: 'current' | number; catalog: ProductPageMap }
 
 const catalogSlice = createSlice({
   name: 'catalog',
   initialState,
   reducers: {
-    updateCatalog(state, { payload: { year, season, catalog } }: PayloadAction<UpdateCatalogBySeasonParams>) {
-      state[year][season] = catalog || {}
+    updateCatalog(state, { payload: { drop, catalog } }: PayloadAction<UpdateCatalogParams>) {
+      state[drop] = catalog || {}
     },
-    batchUpdateCatalogByYear(state, { payload: { year, catalog } }: PayloadAction<UpdateCatalogParams>) {
-      state[year] = { ...state[year], ...(catalog || {}) }
+    batchUpdateCatalogByYear(state, { payload: { drop, catalog } }: PayloadAction<UpdateCatalogParams>) {
+      state[drop] = { ...state[drop], ...(catalog || {}) }
     },
-    removeCatalogSeason(
-      state,
-      { payload: { year, season } }: PayloadAction<Omit<UpdateCatalogBySeasonParams, 'payload'>>
-    ) {
-      delete state[year][season]
-    },
-    removeCatalogSeasonItem(
-      state,
-      {
-        payload: { year, season, itemKey }
-      }: PayloadAction<Omit<UpdateCatalogBySeasonParams, 'payload'> & { itemKey: string }>
-    ) {
-      if (state[year]?.[season]?.[itemKey]) {
-        delete state[year][season]?.[itemKey]
-      }
+    removeCatalogSeason(state, { payload: { drop } }: PayloadAction<Omit<UpdateCatalogParams, 'catalog'>>) {
+      delete state[drop]
     }
   }
 })
 
-export const {
-  batchUpdateCatalogByYear,
-  updateCatalog,
-  removeCatalogSeason,
-  removeCatalogSeasonItem
-} = catalogSlice.actions
+export const { batchUpdateCatalogByYear, updateCatalog, removeCatalogSeason } = catalogSlice.actions
 export const catalog = catalogSlice.reducer

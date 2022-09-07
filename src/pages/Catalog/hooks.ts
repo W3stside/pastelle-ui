@@ -77,7 +77,7 @@ export function useCurrentCollectionProducts(
   const products = mapShopifyProductToProps(collection?.products.nodes)
   // [PRODUCT_NAME]: PRODUCT
   const productsMap = products.reduce((acc, prod: ProductPageProps) => {
-    acc[prod.title] = prod
+    acc[prod.handle] = prod
 
     return acc
   }, {} as Record<string, ProductPageProps>)

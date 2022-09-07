@@ -38,6 +38,7 @@ export const mapShopifyProductToProps = (data: ProductsList = []): ProductPagePr
     return {
       id: datum.id,
       title: datum.title,
+      handle: datum.handle,
       // TODO: fix
       logo: brandingAssetsMap?.logo,
       headerLogo: brandingAssetsMap?.header,

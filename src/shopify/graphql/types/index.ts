@@ -1,4 +1,4 @@
-import { GetCollectionQuery } from './_generated_'
+import { ProductQuery } from './_generated_'
 
 export * from './_generated_'
 
@@ -29,7 +29,7 @@ export type ProductBrandingAssets = {
   navBar: string
   header: string
 }
-export type ProductsList = GetCollectionQuery['collections']['nodes'][0]['products']['nodes']
+export type ProductsList = ProductQuery['products']['nodes']
 export type Product = ProductsList[0]
 export type ProductImagesSrcSet = {
   url500: string

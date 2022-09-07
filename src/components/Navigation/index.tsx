@@ -128,7 +128,7 @@ export default function Navigation({
     (_, product: ProductPageProps) => {
       isNavOpen && toggleNav()
 
-      const url = buildItemUrl({ identifier: product.title })
+      const url = buildItemUrl({ identifier: product.handle })
       history.push(url)
     },
     [history, isNavOpen, toggleNav]

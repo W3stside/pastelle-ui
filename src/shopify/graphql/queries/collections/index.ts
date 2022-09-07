@@ -1,7 +1,14 @@
 import { gql } from '@apollo/client'
-import { FRAGMENT_PRODUCT_IMAGE, FRAGMENT_PRODUCT_VIDEO } from '../fragments'
+import {
+  FRAGMENT_PRODUCT_IMAGE,
+  FRAGMENT_PRODUCT_VIDEO,
+  FRAGMENT_PRODUCT_VARIANT,
+  FRAGMENT_PRODUCT
+} from '../fragments'
 
 export const QUERY_GET_COLLECTION = gql`
+  ${FRAGMENT_PRODUCT}
+  ${FRAGMENT_PRODUCT_VARIANT}
   ${FRAGMENT_PRODUCT_IMAGE}
   ${FRAGMENT_PRODUCT_VIDEO}
   query getCollection($collectionAmount: Int, $productAmt: Int, $imageAmt: Int) {
@@ -14,18 +21,12 @@ export const QUERY_GET_COLLECTION = gql`
         }
         products(first: $productAmt) {
           nodes {
-            id
-            updatedAt
-            title
-            description
-            descriptionHtml
-            sizes: options {
-              values
-            }
-            featuredImage {
-              url
-              width
-              height
+            ...FragmentProduct
+
+            variants(first: 5) {
+              nodes {
+                ...FragmentProductVariant
+              }
             }
             images(first: $imageAmt) {
               nodes {
@@ -36,18 +37,6 @@ export const QUERY_GET_COLLECTION = gql`
               nodes {
                 ...FragmentProductVideo
               }
-            }
-            brandingAssetMap: metafield(namespace: "custom", key: "brandingassetmap") {
-              value
-            }
-            bgColor: metafield(namespace: "custom", key: "bgColor") {
-              value
-            }
-            color: metafield(namespace: "custom", key: "color") {
-              value
-            }
-            artistInfo: metafield(namespace: "custom", key: "artistInfo") {
-              value
             }
           }
         }

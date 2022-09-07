@@ -1,8 +1,7 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
-import { batchUpdateCatalogByYear, updateCatalog } from './reducer'
-import { CatalogSeason, CatalogSeasonItemMap, CatalogSeasonsMap } from 'mock/types'
-import { useOnScreenItemID } from 'state/user/hooks'
+import { batchUpdateCatalogByYear, ProductPageMap, updateCatalog } from './reducer'
+import { useOnScreenProductHandle } from 'state/user/hooks'
 import { DEFAULT_CURRENT_COLLECTION_VARIABLES, useCurrentCollectionProducts } from 'pages/Catalog/hooks'
 import { GetCollectionQueryVariables } from 'shopify/graphql/types'
 
@@ -14,28 +13,15 @@ export function useCatalogByYear(year: string | number) {
   return useAppSelector(state => state.catalog[year])
 }
 
-type CatalogByYearAndSeasonParams = {
-  year: string | number
-  season: CatalogSeason
-}
-
-export function useCatalogByYearAndSeason({ year, season }: CatalogByYearAndSeasonParams) {
-  return useAppSelector(state => state.catalog[year][season])
-}
-
 export function useUpdateCatalog() {
   const dispatch = useAppDispatch()
-  return useCallback(
-    (params: { year: string | number; season: CatalogSeason; catalog: CatalogSeasonItemMap }) =>
-      dispatch(updateCatalog(params)),
-    [dispatch]
-  )
+  return useCallback((catalog: ProductPageMap) => dispatch(updateCatalog({ drop: 'current', catalog })), [dispatch])
 }
 
-export function useBatchUpdateCatalogByYear() {
+export function useBatchUpdateCatalogByDrop() {
   const dispatch = useAppDispatch()
   return useCallback(
-    (params: { year: string | number; catalog: CatalogSeasonsMap }) => dispatch(batchUpdateCatalogByYear(params)),
+    (params: { drop: 'current' | number; catalog: ProductPageMap }) => dispatch(batchUpdateCatalogByYear(params)),
     [dispatch]
   )
 }
@@ -44,7 +30,7 @@ export function useGetCurrentOnScreenItem(
   variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
 ) {
   const { productsMap } = useCurrentCollectionProducts(variables)
-  const itemId = useOnScreenItemID()
+  const item = useOnScreenProductHandle()
 
-  return itemId ? productsMap?.[itemId] : undefined
+  return item ? productsMap[item.handle] : undefined
 }

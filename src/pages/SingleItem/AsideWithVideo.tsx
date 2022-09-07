@@ -28,7 +28,7 @@ import { ItemVideoContent } from './ItemVideoContent'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import { BoxProps } from 'rebass'
 import SmartImg from 'components/SmartImg'
-import { useSetOnScreenItemID } from 'state/user/hooks'
+import { useSetOnScreenProductHandle } from 'state/user/hooks'
 import {
   FragmentProductVideoFragment,
   FragmentProductImageFragment,
@@ -46,6 +46,7 @@ export interface ProductPageProps {
   bgColor: string
   color: string
   title: string
+  handle: string
   logo?: string
   headerLogo?: string
   navLogo?: string
@@ -94,6 +95,8 @@ const DEFAULT_MEDIA_START_INDEX = 0
 export default function ItemPage({
   bgColor,
   color = '#000',
+  id,
+  handle,
   title,
   logo,
   navLogo,
@@ -139,13 +142,12 @@ export default function ItemPage({
    * SIDE EFFECTS
    */
   // 1. scrolling page current index set in state as on screen
-  const setOnScreenId = useSetOnScreenItemID()
+  const setOnScreenProductHandle = useSetOnScreenProductHandle()
   useEffect(() => {
     if (isActive) {
-      // TODO: use id
-      setOnScreenId(title)
+      setOnScreenProductHandle({ handle, id })
     }
-  }, [isActive, title, setOnScreenId])
+  }, [isActive, handle, id, setOnScreenProductHandle])
 
   // inner container ref
   const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)

@@ -3,7 +3,6 @@ import { nanoid } from '@reduxjs/toolkit'
 import { BASE_MARKDOWN_PATH } from 'components/Markdown/constants'
 import { AsideWithScrollableImages } from 'pages/SingleItem/AsideWithScrollableImages'
 
-import { ScrollingContentPage } from 'components/ScrollingContentPage'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 
 // assets
@@ -43,12 +42,11 @@ const ABOUT_US_CONTENT = [
 export default function AboutUs() {
   return (
     <ArticleFadeInContainer id="ABOUTUS-ARTICLE">
-      <ScrollingContentPage
-        data={ABOUT_US_CONTENT}
-        dataItem={ABOUT_US_CONTENT[0]}
-        IterableComponent={AsideWithScrollableImages}
-        baseContentMessage="MORE CONTENT"
-        width={`60vw`}
+      <AsideWithScrollableImages
+        markdown={ABOUT_US_CONTENT[0].markdown}
+        header="ABOUT US"
+        image={ABOUT_US_CONTENT[0].image}
+        key={ABOUT_US_CONTENT[0].key}
       />
     </ArticleFadeInContainer>
   )

@@ -1,15 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Product } from 'shopify/graphql/types'
 import { Theme, ThemeModes } from 'theme/styled'
 
 const currentTimestamp = () => new Date().getTime()
-
+export interface CatalogCurrentProduct {
+  handle: Product['handle']
+  id: Product['id']
+}
 export interface UserState {
   theme: Theme
   // timestamp: number
   // the timestamp of the last updateVersion action
   lastUpdateVersionTimestamp?: number
   // key string of current on screen item
-  onScreenItemID: string | null
+  catalogCurrentProduct: CatalogCurrentProduct | null
 }
 
 export const initialState: UserState = {
@@ -18,7 +22,7 @@ export const initialState: UserState = {
     autoDetect: false
   },
   // timestamp: currentTimestamp(),
-  onScreenItemID: null
+  catalogCurrentProduct: null
 }
 
 const userSlice = createSlice({
@@ -30,17 +34,14 @@ const userSlice = createSlice({
     },
     updateThemeMode(state, action: PayloadAction<ThemeModes>) {
       state.theme.mode = action.payload
-      // state.timestamp = currentTimestamp()
     },
     updateThemeAutoDetect(state, action: PayloadAction<boolean>) {
       state.theme.autoDetect = action.payload
-      // state.timestamp = currentTimestamp()
     },
-    setOnScreenItemID(state, action: PayloadAction<string | null>) {
-      state.onScreenItemID = action.payload
-      // state.timestamp = currentTimestamp()
+    setOnScreenProductHandle(state, action: PayloadAction<CatalogCurrentProduct | null>) {
+      state.catalogCurrentProduct = action.payload
     }
   }
 })
-export const { updateThemeAutoDetect, updateThemeMode, setOnScreenItemID } = userSlice.actions
+export const { updateThemeAutoDetect, updateThemeMode, setOnScreenProductHandle } = userSlice.actions
 export const user = userSlice.reducer

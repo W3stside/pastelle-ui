@@ -7,22 +7,22 @@ import AsideWithVideo from 'pages/SingleItem/AsideWithVideo'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { isMobile } from 'utils'
-import { useOnScreenItemID } from 'state/user/hooks'
+import { useOnScreenProductHandle } from 'state/user/hooks'
 import { buildItemUrl } from 'utils/navigation'
 
 export default function Catalog() {
   const { push } = useHistory()
   // get catalog item from data and url
   const { products, currentProduct } = useCurrentCollectionProductsFromUrl()
-  const onScreenItemId = useOnScreenItemID()
+  const product = useOnScreenProductHandle()
 
   const fixedHeight = isMobile ? 550 : undefined
 
   const onContentClick = useCallback(() => {
-    if (onScreenItemId) {
-      push(buildItemUrl({ identifier: onScreenItemId }))
+    if (product) {
+      push(buildItemUrl({ identifier: product.handle }))
     }
-  }, [onScreenItemId, push])
+  }, [product, push])
 
   const AsideWithVideoAux = useCallback(
     props => (
