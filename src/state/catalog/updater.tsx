@@ -1,20 +1,20 @@
 import { useEffect } from 'react'
-import { useCurrentCollectionProducts } from 'pages/Catalog/hooks'
+import { useQueryCurrentCatalog } from 'state/catalog/hooks'
 import { useUpdateCatalog } from './hooks'
 
 export default function Updater() {
   const updateCatalog = useUpdateCatalog()
-  const { productsMap } = useCurrentCollectionProducts({
+  const { catalogProductMap } = useQueryCurrentCatalog({
     collectionAmount: 1,
     productAmt: 10,
     imageAmt: 10
   })
 
   useEffect(() => {
-    if (productsMap) {
-      updateCatalog(productsMap)
+    if (catalogProductMap) {
+      updateCatalog(catalogProductMap)
     }
-  }, [productsMap, updateCatalog])
+  }, [catalogProductMap, updateCatalog])
 
   return null
 }

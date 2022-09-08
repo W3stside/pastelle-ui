@@ -1,6 +1,21 @@
 import { gql } from '@apollo/client'
 
+export const FRAGMENT_PRODUCT_VARIANT = gql`
+  fragment FragmentProductVariant on ProductVariant {
+    id
+    title
+    sku
+    unitPrice {
+      amount
+      currencyCode
+    }
+    availableForSale
+    quantityAvailable
+  }
+`
+
 export const FRAGMENT_PRODUCT = gql`
+  ${FRAGMENT_PRODUCT_VARIANT}
   fragment FragmentProduct on Product {
     id
     title
@@ -15,6 +30,11 @@ export const FRAGMENT_PRODUCT = gql`
       url
       width
       height
+    }
+    variants(first: 5) {
+      nodes {
+        ...FragmentProductVariant
+      }
     }
     brandingAssetMap: metafield(namespace: "custom", key: "brandingassetmap") {
       value
@@ -67,31 +87,5 @@ export const FRAGMENT_PRODUCT_EXTERNAL_VIDEO = gql`
     id
     embedUrl
     host
-  }
-`
-
-export const FRAGMENT_PRODUCT_VARIANT = gql`
-  fragment FragmentProductVariant on ProductVariant {
-    id
-    title
-    sku
-    unitPrice {
-      amount
-      currencyCode
-    }
-    availableForSale
-    quantityAvailable
-    brandingAssetMap: metafield(namespace: "custom", key: "brandingassetmap") {
-      value
-    }
-    bgColor: metafield(namespace: "custom", key: "bgColor") {
-      value
-    }
-    color: metafield(namespace: "custom", key: "color") {
-      value
-    }
-    artistInfo: metafield(namespace: "custom", key: "artistInfo") {
-      value
-    }
   }
 `

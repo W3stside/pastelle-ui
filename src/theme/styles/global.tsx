@@ -6,7 +6,7 @@ import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
 import { useAppColourTheme } from 'state/user/hooks'
 import { useMemo } from 'react'
-import { useGetCurrentOnScreenItem } from 'state/catalog/hooks'
+import { useGetCurrentOnScreenCatalogProduct } from 'state/catalog/hooks'
 import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
 
 export { FontStyles }
@@ -249,7 +249,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
 export const ThemedGlobalComponent = () => {
   const theme = useAppColourTheme()
 
-  const currentItem = useGetCurrentOnScreenItem()
+  const currentItem = useGetCurrentOnScreenCatalogProduct()
 
   const { itemColor, navLogo, headerLogo, showAnimation } = useMemo(
     () => ({

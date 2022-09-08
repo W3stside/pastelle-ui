@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components/macro'
 
 const strokeWidth = keyframes`
 0% {
-  stroke-width: 30;
+  stroke-width: 10.8;
 }
 10% {
     stroke-width: 0;

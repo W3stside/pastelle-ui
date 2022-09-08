@@ -1,7 +1,7 @@
-import { useGetCatalogDetailsFromURL } from 'pages/Catalog/hooks'
+import { useParseCatalogDetailsFromURL } from 'state/catalog/hooks'
 
 export function useBreadcrumb() {
-  const [, params] = useGetCatalogDetailsFromURL()
+  const [, params] = useParseCatalogDetailsFromURL()
 
   const lastCrumb = params.slice().pop()
   return { breadcrumbs: params, lastCrumb }

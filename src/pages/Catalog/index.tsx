@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { useCurrentCollectionProductsFromUrl } from './hooks'
+import { useCurrentCatalog } from 'state/catalog/hooks'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
 import AsideWithVideo from 'pages/SingleItem/AsideWithVideo'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
@@ -12,10 +12,11 @@ import { buildItemUrl } from 'utils/navigation'
 
 export default function Catalog() {
   const { push } = useHistory()
-  // get catalog item from data and url
-  const { products, currentProduct } = useCurrentCollectionProductsFromUrl()
+  // get latest catalog and the current on screen item handle
+  const currentCatalog = useCurrentCatalog()
   const product = useOnScreenProductHandle()
 
+  // on mobile sizes we set a fixed height
   const fixedHeight = isMobile ? 550 : undefined
 
   const onContentClick = useCallback(() => {
@@ -37,12 +38,15 @@ export default function Catalog() {
     []
   )
 
+  if (!currentCatalog) return null
+  const catalogProductList = Object.values(currentCatalog)
+
   return (
     <ArticleFadeInContainer id="CATALOG-ARTICLE">
-      {products.length > 1 ? (
+      {catalogProductList.length > 1 ? (
         <ScrollingContentPage
-          data={products}
-          dataItem={currentProduct}
+          data={catalogProductList}
+          dataItem={catalogProductList[0]}
           IterableComponent={AsideWithVideoAux}
           baseContentMessage="SCROLL/DRAG FOR MORE SHIT!"
           width={`calc(100% - ${STORE_IMAGE_SIZES.SMALL}px)`}
@@ -53,7 +57,7 @@ export default function Catalog() {
           onContentClick={onContentClick}
         />
       ) : (
-        <AsideWithVideoAux {...currentProduct} onClick={onContentClick} />
+        <AsideWithVideoAux {...catalogProductList[0]} onClick={onContentClick} />
       )}
     </ArticleFadeInContainer>
   )

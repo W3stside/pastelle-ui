@@ -1,14 +1,22 @@
 import { ArticleFadeInContainer } from 'components/Layout/Article'
-import { useCurrentCollectionProductsFromUrl } from 'pages/Catalog/hooks'
+import { useGetCurrentCatalogProductsFromUrl } from 'state/catalog/hooks'
 import AsideWithVideo from './AsideWithVideo'
 
 export default function SingleItem() {
   // get catalog item from data and url
-  const { currentProduct } = useCurrentCollectionProductsFromUrl()
+  const catalogInfoFromUrl = useGetCurrentCatalogProductsFromUrl()
+
+  if (!catalogInfoFromUrl) return null
 
   return (
     <ArticleFadeInContainer id="CATALOG-ARTICLE">
-      <AsideWithVideo {...currentProduct} firstPaintOver isActive itemIndex={0} showBreadCrumbs />
+      <AsideWithVideo
+        {...catalogInfoFromUrl.currentCatalogProduct}
+        firstPaintOver
+        isActive
+        itemIndex={0}
+        showBreadCrumbs
+      />
     </ArticleFadeInContainer>
   )
 }

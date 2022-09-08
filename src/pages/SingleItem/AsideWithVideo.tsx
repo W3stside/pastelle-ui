@@ -33,7 +33,8 @@ import {
   FragmentProductVideoFragment,
   FragmentProductImageFragment,
   ProductSizes,
-  ProductArtistInfo
+  ProductArtistInfo,
+  Product
 } from 'shopify/graphql/types'
 import useStateRef from 'hooks/useStateRef'
 import SizeSelector from 'components/SizeSelector'
@@ -61,6 +62,8 @@ export interface ProductPageProps {
   noVideo?: boolean
   noDescription?: boolean
 }
+
+export type CatalogMap = Record<Product['handle'], ProductPageProps>
 
 export type ItemPageDesignsProps = {
   headerLogo?: string
