@@ -1,17 +1,27 @@
-import { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components/macro'
 import { transparentize } from 'polished'
-import { ProductSizes } from 'shopify/graphql/types'
+import { ProductOptionsSize, ProductSizes } from 'shopify/graphql/types'
 import { DEFAULT_SIZE_SELECTED } from 'constants/config'
 import { Row, RowProps } from 'components/Layout'
 import { TYPE } from 'theme'
 
 type SizeSelectorProps = Omit<RowProps, 'sizes'> & {
-  sizes: ProductSizes[]
+  sizes: ProductOptionsSize
+  selectedSize: ProductSizes
   color?: string
+  handleSizeSelect: (size: ProductSizes) => void
 }
 
-const SquareSelectDiv = styled(TYPE.black)``
+const SquareSelectDiv = styled(TYPE.black)<{ isSelected: boolean; bgColor?: string }>`
+  ${({ isSelected, theme, bgColor = theme.white }) =>
+    isSelected &&
+    `
+      &&&&& {
+        background-color: ${transparentize(0.3, bgColor)};
+      }
+    `}
+`
 const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
   display: flex;
   flex-flow: row wrap;
@@ -28,12 +38,12 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
     justify-content: center;
     cursor: pointer;
     background-color: #fff;
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     text-align: center;
     font-size: 2rem;
     font-weight: 400;
 
-    height: 50px;
+    height: 5rem;
     flex: 1 1 24%;
 
     &:hover {
@@ -44,17 +54,38 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
   }
 `
 
-export default function SizeSelector({ sizes, ...styleProps }: SizeSelectorProps) {
-  const [, setSize] = useState<ProductSizes>(DEFAULT_SIZE_SELECTED)
-  const handleSetSize = (size: ProductSizes) => setSize(size)
-
+function SizeSelector({ sizes, selectedSize, handleSizeSelect, ...styleProps }: SizeSelectorProps) {
   return (
     <GridSelect {...styleProps}>
       {sizes.map((size, index) => (
-        <SquareSelectDiv key={size + '_' + index} onChange={() => handleSetSize(size)}>
+        <SquareSelectDiv
+          key={size + '_' + index}
+          bgColor={styleProps.color}
+          isSelected={selectedSize === size}
+          onClick={() => handleSizeSelect(size as ProductSizes)}
+        >
           {size}
         </SquareSelectDiv>
       ))}
     </GridSelect>
   )
+}
+
+export default function useSizeSelector({ sizes }: Pick<SizeSelectorProps, 'sizes'>) {
+  const [selectedSize, setSize] = useState<ProductSizes>(DEFAULT_SIZE_SELECTED)
+  const handleSetSize = useCallback((size: ProductSizes) => {
+    setSize(size)
+  }, [])
+
+  const SizeSelectorMemoed = useCallback(
+    (props: Omit<SizeSelectorProps, 'selectedSize' | 'sizes' | 'handleSizeSelect'>) => (
+      <SizeSelector {...props} selectedSize={selectedSize} sizes={sizes} handleSizeSelect={handleSetSize} />
+    ),
+    [handleSetSize, selectedSize, sizes]
+  )
+
+  return {
+    selectedSize,
+    SizeSelector: SizeSelectorMemoed
+  }
 }

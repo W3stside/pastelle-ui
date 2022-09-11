@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useQueryCurrentCatalog } from 'state/catalog/hooks'
+import { useQueryCurrentCatalog } from 'shopify/graphql/hooks'
 import { useUpdateCatalog } from './hooks'
 
 export default function Updater() {

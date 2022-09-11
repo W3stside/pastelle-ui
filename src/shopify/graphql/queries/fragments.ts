@@ -15,7 +15,6 @@ export const FRAGMENT_PRODUCT_VARIANT = gql`
 `
 
 export const FRAGMENT_PRODUCT = gql`
-  ${FRAGMENT_PRODUCT_VARIANT}
   fragment FragmentProduct on Product {
     id
     title
@@ -31,10 +30,9 @@ export const FRAGMENT_PRODUCT = gql`
       width
       height
     }
-    variants(first: 5) {
-      nodes {
-        ...FragmentProductVariant
-      }
+    options {
+      name
+      values
     }
     brandingAssetMap: metafield(namespace: "custom", key: "brandingassetmap") {
       value
@@ -87,5 +85,75 @@ export const FRAGMENT_PRODUCT_EXTERNAL_VIDEO = gql`
     id
     embedUrl
     host
+  }
+`
+
+export const FRAGMENT_CART_COST = gql`
+  fragment FragmentCartCost on CartCost {
+    totalAmount {
+      amount
+      currencyCode
+    }
+    subtotalAmount {
+      amount
+      currencyCode
+    }
+    totalTaxAmount {
+      amount
+      currencyCode
+    }
+    totalDutyAmount {
+      amount
+      currencyCode
+    }
+  }
+`
+
+export const FRAGMENT_CART = gql`
+  ${FRAGMENT_CART_COST}
+  fragment FragmentCart on Cart {
+    id
+    createdAt
+    updatedAt
+    totalQuantity
+    lines(first: $linesAmount) {
+      nodes {
+        id
+        quantity
+        merchandise {
+          ... on ProductVariant {
+            id
+            size: title
+            product {
+              title
+              handle
+            }
+            unitPrice {
+              amount
+              currencyCode
+            }
+          }
+        }
+        attributes {
+          key
+          value
+        }
+      }
+    }
+    attributes {
+      key
+      value
+    }
+    cost {
+      ...FragmentCartCost
+    }
+    buyerIdentity {
+      email
+      phone
+      customer {
+        id
+      }
+      countryCode
+    }
   }
 `

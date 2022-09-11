@@ -5,6 +5,7 @@ import { save, load } from 'redux-localstorage-simple'
 import { user } from 'state/user/reducer'
 import { application } from 'state/application/reducer'
 // APPAREL
+import { cart } from 'state/cart/reducer'
 import { catalog } from 'state/catalog/reducer'
 // BLOCKCHAIN
 import { blockchain } from 'state/blockchain/reducer'
@@ -15,11 +16,12 @@ import { updateVersion } from 'state/global/actions'
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
 
-const PERSISTED_KEYS: string[] = ['user', 'blockchainTransactions', 'lists', 'catalog']
+const PERSISTED_KEYS: string[] = ['user', 'blockchainTransactions', 'cart', 'catalog']
 
 const store = configureStore({
   reducer: {
     // APPAREL
+    cart,
     catalog,
     // MISC
     application,

@@ -5,7 +5,7 @@ import styled from 'styled-components/macro'
 
 // import Menu from 'components/Menu'
 // import DynamicHeaderLogo from 'components/Header/DynamicLogoHeader'
-import { Row, RowFixed /*, YellowCard */ } from 'components/Layout'
+import { Column, Row, RowFixed /*, YellowCard */ } from 'components/Layout'
 import { SectionFrame } from 'components/Layout/Section'
 
 // import { NETWORK_LABELS } from 'blockchain/constants'
@@ -13,12 +13,20 @@ import { StyledNavLink } from './styleds'
 
 import PastelleLogoSharpShort from 'assets/svg/PSTL-sharp.svg'
 import PastelleLogoCursiveLong from 'assets/svg/pastelle-cursive-logo.svg'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useWindowSize } from 'hooks/useWindowSize'
 import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 import Navigation from 'components/Navigation'
 import { NavLink, useLocation } from 'react-router-dom'
 import { DEFAULT_CATALOG_URL } from 'constants/config'
+import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
+import { useGetCartDispatch, useGetCartIdDispatch } from 'state/cart/hooks'
+import { CartState } from 'state/cart/reducer'
+import { useQueryCart } from 'shopify/graphql/hooks'
+import LoadingRows from 'components/Loader/LoadingRows'
+import { transparentize } from 'polished'
+import { TYPE } from 'theme'
+import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
 
 const HeaderFrame = styled(SectionFrame)`
   top: 0;
@@ -194,6 +202,8 @@ export default function Header() {
     }
   }, [width])
 
+  const [shoppingPanelOpen, setShoppingPanelOpen] = useState(false)
+
   return (
     <HeaderFrame as="header">
       <HeaderRow>
@@ -211,6 +221,8 @@ export default function Header() {
           </StyledExternalLink> */}
           </HeaderLinks>
         )}
+        <ShoppingCart onClick={() => setShoppingPanelOpen(true)} />
+        {shoppingPanelOpen && <ShoppingCartPanelDataContainer closeCartPanel={() => setShoppingPanelOpen(false)} />}
         <Navigation navOrbProps={{ bgColor: 'transparent', menuSize: 30 }} />
       </HeaderRow>
       {/* <HeaderControls>
@@ -232,5 +244,98 @@ export default function Header() {
         <HeaderElementWrap><Menu /></HeaderElementWrap>
       </HeaderControls>*/}
     </HeaderFrame>
+  )
+}
+
+const ShoppingCartQuantityWrapper = styled(Row)`
+  padding: 0.2rem 0.4rem;
+  border-radius: 2rem;
+  background-color: red;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+`
+function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
+  return <ShoppingCartQuantityWrapper>{totalQuantity}</ShoppingCartQuantityWrapper>
+}
+
+const ShoppingCartWrapper = styled(Row)`
+  justify-content: space-evenly;
+  gap: 1rem;
+  background: ${({ theme }) => theme.offWhite};
+  padding: 1rem;
+  margin-left: auto;
+  width: fit-content;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  > svg,
+  > ${ShoppingCartQuantityWrapper} {
+    flex: 1 1 50%;
+  }
+
+  > svg {
+    color: ${({ theme }) => theme.black};
+  }
+`
+function ShoppingCart({ onClick }: { onClick: () => void }) {
+  const cart = useGetCartDispatch()
+  return (
+    <ShoppingCartWrapper onClick={onClick}>
+      <ShoppingCartIcon size={'3rem'} />
+      <ShoppingCartQuantity totalQuantity={cart.totalQuantity} />
+    </ShoppingCartWrapper>
+  )
+}
+
+const ShoppingCartPanelContentWrapper = styled(Column)`
+  > ${Row} > svg {
+    margin: 0 2rem;
+    cursor: pointer;
+  }
+`
+
+const ShoppingCartPanelWrapper = styled.div`
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: ${({ theme }) => transparentize(0.5, theme.black)};
+
+  > ${ShoppingCartPanelContentWrapper} {
+    color: ${({ theme }) => theme.text1};
+    background: ${({ theme }) => transparentize(0.1, theme.offWhite)};
+    padding: 0 2rem 2rem;
+    margin-left: auto;
+    width: 40%;
+    height: 100%;
+  }
+`
+function ShoppingCartPanelDataContainer({ closeCartPanel }: { closeCartPanel: () => void }) {
+  const cartId = useGetCartIdDispatch()
+  if (!cartId) return null
+  return <ShoppingCartPanel cartId={cartId} closeCartPanel={closeCartPanel} />
+}
+const LINES_AMOUNT = 20
+function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCartPanel: () => void }) {
+  const { data, loading } = useQueryCart({ cartId, linesAmount: LINES_AMOUNT })
+  const cartLines = data?.cart?.lines.nodes
+  return (
+    <ShoppingCartPanelWrapper>
+      <ShoppingCartPanelContentWrapper>
+        <Row>
+          <ItemHeader margin={'1rem auto 0 0'} color={'black'} itemColor={'red'}>
+            CART
+          </ItemHeader>
+          <X size={'5rem'} color={'black'} onClick={closeCartPanel} />
+        </Row>
+        {loading ? (
+          <LoadingRows rows={LINES_AMOUNT} />
+        ) : (
+          cartLines?.map(line => <ItemSubHeader key={line.id}>{line.id}</ItemSubHeader>)
+        )}
+      </ShoppingCartPanelContentWrapper>
+    </ShoppingCartPanelWrapper>
   )
 }

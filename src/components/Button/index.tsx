@@ -42,7 +42,7 @@ const DEFAULT_DARKEN_AMOUNT = 0.2
 
 const PRIMARY_BUTTON_STYLES = css`
   color: ${({ theme }): string => theme.text1};
-  background: ${({ theme }): string => theme.bg1};
+  background: ${({ theme }): string => theme.offWhite};
 
   &:hover {
     background: ${({ theme }): string => darken(DEFAULT_DARKEN_AMOUNT, theme.bg1)};
@@ -73,9 +73,11 @@ const SUCCESS_BUTTON_STYLES = css`
   background: ${({ theme }): string => theme.green2};
 
   &:hover {
-    background: ${({ theme }): string => darken(DEFAULT_DARKEN_AMOUNT, theme.green2)};
-    border-color: ${({ theme }): string => theme.green1};
+    background: linear-gradient(270deg, #8958ff 0%, #3f77ff 100%);
+    border-color: ${({ theme }): string => theme.offWhite};
   }
+
+  transition: background 0.3s ease-in-out;
 `
 
 const WARNING_BUTTON_STYLES = css`

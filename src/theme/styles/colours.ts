@@ -4,6 +4,7 @@ export const DEFAULT_COLOURS = {
   // off white
   white: '#e5e5e5',
   whiteDark: '#e9e9f0',
+  offWhite: 'ghostwhite',
   red1: '#FF6871',
   red2: '#200202',
   green1: '#09371d',

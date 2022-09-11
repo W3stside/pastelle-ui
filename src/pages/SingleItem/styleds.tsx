@@ -259,7 +259,7 @@ export const ItemDescription = styled(TYPE.black).attrs(props => ({
 export const SubItemDescription = styled(ItemDescription).attrs(props => ({
   ...props,
   padding: '1.8rem',
-  margin: '20px 0',
+  margin: props.margin || '20px 0',
   backgroundColor: 'ghostwhite',
   fontWeight: 400
 }))`

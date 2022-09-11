@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import {
@@ -32,16 +33,18 @@ import { useSetOnScreenProductHandle } from 'state/user/hooks'
 import {
   FragmentProductVideoFragment,
   FragmentProductImageFragment,
-  ProductSizes,
+  ProductOptionsSize,
   ProductArtistInfo,
   Product
 } from 'shopify/graphql/types'
 import useStateRef from 'hooks/useStateRef'
-import SizeSelector from 'components/SizeSelector'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { getImageSizeMap } from 'shopify/utils'
 import LargeImageCarouselModal from 'components/LargeImageCarouselModal'
 import ShippingSvg from 'assets/svg/shipping.svg'
+import { useQueryProductVariantId } from 'shopify/graphql/hooks'
+import useSizeSelector from 'components/SizeSelector'
+import AddToCartButtonAndQuantitySelector from 'components/AddToCartButtonAndQuantitySelector'
 
 export interface ProductPageProps {
   bgColor: string
@@ -54,7 +57,7 @@ export interface ProductPageProps {
   images: FragmentProductImageFragment[]
   videos: FragmentProductVideoFragment[]
   // media: (FragmentProductExternalVideoFragment | FragmentProductVideoFragment)[]
-  sizes: ProductSizes[]
+  sizes: ProductOptionsSize
   description: string
   artistInfo?: ProductArtistInfo
   id: string
@@ -160,6 +163,9 @@ export default function ItemPage({
   // catalog display logo to use
   const catalogLogo = navLogo || headerLogo
 
+  const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
+  const merchandiseId = useQueryProductVariantId({ key: 'Size', value: selectedSize })
+
   return (
     <>
       {/* Large images */}
@@ -255,7 +261,12 @@ export default function ItemPage({
                   <ItemSubHeader useGradient bgColor={color} label="CHOOSE SIZE + VIEW LIVE" />
                   <ItemContentContainer margin="20px 0" padding={'0 3rem'}>
                     <SubItemDescription>SELECT A SIZE BELOW TO SEE IT ON THE MODEL</SubItemDescription>
-                    <SizeSelector sizes={sizes} color={bgColor} margin="20px 0" />
+                    <SizeSelector color={bgColor} margin="20px 0" />
+                    <AddToCartButtonAndQuantitySelector merchandiseId={merchandiseId?.variantBySelectedOptions?.id} />
+
+                    <SubItemDescription margin={'20px 0 0 0'}>
+                      <img src={ShippingSvg} /> FREE SHIPPING OVER 200€
+                    </SubItemDescription>
 
                     <SubItemDescription>
                       **Showcase is meant to help you see what your merch in the selected size looks like on an actual
@@ -265,15 +276,11 @@ export default function ItemPage({
                       Compare that to using some dumb fucking sizing chart that never works, AND requires measuring tape
                       that literally zero people on this planet own.
                     </SubItemDescription>
-
-                    <SubItemDescription>
-                      <img src={ShippingSvg} /> FREE SHIPPING OVER 200€
-                    </SubItemDescription>
                   </ItemContentContainer>
 
                   {/* Item description */}
                   <ItemSubHeader useGradient bgColor={color} label="INFO + CARE INSTRUCTIONS" />
-                  <ItemContentContainer padding={'0 3rem'}>
+                  <ItemContentContainer padding="0 3rem">
                     <ItemDescription dangerouslySetInnerHTML={{ __html: description }}></ItemDescription>
                   </ItemContentContainer>
                 </ItemContentContainer>

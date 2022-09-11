@@ -2,6 +2,7 @@ export type Color = string
 export interface Colors {
   // base
   white: Color
+  offWhite: Color
   black: Color
 
   // text
