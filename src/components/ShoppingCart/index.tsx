@@ -1,17 +1,23 @@
 import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 
-import { Column, Row } from 'components/Layout'
+import { Column } from 'components/Layout'
 import LoadingRows from 'components/Loader/LoadingRows'
 import SmartImg from 'components/SmartImg'
 import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
 import { useQueryCart } from 'shopify/graphql/hooks'
-import { FragmentCartLineFragment, ProductBrandingAssets } from 'shopify/graphql/types'
+import {
+  FragmentCartCostFragment,
+  FragmentCartLineFragment,
+  GetCartQuery,
+  ProductBrandingAssets
+} from 'shopify/graphql/types'
 import { useGetCartDispatch, useGetCartIdDispatch } from 'state/cart/hooks'
 import { CartState } from 'state/cart/reducer'
 import { useMemo, useState } from 'react'
 import {
   CartLineContent,
   CartLineWrapper,
+  CartTableHeaderWrapper,
   ShoppingCartPanelContentWrapper,
   ShoppingCartPanelWrapper,
   ShoppingCartQuantityWrapper,
@@ -62,28 +68,12 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
   return (
     <ShoppingCartPanelWrapper>
       <ShoppingCartPanelContentWrapper>
-        <Row>
-          <ItemHeader margin={'1rem auto 0 0'} color={WHITE} itemColor={'transparent'} letterSpacing={-10}>
-            CART
-          </ItemHeader>
-          {/* <Strikethrough /> */}
-          {data?.cart && (
-            <Column>
-              {totalQuantity && (
-                <ItemHeader color={WHITE} itemColor={'transparent'} fontSize={'3.5rem'} letterSpacing={0}>
-                  {totalQuantity} items
-                </ItemHeader>
-              )}
-              {subTotal && (
-                <ItemHeader color={WHITE} itemColor={'transparent'} fontSize={'3.5rem'} letterSpacing={0}>
-                  {/* {subTotal.amount} {subTotal.currencyCode} */}
-                  {formatCurrency(subTotal.amount, subTotal.currencyCode)}
-                </ItemHeader>
-              )}
-            </Column>
-          )}
-          <X size={'5rem'} color={WHITE} onClick={closeCartPanel} />
-        </Row>
+        <CartTableHeader
+          data={data}
+          totalQuantity={totalQuantity}
+          subTotal={subTotal}
+          closeCartPanel={closeCartPanel}
+        />
         {loading ? (
           <LoadingRows rows={3} $height={'14rem'} $padding="1rem" $margin="1rem 0" />
         ) : isEmptyCart ? (
@@ -93,6 +83,43 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
         )}
       </ShoppingCartPanelContentWrapper>
     </ShoppingCartPanelWrapper>
+  )
+}
+
+function CartTableHeader({
+  data,
+  totalQuantity,
+  subTotal,
+  closeCartPanel
+}: {
+  data: GetCartQuery | undefined
+  totalQuantity: number | undefined
+  subTotal: FragmentCartCostFragment['subtotalAmount'] | undefined
+  closeCartPanel: () => void
+}) {
+  return (
+    <CartTableHeaderWrapper>
+      <ItemHeader margin={'1rem auto 0 0'} color={WHITE} itemColor={'transparent'} letterSpacing={-10}>
+        CART
+      </ItemHeader>
+      {/* <Strikethrough /> */}
+      {data?.cart && (
+        <Column>
+          {totalQuantity && (
+            <ItemHeader color={WHITE} itemColor={'transparent'} fontSize={'3.5rem'} letterSpacing={0}>
+              {totalQuantity} items
+            </ItemHeader>
+          )}
+          {subTotal && (
+            <ItemHeader color={WHITE} itemColor={'transparent'} fontSize={'3.5rem'} letterSpacing={0}>
+              {/* {subTotal.amount} {subTotal.currencyCode} */}
+              {formatCurrency(subTotal.amount, subTotal.currencyCode)}
+            </ItemHeader>
+          )}
+        </Column>
+      )}
+      <X size={'5rem'} color={WHITE} onClick={closeCartPanel} />
+    </CartTableHeaderWrapper>
   )
 }
 

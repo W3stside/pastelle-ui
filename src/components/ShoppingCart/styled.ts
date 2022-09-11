@@ -4,9 +4,10 @@ import { transparentize } from 'polished'
 import { Column, Row } from 'components/Layout'
 import { DEFAULT_IK_TRANSFORMS, Z_INDEXES } from 'constants/config'
 import { fadeInAnimation, ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
-import { fromExtraLarge, upToExtraLarge, upToExtraSmall, upToMedium, upToSmall } from 'theme/utils'
+import { fromExtraLarge, upToExtraSmall, upToMedium, upToSmall } from 'theme/utils'
 import { ProductBrandingAssets } from 'shopify/graphql/types'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
+
 export const CartLineContent = styled(Row)`
   display: grid;
   // span, pic, content
@@ -93,37 +94,36 @@ export const ShoppingCartWrapper = styled(Row)`
     color: ${({ theme }) => theme.black};
   }
 `
+export const CartTableHeaderWrapper = styled(Row)`
+  display: grid;
+  grid-template-columns: min-content auto min-content;
+  text-align: center;
+  grid-gap: 9rem;
 
+  ${upToMedium`
+  > ${ItemHeader} {
+    font-size: 6rem;
+    letter-spacing: -0.5rem;
+  }
+  > ${Column} > ${ItemHeader} {
+    font-size: 3.2rem;
+  }
+`}
+  ${upToSmall`
+  grid-gap: 4rem;
+  > ${ItemHeader} {
+    font-size: 4rem;
+    letter-spacing: -0.5rem;
+  }
+  > ${Column} > ${ItemHeader} {
+    font-size: 2rem;
+  }
+`}
+`
 export const ShoppingCartPanelContentWrapper = styled(Column)`
   overflow: hidden;
   overflow-y: auto;
   > ${Row} {
-    &:first-child {
-      display: grid;
-      grid-template-columns: min-content auto min-content;
-      text-align: center;
-      grid-gap: 9rem;
-
-      ${upToMedium`
-        > ${ItemHeader} {
-          font-size: 6rem;
-          letter-spacing: -0.5rem;
-        }
-        > ${Column} > ${ItemHeader} {
-          font-size: 3.2rem;
-        }
-      `}
-      ${upToSmall`
-        grid-gap: 4rem;
-        > ${ItemHeader} {
-          font-size: 4rem;
-          letter-spacing: -0.5rem;
-        }
-        > ${Column} > ${ItemHeader} {
-          font-size: 2rem;
-        }
-      `}
-    }
     margin: 1rem 0;
 
     > svg {
@@ -148,25 +148,32 @@ export const ShoppingCartPanelWrapper = styled.div`
   animation-name: fadeIn;
   animation-duration: 0.4s;
 
-  > ${ShoppingCartPanelContentWrapper} {
+  > ${ShoppingCartPanelContentWrapper}, > ${CartTableHeaderWrapper} {
     color: ${({ theme }) => theme.text1};
     // background: ${({ theme }) => transparentize(0.2, theme.black)};
     background-color: ${({ theme }) => transparentize(0.1, theme.black)};
-    padding: 0 4rem 0rem;
     margin-left: auto;
     width: 80%;
-    height: 100%;
-
-    ${upToExtraLarge`
+    
+    ${upToSmall`
+      width: 100%;
       padding: 1rem;
     `}
 
-    ${upToSmall`
-      width: 100%;
-    `}
-
+    padding-left: 3rem;
+    padding-right: 3rem;
+    
     ${fromExtraLarge`
       width: 40%;
     `}
+  }
+  
+  > ${CartTableHeaderWrapper} {
+    padding: 2rem;
+  }
+  
+  > ${ShoppingCartPanelContentWrapper} {
+    padding-bottom: 18rem;
+    height: 100%;
   }
 `
