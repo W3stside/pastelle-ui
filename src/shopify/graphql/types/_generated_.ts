@@ -6621,6 +6621,13 @@ export type GetCartQuery = {
     createdAt: any
     updatedAt: any
     totalQuantity: number
+    cost: {
+      __typename?: 'CartCost'
+      totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+      subtotalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+      totalTaxAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
+      totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
+    }
     lines: {
       __typename?: 'CartLineConnection'
       nodes: Array<{
@@ -6631,26 +6638,30 @@ export type GetCartQuery = {
           __typename?: 'ProductVariant'
           id: string
           size: string
-          product: { __typename?: 'Product'; title: string; handle: string }
+          product: {
+            __typename?: 'Product'
+            title: string
+            handle: string
+            images: {
+              __typename?: 'ImageConnection'
+              nodes: Array<{
+                __typename?: 'Image'
+                id?: string | null
+                url: any
+                altText?: string | null
+                width?: number | null
+                height?: number | null
+                url500: any
+                url720: any
+                url960: any
+                url1280: any
+              }>
+            }
+          }
           unitPrice?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
         }
         attributes: Array<{ __typename?: 'Attribute'; key: string; value?: string | null }>
       }>
-    }
-    attributes: Array<{ __typename?: 'Attribute'; key: string; value?: string | null }>
-    cost: {
-      __typename?: 'CartCost'
-      totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
-      subtotalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
-      totalTaxAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
-      totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
-    }
-    buyerIdentity: {
-      __typename?: 'CartBuyerIdentity'
-      email?: string | null
-      phone?: string | null
-      countryCode?: CountryCode | null
-      customer?: { __typename?: 'Customer'; id: string } | null
     }
   } | null
 }
@@ -6792,12 +6803,52 @@ export type FragmentCartCostFragment = {
   totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
 }
 
+export type FragmentCartLineFragment = {
+  __typename?: 'CartLine'
+  id: string
+  quantity: number
+  merchandise: {
+    __typename?: 'ProductVariant'
+    id: string
+    size: string
+    product: {
+      __typename?: 'Product'
+      title: string
+      handle: string
+      images: {
+        __typename?: 'ImageConnection'
+        nodes: Array<{
+          __typename?: 'Image'
+          id?: string | null
+          url: any
+          altText?: string | null
+          width?: number | null
+          height?: number | null
+          url500: any
+          url720: any
+          url960: any
+          url1280: any
+        }>
+      }
+    }
+    unitPrice?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
+  }
+  attributes: Array<{ __typename?: 'Attribute'; key: string; value?: string | null }>
+}
+
 export type FragmentCartFragment = {
   __typename?: 'Cart'
   id: string
   createdAt: any
   updatedAt: any
   totalQuantity: number
+  cost: {
+    __typename?: 'CartCost'
+    totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+    subtotalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+    totalTaxAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
+    totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
+  }
   lines: {
     __typename?: 'CartLineConnection'
     nodes: Array<{
@@ -6808,26 +6859,30 @@ export type FragmentCartFragment = {
         __typename?: 'ProductVariant'
         id: string
         size: string
-        product: { __typename?: 'Product'; title: string; handle: string }
+        product: {
+          __typename?: 'Product'
+          title: string
+          handle: string
+          images: {
+            __typename?: 'ImageConnection'
+            nodes: Array<{
+              __typename?: 'Image'
+              id?: string | null
+              url: any
+              altText?: string | null
+              width?: number | null
+              height?: number | null
+              url500: any
+              url720: any
+              url960: any
+              url1280: any
+            }>
+          }
+        }
         unitPrice?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
       }
       attributes: Array<{ __typename?: 'Attribute'; key: string; value?: string | null }>
     }>
-  }
-  attributes: Array<{ __typename?: 'Attribute'; key: string; value?: string | null }>
-  cost: {
-    __typename?: 'CartCost'
-    totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
-    subtotalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
-    totalTaxAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
-    totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
-  }
-  buyerIdentity: {
-    __typename?: 'CartBuyerIdentity'
-    email?: string | null
-    phone?: string | null
-    countryCode?: CountryCode | null
-    customer?: { __typename?: 'Customer'; id: string } | null
   }
 }
 

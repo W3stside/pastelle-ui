@@ -14,6 +14,7 @@ export const CREATE_CART = gql`
 `
 
 export const UPDATE_CART_LINE = gql`
+  ${FRAGMENT_CART_COST}
   mutation UpdateCartLine($cartId: ID!, $lineId: ID!, $quantity: Int!) {
     cartLinesUpdate(cartId: $cartId, lines: { id: $lineId, quantity: $quantity }) {
       cart {

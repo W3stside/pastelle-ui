@@ -109,34 +109,27 @@ export const FRAGMENT_CART_COST = gql`
   }
 `
 
-export const FRAGMENT_CART = gql`
-  ${FRAGMENT_CART_COST}
-  fragment FragmentCart on Cart {
+export const FRAGMENT_CART_LINE = gql`
+  ${FRAGMENT_PRODUCT_IMAGE}
+  fragment FragmentCartLine on CartLine {
     id
-    createdAt
-    updatedAt
-    totalQuantity
-    lines(first: $linesAmount) {
-      nodes {
+    quantity
+    merchandise {
+      ... on ProductVariant {
         id
-        quantity
-        merchandise {
-          ... on ProductVariant {
-            id
-            size: title
-            product {
-              title
-              handle
-            }
-            unitPrice {
-              amount
-              currencyCode
+        size: title
+        product {
+          title
+          handle
+          images(first: 10) {
+            nodes {
+              ...FragmentProductImage
             }
           }
         }
-        attributes {
-          key
-          value
+        unitPrice {
+          amount
+          currencyCode
         }
       }
     }
@@ -144,16 +137,24 @@ export const FRAGMENT_CART = gql`
       key
       value
     }
+  }
+`
+
+export const FRAGMENT_CART = gql`
+  ${FRAGMENT_CART_COST}
+  ${FRAGMENT_CART_LINE}
+  fragment FragmentCart on Cart {
+    id
+    createdAt
+    updatedAt
+    totalQuantity
     cost {
       ...FragmentCartCost
     }
-    buyerIdentity {
-      email
-      phone
-      customer {
-        id
+    lines(first: $linesAmount) {
+      nodes {
+        ...FragmentCartLine
       }
-      countryCode
     }
   }
 `

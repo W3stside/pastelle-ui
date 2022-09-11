@@ -26,6 +26,8 @@ import { useQueryCart } from 'shopify/graphql/hooks'
 import LoadingRows from 'components/Loader/LoadingRows'
 import { transparentize } from 'polished'
 import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
+import { FragmentCartLineFragment } from 'shopify/graphql/types'
+import SmartImg from 'components/SmartImg'
 
 const HeaderFrame = styled(SectionFrame)`
   top: 0;
@@ -332,9 +334,29 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
         {loading ? (
           <LoadingRows rows={LINES_AMOUNT} />
         ) : (
-          cartLines?.map(line => <ItemSubHeader key={line.id}>{line.id}</ItemSubHeader>)
+          cartLines?.map(line => <ShoppingCartLine key={line.id} line={line} />)
         )}
       </ShoppingCartPanelContentWrapper>
     </ShoppingCartPanelWrapper>
+  )
+}
+const CartLineWrapper = styled(Row)`
+  display: grid;
+  grid-template-columns: 0px 5rem 10rem 10rem 5rem;
+  text-align: center;
+
+  img {
+    max-width: 100%;
+  }
+`
+function ShoppingCartLine({ line }: { line: FragmentCartLineFragment }) {
+  return (
+    <CartLineWrapper>
+      {/* <SMART IMG SPAN />*/}
+      <ItemSubHeader>{line?.quantity}</ItemSubHeader>
+      <SmartImg defaultPath={line.merchandise.product.images.nodes[0].url} />
+      <ItemSubHeader>{line?.merchandise.product.title}</ItemSubHeader>
+      <ItemSubHeader>{line?.merchandise.size}</ItemSubHeader>
+    </CartLineWrapper>
   )
 }
