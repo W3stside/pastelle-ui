@@ -15,6 +15,7 @@ export const DEFAULT_COLOURS = {
   blue: '#3F77FF',
   blueDark: '#185afb',
   purple: '#8958FF',
+  purple1: '#200d36eb',
   bgLight: '#edf2f7',
   bgDark: 'linear-gradient(0deg, #21222E 0.05%, #2C2D3F 100%)',
   blackLight: '#181a1b',

@@ -110,6 +110,7 @@ export const FRAGMENT_CART_COST = gql`
 `
 
 export const FRAGMENT_CART_LINE = gql`
+  ${FRAGMENT_PRODUCT}
   ${FRAGMENT_PRODUCT_IMAGE}
   fragment FragmentCartLine on CartLine {
     id
@@ -119,9 +120,8 @@ export const FRAGMENT_CART_LINE = gql`
         id
         size: title
         product {
-          title
-          handle
-          images(first: 10) {
+          ...FragmentProduct
+          images(first: 1) {
             nodes {
               ...FragmentProductImage
             }

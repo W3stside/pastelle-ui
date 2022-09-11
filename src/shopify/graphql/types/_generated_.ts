@@ -6640,8 +6640,12 @@ export type GetCartQuery = {
           size: string
           product: {
             __typename?: 'Product'
+            id: string
             title: string
             handle: string
+            updatedAt: any
+            description: string
+            descriptionHtml: any
             images: {
               __typename?: 'ImageConnection'
               nodes: Array<{
@@ -6657,6 +6661,13 @@ export type GetCartQuery = {
                 url1280: any
               }>
             }
+            sizes: Array<{ __typename?: 'ProductOption'; values: Array<string> }>
+            featuredImage?: { __typename?: 'Image'; url: any; width?: number | null; height?: number | null } | null
+            options: Array<{ __typename?: 'ProductOption'; name: string; values: Array<string> }>
+            brandingAssetMap?: { __typename?: 'Metafield'; value: string } | null
+            bgColor?: { __typename?: 'Metafield'; value: string } | null
+            color?: { __typename?: 'Metafield'; value: string } | null
+            artistInfo?: { __typename?: 'Metafield'; value: string } | null
           }
           unitPrice?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
         }
@@ -6813,8 +6824,12 @@ export type FragmentCartLineFragment = {
     size: string
     product: {
       __typename?: 'Product'
+      id: string
       title: string
       handle: string
+      updatedAt: any
+      description: string
+      descriptionHtml: any
       images: {
         __typename?: 'ImageConnection'
         nodes: Array<{
@@ -6830,6 +6845,13 @@ export type FragmentCartLineFragment = {
           url1280: any
         }>
       }
+      sizes: Array<{ __typename?: 'ProductOption'; values: Array<string> }>
+      featuredImage?: { __typename?: 'Image'; url: any; width?: number | null; height?: number | null } | null
+      options: Array<{ __typename?: 'ProductOption'; name: string; values: Array<string> }>
+      brandingAssetMap?: { __typename?: 'Metafield'; value: string } | null
+      bgColor?: { __typename?: 'Metafield'; value: string } | null
+      color?: { __typename?: 'Metafield'; value: string } | null
+      artistInfo?: { __typename?: 'Metafield'; value: string } | null
     }
     unitPrice?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
   }
@@ -6861,8 +6883,12 @@ export type FragmentCartFragment = {
         size: string
         product: {
           __typename?: 'Product'
+          id: string
           title: string
           handle: string
+          updatedAt: any
+          description: string
+          descriptionHtml: any
           images: {
             __typename?: 'ImageConnection'
             nodes: Array<{
@@ -6878,6 +6904,13 @@ export type FragmentCartFragment = {
               url1280: any
             }>
           }
+          sizes: Array<{ __typename?: 'ProductOption'; values: Array<string> }>
+          featuredImage?: { __typename?: 'Image'; url: any; width?: number | null; height?: number | null } | null
+          options: Array<{ __typename?: 'ProductOption'; name: string; values: Array<string> }>
+          brandingAssetMap?: { __typename?: 'Metafield'; value: string } | null
+          bgColor?: { __typename?: 'Metafield'; value: string } | null
+          color?: { __typename?: 'Metafield'; value: string } | null
+          artistInfo?: { __typename?: 'Metafield'; value: string } | null
         }
         unitPrice?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
       }

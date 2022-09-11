@@ -10,12 +10,27 @@ export const QuantitySelectorWrapper = styled(Row)`
   width: 100%;
   height: 6rem;
 
-  > *:not(input[type='number']) {
-    cursor: pointer;
+  justify-content: center;
+  padding: 1rem;
+
+  > button {
+    border: none;
+    border-radius: 0.5rem;
+    margin: 0 0.5rem;
+    background: ${({ theme }) => theme.black};
+    color: ${({ theme }) => theme.offWhite};
+    min-width: 3rem;
+  }
+  > button,
+  > input {
+    text-align: center;
+    height: 100%;
+    font-weight: 700;
+    font-size: 1.6rem;
   }
 
-  > input[type='number'] {
-    text-align: center;
+  > *:not(input[type='number']) {
+    cursor: pointer;
   }
 `
 const PURCHASE_LIMIT = 99

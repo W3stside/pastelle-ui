@@ -2,18 +2,44 @@ import styled from 'styled-components/macro'
 import { transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
-import { Z_INDEXES } from 'constants/config'
-import { fadeInAnimation } from 'pages/SingleItem/styleds'
-import { upToMedium, upToSmall } from 'theme/utils'
-
-export const CartLineWrapper = styled(Row)`
+import { DEFAULT_IK_TRANSFORMS, Z_INDEXES } from 'constants/config'
+import { fadeInAnimation, ItemHeader, Strikethrough } from 'pages/SingleItem/styleds'
+import { fromExtraLarge, upToSmall } from 'theme/utils'
+import { ProductBrandingAssets } from 'shopify/graphql/types'
+export const CartLineContent = styled(Row)`
   display: grid;
-  grid-template-columns: 0px 0.25fr minmax(6rem, 0.4fr) minmax(13rem, 1fr) 0.25fr minmax(11rem, 0.7fr);
-  text-align: center;
+  // span, pic, content
+  grid-template-columns: auto min-content;
+  background: ${({ theme }) => theme.purple1};
+  padding: 1rem;
+`
+
+export const CartLineWrapper = styled(Row)<{
+  brandAssetMap: Partial<ProductBrandingAssets> | undefined
+  color?: string
+}>`
+  border-radius: 1rem;
+  > div {
+    display: grid;
+    // span, pic, content
+    grid-template-columns: 0px 12rem auto;
+    text-align: center;
+    max-height: 14rem;
+    width: 100%;
+  }
+
+  background: ${({ theme, brandAssetMap, color }) =>
+    brandAssetMap?.header
+      ? `url(${brandAssetMap?.header}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) center repeat, url(${brandAssetMap?.header}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) center repeat`
+      : color || transparentize(0.3, theme.bg1)};
+
+  background-color: ${({ theme, color = transparentize(0.3, theme.bg1) }) => color};
+  background-size: initial;
+  background-blend-mode: unset;
 
   border-top: 1px solid black;
 
-  padding: 10px;
+  padding: 1rem;
 
   img {
     max-width: 100%;
@@ -23,12 +49,15 @@ export const CartLineWrapper = styled(Row)`
     min-width: unset;
     width: 5rem;
   }
+
+  > div {
+  }
 `
 
 export const ShoppingCartQuantityWrapper = styled(Row)`
   padding: 0.2rem 0.4rem;
   border-radius: 2rem;
-  background-color: red;
+  background-color: ${({ theme }) => theme.purple1};
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
@@ -38,7 +67,7 @@ export const ShoppingCartWrapper = styled(Row)`
   justify-content: space-evenly;
   gap: 1rem;
   background: ${({ theme }) => theme.offWhite};
-  padding: 1rem;
+  padding: 2rem;
   margin-left: auto;
   width: fit-content;
   border-radius: 0.5rem;
@@ -55,9 +84,24 @@ export const ShoppingCartWrapper = styled(Row)`
 `
 
 export const ShoppingCartPanelContentWrapper = styled(Column)`
-  z-index: 400;
+  overflow: hidden;
+  overflow-y: auto;
   > ${Row} {
-    margin: 0;
+    &:first-child {
+      display: grid;
+      grid-template-columns: min-content 1fr min-content;
+      grid-gap: 9rem;
+    }
+    margin: 1rem 0;
+
+    > ${Strikethrough} {
+      border-radius: 2rem;
+      height: 0.5rem;
+    }
+
+    > ${ItemHeader} {
+      letter-spacing: -10px;
+    }
 
     > svg {
       margin: 0 2rem;
@@ -73,7 +117,6 @@ export const ShoppingCartPanelWrapper = styled.div`
   bottom: 0;
   width: 100%;
   z-index: ${Z_INDEXES.SHOPPING_CART};
-  background-color: ${({ theme }) => transparentize(0.5, theme.black)};
   cursor: initial;
 
   // animation
@@ -84,18 +127,19 @@ export const ShoppingCartPanelWrapper = styled.div`
 
   > ${ShoppingCartPanelContentWrapper} {
     color: ${({ theme }) => theme.text1};
-    background: ${({ theme }) => transparentize(0.1, theme.offWhite)};
-    padding: 0 2rem 2rem;
+    // background: ${({ theme }) => transparentize(0.2, theme.black)};
+    background-color: ${({ theme }) => transparentize(0.1, theme.black)};
+    padding: 0 4rem 0rem;
     margin-left: auto;
-    width: 40%;
+    width: 80%;
     height: 100%;
-
-    ${upToMedium`
-    width: 70%;
-  `}
 
     ${upToSmall`
       width: 100%;
+    `}
+
+    ${fromExtraLarge`
+      width: 40%;
     `}
   }
 `

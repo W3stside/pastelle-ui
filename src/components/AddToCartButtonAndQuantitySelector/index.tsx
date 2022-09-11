@@ -13,22 +13,7 @@ const Wrapper = styled(Row)`
   }
   > ${QuantitySelectorWrapper} {
     flex: 1 1 33%;
-    padding: 1rem;
-    justify-content: center;
-    > button {
-      border: none;
-      border-radius: 0.5rem;
-      margin: 0 0.5rem;
-      background: ${({ theme }) => theme.black};
-      color: ${({ theme }) => theme.offWhite};
-      min-width: 3rem;
-    }
-    > button,
-    > input {
-      height: 100%;
-      font-weight: 700;
-      font-size: 1.6rem;
-    }
+
     > input[type='number'] {
       width: 5rem;
     }

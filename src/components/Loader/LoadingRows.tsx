@@ -8,8 +8,8 @@ export const loadingAnimation = keyframes`
     background-position: 0% 50%;
   }
 `
-
-const StyledLoadingRows = styled.div`
+type LoadingRowsStyleProps = { $height?: string; $margin?: string; $padding?: string }
+const StyledLoadingRows = styled.div<LoadingRowsStyleProps>`
   display: grid;
   gap: 6px;
 
@@ -23,16 +23,18 @@ const StyledLoadingRows = styled.div`
       ${({ theme }) => theme.white} 75%
     );
     background-size: 400%;
-    height: 2em;
+    height: ${({ $height = '2em' }) => $height};
+    ${({ $padding }) => $padding && `padding: ${$padding}`};
+    ${({ $margin }) => $margin && `margin: ${$margin}`};
     will-change: background-position;
   }
 `
 
-function LoadingRows({ rows }: { rows: number }) {
+function LoadingRows({ rows, ...rest }: { rows: number } & LoadingRowsStyleProps) {
   const arr = Array.from({ length: rows })
 
   return (
-    <StyledLoadingRows>
+    <StyledLoadingRows {...rest}>
       {arr.map((_, i) => (
         <div key={i} />
       ))}

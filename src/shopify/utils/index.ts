@@ -22,18 +22,18 @@ export function isJson(str: any) {
   return true
 }
 
-export function getMetafields(query: any) {
+export function getMetafields<T>(query: any) {
   const test = query?.value || query
   if (isJson(test)) {
-    return JSON.parse(test)
+    return JSON.parse(test) as T
   } else {
-    return test
+    return test as T
   }
 }
 
 export const mapShopifyProductToProps = (data: ProductsList = []): ProductPageProps[] => {
   return data.map(datum => {
-    const brandingAssetsMap = getMetafields(datum.brandingAssetMap) as ProductBrandingAssets | undefined
+    const brandingAssetsMap = getMetafields<ProductBrandingAssets | undefined>(datum.brandingAssetMap)
 
     return {
       id: datum.id,
@@ -45,14 +45,14 @@ export const mapShopifyProductToProps = (data: ProductsList = []): ProductPagePr
       navLogo: brandingAssetsMap?.navBar,
       description: datum.descriptionHtml,
       // metafields
-      bgColor: getMetafields(datum.bgColor)?.toString() as string,
-      color: getMetafields(datum.color)?.toString() as string,
-      artistInfo: getMetafields(datum.artistInfo) as ProductArtistInfo,
+      bgColor: getMetafields<string>(datum.bgColor)?.toString(),
+      color: getMetafields<string>(datum.color)?.toString(),
+      artistInfo: getMetafields<ProductArtistInfo>(datum.artistInfo),
       // TODO: fix
       images: datum.images.nodes.slice(0, 2),
       // @ts-ignore - type
       videos: datum.media.nodes.filter(media => media?.__typename === 'Video') as FragmentProductVideoFragment[],
-      sizes: getMetafields(datum.sizes[0].values) as ProductSizes[]
+      sizes: getMetafields<ProductSizes[]>(datum.sizes[0].values)
     }
   })
 }
