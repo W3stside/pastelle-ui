@@ -3,15 +3,28 @@ import { transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
 import { DEFAULT_IK_TRANSFORMS, Z_INDEXES } from 'constants/config'
-import { fadeInAnimation, Strikethrough } from 'pages/SingleItem/styleds'
-import { fromExtraLarge, upToSmall } from 'theme/utils'
+import { fadeInAnimation, ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
+import { fromExtraLarge, upToExtraLarge, upToExtraSmall, upToMedium, upToSmall } from 'theme/utils'
 import { ProductBrandingAssets } from 'shopify/graphql/types'
+import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
 export const CartLineContent = styled(Row)`
   display: grid;
   // span, pic, content
   grid-template-columns: auto min-content;
   background: ${({ theme }) => theme.purple1};
   padding: 1rem;
+
+  ${upToExtraSmall`
+    > ${ItemSubHeader} {
+      font-size: 2rem;
+    } 
+    > ${QuantitySelectorWrapper} {
+      flex-flow: column-reverse nowrap;
+      > button {
+        width: 100%;
+      }
+    }
+  `}
 `
 
 export const CartLineWrapper = styled(Row)<{
@@ -19,6 +32,7 @@ export const CartLineWrapper = styled(Row)<{
   color?: string
 }>`
   border-radius: 1rem;
+
   > div {
     display: grid;
     // span, pic, content
@@ -48,9 +62,6 @@ export const CartLineWrapper = styled(Row)<{
   input[type='number'] {
     min-width: unset;
     width: 5rem;
-  }
-
-  > div {
   }
 `
 
@@ -89,15 +100,31 @@ export const ShoppingCartPanelContentWrapper = styled(Column)`
   > ${Row} {
     &:first-child {
       display: grid;
-      grid-template-columns: min-content 14rem auto min-content;
+      grid-template-columns: min-content auto min-content;
+      text-align: center;
       grid-gap: 9rem;
+
+      ${upToMedium`
+        > ${ItemHeader} {
+          font-size: 6rem;
+          letter-spacing: -0.5rem;
+        }
+        > ${Column} > ${ItemHeader} {
+          font-size: 3.2rem;
+        }
+      `}
+      ${upToSmall`
+        grid-gap: 4rem;
+        > ${ItemHeader} {
+          font-size: 4rem;
+          letter-spacing: -0.5rem;
+        }
+        > ${Column} > ${ItemHeader} {
+          font-size: 2rem;
+        }
+      `}
     }
     margin: 1rem 0;
-
-    > ${Strikethrough} {
-      border-radius: 2rem;
-      height: 0.5rem;
-    }
 
     > svg {
       margin: 0 2rem;
@@ -129,6 +156,10 @@ export const ShoppingCartPanelWrapper = styled.div`
     margin-left: auto;
     width: 80%;
     height: 100%;
+
+    ${upToExtraLarge`
+      padding: 1rem;
+    `}
 
     ${upToSmall`
       width: 100%;

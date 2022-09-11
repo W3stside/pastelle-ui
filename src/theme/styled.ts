@@ -48,6 +48,10 @@ export interface Colors {
   blue1: Color
   purple: Color
   purple1: Color
+
+  // states
+  dangerLight: Color
+  warningLight: Color
 }
 
 export enum ThemeModes {

@@ -21,7 +21,7 @@ export const DEFAULT_COLOURS = {
   blackLight: '#181a1b',
   successLight: '#5ca95c',
   successDark: '#00BE2E',
-  dangerLight: '#e55353',
+  dangerLight: '#e55353', // #ff9d9d,
   dangerDark: '#eb4025',
   warningLight: '#f1851d',
   warningDark: '#f1851d',

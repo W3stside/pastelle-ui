@@ -1,5 +1,8 @@
+import { AddToCartButtonParams } from 'components/AddToCartButton'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
+import { useAddNewCartLine } from 'shopify/graphql/hooks'
+import { addCartLineAndUpdateStore } from 'shopify/utils/cart'
 import { useAppSelector } from 'state'
 import { createCart, CreateCartParams, updateCartInfo, UpdateCartInfoParams } from './reducer'
 
@@ -20,4 +23,19 @@ export function useUpdateCartInfoDispatch() {
   const dispatch = useDispatch()
 
   return useCallback((params: UpdateCartInfoParams) => dispatch(updateCartInfo(params)), [dispatch])
+}
+
+export function useAddToCartAndUpdateCallback(props: Omit<AddToCartButtonParams, 'label'>) {
+  const { merchandiseId, quantity } = props
+  const cartId = useGetCartIdDispatch()
+  const updateCartInfo = useUpdateCartInfoDispatch()
+  const [addNewCartLine, rest] = useAddNewCartLine()
+
+  return {
+    ...rest,
+    addToCartCallback: useCallback(
+      e => addCartLineAndUpdateStore(e, { cartId, quantity, merchandiseId, addNewCartLine, updateCartInfo }),
+      [addNewCartLine, cartId, quantity, merchandiseId, updateCartInfo]
+    )
+  }
 }

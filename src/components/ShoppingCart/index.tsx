@@ -1,6 +1,6 @@
 import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 
-import { Row } from 'components/Layout'
+import { Column, Row } from 'components/Layout'
 import LoadingRows from 'components/Loader/LoadingRows'
 import SmartImg from 'components/SmartImg'
 import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
@@ -68,7 +68,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
           </ItemHeader>
           {/* <Strikethrough /> */}
           {data?.cart && (
-            <>
+            <Column>
               {totalQuantity && (
                 <ItemHeader color={WHITE} itemColor={'transparent'} fontSize={'3.5rem'} letterSpacing={0}>
                   {totalQuantity} items
@@ -80,7 +80,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
                   {formatCurrency(subTotal.amount, subTotal.currencyCode)}
                 </ItemHeader>
               )}
-            </>
+            </Column>
           )}
           <X size={'5rem'} color={WHITE} onClick={closeCartPanel} />
         </Row>
