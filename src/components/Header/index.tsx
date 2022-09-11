@@ -25,7 +25,6 @@ import { CartState } from 'state/cart/reducer'
 import { useQueryCart } from 'shopify/graphql/hooks'
 import LoadingRows from 'components/Loader/LoadingRows'
 import { transparentize } from 'polished'
-import { TYPE } from 'theme'
 import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
 
 const HeaderFrame = styled(SectionFrame)`
