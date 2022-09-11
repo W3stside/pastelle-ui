@@ -4,12 +4,13 @@ import { animated, useSpring, useTransition } from 'react-spring'
 import { useGesture } from '@use-gesture/react'
 import styled, { css } from 'styled-components/macro'
 import { isMobile } from 'utils'
+import { Z_INDEXES } from 'constants/config'
 
 const AnimatedDialogOverlay = animated(DialogOverlay)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDialogOverlay = styled(AnimatedDialogOverlay)`
   &[data-reach-dialog-overlay] {
-    z-index: 9999;
+    z-index: ${Z_INDEXES.MODALS};
     position: fixed;
     top: 0;
     left: 0;

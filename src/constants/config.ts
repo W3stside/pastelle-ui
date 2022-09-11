@@ -21,3 +21,15 @@ export const DEFAULT_IK_TRANSFORMS = {
   LQ_LOGO: 'pr-true,q-10',
   HQ_LOGO: 'pr-true,q-90'
 }
+
+export const enum Z_INDEXES {
+  BEHIND = -1,
+  ZERO = 0,
+  MENU_FLYOUT = 100,
+  PRODUCT_CONTENT = 100,
+  PRODUCT_VIDEOS = 200,
+  NAV_MENU = 200,
+  SHOPPING_CART = 300,
+  SCROLLER_DIV = 900,
+  MODALS = 9999
+}

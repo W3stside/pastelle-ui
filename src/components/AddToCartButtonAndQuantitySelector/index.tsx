@@ -37,7 +37,7 @@ const Wrapper = styled(Row)`
 export default function AddToCartButtonAndQuantitySelector({
   merchandiseId
 }: Pick<AddToCartButtonParams, 'merchandiseId'>) {
-  const { quantity, QuantitySelector } = useQuantitySelector()
+  const { quantity, QuantitySelector } = useQuantitySelector({ defaultQuantity: 1 })
 
   return (
     <Wrapper>

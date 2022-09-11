@@ -26,13 +26,11 @@ export const QUERY_PRODUCT = gql`
 `
 
 export const QUERY_PRODUCT_VARIANT_BY_KEY_VALUE = gql`
-  query ProductVariant($key: String!, $value: String!) {
-    products(first: 1) {
-      nodes {
-        variantBySelectedOptions(selectedOptions: { name: $key, value: $value }) {
-          id
-          title
-        }
+  query ProductVariant($productId: ID!, $key: String!, $value: String!) {
+    product(id: $productId) {
+      variantBySelectedOptions(selectedOptions: { name: $key, value: $value }) {
+        id
+        title
       }
     }
   }

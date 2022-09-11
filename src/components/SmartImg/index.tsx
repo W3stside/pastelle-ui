@@ -29,6 +29,9 @@ export type SmartImageProps = ImagePropsWithDefaultImage | ImagePropsWithIkImage
 
 const StyledPicture = styled.picture`
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const DEFAULT_LQ_IP = {

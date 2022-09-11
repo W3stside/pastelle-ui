@@ -5,9 +5,10 @@ import { usePopper } from 'react-popper'
 import styled from 'styled-components/macro'
 import useInterval from '../../hooks/useInterval'
 import Portal from '@reach/portal'
+import { Z_INDEXES } from 'constants/config'
 
 const PopoverContainer = styled.div<{ show: boolean }>`
-  z-index: 9999;
+  z-index: ${Z_INDEXES.MODALS};
 
   visibility: ${props => (props.show ? 'visible' : 'hidden')};
   opacity: ${props => (props.show ? 1 : 0)};
@@ -27,13 +28,13 @@ const ReferenceElement = styled.div`
 const Arrow = styled.div`
   width: 8px;
   height: 8px;
-  z-index: 9998;
+  z-index: ${Z_INDEXES.MODALS - 1};
 
   ::before {
     position: absolute;
     width: 8px;
     height: 8px;
-    z-index: 9998;
+    z-index: ${Z_INDEXES.MODALS - 1};
 
     content: '';
     border: 1px solid ${({ theme }) => theme.bg3};

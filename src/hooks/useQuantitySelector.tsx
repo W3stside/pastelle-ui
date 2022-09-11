@@ -19,8 +19,8 @@ export const QuantitySelectorWrapper = styled(Row)`
   }
 `
 const PURCHASE_LIMIT = 99
-export default function useQuantitySelector() {
-  const [quantity, setQuantity] = useState(1)
+export default function useQuantitySelector({ defaultQuantity = 1 }: { defaultQuantity?: number }) {
+  const [quantity, setQuantity] = useState(defaultQuantity)
   const [debouncedQuantity, debouncedSetQuantity] = useDebouncedChangeHandler(quantity, setQuantity)
 
   const handleOnClickDown = useCallback(() => {

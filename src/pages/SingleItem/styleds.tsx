@@ -9,7 +9,7 @@ import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
-import { DEFAULT_IK_TRANSFORMS, FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES } from 'constants/config'
+import { DEFAULT_IK_TRANSFORMS, FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
 import { fromExtraLarge, fromLarge, fromMedium, fromSmall, upToLarge, upToSmall } from 'theme/utils'
 
@@ -85,7 +85,7 @@ export const fadeInAnimation = css`
 `
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean }>`
-  z-index: -1;
+  z-index: ${Z_INDEXES.BEHIND};
 
   opacity: 1;
   ${({ hide }) => hide && `opacity: 0;`}
@@ -115,7 +115,7 @@ export const Strikethrough = styled.div`
 `
 export type ItemHeaderProps = { animation?: boolean; animationDelay?: boolean; itemColor: string; maxWidth?: string }
 export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
-  z-index: 100;
+  z-index: ${Z_INDEXES.PRODUCT_CONTENT};
   font-style: italic;
   letter-spacing: 7px;
   font-size: 10rem;  
@@ -149,7 +149,7 @@ export const ItemLogo = styled.div<{
 }>`
   display: flex;
   ${({ $bgColor }) => $bgColor && `background-color: ${$bgColor};`}
-  z-index: 100;
+  z-index: ${Z_INDEXES.PRODUCT_CONTENT};
 
   img {
     width: 100%;
@@ -185,7 +185,7 @@ export const ItemLogoCatalogView = styled(ItemLogoCssImport)<{ $bgColor: string 
   animation-delay: 3s; */
   height: auto;
   max-width: 30%;
-  z-index: 0;
+  z-index: ${Z_INDEXES.ZERO};
 
   // MEDIA QUERIES --> SMALL and below
   ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -382,7 +382,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
           
             &:not(:first-child) {
               transform: none;
-              z-index: 0;
+              z-index: ${Z_INDEXES.ZERO};
             }
           `}
           // MEDIA QUERY --> MEDIUM and above
@@ -589,7 +589,7 @@ export const FloatingBlockContainer = styled.div<FloatingColoredBlock>`
   top: ${({ top = 57 }) => top}px;
   left: ${({ left = -106 }) => left}px;
 
-  z-index: -1;
+  z-index: ${Z_INDEXES.BEHIND};
 `
 
 export const PASTELLE_CREDIT = (
@@ -605,7 +605,7 @@ export const VideoControlButton = styled(Button)`
   top: 0;
   padding: 10;
   border-radius: 0 0 0 10px;
-  z-index: 950;
+  z-index: ${Z_INDEXES.SCROLLER_DIV + 50};
 
   > ${ItemSubHeader} {
     display: flex;

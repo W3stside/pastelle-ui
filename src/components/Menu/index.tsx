@@ -10,6 +10,7 @@ import { useModalOpen, useToggleModal } from 'state/application/hooks'
 import { ExternalLink } from 'theme'
 import Button from 'components/Button'
 import { darken } from 'polished'
+import { Z_INDEXES } from 'constants/config'
 
 const StyledMenuIcon = styled(MenuIcon)`
   path {
@@ -65,7 +66,7 @@ const MenuFlyout = styled.span`
   position: absolute;
   top: 4rem;
   right: 0rem;
-  z-index: 100;
+  z-index: ${Z_INDEXES.MENU_FLYOUT};
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     top: -17.25rem;

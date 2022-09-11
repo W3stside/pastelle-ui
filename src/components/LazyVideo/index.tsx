@@ -11,6 +11,7 @@ import { ItemHeader } from 'pages/SingleItem/styleds'
 import { ThemeModes } from 'theme/styled'
 import { getThemeColours } from 'theme/utils'
 import { BoxProps } from 'rebass'
+import { Z_INDEXES } from 'constants/config'
 
 type WithContainer = {
   container: HTMLElement | null | undefined
@@ -37,7 +38,7 @@ const VideoContainer = styled(Row)`
   > svg {
     position: absolute;
     right: 30%;
-    z-index: 200;
+    z-index: ${Z_INDEXES.PRODUCT_VIDEOS};
   }
 `
 

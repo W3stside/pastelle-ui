@@ -7000,17 +7000,15 @@ export type ProductQuery = {
 }
 
 export type ProductVariantQueryVariables = Exact<{
+  productId: Scalars['ID']
   key: Scalars['String']
   value: Scalars['String']
 }>
 
 export type ProductVariantQuery = {
   __typename?: 'QueryRoot'
-  products: {
-    __typename?: 'ProductConnection'
-    nodes: Array<{
-      __typename?: 'Product'
-      variantBySelectedOptions?: { __typename?: 'ProductVariant'; id: string; title: string } | null
-    }>
-  }
+  product?: {
+    __typename?: 'Product'
+    variantBySelectedOptions?: { __typename?: 'ProductVariant'; id: string; title: string } | null
+  } | null
 }

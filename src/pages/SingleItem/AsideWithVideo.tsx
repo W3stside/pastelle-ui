@@ -164,7 +164,7 @@ export default function ItemPage({
   const catalogLogo = navLogo || headerLogo
 
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
-  const merchandiseId = useQueryProductVariantId({ key: 'Size', value: selectedSize })
+  const merchandiseId = useQueryProductVariantId({ productId: id, key: 'Size', value: selectedSize })
 
   return (
     <>
@@ -262,7 +262,7 @@ export default function ItemPage({
                   <ItemContentContainer margin="20px 0" padding={'0 3rem'}>
                     <SubItemDescription>SELECT A SIZE BELOW TO SEE IT ON THE MODEL</SubItemDescription>
                     <SizeSelector color={bgColor} margin="20px 0" />
-                    <AddToCartButtonAndQuantitySelector merchandiseId={merchandiseId?.variantBySelectedOptions?.id} />
+                    <AddToCartButtonAndQuantitySelector merchandiseId={merchandiseId} />
 
                     <SubItemDescription margin={'20px 0 0 0'}>
                       <img src={ShippingSvg} /> FREE SHIPPING OVER 200€

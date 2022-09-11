@@ -85,7 +85,7 @@ export function useQueryProductVariantByKeyValue(variables: ProductVariantQueryV
   }
 
   // return first
-  return data?.products.nodes[0]
+  return data?.product
 }
 
 export function useQueryCart(variables: GetCartQueryVariables) {
@@ -100,5 +100,5 @@ export function useQueryCart(variables: GetCartQueryVariables) {
 
 type ProductVariantIdParams = ProductVariantQueryVariables
 export function useQueryProductVariantId(params: ProductVariantIdParams) {
-  return useQueryProductVariantByKeyValue(params)
+  return useQueryProductVariantByKeyValue(params)?.variantBySelectedOptions?.id
 }

@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro'
 import Button from 'components/Button'
 import { MobileNavProps } from '.'
+import { Z_INDEXES } from 'constants/config'
 
 export const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; minWidth?: string }>`
   width: ${({ width = 'auto' }) => width};
@@ -20,7 +21,7 @@ export const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: str
     font-size: 1.6rem;
   }
 
-  z-index: 200;
+  z-index: ${Z_INDEXES.NAV_MENU};
 
   ${({ theme, isOpen }) => theme.mediaWidth.upToMedium`
     display: ${isOpen ? 'flex' : 'none'};
@@ -39,7 +40,7 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   background: ${({ theme, bgColor = theme.red2 }) => bgColor};
   color: ${({ theme }) => theme.white};
   cursor: pointer;
-  z-index: 210;
+  z-index: ${Z_INDEXES.NAV_MENU + 1};
   gap: 5px;
 
   > div {
