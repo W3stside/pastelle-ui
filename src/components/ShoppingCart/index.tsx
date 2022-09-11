@@ -3,7 +3,7 @@ import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 import { Row } from 'components/Layout'
 import LoadingRows from 'components/Loader/LoadingRows'
 import SmartImg from 'components/SmartImg'
-import { ItemHeader, ItemSubHeader, Strikethrough } from 'pages/SingleItem/styleds'
+import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
 import { useQueryCart } from 'shopify/graphql/hooks'
 import { FragmentCartLineFragment, ProductBrandingAssets } from 'shopify/graphql/types'
 import { useGetCartDispatch, useGetCartIdDispatch } from 'state/cart/hooks'
@@ -54,6 +54,8 @@ const LINES_AMOUNT = 20
 function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCartPanel: () => void }) {
   const { data, loading } = useQueryCart({ cartId, linesAmount: LINES_AMOUNT })
   const cartLines = data?.cart?.lines.nodes
+  const totalQuantity = data?.cart?.totalQuantity
+  const subTotal = data?.cart?.cost.subtotalAmount
 
   const isEmptyCart = !Boolean(cartLines?.length)
 
@@ -61,10 +63,25 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
     <ShoppingCartPanelWrapper>
       <ShoppingCartPanelContentWrapper>
         <Row>
-          <ItemHeader margin={'1rem auto 0 0'} color={WHITE} itemColor={'transparent'}>
+          <ItemHeader margin={'1rem auto 0 0'} color={WHITE} itemColor={'transparent'} letterSpacing={-10}>
             CART
           </ItemHeader>
-          <Strikethrough />
+          {/* <Strikethrough /> */}
+          {data?.cart && (
+            <>
+              {totalQuantity && (
+                <ItemHeader color={WHITE} itemColor={'transparent'} fontSize={'3.5rem'} letterSpacing={0}>
+                  {totalQuantity} items
+                </ItemHeader>
+              )}
+              {subTotal && (
+                <ItemHeader color={WHITE} itemColor={'transparent'} fontSize={'3.5rem'} letterSpacing={0}>
+                  {/* {subTotal.amount} {subTotal.currencyCode} */}
+                  {formatCurrency(subTotal.amount, subTotal.currencyCode)}
+                </ItemHeader>
+              )}
+            </>
+          )}
           <X size={'5rem'} color={WHITE} onClick={closeCartPanel} />
         </Row>
         {loading ? (
@@ -111,4 +128,15 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
       </div>
     </CartLineWrapper>
   )
+}
+
+function formatCurrency(amount: number, currency: string) {
+  return new Intl.NumberFormat('pt-PT', {
+    style: 'currency',
+    currency
+
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  }).format(amount)
 }

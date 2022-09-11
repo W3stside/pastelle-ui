@@ -3,7 +3,7 @@ import { transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
 import { DEFAULT_IK_TRANSFORMS, Z_INDEXES } from 'constants/config'
-import { fadeInAnimation, ItemHeader, Strikethrough } from 'pages/SingleItem/styleds'
+import { fadeInAnimation, Strikethrough } from 'pages/SingleItem/styleds'
 import { fromExtraLarge, upToSmall } from 'theme/utils'
 import { ProductBrandingAssets } from 'shopify/graphql/types'
 export const CartLineContent = styled(Row)`
@@ -89,7 +89,7 @@ export const ShoppingCartPanelContentWrapper = styled(Column)`
   > ${Row} {
     &:first-child {
       display: grid;
-      grid-template-columns: min-content 1fr min-content;
+      grid-template-columns: min-content 14rem auto min-content;
       grid-gap: 9rem;
     }
     margin: 1rem 0;
@@ -97,10 +97,6 @@ export const ShoppingCartPanelContentWrapper = styled(Column)`
     > ${Strikethrough} {
       border-radius: 2rem;
       height: 0.5rem;
-    }
-
-    > ${ItemHeader} {
-      letter-spacing: -10px;
     }
 
     > svg {
