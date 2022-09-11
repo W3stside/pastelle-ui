@@ -9,14 +9,20 @@ import {
   UpdateCartLineMutationVariables
 } from '../types'
 
+const REFETCH_CART = {
+  refetchQueries: [
+    'getCart' // Query name
+  ]
+}
+
 export function useCreateCart() {
   return useMutation<CreateCartMutation, CreateCartMutationVariables>(CREATE_CART)
 }
 
 export const useUpdateCartLine = () => {
-  return useMutation<UpdateCartLineMutation, UpdateCartLineMutationVariables>(UPDATE_CART_LINE)
+  return useMutation<UpdateCartLineMutation, UpdateCartLineMutationVariables>(UPDATE_CART_LINE, REFETCH_CART)
 }
 
 export const useAddNewCartLine = () => {
-  return useMutation<AddNewCartLineMutation, AddNewCartLineMutationVariables>(ADD_NEW_CART_LINE)
+  return useMutation<AddNewCartLineMutation, AddNewCartLineMutationVariables>(ADD_NEW_CART_LINE, REFETCH_CART)
 }

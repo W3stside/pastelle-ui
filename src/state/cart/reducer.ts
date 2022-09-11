@@ -17,6 +17,7 @@ export type CreateCartParams = string
 export type UpdateCartInfoParams = {
   totalQuantity?: number
   costs?: FragmentCartCostFragment
+  cartId?: string
 }
 
 const cartSlice = createSlice({
@@ -26,9 +27,13 @@ const cartSlice = createSlice({
     createCart(state, { payload }: PayloadAction<CreateCartParams>) {
       state.cartId = payload
     },
-    updateCartInfo(state, { payload: { totalQuantity = 0, costs = undefined } }: PayloadAction<UpdateCartInfoParams>) {
+    updateCartInfo(
+      state,
+      { payload: { totalQuantity = 0, costs = undefined, cartId } }: PayloadAction<UpdateCartInfoParams>
+    ) {
       state.totalQuantity = totalQuantity
       state.costs = costs
+      state.cartId = cartId
     }
   }
 })
