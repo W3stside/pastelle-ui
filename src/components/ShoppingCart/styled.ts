@@ -79,7 +79,7 @@ export const ShoppingCartWrapper = styled(Row)`
   justify-content: space-evenly;
   gap: 1rem;
   background: ${({ theme }) => theme.offWhite};
-  padding: 2rem;
+  padding: 1rem 1.5rem;
   margin-left: auto;
   width: fit-content;
   border-radius: 0.5rem;

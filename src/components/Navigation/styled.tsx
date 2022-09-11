@@ -65,7 +65,7 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
     justify-content: center;
     align-items: center;
 
-    margin-left: auto;
+    // margin-left: auto;
   `};
 `
 

@@ -20,6 +20,7 @@ import Navigation from 'components/Navigation'
 import { NavLink, useLocation } from 'react-router-dom'
 import { DEFAULT_CATALOG_URL } from 'constants/config'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
+import { fromMedium } from 'theme/utils'
 
 const HeaderFrame = styled(SectionFrame)`
   top: 0;
@@ -53,7 +54,7 @@ const HeaderElementWrap = styled.div`
 const HeaderRow = styled(RowFixed)`
   width: 100%;
 
-  ${({ theme }) => theme.fromMediaWidth.fromMedium`
+  ${fromMedium`
       nav {
         display: none;
       }
