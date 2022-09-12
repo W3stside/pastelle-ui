@@ -1,17 +1,29 @@
-import ThemeToggleBar from '../ThemeToggler'
 import styled from 'styled-components/macro'
 import { SectionFrame } from '../Layout/Section'
+import { upToExtraSmall } from 'theme/utils'
+import { ShoppingCartHeader } from 'components/ShoppingCart'
+import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
 
 const FooterWrapper = styled(SectionFrame)`
-  position: fixed;
-  bottom: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  display: none;
+
+  ${upToExtraSmall`
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    padding: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    > ${ShoppingCartFullWrapper} {
+      margin-left: auto;
+
+    }
+  `}
 `
 
 const Footer = () => {
   return (
     <FooterWrapper as="footer">
-      <ThemeToggleBar />
+      <ShoppingCartHeader />
     </FooterWrapper>
   )
 }

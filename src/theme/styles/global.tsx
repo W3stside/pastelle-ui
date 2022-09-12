@@ -210,7 +210,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
     background: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
   }
 
-  header {
+  header, footer {
     background: ${({ headerLogo, theme, frameBgColor = transparentize(0.3, theme.bg1) }) =>
       headerLogo
         ? `url(${headerLogo}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) center no-repeat, url(${headerLogo}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) 0px 0px no-repeat`

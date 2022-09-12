@@ -20,7 +20,9 @@ import Navigation from 'components/Navigation'
 import { NavLink, useLocation } from 'react-router-dom'
 import { DEFAULT_CATALOG_URL } from 'constants/config'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
-import { fromMedium } from 'theme/utils'
+import { fromMedium, upToExtraSmall } from 'theme/utils'
+import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
+import { MobileNavOrb } from 'components/Navigation/styled'
 
 const HeaderFrame = styled(SectionFrame)`
   top: 0;
@@ -54,6 +56,20 @@ const HeaderElementWrap = styled.div`
 const HeaderRow = styled(RowFixed)`
   width: 100%;
 
+  > ${ShoppingCartFullWrapper} {
+    margin-left: auto;
+    margin-right: 2rem;
+  }
+  ${upToExtraSmall`
+    > ${MobileNavOrb} {
+      margin-left: auto;
+    }
+    // shop cart is only in footer
+    > ${ShoppingCartFullWrapper} {
+      display: none;      
+    }
+  `}
+
   ${fromMedium`
       nav {
         display: none;
@@ -62,28 +78,26 @@ const HeaderRow = styled(RowFixed)`
 `
 
 const HeaderLinks = styled(Row)`
-  width: min-content;
+  width: max-content;
+  margin-right: auto;
   justify-content: center;
-  padding: 5px;
-  margin-left: 15px;
+  padding: 1rem;
 
   > a {
     white-space: nowrap;
     flex: 1 0 auto;
 
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 300;
     color: ghostwhite;
-
-    ${({ theme }) => theme.mediaWidth.upToSmall`
-      font-size: 1.2rem;
-    `};
   }
 
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    padding: 1rem 0;
-    justify-content: flex-end;
-`};
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    margin: auto;
+    > a {
+      font-size: 1.5rem;
+    }
+  `};
 `
 
 // const AccountElement = styled.div<{ active: boolean }>`

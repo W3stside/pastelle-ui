@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro'
 import { fadeInAnimation } from 'pages/SingleItem/styleds'
 import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
-import { fromExtraLarge, fromLarge, fromMedium, fromSmall } from 'theme/utils'
+import { fromExtraLarge, fromLarge, fromMedium, fromSmall, upToExtraSmall } from 'theme/utils'
 import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 
 const BG_RATIO = 2.182
@@ -16,7 +16,13 @@ const portugalBg = `${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}/portugal-bg_R
 const portugalBgLq = `${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}/portugal-bg_Rqj8jTKhFmds.jpg?tr=${DEFAULT_IK_TRANSFORMS.LQ},w-1,h-1`
 
 export const ArticleFadeInContainer = styled.article`
+  
   overflow: hidden;
+
+  // to compensate for footer
+  ${upToExtraSmall`
+    padding-bottom: 4rem;
+  `}
 
   // load extra small size
   background-image: url(${portugalBg},w-${MEDIA_WIDTHS.upToExtraSmall},h-${

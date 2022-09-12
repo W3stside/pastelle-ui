@@ -26,7 +26,8 @@ import {
   ShoppingCartPanelContentWrapper,
   ShoppingCartPanelWrapper,
   ShoppingCartQuantityWrapper,
-  ShoppingCartWrapper
+  ShoppingCartHeaderWrapper,
+  ShoppingCartFullWrapper
 } from './styled'
 import useQuantitySelector from 'hooks/useQuantitySelector'
 import { getMetafields, sizeToFullSize } from 'shopify/utils'
@@ -49,13 +50,13 @@ export function ShoppingCartHeader() {
   const [shoppingPanelOpen, setShoppingPanelOpen] = useState(false)
   const cart = useGetCartDispatch()
   return (
-    <>
-      <ShoppingCartWrapper onClick={() => setShoppingPanelOpen(true)}>
+    <ShoppingCartFullWrapper>
+      <ShoppingCartHeaderWrapper onClick={() => setShoppingPanelOpen(true)}>
         <ShoppingCartIcon size={'3rem'} />
         <ShoppingCartQuantity totalQuantity={cart.totalQuantity} />
-      </ShoppingCartWrapper>
+      </ShoppingCartHeaderWrapper>
       {shoppingPanelOpen && <ShoppingCart closeCartPanel={() => setShoppingPanelOpen(false)} />}
-    </>
+    </ShoppingCartFullWrapper>
   )
 }
 

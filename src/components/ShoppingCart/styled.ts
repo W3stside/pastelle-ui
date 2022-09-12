@@ -110,7 +110,9 @@ export const ShoppingCartQuantityWrapper = styled(Row)`
   font-size: 1.5rem;
 `
 
-export const ShoppingCartWrapper = styled(Row)`
+export const ShoppingCartFullWrapper = styled.div``
+
+export const ShoppingCartHeaderWrapper = styled(Row)`
   justify-content: space-evenly;
   gap: 1rem;
   background: ${({ theme }) => theme.offWhite};

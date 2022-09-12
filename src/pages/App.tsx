@@ -3,7 +3,7 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom'
 
 import Web3ReactManager from 'components/blockchain/Web3ReactManager'
 
-// const Footer = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "FOOTER" */ 'components/Footer'))
+const Footer = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "FOOTER" */ 'components/Footer'))
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
 const Catalog = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "CATALOG" */ 'pages/Catalog'))
@@ -52,7 +52,7 @@ export default function App() {
           <Route component={NotFound} />
         </Switch>
         {/* FOOTER */}
-        {/* <Footer /> */}
+        <Footer />
       </Suspense>
     </Web3ReactManager>
   )
