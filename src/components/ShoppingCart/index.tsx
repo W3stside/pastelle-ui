@@ -98,7 +98,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
           <ItemSubHeader color={WHITE} fontSize={'2.5rem'} fontWeight={400} padding={0} margin={'2rem 0'}>
             <span id="lenny-face">Your cart is</span> <strong>empty</strong> <span id="lenny-face">ʕ ͡° ʖ̯ ͡°ʔ</span>
             {!isCatalogPage && (
-              <p onClick={handleNavClick}>
+              <p onClick={handleNavClick} style={{ cursor: 'pointer' }}>
                 <u>Check out the full catalog!</u>
               </p>
             )}
