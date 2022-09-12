@@ -37,7 +37,7 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background-color: #fff;
+    background-color: ${({ theme }) => theme.offWhite};
     padding: 1rem 2rem;
     text-align: center;
     font-size: 2rem;

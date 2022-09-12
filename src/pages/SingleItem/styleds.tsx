@@ -11,7 +11,7 @@ import Button from 'components/Button'
 import { SocialType } from 'mock/types'
 import { DEFAULT_IK_TRANSFORMS, FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
-import { fromExtraLarge, fromLarge, fromMedium, fromSmall, upToLarge, upToSmall } from 'theme/utils'
+import { fromExtraLarge, fromLarge, fromMedium, fromSmall, OFF_WHITE, upToLarge, upToSmall } from 'theme/utils'
 
 const saturateAnimation = css`
   @keyframes saturate {
@@ -258,10 +258,10 @@ export const ItemDescription = styled(TYPE.black).attrs(props => ({
 
 export const SubItemDescription = styled(ItemDescription).attrs(props => ({
   ...props,
-  padding: '1.8rem',
+  padding: props.padding || '1.8rem',
   margin: props.margin || '20px 0',
-  backgroundColor: 'ghostwhite',
-  fontWeight: 400
+  backgroundColor: props.backgroundColor || OFF_WHITE,
+  fontWeight: props.fontWeight || 400
 }))`
   display: flex;
   justify-content: flex-start;
