@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 
-import { Column } from 'components/Layout'
+import { Column, Row } from 'components/Layout'
 import LoadingRows from 'components/Loader/LoadingRows'
 import SmartImg from 'components/SmartImg'
 import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
@@ -10,7 +10,8 @@ import {
   FragmentCartCostFragment,
   FragmentCartLineFragment,
   GetCartQuery,
-  ProductBrandingAssets
+  ProductBrandingAssets,
+  ProductSizes
 } from 'shopify/graphql/types'
 import {
   useGetCartDispatch,
@@ -35,6 +36,9 @@ import { getMetafields } from 'shopify/utils'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import usePrevious from 'hooks/usePrevious'
 import useCleanTimeout from 'hooks/useCleanTimeout'
+import { useHistory } from 'react-router-dom'
+import { buildItemUrl } from 'utils/navigation'
+import { useOnScreenProductHandle } from 'state/user/hooks'
 
 const WHITE = getThemeColours(ThemeModes.CHAMELEON).offWhite
 
@@ -158,18 +162,26 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
   const wasPreviousAndChanged = !!previousQuantity && previousQuantity !== quantity
   const selectionIsValidQuantity = Number(quantity)
 
-  const { brandAssetMap, color } = useMemo(
+  const { color, brandingAssetMap, handle, images } = line.merchandise.product
+
+  const { brandAssetMap, color: itemColor } = useMemo(
     () => ({
-      brandAssetMap: getMetafields<ProductBrandingAssets | undefined>(line.merchandise.product.brandingAssetMap),
-      color: getMetafields<string>(line.merchandise.product.color)
+      brandAssetMap: getMetafields<ProductBrandingAssets | undefined>(brandingAssetMap),
+      color: getMetafields<string>(color)
     }),
-    [line.merchandise.product.brandingAssetMap, line.merchandise.product.color]
+    [brandingAssetMap, color]
   )
 
   const auxAssetMap = {
     ...brandAssetMap,
     header: brandAssetMap?.logo || brandAssetMap?.header || brandAssetMap?.navBar
   }
+
+  const history = useHistory()
+  const handleClick = useCallback(() => {
+    const url = buildItemUrl({ identifier: handle })
+    history.push(url)
+  }, [history, handle])
 
   useEffect(() => {
     if (removeLineLoading || !line.id) return
@@ -178,23 +190,51 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
     }
   }, [line.id, quantity, selectionIsValidQuantity, updateCartLineCallback, removeLineLoading, wasPreviousAndChanged])
 
+  const sizeFull = sizeToFullSize(line?.merchandise.size)
+  const catalogCurrentProduct = useOnScreenProductHandle()
+
   return (
-    <CartLineWrapper brandAssetMap={auxAssetMap} color={color}>
+    <CartLineWrapper brandAssetMap={auxAssetMap} color={itemColor}>
       <div>
         {/* 1 */}
         {/* <SMART IMG SPAN />*/}
         {/* 2 */}
-        <SmartImg defaultPath={line.merchandise.product.images.nodes[0].url} />
+        <SmartImg defaultPath={images.nodes[0].url500} onClick={handleClick} />
         {/* 3 */}
-        <CartLineContent>
-          <ItemSubHeader color={WHITE} fontSize={'3rem'} fontWeight={1000}>
-            {line?.merchandise.product.title} - {line?.merchandise.size}
-          </ItemSubHeader>
+        <CartLineContent onClick={handleClick}>
+          <Row>
+            <ItemSubHeader color={WHITE} fontSize={'3rem'} fontWeight={1000} padding={0} margin={0}>
+              {line?.merchandise.product.title}
+            </ItemSubHeader>
+            <ItemSubHeader color={WHITE} fontSize={'1.5rem'} fontWeight={300} padding={0} margin={0}>
+              {sizeFull} {sizeFull && `(${line?.merchandise.size})`}
+            </ItemSubHeader>
+            {catalogCurrentProduct?.handle !== handle && (
+              <ItemSubHeader color={WHITE} fontSize={'1.5rem'} fontWeight={300} padding={0} margin={0}>
+                tap or click to view item
+              </ItemSubHeader>
+            )}
+          </Row>
           <QuantitySelector isDisabled={removeLineLoading} />
         </CartLineContent>
       </div>
     </CartLineWrapper>
   )
+}
+
+function sizeToFullSize(size?: string | ProductSizes): string | null {
+  switch (size) {
+    case ProductSizes.S:
+      return 'small'
+    case ProductSizes.M:
+      return 'medium'
+    case ProductSizes.L:
+      return 'large'
+    case ProductSizes.XL:
+      return 'extra-large'
+    default:
+      return null
+  }
 }
 
 function formatCurrency(amount: number, currency: string) {

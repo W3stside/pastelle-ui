@@ -15,14 +15,44 @@ export const CartLineContent = styled(Row)`
   background: ${({ theme }) => theme.purple1};
   padding: 1rem;
 
-  ${upToExtraSmall`
+  cursor: pointer;
+
+  // content wrapper
+  > ${Row}:first-child {
+    flex-flow: row wrap;
+    gap: 0 0.8rem;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 0 2rem;
+
     > ${ItemSubHeader} {
-      font-size: 2rem;
-    } 
+      flex: 0 1 max-content;
+
+      // view item
+      &:nth-child(3) {
+        flex: 1 1 100%;
+      }
+
+      ${upToExtraSmall`
+        font-size: 1.8rem;
+
+        &:not(&:first-child) {
+          font-size: 1.2rem;
+        }
+      `}
+    }
+  }
+
+  ${upToExtraSmall`
     > ${QuantitySelectorWrapper} {
       flex-flow: column-reverse nowrap;
+      padding: 0 3rem 0 0;
       > button {
         width: 100%;
+      }
+      > svg {
+        position: absolute;
+        right: 3rem;
       }
     }
   `}
@@ -41,6 +71,10 @@ export const CartLineWrapper = styled(Row)<{
     text-align: center;
     max-height: 14rem;
     width: 100%;
+
+    ${upToSmall`
+      grid-template-columns: 0px 8rem auto;
+    `}
   }
 
   background: ${({ theme, brandAssetMap, color }) =>
@@ -58,6 +92,7 @@ export const CartLineWrapper = styled(Row)<{
 
   img {
     max-width: 100%;
+    cursor: pointer;
   }
 
   input[type='number'] {
