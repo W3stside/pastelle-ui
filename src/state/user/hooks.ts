@@ -3,7 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { AppDispatch, AppState } from 'state'
 import { Theme, ThemeModes } from 'theme/styled'
-import { CatalogCurrentProduct, setOnScreenProductHandle, updateThemeAutoDetect, updateThemeMode } from './reducer'
+import {
+  CatalogCurrentProduct,
+  setOnScreenProductHandle,
+  updateThemeAutoDetect,
+  updateThemeMode,
+  updateWindowSize,
+  WindowSize
+} from './reducer'
 import { initialState } from './reducer'
 
 export const useAppColourTheme = () => useSelector<AppState, Theme>(({ user }) => user.theme || initialState.theme)
@@ -43,3 +50,11 @@ export function useSetOnScreenProductHandle() {
 
 export const useOnScreenProductHandle = () =>
   useSelector<AppState, CatalogCurrentProduct | null>(({ user }) => user.catalogCurrentProduct)
+
+export function useUpdateWindowSize() {
+  const dispatch = useDispatch<AppDispatch>()
+
+  return useCallback((params: WindowSize) => dispatch(updateWindowSize(params)), [dispatch])
+}
+
+export const useGetWindowSize = () => useSelector<AppState, WindowSize>(({ user }) => user.windowSize)

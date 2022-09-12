@@ -1,9 +1,9 @@
 import SmartImg, { SmartImageProps } from 'components/SmartImg'
 import { LoadInView } from 'hooks/useDetectScrollIntoView'
-import useOnResize from 'hooks/useOnResize'
 import useStateRef from 'hooks/useStateRef'
 import { useState, useMemo, /* useRef, */ useEffect, forwardRef, ForwardedRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
+import { useGetWindowSize } from 'state/user/hooks'
 import {
   CarouselContainer,
   CarouselStep as CarouselStepContainer,
@@ -115,13 +115,20 @@ export default function Carousel({
 
   // get a carouselContainer to the carouselboi
   // we need to hold and updated cache of the carousel parent's width in px
-  useOnResize(
-    function handleResize() {
+  const sizes = useGetWindowSize()
+  useEffect(() => {
+    setParentWidth(carouselContainer?.parentElement?.offsetWidth)
+  }, [carouselContainer?.parentElement?.offsetWidth, sizes])
+  /* useEffect(() => {
+    function handleResizeParentWidth() {
       setParentWidth(carouselContainer?.parentElement?.offsetWidth)
-    },
-    parentWidth,
-    carouselContainer?.parentElement?.offsetWidth
-  )
+    }
+    window.addEventListener('resize', handleResizeParentWidth)
+
+    return () => {
+      window.removeEventListener('resize', handleResizeParentWidth)
+    }
+  }, [parentWidth, carouselContainer?.parentElement?.offsetWidth]) */
 
   const smartImageTransformation = useMemo(
     () => [

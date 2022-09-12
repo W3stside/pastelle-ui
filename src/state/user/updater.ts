@@ -1,34 +1,17 @@
+import useDebounce from 'hooks/useDebounce'
+import { useWindowSize } from 'hooks/useWindowSize'
 import { useEffect } from 'react'
-import { ThemeModes } from 'theme/styled'
-import { useThemeManager } from './hooks'
+import { useUpdateWindowSize } from './hooks'
+import { WindowSize } from './reducer'
 
 export default function Updater(): null {
-  const { theme, setMode } = useThemeManager()
+  const data = useWindowSize()
+  const updateWindowSize = useUpdateWindowSize()
+  const debouncedData = useDebounce<WindowSize>(data, 300)
 
-  // keep dark mode in sync with the system
   useEffect(() => {
-    const autoDarkHandler = (match: MediaQueryListEvent) => {
-      const autoTheme = match.matches ? ThemeModes.DARK : ThemeModes.LIGHT
-      setMode(autoTheme)
-    }
-
-    const match = window?.matchMedia('(prefers-color-scheme: dark)')
-
-    // If system prefers dark mode and user theme isnt already explicitly set by user
-    if (match.matches && theme.autoDetect) {
-      setMode(ThemeModes.DARK)
-    }
-
-    if (match?.addEventListener) {
-      match?.addEventListener('change', autoDarkHandler)
-    }
-
-    return () => {
-      if (match?.removeEventListener) {
-        match?.removeEventListener('change', autoDarkHandler)
-      }
-    }
-  }, [setMode, theme])
+    updateWindowSize(debouncedData)
+  }, [debouncedData, updateWindowSize])
 
   return null
 }

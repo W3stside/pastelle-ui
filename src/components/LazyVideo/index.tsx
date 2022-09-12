@@ -20,6 +20,7 @@ type LazyVideoProps = {
   sourcesProps: React.DetailedHTMLProps<React.SourceHTMLAttributes<HTMLSourceElement>, HTMLSourceElement>[]
   videoProps?: React.DetailedHTMLProps<React.VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement>
   loadInView?: boolean
+  forceLoad?: boolean
   Loader?: (...props: any[]) => JSX.Element
 } & WithContainer &
   BoxProps
@@ -65,6 +66,7 @@ export default forwardRef(function LazyVideo(
     // e.g useSprings animating components
     // and we dont want to check if in view before animation ends
     loadInView = true,
+    forceLoad = false,
     container,
     Loader = Spinner,
     ...boxProps
@@ -115,7 +117,7 @@ export default forwardRef(function LazyVideo(
     <VideoContainer justifyContent="center" {...boxProps}>
       {!loaded && <Loader />}
       <video {...BASE_VIDEO_PROPS} {...videoProps} ref={setVideoElement}>
-        {isInView
+        {isInView || forceLoad
           ? sourcesProps.map(({ src, ...sourceProps }, index) => <source key={index} src={src} {...sourceProps} />)
           : null}
       </video>

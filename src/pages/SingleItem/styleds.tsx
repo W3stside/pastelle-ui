@@ -84,8 +84,8 @@ export const fadeInAnimation = css`
   }
 `
 
-export const VideoContentWrapper = styled(Row)<{ hide?: boolean }>`
-  z-index: ${Z_INDEXES.BEHIND};
+export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
+  z-index: ${({ zIndex = 1 }) => zIndex};
 
   opacity: 1;
   ${({ hide }) => hide && `opacity: 0;`}
@@ -94,7 +94,8 @@ export const VideoContentWrapper = styled(Row)<{ hide?: boolean }>`
   video {
     // lock the video to 16:9 ratio
     // height: calc(100vw * (9 / 16));
-    height: 100%;
+    height: ${({ height = '100%' }) => height};
+    ${({ width }) => width && `width: ${width};`}
 
     filter: contrast(1) saturate(1) blur(0px);
 
@@ -102,10 +103,6 @@ export const VideoContentWrapper = styled(Row)<{ hide?: boolean }>`
 
     animation-name: saturate;
     animation-duration: 10.4s;
-
-    ${({ theme }) => theme.mediaWidth.upToSmall`
-      display: none;
-    `}
   }
 `
 export const Strikethrough = styled.div`
@@ -254,6 +251,7 @@ export const ItemDescription = styled(TYPE.black).attrs(props => ({
   .item-description-p:first-child {
     margin-top: 0;
   }
+  border-radius: 1rem;
 `
 
 export const SubItemDescription = styled(ItemDescription).attrs(props => ({

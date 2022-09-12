@@ -23,6 +23,7 @@ import TransactionUpdater from 'state/blockchainTransactions/updater'
 import UserUpdater from 'state/user/updater'
 import CatalogUpdater from 'state/catalog/updater'
 import CartUpdater from 'state/cart/updater'
+import WindowSizeUpdater from 'state/user/updater'
 
 import { TopGlobalStyle, ThemedGlobalComponent, FontStyles } from 'theme/styles/global'
 
@@ -48,6 +49,7 @@ function Updaters() {
       <TransactionUpdater />
       <CatalogUpdater />
       <CartUpdater />
+      <WindowSizeUpdater />
     </>
   )
 }

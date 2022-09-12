@@ -7,6 +7,8 @@ export interface CatalogCurrentProduct {
   handle: Product['handle']
   id: Product['id']
 }
+
+export type WindowSize = { width?: number; height?: number } | null
 export interface UserState {
   theme: Theme
   // timestamp: number
@@ -14,6 +16,7 @@ export interface UserState {
   lastUpdateVersionTimestamp?: number
   // key string of current on screen item
   catalogCurrentProduct: CatalogCurrentProduct | null
+  windowSize: WindowSize
 }
 
 export const initialState: UserState = {
@@ -22,9 +25,9 @@ export const initialState: UserState = {
     autoDetect: false
   },
   // timestamp: currentTimestamp(),
-  catalogCurrentProduct: null
+  catalogCurrentProduct: null,
+  windowSize: null
 }
-
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -40,8 +43,11 @@ const userSlice = createSlice({
     },
     setOnScreenProductHandle(state, action: PayloadAction<CatalogCurrentProduct | null>) {
       state.catalogCurrentProduct = action.payload
+    },
+    updateWindowSize(state, action: PayloadAction<WindowSize>) {
+      state.windowSize = action.payload
     }
   }
 })
-export const { updateThemeAutoDetect, updateThemeMode, setOnScreenProductHandle } = userSlice.actions
+export const { updateThemeAutoDetect, updateThemeMode, setOnScreenProductHandle, updateWindowSize } = userSlice.actions
 export const user = userSlice.reducer

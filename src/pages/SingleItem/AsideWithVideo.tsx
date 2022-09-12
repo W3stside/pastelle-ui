@@ -6,7 +6,6 @@ import {
   ItemContainer,
   ItemAsidePanel,
   ItemLogo,
-  ItemDescription,
   ItemCredits,
   ItemArtistInfo,
   PASTELLE_CREDIT,
@@ -25,11 +24,11 @@ import { useBreadcrumb } from 'components/Breadcrumb'
 
 import { useToggleModal, useModalOpen, useCloseModals } from 'state/application/hooks'
 import { ApplicationModal } from 'state/application/reducer'
-import { ItemVideoContent } from './ItemVideoContent'
+import { ItemVideoContent, SmallScreenVideoContent } from './ItemVideoContent'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import { BoxProps } from 'rebass'
 import SmartImg from 'components/SmartImg'
-import { useSetOnScreenProductHandle } from 'state/user/hooks'
+import { useGetWindowSize, useSetOnScreenProductHandle } from 'state/user/hooks'
 import {
   FragmentProductVideoFragment,
   FragmentProductImageFragment,
@@ -38,13 +37,16 @@ import {
   Product
 } from 'shopify/graphql/types'
 import useStateRef from 'hooks/useStateRef'
-import { STORE_IMAGE_SIZES } from 'constants/config'
+import { STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 import { getImageSizeMap } from 'shopify/utils'
 import LargeImageCarouselModal from 'components/LargeImageCarouselModal'
 import ShippingSvg from 'assets/svg/shipping.svg'
 import { useQueryProductVariantId } from 'shopify/graphql/hooks'
 import useSizeSelector from 'components/SizeSelector'
 import AddToCartButtonAndQuantitySelector from 'components/AddToCartButtonAndQuantitySelector'
+import { BLACK } from 'theme/utils'
+import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
+import { TinyHelperText } from 'components/Common'
 
 export interface ProductPageProps {
   bgColor: string
@@ -166,6 +168,13 @@ export default function ItemPage({
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
   const merchandiseId = useQueryProductVariantId({ productId: id, key: 'Size', value: selectedSize })
 
+  const [showShowcase, setShowShowcase] = useState(false)
+  const toggleMobileShowcase = () => setShowShowcase(state => !state)
+
+  const windowSizes = useGetWindowSize()
+  // undefined (loading) defaults to mobile
+  const isMobileShowcase = !!windowSizes?.width && windowSizes.width <= MEDIA_WIDTHS.upToSmall
+
   return (
     <>
       {/* Large images */}
@@ -259,40 +268,81 @@ export default function ItemPage({
 
                   {/* Size selector */}
                   <ItemSubHeader useGradient bgColor={color} label="CHOOSE SIZE + VIEW LIVE" />
-                  <ItemContentContainer margin="20px 0" padding={'0 3rem'}>
-                    <SubItemDescription>SELECT A SIZE BELOW TO SEE IT ON THE MODEL</SubItemDescription>
-                    <SizeSelector color={bgColor} margin="20px 0" />
+                  <ItemContentContainer margin="0" padding={'0 2rem'}>
+                    {isMobileShowcase && (
+                      <SmallScreenVideoContent
+                        isOpen
+                        firstPaintOver={firstPaintOver}
+                        videos={videos}
+                        currentCarouselIndex={currentCarouselIndex}
+                        zIndex={Z_INDEXES.PRODUCT_VIDEOS}
+                        height="auto"
+                        width="120%"
+                        margin="-2rem 0 1rem"
+                      />
+                    )}
+                    <SubItemDescription fontWeight={300} padding="1.8rem" margin="1rem 0 0" style={{ zIndex: 1 }}>
+                      SHOWCASE AVAILABLE!{' '}
+                      <TinyHelperText onClick={toggleMobileShowcase}>{`[+] What's showcase?`}</TinyHelperText>{' '}
+                    </SubItemDescription>
+                    {/* MOBILE SHOWCASE */}
+                    {showShowcase && (
+                      <SubItemDescription
+                        backgroundColor="lightgoldenrodyellow"
+                        color={BLACK}
+                        onClick={toggleMobileShowcase}
+                        padding="4rem 1.3rem 0.3rem"
+                        margin="-3rem auto 0"
+                        width="93%"
+                        fontWeight={300}
+                        fontSize="1.6rem"
+                        style={{
+                          cursor: 'pointer',
+                          flexFlow: 'column nowrap',
+                          alignItems: 'flex-start',
+                          zIndex: Z_INDEXES.ZERO
+                        }}
+                      >
+                        <small>
+                          Use showcase to view merch of different sizes on different sized models
+                          <ul>
+                            <li>
+                              Adjust the toggles below to set different parameters and load different product showcases
+                            </li>
+                            <li>Tap the video anywhere to play/pause.</li>
+                          </ul>
+                        </small>
+                      </SubItemDescription>
+                    )}
+                    <SizeSelector color={bgColor} margin="2rem 0" />
                     <AddToCartButtonAndQuantitySelector merchandiseId={merchandiseId} />
 
-                    <SubItemDescription margin={'20px 0 0 0'}>
+                    <SubItemDescription margin={'2rem 0 0 0'} fontWeight={300}>
                       <img src={ShippingSvg} /> FREE SHIPPING OVER 200€
-                    </SubItemDescription>
-
-                    <SubItemDescription>
-                      **Showcase is meant to help you see what your merch in the selected size looks like on an actual
-                      person similar to your size.
-                      <br />
-                      <br />
-                      Compare that to using some dumb fucking sizing chart that never works, AND requires measuring tape
-                      that literally zero people on this planet own.
                     </SubItemDescription>
                   </ItemContentContainer>
 
                   {/* Item description */}
                   <ItemSubHeader useGradient bgColor={color} label="INFO + CARE INSTRUCTIONS" />
-                  <ItemContentContainer padding="0 3rem">
-                    <ItemDescription dangerouslySetInnerHTML={{ __html: description }}></ItemDescription>
+                  <ItemContentContainer padding="0 1.5rem">
+                    <SubItemDescription
+                      dangerouslySetInnerHTML={{ __html: description }}
+                      fontWeight={300}
+                      margin={'0'}
+                    />
                   </ItemContentContainer>
                 </ItemContentContainer>
               </>
             )}
           </DynamicInnerContainer>
         </ItemAsidePanel>
-        {noVideo || catalogView ? null : (
+        {isMobileShowcase || noVideo || catalogView ? null : (
           <ItemVideoContent
             firstPaintOver={firstPaintOver}
             videos={videos}
             currentCarouselIndex={currentCarouselIndex}
+            zIndex={Z_INDEXES.BEHIND}
+            height="100%"
           />
         )}
       </ItemContainer>

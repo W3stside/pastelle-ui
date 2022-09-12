@@ -6,14 +6,23 @@ import { Spinner } from 'theme'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { ButtonVariations } from 'components/Button'
 import { Play, Pause } from 'react-feather'
+import { RowProps } from 'components/Layout'
 
-interface Params {
+interface Params extends RowProps {
   videos: FragmentProductVideoFragment[]
   firstPaintOver?: boolean
   currentCarouselIndex: number
+  forceLoad?: boolean
+  zIndex?: number
 }
 const CONTROL_BUTTON_SIZE = 12
-export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver }: Params) => {
+export const ItemVideoContent = ({
+  videos,
+  currentCarouselIndex,
+  firstPaintOver,
+  forceLoad,
+  ...styleProps
+}: Params) => {
   const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
 
@@ -51,7 +60,7 @@ export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver 
 
   return (
     <>
-      <VideoContentWrapper id="#video-content-wrapper">
+      <VideoContentWrapper id="#video-content-wrapper" {...styleProps}>
         {videos.map(({ id, sources }, index) => {
           const isSelected = index === currentCarouselIndex
           if (!isSelected) return null
@@ -62,6 +71,7 @@ export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver 
               ref={setVideoElement}
               container={document.querySelector('#CATALOG-ARTICLE') as HTMLElement}
               loadInView={firstPaintOver}
+              forceLoad={forceLoad}
               videoProps={{
                 style: {
                   marginLeft: 'auto'
@@ -89,5 +99,22 @@ export const ItemVideoContent = ({ videos, currentCarouselIndex, firstPaintOver 
         </VideoControlButton>
       )}
     </>
+  )
+}
+
+type Props = Params & { isOpen: boolean; zIndex?: number }
+export function SmallScreenVideoContent(props: Props) {
+  const { isOpen, firstPaintOver, videos, currentCarouselIndex, ...styleProps } = props
+
+  if (!isOpen) return null
+
+  return (
+    <ItemVideoContent
+      firstPaintOver={firstPaintOver}
+      videos={videos}
+      currentCarouselIndex={currentCarouselIndex}
+      forceLoad
+      {...styleProps}
+    />
   )
 }
