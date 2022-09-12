@@ -6,6 +6,7 @@ import {
   ItemContainer,
   ItemAsidePanel,
   ItemLogo,
+  ItemDescription,
   ItemCredits,
   ItemArtistInfo,
   PASTELLE_CREDIT,
@@ -44,7 +45,7 @@ import ShippingSvg from 'assets/svg/shipping.svg'
 import { useQueryProductVariantId } from 'shopify/graphql/hooks'
 import useSizeSelector from 'components/SizeSelector'
 import AddToCartButtonAndQuantitySelector from 'components/AddToCartButtonAndQuantitySelector'
-import { BLACK } from 'theme/utils'
+import { BLACK, OFF_WHITE } from 'theme/utils'
 import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 import { TinyHelperText } from 'components/Common'
 
@@ -278,10 +279,10 @@ export default function ItemPage({
                         zIndex={Z_INDEXES.PRODUCT_VIDEOS}
                         height="auto"
                         width="120%"
-                        margin="-2rem 0 1rem"
+                        margin="-2rem 0 2rem"
                       />
                     )}
-                    <SubItemDescription fontWeight={300} padding="1.8rem" margin="1rem 0 0" style={{ zIndex: 1 }}>
+                    <SubItemDescription fontWeight={300} padding="1.8rem" margin="0" style={{ zIndex: 1 }}>
                       SHOWCASE AVAILABLE!{' '}
                       <TinyHelperText onClick={toggleMobileShowcase}>{`[+] What's showcase?`}</TinyHelperText>{' '}
                     </SubItemDescription>
@@ -325,10 +326,11 @@ export default function ItemPage({
                   {/* Item description */}
                   <ItemSubHeader useGradient bgColor={color} label="INFO + CARE INSTRUCTIONS" />
                   <ItemContentContainer padding="0 1.5rem">
-                    <SubItemDescription
+                    <ItemDescription
                       dangerouslySetInnerHTML={{ __html: description }}
+                      padding={'0 1.5rem'}
                       fontWeight={300}
-                      margin={'0'}
+                      backgroundColor={OFF_WHITE}
                     />
                   </ItemContentContainer>
                 </ItemContentContainer>
