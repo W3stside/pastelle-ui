@@ -1,7 +1,7 @@
 import { DocumentNode, OperationVariables, useMutation } from '@apollo/client'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import { UPDATE_CART_LINE, CREATE_CART, ADD_NEW_CART_LINE, REMOVE_CART_LINE } from 'shopify/graphql/mutations/cart'
-import { useGetCartIdDispatch } from 'state/cart/hooks'
+import { useGetCartDispatch, useGetCartIdDispatch } from 'state/cart/hooks'
 import { GET_CART } from '../queries/cart'
 import {
   AddNewCartLineMutation,
@@ -19,31 +19,74 @@ export function useCreateCart() {
 }
 
 export const useRemoveCartLine = () => {
-  const cartId = useGetCartIdDispatch()
-  return useMutation<RemoveCartLineMutation, RemoveCartLineMutationVariables>(
-    REMOVE_CART_LINE,
-    _refetchQuery(GET_CART, { cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
-  )
+  const cart = useGetCartDispatch()
+  return useMutation<RemoveCartLineMutation, RemoveCartLineMutationVariables>(REMOVE_CART_LINE, {
+    refetchQueries: _refetchQuery(GET_CART, { cartId: cart.cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
+  })
 }
 
 export const useUpdateCartLine = () => {
-  const cartId = useGetCartIdDispatch()
-  return useMutation<UpdateCartLineMutation, UpdateCartLineMutationVariables>(
-    UPDATE_CART_LINE,
-    _refetchQuery(GET_CART, { cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
-  )
+  const cart = useGetCartDispatch()
+  return useMutation<UpdateCartLineMutation, UpdateCartLineMutationVariables>(UPDATE_CART_LINE, {
+    refetchQueries: _refetchQuery(GET_CART, { cartId: cart.cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
+  })
 }
 
 export const useAddNewCartLine = () => {
   const cartId = useGetCartIdDispatch()
-  return useMutation<AddNewCartLineMutation, AddNewCartLineMutationVariables>(
-    ADD_NEW_CART_LINE,
-    _refetchQuery(GET_CART, { cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
-  )
+  return useMutation<AddNewCartLineMutation, AddNewCartLineMutationVariables>(ADD_NEW_CART_LINE, {
+    refetchQueries: _refetchQuery(GET_CART, { cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
+  })
 }
 
 function _refetchQuery(query: DocumentNode, variables: OperationVariables) {
-  return {
-    refetchQueries: [{ query, variables }]
-  }
+  return [{ query, variables }]
 }
+
+/* 
+** OPTIMISTIC RESPONSE 
+** E.G:
+    optimisticResponse({ cartId: cartIdPassed }) {
+      return {
+        __typename: 'Mutation',
+        cartLinesRemove: {
+          __typename: 'CartLinesRemovePayload',
+          cart: {
+            __typename: 'Cart',
+            id: cartIdPassed,
+            get createdAt() {
+              return new Date().toISOString()
+            },
+            get updatedAt() {
+              return new Date().toISOString()
+            },
+            totalQuantity: cart!.totalQuantity - 1,
+            checkoutUrl: 'void',
+            cost: {
+              __typename: 'CartCost',
+              totalAmount: {
+                __typename: 'MoneyV2',
+                amount: 'loading...',
+                currencyCode: cart.costs!.totalAmount.currencyCode
+              },
+              totalTaxAmount: {
+                __typename: 'MoneyV2',
+                amount: 'loading...',
+                currencyCode: cart.costs!.totalAmount.currencyCode
+              },
+              totalDutyAmount: {
+                __typename: 'MoneyV2',
+                amount: 'loading...',
+                currencyCode: cart.costs!.totalAmount.currencyCode
+              },
+              subtotalAmount: {
+                __typename: 'MoneyV2',
+                amount: 'loading...',
+                currencyCode: cart.costs!.subtotalAmount.currencyCode
+              }
+            }
+          }
+        }
+      }
+    }
+*/

@@ -1,3 +1,4 @@
+import { MutationHookOptions } from '@apollo/client'
 import { AddToCartButtonParams } from 'components/AddToCartButton'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
@@ -39,8 +40,8 @@ export function useRemoveCartLineAndUpdateReduxCallback() {
   return {
     ...rest,
     removeCartLineCallback: useCallback(
-      ({ lineIds }: Pick<RemoveLineParams, 'lineIds'>) =>
-        removeCartLineAndUpdateStore({ cartId, lineIds, removeCartLine, updateCartInfo }),
+      ({ lineIds }: Pick<RemoveLineParams, 'lineIds'>, options?: MutationHookOptions) =>
+        removeCartLineAndUpdateStore({ cartId, lineIds, options, removeCartLine, updateCartInfo }),
       [removeCartLine, cartId, updateCartInfo]
     )
   }

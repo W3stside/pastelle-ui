@@ -34,6 +34,7 @@ import { ThemeModes } from 'theme/styled'
 import { getMetafields } from 'shopify/utils'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import usePrevious from 'hooks/usePrevious'
+import useCleanTimeout from 'hooks/useCleanTimeout'
 
 const WHITE = getThemeColours(ThemeModes.CHAMELEON).offWhite
 
@@ -133,9 +134,24 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
   const { updateCartLineCallback } = useUpdateCartLineAndUpdateReduxCallback()
   const { removeCartLineCallback } = useRemoveCartLineAndUpdateReduxCallback()
 
+  const cleanTimeout = useCleanTimeout()
+  const [removeLineLoading, setRemoveOperationLoading] = useState(false)
+
   const { QuantitySelector, quantity } = useQuantitySelector({
     defaultQuantity: line.quantity,
-    onTrashClick: line.id ? () => removeCartLineCallback({ lineIds: [line.id] }) : undefined
+    onTrashClick: line.id
+      ? () => {
+          setRemoveOperationLoading(true)
+          removeCartLineCallback(
+            { lineIds: [line.id] },
+            {
+              onCompleted: () => {
+                cleanTimeout(() => setRemoveOperationLoading(false), 1000)
+              }
+            }
+          )
+        }
+      : undefined
   })
 
   const previousQuantity = usePrevious(line.quantity)
@@ -156,12 +172,11 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
   }
 
   useEffect(() => {
-    if (line.id) {
-      if (selectionIsValidQuantity && wasPreviousAndChanged) {
-        updateCartLineCallback({ quantity, lineId: line.id })
-      }
+    if (removeLineLoading || !line.id) return
+    else if (selectionIsValidQuantity && wasPreviousAndChanged) {
+      updateCartLineCallback({ quantity, lineId: line.id })
     }
-  }, [line.id, quantity, selectionIsValidQuantity, updateCartLineCallback, wasPreviousAndChanged])
+  }, [line.id, quantity, selectionIsValidQuantity, updateCartLineCallback, removeLineLoading, wasPreviousAndChanged])
 
   return (
     <CartLineWrapper brandAssetMap={auxAssetMap} color={color}>
@@ -175,7 +190,7 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
           <ItemSubHeader color={WHITE} fontSize={'3rem'} fontWeight={1000}>
             {line?.merchandise.product.title} - {line?.merchandise.size}
           </ItemSubHeader>
-          <QuantitySelector />
+          <QuantitySelector isDisabled={removeLineLoading} />
         </CartLineContent>
       </div>
     </CartLineWrapper>

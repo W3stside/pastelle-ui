@@ -1,10 +1,11 @@
-import { FetchResult } from '@apollo/client'
+import { FetchResult, MutationHookOptions } from '@apollo/client'
 import { AddNewCartLineMutation, UpdateCartLineMutation, RemoveCartLineMutation } from 'shopify/graphql/types'
 import { UpdateCartInfoParams } from 'state/cart/reducer'
 
 type BaseParams = {
   cartId: string | undefined
   quantity: number
+  options?: MutationHookOptions
   updateCartInfo: (
     params: UpdateCartInfoParams
   ) => {
@@ -38,12 +39,14 @@ export const addCartLineAndUpdateStore = async ({
   cartId,
   quantity,
   merchandiseId,
+  options,
   addNewCartLine,
   updateCartInfo
 }: AddNewLineParams) => {
   if (!cartId || !merchandiseId) return
 
   const response = await addNewCartLine({
+    ...options,
     variables: {
       cartId,
       lines: [{ merchandiseId, quantity }]
@@ -59,12 +62,14 @@ export const addCartLineAndUpdateStore = async ({
 export const removeCartLineAndUpdateStore = async ({
   cartId,
   lineIds,
+  options,
   removeCartLine,
   updateCartInfo
 }: RemoveLineParams) => {
   if (!cartId || !lineIds) return
 
   const response = await removeCartLine({
+    ...options,
     variables: {
       cartId,
       lineIds
@@ -81,12 +86,14 @@ export const updateCartLineAndUpdateStore = async ({
   cartId,
   quantity,
   lineId,
+  options,
   updateCartLine,
   updateCartInfo
 }: UpdateLineParams) => {
   if (!cartId || !lineId) return
 
   const response = await updateCartLine({
+    ...options,
     variables: {
       cartId,
       lineId,

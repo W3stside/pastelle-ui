@@ -66,35 +66,39 @@ export default function useQuantitySelector({
   )
   const resetQuantity = useCallback(() => debouncedSetQuantity(1), [debouncedSetQuantity])
 
-  const QuantitySelector = useCallback(() => {
-    return (
-      <QuantitySelectorWrapper>
-        {/* - */}
-        <button disabled={quantity === 1} onClick={handleOnClickDown}>
-          -
-        </button>
-        <input type="number" onChange={handleInputChange} value={debouncedQuantity} />
-        {/* + */}
-        <button disabled={quantity === PURCHASE_LIMIT} onClick={handleOnClickUp}>
-          +
-        </button>
-        {!!onTrashClick ? (
-          <Trash2 onClick={onTrashClick} color={getThemeColours(ThemeModes.CHAMELEON).red1} size={'2rem'} />
-        ) : (
-          <span
-            style={{
-              color: getThemeColours(ThemeModes.CHAMELEON).black,
-              textDecoration: 'underline',
-              cursor: 'pointer'
-            }}
-            onClick={resetQuantity}
-          >
-            reset
-          </span>
-        )}
-      </QuantitySelectorWrapper>
-    )
-  }, [debouncedQuantity, handleInputChange, handleOnClickDown, handleOnClickUp, quantity, resetQuantity, onTrashClick])
+  const QuantitySelector = useCallback(
+    ({ isDisabled }: { isDisabled?: boolean }) => {
+      return (
+        <QuantitySelectorWrapper>
+          {/* - */}
+          <button disabled={isDisabled || quantity === 1} onClick={handleOnClickDown}>
+            -
+          </button>
+          <input disabled={isDisabled} type="number" onChange={handleInputChange} value={debouncedQuantity} />
+          {/* + */}
+          <button disabled={isDisabled || quantity === PURCHASE_LIMIT} onClick={handleOnClickUp}>
+            +
+          </button>
+          {!isDisabled &&
+            (!!onTrashClick ? (
+              <Trash2 onClick={onTrashClick} color={getThemeColours(ThemeModes.CHAMELEON).red1} size={'2rem'} />
+            ) : (
+              <span
+                style={{
+                  color: getThemeColours(ThemeModes.CHAMELEON).black,
+                  textDecoration: 'underline',
+                  cursor: 'pointer'
+                }}
+                onClick={resetQuantity}
+              >
+                reset
+              </span>
+            ))}
+        </QuantitySelectorWrapper>
+      )
+    },
+    [debouncedQuantity, handleInputChange, handleOnClickDown, handleOnClickUp, quantity, resetQuantity, onTrashClick]
+  )
 
   return {
     quantity,
