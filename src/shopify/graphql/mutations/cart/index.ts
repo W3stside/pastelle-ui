@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { FRAGMENT_CART_COST } from 'shopify/graphql/queries/fragments'
+import { FRAGMENT_CART_SIMPLE } from 'shopify/graphql/queries/fragments'
 
 export const CREATE_CART = gql`
   mutation CreateCart {
@@ -13,36 +13,35 @@ export const CREATE_CART = gql`
   }
 `
 
+export const REMOVE_CART_LINE = gql`
+  ${FRAGMENT_CART_SIMPLE}
+  mutation RemoveCartLine($cartId: ID!, $lineIds: [ID!]!) {
+    cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+      cart {
+        ...FragmentCartSimple
+      }
+    }
+  }
+`
+
 export const UPDATE_CART_LINE = gql`
-  ${FRAGMENT_CART_COST}
+  ${FRAGMENT_CART_SIMPLE}
   mutation UpdateCartLine($cartId: ID!, $lineId: ID!, $quantity: Int!) {
     cartLinesUpdate(cartId: $cartId, lines: { id: $lineId, quantity: $quantity }) {
       cart {
-        id
-        createdAt
-        updatedAt
-        totalQuantity
-        cost {
-          ...FragmentCartCost
-        }
+        ...FragmentCartSimple
       }
     }
   }
 `
 
 export const ADD_NEW_CART_LINE = gql`
-  ${FRAGMENT_CART_COST}
+  ${FRAGMENT_CART_SIMPLE}
   mutation AddNewCartLine($cartId: ID!, $lines: [CartLineInput!]!) {
     cartLinesAdd(cartId: $cartId, lines: $lines) {
       cart {
-        id
-        createdAt
-        updatedAt
-        totalQuantity
-        cost {
-          ...FragmentCartCost
-        }
-        checkoutUrl
+        ...FragmentCartSimple
+
         lines(first: 1) {
           nodes {
             merchandise {

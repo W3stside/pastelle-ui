@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 
 import { Column } from 'components/Layout'
@@ -12,7 +12,12 @@ import {
   GetCartQuery,
   ProductBrandingAssets
 } from 'shopify/graphql/types'
-import { useGetCartDispatch, useGetCartIdDispatch } from 'state/cart/hooks'
+import {
+  useGetCartDispatch,
+  useGetCartIdDispatch,
+  useRemoveCartLineAndUpdateReduxCallback,
+  useUpdateCartLineAndUpdateReduxCallback
+} from 'state/cart/hooks'
 import { CartState } from 'state/cart/reducer'
 import {
   CartLineContent,
@@ -28,6 +33,7 @@ import { getThemeColours } from 'theme/utils'
 import { ThemeModes } from 'theme/styled'
 import { getMetafields } from 'shopify/utils'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
+import usePrevious from 'hooks/usePrevious'
 
 const WHITE = getThemeColours(ThemeModes.CHAMELEON).offWhite
 
@@ -124,8 +130,17 @@ function CartTableHeader({
 }
 
 function CartLine({ line }: { line: FragmentCartLineFragment }) {
-  const { QuantitySelector /* , quantity */ } = useQuantitySelector({ defaultQuantity: line.quantity })
-  // const { addToCartCallback } = useAddToCartAndUpdateCallback()
+  const { updateCartLineCallback } = useUpdateCartLineAndUpdateReduxCallback()
+  const { removeCartLineCallback } = useRemoveCartLineAndUpdateReduxCallback()
+
+  const { QuantitySelector, quantity } = useQuantitySelector({
+    defaultQuantity: line.quantity,
+    onTrashClick: line.id ? () => removeCartLineCallback({ lineIds: [line.id] }) : undefined
+  })
+
+  const previousQuantity = usePrevious(line.quantity)
+  const wasPreviousAndChanged = !!previousQuantity && previousQuantity !== quantity
+  const selectionIsValidQuantity = Number(quantity)
 
   const { brandAssetMap, color } = useMemo(
     () => ({
@@ -140,10 +155,13 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
     header: brandAssetMap?.logo || brandAssetMap?.header || brandAssetMap?.navBar
   }
 
-  /* useEffect(() => {
-    // TODO: replace with replaceCartLineCallback 
-    addToCartCallback({ quantity, merchandiseId: line.merchandise.id })
-  }, [addToCartCallback, line.merchandise.id, quantity]) */
+  useEffect(() => {
+    if (line.id) {
+      if (selectionIsValidQuantity && wasPreviousAndChanged) {
+        updateCartLineCallback({ quantity, lineId: line.id })
+      }
+    }
+  }, [line.id, quantity, selectionIsValidQuantity, updateCartLineCallback, wasPreviousAndChanged])
 
   return (
     <CartLineWrapper brandAssetMap={auxAssetMap} color={color}>

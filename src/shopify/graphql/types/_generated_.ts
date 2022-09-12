@@ -6542,6 +6542,33 @@ export type CreateCartMutation = {
   } | null
 }
 
+export type RemoveCartLineMutationVariables = Exact<{
+  cartId: Scalars['ID']
+  lineIds: Array<Scalars['ID']> | Scalars['ID']
+}>
+
+export type RemoveCartLineMutation = {
+  __typename?: 'Mutation'
+  cartLinesRemove?: {
+    __typename?: 'CartLinesRemovePayload'
+    cart?: {
+      __typename?: 'Cart'
+      id: string
+      createdAt: any
+      updatedAt: any
+      totalQuantity: number
+      checkoutUrl: any
+      cost: {
+        __typename?: 'CartCost'
+        totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+        subtotalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+        totalTaxAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
+        totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
+      }
+    } | null
+  } | null
+}
+
 export type UpdateCartLineMutationVariables = Exact<{
   cartId: Scalars['ID']
   lineId: Scalars['ID']
@@ -6558,6 +6585,7 @@ export type UpdateCartLineMutation = {
       createdAt: any
       updatedAt: any
       totalQuantity: number
+      checkoutUrl: any
       cost: {
         __typename?: 'CartCost'
         totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
@@ -6585,13 +6613,6 @@ export type AddNewCartLineMutation = {
       updatedAt: any
       totalQuantity: number
       checkoutUrl: any
-      cost: {
-        __typename?: 'CartCost'
-        totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
-        subtotalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
-        totalTaxAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
-        totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
-      }
       lines: {
         __typename?: 'CartLineConnection'
         nodes: Array<{
@@ -6603,6 +6624,13 @@ export type AddNewCartLineMutation = {
             product: { __typename?: 'Product'; id: string; title: string; handle: string }
           }
         }>
+      }
+      cost: {
+        __typename?: 'CartCost'
+        totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+        subtotalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+        totalTaxAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
+        totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
       }
     } | null
   } | null
@@ -6621,13 +6649,7 @@ export type GetCartQuery = {
     createdAt: any
     updatedAt: any
     totalQuantity: number
-    cost: {
-      __typename?: 'CartCost'
-      totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
-      subtotalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
-      totalTaxAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
-      totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
-    }
+    checkoutUrl: any
     lines: {
       __typename?: 'CartLineConnection'
       nodes: Array<{
@@ -6673,6 +6695,13 @@ export type GetCartQuery = {
         }
         attributes: Array<{ __typename?: 'Attribute'; key: string; value?: string | null }>
       }>
+    }
+    cost: {
+      __typename?: 'CartCost'
+      totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+      subtotalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+      totalTaxAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
+      totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
     }
   } | null
 }
@@ -6858,12 +6887,13 @@ export type FragmentCartLineFragment = {
   attributes: Array<{ __typename?: 'Attribute'; key: string; value?: string | null }>
 }
 
-export type FragmentCartFragment = {
+export type FragmentCartSimpleFragment = {
   __typename?: 'Cart'
   id: string
   createdAt: any
   updatedAt: any
   totalQuantity: number
+  checkoutUrl: any
   cost: {
     __typename?: 'CartCost'
     totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
@@ -6871,6 +6901,15 @@ export type FragmentCartFragment = {
     totalTaxAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
     totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
   }
+}
+
+export type FragmentCartFragment = {
+  __typename?: 'Cart'
+  id: string
+  createdAt: any
+  updatedAt: any
+  totalQuantity: number
+  checkoutUrl: any
   lines: {
     __typename?: 'CartLineConnection'
     nodes: Array<{
@@ -6916,6 +6955,13 @@ export type FragmentCartFragment = {
       }
       attributes: Array<{ __typename?: 'Attribute'; key: string; value?: string | null }>
     }>
+  }
+  cost: {
+    __typename?: 'CartCost'
+    totalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+    subtotalAmount: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+    totalTaxAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
+    totalDutyAmount?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
   }
 }
 

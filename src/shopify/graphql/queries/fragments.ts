@@ -140,17 +140,26 @@ export const FRAGMENT_CART_LINE = gql`
   }
 `
 
-export const FRAGMENT_CART = gql`
+export const FRAGMENT_CART_SIMPLE = gql`
   ${FRAGMENT_CART_COST}
-  ${FRAGMENT_CART_LINE}
-  fragment FragmentCart on Cart {
+  fragment FragmentCartSimple on Cart {
     id
     createdAt
     updatedAt
     totalQuantity
+    checkoutUrl
     cost {
       ...FragmentCartCost
     }
+  }
+`
+
+export const FRAGMENT_CART = gql`
+  ${FRAGMENT_CART_SIMPLE}
+  ${FRAGMENT_CART_LINE}
+  fragment FragmentCart on Cart {
+    ...FragmentCartSimple
+
     lines(first: $linesAmount) {
       nodes {
         ...FragmentCartLine

@@ -3,13 +3,13 @@ import ErrorMessage from 'components/ErrorMessage'
 import { ItemDescription } from 'pages/SingleItem/styleds'
 import { transparentize } from 'polished'
 import { useCallback, useEffect, useState } from 'react'
-import { useAddToCartAndUpdateCallback } from 'state/cart/hooks'
+import { useAddLineToCartAndUpdateReduxCallback } from 'state/cart/hooks'
 
 import styled from 'styled-components/macro'
 
 export type AddToCartButtonParams = { label?: string; merchandiseId: string | undefined; quantity: number }
 export default function AddToCartButton({ label = 'Add to cart', merchandiseId, quantity }: AddToCartButtonParams) {
-  const { addToCartCallback, loading, error } = useAddToCartAndUpdateCallback()
+  const { addLineToCartCallback, loading, error } = useAddLineToCartAndUpdateReduxCallback()
   const { DisappearingMessage, shouldShow, setShow } = useDisappearingMessage()
 
   const isDisabled = loading || !quantity || shouldShow
@@ -19,7 +19,7 @@ export default function AddToCartButton({ label = 'Add to cart', merchandiseId, 
       <Button
         onClick={() => {
           setShow(true)
-          addToCartCallback({ quantity, merchandiseId })
+          addLineToCartCallback({ quantity, merchandiseId })
         }}
         disabled={isDisabled}
         variant={!isDisabled ? ButtonVariations.SUCCESS : ButtonVariations.DISABLED}
