@@ -66,3 +66,18 @@ export function getImageSizeMap(images: FragmentProductImageFragment[]) {
     '1280': url1280
   }))
 }
+
+export function sizeToFullSize(size?: string | ProductSizes): string | null {
+  switch (size) {
+    case ProductSizes.S:
+      return 'small'
+    case ProductSizes.M:
+      return 'medium'
+    case ProductSizes.L:
+      return 'large'
+    case ProductSizes.XL:
+      return 'extra-large'
+    default:
+      return null
+  }
+}

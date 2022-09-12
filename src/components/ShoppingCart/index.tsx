@@ -10,8 +10,7 @@ import {
   FragmentCartCostFragment,
   FragmentCartLineFragment,
   GetCartQuery,
-  ProductBrandingAssets,
-  ProductSizes
+  ProductBrandingAssets
 } from 'shopify/graphql/types'
 import {
   useGetCartDispatch,
@@ -30,17 +29,16 @@ import {
   ShoppingCartWrapper
 } from './styled'
 import useQuantitySelector from 'hooks/useQuantitySelector'
-import { getThemeColours } from 'theme/utils'
-import { ThemeModes } from 'theme/styled'
-import { getMetafields } from 'shopify/utils'
+import { getMetafields, sizeToFullSize } from 'shopify/utils'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import usePrevious from 'hooks/usePrevious'
 import useCleanTimeout from 'hooks/useCleanTimeout'
 import { useHistory } from 'react-router-dom'
-import { buildItemUrl } from 'utils/navigation'
+import { buildItemUrl, checkIsCatalogPage } from 'utils/navigation'
 import { useOnScreenProductHandle } from 'state/user/hooks'
-
-const WHITE = getThemeColours(ThemeModes.CHAMELEON).offWhite
+import { formatCurrency } from 'utils/formatting'
+import { WHITE } from 'theme/utils'
+import { CATALOG_PATHNAME } from 'constants/navigation'
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
   return <ShoppingCartQuantityWrapper>{totalQuantity}</ShoppingCartQuantityWrapper>
@@ -76,6 +74,14 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
 
   const isEmptyCart = !Boolean(cartLines?.length)
 
+  const history = useHistory()
+  const isCatalogPage = checkIsCatalogPage(history.location)
+
+  const handleNavClick = useCallback(() => {
+    closeCartPanel()
+    history.push(CATALOG_PATHNAME)
+  }, [closeCartPanel, history])
+
   return (
     <ShoppingCartPanelWrapper>
       <ShoppingCartPanelContentWrapper>
@@ -88,7 +94,14 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
         {loading ? (
           <LoadingRows rows={3} $height={'14rem'} $padding="1rem" $margin="1rem 0" />
         ) : isEmptyCart ? (
-          <h1>Cart is empty :( Buy something!</h1>
+          <ItemSubHeader color={WHITE} fontSize={'2.5rem'} fontWeight={400} padding={0} margin={'2rem 0'}>
+            <span id="lenny-face">Your cart is</span> <strong>empty</strong> <span id="lenny-face">ʕ ͡° ʖ̯ ͡°ʔ</span>
+            {!isCatalogPage && (
+              <p onClick={handleNavClick}>
+                <u>Check out the full catalog!</u>
+              </p>
+            )}
+          </ItemSubHeader>
         ) : (
           cartLines?.map(line => <CartLine key={line.id} line={line} />)
         )}
@@ -123,7 +136,6 @@ function CartTableHeader({
           )}
           {subTotal && (
             <ItemHeader color={WHITE} itemColor={'transparent'} fontSize={'3.5rem'} letterSpacing={0}>
-              {/* {subTotal.amount} {subTotal.currencyCode} */}
               {formatCurrency(subTotal.amount, subTotal.currencyCode)}
             </ItemHeader>
           )}
@@ -166,16 +178,16 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
 
   const { brandAssetMap, color: itemColor } = useMemo(
     () => ({
-      brandAssetMap: getMetafields<ProductBrandingAssets | undefined>(brandingAssetMap),
+      brandAssetMap: {
+        ...getMetafields<ProductBrandingAssets | undefined>(brandingAssetMap),
+        get header() {
+          return this?.logo || this?.header || this?.navBar
+        }
+      },
       color: getMetafields<string>(color)
     }),
     [brandingAssetMap, color]
   )
-
-  const auxAssetMap = {
-    ...brandAssetMap,
-    header: brandAssetMap?.logo || brandAssetMap?.header || brandAssetMap?.navBar
-  }
 
   const history = useHistory()
   const handleClick = useCallback(() => {
@@ -194,7 +206,7 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
   const catalogCurrentProduct = useOnScreenProductHandle()
 
   return (
-    <CartLineWrapper brandAssetMap={auxAssetMap} color={itemColor}>
+    <CartLineWrapper brandAssetMap={brandAssetMap} color={itemColor}>
       <div>
         {/* 1 */}
         {/* <SMART IMG SPAN />*/}
@@ -220,30 +232,4 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
       </div>
     </CartLineWrapper>
   )
-}
-
-function sizeToFullSize(size?: string | ProductSizes): string | null {
-  switch (size) {
-    case ProductSizes.S:
-      return 'small'
-    case ProductSizes.M:
-      return 'medium'
-    case ProductSizes.L:
-      return 'large'
-    case ProductSizes.XL:
-      return 'extra-large'
-    default:
-      return null
-  }
-}
-
-function formatCurrency(amount: number, currency: string) {
-  return new Intl.NumberFormat('pt-PT', {
-    style: 'currency',
-    currency
-
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-  }).format(amount)
 }

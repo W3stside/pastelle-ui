@@ -8,10 +8,9 @@ import useDetectScrollIntoView from 'hooks/useDetectScrollIntoView'
 
 import { ItemHeader } from 'pages/SingleItem/styleds'
 
-import { ThemeModes } from 'theme/styled'
-import { getThemeColours } from 'theme/utils'
 import { BoxProps } from 'rebass'
 import { Z_INDEXES } from 'constants/config'
+import { BLUE } from 'theme/utils'
 
 type WithContainer = {
   container: HTMLElement | null | undefined
@@ -44,7 +43,7 @@ const VideoContainer = styled(Row)`
 
 const Spinner = ({ label = 'pstl' }: { label?: ReactNode }) => (
   <>
-    <ItemHeader itemColor={getThemeColours(ThemeModes.CHAMELEON).blue1} animation>
+    <ItemHeader itemColor={BLUE} animation>
       {label}
     </ItemHeader>
     <Loader size={'100px'} />

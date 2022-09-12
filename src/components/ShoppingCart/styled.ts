@@ -158,6 +158,9 @@ export const CartTableHeaderWrapper = styled(Row)`
 export const ShoppingCartPanelContentWrapper = styled(Column)`
   overflow: hidden;
   overflow-y: auto;
+  #lenny-face {
+    font-style: normal;
+  }
   > ${Row} {
     margin: 1rem 0;
 

@@ -2,9 +2,8 @@ import { useState, useCallback, ChangeEventHandler } from 'react'
 import { Trash2 } from 'react-feather'
 import styled from 'styled-components/macro'
 import { Row } from 'components/Layout'
-import { ThemeModes } from 'theme/styled'
-import { getThemeColours } from 'theme/utils'
 import useDebouncedChangeHandler from './useDebouncedChangeHandler'
+import { BLACK, RED } from 'theme/utils'
 
 export const QuantitySelectorWrapper = styled(Row)`
   width: 100%;
@@ -81,11 +80,11 @@ export default function useQuantitySelector({
           </button>
           {!isDisabled &&
             (!!onTrashClick ? (
-              <Trash2 onClick={onTrashClick} color={getThemeColours(ThemeModes.CHAMELEON).red1} size={'2rem'} />
+              <Trash2 onClick={onTrashClick} color={RED} size={'2rem'} />
             ) : (
               <span
                 style={{
-                  color: getThemeColours(ThemeModes.CHAMELEON).black,
+                  color: BLACK,
                   textDecoration: 'underline',
                   cursor: 'pointer'
                 }}

@@ -26,6 +26,12 @@ export function getThemeColours(colourTheme: ThemeModes): Colors {
   }
 }
 
+export const WHITE = getThemeColours(ThemeModes.CHAMELEON).white
+export const OFF_WHITE = getThemeColours(ThemeModes.CHAMELEON).offWhite
+export const BLACK = getThemeColours(ThemeModes.CHAMELEON).black
+export const BLUE = getThemeColours(ThemeModes.CHAMELEON).blue1
+export const RED = getThemeColours(ThemeModes.CHAMELEON).red1
+
 interface ThemeProps {
   theme: DefaultTheme
 }
