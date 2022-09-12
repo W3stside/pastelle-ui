@@ -9,13 +9,15 @@ const Wrapper = styled(Row)`
   flex-flow: row wrap;
 
   > button {
-    flex: 1 1 65%;
+    flex: 1 1 60%;
   }
   > ${QuantitySelectorWrapper} {
     flex: 1 1 33%;
 
     > input[type='number'] {
       width: 5rem;
+      border: none;
+      border-radius: 0.5rem;
     }
   }
 `

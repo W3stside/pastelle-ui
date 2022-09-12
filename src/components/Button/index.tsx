@@ -75,9 +75,10 @@ const SUCCESS_BUTTON_STYLES = css`
   &:hover {
     background: linear-gradient(270deg, #8958ff 0%, #3f77ff 100%);
     border-color: ${({ theme }): string => theme.offWhite};
+    color: ${({ theme }): string => theme.offWhite};
   }
 
-  transition: background 0.3s ease-in-out;
+  transition: background, color 0.3s ease-out;
 `
 
 const WARNING_BUTTON_STYLES = css`
@@ -200,7 +201,7 @@ const ButtonSizes = variants('component', 'size', {
 })
 
 const ButtonBase = styled.button`
-  border: ${({ theme }) => theme.buttons.border};
+  border: none;
   border-radius: ${({ theme }) => theme.buttons.borderRadius};
   cursor: pointer;
   font-size: ${({ theme }) => theme.buttons.font.size.normal};
