@@ -1,3 +1,4 @@
+import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import { useEffect } from 'react'
 import { useCreateCart, useQueryCart } from 'shopify/graphql/hooks'
 import { useCreateCartDispatch, useGetCartIdDispatch } from 'state/cart/hooks'
@@ -48,7 +49,7 @@ function PreviousCartSubUpdater({
   cartId: string
   setCartInfo: (params: CreateCartParams) => void
 }) {
-  const { data: previousCart } = useQueryCart({ cartId, linesAmount: 10 })
+  const { data: previousCart } = useQueryCart({ cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
 
   useEffect(() => {
     console.debug('[CART UPDATER::PREVIOUS CART SUB-UPDATER] --> Previous cart found! Setting.')

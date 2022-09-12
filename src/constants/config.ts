@@ -33,3 +33,4 @@ export const enum Z_INDEXES {
   SCROLLER_DIV = 900,
   MODALS = 9999
 }
+export const DEFAULT_CART_LINES_AMOUNT = 30

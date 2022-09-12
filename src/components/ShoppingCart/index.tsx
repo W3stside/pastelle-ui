@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react'
 import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 
 import { Column } from 'components/Layout'
@@ -13,7 +14,6 @@ import {
 } from 'shopify/graphql/types'
 import { useGetCartDispatch, useGetCartIdDispatch } from 'state/cart/hooks'
 import { CartState } from 'state/cart/reducer'
-import { useMemo, useState } from 'react'
 import {
   CartLineContent,
   CartLineWrapper,
@@ -27,6 +27,7 @@ import useQuantitySelector from 'hooks/useQuantitySelector'
 import { getThemeColours } from 'theme/utils'
 import { ThemeModes } from 'theme/styled'
 import { getMetafields } from 'shopify/utils'
+import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 
 const WHITE = getThemeColours(ThemeModes.CHAMELEON).offWhite
 
@@ -56,9 +57,8 @@ export function ShoppingCart({ closeCartPanel }: { closeCartPanel: () => void })
   return <ShoppingCartPanel cartId={cartId} closeCartPanel={closeCartPanel} />
 }
 
-const LINES_AMOUNT = 20
 function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCartPanel: () => void }) {
-  const { data, loading } = useQueryCart({ cartId, linesAmount: LINES_AMOUNT })
+  const { data, loading } = useQueryCart({ cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
   const cartLines = data?.cart?.lines.nodes
   const totalQuantity = data?.cart?.totalQuantity
   const subTotal = data?.cart?.cost.subtotalAmount
@@ -105,7 +105,7 @@ function CartTableHeader({
       {/* <Strikethrough /> */}
       {data?.cart && (
         <Column>
-          {totalQuantity && (
+          {!!totalQuantity && (
             <ItemHeader color={WHITE} itemColor={'transparent'} fontSize={'3.5rem'} letterSpacing={0}>
               {totalQuantity} items
             </ItemHeader>
@@ -124,7 +124,9 @@ function CartTableHeader({
 }
 
 function CartLine({ line }: { line: FragmentCartLineFragment }) {
-  const { QuantitySelector } = useQuantitySelector({ defaultQuantity: line.quantity })
+  const { QuantitySelector /* , quantity */ } = useQuantitySelector({ defaultQuantity: line.quantity })
+  // const { addToCartCallback } = useAddToCartAndUpdateCallback()
+
   const { brandAssetMap, color } = useMemo(
     () => ({
       brandAssetMap: getMetafields<ProductBrandingAssets | undefined>(line.merchandise.product.brandingAssetMap),
@@ -137,6 +139,11 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
     ...brandAssetMap,
     header: brandAssetMap?.logo || brandAssetMap?.header || brandAssetMap?.navBar
   }
+
+  /* useEffect(() => {
+    // TODO: replace with replaceCartLineCallback 
+    addToCartCallback({ quantity, merchandiseId: line.merchandise.id })
+  }, [addToCartCallback, line.merchandise.id, quantity]) */
 
   return (
     <CartLineWrapper brandAssetMap={auxAssetMap} color={color}>

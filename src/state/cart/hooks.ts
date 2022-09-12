@@ -25,8 +25,7 @@ export function useUpdateCartInfoDispatch() {
   return useCallback((params: UpdateCartInfoParams) => dispatch(updateCartInfo(params)), [dispatch])
 }
 
-export function useAddToCartAndUpdateCallback(props: Omit<AddToCartButtonParams, 'label'>) {
-  const { merchandiseId, quantity } = props
+export function useAddToCartAndUpdateCallback() {
   const cartId = useGetCartIdDispatch()
   const updateCartInfo = useUpdateCartInfoDispatch()
   const [addNewCartLine, rest] = useAddNewCartLine()
@@ -34,8 +33,9 @@ export function useAddToCartAndUpdateCallback(props: Omit<AddToCartButtonParams,
   return {
     ...rest,
     addToCartCallback: useCallback(
-      e => addCartLineAndUpdateStore(e, { cartId, quantity, merchandiseId, addNewCartLine, updateCartInfo }),
-      [addNewCartLine, cartId, quantity, merchandiseId, updateCartInfo]
+      ({ merchandiseId, quantity }: Omit<AddToCartButtonParams, 'label'>) =>
+        addCartLineAndUpdateStore({ cartId, quantity, merchandiseId, addNewCartLine, updateCartInfo }),
+      [addNewCartLine, cartId, updateCartInfo]
     )
   }
 }

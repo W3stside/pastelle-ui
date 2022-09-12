@@ -9,7 +9,7 @@ import styled from 'styled-components/macro'
 
 export type AddToCartButtonParams = { label?: string; merchandiseId: string | undefined; quantity: number }
 export default function AddToCartButton({ label = 'Add to cart', merchandiseId, quantity }: AddToCartButtonParams) {
-  const { addToCartCallback, loading, error } = useAddToCartAndUpdateCallback({ merchandiseId, quantity })
+  const { addToCartCallback, loading, error } = useAddToCartAndUpdateCallback()
   const { DisappearingMessage, shouldShow, setShow } = useDisappearingMessage()
 
   const isDisabled = loading || !quantity || shouldShow
@@ -17,9 +17,9 @@ export default function AddToCartButton({ label = 'Add to cart', merchandiseId, 
   return (
     <>
       <Button
-        onClick={(e: React.MouseEvent<Element, MouseEvent>) => {
+        onClick={() => {
           setShow(true)
-          addToCartCallback(e)
+          addToCartCallback({ quantity, merchandiseId })
         }}
         disabled={isDisabled}
         variant={!isDisabled ? ButtonVariations.SUCCESS : ButtonVariations.DISABLED}

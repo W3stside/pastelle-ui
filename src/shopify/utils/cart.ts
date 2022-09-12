@@ -1,5 +1,4 @@
 import { FetchResult } from '@apollo/client'
-import { ChangeEvent } from 'react'
 import { AddNewCartLineMutation, CartMutationCartLinesAdd } from 'shopify/graphql/types'
 import { UpdateCartInfoParams } from 'state/cart/reducer'
 
@@ -15,11 +14,13 @@ type Params = {
     type: string
   }
 }
-export const addCartLineAndUpdateStore = async (
-  e: ChangeEvent<HTMLButtonElement>,
-  { cartId, quantity, merchandiseId, addNewCartLine, updateCartInfo }: Params
-) => {
-  e.preventDefault()
+export const addCartLineAndUpdateStore = async ({
+  cartId,
+  quantity,
+  merchandiseId,
+  addNewCartLine,
+  updateCartInfo
+}: Params) => {
   if (!cartId || !merchandiseId) return
 
   const response = await addNewCartLine({
@@ -29,14 +30,10 @@ export const addCartLineAndUpdateStore = async (
     }
   })
 
-  const id = _getCartProp(response)?.id
   const totalQuantity = _getCartProp(response)?.totalQuantity
   const costs = _getCartProp(response)?.cost
 
-  if (!id) {
-    console.error('[AddNewCartLine] Error! No cartId returned. Check method.')
-  }
-  updateCartInfo({ totalQuantity, costs, cartId: id })
+  updateCartInfo({ totalQuantity, costs })
 }
 
 function _getCartProp(response: FetchResult<AddNewCartLineMutation, Record<string, any>, Record<string, any>>) {
