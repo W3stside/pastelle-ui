@@ -11,18 +11,18 @@ export enum ApplicationModal {
 
 type PopupList = Array<{ key: string; show: boolean; content: PopupContent; removeAfterMs: number | null }>
 
-export interface ApplicationState {
+export interface ModalsAndPopupsState {
   readonly popupList: PopupList
   readonly openModal: ApplicationModal | null
 }
 
-const initialState: ApplicationState = {
+const initialState: ModalsAndPopupsState = {
   popupList: [],
   openModal: null
 }
 
-const applicationSlice = createSlice({
-  name: 'application',
+const modalsAndPopupsSlice = createSlice({
+  name: 'modalsAndPopups',
   initialState,
   reducers: {
     setOpenModal(state, action: PayloadAction<ApplicationModal | null>) {
@@ -53,5 +53,5 @@ const applicationSlice = createSlice({
   }
 })
 
-export const { setOpenModal, addPopup, removePopup } = applicationSlice.actions
-export const application = applicationSlice.reducer
+export const { setOpenModal, addPopup, removePopup } = modalsAndPopupsSlice.actions
+export const modalsAndPopups = modalsAndPopupsSlice.reducer

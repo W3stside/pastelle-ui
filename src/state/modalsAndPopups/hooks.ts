@@ -4,7 +4,7 @@ import { checkedTransaction, finalizeTransaction } from '../blockchainTransactio
 import { addPopup, ApplicationModal, PopupContent, removePopup, setOpenModal } from './reducer'
 
 export function useModalOpen(modal: ApplicationModal): boolean {
-  const openModal = useAppSelector(state => state.application.openModal)
+  const openModal = useAppSelector(state => state.modalsAndPopups.openModal)
   return openModal === modal
 }
 
@@ -76,7 +76,7 @@ export function useCheckedTransaction() {
 }
 
 // get the list of active popups
-export function useActivePopups(): AppState['application']['popupList'] {
-  const list = useAppSelector(state => state.application.popupList)
+export function useActivePopups(): AppState['modalsAndPopups']['popupList'] {
+  const list = useAppSelector(state => state.modalsAndPopups.popupList)
   return useMemo(() => list.filter(item => item.show), [list])
 }

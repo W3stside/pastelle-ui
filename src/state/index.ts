@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { save, load } from 'redux-localstorage-simple'
-
+// MISC
 import { user } from 'state/user/reducer'
-import { application } from 'state/application/reducer'
+import { modalsAndPopups } from 'state/modalsAndPopups/reducer'
+import { window } from 'state/window/reducer'
 // APPAREL
 import { cart } from 'state/cart/reducer'
 import { catalog } from 'state/catalog/reducer'
@@ -24,12 +25,13 @@ const store = configureStore({
     cart,
     catalog,
     // MISC
-    application,
+    modalsAndPopups,
+    user,
+    window,
     // BLOCKCHAIN
     blockchain,
     blockchainMulticall,
-    blockchainTransactions,
-    user
+    blockchainTransactions
   },
   middleware: defaultMiddleware =>
     defaultMiddleware({

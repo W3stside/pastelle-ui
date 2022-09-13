@@ -1,5 +1,12 @@
-import { FetchResult, MutationHookOptions } from '@apollo/client'
-import { AddNewCartLineMutation, UpdateCartLineMutation, RemoveCartLineMutation } from 'shopify/graphql/types'
+import { MutationHookOptions, MutationTuple } from '@apollo/client'
+import {
+  AddNewCartLineMutation,
+  UpdateCartLineMutation,
+  RemoveCartLineMutation,
+  AddNewCartLineMutationVariables,
+  UpdateCartLineMutationVariables,
+  RemoveCartLineMutationVariables
+} from 'shopify/graphql/types'
 import { UpdateCartInfoParams } from 'state/cart/reducer'
 
 type BaseParams = {
@@ -16,23 +23,17 @@ type BaseParams = {
 
 export type RemoveLineParams = Omit<BaseParams, 'quantity'> & {
   lineIds: string[]
-  removeCartLine: (
-    ...params: any[]
-  ) => Promise<FetchResult<RemoveCartLineMutation, Record<string, any>, Record<string, any>>>
+  removeCartLine: MutationTuple<RemoveCartLineMutation, RemoveCartLineMutationVariables>[0]
 }
 
 export type UpdateLineParams = BaseParams & {
   lineId: string
-  updateCartLine: (
-    ...params: any[]
-  ) => Promise<FetchResult<UpdateCartLineMutation, Record<string, any>, Record<string, any>>>
+  updateCartLine: MutationTuple<UpdateCartLineMutation, UpdateCartLineMutationVariables>[0]
 }
 
 export type AddNewLineParams = BaseParams & {
   merchandiseId: string | undefined
-  addNewCartLine: (
-    ...params: any[]
-  ) => Promise<FetchResult<AddNewCartLineMutation, Record<string, any>, Record<string, any>>>
+  addNewCartLine: MutationTuple<AddNewCartLineMutation, AddNewCartLineMutationVariables>[0]
 }
 
 export const addCartLineAndUpdateStore = async ({

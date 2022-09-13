@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useActiveWeb3React } from 'blockchain/hooks'
 import { useBlockNumber } from 'state/blockchain/hooks'
 
-import { useAddPopup, useFinalizeTransaction, useCheckedTransaction } from 'state/application/hooks'
+import { useAddPopup, useFinalizeTransaction, useCheckedTransaction } from 'state/modalsAndPopups/hooks'
 import { useAppSelector } from 'state'
 
 export function shouldCheck(

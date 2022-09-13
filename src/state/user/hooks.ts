@@ -1,19 +1,11 @@
 import { useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 
-import { AppDispatch, AppState } from 'state'
+import { useAppDispatch, useAppSelector } from 'state'
 import { Theme, ThemeModes } from 'theme/styled'
-import {
-  CatalogCurrentProduct,
-  setOnScreenProductHandle,
-  updateThemeAutoDetect,
-  updateThemeMode,
-  updateWindowSize,
-  WindowSize
-} from './reducer'
+import { updateThemeAutoDetect, updateThemeMode } from './reducer'
 import { initialState } from './reducer'
 
-export const useAppColourTheme = () => useSelector<AppState, Theme>(({ user }) => user.theme || initialState.theme)
+export const useAppColourTheme = () => useAppSelector(({ user }) => user.theme || initialState.theme)
 
 interface ThemeManager {
   theme: Theme
@@ -22,7 +14,7 @@ interface ThemeManager {
 }
 
 export function useThemeManager(): ThemeManager {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useAppDispatch()
   const theme = useAppColourTheme()
 
   const setMode = useCallback(
@@ -41,20 +33,3 @@ export function useThemeManager(): ThemeManager {
 
   return { theme, setMode, setAutoDetect }
 }
-
-export function useSetOnScreenProductHandle() {
-  const dispatch = useDispatch<AppDispatch>()
-
-  return useCallback((params: CatalogCurrentProduct) => dispatch(setOnScreenProductHandle(params)), [dispatch])
-}
-
-export const useOnScreenProductHandle = () =>
-  useSelector<AppState, CatalogCurrentProduct | null>(({ user }) => user.catalogCurrentProduct)
-
-export function useUpdateWindowSize() {
-  const dispatch = useDispatch<AppDispatch>()
-
-  return useCallback((params: WindowSize) => dispatch(updateWindowSize(params)), [dispatch])
-}
-
-export const useGetWindowSize = () => useSelector<AppState, WindowSize>(({ user }) => user.windowSize)

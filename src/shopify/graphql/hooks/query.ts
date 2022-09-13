@@ -11,7 +11,7 @@ import {
 } from 'shopify/graphql/types'
 import { useParseCatalogDetailsFromURL } from 'state/catalog/hooks'
 import { ProductPageProps, CatalogMap } from 'pages/SingleItem/AsideWithVideo'
-import { useOnScreenProductHandle } from 'state/user/hooks'
+import { useOnScreenProductHandle } from 'state/catalog/hooks'
 import { QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
 import { GET_CART } from '../queries/cart'
 

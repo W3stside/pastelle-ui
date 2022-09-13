@@ -3,8 +3,8 @@ import { X } from 'react-feather'
 import { useSpring } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components/macro'
 import { animated } from 'react-spring'
-import { PopupContent } from 'state/application/reducer'
-import { useRemovePopup } from 'state/application/hooks'
+import { PopupContent } from 'state/modalsAndPopups/reducer'
+import { useRemovePopup } from 'state/modalsAndPopups/hooks'
 
 export const StyledClose = styled(X)`
   position: absolute;

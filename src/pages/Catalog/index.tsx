@@ -7,7 +7,7 @@ import AsideWithVideo from 'pages/SingleItem/AsideWithVideo'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { isMobile } from 'utils'
-import { useOnScreenProductHandle } from 'state/user/hooks'
+import { useOnScreenProductHandle } from 'state/catalog/hooks'
 import { buildItemUrl } from 'utils/navigation'
 
 export default function Catalog() {

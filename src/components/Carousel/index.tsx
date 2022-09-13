@@ -3,7 +3,7 @@ import { LoadInView } from 'hooks/useDetectScrollIntoView'
 import useStateRef from 'hooks/useStateRef'
 import { useState, useMemo, /* useRef, */ useEffect, forwardRef, ForwardedRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
-import { useGetWindowSize } from 'state/user/hooks'
+import { useGetWindowSize } from 'state/window/hooks'
 import {
   CarouselContainer,
   CarouselStep as CarouselStepContainer,

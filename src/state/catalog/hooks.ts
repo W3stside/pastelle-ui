@@ -1,31 +1,44 @@
 import { useCallback, useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'state'
-import { batchUpdateCatalogByYear, ProductPageMap, updateCatalog } from './reducer'
-import { useOnScreenProductHandle } from 'state/user/hooks'
+import {
+  batchUpdateCatalogByYear,
+  ProductPageMap,
+  updateCatalog,
+  ProductCurrentlyViewing,
+  updateCurrentlyViewing
+} from './reducer'
 import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
+
+export function useUpdateCurrentlyViewing() {
+  const dispatch = useAppDispatch()
+
+  return useCallback((params: ProductCurrentlyViewing) => dispatch(updateCurrentlyViewing(params)), [dispatch])
+}
+
+export const useOnScreenProductHandle = () => useAppSelector(({ catalog }) => catalog.currentlyViewing)
 
 export function useCatalog() {
   return useAppSelector(state => state.catalog)
 }
 
-export function useCatalogByDrop(drop: 'current' | number) {
+export function useCatalogByDrop(drop: 'currentDrop' | number) {
   return useAppSelector(state => state.catalog[drop.toString()])
 }
 
 export function useCurrentCatalog() {
-  return useCatalogByDrop('current')
+  return useCatalogByDrop('currentDrop')
 }
 
 export function useUpdateCatalog() {
   const dispatch = useAppDispatch()
-  return useCallback((catalog: ProductPageMap) => dispatch(updateCatalog({ drop: 'current', catalog })), [dispatch])
+  return useCallback((catalog: ProductPageMap) => dispatch(updateCatalog({ drop: 'currentDrop', catalog })), [dispatch])
 }
 
 export function useBatchUpdateCatalogByDrop() {
   const dispatch = useAppDispatch()
   return useCallback(
-    (params: { drop: 'current' | number; catalog: ProductPageMap }) => dispatch(batchUpdateCatalogByYear(params)),
+    (params: { drop: 'currentDrop' | number; catalog: ProductPageMap }) => dispatch(batchUpdateCatalogByYear(params)),
     [dispatch]
   )
 }

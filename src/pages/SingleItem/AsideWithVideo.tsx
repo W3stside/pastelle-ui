@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
+import { BoxProps } from 'rebass'
 
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
+import { ItemVideoContent, SmallScreenVideoContent } from 'pages/SingleItem/ItemVideoContent'
+import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
+import SmartImg from 'components/SmartImg'
+import LargeImageCarouselModal from 'components/LargeImageCarouselModal'
+import AddToCartButtonAndQuantitySelector from 'components/AddToCartButtonAndQuantitySelector'
+import { TinyHelperText } from 'components/Common'
 import {
   ItemContainer,
   ItemAsidePanel,
@@ -22,14 +29,15 @@ import {
 } from './styleds'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
+import { useToggleModal, useModalOpen, useCloseModals } from 'state/modalsAndPopups/hooks'
+import { useUpdateCurrentlyViewing } from 'state/catalog/hooks'
+import { useGetWindowSize } from 'state/window/hooks'
+import { useQueryProductVariantId } from 'shopify/graphql/hooks'
+import useStateRef from 'hooks/useStateRef'
+import useSizeSelector from 'components/SizeSelector'
 
-import { useToggleModal, useModalOpen, useCloseModals } from 'state/application/hooks'
-import { ApplicationModal } from 'state/application/reducer'
-import { ItemVideoContent, SmallScreenVideoContent } from './ItemVideoContent'
-import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
-import { BoxProps } from 'rebass'
-import SmartImg from 'components/SmartImg'
-import { useGetWindowSize, useSetOnScreenProductHandle } from 'state/user/hooks'
+import { ApplicationModal } from 'state/modalsAndPopups/reducer'
+
 import {
   FragmentProductVideoFragment,
   FragmentProductImageFragment,
@@ -37,17 +45,13 @@ import {
   ProductArtistInfo,
   Product
 } from 'shopify/graphql/types'
-import useStateRef from 'hooks/useStateRef'
-import { STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
+
 import { getImageSizeMap } from 'shopify/utils'
-import LargeImageCarouselModal from 'components/LargeImageCarouselModal'
-import ShippingSvg from 'assets/svg/shipping.svg'
-import { useQueryProductVariantId } from 'shopify/graphql/hooks'
-import useSizeSelector from 'components/SizeSelector'
-import AddToCartButtonAndQuantitySelector from 'components/AddToCartButtonAndQuantitySelector'
 import { BLACK, OFF_WHITE } from 'theme/utils'
 import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
-import { TinyHelperText } from 'components/Common'
+import { STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
+
+import ShippingSvg from 'assets/svg/shipping.svg'
 
 export interface ProductPageProps {
   bgColor: string
@@ -151,12 +155,12 @@ export default function ItemPage({
    * SIDE EFFECTS
    */
   // 1. scrolling page current index set in state as on screen
-  const setOnScreenProductHandle = useSetOnScreenProductHandle()
+  const updateCurrentlyViewing = useUpdateCurrentlyViewing()
   useEffect(() => {
     if (isActive) {
-      setOnScreenProductHandle({ handle, id })
+      updateCurrentlyViewing({ handle, id })
     }
-  }, [isActive, handle, id, setOnScreenProductHandle])
+  }, [isActive, handle, id, updateCurrentlyViewing])
 
   // inner container ref
   const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)
