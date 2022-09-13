@@ -169,10 +169,10 @@ export const ItemBreadcrumb = styled(NavLink)`
   }
 `
 export const ItemDescription = styled(TYPE.black).attrs(props => ({
-  fontSize: '1.8rem',
-  padding: 0,
-  fontWeight: 500,
-  lineHeight: 1.2,
+  fontSize: props.fontSize || '1.8rem',
+  padding: props.padding || 0,
+  fontWeight: props.fontWeight || 500,
+  lineHeight: props.lineHeight || 1.2,
   ...props
 }))`
   text-transform: uppercase;

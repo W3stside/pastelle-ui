@@ -332,7 +332,7 @@ export default function ItemPage({
                   <ItemContentContainer padding="0 1.5rem">
                     <ItemDescription
                       dangerouslySetInnerHTML={{ __html: description }}
-                      padding={'1.5rem'}
+                      padding="0rem 4rem 1rem"
                       fontWeight={300}
                       backgroundColor={OFF_WHITE}
                     />
