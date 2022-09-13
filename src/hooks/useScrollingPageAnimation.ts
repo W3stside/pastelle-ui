@@ -2,7 +2,8 @@ import { useRef, useEffect, useCallback, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { useGesture } from '@use-gesture/react'
 import { SpringConfig, useSprings } from 'react-spring'
-import useStateRef from './useStateRef'
+import useStateRef from 'hooks/useStateRef'
+import { useWindowSize } from 'hooks/useWindowSize'
 
 const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 3.2,
@@ -84,6 +85,13 @@ export default function useScrollingPageAnimation(
   )
 
   // handle window resizing
+  const size = useWindowSize()
+  useEffect(() => {
+    if (!fixedHeight && target?.clientHeight) {
+      setHeightRef(target)
+    }
+  }, [fixedHeight, setHeightRef, size, target])
+  /* 
   useEffect(() => {
     // resize handler - update clientHeight
     const _handleWindowResize = () => !fixedHeight && target?.clientHeight && setHeightRef(target)
@@ -95,6 +103,7 @@ export default function useScrollingPageAnimation(
       window?.removeEventListener('resize', _handleWindowResize)
     }
   }, [fixedHeight, setHeightRef, target])
+  */
 
   const setTargetRef = useCallback((node: any) => {
     setContainerRef(node)
