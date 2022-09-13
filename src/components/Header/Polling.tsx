@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import styled, { keyframes } from 'styled-components/macro'
+import styled from 'styled-components/macro'
 import { TYPE, ExternalLink } from 'theme'
 
 import { useBlockNumber } from 'state/blockchain/hooks'
 import { getEtherscanLink } from 'blockchain/utils'
 import { useActiveWeb3React } from 'blockchain/hooks'
+import { rotate360Animation } from 'theme/styles/animations'
 
 const StyledPolling = styled.div`
   position: fixed;
@@ -35,17 +36,8 @@ const StyledPollingDot = styled.div`
   background-color: ${({ theme }) => theme.green1};
 `
 
-const rotate360 = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`
-
 const Spinner = styled.div`
-  animation: ${rotate360} 1s cubic-bezier(0.83, 0, 0.17, 1) infinite;
+  animation: ${rotate360Animation} 1s cubic-bezier(0.83, 0, 0.17, 1) infinite;
   transform: translateZ(0);
 
   border-top: 1px solid transparent;

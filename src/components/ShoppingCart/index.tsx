@@ -4,7 +4,7 @@ import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 import { Column, Row } from 'components/Layout'
 import LoadingRows from 'components/Loader/LoadingRows'
 import SmartImg from 'components/SmartImg'
-import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
+import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { useQueryCart } from 'shopify/graphql/hooks'
 import {
   FragmentCartCostFragment,
@@ -27,7 +27,8 @@ import {
   ShoppingCartPanelWrapper,
   ShoppingCartQuantityWrapper,
   ShoppingCartHeaderWrapper,
-  ShoppingCartFullWrapper
+  ShoppingCartFullWrapper,
+  CartHeader
 } from './styled'
 import useQuantitySelector from 'hooks/useQuantitySelector'
 import { getMetafields, sizeToFullSize } from 'shopify/utils'
@@ -124,21 +125,21 @@ function CartTableHeader({
 }) {
   return (
     <CartTableHeaderWrapper>
-      <ItemHeader margin={'1rem auto 0 0'} color={WHITE} itemColor={'transparent'} letterSpacing={-10}>
+      <CartHeader margin={'1rem auto 0 0'} letterSpacing={-10}>
         CART
-      </ItemHeader>
+      </CartHeader>
       {/* <Strikethrough /> */}
       {data?.cart && (
         <Column>
           {!!totalQuantity && (
-            <ItemHeader color={WHITE} itemColor={'transparent'} fontSize={'3.5rem'} letterSpacing={0}>
+            <CartHeader fontSize={'3.5rem'} letterSpacing={0}>
               {totalQuantity} items
-            </ItemHeader>
+            </CartHeader>
           )}
           {subTotal && (
-            <ItemHeader color={WHITE} itemColor={'transparent'} fontSize={'3.5rem'} letterSpacing={0}>
+            <CartHeader fontSize={'3.5rem'} letterSpacing={0}>
               {formatCurrency(subTotal.amount, subTotal.currencyCode)}
-            </ItemHeader>
+            </CartHeader>
           )}
         </Column>
       )}

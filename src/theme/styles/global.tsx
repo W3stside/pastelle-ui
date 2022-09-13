@@ -1,13 +1,14 @@
-import { createGlobalStyle, css } from 'styled-components/macro'
+import { createGlobalStyle } from 'styled-components/macro'
 import { darken, transparentize } from 'polished'
 
-import { getThemeColours, setTextColour, setBgColour, fromExtraLarge } from '../utils'
+import { setTextColour, setBgColour, fromExtraLarge, BLUE } from '../utils'
 import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
 import { useAppColourTheme } from 'state/user/hooks'
 import { useMemo } from 'react'
 import { useGetCurrentOnScreenCatalogProduct } from 'state/catalog/hooks'
 import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
+import { setFlickerAnimation } from 'theme/styles/animations'
 
 export { FontStyles }
 
@@ -93,7 +94,7 @@ export const TopGlobalStyle = createGlobalStyle`
   }
 
   a {
-    color: ${getThemeColours(ThemeModes.LIGHT).blue1};
+    color: ${BLUE};
   }
   
   button {
@@ -124,38 +125,6 @@ export const TopGlobalStyle = createGlobalStyle`
     font-size: inherit;
     cursor: inherit;
     line-height: inherit;
-  }
-`
-
-export const flickerAnimation = css<{ frameBgColor?: string }>`
-  @keyframes flickerIn {
-    0% {
-      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(1, frameBgColor)};
-    }
-    5% {
-      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(0, frameBgColor)};
-    }
-    8% {
-      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(1, frameBgColor)};
-    }
-    9% {
-      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(0, frameBgColor)};
-    }
-    12% {
-      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(1, frameBgColor)};
-    }
-    18% {
-      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(0, frameBgColor)};
-    }
-    24% {
-      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(0, frameBgColor)};
-    }
-    28% {
-      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(1, frameBgColor)};
-    }
-    42% {
-      background-color: ${({ theme, frameBgColor = theme.bg1 }) => transparentize(0, frameBgColor)};
-    }
   }
 `
 
@@ -235,15 +204,8 @@ export const ThemedGlobalStyle = createGlobalStyle<{
     background-blend-mode: difference;
     background-color: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
 
-    ${({ animation = true }) => animation && flickerAnimation}
-    ${({ animation = true, animationDelay = 3 }) =>
-      animation &&
-      `
-        animation-name: flickerIn;
-        animation-duration: 4s;
-        animation-iteration-count: 2;
-        ${animationDelay && `animation-delay: ${animationDelay}s;`}
-    `}
+    ${({ animation, animationDelay }) =>
+      setFlickerAnimation({ state: !!animation, delay: animationDelay, duration: 4, count: 2 })}
 `
 
 export const ThemedGlobalComponent = () => {

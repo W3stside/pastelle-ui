@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro'
-import { fadeInAnimation } from 'pages/SingleItem/styleds'
 import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
 import { fromExtraLarge, fromLarge, fromMedium, fromSmall, upToExtraSmall } from 'theme/utils'
 import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
+import { setFadeInAnimation } from 'theme/styles/animations'
 
 const BG_RATIO = 2.182
 const BG_HEIGHT_RATIOS = {
@@ -47,9 +47,7 @@ export const ArticleFadeInContainer = styled.article`
   
   background-size: contain;
   
-  // animation
   filter: contrast(1) blur(0px);
-  ${fadeInAnimation};
-  animation-name: fadeIn;
-  animation-duration: 0.8s;
+  // animation
+  ${setFadeInAnimation()}
 `

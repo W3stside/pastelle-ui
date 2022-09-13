@@ -1,31 +1,5 @@
-import styled, { keyframes } from 'styled-components/macro'
-
-const strokeWidth = keyframes`
-0% {
-  stroke-width: 10.8;
-}
-10% {
-    stroke-width: 0;
-}
-
-20% {
-  stroke-width: 10.8;
-}
-
-50% {
-  stroke-width: 0;
-}
-60% {
-  stroke-width: 10.8;
-}
-
-90% {
-    stroke-width: 0;
-}
-100% {
-    stroke-width: 30;
-}
-`
+import styled from 'styled-components/macro'
+import { strokeWidth } from 'theme/styles/animations'
 
 const SvgWrapper = styled.svg`
   path {

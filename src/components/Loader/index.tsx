@@ -1,18 +1,10 @@
 import { ReactNode } from 'react'
 import { ItemHeader } from 'pages/SingleItem/styleds'
-import styled, { keyframes } from 'styled-components/macro'
-
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`
+import styled from 'styled-components/macro'
+import { rotate360Animation } from 'theme/styles/animations'
 
 const StyledSVG = styled.svg<{ size: string; stroke?: string }>`
-  animation: 2s ${rotate} linear infinite;
+  animation: 2s ${rotate360Animation} linear infinite;
   height: ${({ size }) => size};
   width: ${({ size }) => size};
   path {

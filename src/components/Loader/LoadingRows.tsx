@@ -1,21 +1,13 @@
-import styled, { keyframes } from 'styled-components/macro'
+import styled from 'styled-components/macro'
+import { loadingAnimation, setAnimation } from 'theme/styles/animations'
 
-export const loadingAnimation = keyframes`
-  0% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-`
 type LoadingRowsStyleProps = { $height?: string; $margin?: string; $padding?: string }
 const StyledLoadingRows = styled.div<LoadingRowsStyleProps>`
   display: grid;
   gap: 6px;
 
   & > div {
-    animation: ${loadingAnimation} 1.5s infinite;
-    animation-fill-mode: both;
+    ${setAnimation(loadingAnimation, { duration: 1.5, count: 'infinite', fillMode: 'both' })}
     background: linear-gradient(
       to left,
       ${({ theme }) => theme.white} 25%,

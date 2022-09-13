@@ -3,10 +3,11 @@ import { transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
 import { DEFAULT_IK_TRANSFORMS, Z_INDEXES } from 'constants/config'
-import { fadeInAnimation, ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
-import { fromExtraLarge, upToExtraSmall, upToMedium, upToSmall } from 'theme/utils'
+import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
+import { fromExtraLarge, OFF_WHITE, upToExtraSmall, upToMedium, upToSmall } from 'theme/utils'
 import { ProductBrandingAssets } from 'shopify/graphql/types'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
+import { setFadeInAnimation } from 'theme/styles/animations'
 
 export const CartLineContent = styled(Row)`
   display: grid;
@@ -131,6 +132,14 @@ export const ShoppingCartHeaderWrapper = styled(Row)`
     color: ${({ theme }) => theme.black};
   }
 `
+
+export const CartHeader = styled(ItemHeader).attrs(props => ({
+  ...props,
+  color: OFF_WHITE,
+  itemColor: 'transparent',
+  animation: false
+}))``
+
 export const CartTableHeaderWrapper = styled(Row)`
   display: grid;
   grid-template-columns: min-content auto min-content;
@@ -184,9 +193,7 @@ export const ShoppingCartPanelWrapper = styled.div`
 
   // animation
   filter: contrast(1) blur(0px);
-  ${fadeInAnimation};
-  animation-name: fadeIn;
-  animation-duration: 0.4s;
+  ${setFadeInAnimation({ duration: 0.4 })}
 
   > ${ShoppingCartPanelContentWrapper}, > ${CartTableHeaderWrapper} {
     color: ${({ theme }) => theme.text1};

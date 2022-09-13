@@ -12,77 +12,7 @@ import { SocialType } from 'mock/types'
 import { DEFAULT_IK_TRANSFORMS, FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
 import { fromExtraLarge, fromLarge, fromMedium, fromSmall, OFF_WHITE, upToLarge, upToSmall } from 'theme/utils'
-
-const saturateAnimation = css`
-  @keyframes saturate {
-    0% {
-      filter: contrast(1.8) saturate(20) blur(5px);
-    }
-    10% {
-      filter: contrast(1.8) saturate(1) blur(0.8px);
-    }
-  }
-`
-
-const textShadowAnimation = css<{ itemColor: string }>`
-  @keyframes textShadowAnimation {
-    0% {
-      text-shadow: 20px 2px 2px ${({ itemColor }) => itemColor};
-      letter-spacing: 20px;
-    }
-    3% {
-      text-shadow: 55px 2px 8px ${({ itemColor }) => itemColor};
-    }
-    5% {
-      text-shadow: -22px 2px 2px pink;
-    }
-    7% {
-      text-shadow: 47px 2px 8px ${({ itemColor }) => itemColor};
-    }
-    10% {
-      text-shadow: 17px 2px 8px ${({ itemColor }) => itemColor};
-    }
-    47% {
-      text-shadow: 10px 2px 2px ${({ itemColor }) => itemColor};
-      letter-spacing: 7px;
-    }
-    48% {
-      text-shadow: -20px 2px 1px pink;
-    }
-    49% {
-      text-shadow: 20px 2px 2px ${({ itemColor }) => itemColor};
-    }
-    53% {
-      text-shadow: 55px 2px 8px ${({ itemColor }) => itemColor};
-    }
-    55% {
-      text-shadow: -32px 2px 2px purple;
-    }
-    57% {
-      text-shadow: 47px 2px 7px lightgreen;
-    }
-    58% {
-      text-shadow: -47px 2px 1px ${({ itemColor }) => itemColor};
-    }
-    60% {
-      text-shadow: 20px 2px 2px ${({ itemColor }) => itemColor};
-    }
-    65% {
-      text-shadow: 20px 2px 5px purple;
-    }
-  }
-`
-
-export const fadeInAnimation = css`
-  @keyframes fadeIn {
-    0% {
-      filter: contrast(0) blur(100px);
-    }
-    100% {
-      filter: contrast(1) blur(0px);
-    }
-  }
-`
+import { saturateAnimation, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
   z-index: ${({ zIndex = 1 }) => zIndex};
@@ -98,11 +28,7 @@ export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number
     ${({ width }) => width && `width: ${width};`}
 
     filter: contrast(1) saturate(1) blur(0px);
-
-    ${saturateAnimation};
-
-    animation-name: saturate;
-    animation-duration: 10.4s;
+    ${setAnimation(saturateAnimation, { duration: 10.4 })}
   }
 `
 export const Strikethrough = styled.div`
@@ -115,27 +41,31 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
   z-index: ${Z_INDEXES.PRODUCT_CONTENT};
   font-style: italic;
   letter-spacing: 7px;
-  font-size: 10rem;  
+  font-size: 10rem;
 
   // logo
   > img {
     max-width: ${({ maxWidth = '100%' }) => maxWidth};
   }
-  
+
   ${({ theme }) => theme.mediaWidth.upToSmall`
     font-size: 6.5rem;
   `}
 
-  ${({ animation = false }) => animation && textShadowAnimation}
-  ${({ animation = false, animationDelay = true, itemColor }) =>
-    animation &&
-    `
-      text-shadow: 10px 2px 2px ${itemColor};
-      animation-name: textShadowAnimation;
-      animation-duration: 10s;
-      animation-iteration-count: 3;
-      ${animationDelay && 'animation-delay: 1s;'}
-    `}
+  ${({ animation, animationDelay, itemColor }) =>
+    setAnimation(
+      textShadowAnimation,
+      {
+        state: animation,
+        name: 'textShadowAnimation',
+        delay: animationDelay ? 1 : undefined,
+        count: 3,
+        duration: 10
+      },
+      css`
+        text-shadow: 10px 2px 2px ${itemColor};
+      `
+    )}
 `
 
 export const ItemLogo = styled.div<{
