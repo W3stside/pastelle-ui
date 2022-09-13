@@ -1,5 +1,5 @@
-import { useCallback, useContext } from 'react'
-import styled, { ThemeContext } from 'styled-components/macro'
+import { useCallback } from 'react'
+import styled, { useTheme } from 'styled-components/macro'
 import { useActiveWeb3React } from 'blockchain/hooks'
 import { shortenAddress } from 'blockchain/utils'
 import { AutoRow } from 'components/Layout'
@@ -224,7 +224,7 @@ export default function AccountDetails({
   openOptions
 }: AccountDetailsProps) {
   const { chainId, account, connector } = useActiveWeb3React()
-  const theme = useContext(ThemeContext)
+  const theme = useTheme()
   const clearAllTransactions = useClearAllTransactions()
 
   function formatConnectorName() {

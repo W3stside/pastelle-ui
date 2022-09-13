@@ -1,13 +1,11 @@
-import { CURRENT_DROP } from 'constants/config'
-import { CATALOG_PATHNAME } from 'constants/navigation'
+import { COLLECTION_PATHNAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Location } from 'history'
 
-type ItemUrlProps = { drop?: string | number; identifier: string }
-export function buildItemUrl({ drop = CURRENT_DROP, identifier }: ItemUrlProps) {
+export function buildItemUrl(handle: string) {
   // TODO: reenable itemKey
-  return `/drop-${drop}/${identifier}`
+  return `/${COLLECTION_PARAM_NAME}/${handle}`
 }
 
 export function checkIsCatalogPage(location: Location) {
-  return location.pathname === CATALOG_PATHNAME
+  return location.pathname === COLLECTION_PATHNAME
 }

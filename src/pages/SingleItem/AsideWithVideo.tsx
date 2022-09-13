@@ -104,7 +104,12 @@ function Breadcrumbs({
 }
 
 const DEFAULT_MEDIA_START_INDEX = 0
-
+export type SingleItemPageProps = ProductPageProps &
+  ScrollableContentComponentBaseProps & {
+    style?: any
+    handleMobileItemClick?: React.MouseEventHandler<HTMLHeadingElement>
+    showBreadCrumbs: boolean
+  }
 export default function ItemPage({
   bgColor,
   color = '#000',
@@ -131,12 +136,7 @@ export default function ItemPage({
   showBreadCrumbs,
   style,
   handleMobileItemClick
-}: ProductPageProps &
-  ScrollableContentComponentBaseProps & {
-    style?: any
-    handleMobileItemClick?: React.MouseEventHandler<HTMLHeadingElement>
-    showBreadCrumbs: boolean
-  }) {
+}: SingleItemPageProps) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
 

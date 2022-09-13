@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
 import Web3ReactManager from 'components/blockchain/Web3ReactManager'
 
@@ -16,21 +16,10 @@ import PastelleCursiveLoader from 'components/Loader/PastelleCursiveLoader'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { useQuery } from '@apollo/client'
 import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
-import { DEFAULT_CATALOG_URL } from 'constants/config'
-
-export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
-  return (
-    <Redirect
-      to={{
-        ...location,
-        pathname: DEFAULT_CATALOG_URL
-      }}
-    />
-  )
-}
+import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 
 export default function App() {
-  const { loading } = useQuery(QUERY_PRODUCT, { variables: { amount: 5, imageAmt: 20 } })
+  const { loading } = useQuery(QUERY_PRODUCT, { variables: { amount: 10, imageAmt: 20 } })
 
   if (loading) return <FixedAnimatedLoader loadText={<PastelleCursiveLoader />} />
 
@@ -43,14 +32,16 @@ export default function App() {
         <Header />
         {/* SIDE-NAV */}
         <Navigation mobileHide />
+
         {/* ARTICLE CONTENT */}
-        <Switch>
-          <Route exact path="/drop-:drop/catalog" component={Catalog} />
-          <Route exact path="/drop-:drop/:item" component={SingleItem} />
-          <Route exact path="/404" component={NotFound} />
-          <Route component={RedirectPathToCatalogOnly} />
-          <Route component={NotFound} />
-        </Switch>
+        <Routes>
+          <Route path={`/${COLLECTION_PARAM_NAME}`} element={<Catalog />} />
+          <Route path={`/${COLLECTION_PARAM_NAME}/:handle`} element={<SingleItem />} />
+
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} />
+        </Routes>
+
         {/* FOOTER */}
         <Footer />
       </Suspense>

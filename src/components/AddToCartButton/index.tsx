@@ -10,7 +10,7 @@ import styled from 'styled-components/macro'
 export type AddToCartButtonParams = { label?: string; merchandiseId: string | undefined; quantity: number }
 export default function AddToCartButton({ label = 'Add to cart', merchandiseId, quantity }: AddToCartButtonParams) {
   const { addLineToCartCallback, loading, error } = useAddLineToCartAndUpdateReduxCallback()
-  const { DisappearingMessage, shouldShow, setShow } = useDisappearingMessage()
+  const { message: disappearingMessage, shouldShow, setShow } = useDisappearingMessage({ message: 'Added to cart!' })
 
   const isDisabled = loading || !quantity || shouldShow
 
@@ -25,11 +25,9 @@ export default function AddToCartButton({ label = 'Add to cart', merchandiseId, 
         variant={!isDisabled ? ButtonVariations.SUCCESS : ButtonVariations.DISABLED}
         size={ButtonSizeVariations.SMALL}
       >
-        {shouldShow && !error ? (
-          <DisappearingMessage />
-        ) : (
+        {!error && (
           <ItemDescription color="inherit" backgroundColor="transparent" padding="10px">
-            {loading ? 'Adding to cart...' : label}
+            {loading ? 'Adding...' : shouldShow ? disappearingMessage : label}
           </ItemDescription>
         )}
       </Button>
@@ -42,8 +40,9 @@ const DisappearingMessageWrapper = styled(ItemDescription)`
   background-color: ${({ theme }) => transparentize(0.15, theme.offWhite)};
   color: ${({ theme }) => theme.text1};
 `
-function useDisappearingMessage(params?: { show: boolean }) {
-  const [showMessage, setShow] = useState(!!params?.show)
+function useDisappearingMessage(params: { message: string; showAtStart?: boolean }) {
+  const { message } = params
+  const [showMessage, setShow] = useState(!!params?.showAtStart)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -58,14 +57,15 @@ function useDisappearingMessage(params?: { show: boolean }) {
     () =>
       showMessage ? (
         <DisappearingMessageWrapper backgroundColor={'transparent'} padding="1rem">
-          Item added to cart!
+          {message}
         </DisappearingMessageWrapper>
       ) : null,
-    [showMessage]
+    [showMessage, message]
   )
   return {
     DisappearingMessage,
     setShow,
-    shouldShow: showMessage
+    shouldShow: showMessage,
+    message
   }
 }

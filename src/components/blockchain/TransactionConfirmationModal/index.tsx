@@ -1,5 +1,4 @@
-import { useContext } from 'react'
-import styled, { ThemeContext } from 'styled-components/macro'
+import styled, { useTheme } from 'styled-components/macro'
 import Modal from 'components/Modal'
 import { ExternalLink } from 'theme'
 import { Text } from 'rebass'
@@ -68,7 +67,7 @@ function TransactionSubmittedContent({
   hash: string | undefined
   chainId: ChainId
 }) {
-  const theme = useContext(ThemeContext)
+  const theme = useTheme()
 
   return (
     <Wrapper>
@@ -110,8 +109,8 @@ export function ConfirmationModalContent({
 }: {
   title: string
   onDismiss: () => void
-  topContent: () => React.ReactNode
-  bottomContent: () => React.ReactNode
+  topContent: () => JSX.Element
+  bottomContent: () => JSX.Element
 }) {
   return (
     <Wrapper>
@@ -130,7 +129,7 @@ export function ConfirmationModalContent({
 }
 
 export function TransactionErrorContent({ message, onDismiss }: { message: string; onDismiss: () => void }) {
-  const theme = useContext(ThemeContext)
+  const theme = useTheme()
   return (
     <Wrapper>
       <Section>

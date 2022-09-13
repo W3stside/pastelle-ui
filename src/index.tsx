@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import ApolloProvider from 'shopify/graphql/ApolloProvider'
 import ThemeProvider from 'theme'
 
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
 
 import { NetworkContextName } from 'blockchain/constants'
@@ -53,8 +53,10 @@ function Updaters() {
     </>
   )
 }
-
-ReactDOM.render(
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const container = document.getElementById('root')!
+const root = createRoot(container)
+root.render(
   <StrictMode>
     {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
     <FontStyles />
@@ -75,8 +77,7 @@ ReactDOM.render(
         </HashRouter>
       </Provider>
     </ApolloProvider>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 )
 
 async function deleteAllCaches() {

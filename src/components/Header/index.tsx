@@ -23,6 +23,8 @@ import { ShoppingCartHeader } from 'components/ShoppingCart'
 import { fromMedium, upToExtraSmall } from 'theme/utils'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
 import { MobileNavOrb } from 'components/Navigation/styled'
+import { COLLECTION_PARAM_NAME } from 'constants/navigation'
+import { checkIsCatalogPage } from 'utils/navigation'
 
 const HeaderFrame = styled(SectionFrame)`
   top: 0;
@@ -164,37 +166,6 @@ const Pastellecon = styled.div`
 `};
 `
 
-// const StyledExternalLink = styled(ExternalLink).attrs({
-//   activeClassName
-// })<{ isActive?: boolean }>`
-//   ${({ theme }) => theme.flexRowNoWrap}
-//   align-items: left;
-//   border-radius: 3rem;
-//   outline: none;
-//   cursor: pointer;
-//   text-decoration: none;
-//   color: ${({ theme }) => theme.text2};
-//   font-size: 1rem;
-//   width: fit-content;
-//   margin: 0 12px;
-//   font-weight: 500;
-
-//   &.${activeClassName} {
-//     border-radius: 12px;
-//     font-weight: 600;
-//     color: ${({ theme }) => theme.text1};
-//   }
-
-//   :hover,
-//   :focus {
-//     color: ${({ theme }) => darken(0.1, theme.text1)};
-//   }
-
-//   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-//       display: none;
-// `}
-// `
-
 export default function Header() {
   // const { chainId } = useActiveWeb3React()
   const location = useLocation()
@@ -217,9 +188,9 @@ export default function Header() {
           <Pastellecon>{constructedLogo && <img width="170px" src={constructedLogo} alt="logo" />}</Pastellecon>
         </Title>
         {/* <DynamicHeaderLogo itemColor="#dda0ddb3" fontSize={60} fontWeight={100} color={'ghostwhite'} /> */}
-        {location.pathname !== DEFAULT_CATALOG_URL && (
+        {!checkIsCatalogPage(location) && (
           <HeaderLinks id="header-links-container">
-            <StyledNavLink to={DEFAULT_CATALOG_URL}>{'FULL CATALOG'}</StyledNavLink>
+            <StyledNavLink to={DEFAULT_CATALOG_URL}>FULL {COLLECTION_PARAM_NAME}</StyledNavLink>
             {/* <StyledNavLink to="/aboutus">{'// ABOUT US'}</StyledNavLink> */}
             {/* <StyledNavLink to="#">Header Link</StyledNavLink> */}
             {/* <StyledExternalLink href="#">

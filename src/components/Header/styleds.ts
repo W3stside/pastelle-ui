@@ -2,11 +2,7 @@ import styled from 'styled-components/macro'
 import { NavLink } from 'react-router-dom'
 import { darken } from 'polished'
 
-const activeClassName = 'ACTIVE'
-
-export const StyledNavLink = styled(NavLink).attrs({
-  activeClassName
-})`
+export const StyledNavLink = styled(NavLink)`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: left;
   border-radius: 3rem;
@@ -18,12 +14,6 @@ export const StyledNavLink = styled(NavLink).attrs({
   width: fit-content;
   margin: 0 12px;
   font-weight: 500;
-
-  &.${activeClassName} {
-    border-radius: ${({ theme }) => theme.buttons.borderRadius};
-    font-weight: 800;
-    color: ${({ theme }) => theme.text1};
-  }
 
   :hover,
   :focus {

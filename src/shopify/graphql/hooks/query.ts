@@ -9,11 +9,11 @@ import {
   GetCartQueryVariables,
   GetCartQuery
 } from 'shopify/graphql/types'
-import { useParseCatalogDetailsFromURL } from 'state/catalog/hooks'
 import { ProductPageProps, CatalogMap } from 'pages/SingleItem/AsideWithVideo'
 import { useOnScreenProductHandle } from 'state/catalog/hooks'
 import { QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
 import { GET_CART } from '../queries/cart'
+import { useParams } from 'react-router-dom'
 
 export const DEFAULT_CURRENT_COLLECTION_VARIABLES = {
   collectionAmount: 1,
@@ -36,6 +36,7 @@ export function useQueryCurrentCatalog(variables: GetCollectionQueryVariables = 
 
   // collection
   const collection = data?.collections?.nodes[0]
+
   // products from collection mapped = catalog
   const catalogProductList = mapShopifyProductToProps(collection?.products.nodes)
   // { [PRODUCT_HANDLE]: PRODUCT }
@@ -52,17 +53,16 @@ export function useQueryCurrentCatalogProductsFromUrl(
   variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
 ) {
   // we need to use the URL to determine what item we're currently viewing
-  const [pathname, [productName]] = useParseCatalogDetailsFromURL()
-
+  const { handle } = useParams()
   const { catalogProductMap, catalogProductList } = useQueryCurrentCatalog(variables)
 
-  const urlItem = catalogProductMap[productName]
+  const urlItem = handle ? catalogProductMap[handle] : null
   const currentCatalogProduct = urlItem || catalogProductList[0]
 
   return {
     catalogProductList,
     currentCatalogProduct,
-    pathname
+    handle
   }
 }
 

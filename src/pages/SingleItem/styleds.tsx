@@ -1,4 +1,3 @@
-import { TFC } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
 import { darken } from 'polished'
@@ -450,11 +449,13 @@ export const ItalicStrikethrough = styled.i`
   text-decoration: line-through;
 `
 
-export const ItemCredits: TFC = ({ children }) => (
-  <TYPE.black fontSize={'1.4rem'} padding="1.3rem 0.8rem" fontWeight={300} width="100%">
-    {children}
-  </TYPE.black>
-)
+export const ItemCredits = styled(TYPE.black).attrs(props => ({
+  ...props,
+  fontSize: '1.4rem',
+  padding: '1.3rem 0.8rem',
+  fontWeight: 300,
+  width: '100%'
+}))``
 
 function _showSocialUrl(type: string | SocialType) {
   switch (type) {

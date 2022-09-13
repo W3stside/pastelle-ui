@@ -1,1 +1,2 @@
-export const CATALOG_PATHNAME = '/drop-1/catalog'
+export const COLLECTION_PARAM_NAME = 'COLLECTION'
+export const COLLECTION_PATHNAME = `/${COLLECTION_PARAM_NAME}`

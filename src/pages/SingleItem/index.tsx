@@ -1,22 +1,24 @@
 import { ArticleFadeInContainer } from 'components/Layout/Article'
-import { useGetCurrentCatalogProductsFromUrl } from 'state/catalog/hooks'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useCurrentCatalog } from 'state/catalog/hooks'
 import AsideWithVideo from './AsideWithVideo'
 
 export default function SingleItem() {
-  // get catalog item from data and url
-  const catalogInfoFromUrl = useGetCurrentCatalogProductsFromUrl()
+  const navigate = useNavigate()
+  const { handle } = useParams()
 
-  if (!catalogInfoFromUrl) return null
+  const currentCatalog = useCurrentCatalog()
+
+  const product = handle ? currentCatalog?.[handle] : null
+  // redirect if no product
+  if (!product) {
+    navigate('/404')
+    return null
+  }
 
   return (
     <ArticleFadeInContainer id="CATALOG-ARTICLE">
-      <AsideWithVideo
-        {...catalogInfoFromUrl.currentCatalogProduct}
-        firstPaintOver
-        isActive
-        itemIndex={0}
-        showBreadCrumbs
-      />
+      <AsideWithVideo {...product} firstPaintOver isActive itemIndex={0} showBreadCrumbs />
     </ArticleFadeInContainer>
   )
 }

@@ -7,7 +7,7 @@ export default function useStateRef<T>(
   const [node, setNode] = useState<T>(defaultRef)
 
   const setRef = useCallback(
-    newNode => {
+    (newNode: HTMLElement) => {
       setNode(processNode(newNode))
     },
     [processNode]

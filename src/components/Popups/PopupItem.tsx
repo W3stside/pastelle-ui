@@ -3,7 +3,7 @@ import { X } from 'react-feather'
 import { useSpring } from 'react-spring'
 import styled, { ThemeContext } from 'styled-components/macro'
 import { animated } from 'react-spring'
-import { PopupContent } from 'state/modalsAndPopups/reducer'
+import { PopupContent, TxPopupContent } from 'state/modalsAndPopups/reducer'
 import { useRemovePopup } from 'state/modalsAndPopups/hooks'
 
 export const StyledClose = styled(X)`
@@ -50,7 +50,7 @@ export default function PopupItem({
   popKey
 }: {
   removeAfterMs: number | null
-  content: PopupContent
+  content: PopupContent | TxPopupContent
   popKey: string
 }) {
   const removePopup = useRemovePopup()

@@ -25,7 +25,20 @@ module.exports = {
       ...webpackConfig,
       resolve: {
         ...webpackConfig.resolve,
-        modules: [...webpackConfig.resolve.modules]
+        modules: [...webpackConfig.resolve.modules],
+        fallback: {
+          fs: false,
+          tls: false,
+          net: false,
+          path: false,
+          zlib: false,
+          http: false,
+          https: false,
+          stream: false,
+          crypto: require.resolve('crypto-browserify'),
+          os: false,
+          assert: false
+        }
       }
     })
   }

@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useCurrentCatalog } from 'state/catalog/hooks'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
-import AsideWithVideo from 'pages/SingleItem/AsideWithVideo'
+import AsideWithVideo, { SingleItemPageProps } from 'pages/SingleItem/AsideWithVideo'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { isMobile } from 'utils'
@@ -11,7 +11,7 @@ import { useOnScreenProductHandle } from 'state/catalog/hooks'
 import { buildItemUrl } from 'utils/navigation'
 
 export default function Catalog() {
-  const { push } = useHistory()
+  const navigate = useNavigate()
   // get latest catalog and the current on screen item handle
   const currentCatalog = useCurrentCatalog()
   const product = useOnScreenProductHandle()
@@ -21,12 +21,12 @@ export default function Catalog() {
 
   const onContentClick = useCallback(() => {
     if (product) {
-      push(buildItemUrl({ identifier: product.handle }))
+      navigate(buildItemUrl(product.handle))
     }
-  }, [product, push])
+  }, [product, navigate])
 
   const AsideWithVideoAux = useCallback(
-    props => (
+    (props: { onClick?: () => void } & Omit<SingleItemPageProps, 'catalogView' | 'showBreadCrumbs' | 'loadInView'>) => (
       <AsideWithVideo
         {...props}
         // catalog mode
@@ -57,7 +57,7 @@ export default function Catalog() {
           onContentClick={onContentClick}
         />
       ) : (
-        <AsideWithVideoAux {...catalogProductList[0]} onClick={onContentClick} />
+        <AsideWithVideoAux {...catalogProductList[0]} itemIndex={0} isActive firstPaintOver onClick={onContentClick} />
       )}
     </ArticleFadeInContainer>
   )

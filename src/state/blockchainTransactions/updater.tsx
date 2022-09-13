@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useActiveWeb3React } from 'blockchain/hooks'
 import { useBlockNumber } from 'state/blockchain/hooks'
 
-import { useAddPopup, useFinalizeTransaction, useCheckedTransaction } from 'state/modalsAndPopups/hooks'
+import { useAddTxPopup, useFinalizeTransaction, useCheckedTransaction } from 'state/modalsAndPopups/hooks'
 import { useAppSelector } from 'state'
 
 export function shouldCheck(
@@ -30,11 +30,10 @@ export default function Updater(): null {
   const { chainId, library } = useActiveWeb3React()
 
   const lastBlockNumber = useBlockNumber()
-
   const state = useAppSelector(state => state.blockchainTransactions)
 
   // show popup on confirm
-  const addPopup = useAddPopup()
+  const addTxPopup = useAddTxPopup()
   const finalizeTransaction = useFinalizeTransaction()
   const checkedTransaction = useCheckedTransaction()
 
@@ -65,7 +64,7 @@ export default function Updater(): null {
                 }
               })
 
-              addPopup(
+              addTxPopup(
                 {
                   txn: {
                     hash,
@@ -83,7 +82,7 @@ export default function Updater(): null {
             console.error(`failed to check transaction hash: ${hash}`, error)
           })
       })
-  }, [chainId, library, lastBlockNumber, addPopup, state, finalizeTransaction, checkedTransaction])
+  }, [chainId, library, lastBlockNumber, addTxPopup, state, finalizeTransaction, checkedTransaction])
 
   return null
 }
