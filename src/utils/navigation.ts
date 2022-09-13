@@ -1,11 +1,11 @@
-import { CATALOG_PATHNAME } from 'constants/navigation'
+import { COLLECTION_PATHNAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Location } from 'history'
 
 export function buildItemUrl(handle: string) {
   // TODO: reenable itemKey
-  return `/drop/${handle}`
+  return `/${COLLECTION_PARAM_NAME}/${handle}`
 }
 
 export function checkIsCatalogPage(location: Location) {
-  return location.pathname === CATALOG_PATHNAME
+  return location.pathname === COLLECTION_PATHNAME
 }

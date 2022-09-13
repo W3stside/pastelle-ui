@@ -16,6 +16,7 @@ import PastelleCursiveLoader from 'components/Loader/PastelleCursiveLoader'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { useQuery } from '@apollo/client'
 import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
+import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 
 export default function App() {
   const { loading } = useQuery(QUERY_PRODUCT, { variables: { amount: 10, imageAmt: 20 } })
@@ -34,10 +35,11 @@ export default function App() {
 
         {/* ARTICLE CONTENT */}
         <Routes>
-          <Route path="/drop/catalog" element={<Catalog />} />
-          <Route path="/drop/:handle" element={<SingleItem />} />
+          <Route path={`/${COLLECTION_PARAM_NAME}`} element={<Catalog />} />
+          <Route path={`/${COLLECTION_PARAM_NAME}/:handle`} element={<SingleItem />} />
+
           <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<Navigate to="/drop/catalog" replace />} />
+          <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} />
         </Routes>
 
         {/* FOOTER */}

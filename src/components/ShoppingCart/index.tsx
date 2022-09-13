@@ -40,7 +40,7 @@ import { buildItemUrl, checkIsCatalogPage } from 'utils/navigation'
 import { useOnScreenProductHandle } from 'state/catalog/hooks'
 import { formatCurrency } from 'utils/formatting'
 import { WHITE } from 'theme/utils'
-import { CATALOG_PATHNAME } from 'constants/navigation'
+import { COLLECTION_PATHNAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
   return <ShoppingCartQuantityWrapper>{totalQuantity}</ShoppingCartQuantityWrapper>
@@ -83,7 +83,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
 
   const handleNavClick = useCallback(() => {
     closeCartPanel()
-    navigate(CATALOG_PATHNAME)
+    navigate(COLLECTION_PATHNAME)
   }, [closeCartPanel, navigate])
 
   return (
@@ -102,7 +102,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
             <span id="lenny-face">Your cart is</span> <strong>empty</strong> <span id="lenny-face">ʕ ͡° ʖ̯ ͡°ʔ</span>
             {!isCatalogPage && (
               <p onClick={handleNavClick} style={{ cursor: 'pointer' }}>
-                <u>Check out the full catalog!</u>
+                <u>Check out the full {COLLECTION_PARAM_NAME}</u>!
               </p>
             )}
           </ItemSubHeader>
