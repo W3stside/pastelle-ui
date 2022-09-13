@@ -1,6 +1,6 @@
 import { Menu, X } from 'react-feather'
 import { useCallback, useMemo, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
 import LoadingRows from 'components/Loader/LoadingRows'
@@ -19,7 +19,7 @@ export default function Navigation({
   navOrbProps?: MobileNavProps
   mobileHide?: boolean
 }) {
-  const history = useHistory()
+  const history = useNavigate()
   // state catalog data
   const catalogProductList = useCurrentCatalog()
   const currentProduct = useGetCurrentOnScreenCatalogProduct()
@@ -39,11 +39,12 @@ export default function Navigation({
   }, [isNavOpen, navOrbProps?.menuSize])
 
   const handleNavMove = useCallback(
-    (_, product: ProductPageProps) => {
+    (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, product: ProductPageProps) => {
+      e.preventDefault()
       isNavOpen && toggleNav()
 
       const url = buildItemUrl({ identifier: product.handle })
-      history.push(url)
+      history(url)
     },
     [history, isNavOpen, toggleNav]
   )

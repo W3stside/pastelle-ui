@@ -8,6 +8,9 @@ import {
   ThemedStyledProps
 } from 'styled-components/macro'
 
+/**
+ * KEYFRAMES
+ */
 export const loadingAnimation = keyframes`
   0% {
     background-position: 100% 50%;
@@ -16,16 +19,6 @@ export const loadingAnimation = keyframes`
     background-position: 0% 50%;
   }
 `
-
-const fadeInAnimation = keyframes`
-  0% {
-    filter: contrast(0) blur(100px);
-  }
-  100% {
-    filter: contrast(1) blur(0px);
-  }
-`
-
 export const saturateAnimation = keyframes`
   0% {
     filter: contrast(1.8) saturate(20) blur(5px);
@@ -34,7 +27,6 @@ export const saturateAnimation = keyframes`
     filter: contrast(1.8) saturate(1) blur(0.8px);
   }
 `
-
 export const rotateImgAnimation = keyframes`
   0% {
     transform: perspective(1000px) rotateY(0deg);
@@ -44,7 +36,6 @@ export const rotateImgAnimation = keyframes`
     transform: perspective(1000px) rotateY(360deg);
   }
 `
-
 export const rotateAnimation = keyframes`
   from {
     transform: rotate(0deg);
@@ -53,7 +44,54 @@ export const rotateAnimation = keyframes`
     transform: rotate(360deg);
   }
 `
+export const rotate360Animation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`
+export const strokeWidth = keyframes`
+  0% {
+    stroke-width: 10.8;
+  }
+  10% {
+      stroke-width: 0;
+  }
 
+  20% {
+    stroke-width: 10.8;
+  }
+
+  50% {
+    stroke-width: 0;
+  }
+  60% {
+    stroke-width: 10.8;
+  }
+
+  90% {
+      stroke-width: 0;
+  }
+  100% {
+      stroke-width: 30;
+  }
+`
+
+/**
+ * CSS ANIMATIONS
+ */
+const fadeInAnimation = css`
+  @keyframes fadeIn {
+    0% {
+      filter: contrast(0) blur(100px);
+    }
+    100% {
+      filter: contrast(1) blur(0px);
+    }
+  }
+`
 const flickerAnimation = css<{ frameBgColor?: string }>`
   @keyframes flickerIn {
     0% {
@@ -85,7 +123,6 @@ const flickerAnimation = css<{ frameBgColor?: string }>`
     }
   }
 `
-
 export const textShadowAnimation = css<{ itemColor: string }>`
   @keyframes textShadowAnimation {
     0% {
@@ -135,43 +172,7 @@ export const textShadowAnimation = css<{ itemColor: string }>`
   }
 `
 
-export const rotate360Animation = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`
-
-export const strokeWidth = keyframes`
-  0% {
-    stroke-width: 10.8;
-  }
-  10% {
-      stroke-width: 0;
-  }
-
-  20% {
-    stroke-width: 10.8;
-  }
-
-  50% {
-    stroke-width: 0;
-  }
-  60% {
-    stroke-width: 10.8;
-  }
-
-  90% {
-      stroke-width: 0;
-  }
-  100% {
-      stroke-width: 30;
-  }
-`
-
-type AnimationName = 'flickerIn' | 'textShadowAnimation'
+type AnimationName = 'fadeIn' | 'flickerIn' | 'textShadowAnimation'
 
 interface BaseAnimationParams {
   name: AnimationName
@@ -213,7 +214,7 @@ export function setAnimation<Props extends Record<any, any>>(
 }
 
 export const setFadeInAnimation = (params?: Partial<Pick<BaseAnimationParams, 'duration'>>) =>
-  setAnimation(fadeInAnimation, { duration: params?.duration || 0.8 })
+  setAnimation(fadeInAnimation, { name: 'fadeIn', duration: params?.duration || 0.8 })
 
 type FlickerAnimationParams = Omit<BaseAnimationParams, 'name'> & { state: boolean }
 export const setFlickerAnimation = ({ state, delay, duration, count }: FlickerAnimationParams) =>

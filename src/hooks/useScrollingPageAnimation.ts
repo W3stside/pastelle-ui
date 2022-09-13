@@ -134,10 +134,11 @@ export default function useScrollingPageAnimation(
     [height]
   )
 
-  const getIndex = useCallback((y, l = items.length) => (y < 0 ? y + l : y) % l, [items])
-  const getPos = useCallback((i, firstVisible, firstVisibleIndex) => getIndex(i - firstVisible + firstVisibleIndex), [
-    getIndex
-  ])
+  const getIndex = useCallback((y: number, l = items.length) => (y < 0 ? y + l : y) % l, [items])
+  const getPos = useCallback(
+    (i: number, firstVisible: number, firstVisibleIndex: number) => getIndex(i - firstVisible + firstVisibleIndex),
+    [getIndex]
+  )
 
   const calculateApiLogic = useCallback(
     ({ i, y, dy, my, active, firstVis, firstVisIdx }: ScrollSpringParams) => {
@@ -173,7 +174,7 @@ export default function useScrollingPageAnimation(
   )
 
   const runSprings = useCallback(
-    (y, dy, my, active) => {
+    (y: number, dy: number, my: number, active: boolean) => {
       const itemPosition = Math.floor(y / height) % items.length
       const firstVis = getIndex(itemPosition)
       const firstVisIdx = dy < 0 ? items.length - visible - 1 : 1

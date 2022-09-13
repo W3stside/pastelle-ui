@@ -1,4 +1,4 @@
-import { ReactElement, FC, useMemo, Children, isValidElement, cloneElement } from 'react'
+import { ReactElement, useMemo, Children, isValidElement, cloneElement, FCC } from 'react'
 import styled, { ThemeProvider as StyledComponentsThemeProvider, css, DefaultTheme } from 'styled-components/macro'
 
 import { Text, TextProps } from 'rebass'
@@ -92,13 +92,13 @@ const DEFAULT_THEME: Partial<DefaultTheme> = {
 }
 
 // Extension/override of styled-components' ThemeProvider but with our own constructed theme object
-const ThemeProvider: FC<{ themeExtension?: any }> = ({ children, themeExtension }) => {
+const ThemeProvider: FCC<{ themeExtension?: any }> = ({ children, themeExtension }) => {
   const { mode } = useAppColourTheme()
 
   const themeObject = useMemo(() => {
     const themeColours = getThemeColours(mode)
 
-    const computedTheme = {
+    const computedTheme: DefaultTheme = {
       // Compute the app colour pallette using the passed in colourTheme
       ...themeColours,
       // pass in defaults
@@ -121,6 +121,7 @@ const ThemeProvider: FC<{ themeExtension?: any }> = ({ children, themeExtension 
         children,
         childWithTheme =>
           // make sure child is a valid react element as children by default can be type string|null|number
+          // @ts-ignore
           isValidElement(childWithTheme) && cloneElement(childWithTheme, { theme: themeObject })
       )}
     </StyledComponentsThemeProvider>

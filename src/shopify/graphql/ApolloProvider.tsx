@@ -15,7 +15,7 @@ const apolloClient = new ApolloClient({
   link
 })
 
-const ApolloProvider: React.FC = ({ children }) => (
+const ApolloProvider: React.FCC = ({ children }) => (
   <ApolloProviderBase client={apolloClient}>{children}</ApolloProviderBase>
 )
 

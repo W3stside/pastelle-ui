@@ -1,7 +1,15 @@
 import { useCallback, useMemo } from 'react'
 import { AppState, useAppSelector, useAppDispatch } from 'state'
 import { checkedTransaction, finalizeTransaction } from '../blockchainTransactions/reducer'
-import { addPopup, ApplicationModal, PopupContent, removePopup, setOpenModal } from './reducer'
+import {
+  addTxPopup,
+  addAnyPopup,
+  ApplicationModal,
+  PopupContent,
+  removePopup,
+  setOpenModal,
+  TxPopupContent
+} from './reducer'
 
 export function useModalOpen(modal: ApplicationModal): boolean {
   const openModal = useAppSelector(state => state.modalsAndPopups.openModal)
@@ -33,12 +41,24 @@ export function useToggleSettingsMenu(): () => void {
 }
 
 // returns a function that allows adding a popup
+export function useAddTxPopup(): (content: TxPopupContent, key?: string) => void {
+  const dispatch = useAppDispatch()
+
+  return useCallback(
+    (content: TxPopupContent, key?: string) => {
+      dispatch(addTxPopup({ content, key }))
+    },
+    [dispatch]
+  )
+}
+
+// returns a function that allows adding a popup
 export function useAddPopup(): (content: PopupContent, key?: string) => void {
   const dispatch = useAppDispatch()
 
   return useCallback(
     (content: PopupContent, key?: string) => {
-      dispatch(addPopup({ content, key }))
+      dispatch(addAnyPopup({ content, key }))
     },
     [dispatch]
   )

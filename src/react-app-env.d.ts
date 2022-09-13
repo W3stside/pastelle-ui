@@ -55,4 +55,5 @@ declare namespace React {
   }
   
   export type TFC<P = Record<any, any>> = FunctionComponentWithTheme<P>
+  export type FCC<P = Record<any, any>> = (props: PropsWithChildren<P>, context?: any) => React.ReactElement<any, any> | null
 }

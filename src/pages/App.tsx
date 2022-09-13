@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
 import Web3ReactManager from 'components/blockchain/Web3ReactManager'
 
@@ -18,17 +18,6 @@ import { useQuery } from '@apollo/client'
 import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
 import { DEFAULT_CATALOG_URL } from 'constants/config'
 
-export function RedirectPathToCatalogOnly({ location }: RouteComponentProps) {
-  return (
-    <Redirect
-      to={{
-        ...location,
-        pathname: DEFAULT_CATALOG_URL
-      }}
-    />
-  )
-}
-
 export default function App() {
   const { loading } = useQuery(QUERY_PRODUCT, { variables: { amount: 5, imageAmt: 20 } })
 
@@ -44,13 +33,13 @@ export default function App() {
         {/* SIDE-NAV */}
         <Navigation mobileHide />
         {/* ARTICLE CONTENT */}
-        <Switch>
-          <Route exact path="/drop-:drop/catalog" component={Catalog} />
-          <Route exact path="/drop-:drop/:item" component={SingleItem} />
-          <Route exact path="/404" component={NotFound} />
-          <Route component={RedirectPathToCatalogOnly} />
-          <Route component={NotFound} />
-        </Switch>
+        <Routes>
+          <Route path="/drop-:drop/catalog" element={<Catalog />} />
+          <Route path="/drop-:drop/:item" element={<SingleItem />} />
+          <Route path="/404" element={<NotFound />} />
+          <Route element={<Navigate to={DEFAULT_CATALOG_URL} />} />
+          <Route element={<NotFound />} />
+        </Routes>
         {/* FOOTER */}
         <Footer />
       </Suspense>

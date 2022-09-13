@@ -35,7 +35,7 @@ import { getMetafields, sizeToFullSize } from 'shopify/utils'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import usePrevious from 'hooks/usePrevious'
 import useCleanTimeout from 'hooks/useCleanTimeout'
-import { useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { buildItemUrl, checkIsCatalogPage } from 'utils/navigation'
 import { useOnScreenProductHandle } from 'state/catalog/hooks'
 import { formatCurrency } from 'utils/formatting'
@@ -76,13 +76,15 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
 
   const isEmptyCart = !Boolean(cartLines?.length)
 
-  const history = useHistory()
-  const isCatalogPage = checkIsCatalogPage(history.location)
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const isCatalogPage = checkIsCatalogPage(location)
 
   const handleNavClick = useCallback(() => {
     closeCartPanel()
-    history.push(CATALOG_PATHNAME)
-  }, [closeCartPanel, history])
+    navigate(CATALOG_PATHNAME)
+  }, [closeCartPanel, navigate])
 
   return (
     <ShoppingCartPanelWrapper>
@@ -191,11 +193,11 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
     [brandingAssetMap, color]
   )
 
-  const history = useHistory()
+  const navigate = useNavigate()
   const handleClick = useCallback(() => {
     const url = buildItemUrl({ identifier: handle })
-    history.push(url)
-  }, [history, handle])
+    navigate(url)
+  }, [navigate, handle])
 
   useEffect(() => {
     if (removeLineLoading || !line.id) return

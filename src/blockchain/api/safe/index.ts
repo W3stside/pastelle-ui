@@ -25,7 +25,8 @@ function _getClient(chainId: number): SafeServiceClient | null {
     if (!url) {
       client = null
     } else {
-      client = new SafeServiceClient(url)
+      // TODO: fix
+      client = null // new SafeServiceClient({ txServiceUrl: url, ethAdapter: new EthAdapter(ethers, signers) })
     }
 
     // Add client to cache (or null if unknonw network)

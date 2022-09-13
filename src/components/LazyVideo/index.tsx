@@ -42,14 +42,16 @@ const VideoContainer = styled(Row)`
   }
 `
 
-const Spinner = ({ label = 'pstl' }: { label?: ReactNode }) => (
-  <>
-    <ItemHeader itemColor={BLUE} animation>
-      {label}
-    </ItemHeader>
-    <Loader size={'100px'} />
-  </>
-)
+function Spinner({ label = 'pstl' }: { label?: ReactNode }) {
+  return (
+    <>
+      <ItemHeader itemColor={BLUE} animation>
+        {label}
+      </ItemHeader>
+      <Loader size={'100px'} />
+    </>
+  )
+}
 
 const BASE_VIDEO_PROPS = { loop: true, muted: true, autoPlay: true, preload: 'none' }
 const BASE_INTERSECTION_OPTIONS = {
