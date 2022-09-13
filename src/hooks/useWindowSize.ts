@@ -18,6 +18,9 @@ export function useWindowSize() {
       setWindowSize(getSize())
     }
 
+    // initial call
+    handleCheckWindowSize()
+
     if (isClient) {
       window.addEventListener('resize', handleCheckWindowSize)
       return () => {
