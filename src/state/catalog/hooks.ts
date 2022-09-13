@@ -1,5 +1,4 @@
-import { useCallback, useMemo } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 import {
   batchUpdateCatalogByYear,
@@ -9,6 +8,7 @@ import {
   updateCurrentlyViewing
 } from './reducer'
 import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
+import { useParams } from 'react-router-dom'
 
 export function useUpdateCurrentlyViewing() {
   const dispatch = useAppDispatch()
@@ -22,8 +22,8 @@ export function useCatalog() {
   return useAppSelector(state => state.catalog)
 }
 
-export function useCatalogByDrop(drop: 'currentDrop' | number) {
-  return useAppSelector(state => state.catalog[drop.toString()])
+export function useCatalogByDrop(drop?: string | number) {
+  return useAppSelector(state => (drop ? state.catalog[drop.toString()] : null))
 }
 
 export function useCurrentCatalog() {
@@ -43,28 +43,12 @@ export function useBatchUpdateCatalogByDrop() {
   )
 }
 
-export function useParseCatalogDetailsFromURL(): [string, string[]] {
-  const { pathname } = useLocation()
-
-  return useMemo(
-    () => [
-      pathname,
-      pathname
-        .substring(1)
-        .split('/')
-        .slice(1)
-    ],
-    [pathname]
-  )
-}
-
 export function useGetCurrentCatalogProductsFromUrl() {
   // we need to use the URL to determine what item we're currently viewing
-  const [pathname, [productHandle]] = useParseCatalogDetailsFromURL()
+  const { handle } = useParams()
   const currentCatalogMap = useCurrentCatalog()
 
-  const currentCatalogProduct = currentCatalogMap?.[productHandle]
-
+  const currentCatalogProduct = handle ? currentCatalogMap?.[handle] : undefined
   if (!currentCatalogProduct) return null
 
   const catalogProductList: ProductPageProps[] = Object.values(currentCatalogProduct)
@@ -72,7 +56,7 @@ export function useGetCurrentCatalogProductsFromUrl() {
   return {
     catalogProductList,
     currentCatalogProduct,
-    pathname
+    handle
   }
 }
 

@@ -18,7 +18,7 @@ import { useQuery } from '@apollo/client'
 import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
 
 export default function App() {
-  const { loading } = useQuery(QUERY_PRODUCT, { variables: { amount: 5, imageAmt: 20 } })
+  const { loading } = useQuery(QUERY_PRODUCT, { variables: { amount: 10, imageAmt: 20 } })
 
   if (loading) return <FixedAnimatedLoader loadText={<PastelleCursiveLoader />} />
 
@@ -31,13 +31,15 @@ export default function App() {
         <Header />
         {/* SIDE-NAV */}
         <Navigation mobileHide />
+
         {/* ARTICLE CONTENT */}
         <Routes>
-          <Route path="/drop-:drop/catalog" element={<Catalog />} />
-          <Route path="/drop-:drop/:item" element={<SingleItem />} />
+          <Route path="/drop/catalog" element={<Catalog />} />
+          <Route path="/drop/:handle" element={<SingleItem />} />
           <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<Navigate to="/drop-:drop/catalog" replace />} />
+          <Route path="*" element={<Navigate to="/drop/catalog" replace />} />
         </Routes>
+
         {/* FOOTER */}
         <Footer />
       </Suspense>

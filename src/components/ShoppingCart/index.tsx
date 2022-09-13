@@ -195,7 +195,7 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
 
   const navigate = useNavigate()
   const handleClick = useCallback(() => {
-    const url = buildItemUrl({ identifier: handle })
+    const url = buildItemUrl(handle)
     navigate(url)
   }, [navigate, handle])
 

@@ -19,7 +19,7 @@ export default function Navigation({
   navOrbProps?: MobileNavProps
   mobileHide?: boolean
 }) {
-  const history = useNavigate()
+  const navigate = useNavigate()
   // state catalog data
   const catalogProductList = useCurrentCatalog()
   const currentProduct = useGetCurrentOnScreenCatalogProduct()
@@ -43,10 +43,9 @@ export default function Navigation({
       e.preventDefault()
       isNavOpen && toggleNav()
 
-      const url = buildItemUrl({ identifier: product.handle })
-      history(url)
+      navigate(buildItemUrl(product.handle))
     },
-    [history, isNavOpen, toggleNav]
+    [navigate, isNavOpen, toggleNav]
   )
 
   // close open nav on resize

@@ -1,8 +1,8 @@
-import { useParseCatalogDetailsFromURL } from 'state/catalog/hooks'
+import { useLocation } from 'react-router-dom'
 
 export function useBreadcrumb() {
-  const [, params] = useParseCatalogDetailsFromURL()
+  const { pathname } = useLocation()
+  const breadcrumbs = pathname.split('/').slice()
 
-  const lastCrumb = params.slice().pop()
-  return { breadcrumbs: params, lastCrumb }
+  return { breadcrumbs, lastCrumb: breadcrumbs.slice().pop() }
 }

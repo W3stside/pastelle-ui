@@ -21,7 +21,7 @@ export default function Catalog() {
 
   const onContentClick = useCallback(() => {
     if (product) {
-      navigate(buildItemUrl({ identifier: product.handle }))
+      navigate(buildItemUrl(product.handle))
     }
   }, [product, navigate])
 
