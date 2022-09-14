@@ -10,55 +10,11 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
-  /**
-   * Represents an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)-encoded date and time string.
-   * For example, 3:50 pm on September 7, 2019 in the time zone of UTC (Coordinated Universal Time) is
-   * represented as `"2019-09-07T15:50:00Z`".
-   *
-   */
   DateTime: any
-  /**
-   * A signed decimal number, which supports arbitrary precision and is serialized as a string.
-   *
-   * Example values: `"29.99"`, `"29.999"`.
-   *
-   */
   Decimal: any
-  /**
-   * A string containing HTML code. Refer to the [HTML spec](https://html.spec.whatwg.org/#elements-3) for a
-   * complete list of HTML elements.
-   *
-   * Example value: `"<p>Grey cotton knit sweater.</p>"`.
-   *
-   */
   HTML: any
-  /**
-   * A [JSON](https://www.json.org/json-en.html) object.
-   *
-   * Example value:
-   * `{
-   *   "product": {
-   *     "id": "gid://shopify/Product/1346443542550",
-   *     "title": "White T-shirt",
-   *     "options": [{
-   *       "name": "Size",
-   *       "values": ["M", "L"]
-   *     }]
-   *   }
-   * }`
-   *
-   */
   JSON: any
-  /** A monetary value string without a currency symbol or code. Example value: `"100.57"`. */
   Money: any
-  /**
-   * Represents an [RFC 3986](https://datatracker.ietf.org/doc/html/rfc3986) and
-   * [RFC 3987](https://datatracker.ietf.org/doc/html/rfc3987)-compliant URI string.
-   *
-   * For example, `"https://johns-apparel.myshopify.com"` is a valid URL. It includes a scheme (`https`) and a host
-   * (`johns-apparel.myshopify.com`).
-   *
-   */
   URL: any
 }
 

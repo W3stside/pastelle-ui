@@ -149,7 +149,7 @@
     "postinstall": "yarn contracts:compile && yarn graphql:generate && yarn i18n:compile",
     "eject": "react-scripts eject",
     "dedup": "npx yarn-deduplicate",
-    "graphql:generate": "DOTENV_CONFIG_PATH=\".env.local\" graphql-codegen --require dotenv/config --config codegen.yml ./src/shopify/graphql"
+    "graphql:generate": "DOTENV_CONFIG_PATH=\".env.local\" graphql-codegen --require dotenv/config --config codegen.yml ./src/shopify/graphql && yarn prettier --write src/shopify/graphql/types/_generated_.ts"
   },
   "eslintConfig": {
     "extends": "react-app",
