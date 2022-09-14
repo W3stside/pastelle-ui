@@ -93,7 +93,7 @@ export const setCssBackground = (
     lqImagePlacement = 'center no-repeat'
   }: SetCssBackgroundParams
 ) => {
-  return IMG_SET_SIZE_ENTRIES.map(([size, width]) => {
+  const mappedMediaStyles = IMG_SET_SIZE_ENTRIES.map(([size, width]) => {
     const queryMethod = theme.mediaWidth?.[size as SizeKey]
 
     const background = imageUrl
@@ -110,4 +110,13 @@ export const setCssBackground = (
       `
     )
   })
+
+  return `
+    background: url(${imageUrl}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) ${hqImagePlacement}, url(${imageUrl}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) ${lqImagePlacement};
+    background-color: ${backgroundColor};
+    background-size: cover;
+    background-blend-mode: difference;
+
+    ${mappedMediaStyles}
+  `
 }
