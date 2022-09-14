@@ -4,6 +4,7 @@ import ThemeProvider from 'theme'
 
 import { darken } from 'polished'
 import { THEME_LIST, ThemeModes } from 'theme/styled'
+import { Box, BoxProps } from 'rebass'
 
 export type Writable<T> = {
   -readonly [K in keyof T]: T[K]
@@ -232,10 +233,19 @@ const ColouredAndSizedButtonBase = styled(ColouredButtonBase)`
 // ThemeProvider and interpolate over it's props
 const ThemeWrappedButtonBase: React.FC<React.ButtonHTMLAttributes<Element>> = ({ children, ...restProps }) => (
   <ThemeProvider themeExtension={{ component: BUTTON_THEME_KEY }}>
-    <ColouredAndSizedButtonBase {...restProps}>{children}</ColouredAndSizedButtonBase>
+    <ColouredAndSizedButtonBase as={Box} {...restProps}>
+      {children}
+    </ColouredAndSizedButtonBase>
   </ThemeProvider>
 )
 
-export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps>(({ size = BSV.DEFAULT }) => ({
+type ButtonStyleProps = {
+  borderRadius?: string
+}
+
+export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps>(({ size = BSV.DEFAULT, ...restProps }) => ({
+  ...restProps,
   size
-}))<ButtonBaseProps>``
+}))<ButtonBaseProps & BoxProps & ButtonStyleProps>`
+  ${({ borderRadius }) => borderRadius && `border-radius: ${borderRadius};`}
+`

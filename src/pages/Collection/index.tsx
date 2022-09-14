@@ -26,7 +26,9 @@ export default function Collection() {
   }, [product, navigate])
 
   const AsideWithVideoAux = useCallback(
-    (props: { onClick?: () => void } & Omit<SingleItemPageProps, 'collectionView' | 'showBreadCrumbs' | 'loadInView'>) => (
+    (
+      props: { onClick?: () => void } & Omit<SingleItemPageProps, 'collectionView' | 'showBreadCrumbs' | 'loadInView'>
+    ) => (
       <AsideWithVideo
         {...props}
         // collection mode
@@ -57,7 +59,13 @@ export default function Collection() {
           onContentClick={onContentClick}
         />
       ) : (
-        <AsideWithVideoAux {...collectionProductList[0]} itemIndex={0} isActive firstPaintOver onClick={onContentClick} />
+        <AsideWithVideoAux
+          {...collectionProductList[0]}
+          itemIndex={0}
+          isActive
+          firstPaintOver
+          onClick={onContentClick}
+        />
       )}
     </ArticleFadeInContainer>
   )

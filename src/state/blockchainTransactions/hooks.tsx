@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
 
-import { useActiveWeb3React } from 'blockchain/hooks'
+import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch, useAppSelector } from 'state'
 import { addTransaction, AddTransactionParams, clearAllTransactions, HashType, TransactionDetails } from './reducer'
 import { useWalletInfo } from 'blockchain/hooks/useWalletInfo'
@@ -57,7 +57,7 @@ export function useTransactionAdder(): TransactionAdder {
 
 // returns all the transactions for the current chain
 export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
 
   const state = useAppSelector(state => state.blockchainTransactions)
 

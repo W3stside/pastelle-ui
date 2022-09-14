@@ -1,11 +1,11 @@
+import { useWeb3React } from '@web3-react/core'
 import { useCallback } from 'react'
-import { useActiveWeb3React } from 'blockchain/hooks'
 import { AppState, useAppDispatch, useAppSelector } from 'state'
 import { setChainConnectivityWarning, setImplements3085, updateBlockNumber, updateChainId } from './reducer'
 
 // GETTERS
 export function useBlockNumber(): number | undefined {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
 
   return useAppSelector((state: AppState) => state.blockchain.blockNumber[chainId ?? -1])
 }

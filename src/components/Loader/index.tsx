@@ -3,7 +3,7 @@ import { ItemHeader } from 'pages/SingleItem/styleds'
 import styled from 'styled-components/macro'
 import { rotate360Animation } from 'theme/styles/animations'
 
-const StyledSVG = styled.svg<{ size: string; stroke?: string }>`
+export const StyledSVG = styled.svg<{ size: string; stroke?: string }>`
   animation: 2s ${rotate360Animation} linear infinite;
   height: ${({ size }) => size};
   width: ${({ size }) => size};

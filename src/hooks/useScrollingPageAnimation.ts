@@ -3,7 +3,7 @@ import { isMobile } from 'react-device-detect'
 import { useGesture } from '@use-gesture/react'
 import { SpringConfig, useSprings } from 'react-spring'
 import useStateRef from 'hooks/useStateRef'
-import { useWindowSize } from 'hooks/useWindowSize'
+import { useGetWindowSize } from 'state/window/hooks'
 
 const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 3.2,
@@ -85,7 +85,7 @@ export default function useScrollingPageAnimation(
   )
 
   // handle window resizing
-  const size = useWindowSize()
+  const size = useGetWindowSize()
   useEffect(() => {
     if (!fixedHeight && target?.clientHeight) {
       setHeightRef(target)

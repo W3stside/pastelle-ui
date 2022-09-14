@@ -1,6 +1,5 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import useDebounce from 'hooks/useDebounce'
-import { useWindowSize } from 'hooks/useWindowSize'
 import { useUpdateWindowSize } from 'state/window/hooks'
 import { WindowSize } from 'state/window/reducer'
 
@@ -15,4 +14,31 @@ export default function Updater(): null {
   }, [debouncedData, updateWindowSize])
 
   return null
+}
+
+const isClient = typeof window === 'object'
+function getSize() {
+  return {
+    width: isClient ? window.innerWidth : undefined,
+    height: isClient ? window.innerHeight : undefined
+  }
+}
+// https://usehooks.com/useWindowSize/
+function useWindowSize() {
+  const [windowSize, setWindowSize] = useState(getSize)
+  useEffect(() => {
+    function handleCheckWindowSize() {
+      setWindowSize(getSize())
+    }
+    // initial call
+    handleCheckWindowSize()
+    if (isClient) {
+      window.addEventListener('resize', handleCheckWindowSize)
+      return () => {
+        window.removeEventListener('resize', handleCheckWindowSize)
+      }
+    }
+    return undefined
+  }, [])
+  return windowSize
 }

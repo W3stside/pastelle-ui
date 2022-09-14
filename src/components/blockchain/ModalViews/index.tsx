@@ -1,4 +1,4 @@
-import { useActiveWeb3React } from 'blockchain/hooks'
+import { useWeb3React } from '@web3-react/core'
 
 import styled, { useTheme } from 'styled-components/macro'
 import { AutoColumn, ColumnCenter, RowBetween } from 'components/Layout'
@@ -45,7 +45,7 @@ export const SubmittedView: React.FC<{
   hash: string | undefined
 }> = ({ children, onDismiss, hash }) => {
   const theme = useTheme()
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
 
   return (
     <ConfirmOrLoadingWrapper>

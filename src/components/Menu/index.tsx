@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { BookOpen, Code, Info, MessageCircle, PieChart } from 'react-feather'
 import styled from 'styled-components/macro'
 import { ReactComponent as MenuIcon } from 'assets/images/menu.svg'
-// import { useActiveWeb3React } from 'hooks'
+// import { useWeb3React } from 'hooks'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import { ApplicationModal } from 'state/modalsAndPopups/reducer'
 import { useModalOpen, useToggleModal } from 'state/modalsAndPopups/hooks'
@@ -90,7 +90,7 @@ const MenuItem = styled(ExternalLink)`
 const CODE_LINK = 'https://github.com/Uniswap/uniswap-interface'
 
 export default function Menu() {
-  // const { account } = useActiveWeb3React()
+  // const { account } = useWeb3React()
 
   const node = useRef<HTMLDivElement>()
   const open = useModalOpen(ApplicationModal.MENU)

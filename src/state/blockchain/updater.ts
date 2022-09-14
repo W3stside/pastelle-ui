@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { CHAIN_INFO } from 'blockchain/constants/chains'
 import useDebounce from 'hooks/useDebounce'
 import useIsWindowVisible from 'hooks/useIsWindowVisible'
-import { useActiveWeb3React } from 'blockchain/hooks'
+import { useWeb3React } from '@web3-react/core'
 import ms from 'ms.macro'
 import { supportedChainId } from 'blockchain/utils/supportedChainId'
 import { switchToNetwork } from 'blockchain/utils/switchToNetwork'
@@ -20,7 +20,7 @@ const NETWORK_HEALTH_CHECK_MS = ms`15s`
 const DEFAULT_MS_BEFORE_WARNING = ms`10m`
 
 function useBlockWarningTimer() {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const currentBlock = useBlockNumber()
 
   const chainConnectivityWarningActive = useChainConnectivityWarning()
@@ -64,7 +64,7 @@ function useBlockWarningTimer() {
 }
 
 export default function Updater(): null {
-  const { account, chainId, library } = useActiveWeb3React()
+  const { account, chainId, provider } = useWeb3React()
 
   const updateChainId = useUpdateChainId()
   const updateBlockNumber = useUpdateBlockNumber()
@@ -94,20 +94,20 @@ export default function Updater(): null {
 
   // attach/detach listeners
   useEffect(() => {
-    if (!library || !chainId || !windowVisible) return undefined
+    if (!provider || !chainId || !windowVisible) return undefined
 
     setState({ chainId, blockNumber: null })
 
-    library
+    provider
       .getBlockNumber()
       .then(blockNumberCallback)
       .catch(error => console.error(`Failed to get block number for chainId: ${chainId}`, error))
 
-    library.on('block', blockNumberCallback)
+    provider.on('block', blockNumberCallback)
     return () => {
-      library.removeListener('block', blockNumberCallback)
+      provider.removeListener('block', blockNumberCallback)
     }
-  }, [chainId, library, blockNumberCallback, windowVisible])
+  }, [chainId, provider, blockNumberCallback, windowVisible])
 
   const debouncedState = useDebounce(state, 100)
 
@@ -121,13 +121,13 @@ export default function Updater(): null {
   }, [debouncedState.chainId, updateChainId])
 
   useEffect(() => {
-    if (!account || !library?.provider?.request || !library?.provider?.isMetaMask) {
+    if (!account || !provider?.provider?.request || !provider?.provider?.isMetaMask) {
       return
     }
-    switchToNetwork({ library })
+    switchToNetwork({ library: provider })
       .then(x => x ?? setImplements3085(true))
       .catch(() => setImplements3085(false))
-  }, [account, chainId, library, setImplements3085])
+  }, [account, chainId, provider, setImplements3085])
 
   return null
 }

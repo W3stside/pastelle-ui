@@ -4,7 +4,7 @@ import { TYPE, ExternalLink } from 'theme'
 
 import { useBlockNumber } from 'state/blockchain/hooks'
 import { getEtherscanLink } from 'blockchain/utils'
-import { useActiveWeb3React } from 'blockchain/hooks'
+import { useWeb3React } from '@web3-react/core'
 import { rotate360Animation } from 'theme/styles/animations'
 
 const StyledPolling = styled.div`
@@ -55,7 +55,7 @@ const Spinner = styled.div`
 `
 
 export default function Polling() {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
 
   const blockNumber = useBlockNumber()
 

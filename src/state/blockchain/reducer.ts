@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ConnectionType } from 'blockchain/connectors'
 
 export interface BlockchainState {
   readonly blockNumber: { readonly [chainId: number]: number }
   readonly chainId: number | null
   readonly chainConnectivityWarning: boolean
   readonly implements3085: boolean
+  selectedWalletBackfilled: boolean
+  selectedWallet?: ConnectionType
 }
 
 export type BlockNumberState = {
@@ -16,13 +19,19 @@ const initialState: BlockchainState = {
   blockNumber: {},
   chainId: null,
   chainConnectivityWarning: false,
-  implements3085: false
+  implements3085: false,
+  selectedWalletBackfilled: false,
+  selectedWallet: undefined
 }
 
 const blockchainSlice = createSlice({
   name: 'blockchain',
   initialState,
   reducers: {
+    updateSelectedWallet(state, { payload: { wallet } }) {
+      state.selectedWallet = wallet
+      state.selectedWalletBackfilled = true
+    },
     updateChainId(state, action: PayloadAction<number | null>) {
       state.chainId = action.payload
     },
@@ -46,6 +55,7 @@ export const {
   updateBlockNumber,
   updateChainId,
   setChainConnectivityWarning,
-  setImplements3085
+  setImplements3085,
+  updateSelectedWallet
 } = blockchainSlice.actions
 export const blockchain = blockchainSlice.reducer

@@ -1,9 +1,9 @@
+import { useWeb3React } from '@web3-react/core'
 import { FunctionFragment, Interface } from '@ethersproject/abi'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
 import { useEffect, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
-import { useActiveWeb3React } from 'blockchain/hooks'
 import { useBlockNumber } from 'state/blockchain/hooks'
 import { addMulticallListeners, ListenerOptions, removeMulticallListeners } from './actions'
 import { Call, parseCallKey, toCallKey } from './utils'
@@ -47,7 +47,7 @@ export function useCallsData(
   calls: (Call | undefined)[],
   { blocksPerFetch }: ListenerOptions = { blocksPerFetch: 1 }
 ): CallResult[] {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const callResults = useAppSelector(state => state.blockchainMulticall.callResults)
   const dispatch = useAppDispatch()
 

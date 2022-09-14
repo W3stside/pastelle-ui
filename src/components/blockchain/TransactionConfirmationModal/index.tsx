@@ -9,7 +9,7 @@ import { RowBetween, AutoColumn, ColumnCenter } from 'components/Layout'
 import Circle from 'assets/images/blue-loader.svg'
 
 import { getEtherscanLink } from 'blockchain/utils'
-import { useActiveWeb3React } from 'blockchain/hooks'
+import { useWeb3React } from '@web3-react/core'
 import { SupportedChainId as ChainId } from 'blockchain/constants/chains'
 
 const Wrapper = styled.div`
@@ -170,7 +170,7 @@ export default function TransactionConfirmationModal({
   pendingText,
   content
 }: ConfirmationModalProps) {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
 
   if (!chainId) return null
 

@@ -4,7 +4,7 @@ import { UniswapInterfaceMulticall } from 'blockchain/abis/types/UniswapInterfac
 
 import { useMulticall2Contract } from 'blockchain/hooks/useContract'
 import useDebounce from 'hooks/useDebounce'
-import { useActiveWeb3React } from 'blockchain/hooks'
+import { useWeb3React } from '@web3-react/core'
 import chunkArray from 'utils/chunkArray'
 import { retry, RetryableError } from 'utils/retry'
 import { useBlockNumber } from 'state/blockchain/hooks'
@@ -149,7 +149,7 @@ export default function Updater(): null {
   // wait for listeners to settle before triggering updates
   const debouncedListeners = useDebounce(state.callListeners, 100)
   const latestBlockNumber = useBlockNumber()
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const multicall2Contract = useMulticall2Contract()
   const cancellations = useRef<{ blockNumber: number; cancellations: (() => void)[] }>()
 

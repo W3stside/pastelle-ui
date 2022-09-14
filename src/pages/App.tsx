@@ -1,8 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
-import Web3ReactManager from 'components/blockchain/Web3ReactManager'
-
 const Footer = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "FOOTER" */ 'components/Footer'))
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
@@ -24,27 +22,25 @@ export default function App() {
   if (loading) return <FixedAnimatedLoader loadText={<PastelleCursiveLoader />} />
 
   return (
-    <Web3ReactManager>
-      <Suspense fallback={<FixedAnimatedLoader loadText={<PastelleCursiveLoader />} />}>
-        <Popups />
+    <Suspense fallback={<FixedAnimatedLoader loadText={<PastelleCursiveLoader />} />}>
+      <Popups />
 
-        {/* HEADER */}
-        <Header />
-        {/* SIDE-NAV */}
-        <Navigation mobileHide />
+      {/* HEADER */}
+      <Header />
+      {/* SIDE-NAV */}
+      <Navigation mobileHide />
 
-        {/* ARTICLE CONTENT */}
-        <Routes>
-          <Route path={`/${COLLECTION_PARAM_NAME}`} element={<Collection />} />
-          <Route path={`/${COLLECTION_PARAM_NAME}/:handle`} element={<SingleItem />} />
+      {/* ARTICLE CONTENT */}
+      <Routes>
+        <Route path={`/${COLLECTION_PARAM_NAME}`} element={<Collection />} />
+        <Route path={`/${COLLECTION_PARAM_NAME}/:handle`} element={<SingleItem />} />
 
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} />
-        </Routes>
+        <Route path="/404" element={<NotFound />} />
+        <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} />
+      </Routes>
 
-        {/* FOOTER */}
-        <Footer />
-      </Suspense>
-    </Web3ReactManager>
+      {/* FOOTER */}
+      <Footer />
+    </Suspense>
   )
 }
