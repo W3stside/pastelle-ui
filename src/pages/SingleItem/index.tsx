@@ -1,6 +1,6 @@
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useCurrentCatalog } from 'state/catalog/hooks'
+import { useCurrentCatalog } from 'state/collection/hooks'
 import AsideWithVideo from './AsideWithVideo'
 
 export default function SingleItem() {

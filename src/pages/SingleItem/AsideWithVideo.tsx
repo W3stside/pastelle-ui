@@ -30,7 +30,7 @@ import {
 
 import { useBreadcrumb } from 'components/Breadcrumb'
 import { useToggleModal, useModalOpen, useCloseModals } from 'state/modalsAndPopups/hooks'
-import { useUpdateCurrentlyViewing } from 'state/catalog/hooks'
+import { useUpdateCurrentlyViewing } from 'state/collection/hooks'
 import { useGetWindowSize } from 'state/window/hooks'
 import { useQueryProductVariantId } from 'shopify/graphql/hooks'
 import useStateRef from 'hooks/useStateRef'

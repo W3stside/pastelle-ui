@@ -6,7 +6,7 @@ import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
 import { useAppColourTheme } from 'state/user/hooks'
 import { useMemo } from 'react'
-import { useGetCurrentOnScreenCatalogProduct } from 'state/catalog/hooks'
+import { useGetCurrentOnScreenCatalogProduct } from 'state/collection/hooks'
 import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
 import { setFlickerAnimation } from 'theme/styles/animations'
 

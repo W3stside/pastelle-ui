@@ -7,7 +7,7 @@ import { modalsAndPopups } from 'state/modalsAndPopups/reducer'
 import { window } from 'state/window/reducer'
 // APPAREL
 import { cart } from 'state/cart/reducer'
-import { catalog } from 'state/catalog/reducer'
+import { catalog } from 'state/collection/reducer'
 // BLOCKCHAIN
 import { blockchain } from 'state/blockchain/reducer'
 import { blockchainMulticall } from 'state/blockchainMulticall/reducer'

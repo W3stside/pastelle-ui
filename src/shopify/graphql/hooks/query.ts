@@ -10,7 +10,7 @@ import {
   GetCartQuery
 } from 'shopify/graphql/types'
 import { ProductPageProps, CatalogMap } from 'pages/SingleItem/AsideWithVideo'
-import { useOnScreenProductHandle } from 'state/catalog/hooks'
+import { useOnScreenProductHandle } from 'state/collection/hooks'
 import { QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
 import { GET_CART } from '../queries/cart'
 import { useParams } from 'react-router-dom'

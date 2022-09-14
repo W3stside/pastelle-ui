@@ -1,13 +1,13 @@
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useCurrentCatalog } from 'state/catalog/hooks'
+import { useCurrentCatalog } from 'state/collection/hooks'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
 import AsideWithVideo, { SingleItemPageProps } from 'pages/SingleItem/AsideWithVideo'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { isMobile } from 'utils'
-import { useOnScreenProductHandle } from 'state/catalog/hooks'
+import { useOnScreenProductHandle } from 'state/collection/hooks'
 import { buildItemUrl } from 'utils/navigation'
 
 export default function Catalog() {
