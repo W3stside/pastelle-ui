@@ -5,15 +5,7 @@ const path = require('path')
 
 module.exports = {
   babel: {
-    plugins: [
-      '@babel/plugin-proposal-nullish-coalescing-operator',
-      [
-        '@simbathesailor/babel-plugin-use-what-changed',
-        {
-          active: process.env.NODE_ENV === 'development' // boolean
-        }
-      ]
-    ]
+    plugins: ['@babel/plugin-proposal-nullish-coalescing-operator']
   },
   webpack: {
     plugins: [],
