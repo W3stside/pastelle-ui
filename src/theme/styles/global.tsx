@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components/macro'
 import { darken, transparentize } from 'polished'
 
-import { setTextColour, setBgColour, fromExtraLarge, BLUE } from '../utils'
+import { setTextColour, setBgColour, fromExtraLarge, BLUE, setCssBackground } from '../utils'
 import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
 import { useAppColourTheme } from 'state/user/hooks'
@@ -180,14 +180,13 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   }
 
   header, footer {
-    background: ${({ headerLogo, theme, frameBgColor = transparentize(0.3, theme.bg1) }) =>
-      headerLogo
-        ? `url(${headerLogo}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) center no-repeat, url(${headerLogo}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) 0px 0px no-repeat`
-        : frameBgColor};
-      
-    background-color: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
-    background-size: cover;
-    background-blend-mode: difference;
+    ${({ theme, headerLogo, frameBgColor = transparentize(0.3, theme.bg1) }) =>
+      setCssBackground(theme, {
+        imageUrl: headerLogo,
+        backgroundColor: frameBgColor,
+        hqImagePlacement: 'center no-repeat',
+        lqImagePlacement: '0px 0px no-repeat'
+      })}
 
     #header-links-container {
       background-color: ${({ frameBgColor, theme }) =>

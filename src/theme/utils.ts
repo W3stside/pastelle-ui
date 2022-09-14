@@ -2,6 +2,8 @@ import { DefaultTheme, FlattenSimpleInterpolation, css, CSSObject, SimpleInterpo
 
 import { LIGHT_COLOURS, DARK_COLOURS, DEFAULT_COLOURS, VAMPIRE_COLOURS, CHAMELEON_COLOURS } from './styles'
 import { ThemeModes, Colors } from './styled'
+import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
+import { MEDIA_WIDTHS } from './styles/mediaQueries'
 
 export function getThemeColours(colourTheme: ThemeModes): Colors {
   let THEME_COLOURS = LIGHT_COLOURS
@@ -67,3 +69,45 @@ export const fromSmall = whenMediaLargerThan('fromSmall')
 export const fromMedium = whenMediaLargerThan('fromMedium')
 export const fromLarge = whenMediaLargerThan('fromLarge')
 export const fromExtraLarge = whenMediaLargerThan('fromExtraLarge')
+
+// big to small
+// e.g { width: 500, ar: "3:2" }
+const IMG_SET_SIZE_ENTRIES = Object.entries(MEDIA_WIDTHS)
+type SetCssBackgroundParams = {
+  imageUrl?: string
+  backgroundColor: string
+  hqImagePlacement?: string
+  lqImagePlacement?: string
+  // backgroundSize: string
+  // backgroundBlendMode: string
+}
+type SizeKey = keyof typeof MEDIA_WIDTHS
+export const setCssBackground = (
+  theme: DefaultTheme,
+  {
+    imageUrl,
+    backgroundColor,
+    // backgroundSize,
+    // backgroundBlendMode = 'difference',
+    hqImagePlacement = 'center no-repeat',
+    lqImagePlacement = 'center no-repeat'
+  }: SetCssBackgroundParams
+) => {
+  return IMG_SET_SIZE_ENTRIES.map(([size, width]) => {
+    const queryMethod = theme.mediaWidth?.[size as SizeKey]
+
+    const background = imageUrl
+      ? `url(${imageUrl}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO},w-${width}) ${hqImagePlacement}, url(${imageUrl}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO},w-${width}) ${lqImagePlacement}`
+      : backgroundColor
+
+    return (
+      queryMethod &&
+      queryMethod`
+        background: ${background};
+        background-color: ${backgroundColor};
+        background-size: cover;
+        background-blend-mode: difference;
+      `
+    )
+  })
+}
