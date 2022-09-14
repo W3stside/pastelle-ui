@@ -55,13 +55,13 @@ export const CarouselButton = styled.div<{ buttonColor: string }>`
   align-items: center;
   justify-content: center;
   height: 100%;
-  width: 20px;
+  width: 10%;
   background-color: ${({ buttonColor }) => transparentize(1, buttonColor)};
 
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ buttonColor }) => transparentize(0.2, buttonColor)};
+    background-color: ${({ buttonColor }) => transparentize(0.7, buttonColor)};
   }
 
   transition: background-color 0.2s ease-in-out;
