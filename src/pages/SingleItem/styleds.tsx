@@ -69,7 +69,7 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
 
 export const ItemLogo = styled.div<{
   $bgColor?: string
-  catalogView?: boolean
+  collectionView?: boolean
   $maxWidth?: string
   $marginTop?: string
 }>`
@@ -95,7 +95,7 @@ export const ItemLogoCssImport = styled(ItemLogo)<{ logoUri: string }>`
   height: 300px;
 `
 
-export const ItemLogoCatalogView = styled(ItemLogoCssImport)<{ $bgColor: string }>`
+export const ItemLogoCollectionView = styled(ItemLogoCssImport)<{ $bgColor: string }>`
   position: absolute;
   margin: auto;
   left: 0;
@@ -198,11 +198,11 @@ export const SubItemDescription = styled(ItemDescription).attrs(props => ({
 
 export const ItemContentContainer = styled(Column)``
 
-// CATALOG NON-CAROUSEL VIEW vs NON-CATALOG CAROUSEL ACTIVE VIEW
+// COLLECTION NON-CAROUSEL VIEW vs NON-COLLECTION CAROUSEL ACTIVE VIEW
 // w/carousel
 export const InnerContainer = styled(Column)<{ bgColor?: string }>``
-// w.o carousel (catalog)
-export const InnerCatalogContainer = styled(Column)<{ bgColor?: string }>``
+// w.o carousel (collection)
+export const InnerCollectionContainer = styled(Column)<{ bgColor?: string }>``
 
 export const ItemAsidePanel = styled(Column)`
   display: flex;
@@ -210,7 +210,7 @@ export const ItemAsidePanel = styled(Column)`
   align-items: flex-start;
 `
 
-export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?: boolean; bgColor?: string }>`
+export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionView?: boolean; bgColor?: string }>`
   width: 100%;
   height: 100%;
   justify-content: center;
@@ -242,7 +242,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
     //  *
     //  * BOTH INNER CONTAINERS
     //  *
-    > ${InnerCatalogContainer}, > ${InnerContainer} {
+    > ${InnerCollectionContainer}, > ${InnerContainer} {
       position: relative;
       box-shadow: 10px 0px 50px 5px black;
       
@@ -250,9 +250,9 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
     }
 
     //  *
-    //  * CATALOG INNER CONTAINER WITHOUT CAROUSEL
+    //  * COLLECTION INNER CONTAINER WITHOUT CAROUSEL
     //  * 
-    > ${InnerCatalogContainer} {
+    > ${InnerCollectionContainer} {
       // MEDIA QUERY --> SMALL and below
       ${upToSmall`
         padding: 15px;
@@ -270,14 +270,14 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
       `}
 
       // ----------------------- //
-      // CATALOG ITEM LOGO
+      // COLLECTION ITEM LOGO
       // ----------------------- //
       > ${ItemLogo} {
         margin-top: 0px;
       }
 
       // ----------------------- //
-      // CATALOG CAROUSEL CONTAINER 
+      // COLLECTION CAROUSEL CONTAINER 
       // ----------------------- //
       > ${CarouselContainer} {
         // MEDIA QUERY --> SMALL and below
@@ -328,9 +328,9 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; catalogView?
       }
 
       // ----------------------- //
-      // ITEM CATALOG LOGO
+      // ITEM COLLECTION LOGO
       // ----------------------- //
-      > ${ItemLogoCatalogView} {
+      > ${ItemLogoCollectionView} {
         // MEDIA QUERY --> SMALL and below
         ${upToSmall`
           max-width: 100%;

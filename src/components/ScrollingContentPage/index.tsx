@@ -5,7 +5,7 @@ import { ScrollerContainer, Scroller, AnimatedDivContainer } from './styleds'
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 import useScrollingPageAnimation from 'hooks/useScrollingPageAnimation'
 import { LoadInView } from 'hooks/useDetectScrollIntoView'
-import { CATALOG_MAX_WIDTH } from 'constants/config'
+import { COLLECTION_MAX_WIDTH } from 'constants/config'
 
 interface ScrollingContentPageParams<D> {
   data: D[]
@@ -57,7 +57,7 @@ export function ScrollingContentPage<D>({
         {/* Were in mobile or the data passed only has 1 item, don't run loop animations */}
         {springs.map(({ y, scale }, i) => {
           return (
-            <AnimatedDivContainer key={i} style={{ scale, height, y }} $maxWidth={CATALOG_MAX_WIDTH + 'px'}>
+            <AnimatedDivContainer key={i} style={{ scale, height, y }} $maxWidth={COLLECTION_MAX_WIDTH + 'px'}>
               {showIndicator && <ScrollingContentIndicator {...indicatorProps} />}
               <IterableComponent
                 loadInView={{

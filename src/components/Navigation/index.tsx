@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
 import LoadingRows from 'components/Loader/LoadingRows'
-import { useCurrentCatalog, useGetCurrentOnScreenCatalogProduct } from 'state/collection/hooks'
+import { useCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
 import { buildItemUrl } from 'utils/navigation'
 import useOnResize from 'hooks/useOnResize'
-import { MobileNavOrb, NavigationStepsWrapper, NavLinkWrapper, SideEffectNavLink, CatalogLabel } from './styled'
+import { MobileNavOrb, NavigationStepsWrapper, NavLinkWrapper, SideEffectNavLink, CollectionLabel } from './styled'
 import { WHITE } from 'theme/utils'
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string }
@@ -20,9 +20,9 @@ export default function Navigation({
   mobileHide?: boolean
 }) {
   const navigate = useNavigate()
-  // state catalog data
-  const catalogProductList = useCurrentCatalog()
-  const currentProduct = useGetCurrentOnScreenCatalogProduct()
+  // state collection data
+  const collectionProductList = useCurrentCollection()
+  const currentProduct = useGetCurrentOnScreenCollectionProduct()
 
   const [isNavOpen, setIsNavOpen] = useState(false)
 
@@ -62,11 +62,11 @@ export default function Navigation({
         </ItemSubHeader>
 
         <NavLinkWrapper>
-          {catalogProductList ? (
-            Object.values(catalogProductList).map(product => (
+          {collectionProductList ? (
+            Object.values(collectionProductList).map(product => (
               <SideEffectNavLink key={product.id} onClick={e => handleNavMove(e, product)}>
                 <ItemSubHeader padding="2px" margin="0" fontSize={isNavOpen ? '3.5rem' : '1.6rem'} color={WHITE}>
-                  {<CatalogLabel active={product.id === currentProduct?.id}>{product.title}</CatalogLabel>}
+                  {<CollectionLabel active={product.id === currentProduct?.id}>{product.title}</CollectionLabel>}
                 </ItemSubHeader>
               </SideEffectNavLink>
             ))

@@ -36,7 +36,7 @@ import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import usePrevious from 'hooks/usePrevious'
 import useCleanTimeout from 'hooks/useCleanTimeout'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { buildItemUrl, checkIsCatalogPage } from 'utils/navigation'
+import { buildItemUrl, checkIsCollectionPage } from 'utils/navigation'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
 import { formatCurrency } from 'utils/formatting'
 import { WHITE } from 'theme/utils'
@@ -79,7 +79,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
   const location = useLocation()
   const navigate = useNavigate()
 
-  const isCatalogPage = checkIsCatalogPage(location)
+  const isCollectionPage = checkIsCollectionPage(location)
 
   const handleNavClick = useCallback(() => {
     closeCartPanel()
@@ -100,7 +100,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
         ) : isEmptyCart ? (
           <ItemSubHeader color={WHITE} fontSize={'2.5rem'} fontWeight={400} padding={0} margin={'2rem 0'}>
             <span id="lenny-face">Your cart is</span> <strong>empty</strong> <span id="lenny-face">ʕ ͡° ʖ̯ ͡°ʔ</span>
-            {!isCatalogPage && (
+            {!isCollectionPage && (
               <p onClick={handleNavClick} style={{ cursor: 'pointer' }}>
                 <u>Check out the full {COLLECTION_PARAM_NAME}</u>!
               </p>
@@ -207,7 +207,7 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
   }, [line.id, quantity, selectionIsValidQuantity, updateCartLineCallback, removeLineLoading, wasPreviousAndChanged])
 
   const sizeFull = sizeToFullSize(line?.merchandise.size)
-  const catalogCurrentProduct = useOnScreenProductHandle()
+  const collectionCurrentProduct = useOnScreenProductHandle()
 
   return (
     <CartLineWrapper brandAssetMap={brandAssetMap} color={itemColor}>
@@ -225,7 +225,7 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
             <ItemSubHeader color={WHITE} fontSize={'1.5rem'} fontWeight={300} padding={0} margin={0}>
               {sizeFull} {sizeFull && `(${line?.merchandise.size})`}
             </ItemSubHeader>
-            {catalogCurrentProduct?.handle !== handle && (
+            {collectionCurrentProduct?.handle !== handle && (
               <ItemSubHeader color={WHITE} fontSize={'1.5rem'} fontWeight={300} padding={0} margin={0}>
                 tap or click to view item
               </ItemSubHeader>

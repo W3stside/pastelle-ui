@@ -48,7 +48,7 @@ interface ScrollSpringParams {
   firstVisIdx: number
 }
 
-const MINIMUM_CATALOG_ITEM_HEIGHT = 773
+const MINIMUM_COLLECTION_ITEM_HEIGHT = 773
 
 export default function useScrollingPageAnimation(
   items: any[],
@@ -56,8 +56,8 @@ export default function useScrollingPageAnimation(
     visible = 1,
     // fixed height - bypasses useRef
     fixedHeight,
-    // minimum height to render catalog
-    minHeight = MINIMUM_CATALOG_ITEM_HEIGHT,
+    // minimum height to render collection
+    minHeight = MINIMUM_COLLECTION_ITEM_HEIGHT,
     // snap nearest screen after scroll end
     snapOnScroll = false,
     scaleOptions = {

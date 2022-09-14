@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 import {
-  batchUpdateCatalogByYear,
+  batchUpdateCollectionByYear,
   ProductPageMap,
-  updateCatalog,
+  updateCollection,
   ProductCurrentlyViewing,
   updateCurrentlyViewing
 } from './reducer'
@@ -16,53 +16,56 @@ export function useUpdateCurrentlyViewing() {
   return useCallback((params: ProductCurrentlyViewing) => dispatch(updateCurrentlyViewing(params)), [dispatch])
 }
 
-export const useOnScreenProductHandle = () => useAppSelector(({ catalog }) => catalog.currentlyViewing)
+export const useOnScreenProductHandle = () => useAppSelector(({ collection }) => collection.currentlyViewing)
 
-export function useCatalog() {
-  return useAppSelector(state => state.catalog)
+export function useCollection() {
+  return useAppSelector(state => state.collection)
 }
 
-export function useCatalogByDrop(drop?: string | number) {
-  return useAppSelector(state => (drop ? state.catalog[drop.toString()] : null))
+export function useCollectionByDrop(drop?: string | number) {
+  return useAppSelector(state => (drop ? state.collection[drop.toString()] : null))
 }
 
-export function useCurrentCatalog() {
-  return useCatalogByDrop('currentDrop')
+export function useCurrentCollection() {
+  return useCollectionByDrop('currentDrop')
 }
 
-export function useUpdateCatalog() {
+export function useUpdateCollection() {
   const dispatch = useAppDispatch()
-  return useCallback((catalog: ProductPageMap) => dispatch(updateCatalog({ drop: 'currentDrop', catalog })), [dispatch])
+  return useCallback((collection: ProductPageMap) => dispatch(updateCollection({ drop: 'currentDrop', collection })), [
+    dispatch
+  ])
 }
 
-export function useBatchUpdateCatalogByDrop() {
+export function useBatchUpdateCollectionByDrop() {
   const dispatch = useAppDispatch()
   return useCallback(
-    (params: { drop: 'currentDrop' | number; catalog: ProductPageMap }) => dispatch(batchUpdateCatalogByYear(params)),
+    (params: { drop: 'currentDrop' | number; collection: ProductPageMap }) =>
+      dispatch(batchUpdateCollectionByYear(params)),
     [dispatch]
   )
 }
 
-export function useGetCurrentCatalogProductsFromUrl() {
+export function useGetCurrentCollectionProductsFromUrl() {
   // we need to use the URL to determine what item we're currently viewing
   const { handle } = useParams()
-  const currentCatalogMap = useCurrentCatalog()
+  const currentCollectionMap = useCurrentCollection()
 
-  const currentCatalogProduct = handle ? currentCatalogMap?.[handle] : undefined
-  if (!currentCatalogProduct) return null
+  const currentCollectionProduct = handle ? currentCollectionMap?.[handle] : undefined
+  if (!currentCollectionProduct) return null
 
-  const catalogProductList: ProductPageProps[] = Object.values(currentCatalogProduct)
+  const collectionProductList: ProductPageProps[] = Object.values(currentCollectionProduct)
 
   return {
-    catalogProductList,
-    currentCatalogProduct,
+    collectionProductList,
+    currentCollectionProduct,
     handle
   }
 }
 
-export function useGetCurrentOnScreenCatalogProduct() {
-  const catalog = useCurrentCatalog()
+export function useGetCurrentOnScreenCollectionProduct() {
+  const collection = useCurrentCollection()
   const item = useOnScreenProductHandle()
 
-  return item ? catalog?.[item.handle] : undefined
+  return item ? collection?.[item.handle] : undefined
 }

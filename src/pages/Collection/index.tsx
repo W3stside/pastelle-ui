@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useCurrentCatalog } from 'state/collection/hooks'
+import { useCurrentCollection } from 'state/collection/hooks'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
 import AsideWithVideo, { SingleItemPageProps } from 'pages/SingleItem/AsideWithVideo'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
@@ -10,10 +10,10 @@ import { isMobile } from 'utils'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
 import { buildItemUrl } from 'utils/navigation'
 
-export default function Catalog() {
+export default function Collection() {
   const navigate = useNavigate()
-  // get latest catalog and the current on screen item handle
-  const currentCatalog = useCurrentCatalog()
+  // get latest collection and the current on screen item handle
+  const currentCollection = useCurrentCollection()
   const product = useOnScreenProductHandle()
 
   // on mobile sizes we set a fixed height
@@ -26,11 +26,11 @@ export default function Catalog() {
   }, [product, navigate])
 
   const AsideWithVideoAux = useCallback(
-    (props: { onClick?: () => void } & Omit<SingleItemPageProps, 'catalogView' | 'showBreadCrumbs' | 'loadInView'>) => (
+    (props: { onClick?: () => void } & Omit<SingleItemPageProps, 'collectionView' | 'showBreadCrumbs' | 'loadInView'>) => (
       <AsideWithVideo
         {...props}
-        // catalog mode
-        catalogView
+        // collection mode
+        collectionView
         showBreadCrumbs={false}
         loadInView={{ container: document, conditionalCheck: true }}
       />
@@ -38,15 +38,15 @@ export default function Catalog() {
     []
   )
 
-  if (!currentCatalog) return null
-  const catalogProductList = Object.values(currentCatalog)
+  if (!currentCollection) return null
+  const collectionProductList = Object.values(currentCollection)
 
   return (
-    <ArticleFadeInContainer id="CATALOG-ARTICLE">
-      {catalogProductList.length > 1 ? (
+    <ArticleFadeInContainer id="COLLECTION-ARTICLE">
+      {collectionProductList.length > 1 ? (
         <ScrollingContentPage
-          data={catalogProductList}
-          dataItem={catalogProductList[0]}
+          data={collectionProductList}
+          dataItem={collectionProductList[0]}
           IterableComponent={AsideWithVideoAux}
           baseContentMessage="SCROLL/DRAG FOR MORE SHIT!"
           width={`calc(100% - ${STORE_IMAGE_SIZES.SMALL}px)`}
@@ -57,7 +57,7 @@ export default function Catalog() {
           onContentClick={onContentClick}
         />
       ) : (
-        <AsideWithVideoAux {...catalogProductList[0]} itemIndex={0} isActive firstPaintOver onClick={onContentClick} />
+        <AsideWithVideoAux {...collectionProductList[0]} itemIndex={0} isActive firstPaintOver onClick={onContentClick} />
       )}
     </ArticleFadeInContainer>
   )

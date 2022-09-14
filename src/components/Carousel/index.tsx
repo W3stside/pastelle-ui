@@ -20,7 +20,7 @@ export type CarouselProps = {
   mediaStartIndex: number
   showCarouselContentIndicators?: boolean
   loadInViewOptions?: LoadInView
-  catalogView?: boolean
+  collectionView?: boolean
   fullSizeContent?: boolean
   onCarouselChange?: (index: number) => void
   onImageClick?: () => void

@@ -6,7 +6,7 @@ import Web3ReactManager from 'components/blockchain/Web3ReactManager'
 const Footer = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "FOOTER" */ 'components/Footer'))
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
-const Catalog = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "CATALOG" */ 'pages/Collection'))
+const Collection = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "COLLECTION" */ 'pages/Collection'))
 const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Error/NotFound'))
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
 const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleItem'))
@@ -35,7 +35,7 @@ export default function App() {
 
         {/* ARTICLE CONTENT */}
         <Routes>
-          <Route path={`/${COLLECTION_PARAM_NAME}`} element={<Catalog />} />
+          <Route path={`/${COLLECTION_PARAM_NAME}`} element={<Collection />} />
           <Route path={`/${COLLECTION_PARAM_NAME}/:handle`} element={<SingleItem />} />
 
           <Route path="/404" element={<NotFound />} />

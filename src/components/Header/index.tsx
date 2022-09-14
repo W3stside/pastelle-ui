@@ -18,13 +18,13 @@ import { useWindowSize } from 'hooks/useWindowSize'
 import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 import Navigation from 'components/Navigation'
 import { NavLink, useLocation } from 'react-router-dom'
-import { DEFAULT_CATALOG_URL } from 'constants/config'
+import { DEFAULT_COLLECTION_URL } from 'constants/config'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
 import { fromMedium, upToExtraSmall } from 'theme/utils'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
 import { MobileNavOrb } from 'components/Navigation/styled'
 import { COLLECTION_PARAM_NAME } from 'constants/navigation'
-import { checkIsCatalogPage } from 'utils/navigation'
+import { checkIsCollectionPage } from 'utils/navigation'
 
 const HeaderFrame = styled(SectionFrame)`
   top: 0;
@@ -188,9 +188,9 @@ export default function Header() {
           <Pastellecon>{constructedLogo && <img width="170px" src={constructedLogo} alt="logo" />}</Pastellecon>
         </Title>
         {/* <DynamicHeaderLogo itemColor="#dda0ddb3" fontSize={60} fontWeight={100} color={'ghostwhite'} /> */}
-        {!checkIsCatalogPage(location) && (
+        {!checkIsCollectionPage(location) && (
           <HeaderLinks id="header-links-container">
-            <StyledNavLink to={DEFAULT_CATALOG_URL}>FULL {COLLECTION_PARAM_NAME}</StyledNavLink>
+            <StyledNavLink to={DEFAULT_COLLECTION_URL}>FULL {COLLECTION_PARAM_NAME}</StyledNavLink>
             {/* <StyledNavLink to="/aboutus">{'// ABOUT US'}</StyledNavLink> */}
             {/* <StyledNavLink to="#">Header Link</StyledNavLink> */}
             {/* <StyledExternalLink href="#">

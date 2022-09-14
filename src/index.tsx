@@ -21,7 +21,7 @@ import store from 'state'
 import BlockchainUpdater from 'state/blockchain/updater'
 import TransactionUpdater from 'state/blockchainTransactions/updater'
 import UserUpdater from 'state/window/updater'
-import CatalogUpdater from 'state/collection/updater'
+import CollectionUpdater from 'state/collection/updater'
 import CartUpdater from 'state/cart/updater'
 import WindowSizeUpdater from 'state/window/updater'
 
@@ -47,7 +47,7 @@ function Updaters() {
       <UserUpdater />
       <BlockchainUpdater />
       <TransactionUpdater />
-      <CatalogUpdater />
+      <CollectionUpdater />
       <CartUpdater />
       <WindowSizeUpdater />
     </>

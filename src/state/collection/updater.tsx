@@ -1,20 +1,20 @@
 import { useEffect } from 'react'
-import { useQueryCurrentCatalog } from 'shopify/graphql/hooks'
-import { useUpdateCatalog } from './hooks'
+import { useQueryCurrentCollection } from 'shopify/graphql/hooks'
+import { useUpdateCollection } from './hooks'
 
 export default function Updater() {
-  const updateCatalog = useUpdateCatalog()
-  const { catalogProductMap } = useQueryCurrentCatalog({
+  const updateCollection = useUpdateCollection()
+  const { collectionProductMap } = useQueryCurrentCollection({
     collectionAmount: 1,
     productAmt: 10,
     imageAmt: 10
   })
 
   useEffect(() => {
-    if (catalogProductMap) {
-      updateCatalog(catalogProductMap)
+    if (collectionProductMap) {
+      updateCollection(collectionProductMap)
     }
-  }, [catalogProductMap, updateCatalog])
+  }, [collectionProductMap, updateCollection])
 
   return null
 }

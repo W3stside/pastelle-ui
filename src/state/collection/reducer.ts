@@ -7,7 +7,7 @@ export interface ProductCurrentlyViewing {
   id: Product['id']
 }
 export type ProductPageMap = Record<string, ProductPageProps>
-export type CatalogState = {
+export type CollectionState = {
   [drop: string]: ProductPageMap | null
 } & {
   currentDrop: ProductPageMap | null
@@ -15,24 +15,24 @@ export type CatalogState = {
   currentlyViewing: ProductCurrentlyViewing | null
 }
 
-const initialState: CatalogState = {
+const initialState: CollectionState = {
   currentDrop: null,
   currentlyViewing: null
 }
 
-type UpdateCatalogParams = { drop: 'currentDrop' | number; catalog: ProductPageMap }
+type UpdateCollectionParams = { drop: 'currentDrop' | number; collection: ProductPageMap }
 
-const catalogSlice = createSlice({
-  name: 'catalog',
+const collectionSlice = createSlice({
+  name: 'collection',
   initialState,
   reducers: {
-    updateCatalog(state, { payload: { drop, catalog } }: PayloadAction<UpdateCatalogParams>) {
-      state[drop] = catalog || {}
+    updateCollection(state, { payload: { drop, collection } }: PayloadAction<UpdateCollectionParams>) {
+      state[drop] = collection || {}
     },
-    batchUpdateCatalogByYear(state, { payload: { drop, catalog } }: PayloadAction<UpdateCatalogParams>) {
-      state[drop] = { ...state[drop], ...(catalog || {}) }
+    batchUpdateCollectionByYear(state, { payload: { drop, collection } }: PayloadAction<UpdateCollectionParams>) {
+      state[drop] = { ...state[drop], ...(collection || {}) }
     },
-    removeCatalogSeason(state, { payload: { drop } }: PayloadAction<Omit<UpdateCatalogParams, 'catalog'>>) {
+    removeCollectionSeason(state, { payload: { drop } }: PayloadAction<Omit<UpdateCollectionParams, 'collection'>>) {
       delete state[drop]
     },
     updateCurrentlyViewing(state, action: PayloadAction<ProductCurrentlyViewing | null>) {
@@ -42,9 +42,9 @@ const catalogSlice = createSlice({
 })
 
 export const {
-  batchUpdateCatalogByYear,
-  updateCatalog,
-  removeCatalogSeason,
+  batchUpdateCollectionByYear,
+  updateCollection,
+  removeCollectionSeason,
   updateCurrentlyViewing
-} = catalogSlice.actions
-export const catalog = catalogSlice.reducer
+} = collectionSlice.actions
+export const collection = collectionSlice.reducer

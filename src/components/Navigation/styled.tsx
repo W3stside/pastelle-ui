@@ -69,7 +69,7 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   `};
 `
 
-export const CatalogLabel = styled.span<{ active: boolean }>`
+export const CollectionLabel = styled.span<{ active: boolean }>`
   font-weight: ${({ active }) => (active ? 700 : 400)};
   ${({ active }) =>
     active &&

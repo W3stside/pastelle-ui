@@ -9,7 +9,7 @@ import {
   GetCartQueryVariables,
   GetCartQuery
 } from 'shopify/graphql/types'
-import { ProductPageProps, CatalogMap } from 'pages/SingleItem/AsideWithVideo'
+import { ProductPageProps, CollectionMap } from 'pages/SingleItem/AsideWithVideo'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
 import { QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
 import { GET_CART } from '../queries/cart'
@@ -27,52 +27,54 @@ export function useQueryCollections(variables: GetCollectionQueryVariables) {
   })
 }
 
-export function useQueryCurrentCatalog(variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES) {
+export function useQueryCurrentCollection(
+  variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
+) {
   const { data, error } = useQueryCollections(variables)
 
   if (error) {
-    console.error('Error fetching current catalog using variables:' + variables, 'Error:', error)
+    console.error('Error fetching current collection using variables:' + variables, 'Error:', error)
   }
 
   // collection
   const collection = data?.collections?.nodes[0]
 
-  // products from collection mapped = catalog
-  const catalogProductList = mapShopifyProductToProps(collection?.products.nodes)
+  // products from collection mapped = collection
+  const collectionProductList = mapShopifyProductToProps(collection?.products.nodes)
   // { [PRODUCT_HANDLE]: PRODUCT }
-  const catalogProductMap = catalogProductList.reduce((acc, product: ProductPageProps) => {
+  const collectionProductMap = collectionProductList.reduce((acc, product: ProductPageProps) => {
     acc[product.handle] = product
 
     return acc
-  }, {} as CatalogMap)
+  }, {} as CollectionMap)
 
-  return { catalogProductMap, catalogProductList }
+  return { collectionProductMap, collectionProductList }
 }
 
-export function useQueryCurrentCatalogProductsFromUrl(
+export function useQueryCurrentCollectionProductsFromUrl(
   variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
 ) {
   // we need to use the URL to determine what item we're currently viewing
   const { handle } = useParams()
-  const { catalogProductMap, catalogProductList } = useQueryCurrentCatalog(variables)
+  const { collectionProductMap, collectionProductList } = useQueryCurrentCollection(variables)
 
-  const urlItem = handle ? catalogProductMap[handle] : null
-  const currentCatalogProduct = urlItem || catalogProductList[0]
+  const urlItem = handle ? collectionProductMap[handle] : null
+  const currentCollectionProduct = urlItem || collectionProductList[0]
 
   return {
-    catalogProductList,
-    currentCatalogProduct,
+    collectionProductList,
+    currentCollectionProduct,
     handle
   }
 }
 
-export function useQueryCurrentOnScreenCatalogProduct(
+export function useQueryCurrentOnScreenCollectionProduct(
   variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
 ) {
-  const { catalogProductMap } = useQueryCurrentCatalog(variables)
+  const { collectionProductMap } = useQueryCurrentCollection(variables)
   const item = useOnScreenProductHandle()
 
-  return item ? catalogProductMap[item.handle] : undefined
+  return item ? collectionProductMap[item.handle] : undefined
 }
 
 export function useQueryProductVariantByKeyValue(variables: ProductVariantQueryVariables) {

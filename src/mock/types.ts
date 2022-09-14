@@ -19,22 +19,22 @@ export type ApparelItem = {
     lowq: string
   }
 }
-export type CatalogSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL'
-export type CatalogItem = ProductPageProps & ItemPageDesignsProps
+export type CollectionSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL'
+export type CollectionItem = ProductPageProps & ItemPageDesignsProps
 // returns { ITEM_NAME: ITEM_OBJECT }
-export type CatalogSeasonItemMap = {
-  [item: string]: CatalogItem
+export type CollectionSeasonItemMap = {
+  [item: string]: CollectionItem
 }
 // returns { SEASON_NAME: MAP_OF_ITEMS }
-export type CatalogSeasonsMap = {
-  [key in CatalogSeason]: CatalogSeasonItemMap | undefined
+export type CollectionSeasonsMap = {
+  [key in CollectionSeason]: CollectionSeasonItemMap | undefined
 }
-export type CatalogItemsMap = {
-  [year: string]: Partial<CatalogSeasonsMap>
+export type CollectionItemsMap = {
+  [year: string]: Partial<CollectionSeasonsMap>
 }
-export type BaseCatalogItem = {
+export type BaseCollectionItem = {
   year: number | string
-  season: CatalogSeason
+  season: CollectionSeason
   name: string
   color: string
 }
@@ -42,7 +42,7 @@ export type BaseCatalogItem = {
 export type CollaboratorSocialData = { type: SocialType; url: string; display: string }[]
 
 export type ItemSizes = 'XX-LARGE' | 'X-LARGE' | 'LARGE' | 'MEDIUM' | 'SMALL'
-export type ItemMetadata = BaseCatalogItem & {
+export type ItemMetadata = BaseCollectionItem & {
   description: string[]
   collaborator?: string
   social?: CollaboratorSocialData

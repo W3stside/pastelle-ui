@@ -59,7 +59,7 @@ export default function NotFound() {
           <span style={{ fontSize: '3rem', fontStyle: 'normal' }}>ʕ ͡° ʖ̯ ͡°ʔ</span>
         </ItemHeader>
         <ButtonPrimary onClick={() => navigate('/')} variant={ButtonVariations.SUCCESS}>
-          <ItemSubHeader>Back to the catalog</ItemSubHeader>
+          <ItemSubHeader>Back to the collection</ItemSubHeader>
         </ButtonPrimary>
       </ContainerDiv>
     </article>

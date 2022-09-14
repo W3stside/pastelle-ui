@@ -22,8 +22,8 @@ import {
   MobileItemCTA,
   InnerContainer,
   HighlightedText,
-  ItemLogoCatalogView,
-  InnerCatalogContainer,
+  ItemLogoCollectionView,
+  InnerCollectionContainer,
   ItemContentContainer,
   SubItemDescription
 } from './styleds'
@@ -68,12 +68,12 @@ export interface ProductPageProps {
   description: string
   artistInfo?: ProductArtistInfo
   id: string
-  catalogView?: boolean
+  collectionView?: boolean
   noVideo?: boolean
   noDescription?: boolean
 }
 
-export type CatalogMap = Record<Product['handle'], ProductPageProps>
+export type CollectionMap = Record<Product['handle'], ProductPageProps>
 
 export type ItemPageDesignsProps = {
   headerLogo?: string
@@ -130,7 +130,7 @@ export default function ItemPage({
   isActive,
   firstPaintOver,
   loadInView,
-  catalogView = false,
+  collectionView = false,
   noVideo = false,
   noDescription = false,
   showBreadCrumbs,
@@ -165,10 +165,12 @@ export default function ItemPage({
   // inner container ref
   const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)
 
-  const DynamicInnerContainer = useMemo(() => (catalogView ? InnerCatalogContainer : InnerContainer), [catalogView])
+  const DynamicInnerContainer = useMemo(() => (collectionView ? InnerCollectionContainer : InnerContainer), [
+    collectionView
+  ])
 
-  // catalog display logo to use
-  const catalogLogo = navLogo || headerLogo
+  // collection display logo to use
+  const collectionLogo = navLogo || headerLogo
 
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
   const merchandiseId = useQueryProductVariantId({ productId: id, key: 'Size', value: selectedSize })
@@ -200,7 +202,7 @@ export default function ItemPage({
         onCarouselChange={onCarouselChange}
       />
       {/* Item content */}
-      <ItemContainer id="#item-container" style={style} catalogView={catalogView} bgColor={bgColor}>
+      <ItemContainer id="#item-container" style={style} collectionView={collectionView} bgColor={bgColor}>
         <ItemAsidePanel id="#item-aside-panel">
           <DynamicInnerContainer ref={setRef}>
             {/* Breadcrumbs */}
@@ -209,22 +211,22 @@ export default function ItemPage({
             )}
             {/* Item carousel */}
             <Carousel
-              showCarouselContentIndicators={!catalogView}
+              showCarouselContentIndicators={!collectionView}
               buttonColor={color}
               imageList={imageUrls}
               mediaStartIndex={currentCarouselIndex}
               onCarouselChange={onCarouselChange}
               onImageClick={toggleModal}
               loadInViewOptions={loadInView}
-              catalogView={catalogView}
-              fixedHeight={catalogView ? '100%' : undefined}
+              collectionView={collectionView}
+              fixedHeight={collectionView ? '100%' : undefined}
             />
 
             {/* Wrap everything else in a fragment */}
-            {noDescription ? null : catalogView ? (
+            {noDescription ? null : collectionView ? (
               <>
-                {catalogLogo ? (
-                  <ItemLogoCatalogView logoUri={catalogLogo} $bgColor="ghostwhite" />
+                {collectionLogo ? (
+                  <ItemLogoCollectionView logoUri={collectionLogo} $bgColor="ghostwhite" />
                 ) : (
                   <ItemLogo
                     $marginTop={
@@ -342,7 +344,7 @@ export default function ItemPage({
             )}
           </DynamicInnerContainer>
         </ItemAsidePanel>
-        {isMobileShowcase || noVideo || catalogView ? null : (
+        {isMobileShowcase || noVideo || collectionView ? null : (
           <ItemVideoContent
             firstPaintOver={firstPaintOver}
             videos={videos}

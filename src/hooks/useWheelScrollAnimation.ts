@@ -8,7 +8,7 @@ const lethargy = new Lethargy()
 export function useWheelScrollAnimation(data: any[]) {
   const [index, setIndex] = useState(0)
 
-  // ref to entire Catalog container
+  // ref to entire Collection container
   const componentRef = useRef<HTMLDivElement | null>(null)
   const [ref, setRef] = useState<HTMLDivElement | undefined>()
   // set container ref to state

@@ -7,7 +7,7 @@ import { modalsAndPopups } from 'state/modalsAndPopups/reducer'
 import { window } from 'state/window/reducer'
 // APPAREL
 import { cart } from 'state/cart/reducer'
-import { catalog } from 'state/collection/reducer'
+import { collection } from 'state/collection/reducer'
 // BLOCKCHAIN
 import { blockchain } from 'state/blockchain/reducer'
 import { blockchainMulticall } from 'state/blockchainMulticall/reducer'
@@ -17,13 +17,13 @@ import { updateVersion } from 'state/global/actions'
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
 
-const PERSISTED_KEYS: string[] = ['user', 'blockchainTransactions', 'cart', 'catalog']
+const PERSISTED_KEYS: string[] = ['user', 'blockchainTransactions', 'cart', 'collection']
 
 const store = configureStore({
   reducer: {
     // APPAREL
     cart,
-    catalog,
+    collection,
     // MISC
     modalsAndPopups,
     user,

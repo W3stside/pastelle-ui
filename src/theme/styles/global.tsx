@@ -6,7 +6,7 @@ import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
 import { useAppColourTheme } from 'state/user/hooks'
 import { useMemo } from 'react'
-import { useGetCurrentOnScreenCatalogProduct } from 'state/collection/hooks'
+import { useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
 import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
 import { setFlickerAnimation } from 'theme/styles/animations'
 
@@ -211,7 +211,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
 export const ThemedGlobalComponent = () => {
   const theme = useAppColourTheme()
 
-  const currentItem = useGetCurrentOnScreenCatalogProduct()
+  const currentItem = useGetCurrentOnScreenCollectionProduct()
 
   const { itemColor, navLogo, headerLogo, showAnimation } = useMemo(
     () => ({

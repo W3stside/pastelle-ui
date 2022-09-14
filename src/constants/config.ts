@@ -1,14 +1,14 @@
 import { ProductSizes } from 'shopify/graphql/types'
 
 export const CURRENT_DROP = 1
-export const DEFAULT_CATALOG_URL = `/drop-${CURRENT_DROP}/catalog`
+export const DEFAULT_COLLECTION_URL = `/drop-${CURRENT_DROP}/collection`
 
 export const STORE_IMAGE_SIZES = {
   LARGE: 2000,
   SMALL: 600
 }
 
-export const CATALOG_MAX_WIDTH = 1950
+export const COLLECTION_MAX_WIDTH = 1950
 export const FIXED_IMAGE_SIZE_CONSTRAINTS = {
   fromLarge: '38vw',
   fromExtraLarge: '38vw'

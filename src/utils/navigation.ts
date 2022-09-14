@@ -6,6 +6,6 @@ export function buildItemUrl(handle: string) {
   return `/${COLLECTION_PARAM_NAME}/${handle}`
 }
 
-export function checkIsCatalogPage(location: Location) {
+export function checkIsCollectionPage(location: Location) {
   return location.pathname === COLLECTION_PATHNAME
 }

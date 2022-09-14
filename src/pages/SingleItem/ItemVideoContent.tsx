@@ -69,7 +69,7 @@ export const ItemVideoContent = ({
             <LazyVideo
               key={id}
               ref={setVideoElement}
-              container={document.querySelector('#CATALOG-ARTICLE') as HTMLElement}
+              container={document.querySelector('#COLLECTION-ARTICLE') as HTMLElement}
               loadInView={firstPaintOver}
               forceLoad={forceLoad}
               videoProps={{
