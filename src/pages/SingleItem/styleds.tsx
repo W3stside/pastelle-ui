@@ -105,7 +105,7 @@ export const ItemLogoCssImport = styled(ItemLogo)<{ position?: string; height?: 
     setCssBackground(theme, {
       isLogo: true,
       imageUrls: [logoUri, logoUri],
-      backgroundAttributes: ['center/cover no-repeat', 'center/cover no-repeat']
+      backgroundAttributes: ['center/cover', 'center/cover no-repeat']
     })}
     
   height: ${({ height = 160 }) => height}px;
