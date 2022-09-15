@@ -99,16 +99,16 @@ export const ItemLogo = styled.div<{
 background: ${({ logoUri }) =>
     `url(${logoUri}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) center, url(${logoUri}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) center no-repeat`};
 */
-export const ItemLogoCssImport = styled(ItemLogo)<{ position?: string; logoUri: string }>`
+export const ItemLogoCssImport = styled(ItemLogo)<{ position?: string; height?: number; logoUri: string }>`
   position: ${({ position = 'fixed' }) => position};
   ${({ theme, logoUri }) =>
     setCssBackground(theme, {
       isLogo: true,
       imageUrls: [logoUri, logoUri],
-      backgroundAttributes: ['center/contain', 'center/contain']
+      backgroundAttributes: ['center/cover no-repeat', 'center/cover no-repeat']
     })}
-  background-size: cover;
-  height: 16rem;
+    
+  height: ${({ height = 160 }) => height}px;
 `
 
 export const ItemLogoCollectionView = styled(ItemLogoCssImport)<{ $bgColor: string }>`

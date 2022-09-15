@@ -260,7 +260,13 @@ export default function ItemPage({
                     />
                   </ItemLogo>
                 ) : (
-                  <ItemLogoCssImport logoUri={logo} position="relative" />
+                  innerContainerRef?.clientWidth && (
+                    <ItemLogoCssImport
+                      logoUri={logo}
+                      height={innerContainerRef.clientWidth / 3.64}
+                      position="relative"
+                    />
+                  )
                 )}
 
                 {/* ITEM CONTENT: description, credits, etc */}
