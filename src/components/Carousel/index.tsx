@@ -197,7 +197,7 @@ export default function Carousel({
             onImageClick={onImageClick}
             // image props
             imageProps={{
-              defaultPath: defaultUrl,
+              path: { defaultPath: defaultUrl },
               pathSrcSet: fullSizeContent ? undefined : urlRest,
               transformation: transformation || smartImageTransformation,
               loadInView: loadInViewOptions

@@ -16,10 +16,10 @@ export const FIXED_IMAGE_SIZE_CONSTRAINTS = {
 export const DEFAULT_SIZE_SELECTED: ProductSizes = ProductSizes.L
 
 export const DEFAULT_IK_TRANSFORMS = {
-  LQ: 'pr-true,q-10',
-  HQ: 'pr-true',
-  LQ_LOGO: 'pr-true,q-10',
-  HQ_LOGO: 'pr-true,q-90'
+  LQ_IMAGE: 'q-10,w-1,h-1:',
+  HQ_IMAGE: '',
+  LQ_LOGO: 'q-40,',
+  HQ_LOGO: 'q-90,'
 }
 
 export const enum Z_INDEXES {

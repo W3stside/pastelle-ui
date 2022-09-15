@@ -16,16 +16,14 @@ interface BaseImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 }
 
 type ImagePropsWithDefaultImage = BaseImageProps & {
-  ikPath?: undefined
-  defaultPath: string
+  path: { defaultPath: string }
 }
 
 type ImagePropsWithIkImage = BaseImageProps & {
-  ikPath: string
-  defaultPath?: undefined
+  path: { ikPath: string }
 }
 
-export type SmartImageProps = ImagePropsWithDefaultImage | ImagePropsWithIkImage
+export type SmartImageProps = (ImagePropsWithDefaultImage | ImagePropsWithIkImage) & { path: any }
 
 const StyledPicture = styled.picture`
   height: 100%;
@@ -35,8 +33,8 @@ const StyledPicture = styled.picture`
 `
 
 const DEFAULT_LQ_IP = {
-  quality: 20,
-  blur: 6
+  quality: 10,
+  blur: 2
 }
 const DEFAULT_TRANSFORMATIONS = [{ pr: true }]
 const BASE_INTERSECTION_OPTIONS = {
@@ -45,7 +43,7 @@ const BASE_INTERSECTION_OPTIONS = {
 }
 
 export function ApiImage({
-  defaultPath,
+  path,
   pathSrcSet,
   transformation,
   loadInView,
@@ -54,7 +52,7 @@ export function ApiImage({
   forwardedRef
 }: ImagePropsWithDefaultImage): JSX.Element | null
 export function ApiImage({
-  ikPath,
+  path,
   pathSrcSet,
   transformation,
   loadInView,
@@ -63,8 +61,7 @@ export function ApiImage({
   forwardedRef
 }: ImagePropsWithIkImage): JSX.Element | null
 export function ApiImage({
-  ikPath,
-  defaultPath,
+  path,
   pathSrcSet,
   transformation = DEFAULT_TRANSFORMATIONS,
   loadInView,
@@ -72,7 +69,7 @@ export function ApiImage({
   lq = true,
   forwardedRef,
   ...rest
-}: SmartImageProps): JSX.Element | null {
+}: SmartImageProps & { path: any }): JSX.Element | null {
   // load if in view only!
   const [refToSet, ref] = useEffectRef<HTMLSpanElement>(null)
   const isInView = useDetectScrollIntoView(
@@ -90,25 +87,26 @@ export function ApiImage({
     transformation
   ])
 
-  return ikPath ? (
+  return path?.ikPath ? (
     <IKContext
       publicKey={process.env.REACT_APP_IMAGEKIT_PUBLIC_KEY}
       urlEndpoint={process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}
       transformationPosition="path"
-      // authenticationEndpoint="http://www.yourserver.com/auth"
     >
       {/* Observable span to detect if in view */}
       <span ref={refToSet} />
       <IKImage
-        // path={new URL(ikPath).pathname}
-        src={!isInView ? undefined : ikPath}
-        loading={lazy ? 'lazy' : 'eager'}
+        // path={path?.ikPath.replace(process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT as string, '')}
+        src={!isInView ? undefined : path?.ikPath}
         lqip={LQIP}
         transformation={derivedTransformations}
         ref={forwardedRef}
+        // lazy breaks for itemLogo in AsideWithVideo - never sets intersecting to true
+        // thus never loads fullSrcUrl (stuck to lq)
+        loading={lazy ? 'lazy' : 'eager'}
       />
     </IKContext>
-  ) : defaultPath ? (
+  ) : path?.defaultPath ? (
     <>
       {/* Observable span to detect if in view */}
       <span ref={refToSet} />
@@ -119,14 +117,14 @@ export function ApiImage({
             Object.entries(pathSrcSet).map(([size, url]) => (
               <source key={url} media={`(max-width: ${size}px)`} srcSet={url} />
             ))}
-          <img src={!isInView ? undefined : defaultPath} loading="lazy" ref={forwardedRef} {...rest} />
+          <img src={!isInView ? undefined : path?.defaultPath} loading="lazy" ref={forwardedRef} {...rest} />
         </StyledPicture>
       }
     </>
   ) : null
 }
 
-const SmartImg = forwardRef((props: SmartImageProps, ref) => <ApiImage {...(props as any)} forwardedRef={ref} />)
+const SmartImg = forwardRef((props: SmartImageProps, ref) => <ApiImage {...props} forwardedRef={ref} />)
 SmartImg.displayName = 'SmartImg'
 
 export default SmartImg

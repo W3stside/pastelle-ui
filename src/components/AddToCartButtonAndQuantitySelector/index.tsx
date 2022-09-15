@@ -5,7 +5,7 @@ import AddToCartButton, { AddToCartButtonParams } from 'components/AddToCartButt
 
 const Wrapper = styled(Row)`
   width: 100%;
-  gap: 10px;
+  gap: 1rem;
   flex-flow: row wrap;
 
   > button {

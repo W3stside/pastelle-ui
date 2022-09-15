@@ -9,6 +9,7 @@ export const QUERY_GET_COLLECTION = gql`
     collections(first: $collectionAmount) {
       nodes {
         id
+        title
         handle
         image {
           url

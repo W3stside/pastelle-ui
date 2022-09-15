@@ -53,7 +53,7 @@ export default function NotFound() {
         <ItemHeader itemColor="#000" animation={false} letterSpacing={-5}>
           PAGE NOT FOUND!
         </ItemHeader>
-        <SmartImg ikPath={pastelle404IMG} transformation={[{ pr: true, q: 80 }]} />
+        <SmartImg path={{ ikPath: pastelle404IMG }} transformation={[{ pr: true }]} />
         <ItemHeader itemColor="#000" animation={false} letterSpacing={0} fontSize={'2.2rem'}>
           The page you are looking for does not exist{' '}
           <span style={{ fontSize: '3rem', fontStyle: 'normal' }}>ʕ ͡° ʖ̯ ͡°ʔ</span>

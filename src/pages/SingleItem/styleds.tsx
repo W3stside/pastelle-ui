@@ -8,9 +8,18 @@ import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
-import { DEFAULT_IK_TRANSFORMS, FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
+import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
-import { fromExtraLarge, fromLarge, fromMedium, fromSmall, OFF_WHITE, upToLarge, upToSmall } from 'theme/utils'
+import {
+  fromExtraLarge,
+  fromLarge,
+  fromMedium,
+  fromSmall,
+  OFF_WHITE,
+  setCssBackground,
+  upToLarge,
+  upToSmall
+} from 'theme/utils'
 import { saturateAnimation, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
@@ -62,7 +71,7 @@ export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
         duration: 10
       },
       css`
-        text-shadow: 10px 2px 2px ${itemColor};
+        text-shadow: 1rem 0.2rem 0.2rem ${itemColor};
       `
     )}
 `
@@ -86,13 +95,20 @@ export const ItemLogo = styled.div<{
     margin-top: ${$marginTop};  
   `}
 `
-
-export const ItemLogoCssImport = styled(ItemLogo)<{ logoUri: string }>`
-  position: fixed;
-  background: ${({ logoUri }) =>
+/* 
+background: ${({ logoUri }) =>
     `url(${logoUri}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) center, url(${logoUri}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) center no-repeat`};
+*/
+export const ItemLogoCssImport = styled(ItemLogo)<{ position?: string; logoUri: string }>`
+  position: ${({ position = 'fixed' }) => position};
+  ${({ theme, logoUri }) =>
+    setCssBackground(theme, {
+      isLogo: true,
+      imageUrls: [logoUri, logoUri],
+      backgroundAttributes: ['center/contain', 'center/contain']
+    })}
   background-size: cover;
-  height: 300px;
+  height: 16rem;
 `
 
 export const ItemLogoCollectionView = styled(ItemLogoCssImport)<{ $bgColor: string }>`
@@ -186,14 +202,14 @@ export const ItemDescription = styled(TYPE.black).attrs(props => ({
 export const SubItemDescription = styled(ItemDescription).attrs(props => ({
   ...props,
   padding: props.padding || '1.8rem',
-  margin: props.margin || '20px 0',
+  margin: props.margin || '2rem 0',
   backgroundColor: props.backgroundColor || OFF_WHITE,
   fontWeight: props.fontWeight || 400
 }))`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
 `
 
 export const ItemContentContainer = styled(Column)``
@@ -244,7 +260,7 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
     //  *
     > ${InnerCollectionContainer}, > ${InnerContainer} {
       position: relative;
-      box-shadow: 10px 0px 50px 5px black;
+      box-shadow: 1rem 0px 50px 5px black;
       
       width: 100%;
     }
@@ -533,7 +549,7 @@ export const VideoControlButton = styled(Button)`
   right: 0;
   top: 0;
   padding: 10;
-  border-radius: 0 0 0 10px;
+  border-radius: 0 0 0 1rem;
   z-index: ${Z_INDEXES.SCROLLER_DIV + 50};
 
   > ${ItemSubHeader} {

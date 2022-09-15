@@ -7,7 +7,6 @@ import FontStyles from './fonts'
 import { useAppColourTheme } from 'state/user/hooks'
 import { useMemo } from 'react'
 import { useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
-import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
 import { setFlickerAnimation } from 'theme/styles/animations'
 
 export { FontStyles }
@@ -182,10 +181,11 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   header, footer {
     ${({ theme, headerLogo, frameBgColor = transparentize(0.3, theme.bg1) }) =>
       setCssBackground(theme, {
-        imageUrl: headerLogo,
+        isLogo: true,
+        imageUrls: [headerLogo, headerLogo],
         backgroundColor: frameBgColor,
-        hqImagePlacement: 'center no-repeat',
-        lqImagePlacement: '0px 0px no-repeat'
+        backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
+        backgroundBlendMode: 'difference'
       })}
 
     #header-links-container {
@@ -195,13 +195,15 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   }
 
   nav {
-    background: ${({ navLogo, theme, frameBgColor = transparentize(0.3, theme.bg1) }) =>
-      navLogo
-        ? `url(${navLogo}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) center no-repeat, url(${navLogo}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) 5px repeat`
-        : frameBgColor};
-    background-size: cover;
-    background-blend-mode: difference;
-    background-color: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
+    ${({ theme, navLogo, frameBgColor = transparentize(0.3, theme.bg1) }) =>
+      setCssBackground(theme, {
+        isLogo: true,
+        imageUrls: [navLogo, navLogo],
+        backgroundColor: frameBgColor,
+        backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
+        backgroundBlendMode: 'difference'
+      })}
+    }
 
     ${({ animation, animationDelay }) =>
       setFlickerAnimation({ state: !!animation, delay: animationDelay, duration: 4, count: 2 })}

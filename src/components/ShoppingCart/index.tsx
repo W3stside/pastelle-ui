@@ -215,7 +215,7 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
         {/* 1 */}
         {/* <SMART IMG SPAN />*/}
         {/* 2 */}
-        <SmartImg defaultPath={images.nodes[0].url500} onClick={handleClick} />
+        <SmartImg path={{ defaultPath: images.nodes[0].url500 }} onClick={handleClick} />
         {/* 3 */}
         <CartLineContent onClick={handleClick}>
           <Row>

@@ -25,7 +25,8 @@ import {
   ItemLogoCollectionView,
   InnerCollectionContainer,
   ItemContentContainer,
-  SubItemDescription
+  SubItemDescription,
+  ItemLogoCssImport
 } from './styleds'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
@@ -52,6 +53,7 @@ import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 import { STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 
 import ShippingSvg from 'assets/svg/shipping.svg'
+import { isMobile } from 'utils'
 
 export interface ProductPageProps {
   bgColor: string
@@ -246,18 +248,20 @@ export default function ItemPage({
               </>
             ) : (
               <>
-                <ItemLogo>
-                  {logo ? (
+                {!logo ? (
+                  title
+                ) : !isMobile ? (
+                  <ItemLogo>
                     <SmartImg
-                      ikPath={logo}
-                      transformation={[{ width: innerContainerRef?.clientWidth, quality: 100, pr: true }]}
-                      loading="lazy"
+                      path={{ ikPath: logo }}
+                      transformation={[{ width: innerContainerRef?.clientWidth, quality: 90, pr: true }]}
+                      lazy={false}
                       lq
                     />
-                  ) : (
-                    title
-                  )}
-                </ItemLogo>
+                  </ItemLogo>
+                ) : (
+                  <ItemLogoCssImport logoUri={logo} position="relative" />
+                )}
 
                 {/* ITEM CONTENT: description, credits, etc */}
                 <ItemContentContainer padding="0 0 3rem">

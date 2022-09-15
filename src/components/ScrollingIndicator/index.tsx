@@ -28,9 +28,9 @@ const Wrapper = styled.div<ScrollingIndicatorStyleProps>`
     ${({ left }) => left && `left: ${left};`}
     ${({ top }) => top && `top: ${top};`}
     ${({ bottom }) => bottom && `bottom: ${bottom};`}
-    height: ${({ height = '50px' }) => height};
+    height: ${({ height = '5rem' }) => height};
     width: ${({ width = '100%' }) => width};
-    padding: ${({ padding = '0 10px' }) => padding};
+    padding: ${({ padding = '0 1rem' }) => padding};
     z-index: ${({ zIndex = 1 }) => zIndex};
   `
 

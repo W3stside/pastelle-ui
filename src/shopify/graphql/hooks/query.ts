@@ -47,8 +47,9 @@ export function useQueryCurrentCollection(
 
     return acc
   }, {} as CollectionMap)
+  const title = collection?.title || 'current'
 
-  return { collectionProductMap, collectionProductList }
+  return { title, collectionProductMap, collectionProductList }
 }
 
 export function useQueryCurrentCollectionProductsFromUrl(

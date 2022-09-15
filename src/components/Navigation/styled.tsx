@@ -2,6 +2,7 @@ import styled from 'styled-components/macro'
 import Button from 'components/Button'
 import { MobileNavProps } from '.'
 import { Z_INDEXES } from 'constants/config'
+import { transparentize } from 'polished'
 
 export const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; minWidth?: string }>`
   width: ${({ width = 'auto' }) => width};
@@ -13,7 +14,7 @@ export const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: str
 
   text-align: left;
 
-  padding: 10px;
+  padding: 1rem;
   gap: 0px;
 
   // all links in nav
@@ -45,10 +46,10 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
 
   > div {
     display: flex;
-    padding: 10px;
+    padding: 1rem;
     background: #000;
 
-    border-radius: 10px;
+    border-radius: 1rem;
 
     > svg {
       &:hover {
@@ -61,7 +62,7 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   ${({ theme, mobileHide }) => theme.mediaWidth.upToMedium`
     display: ${mobileHide ? 'none' : 'flex'};
     position: relative;
-    bottom: 0; right: 0; margin: 10px;  
+    bottom: 0; right: 0; margin: 1rem;  
     justify-content: center;
     align-items: center;
 
@@ -85,8 +86,10 @@ export const SideEffectNavLink = styled.span`
   cursor: pointer;
 `
 
+// #1d1d1d
 export const NavLinkWrapper = styled.div`
   width: 100%;
-  background: #1d1d1d;
-  padding: 10px;
+  background: ${({ theme }) => transparentize(0.23, theme.black)};
+  padding: 1rem;
+  border-radius: 0.5rem;
 `

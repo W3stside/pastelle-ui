@@ -8,7 +8,7 @@ export const MEDIA_WIDTHS = {
   upToExtraLarge: 1440
 }
 
-const FROM_MEDIA_WIDTHS = {
+export const FROM_MEDIA_WIDTHS = {
   fromExtraSmall: MEDIA_WIDTHS.upToExtraSmall,
   fromSmall: MEDIA_WIDTHS.upToSmall,
   fromMedium: MEDIA_WIDTHS.upToMedium,

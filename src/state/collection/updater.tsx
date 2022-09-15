@@ -4,7 +4,7 @@ import { useUpdateCollection } from './hooks'
 
 export default function Updater() {
   const updateCollection = useUpdateCollection()
-  const { collectionProductMap } = useQueryCurrentCollection({
+  const { title, collectionProductMap } = useQueryCurrentCollection({
     collectionAmount: 1,
     productAmt: 10,
     imageAmt: 10
@@ -12,9 +12,9 @@ export default function Updater() {
 
   useEffect(() => {
     if (collectionProductMap) {
-      updateCollection(collectionProductMap)
+      updateCollection(title, collectionProductMap)
     }
-  }, [collectionProductMap, updateCollection])
+  }, [title, collectionProductMap, updateCollection])
 
   return null
 }

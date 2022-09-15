@@ -6675,6 +6675,7 @@ export type GetCollectionQuery = {
     nodes: Array<{
       __typename?: 'Collection'
       id: string
+      title: string
       handle: string
       image?: { __typename?: 'Image'; url: any } | null
       products: {

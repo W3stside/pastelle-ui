@@ -12,7 +12,7 @@ export const AnimatedDivContainer = styled(a.div)<{ $maxWidth?: string }>`
   cursor: pointer;
 
   &:hover {
-    box-shadow: 0px 0px 50px 10px lightsalmon;
+    box-shadow: 0px 0px 5rem 1rem lightsalmon;
   }
 
   transition: box-shadow 0.2s ease-in-out;

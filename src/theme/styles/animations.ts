@@ -21,7 +21,7 @@ export const loadingAnimation = keyframes`
 `
 export const saturateAnimation = keyframes`
   0% {
-    filter: contrast(1.8) saturate(20) blur(5px);
+    filter: contrast(1.8) saturate(20) blur(0.5rem);
   }
   10% {
     filter: contrast(1.8) saturate(1) blur(0.8px);
@@ -126,48 +126,48 @@ const flickerAnimation = css<{ frameBgColor?: string }>`
 export const textShadowAnimation = css<{ itemColor: string }>`
   @keyframes textShadowAnimation {
     0% {
-      text-shadow: 20px 2px 2px ${({ itemColor }) => itemColor};
-      letter-spacing: 20px;
+      text-shadow: 2rem 0.2rem 0.2rem ${({ itemColor }) => itemColor};
+      letter-spacing: 2rem;
     }
     3% {
-      text-shadow: 55px 2px 8px ${({ itemColor }) => itemColor};
+      text-shadow: 5.5rem 0.2rem 0.8rem ${({ itemColor }) => itemColor};
     }
     5% {
-      text-shadow: -22px 2px 2px pink;
+      text-shadow: -22px 0.2rem 0.2rem pink;
     }
     7% {
-      text-shadow: 47px 2px 8px ${({ itemColor }) => itemColor};
+      text-shadow: 4.7rem 0.2rem 0.8rem ${({ itemColor }) => itemColor};
     }
     10% {
-      text-shadow: 17px 2px 8px ${({ itemColor }) => itemColor};
+      text-shadow: 1.7rem 0.2rem 0.8rem ${({ itemColor }) => itemColor};
     }
     47% {
-      text-shadow: 10px 2px 2px ${({ itemColor }) => itemColor};
-      letter-spacing: 7px;
+      text-shadow: 1rem 0.2rem 0.2rem ${({ itemColor }) => itemColor};
+      letter-spacing: 0.7rem;
     }
     48% {
-      text-shadow: -20px 2px 1px pink;
+      text-shadow: -2rem 0.2rem 0.1rem pink;
     }
     49% {
-      text-shadow: 20px 2px 2px ${({ itemColor }) => itemColor};
+      text-shadow: 2rem 0.2rem 0.2rem ${({ itemColor }) => itemColor};
     }
     53% {
-      text-shadow: 55px 2px 8px ${({ itemColor }) => itemColor};
+      text-shadow: 5.5rem 0.2rem 0.8rem ${({ itemColor }) => itemColor};
     }
     55% {
-      text-shadow: -32px 2px 2px purple;
+      text-shadow: -3.2rem 0.2rem 0.2rem purple;
     }
     57% {
-      text-shadow: 47px 2px 7px lightgreen;
+      text-shadow: 4.7rem 0.2rem 0.7rem lightgreen;
     }
     58% {
-      text-shadow: -47px 2px 1px ${({ itemColor }) => itemColor};
+      text-shadow: -4.7rem 0.2rem 0.1rem ${({ itemColor }) => itemColor};
     }
     60% {
-      text-shadow: 20px 2px 2px ${({ itemColor }) => itemColor};
+      text-shadow: 2rem 0.2rem 0.2rem ${({ itemColor }) => itemColor};
     }
     65% {
-      text-shadow: 20px 2px 5px purple;
+      text-shadow: 2rem 0.2rem 0.5rem purple;
     }
   }
 `

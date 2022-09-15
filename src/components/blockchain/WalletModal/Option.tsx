@@ -8,7 +8,7 @@ const InfoCard = styled.button<{ isActive?: boolean }>`
   padding: 1rem;
   outline: none;
   border: 1px solid;
-  border-radius: 12px;
+  border-radius: 1.2rem;
   width: 100% !important;
   &:focus {
     box-shadow: 0 0 0 1px ${({ theme }) => theme.primary1};
@@ -70,8 +70,8 @@ export const HeaderText = styled.div`
 
 const SubHeader = styled.div`
   color: ${({ theme }) => theme.text1};
-  margin-top: 10px;
-  font-size: 12px;
+  margin-top: 1rem;
+  font-size: 1.2rem;
 `
 
 const IconWrapper = styled.div<{ size?: number | null }>`
@@ -80,8 +80,8 @@ const IconWrapper = styled.div<{ size?: number | null }>`
   justify-content: center;
   & > img,
   span {
-    height: ${({ size }) => (size ? size + 'px' : '24px')};
-    width: ${({ size }) => (size ? size + 'px' : '24px')};
+    height: ${({ size }) => (size ? size + 'px' : '2.4rem')};
+    width: ${({ size }) => (size ? size + 'px' : '2.4rem')};
   }
   ${({ theme }) => theme.mediaWidth.upToMedium`
     align-items: flex-end;

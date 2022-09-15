@@ -9,6 +9,8 @@ import { buildItemUrl } from 'utils/navigation'
 import useOnResize from 'hooks/useOnResize'
 import { MobileNavOrb, NavigationStepsWrapper, NavLinkWrapper, SideEffectNavLink, CollectionLabel } from './styled'
 import { WHITE } from 'theme/utils'
+import { COLLECTION_PARAM_NAME } from 'constants/navigation'
+import { Row } from 'components/Layout'
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string }
 
@@ -21,7 +23,7 @@ export default function Navigation({
 }) {
   const navigate = useNavigate()
   // state collection data
-  const collectionProductList = useCurrentCollection()
+  const { collection, title } = useCurrentCollection()
   const currentProduct = useGetCurrentOnScreenCollectionProduct()
 
   const [isNavOpen, setIsNavOpen] = useState(false)
@@ -56,14 +58,16 @@ export default function Navigation({
       <MobileNavOrb onClick={toggleNav} mobileHide={mobileHide} {...navOrbProps}>
         {NavToggleButton}
       </MobileNavOrb>
-      <NavigationStepsWrapper isOpen={isNavOpen} width="9vw" minWidth="170px">
-        <ItemSubHeader color={WHITE} margin="0">
-          <strong>MERCH DROP #1</strong>
-        </ItemSubHeader>
-
+      <NavigationStepsWrapper isOpen={isNavOpen} minWidth="9vw">
         <NavLinkWrapper>
-          {collectionProductList ? (
-            Object.values(collectionProductList).map(product => (
+          <ItemSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
+            <Row flexDirection={'row-reverse'} flexWrap={'wrap'} style={{ gap: '0.5rem' }}>
+              <div style={{ fontWeight: 300, fontSize: '1.2rem' }}>{COLLECTION_PARAM_NAME}</div>
+              <div>{title}</div>
+            </Row>
+          </ItemSubHeader>
+          {collection ? (
+            Object.values(collection).map(product => (
               <SideEffectNavLink key={product.id} onClick={e => handleNavMove(e, product)}>
                 <ItemSubHeader padding="2px" margin="0" fontSize={isNavOpen ? '3.5rem' : '1.6rem'} color={WHITE}>
                   {<CollectionLabel active={product.id === currentProduct?.id}>{product.title}</CollectionLabel>}

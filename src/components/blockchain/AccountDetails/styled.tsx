@@ -23,8 +23,8 @@ const StyledLogo = styled(Logo)<{ size: string }>`
 
 export const TransactionWrapper = styled.div`
   width: 100%;
-  margin: 0 auto 12px;
-  border-radius: 12px;
+  margin: 0 auto 1.2rem;
+  border-radius: 1.2rem;
   font-size: initial;
   display: flex;
   padding: 22px;
@@ -33,7 +33,7 @@ export const TransactionWrapper = styled.div`
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     flex-flow: column wrap;
-    padding: 20px;
+    padding: 2rem;
   `};
 
   ${RowFixed} {
@@ -116,7 +116,7 @@ export const Summary = styled.div`
   }
 
   > span > a {
-    font-size: 13px;
+    font-size: 1.3rem;
     margin: 0;
 
     ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -134,11 +134,11 @@ export const SummaryInner = styled.div`
   width: auto;
   margin: 0;
   opacity: 1;
-  font-size: 13px;
+  font-size: 1.3rem;
   word-break: break-word;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    margin: 16px 0 0;
+    margin: 1.6rem 0 0;
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
@@ -150,10 +150,10 @@ export const SummaryInner = styled.div`
   > b {
     font-weight: bold;
     line-height: 1;
-    font-size: 16px;
+    font-size: 1.6rem;
     color: inherit;
     text-transform: capitalize;
-    margin: 0 0 16px;
+    margin: 0 0 1.6rem;
     flex: 0 0 auto;
 
     ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -169,12 +169,12 @@ export const SummaryInnerRow = styled.div<{ isExpired?: boolean; isCancelled?: b
   grid-template-rows: 1fr;
   grid-template-columns: 100px 1fr;
   width: 100%;
-  margin: 0 0 4px;
+  margin: 0 0 0.4rem;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     grid-template-columns: 1fr; 
     grid-template-rows: max-content max-content; 
-    margin: 0 0 16px 0;
+    margin: 0 0 1.6rem 0;
   `};
 
   > b,
@@ -201,7 +201,7 @@ export const SummaryInnerRow = styled.div<{ isExpired?: boolean; isCancelled?: b
 
     ${({ theme }) => theme.mediaWidth.upToSmall`
       font-weight: 600;
-      margin: 6px 0 0;
+      margin: 0.6rem 0 0;
     `};
 
     &.cancelled {
@@ -255,19 +255,19 @@ export const StatusLabel = styled.div<{
   color: ${({ isPending, isPresignaturePending, theme, color }) =>
     isPending || isPresignaturePending ? theme.text1 : color === 'success' ? theme.green1 : theme.warningLight};
   position: relative;
-  border-radius: 4px;
+  border-radius: 0.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 1.2rem;
   font-weight: 600;
   overflow: hidden;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 100%;
-    font-size: 13px;
-    height: 32px;
-    padding: 0 12px;
+    font-size: 1.3rem;
+    height: 3.2rem;
+    padding: 0 1.2rem;
   `};
 
   &::before {
@@ -285,7 +285,7 @@ export const StatusLabel = styled.div<{
     top: 0;
     height: 100%;
     width: 100%;
-    border-radius: 4px;
+    border-radius: 0.4rem;
     opacity: 0.15;
   }
 
@@ -319,7 +319,7 @@ export const StatusLabel = styled.div<{
 
   > svg {
     margin: 0 5px 0 0;
-    max-height: 13px;
+    max-height: 1.3rem;
     max-width: 18px;
     object-fit: contain;
   }
@@ -335,7 +335,7 @@ export const StatusLabelBelow = styled.div<{ isCancelling?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: 1.2rem;
   line-height: 1.1;
   margin: 7px auto 0;
   color: ${({ isCancelling, theme }) => (isCancelling ? theme.primary1 : 'inherit')};
@@ -363,8 +363,8 @@ export const TransactionState = styled(ExternalLink).attrs(
   border-radius: 0;
   display: flex;
   padding: 0;
-  font-size: 14px;
-  margin: 6px 0 0;
+  font-size: 1.4rem;
+  margin: 0.6rem 0 0;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 18px auto 0;
@@ -380,9 +380,9 @@ export const TransactionState = styled(ExternalLink).attrs(
 `
 
 export const CancellationSummary = styled.span`
-  padding: 12px;
+  padding: 1.2rem;
   margin: 0;
-  border-radius: 6px;
+  border-radius: 0.6rem;
   background: ${({ theme }) => theme.bg4};
 `
 
@@ -390,9 +390,9 @@ export const TransactionAlertMessage = styled.div<{ type?: string }>`
   display: flex;
   justify-content: center;
   color: ${({ theme, type }) => (type === 'attention' ? theme.warningLight : theme.red1)};
-  margin: 24px 0 0;
-  padding: 8px 12px;
-  border-radius: 8px;
+  margin: 2.4rem 0 0;
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.8rem;
   display: flex;
   align-items: center;
   line-height: 1.4;
@@ -407,17 +407,17 @@ export const TransactionAlertMessage = styled.div<{ type?: string }>`
     justify-content: flex-start;
     align-items: center;
     text-align: center;
-    padding: 16px 32px;
-    margin: 12px 0 0;
+    padding: 1.6rem 3.2rem;
+    margin: 1.2rem 0 0;
   `};
 
   > svg,
   > img {
-    margin: 0 6px 0 0;
+    margin: 0 0.6rem 0 0;
     fill: ${({ theme, type }) => (type === 'attention' ? theme.warningLight : theme.red1)};
 
     ${({ theme }) => theme.mediaWidth.upToSmall`
-      margin: 0 0 12px;
+      margin: 0 0 1.2rem;
     `};
   }
 `
@@ -425,14 +425,14 @@ export const TransactionAlertMessage = styled.div<{ type?: string }>`
 export const TransactionInnerDetail = styled.div`
   display: flex;
   flex-flow: column wrap;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 1.2rem;
+  padding: 2rem;
   color: ${({ theme }) => theme.text1};
-  margin: 24px auto 0 0;
+  margin: 2.4rem auto 0 0;
   border: 1px solid ${({ theme }) => theme.black};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    margin: 24px auto 12px;
+    margin: 2.4rem auto 1.2rem;
     width: 100%;
     max-width: 100%;
     grid-column: 1 / -1;
@@ -444,14 +444,14 @@ export const TransactionInnerDetail = styled.div`
   }
 
   > span:last-of-type {
-    margin: 3px 0 12px;
+    margin: 3px 0 1.2rem;
   }
 
   > a {
     text-align: left;
     display: block;
     margin: 0;
-    font-size: 14px;
+    font-size: 1.4rem;
     font-weight: 500;
   }
 
@@ -463,26 +463,26 @@ export const TransactionInnerDetail = styled.div`
 export const TextAlert = styled.div<{ isPending: boolean; isExpired: boolean; isCancelled: boolean }>`
   background: ${({ theme, isPending }) =>
     isPending ? transparentize(0.85, theme.warningLight) : transparentize(0.85, theme.green1)};
-  margin: 6px 0 16px;
-  padding: 8px 12px;
+  margin: 0.6rem 0 1.6rem;
+  padding: 0.8rem 1.2rem;
   color: ${({ theme, isPending }) => (isPending ? theme.warningLight : theme.green1)};
   text-decoration: ${({ isExpired, isCancelled }) => (isExpired || isCancelled) && 'line-through'};
-  border-radius: 8px;
+  border-radius: 0.8rem;
   text-align: center;
   font-weight: 600;
 `
 
 export const CreationDateText = styled.div`
-  padding: 12px 0;
-  font-size: 14px;
+  padding: 1.2rem 0;
+  font-size: 1.4rem;
   font-weight: 500;
 `
 
 export const CreationTimeText = styled.div`
-  font-size: 13px;
+  font-size: 1.3rem;
   font-weight: 400;
   opacity: 0.8;
-  padding: 0 0 12px;
+  padding: 0 0 1.2rem;
 `
 
 const rotate360 = keyframes`
@@ -496,7 +496,7 @@ const rotate360 = keyframes`
 
 export const ActivityVisual = styled.div`
   display: flex;
-  margin: 0 0 6px;
+  margin: 0 0 0.6rem;
 
   ${StyledLogo} {
     padding: 2px;
@@ -616,7 +616,7 @@ export const AddressLink = styled(ExternalLink)<{ hasENS: boolean; isENS: boolea
 export const CloseIcon = styled.div`
   position: absolute;
   right: 1rem;
-  top: 14px;
+  top: 1.4rem;
   &:hover {
     cursor: pointer;
     opacity: 0.6;
@@ -640,11 +640,11 @@ export const IconWrapper = styled.div<{ size?: number }>`
   ${({ theme }) => theme.flexColumnNoWrap};
   align-items: center;
   justify-content: center;
-  margin-right: 8px;
+  margin-right: 0.8rem;
   & > img,
   span {
-    height: ${({ size }) => (size ? size + 'px' : '32px')};
-    width: ${({ size }) => (size ? size + 'px' : '32px')};
+    height: ${({ size }) => (size ? size + 'px' : '3.2rem')};
+    width: ${({ size }) => (size ? size + 'px' : '3.2rem')};
   }
   ${({ theme }) => theme.mediaWidth.upToMedium`
   align-items: flex-end;
@@ -654,7 +654,7 @@ export const IconWrapper = styled.div<{ size?: number }>`
 export const WalletActions = styled.div`
   display: flex;
   flex-flow: row wrap;
-  margin: 10px 0 0;
+  margin: 1rem 0 0;
 `
 
 export const WalletSecondaryActions = styled.div``
@@ -663,7 +663,7 @@ export const WalletNameAddress = styled.div`
   width: 100%;
   font-size: 23px;
   font-weight: 500;
-  margin: 0 0 0 8px;
+  margin: 0 0 0 0.8rem;
 `
 
 export const AccountDetailsWrapper = styled.div`
@@ -675,7 +675,7 @@ export const AccountDetailsWrapper = styled.div`
   height: 100%;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
-    padding: 12px 0 0;
+    padding: 1.2rem 0 0;
   `};
 
   ${WalletName},
@@ -687,7 +687,7 @@ export const AccountDetailsWrapper = styled.div`
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 14px;
+    font-size: 1.4rem;
     font-weight: normal;
 
     &:focus,
@@ -705,7 +705,7 @@ export const AccountDetailsWrapper = styled.div`
 
   ${TransactionStatusText} {
     order: 2;
-    margin: 0 0 0 8px;
+    margin: 0 0 0 0.8rem;
     align-self: center;
     font-size: 21px;
   }
@@ -715,7 +715,7 @@ export const AccountDetailsWrapper = styled.div`
     text-align: center;
     justify-content: center;
     margin: 0;
-    font-size: 12px;
+    font-size: 1.2rem;
   }
 
   
@@ -731,12 +731,12 @@ export const AccountDetailsWrapper = styled.div`
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 8px;
+    gap: 0.8rem;
     justify-items: flex-end;
 
     ${({ theme }) => theme.mediaWidth.upToSmall`
       justify-items: center;
-      margin: 12px auto 0;
+      margin: 1.2rem auto 0;
     `};
 
     > a {
@@ -753,7 +753,7 @@ export const AccountDetailsWrapper = styled.div`
         width: 100%;
         flex-flow: row wrap;
         justify-content: center;
-        margin: 12px auto;
+        margin: 1.2rem auto;
     `};
   }
 `
@@ -767,11 +767,11 @@ export const WalletWrapper = styled.div`
 export const InfoCard = styled.div`
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.bg3};
-  border-radius: 20px;
+  border-radius: 2rem;
   position: relative;
   display: grid;
-  grid-row-gap: 12px;
-  margin-bottom: 20px;
+  grid-row-gap: 1.2rem;
+  margin-bottom: 2rem;
 `
 
 export const LowerSection = styled.div`
@@ -780,20 +780,20 @@ export const LowerSection = styled.div`
   width: 100%;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 0 24px;
+  padding: 0 2.4rem;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    padding: 0 16px;
+    padding: 0 1.6rem;
   `};
 
   > span {
     display: flex;
     color: ${({ theme }) => theme.text1};
     justify-content: space-between;
-    padding: 0 0 12px;
+    padding: 0 0 1.2rem;
 
     ${({ theme }) => theme.mediaWidth.upToMedium`
-      top: 42px;
+      top: 4.2rem;
     `};
   }
 
@@ -802,7 +802,7 @@ export const LowerSection = styled.div`
     flex-flow: column wrap;
     width: 100%;
     background-color: inherit;
-    padding: 0 0 48px;
+    padding: 0 0 4.8rem;
   }
 
   h5 {
@@ -814,7 +814,7 @@ export const LowerSection = styled.div`
     align-items: center;
     > span {
       opacity: 0.6;
-      margin: 0 0 0 4px;
+      margin: 0 0 0 0.4rem;
     }
   }
 
@@ -823,7 +823,7 @@ export const LowerSection = styled.div`
     color: ${({ theme }) => theme.text1};
 
     text-decoration: underline;
-    font-size: 14px;
+    font-size: 1.4rem;
 
     &:hover {
       color: ${({ theme }) => theme.blue1};
@@ -832,12 +832,12 @@ export const LowerSection = styled.div`
 `
 
 export const LowerSectionSimple = styled(LowerSection)`
-  padding: 0 12px;
+  padding: 0 1.2rem;
   > div {
     padding: 0;
 
     ${TransactionWrapper} {
-      padding: 15px;
+      padding: 1.5rem;
 
       // target the activity comp
       > div > ${TransactionStatusText} > ${Summary} {
@@ -852,19 +852,19 @@ export const LowerSectionSimple = styled(LowerSection)`
           > ${TransactionInnerDetail} {
             padding: 0;
             border: none;
-            margin-top: 10px;
+            margin-top: 1rem;
             > a {
               align-self: flex-start;
             }
             > span:last-of-type {
-              margin: 3px 0 0px;
+              margin: 0.3rem 0 0px;
             }
             > ${TextAlert} {
-              margin: 10px 0 6px;
+              margin: 1rem 0 0.6rem;
             }
           }
           ${({ theme }) => theme.mediaWidth.upToSmall`
-            margin: 16px 0;
+            margin: 1.6rem 0;
           `}
 
           > b {
@@ -881,8 +881,8 @@ export const LowerSectionSimple = styled(LowerSection)`
 `
 
 const NetworkCardUni = styled(YellowCard)`
-  border-radius: 12px;
-  padding: 8px 12px;
+  border-radius: 1.2rem;
+  padding: 0.8rem 1.2rem;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;
@@ -897,24 +897,24 @@ const NetworkCardUni = styled(YellowCard)`
 export const NetworkCard = styled(NetworkCardUni)`
   background-color: ${({ theme }) => theme.bg1};
   color: ${({ theme }) => theme.black};
-  padding: 6px 8px;
-  font-size: 13px;
-  margin: 0 8px 0 0;
+  padding: 0.6rem 0.8rem;
+  font-size: 1.3rem;
+  margin: 0 0.8rem 0 0;
   letter-spacing: 0.7px;
   min-width: initial;
   flex: 0 0 fit-content;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    margin: 0 auto 12px;
+    margin: 0 auto 1.2rem;
   `};
 `
 
 export const WalletAction = styled(Button)`
   width: fit-content;
   font-weight: 400;
-  margin-left: 8px;
+  margin-left: 0.8rem;
   font-size: 0.825rem;
-  padding: 4px 6px;
+  padding: 0.4rem 0.6rem;
   :hover {
     cursor: pointer;
     text-decoration: underline;

@@ -1,9 +1,28 @@
 import styled from 'styled-components/macro'
-import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
-import { fromExtraLarge, fromLarge, fromMedium, fromSmall, upToExtraSmall } from 'theme/utils'
-import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
+import { setCssBackground, upToExtraSmall } from 'theme/utils'
 import { setFadeInAnimation } from 'theme/styles/animations'
 
+const portugalBg = `${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}/portugal-bg_Rqj8jTKhFmds.jpg`
+
+export const ArticleFadeInContainer = styled.article`
+  overflow: hidden;
+
+  ${upToExtraSmall`
+    padding-bottom: 4rem;
+  `}
+
+  ${({ theme }) =>
+    setCssBackground(theme, {
+      isLogo: false,
+      imageUrls: [portugalBg, portugalBg],
+      backgroundAttributes: ['center/contain', 'center/contain'],
+      backgroundBlendMode: 'none'
+    })}}
+  
+  filter: contrast(1) blur(0px);
+  ${setFadeInAnimation()}
+`
+/* 
 const BG_RATIO = 2.182
 const BG_HEIGHT_RATIOS = {
   extraSmall: MEDIA_WIDTHS.upToExtraSmall / BG_RATIO,
@@ -12,23 +31,12 @@ const BG_HEIGHT_RATIOS = {
   large: MEDIA_WIDTHS.upToLarge / BG_RATIO,
   extraLarge: MEDIA_WIDTHS.upToExtraLarge / BG_RATIO
 }
-const portugalBg = `${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}/portugal-bg_Rqj8jTKhFmds.jpg?tr=${DEFAULT_IK_TRANSFORMS.HQ}`
-const portugalBgLq = `${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}/portugal-bg_Rqj8jTKhFmds.jpg?tr=${DEFAULT_IK_TRANSFORMS.LQ},w-1,h-1`
-
-export const ArticleFadeInContainer = styled.article`
-  
-  overflow: hidden;
-
-  // to compensate for footer
-  ${upToExtraSmall`
-    padding-bottom: 4rem;
-  `}
-
-  // load extra small size
+// load extra small size
   background-image: url(${portugalBg},w-${MEDIA_WIDTHS.upToExtraSmall},h-${
-  BG_HEIGHT_RATIOS.extraSmall
-}), url(${portugalBgLq}:w-${MEDIA_WIDTHS.upToExtraSmall},h-${BG_HEIGHT_RATIOS.extraSmall});
-  // from small
+    BG_HEIGHT_RATIOS.extraSmall
+  }), url(${portugalBgLq}:w-${MEDIA_WIDTHS.upToExtraSmall},h-${BG_HEIGHT_RATIOS.extraSmall});
+
+// from small
   ${fromSmall`
     background-image: url(${portugalBg},w-${MEDIA_WIDTHS.upToSmall},h-${BG_HEIGHT_RATIOS.small}), url(${portugalBgLq}:w-${MEDIA_WIDTHS.upToSmall},h-${BG_HEIGHT_RATIOS.small});
   `}
@@ -44,10 +52,6 @@ export const ArticleFadeInContainer = styled.article`
   ${fromExtraLarge`
     background-image: url(${portugalBg},w-${MEDIA_WIDTHS.upToExtraLarge},h-${BG_HEIGHT_RATIOS.extraLarge}), url(${portugalBgLq}:w-${MEDIA_WIDTHS.upToExtraLarge},h-${BG_HEIGHT_RATIOS.extraLarge});
   `}
-  
+
   background-size: contain;
-  
-  filter: contrast(1) blur(0px);
-  // animation
-  ${setFadeInAnimation()}
-`
+*/

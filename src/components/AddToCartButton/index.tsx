@@ -26,7 +26,7 @@ export default function AddToCartButton({ label = 'Add to cart', merchandiseId, 
         size={ButtonSizeVariations.SMALL}
       >
         {!error && (
-          <ItemDescription color="inherit" backgroundColor="transparent" padding="10px">
+          <ItemDescription color="inherit" backgroundColor="transparent" padding="1rem">
             {loading ? 'Adding...' : shouldShow ? disappearingMessage : label}
           </ItemDescription>
         )}

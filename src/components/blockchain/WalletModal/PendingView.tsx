@@ -80,7 +80,7 @@ export default function PendingView({
               >
                 <Trans>Try Again</Trans>
               </Button>
-              <Button width="fit-content" padding="0" marginTop={20}>
+              <Button padding="0" marginTop={20}>
                 <ThemedText.link fontSize={12} onClick={openOptions}>
                   <Trans>Back to wallet selection</Trans>
                 </ThemedText.link>

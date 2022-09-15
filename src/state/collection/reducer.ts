@@ -10,30 +10,24 @@ export type ProductPageMap = Record<string, ProductPageProps>
 export type CollectionState = {
   [drop: string]: ProductPageMap | null
 } & {
-  currentDrop: ProductPageMap | null
-  // key string of current on screen item
+  current: { title: string; collection: ProductPageMap } | null
+  // handle name of current on screen product
   currentlyViewing: ProductCurrentlyViewing | null
 }
 
 const initialState: CollectionState = {
-  currentDrop: null,
+  current: null,
   currentlyViewing: null
 }
 
-type UpdateCollectionParams = { drop: 'currentDrop' | number; collection: ProductPageMap }
+type UpdateCollectionParams = { title: string; collection: ProductPageMap }
 
 const collectionSlice = createSlice({
   name: 'collection',
   initialState,
   reducers: {
-    updateCollection(state, { payload: { drop, collection } }: PayloadAction<UpdateCollectionParams>) {
-      state[drop] = collection || {}
-    },
-    batchUpdateCollectionByYear(state, { payload: { drop, collection } }: PayloadAction<UpdateCollectionParams>) {
-      state[drop] = { ...state[drop], ...(collection || {}) }
-    },
-    removeCollectionSeason(state, { payload: { drop } }: PayloadAction<Omit<UpdateCollectionParams, 'collection'>>) {
-      delete state[drop]
+    updateCollection(state, { payload: { title, collection } }: PayloadAction<UpdateCollectionParams>) {
+      state.current = { title, collection } || {}
     },
     updateCurrentlyViewing(state, action: PayloadAction<ProductCurrentlyViewing | null>) {
       state.currentlyViewing = action.payload
@@ -41,10 +35,5 @@ const collectionSlice = createSlice({
   }
 })
 
-export const {
-  batchUpdateCollectionByYear,
-  updateCollection,
-  removeCollectionSeason,
-  updateCurrentlyViewing
-} = collectionSlice.actions
+export const { updateCollection, updateCurrentlyViewing } = collectionSlice.actions
 export const collection = collectionSlice.reducer

@@ -73,50 +73,52 @@ export const fromExtraLarge = whenMediaLargerThan('fromExtraLarge')
 // big to small
 // e.g { width: 500, ar: "3:2" }
 const IMG_SET_SIZE_ENTRIES = Object.entries(MEDIA_WIDTHS)
+const LOGO_TRANSFORMS = [DEFAULT_IK_TRANSFORMS.HQ_LOGO, DEFAULT_IK_TRANSFORMS.LQ_LOGO]
+const IMAGE_TRANSFORMS = [DEFAULT_IK_TRANSFORMS.HQ_IMAGE, DEFAULT_IK_TRANSFORMS.LQ_IMAGE]
 type SetCssBackgroundParams = {
-  imageUrl?: string
-  backgroundColor: string
-  hqImagePlacement?: string
-  lqImagePlacement?: string
-  // backgroundSize: string
-  // backgroundBlendMode: string
+  isLogo?: boolean
+  imageUrls?: (string | undefined)[]
+  backgroundColor?: string
+  backgroundAttributes: string[]
+  backgroundBlendMode?: string
 }
 type SizeKey = keyof typeof MEDIA_WIDTHS
 export const setCssBackground = (
   theme: DefaultTheme,
   {
-    imageUrl,
-    backgroundColor,
-    // backgroundSize,
-    // backgroundBlendMode = 'difference',
-    hqImagePlacement = 'center no-repeat',
-    lqImagePlacement = 'center no-repeat'
+    isLogo = false,
+    imageUrls,
+    backgroundColor = '',
+    backgroundAttributes = ['cover no-repeat', 'cover no-repeat'],
+    backgroundBlendMode = 'unset'
   }: SetCssBackgroundParams
 ) => {
-  const mappedMediaStyles = IMG_SET_SIZE_ENTRIES.map(([size, width]) => {
+  const getBackground = (width?: number) => {
+    return imageUrls
+      ? imageUrls.map((url, i, { length }) => {
+          const isLast = i === length - 1
+
+          const urlBuilt = `${url}?tr=pr-true,${(isLogo ? LOGO_TRANSFORMS : IMAGE_TRANSFORMS)[i]}${
+            width ? `w-${width}` : ''
+          }`
+
+          return `url(${urlBuilt}) ${backgroundAttributes[i]}${isLast ? ` ${backgroundColor}` : ','}`
+        })
+      : backgroundColor
+  }
+
+  const backgroundMediaQueries = IMG_SET_SIZE_ENTRIES.reverse().map(([size, width]) => {
     const queryMethod = theme.mediaWidth?.[size as SizeKey]
 
-    const background = imageUrl
-      ? `url(${imageUrl}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO},w-${width}) ${hqImagePlacement}, url(${imageUrl}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO},w-${width}) ${lqImagePlacement}`
-      : backgroundColor
+    if (!queryMethod) return null
 
-    return (
-      queryMethod &&
-      queryMethod`
-        background: ${background};
-        background-color: ${backgroundColor};
-        background-size: cover;
-        background-blend-mode: difference;
-      `
-    )
+    return queryMethod`background: ${getBackground(width)};`
   })
 
-  return `
-    background: url(${imageUrl}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) ${hqImagePlacement}, url(${imageUrl}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) ${lqImagePlacement};
-    background-color: ${backgroundColor};
-    background-size: cover;
-    background-blend-mode: difference;
+  return css`
+    background: ${getBackground()};
+    ${backgroundMediaQueries}
 
-    ${mappedMediaStyles}
+    background-blend-mode: ${backgroundBlendMode};
   `
 }

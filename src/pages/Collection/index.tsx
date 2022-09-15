@@ -13,7 +13,7 @@ import { buildItemUrl } from 'utils/navigation'
 export default function Collection() {
   const navigate = useNavigate()
   // get latest collection and the current on screen item handle
-  const currentCollection = useCurrentCollection()
+  const { collection } = useCurrentCollection()
   const product = useOnScreenProductHandle()
 
   // on mobile sizes we set a fixed height
@@ -40,8 +40,8 @@ export default function Collection() {
     []
   )
 
-  if (!currentCollection) return null
-  const collectionProductList = Object.values(currentCollection)
+  if (!collection) return null
+  const collectionProductList = Object.values(collection)
 
   return (
     <ArticleFadeInContainer id="COLLECTION-ARTICLE">

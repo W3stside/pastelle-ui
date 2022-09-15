@@ -7,9 +7,9 @@ export default function SingleItem() {
   const navigate = useNavigate()
   const { handle } = useParams()
 
-  const currentCollection = useCurrentCollection()
+  const { collection } = useCurrentCollection()
 
-  const product = handle ? currentCollection?.[handle] : null
+  const product = handle ? collection?.[handle] : null
   // redirect if no product
   if (!product) {
     navigate('/404')

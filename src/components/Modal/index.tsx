@@ -55,7 +55,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
 
     max-width: ${({ maxHeight, isLargeImageModal = false }) =>
       css`
-        ${isLargeImageModal ? maxHeight + 'vh' : '420px'}
+        ${isLargeImageModal ? maxHeight + 'vh' : '42rem'}
       `};
     ${({ maxHeight }) =>
       maxHeight &&
@@ -68,7 +68,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
         min-height: ${minHeight}vh;
       `}
     display: flex;
-    border-radius: 20px;
+    border-radius: 2rem;
     ${({ theme }) => theme.mediaWidth.upToMedium`
       width: 90vw;
       margin: 0;
@@ -77,7 +77,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
     width: 100%;
     // height: 90vh;
 
-    border-radius: 20px;
+    border-radius: 2rem;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     margin: auto;
@@ -92,7 +92,7 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
         width: 100vw;
         height: 90vh;
 
-        border-radius: 20px;
+        border-radius: 2rem;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         margin: auto;
@@ -184,7 +184,7 @@ export default function Modal({
                     left: 0,
                     right: 0,
                     margin: 10,
-                    padding: '5px 10px',
+                    padding: '0.5rem 1rem',
                     textAlign: 'right'
                   }}
                 >
