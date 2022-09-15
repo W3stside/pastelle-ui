@@ -61,7 +61,7 @@ export default function Navigation({
       <NavigationStepsWrapper isOpen={isNavOpen} minWidth="9vw">
         <NavLinkWrapper>
           <ItemSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
-            <Row flexDirection={'row-reverse'} flexWrap={'wrap'} style={{ gap: '0.5rem' }}>
+            <Row flexDirection={'row-reverse'} flexWrap={'wrap'} justifyContent="center" style={{ gap: '0.5rem' }}>
               <div style={{ fontWeight: 300, fontSize: '1.2rem' }}>{COLLECTION_PARAM_NAME}</div>
               <div>{title}</div>
             </Row>

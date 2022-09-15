@@ -200,7 +200,7 @@ export const ShoppingCartPanelWrapper = styled.div`
     // background: ${({ theme }) => transparentize(0.2, theme.black)};
     background-color: ${({ theme }) => transparentize(0.1, theme.black)};
     margin-left: auto;
-    width: 80%;
+    width: 60%;
     
     ${upToSmall`
       width: 100%;
@@ -211,7 +211,7 @@ export const ShoppingCartPanelWrapper = styled.div`
     padding-right: 3rem;
     
     ${fromExtraLarge`
-      width: 40%;
+      width: 50%;
     `}
   }
   

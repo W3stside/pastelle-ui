@@ -163,13 +163,15 @@ export const Title = styled(NavLink)`
 
 export const Pastellecon = styled.div`
   transition: transform 0.3s ease;
+  width: 17rem;
+  > img {
+    max-width: 100%;
+  }
   :hover {
     transform: rotate(-5deg);
   }
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    > img {
-      width: 90px;
-    }
+    width: 90px;
 `};
 `
