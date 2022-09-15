@@ -137,10 +137,10 @@ type BestContrastingColourParams = CheckHexColourContrastParams & {
 }
 const CONTRAST_THRESHOLD = 10
 export function setBestContrastingColour({ bgColour, fgColour, lightColour, darkColour }: BestContrastingColourParams) {
-  return checkHexColourContrast({
+  const contrastLevel = checkHexColourContrast({
     bgColour,
     fgColour
-  }) < CONTRAST_THRESHOLD
-    ? lightColour
-    : darkColour
+  })
+
+  return contrastLevel < CONTRAST_THRESHOLD ? lightColour : darkColour
 }

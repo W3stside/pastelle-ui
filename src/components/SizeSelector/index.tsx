@@ -5,6 +5,7 @@ import { ProductOptionsSize, ProductSizes } from 'shopify/graphql/types'
 import { DEFAULT_SIZE_SELECTED } from 'constants/config'
 import { Row, RowProps } from 'components/Layout'
 import { TYPE } from 'theme'
+import { BLACK, OFF_WHITE, setBestContrastingColour } from 'theme/utils'
 
 type SizeSelectorProps = Omit<RowProps, 'sizes'> & {
   sizes: ProductOptionsSize
@@ -19,6 +20,14 @@ const SquareSelectDiv = styled(TYPE.black)<{ isSelected: boolean; bgColor?: stri
     `
       &&&&& {
         background-color: ${transparentize(0.3, bgColor)};
+        color: ${setBestContrastingColour({
+          bgColour: bgColor,
+          fgColour: BLACK,
+          lightColour: OFF_WHITE,
+          darkColour: BLACK
+        })};
+        font-weight: 800;
+        text-shadow: 0px 0px 3px ${transparentize(0.6, BLACK)};
       }
     `}
 `
