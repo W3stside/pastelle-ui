@@ -13,6 +13,7 @@ interface ScrollingContentPageParams<D> {
   fixedHeight?: number
   hideHeight?: number
   showIndicator?: boolean
+  useBoxShadow?: boolean
   onContentClick?: React.MouseEventHandler<HTMLDivElement>
   IterableComponent: (props: D & ScrollableContentComponentBaseProps) => JSX.Element
 }
@@ -31,6 +32,7 @@ export function ScrollingContentPage<D>({
   dataItem,
   fixedHeight,
   showIndicator = true,
+  useBoxShadow = false,
   onContentClick,
   IterableComponent,
   ...indicatorProps
@@ -57,7 +59,12 @@ export function ScrollingContentPage<D>({
         {/* Were in mobile or the data passed only has 1 item, don't run loop animations */}
         {springs.map(({ y, scale }, i) => {
           return (
-            <AnimatedDivContainer key={i} style={{ scale, height, y }} $maxWidth={COLLECTION_MAX_WIDTH + 'px'}>
+            <AnimatedDivContainer
+              key={i}
+              style={{ scale, height, y }}
+              $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
+              $useBoxShadow={useBoxShadow}
+            >
               {showIndicator && <ScrollingContentIndicator {...indicatorProps} />}
               <IterableComponent
                 loadInView={{

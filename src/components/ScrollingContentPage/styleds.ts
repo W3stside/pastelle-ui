@@ -1,8 +1,9 @@
 import { a } from '@react-spring/web'
 import { STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
+import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
 
-export const AnimatedDivContainer = styled(a.div)<{ $maxWidth?: string }>`
+export const AnimatedDivContainer = styled(a.div)<{ $useBoxShadow?: boolean; $maxWidth?: string }>`
   position: absolute;
   width: 100%;
   will-change: transform;
@@ -17,8 +18,9 @@ export const AnimatedDivContainer = styled(a.div)<{ $maxWidth?: string }>`
 
   transition: box-shadow 0.2s ease-in-out;
 
-  box-shadow: 0px 1px 20px 9px #00000029;
-  border-radius: 9px;
+  ${({ $useBoxShadow = true, theme }) =>
+    $useBoxShadow && `box-shadow: 0px 0.1rem 2rem 0.9rem ${transparentize(0.5, theme.black)};`}
+  border-radius: 0.9rem;
   overflow: hidden;
 `
 

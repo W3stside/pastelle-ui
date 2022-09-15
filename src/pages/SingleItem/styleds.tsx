@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
-import { darken } from 'polished'
+import { darken, transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
 import { ProductPageProps } from './AsideWithVideo'
@@ -260,7 +260,6 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
     //  *
     > ${InnerCollectionContainer}, > ${InnerContainer} {
       position: relative;
-      box-shadow: 1rem 0px 50px 5px black;
       
       width: 100%;
     }
@@ -307,30 +306,56 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
         `}
 
         > ${CarouselStep} {
+          position: relative;
           height: 100%;
-
-          img {
-            max-width: unset;
-            height: 100%;
+          
+          > picture{
+            overflow: hidden;
+            img {
+              max-width: unset;
+              height: 100%;
+            }
           }
+
+          &:first-child {
+            box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
+
+            > picture {
+              border-radius: 1rem 0 0 1rem;
+            }
+          }
+
+          &:last-child {
+            box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
+
+            > picture {
+              border-radius: 0 1rem 1rem 0;
+            }
+          }
+
           // MEDIA QUERY --> SMALL and below
           ${upToSmall`
             width: auto;
             justify-content: center;            
+            :not(:first-child) {
+              position: absolute;
+            }
           `}
           // MEDIA QUERY --> SMALL and above
           ${fromSmall`
-            max-width: 80%;
+            max-width: 100%;
             z-index: 1;
           
-            &:not(:first-child) {
+            :not(:first-child) {
+              visibility: hidden;
               transform: none;
               z-index: ${Z_INDEXES.ZERO};
             }
           `}
           // MEDIA QUERY --> MEDIUM and above
           ${fromMedium`
-            justify-content: flex-start;            
+            position: absolute;
+            justify-content: flex-start;       
           `}
           // MEDIA QUERY --> LARGE and above
           ${fromLarge`
@@ -338,8 +363,12 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
             justify-content: center;
             width: 40%;
             transform: none;
-            z-index: 5;            
+            z-index: 5;
+            :not(:first-child) {
+              visibility: visible;
+            }       
           `}
+
         }
       }
 
@@ -368,11 +397,13 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
     > ${InnerContainer} {
       background: ${({ theme, bgColor = theme.white }) => `linear-gradient(${bgColor} 30%, ${theme.white} 55%)`};
       max-width: ${STORE_IMAGE_SIZES.SMALL}px;
+      box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
 
       // MEDIA QUERIES --> SMALL and below
       ${upToSmall`
         max-width: 100%;
-
+        overflow-x: clip;
+        
         > ${ItemContentContainer} {
           padding-left: 0;
           padding-right: 0;
