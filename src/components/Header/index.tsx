@@ -56,7 +56,7 @@ export default function Header() {
       <HeaderRow>
         {/* ICON and HOME BUTTON */}
         <Title to="/#">
-          <Pastellecon>{constructedLogo && <img width="170px" src={constructedLogo} alt="logo" />}</Pastellecon>
+          <Pastellecon>{constructedLogo && <img width="17rem" src={constructedLogo} alt="logo" />}</Pastellecon>
         </Title>
         {/* NAV */}
         {!checkIsCollectionPage(location) && (
