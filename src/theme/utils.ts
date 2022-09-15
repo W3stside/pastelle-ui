@@ -4,6 +4,7 @@ import { LIGHT_COLOURS, DARK_COLOURS, DEFAULT_COLOURS, VAMPIRE_COLOURS, CHAMELEO
 import { ThemeModes, Colors } from './styled'
 import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
 import { MEDIA_WIDTHS } from './styles/mediaQueries'
+import { hex } from 'wcag-contrast'
 
 export function getThemeColours(colourTheme: ThemeModes): Colors {
   let THEME_COLOURS = LIGHT_COLOURS
@@ -121,4 +122,25 @@ export const setCssBackground = (
 
     background-blend-mode: ${backgroundBlendMode};
   `
+}
+
+type CheckHexColourContrastParams = { bgColour: string; fgColour: string }
+export function checkHexColourContrast({ bgColour, fgColour }: CheckHexColourContrastParams) {
+  const contrast = hex(bgColour, fgColour)
+
+  return contrast
+}
+
+type BestContrastingColourParams = CheckHexColourContrastParams & {
+  lightColour: string
+  darkColour: string
+}
+const CONTRAST_THRESHOLD = 10
+export function setBestContrastingColour({ bgColour, fgColour, lightColour, darkColour }: BestContrastingColourParams) {
+  return checkHexColourContrast({
+    bgColour,
+    fgColour
+  }) < CONTRAST_THRESHOLD
+    ? lightColour
+    : darkColour
 }

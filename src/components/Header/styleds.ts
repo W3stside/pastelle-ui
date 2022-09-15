@@ -99,7 +99,6 @@ export const HeaderLinks = styled(Row)`
 
     font-size: 2rem;
     font-weight: 300;
-    color: ghostwhite;
   }
 
   ${({ theme }) => theme.mediaWidth.upToSmall`

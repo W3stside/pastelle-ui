@@ -1,7 +1,16 @@
 import { createGlobalStyle } from 'styled-components/macro'
 import { darken, transparentize } from 'polished'
 
-import { setTextColour, setBgColour, fromExtraLarge, BLUE, setCssBackground } from '../utils'
+import {
+  setTextColour,
+  setBgColour,
+  fromExtraLarge,
+  BLUE,
+  setCssBackground,
+  BLACK,
+  OFF_WHITE,
+  setBestContrastingColour
+} from '../utils'
 import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
 import { useAppColourTheme } from 'state/user/hooks'
@@ -189,8 +198,20 @@ export const ThemedGlobalStyle = createGlobalStyle<{
       })}
 
     #header-links-container {
+      border-radius: 0.5rem;
       background-color: ${({ frameBgColor, theme }) =>
-        frameBgColor ? darken(0.05, frameBgColor) : transparentize(0.3, theme.bg1)};
+        frameBgColor ? darken(0.03, frameBgColor) : transparentize(0.3, theme.bg1)};
+        > a {
+          color: ${({ frameBgColor, theme }) =>
+            setBestContrastingColour({
+              bgColour: frameBgColor ? darken(0.05, frameBgColor) : transparentize(0.3, theme.bg1),
+              fgColour: OFF_WHITE,
+              darkColour: BLACK,
+              lightColour: OFF_WHITE
+            })};
+            font-weight: 400;
+            text-decoration: underline;
+        }
     }
   }
 
