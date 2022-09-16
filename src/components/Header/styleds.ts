@@ -7,7 +7,10 @@ import { RowFixed, Row, YellowCard } from 'components/Layout'
 import { SectionFrame } from 'components/Layout/Section'
 import { MobileNavOrb } from 'components/Navigation/styled'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
-import { upToExtraSmall, fromMedium, OFF_WHITE } from 'theme/utils'
+import { upToExtraSmall, fromMedium, OFF_WHITE, fromExtraSmall } from 'theme/utils'
+
+import PastelleLogoSharpShort from 'assets/svg/PSTL-sharp.svg'
+import PastelleLogoCursiveLong from 'assets/svg/pastelle-cursive-logo.svg'
 
 export const StyledNavLink = styled(NavLink)`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -45,6 +48,11 @@ export const BalanceText = styled(Text)`
 
 export const HeaderFrame = styled(SectionFrame)`
   top: 0;
+  padding: 1rem;
+
+  ${fromExtraSmall`
+    height: 10rem;
+  `}
 `
 
 export const HeaderControls = styled.div`
@@ -63,8 +71,31 @@ export const HeaderElement = styled.div`
   gap: 8px;
 `
 
+export const Title = styled(NavLink)`
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+  justify-self: flex-start;
+  margin-right: 12px;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    justify-self: center;
+  `};
+  :hover {
+    cursor: pointer;
+  }
+`
+
 export const HeaderRow = styled(RowFixed)`
   width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(10rem, 16rem) auto min-content min-content;
+  grid-gap: 1rem;
+
+  > ${Title} {
+    height: 100%;
+    width: 100%;
+  }
 
   > ${ShoppingCartFullWrapper} {
     margin-left: auto;
@@ -146,31 +177,15 @@ export const NetworkCard = styled(YellowCard)`
   `};
 `
 
-export const Title = styled(NavLink)`
-  display: flex;
-  align-items: center;
-  pointer-events: auto;
-  justify-self: flex-start;
-  margin-right: 12px;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    justify-self: center;
-  `};
-  :hover {
-    cursor: pointer;
-  }
-`
-
 export const Pastellecon = styled.div`
+  height: 100%;
+  width: 100%;
   transition: transform 0.3s ease;
-  width: 17rem;
-  > img {
-    max-width: 100%;
-  }
-  :hover {
+
+  background: url(${PastelleLogoSharpShort}) center/contain no-repeat;
+  ${fromExtraSmall`background: url(${PastelleLogoCursiveLong}) center/contain no-repeat;`}
+
+  &:hover {
     transform: rotate(-5deg);
   }
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    width: 90px;
-`};
 `

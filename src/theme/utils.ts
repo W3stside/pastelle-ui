@@ -71,6 +71,16 @@ export const fromMedium = whenMediaLargerThan('fromMedium')
 export const fromLarge = whenMediaLargerThan('fromLarge')
 export const fromExtraLarge = whenMediaLargerThan('fromExtraLarge')
 
+const whenMediaBetween = (size: keyof DefaultTheme['betweenMediaWidth']) => (
+  first: CSSObject | TemplateStringsArray,
+  ...interpolations: SimpleInterpolation[]
+) => ({ theme }: { theme: DefaultTheme }) => theme.betweenMediaWidth[size]`${css(first, ...interpolations)}`
+
+export const betweenExtraSmallAndSmall = whenMediaBetween('betweenExtraSmallAndSmall')
+export const betweenSmallAndMedium = whenMediaBetween('betweenSmallAndMedium')
+export const betweenMediumAndLarge = whenMediaBetween('betweenMediumAndLarge')
+export const betweenLargeAndExtraLarge = whenMediaBetween('betweenLargeAndExtraLarge')
+
 // big to small
 // e.g { width: 500, ar: "3:2" }
 const IMG_SET_SIZE_ENTRIES = Object.entries(MEDIA_WIDTHS)

@@ -62,11 +62,9 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   ${({ theme, mobileHide }) => theme.mediaWidth.upToMedium`
     display: ${mobileHide ? 'none' : 'flex'};
     position: relative;
-    bottom: 0; right: 0; margin: 1rem;  
+    bottom: 0; right: 0;
     justify-content: center;
     align-items: center;
-
-    // margin-left: auto;
   `};
 `
 

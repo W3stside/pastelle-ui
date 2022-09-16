@@ -105,6 +105,14 @@ declare module 'styled-components' {
       fromExtraLarge: ThemedCssFunction<DefaultTheme>
     }
 
+    // between media size
+    betweenMediaWidth: {
+      betweenExtraSmallAndSmall: ThemedCssFunction<DefaultTheme>
+      betweenSmallAndMedium: ThemedCssFunction<DefaultTheme>
+      betweenMediumAndLarge: ThemedCssFunction<DefaultTheme>
+      betweenLargeAndExtraLarge: ThemedCssFunction<DefaultTheme>
+    }
+
     // css snippets
     flexColumnNoWrap: FlattenSimpleInterpolation
     flexRowNoWrap: FlattenSimpleInterpolation

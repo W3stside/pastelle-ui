@@ -20,43 +20,25 @@ import Navigation from 'components/Navigation'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
 import Web3Status from 'components/blockchain/Web3Status'
 
-import PastelleLogoSharpShort from 'assets/svg/PSTL-sharp.svg'
-import PastelleLogoCursiveLong from 'assets/svg/pastelle-cursive-logo.svg'
-
 import { useNativeCurrencyBalances } from 'blockchain/hooks/useCurrencyBalance'
-import { useGetWindowSize } from 'state/window/hooks'
 
 import { DEFAULT_COLLECTION_URL } from 'constants/config'
 import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { NETWORK_LABELS } from 'blockchain/constants'
-import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 
 import { checkIsCollectionPage } from 'utils/navigation'
 import { isWeb3Enabled } from 'blockchain/connectors'
 
 export default function Header() {
   const location = useLocation()
-  const sizes = useGetWindowSize()
-
   const isEnabled = useMemo(() => isWeb3Enabled(), [])
-
-  const constructedLogo = useMemo(() => {
-    if (!sizes?.width) return null
-
-    if (sizes.width < MEDIA_WIDTHS.upToExtraSmall) {
-      return PastelleLogoSharpShort
-      // width < 960px
-    } else {
-      return PastelleLogoCursiveLong
-    }
-  }, [sizes])
 
   return (
     <HeaderFrame as="header">
       <HeaderRow>
         {/* ICON and HOME BUTTON */}
         <Title to="/#">
-          <Pastellecon>{constructedLogo && <img src={constructedLogo} alt="logo" />}</Pastellecon>
+          <Pastellecon />
         </Title>
         {/* NAV */}
         {!checkIsCollectionPage(location) && (

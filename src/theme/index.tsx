@@ -5,7 +5,11 @@ import { Text, TextProps } from 'rebass'
 import { useAppColourTheme } from 'state/user/hooks'
 import { ThemeModes, Colors } from './styled'
 import { getThemeColours } from './utils'
-import { mediaWidthTemplates as mediaWidth, fromMediaWidthTemplates as fromMediaWidth } from './styles/mediaQueries'
+import {
+  mediaWidthTemplates as mediaWidth,
+  fromMediaWidthTemplates as fromMediaWidth,
+  betweenMediaWidthTemplates as betweenMediaWidth
+} from './styles/mediaQueries'
 
 export * from './components'
 
@@ -71,13 +75,15 @@ const DEFAULT_THEME: Partial<DefaultTheme> = {
         large: '1.6rem'
       }
     },
-    borderRadius: '16px',
+    borderRadius: '1.6rem',
     border: '0.1rem solid transparent'
   },
   // media queries
   mediaWidth,
   // from size queries
   fromMediaWidth,
+  // between size queries
+  betweenMediaWidth,
   // css snippets
   // can be used in components
   // like: ${({ theme }) => theme.flexColumnNoWrap}
