@@ -6,11 +6,12 @@ import { Row } from 'components/Layout'
 
 import useDetectScrollIntoView from 'hooks/useDetectScrollIntoView'
 
-import { ItemHeader } from 'pages/SingleItem/styleds'
+import { ItemHeader, ItemSubHeader, VideoPlayCTAOverlay } from 'pages/SingleItem/styleds'
 
 import { BoxProps } from 'rebass'
 import { Z_INDEXES } from 'constants/config'
-import { BLUE } from 'theme/utils'
+import { BLUE, OFF_WHITE } from 'theme/utils'
+import { Play } from 'react-feather'
 
 type WithContainer = {
   container: HTMLElement | null | undefined
@@ -21,6 +22,7 @@ export type LazyVideoProps = {
   videoProps?: React.DetailedHTMLProps<React.VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement>
   loadInView?: boolean
   forceLoad?: boolean
+  showTapToPlay?: boolean
   Loader?: (...props: any[]) => JSX.Element
 } & WithContainer &
   BoxProps
@@ -42,7 +44,7 @@ const VideoContainer = styled(Row)`
   }
 `
 
-function Spinner({ label = 'pstl' }: { label?: ReactNode }) {
+export function Spinner({ label = 'pstl' }: { label?: ReactNode }) {
   return (
     <>
       <ItemHeader itemColor={BLUE} animation>
@@ -78,15 +80,17 @@ export default forwardRef(function LazyVideo(
     // and we dont want to check if in view before animation ends
     loadInView = true,
     forceLoad = false,
+    showTapToPlay = false,
     container,
-    Loader = Spinner,
+    width,
+    // Loader = Spinner,
     ...boxProps
   }: LazyVideoProps,
   forwardRef: ForwardedRef<HTMLVideoElement>
 ) {
-  const [dataLoaded, setDataLoaded] = useState(false)
-  const [metaDataLoaded, setMetaDataLoaded] = useState(false)
-  const loaded = metaDataLoaded && dataLoaded
+  const [, setDataLoaded] = useState(false)
+  const [, setMetaDataLoaded] = useState(false)
+  // const loaded = metaDataLoaded && dataLoaded
 
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
 
@@ -126,7 +130,14 @@ export default forwardRef(function LazyVideo(
   const combinedVideoProps = { ...BASE_VIDEO_PROPS, ...videoProps }
   return (
     <VideoContainer justifyContent="center" {...boxProps}>
-      {!loaded && <Loader />}
+      {/* {!loaded && <Loader />} */}
+      {showTapToPlay && (
+        <VideoPlayCTAOverlay $width={width as any} textAlign="center">
+          <ItemSubHeader color={OFF_WHITE} display="flex" alignItems="center" justifyContent="center">
+            <Play size="1.8rem" style={{ marginRight: '0.5rem' }} /> TAP TO PLAY
+          </ItemSubHeader>
+        </VideoPlayCTAOverlay>
+      )}
       <video {...combinedVideoProps} ref={setVideoElement}>
         {isInView || forceLoad
           ? sourcesProps.map(({ src, ...sourceProps }, index) => <source key={index} src={src} {...sourceProps} />)

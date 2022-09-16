@@ -147,10 +147,6 @@ export const CartTableHeaderWrapper = styled(Row)`
   grid-gap: 9rem;
 
   ${upToMedium`
-  > ${ItemHeader} {
-    font-size: 6rem;
-    letter-spacing: -0.5rem;
-  }
   > ${Column} > ${ItemHeader} {
     font-size: 3.2rem;
   }

@@ -127,19 +127,19 @@ function CartTableHeader({
 }) {
   return (
     <CartTableHeaderWrapper>
-      <CartHeader margin={'1rem auto 0 0'} letterSpacing={-10}>
+      <CartHeader margin="1rem auto 0 0" letterSpacing={-6} fontSize="6rem">
         CART
       </CartHeader>
       {/* <Strikethrough /> */}
       {data?.cart && (
         <Column>
           {!!totalQuantity && (
-            <CartHeader fontSize={'3.5rem'} letterSpacing={0}>
+            <CartHeader fontSize="3.5rem" letterSpacing={0}>
               {totalQuantity} items
             </CartHeader>
           )}
           {subTotal && (
-            <CartHeader fontSize={'3.5rem'} letterSpacing={0}>
+            <CartHeader fontSize="3.5rem" letterSpacing={0}>
               {formatCurrency(subTotal.amount, subTotal.currencyCode)}
             </CartHeader>
           )}
@@ -215,18 +215,18 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
         {/* 1 */}
         {/* <SMART IMG SPAN />*/}
         {/* 2 */}
-        <SmartImg path={{ defaultPath: images.nodes[0].url500 }} onClick={handleClick} />
+        <SmartImg path={{ defaultPath: images.nodes[0].url125 }} onClick={handleClick} />
         {/* 3 */}
         <CartLineContent onClick={handleClick}>
           <Row>
-            <ItemSubHeader color={WHITE} fontSize={'3rem'} fontWeight={1000} padding={0} margin={0}>
+            <ItemSubHeader color={WHITE} fontSize="3rem" fontWeight={1000} padding={0} margin={0}>
               {line?.merchandise.product.title}
             </ItemSubHeader>
-            <ItemSubHeader color={WHITE} fontSize={'1.5rem'} fontWeight={300} padding={0} margin={0}>
+            <ItemSubHeader color={WHITE} fontSize="1.5rem" fontWeight={300} padding={0} margin={0}>
               {sizeFull} {sizeFull && `(${line?.merchandise.size})`}
             </ItemSubHeader>
             {collectionCurrentProduct?.handle !== handle && (
-              <ItemSubHeader color={WHITE} fontSize={'1.5rem'} fontWeight={300} padding={0} margin={0}>
+              <ItemSubHeader color={WHITE} fontSize="1.5rem" fontWeight={300} padding={0} margin={0}>
                 tap or click to view item
               </ItemSubHeader>
             )}

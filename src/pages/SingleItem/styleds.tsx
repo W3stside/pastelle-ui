@@ -11,6 +11,7 @@ import { SocialType } from 'mock/types'
 import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
 import {
+  BLACK,
   fromExtraLarge,
   fromLarge,
   fromMedium,
@@ -569,22 +570,37 @@ export const PASTELLE_CREDIT = (
   </>
 )
 
+export const VideoPlayCTAOverlay = styled(Row)<{ $width?: string | number }>`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -2rem;
+  cursor: pointer;
+  background: ${transparentize(0.5, BLACK)};
+  ${({ $width }) => `width: ${$width};`}
+  z-index: ${Z_INDEXES.PRODUCT_VIDEOS};
+`
+
 export const VideoControlButton = styled(Button)`
   cursor: pointer;
   position: absolute;
   right: 0;
   top: 0;
-  padding: 10;
+  padding: 0.2rem;
+  min-width: 14rem;
   border-radius: 0 0 0 1rem;
   z-index: ${Z_INDEXES.SCROLLER_DIV + 50};
 
   > ${ItemSubHeader} {
+    margin: 0;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     gap: 5px;
-    color: ${({ theme }) => theme.black};
+    color: ${({ theme }) => theme.offWhite};
+    margin: 0 2rem;
+    width: auto;
   }
 
   ${({ theme }) => theme.mediaWidth.upToSmall`

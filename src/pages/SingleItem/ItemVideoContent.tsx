@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { ItemSubHeader, VideoContentWrapper, VideoControlButton } from './styleds'
+import { ItemSubHeader, VideoContentWrapper, VideoControlButton as VideoControlButtonStyled } from './styleds'
 import LazyVideo, { LazyVideoProps } from 'components/LazyVideo'
 import { Spinner } from 'theme'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
@@ -16,7 +16,7 @@ interface Params extends RowProps {
   zIndex?: number
   videoProps?: LazyVideoProps['videoProps']
 }
-const CONTROL_BUTTON_SIZE = 12
+const CONTROL_BUTTON_SIZE = '1.6rem'
 export const ItemVideoContent = ({
   videos,
   currentCarouselIndex,
@@ -25,11 +25,18 @@ export const ItemVideoContent = ({
   videoProps,
   ...styleProps
 }: Params) => {
-  const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
+  const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | 'LOADED_AND_WAITING' | undefined>(undefined)
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
 
   useEffect(() => {
+    setVideoStatus(undefined)
+  }, [videos])
+
+  useEffect(() => {
     if (!videoElement) return
+    else if (!videoStatus) {
+      setVideoStatus('LOADED_AND_WAITING')
+    }
 
     function handleOnPlaying() {
       setVideoStatus('PLAYING')
@@ -46,57 +53,72 @@ export const ItemVideoContent = ({
       videoElement.removeEventListener('playing', handleOnPlaying)
       videoElement.removeEventListener('pause', handleOnPaused)
     }
-  }, [videoElement])
+  }, [videoElement, videoStatus])
 
-  const isPaused = videoStatus === 'PAUSED'
+  const isPlaying = videoStatus === 'PLAYING'
 
   const toggleVideo = useCallback(() => {
     if (!videoElement) return
 
-    if (isPaused) {
-      videoElement.play()
-    } else {
+    if (isPlaying) {
       videoElement.pause()
+    } else {
+      videoElement.play()
     }
-  }, [isPaused, videoElement])
+  }, [isPlaying, videoElement])
 
   return (
     <>
       <VideoContentWrapper id="#video-content-wrapper" {...styleProps}>
-        {videos.map(({ id, sources }, index) => {
+        {videos.map(({ id, sources, previewImage }, index) => {
           const isSelected = index === currentCarouselIndex
           if (!isSelected) return null
 
           return (
             <LazyVideo
               key={id}
+              onClick={toggleVideo}
               ref={setVideoElement}
               container={document.querySelector('#COLLECTION-ARTICLE') as HTMLElement}
               loadInView={firstPaintOver}
               forceLoad={forceLoad}
-              videoProps={videoProps}
+              videoProps={{ ...videoProps, poster: previewImage?.url ?? '' }}
               sourcesProps={sources
                 .map(({ url, mimeType }) => ({ src: url, type: mimeType }))
                 .filter(({ type }) => type === 'video/mp4')}
               height="100%"
+              width={styleProps.width}
+              showTapToPlay={!isPlaying && videoProps?.autoPlay === false}
               Loader={Spinner}
-              onClick={toggleVideo}
             />
           )
         })}
       </VideoContentWrapper>
-      {videoStatus && (
-        <VideoControlButton variant={ButtonVariations.SECONDARY} onClick={toggleVideo}>
-          <ItemSubHeader>
-            {isPaused ? (
-              <Play color="ghostwhite" fill="ghostwhite" size={CONTROL_BUTTON_SIZE} />
-            ) : (
-              <Pause color="ghostwhite" fill="ghostwhite" size={CONTROL_BUTTON_SIZE} />
-            )}
-          </ItemSubHeader>
-        </VideoControlButton>
-      )}
+      {/* PLAY/PAUSE */}
+      {videoStatus && <VideoControlButton callback={toggleVideo} isPlaying={isPlaying} />}
     </>
+  )
+}
+
+type VideoControlButtonParams = {
+  callback: () => void
+  isPlaying: boolean
+}
+function VideoControlButton({ callback, isPlaying }: VideoControlButtonParams) {
+  return (
+    <VideoControlButtonStyled variant={ButtonVariations.SECONDARY} onClick={callback}>
+      <ItemSubHeader>
+        {isPlaying ? (
+          <>
+            <Pause color="ghostwhite" fill="ghostwhite" size={CONTROL_BUTTON_SIZE} /> PAUSE
+          </>
+        ) : (
+          <>
+            <Play color="ghostwhite" fill="ghostwhite" size={CONTROL_BUTTON_SIZE} /> PLAY{' '}
+          </>
+        )}
+      </ItemSubHeader>
+    </VideoControlButtonStyled>
   )
 }
 

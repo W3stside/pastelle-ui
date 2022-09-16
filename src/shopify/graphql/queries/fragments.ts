@@ -52,6 +52,8 @@ export const FRAGMENT_PRODUCT = gql`
 export const FRAGMENT_PRODUCT_IMAGE = gql`
   fragment FragmentProductImage on Image {
     id
+    url125: url(transform: { maxWidth: 125 })
+    url250: url(transform: { maxWidth: 250 })
     url500: url(transform: { maxWidth: 500 })
     url720: url(transform: { maxWidth: 720 })
     url960: url(transform: { maxWidth: 960 })

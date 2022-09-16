@@ -53,6 +53,7 @@ import { FREE_SHIPPING_THRESHOLD, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants
 
 import ShippingSvg from 'assets/svg/shipping.svg'
 import { isMobile } from 'utils'
+import { getMobileShowcaseVideoWidth } from './utils'
 
 export interface ProductPageProps {
   bgColor: string
@@ -268,20 +269,8 @@ export default function ItemPage({
 
                 {/* ITEM CONTENT: description, credits, etc */}
                 <ItemContentContainer padding="0 0 3rem">
-                  {/* Credits */}
-                  <ItemSubHeader useGradient bgColor={color} label="CREDIT" margin="0 0 2rem" />
-                  <ItemContentContainer padding={'0 3rem'}>
-                    <ItemCredits>
-                      {artistInfo ? (
-                        <ItemArtistInfo {...artistInfo} bgColor={color} />
-                      ) : (
-                        <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
-                      )}
-                    </ItemCredits>
-                  </ItemContentContainer>
-
                   {/* Size selector */}
-                  <ItemSubHeader useGradient bgColor={color} label="CHOOSE SIZE + VIEW LIVE" />
+                  <ItemSubHeader useGradient bgColor={color} label="CHOOSE SIZE + SHOWCASE" margin="0 0 2rem" />
                   <ItemContentContainer margin="0" padding={'0 2rem'}>
                     {isMobileWidth && (
                       <SmallScreenVideoContent
@@ -291,12 +280,13 @@ export default function ItemPage({
                         currentCarouselIndex={currentCarouselIndex}
                         zIndex={Z_INDEXES.PRODUCT_VIDEOS}
                         height="auto"
-                        width={innerContainerRef?.clientWidth ? innerContainerRef?.clientWidth + 'px' : '120%'}
+                        // width={innerContainerRef?.clientWidth ? innerContainerRef?.clientWidth + 'px' : '120%'}
+                        width={getMobileShowcaseVideoWidth(innerContainerRef)}
                         margin="-2rem 0 2rem"
                         title="Tap to play/pause"
                         videoProps={{
                           // TODO: check ios autoplay
-                          // autoPlay: false
+                          autoPlay: false,
                           style: {
                             cursor: 'pointer'
                           }
@@ -370,6 +360,17 @@ export default function ItemPage({
                       backgroundColor={OFF_WHITE}
                     />
                   </ItemContentContainer>
+                  {/* Credits */}
+                  <ItemSubHeader useGradient bgColor={color} label="CREDIT WHERE CREDIT IS DUE" margin="2rem 0" />
+                  <ItemContentContainer padding={'0 3rem'}>
+                    <ItemCredits>
+                      {artistInfo ? (
+                        <ItemArtistInfo {...artistInfo} bgColor={color} />
+                      ) : (
+                        <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
+                      )}
+                    </ItemCredits>
+                  </ItemContentContainer>
                 </ItemContentContainer>
               </>
             )}
@@ -379,6 +380,7 @@ export default function ItemPage({
           <ItemVideoContent
             videos={videos}
             videoProps={{
+              autoPlay: true,
               style: {
                 marginLeft: 'auto'
               }

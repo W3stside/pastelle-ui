@@ -209,8 +209,6 @@ export const ThemedGlobalStyle = createGlobalStyle<{
               darkColour: BLACK,
               lightColour: OFF_WHITE
             })};
-            font-weight: 400;
-            text-decoration: underline;
         }
     }
   }
