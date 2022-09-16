@@ -202,7 +202,7 @@ export const ShoppingCartPanelWrapper = styled.div`
     margin-left: auto;
     width: 60%;
     
-    ${upToSmall`
+    ${upToMedium`
       width: 100%;
       padding: 1rem;
     `}

@@ -5,7 +5,7 @@ import styled from 'styled-components/macro'
 import { darken } from 'polished'
 import { ArrowLeft, X } from 'react-feather'
 import { devDebug } from 'utils/logging'
-import { rotateAnimation, rotateImgAnimation } from './styles/animations'
+import { rotateKeyframe, rotateImgKeyframe } from './styles/animations'
 
 export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColor: string }>(({ warning, theme }) => ({
   backgroundColor: warning ? theme.red1 : theme.primary1
@@ -107,7 +107,7 @@ const StyledLink = styled.a`
 `
 
 export const UniTokenAnimated = styled.img`
-  animation: ${rotateImgAnimation} 5s cubic-bezier(0.83, 0, 0.17, 1) infinite;
+  animation: ${rotateImgKeyframe} 5s cubic-bezier(0.83, 0, 0.17, 1) infinite;
   padding: 2rem 0 0 0;
   filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.15));
 `
@@ -142,7 +142,7 @@ export function ExternalLink({
 }
 
 export const Spinner = styled.img`
-  animation: 2s ${rotateAnimation} linear infinite;
+  animation: 2s ${rotateKeyframe} linear infinite;
   width: 16px;
   height: 16px;
 `

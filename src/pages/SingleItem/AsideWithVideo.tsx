@@ -293,6 +293,14 @@ export default function ItemPage({
                         height="auto"
                         width="120%"
                         margin="-2rem 0 2rem"
+                        title="Tap to play/pause"
+                        videoProps={{
+                          // TODO: check ios autoplay
+                          // autoPlay: false
+                          style: {
+                            cursor: 'pointer'
+                          }
+                        }}
                       />
                     )}
                     <SubItemDescription
@@ -374,6 +382,11 @@ export default function ItemPage({
             currentCarouselIndex={currentCarouselIndex}
             zIndex={Z_INDEXES.BEHIND}
             height="100%"
+            videoProps={{
+              style: {
+                marginLeft: 'auto'
+              }
+            }}
           />
         )}
       </ItemContainer>

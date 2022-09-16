@@ -96,9 +96,9 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
           closeCartPanel={closeCartPanel}
         />
         {loading ? (
-          <LoadingRows rows={3} $height={'14rem'} $padding="1rem" $margin="1rem 0" />
+          <LoadingRows rows={3} $height="11rem" $padding="1rem" $margin="1rem 0" $borderRadius="1rem" />
         ) : isEmptyCart ? (
-          <ItemSubHeader color={WHITE} fontSize={'2.5rem'} fontWeight={400} padding={0} margin={'2rem 0'}>
+          <ItemSubHeader color={WHITE} fontSize="2.5rem" fontWeight={400} padding={0} margin="2rem 0">
             <span id="lenny-face">Your cart is</span> <strong>empty</strong> <span id="lenny-face">ʕ ͡° ʖ̯ ͡°ʔ</span>
             {!isCollectionPage && (
               <p onClick={handleNavClick} style={{ cursor: 'pointer' }}>

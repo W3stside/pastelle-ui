@@ -16,7 +16,7 @@ type WithContainer = {
   container: HTMLElement | null | undefined
 }
 
-type LazyVideoProps = {
+export type LazyVideoProps = {
   sourcesProps: React.DetailedHTMLProps<React.SourceHTMLAttributes<HTMLSourceElement>, HTMLSourceElement>[]
   videoProps?: React.DetailedHTMLProps<React.VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement>
   loadInView?: boolean
@@ -53,7 +53,16 @@ function Spinner({ label = 'pstl' }: { label?: ReactNode }) {
   )
 }
 
-const BASE_VIDEO_PROPS = { loop: true, muted: true, autoPlay: true, preload: 'none' }
+const BASE_VIDEO_PROPS: Partial<React.DetailedHTMLProps<
+  React.VideoHTMLAttributes<HTMLVideoElement>,
+  HTMLVideoElement
+>> = {
+  loop: true,
+  muted: true,
+  autoPlay: true,
+  preload: 'none',
+  playsInline: true
+}
 const BASE_INTERSECTION_OPTIONS = {
   threshold: 0.1,
   trackVisibility: true,
@@ -81,7 +90,7 @@ export default forwardRef(function LazyVideo(
 
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
 
-  // forwardedRef in use, we need to assing our internal ref to the external
+  // forwardedRef in use, we need to assign our internal ref to the external
   useEffect(() => {
     if (forwardRef && videoElement) {
       typeof forwardRef === 'function' && forwardRef(videoElement)
@@ -114,11 +123,11 @@ export default forwardRef(function LazyVideo(
     },
     !loadInView
   )
-
+  const combinedVideoProps = { ...BASE_VIDEO_PROPS, ...videoProps }
   return (
     <VideoContainer justifyContent="center" {...boxProps}>
       {!loaded && <Loader />}
-      <video {...BASE_VIDEO_PROPS} {...videoProps} ref={setVideoElement}>
+      <video {...combinedVideoProps} ref={setVideoElement}>
         {isInView || forceLoad
           ? sourcesProps.map(({ src, ...sourceProps }, index) => <source key={index} src={src} {...sourceProps} />)
           : null}

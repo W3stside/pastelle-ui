@@ -11,23 +11,8 @@ import {
 /**
  * KEYFRAMES
  */
-export const loadingAnimation = keyframes`
-  0% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-`
-export const saturateAnimation = keyframes`
-  0% {
-    filter: contrast(1.8) saturate(20) blur(0.5rem);
-  }
-  10% {
-    filter: contrast(1.8) saturate(1) blur(0.8px);
-  }
-`
-export const rotateImgAnimation = keyframes`
+
+export const rotateImgKeyframe = keyframes`
   0% {
     transform: perspective(1000px) rotateY(0deg);
   }
@@ -36,52 +21,76 @@ export const rotateImgAnimation = keyframes`
     transform: perspective(1000px) rotateY(360deg);
   }
 `
-export const rotateAnimation = keyframes`
+export const rotateKeyframe = keyframes`
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
-  }
-`
-export const rotate360Animation = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`
-export const strokeWidth = keyframes`
-  0% {
-    stroke-width: 10.8;
-  }
-  10% {
-      stroke-width: 0;
-  }
-
-  20% {
-    stroke-width: 10.8;
-  }
-
-  50% {
-    stroke-width: 0;
-  }
-  60% {
-    stroke-width: 10.8;
-  }
-
-  90% {
-      stroke-width: 0;
-  }
-  100% {
-      stroke-width: 30;
   }
 `
 
 /**
  * CSS ANIMATIONS
  */
+export const bgPositionAnimation = css`
+  @keyframes bgPositionAnimation {
+    0% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+`
+export const contrastSaturateAndBlurAnimation = css`
+  @keyframes contrastSaturateAndBlur {
+    0% {
+      filter: contrast(1.8) saturate(20) blur(0.5rem);
+    }
+    10% {
+      filter: contrast(1.8) saturate(1) blur(0.8px);
+    }
+  }
+`
+export const rotate360Animation = css`
+  @keyframes rotate360 {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`
+export const strokeWidth = css`
+  @keyframes strokeWidth {
+    0% {
+      stroke-width: 10.8;
+    }
+    10% {
+      stroke-width: 0;
+    }
+
+    20% {
+      stroke-width: 10.8;
+    }
+
+    50% {
+      stroke-width: 0;
+    }
+    60% {
+      stroke-width: 10.8;
+    }
+
+    90% {
+      stroke-width: 0;
+    }
+    100% {
+      stroke-width: 30;
+    }
+  }
+`
 const fadeInAnimation = css`
   @keyframes fadeIn {
     0% {
@@ -172,7 +181,14 @@ export const textShadowAnimation = css<{ itemColor: string }>`
   }
 `
 
-type AnimationName = 'fadeIn' | 'flickerIn' | 'textShadowAnimation'
+type AnimationName =
+  | 'fadeIn'
+  | 'flickerIn'
+  | 'textShadowAnimation'
+  | 'contrastSaturateAndBlur'
+  | 'bgPositionAnimation'
+  | 'strokeWidth'
+  | 'rotate360'
 
 interface BaseAnimationParams {
   name: AnimationName
@@ -195,7 +211,7 @@ export function setAnimation<Props extends Record<any, any>>(
 ): FlattenInterpolation<ThemedStyledProps<Props, DefaultTheme>> | undefined
 export function setAnimation<Props extends Record<any, any>>(
   animation: Keyframes | FlattenInterpolation<ThemedStyledProps<Props, DefaultTheme>>,
-  { name, state, delay, duration, count, fillMode }: Omit<BaseAnimationParams, 'name'> & { name?: string },
+  { name, state, delay, duration = 2, count = 1, fillMode }: Omit<BaseAnimationParams, 'name'> & { name?: string },
   customCss?: FlattenInterpolation<any>
 ): FlattenInterpolation<ThemedStyledProps<Props, DefaultTheme>> | undefined {
   if (!animation || state === false) return

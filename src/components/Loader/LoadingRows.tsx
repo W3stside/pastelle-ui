@@ -1,20 +1,26 @@
 import styled from 'styled-components/macro'
-import { loadingAnimation, setAnimation } from 'theme/styles/animations'
+import { bgPositionAnimation, setAnimation } from 'theme/styles/animations'
 
-type LoadingRowsStyleProps = { $height?: string; $margin?: string; $padding?: string }
+type LoadingRowsStyleProps = { $height?: string; $margin?: string; $padding?: string; $borderRadius?: string }
 const StyledLoadingRows = styled.div<LoadingRowsStyleProps>`
   display: grid;
-  gap: 6px;
-
+  gap: 0.6rem;
+  
   & > div {
-    ${setAnimation(loadingAnimation, { duration: 1.5, count: 'infinite', fillMode: 'both' })}
+    ${setAnimation(bgPositionAnimation, {
+      name: 'bgPositionAnimation',
+      duration: 1.5,
+      count: 'infinite',
+      fillMode: 'both'
+    })}
     background: linear-gradient(
       to left,
       ${({ theme }) => theme.white} 25%,
       ${({ theme }) => theme.black} 50%,
       ${({ theme }) => theme.white} 75%
-    );
+      );
     background-size: 400%;
+    ${({ $borderRadius }) => $borderRadius && `border-radius: ${$borderRadius}`};
     height: ${({ $height = '2em' }) => $height};
     ${({ $padding }) => $padding && `padding: ${$padding}`};
     ${({ $margin }) => $margin && `margin: ${$margin}`};

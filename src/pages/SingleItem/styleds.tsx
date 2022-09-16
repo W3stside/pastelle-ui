@@ -20,7 +20,7 @@ import {
   upToLarge,
   upToSmall
 } from 'theme/utils'
-import { saturateAnimation, setAnimation, textShadowAnimation } from 'theme/styles/animations'
+import { setAnimation, textShadowAnimation } from 'theme/styles/animations'
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
   z-index: ${({ zIndex = 1 }) => zIndex};
@@ -34,9 +34,6 @@ export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number
     // height: calc(100vw * (9 / 16));
     height: ${({ height = '100%' }) => height};
     ${({ width }) => width && `width: ${width};`}
-
-    filter: contrast(1) saturate(1) blur(0px);
-    ${setAnimation(saturateAnimation, { duration: 10.4 })}
   }
 `
 export const Strikethrough = styled.div`

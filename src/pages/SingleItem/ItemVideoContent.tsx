@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import { ItemSubHeader, VideoContentWrapper, VideoControlButton } from './styleds'
-import LazyVideo from 'components/LazyVideo'
+import LazyVideo, { LazyVideoProps } from 'components/LazyVideo'
 import { Spinner } from 'theme'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { ButtonVariations } from 'components/Button'
@@ -14,6 +14,7 @@ interface Params extends RowProps {
   currentCarouselIndex: number
   forceLoad?: boolean
   zIndex?: number
+  videoProps?: LazyVideoProps['videoProps']
 }
 const CONTROL_BUTTON_SIZE = 12
 export const ItemVideoContent = ({
@@ -21,6 +22,7 @@ export const ItemVideoContent = ({
   currentCarouselIndex,
   firstPaintOver,
   forceLoad,
+  videoProps,
   ...styleProps
 }: Params) => {
   const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | undefined>(undefined)
@@ -72,11 +74,7 @@ export const ItemVideoContent = ({
               container={document.querySelector('#COLLECTION-ARTICLE') as HTMLElement}
               loadInView={firstPaintOver}
               forceLoad={forceLoad}
-              videoProps={{
-                style: {
-                  marginLeft: 'auto'
-                }
-              }}
+              videoProps={videoProps}
               sourcesProps={sources
                 .map(({ url, mimeType }) => ({ src: url, type: mimeType }))
                 .filter(({ type }) => type === 'video/mp4')}

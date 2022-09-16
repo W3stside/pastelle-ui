@@ -5,7 +5,7 @@ import { TYPE, ExternalLink } from 'theme'
 import { useBlockNumber } from 'state/blockchain/hooks'
 import { getEtherscanLink } from 'blockchain/utils'
 import { useWeb3React } from '@web3-react/core'
-import { rotate360Animation } from 'theme/styles/animations'
+import { rotateKeyframe } from 'theme/styles/animations'
 
 const StyledPolling = styled.div`
   position: fixed;
@@ -37,7 +37,7 @@ const StyledPollingDot = styled.div`
 `
 
 const Spinner = styled.div`
-  animation: ${rotate360Animation} 1s cubic-bezier(0.83, 0, 0.17, 1) infinite;
+  animation: ${rotateKeyframe} 1s cubic-bezier(0.83, 0, 0.17, 1) infinite;
   transform: translateZ(0);
 
   border-top: 1px solid transparent;
