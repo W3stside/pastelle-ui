@@ -32,7 +32,7 @@ import {
 import { useBreadcrumb } from 'components/Breadcrumb'
 import { useToggleModal, useModalOpen, useCloseModals } from 'state/modalsAndPopups/hooks'
 import { useUpdateCurrentlyViewing } from 'state/collection/hooks'
-import { useGetWindowSize } from 'state/window/hooks'
+import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 import { useQueryProductVariantId } from 'shopify/graphql/hooks'
 import useStateRef from 'hooks/useStateRef'
 import useSizeSelector from 'components/SizeSelector'
@@ -49,8 +49,7 @@ import {
 
 import { getImageSizeMap } from 'shopify/utils'
 import { BLACK, OFF_WHITE } from 'theme/utils'
-import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
-import { STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
+import { FREE_SHIPPING_THRESHOLD, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 
 import ShippingSvg from 'assets/svg/shipping.svg'
 import { isMobile } from 'utils'
@@ -156,7 +155,7 @@ export default function ItemPage({
   /**
    * SIDE EFFECTS
    */
-  // 1. scrolling page current index set in state as on screen
+  // 1. Update in state the currently being viewed product
   const updateCurrentlyViewing = useUpdateCurrentlyViewing()
   useEffect(() => {
     if (isActive) {
@@ -172,7 +171,7 @@ export default function ItemPage({
   ])
 
   // collection display logo to use
-  const collectionLogo = navLogo || headerLogo
+  const collectionViewProductLogo = navLogo || headerLogo
 
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
   const merchandiseId = useQueryProductVariantId({ productId: id, key: 'Size', value: selectedSize })
@@ -180,9 +179,7 @@ export default function ItemPage({
   const [showShowcase, setShowShowcase] = useState(false)
   const toggleMobileShowcase = () => setShowShowcase(state => !state)
 
-  const windowSizes = useGetWindowSize()
-  // undefined (loading) defaults to mobile
-  const isMobileShowcase = !!windowSizes?.width && windowSizes.width <= MEDIA_WIDTHS.upToSmall
+  const isMobileWidth = useIsMobileWindowWidthSize()
 
   return (
     <>
@@ -209,7 +206,7 @@ export default function ItemPage({
           <DynamicInnerContainer ref={setRef}>
             {/* Breadcrumbs */}
             {showBreadCrumbs && (
-              <Breadcrumbs {...breadcrumbs} marginTop={'5px'} marginLeft={'5px'} marginBottom={-25} />
+              <Breadcrumbs {...breadcrumbs} marginTop="0.5rem" marginLeft="0.5rem" marginBottom={-25} />
             )}
             {/* Item carousel */}
             <Carousel
@@ -227,8 +224,8 @@ export default function ItemPage({
             {/* Wrap everything else in a fragment */}
             {noDescription ? null : collectionView ? (
               <>
-                {collectionLogo ? (
-                  <ItemLogoCollectionView logoUri={collectionLogo} $bgColor="ghostwhite" />
+                {collectionViewProductLogo ? (
+                  <ItemLogoCollectionView logoUri={collectionViewProductLogo} $bgColor="ghostwhite" />
                 ) : (
                   <ItemLogo
                     $marginTop={
@@ -286,7 +283,7 @@ export default function ItemPage({
                   {/* Size selector */}
                   <ItemSubHeader useGradient bgColor={color} label="CHOOSE SIZE + VIEW LIVE" />
                   <ItemContentContainer margin="0" padding={'0 2rem'}>
-                    {isMobileShowcase && (
+                    {isMobileWidth && (
                       <SmallScreenVideoContent
                         isOpen
                         firstPaintOver={firstPaintOver}
@@ -298,35 +295,49 @@ export default function ItemPage({
                         margin="-2rem 0 2rem"
                       />
                     )}
-                    <SubItemDescription fontWeight={300} padding="1.8rem" margin="0" style={{ zIndex: 1 }}>
-                      SHOWCASE AVAILABLE!{' '}
-                      <TinyHelperText onClick={toggleMobileShowcase}>{`[+] What's showcase?`}</TinyHelperText>{' '}
+                    <SubItemDescription
+                      fontWeight={300}
+                      padding="1.8rem"
+                      margin="0"
+                      style={{ zIndex: 1, cursor: 'pointer' }}
+                      onClick={toggleMobileShowcase}
+                    >
+                      SHOWCASE AVAILABLE! <TinyHelperText />{' '}
                     </SubItemDescription>
                     {/* MOBILE SHOWCASE */}
                     {showShowcase && (
                       <SubItemDescription
                         backgroundColor="lightgoldenrodyellow"
                         color={BLACK}
-                        onClick={toggleMobileShowcase}
                         padding="4rem 1.3rem 0.3rem"
                         margin="-3rem auto 0"
                         width="93%"
                         fontWeight={300}
                         fontSize="1.6rem"
                         style={{
-                          cursor: 'pointer',
                           flexFlow: 'column nowrap',
                           alignItems: 'flex-start',
                           zIndex: Z_INDEXES.ZERO
                         }}
                       >
                         <small>
-                          Use showcase to view merch of different sizes on different sized models
+                          Use showcase to view items in different sizes worn on different sized models.
+                          <br />
+                          <p>e.g</p>
+                          a. <strong>XL</strong> worn by our <strong>175cm</strong> tall <strong>female</strong> model
+                          <br />
+                          b. <strong>M</strong> worn by our <strong>185cm</strong> tall <strong>male</strong> model
+                          <p>Available filters below. Changes automatically update showcase videos.</p>
                           <ul>
+                            <li>Select model height/gender via the toggles below.</li>
+                            <li>Select a different size</li>
+                            <li>Switch front/back views</li>
                             <li>
-                              Adjust the toggles below to set different parameters and load different product showcases
+                              {isMobile || isMobileWidth
+                                ? 'Tap the video anywhere'
+                                : 'Click the gray button in the upper right hand corner'}{' '}
+                              to play/pause
                             </li>
-                            <li>Tap the video anywhere to play/pause.</li>
                           </ul>
                         </small>
                       </SubItemDescription>
@@ -334,9 +345,11 @@ export default function ItemPage({
                     <SizeSelector color={bgColor} margin="2rem 0" />
                     <AddToCartButtonAndQuantitySelector merchandiseId={merchandiseId} />
 
-                    <SubItemDescription margin={'2rem 0 0 0'} fontWeight={300}>
-                      <img src={ShippingSvg} /> FREE SHIPPING OVER 200€
-                    </SubItemDescription>
+                    {FREE_SHIPPING_THRESHOLD && (
+                      <SubItemDescription margin={'2rem 0 0 0'} fontWeight={300}>
+                        <img src={ShippingSvg} /> FREE SHIPPING OVER {FREE_SHIPPING_THRESHOLD}€
+                      </SubItemDescription>
+                    )}
                   </ItemContentContainer>
 
                   {/* Item description */}
@@ -354,7 +367,7 @@ export default function ItemPage({
             )}
           </DynamicInnerContainer>
         </ItemAsidePanel>
-        {isMobileShowcase || noVideo || collectionView ? null : (
+        {isMobileWidth || noVideo || collectionView ? null : (
           <ItemVideoContent
             firstPaintOver={firstPaintOver}
             videos={videos}

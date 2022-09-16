@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 import { WindowSize, updateWindowSize } from 'state/window/reducer'
+import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 
 export function useUpdateWindowSize() {
   const dispatch = useAppDispatch()
@@ -9,3 +10,9 @@ export function useUpdateWindowSize() {
 }
 
 export const useGetWindowSize = () => useAppSelector(({ window }) => window.sizes)
+
+export const useIsMobileWindowWidthSize = () => {
+  const sizes = useGetWindowSize()
+
+  return Boolean(sizes?.width && sizes.width <= MEDIA_WIDTHS.upToSmall)
+}

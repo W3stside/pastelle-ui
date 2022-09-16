@@ -34,3 +34,4 @@ export const enum Z_INDEXES {
   MODALS = 9999
 }
 export const DEFAULT_CART_LINES_AMOUNT = 30
+export const FREE_SHIPPING_THRESHOLD: number | undefined = 200
