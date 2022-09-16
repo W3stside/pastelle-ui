@@ -5,6 +5,7 @@ import { setFadeInAnimation } from 'theme/styles/animations'
 const portugalBg = `${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}/portugal-bg_Rqj8jTKhFmds.jpg`
 
 export const ArticleFadeInContainer = styled.article`
+  position: relative;
   overflow: hidden;
 
   ${upToExtraSmall`

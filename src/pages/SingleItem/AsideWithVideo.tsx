@@ -291,7 +291,7 @@ export default function ItemPage({
                         currentCarouselIndex={currentCarouselIndex}
                         zIndex={Z_INDEXES.PRODUCT_VIDEOS}
                         height="auto"
-                        width="120%"
+                        width={innerContainerRef?.clientWidth ? innerContainerRef?.clientWidth + 'px' : '120%'}
                         margin="-2rem 0 2rem"
                         title="Tap to play/pause"
                         videoProps={{
@@ -377,16 +377,16 @@ export default function ItemPage({
         </ItemAsidePanel>
         {isMobileWidth || noVideo || collectionView ? null : (
           <ItemVideoContent
-            firstPaintOver={firstPaintOver}
             videos={videos}
-            currentCarouselIndex={currentCarouselIndex}
-            zIndex={Z_INDEXES.BEHIND}
-            height="100%"
             videoProps={{
               style: {
                 marginLeft: 'auto'
               }
             }}
+            height="calc(100vh - 10rem)"
+            zIndex={Z_INDEXES.BEHIND}
+            firstPaintOver={firstPaintOver}
+            currentCarouselIndex={currentCarouselIndex}
           />
         )}
       </ItemContainer>

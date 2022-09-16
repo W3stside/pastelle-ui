@@ -31,7 +31,6 @@ export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number
 
   video {
     // lock the video to 16:9 ratio
-    // height: calc(100vw * (9 / 16));
     height: ${({ height = '100%' }) => height};
     ${({ width }) => width && `width: ${width};`}
   }
@@ -451,7 +450,6 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
   }
 
   select {
