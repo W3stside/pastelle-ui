@@ -7,13 +7,16 @@ import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { ButtonVariations } from 'components/Button'
 import { Play, Pause } from 'react-feather'
 import { RowProps } from 'components/Layout'
+import { wait } from 'utils/async'
 
 interface Params extends RowProps {
   videos: FragmentProductVideoFragment[]
   firstPaintOver?: boolean
   currentCarouselIndex: number
   forceLoad?: boolean
+  showPoster?: boolean
   zIndex?: number
+  isMobileWidth: boolean
   videoProps?: LazyVideoProps['videoProps']
 }
 const CONTROL_BUTTON_SIZE = '1.6rem'
@@ -22,15 +25,27 @@ export const ItemVideoContent = ({
   currentCarouselIndex,
   firstPaintOver,
   forceLoad,
+  showPoster = true,
   videoProps,
+  isMobileWidth,
   ...styleProps
 }: Params) => {
+  const [videoIdx, setVideoIdx] = useState(currentCarouselIndex)
   const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | 'LOADED_AND_WAITING' | undefined>(undefined)
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
+  const [videoDelay, showVideoUIDelay] = useState<boolean>(false)
 
   useEffect(() => {
-    setVideoStatus(undefined)
-  }, [videos, currentCarouselIndex])
+    async function videoChange() {
+      if (!isMobileWidth) {
+        delayedVideoUpdater({ currentCarouselIndex, showVideoUIDelay, setVideoIdx, setVideoStatus })
+      } else {
+        setVideoIdx(currentCarouselIndex)
+        setVideoStatus(undefined)
+      }
+    }
+    videoChange()
+  }, [currentCarouselIndex, isMobileWidth])
 
   useEffect(() => {
     if (!videoElement) return
@@ -71,7 +86,7 @@ export const ItemVideoContent = ({
     <>
       <VideoContentWrapper id="#video-content-wrapper" {...styleProps}>
         {videos.map(({ id, sources, previewImage }, index) => {
-          const isSelected = index === currentCarouselIndex
+          const isSelected = index === videoIdx
           if (!isSelected) return null
 
           return (
@@ -82,14 +97,15 @@ export const ItemVideoContent = ({
               container={document.querySelector('#COLLECTION-ARTICLE') as HTMLElement}
               loadInView={firstPaintOver}
               forceLoad={forceLoad}
-              videoProps={{ ...videoProps, poster: previewImage?.url ?? '' }}
+              videoProps={{ ...videoProps, poster: showPoster ? previewImage?.url : undefined }}
               sourcesProps={sources
                 .map(({ url, mimeType }) => ({ src: url, type: mimeType }))
                 .filter(({ type }) => type === 'video/mp4')}
               height={styleProps.height}
               width={styleProps.width}
-              showTapToPlay={!isPlaying && videoProps?.autoPlay === false}
               Loader={Spinner}
+              videoDelay={!isMobileWidth && videoDelay}
+              showTapToPlay={!isPlaying && videoProps?.autoPlay === false}
             />
           )
         })}
@@ -137,4 +153,23 @@ export function SmallScreenVideoContent(props: Props) {
       {...styleProps}
     />
   )
+}
+
+async function delayedVideoUpdater({
+  currentCarouselIndex,
+  showVideoUIDelay,
+  setVideoIdx,
+  setVideoStatus
+}: {
+  currentCarouselIndex: number
+  showVideoUIDelay: (state: boolean) => void
+  setVideoIdx: (idx: number) => void
+  setVideoStatus: (status: undefined) => void
+}) {
+  showVideoUIDelay(true)
+  await wait(500)
+  setVideoIdx(currentCarouselIndex)
+  await wait(500)
+  setVideoStatus(undefined)
+  showVideoUIDelay(false)
 }

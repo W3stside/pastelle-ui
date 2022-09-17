@@ -13,6 +13,9 @@ import { Z_INDEXES } from 'constants/config'
 import { BLUE, OFF_WHITE } from 'theme/utils'
 import { Play } from 'react-feather'
 import { getMobileShowcaseVideoWidth } from 'pages/SingleItem/utils'
+import { useCurrentProductMedia } from 'state/collection/hooks'
+
+import PastelleCirclePinkYellow from 'assets/svg/pastelle-circle-pink-yellow.svg'
 
 type WithContainer = {
   container: HTMLElement | null | undefined
@@ -24,6 +27,7 @@ export type LazyVideoProps = {
   loadInView?: boolean
   forceLoad?: boolean
   showTapToPlay?: boolean
+  videoDelay?: boolean
   Loader?: (...props: any[]) => JSX.Element
 } & WithContainer &
   BoxProps
@@ -82,6 +86,7 @@ export default forwardRef(function LazyVideo(
     loadInView = true,
     forceLoad = false,
     showTapToPlay = false,
+    videoDelay = false,
     container,
     // Loader = Spinner,
     ...boxProps
@@ -131,8 +136,14 @@ export default forwardRef(function LazyVideo(
   return (
     <VideoContainer justifyContent="center" {...boxProps}>
       {/* {!loaded && <Loader />} */}
+      {videoDelay && <VideoDelayer />}
       {showTapToPlay && (
-        <VideoPlayCTAOverlay $width={getMobileShowcaseVideoWidth(videoElement)} $height="100%" textAlign="center">
+        <VideoPlayCTAOverlay
+          $width={getMobileShowcaseVideoWidth(videoElement)}
+          left={-20}
+          $height="100%"
+          textAlign="center"
+        >
           <ItemSubHeader color={OFF_WHITE} display="flex" alignItems="center" justifyContent="center">
             <Play size="1.8rem" style={{ marginRight: '0.5rem' }} /> TAP TO PLAY
           </ItemSubHeader>
@@ -146,3 +157,13 @@ export default forwardRef(function LazyVideo(
     </VideoContainer>
   )
 })
+
+export function VideoDelayer() {
+  const { color } = useCurrentProductMedia()
+
+  return (
+    <VideoPlayCTAOverlay bgColor={color} $height="100%">
+      <img src={PastelleCirclePinkYellow} />
+    </VideoPlayCTAOverlay>
+  )
+}

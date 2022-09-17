@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 import { ProductPageMap, updateCollection, ProductCurrentlyViewing, updateCurrentlyViewing } from './reducer'
 import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
@@ -51,4 +51,19 @@ export function useGetCurrentOnScreenCollectionProduct() {
   const item = useOnScreenProductHandle()
 
   return item ? collection?.[item.handle] : undefined
+}
+
+export function useCurrentProductMedia() {
+  const currentItem = useGetCurrentOnScreenCollectionProduct()
+
+  return useMemo(
+    () => ({
+      bgColor: currentItem?.bgColor,
+      color: currentItem?.color,
+      headerLogo: currentItem?.headerLogo,
+      logo: currentItem?.logo,
+      navLogo: currentItem?.navLogo
+    }),
+    [currentItem]
+  )
 }

@@ -289,6 +289,7 @@ export default function ItemPage({
                             cursor: 'pointer'
                           }
                         }}
+                        isMobileWidth
                       />
                     )}
                     <SubItemDescription
@@ -383,10 +384,12 @@ export default function ItemPage({
                 marginLeft: 'auto'
               }
             }}
+            showPoster={false}
             height="calc(100vh - 10rem)"
             zIndex={Z_INDEXES.BEHIND}
             firstPaintOver={firstPaintOver}
             currentCarouselIndex={currentCarouselIndex}
+            isMobileWidth={false}
           />
         )}
       </ItemContainer>

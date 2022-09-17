@@ -11,7 +11,6 @@ import { SocialType } from 'mock/types'
 import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
 import {
-  BLACK,
   fromExtraLarge,
   fromLarge,
   fromMedium,
@@ -21,7 +20,7 @@ import {
   upToLarge,
   upToSmall
 } from 'theme/utils'
-import { setAnimation, textShadowAnimation } from 'theme/styles/animations'
+import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
   z-index: ${({ zIndex = 1 }) => zIndex};
@@ -570,16 +569,30 @@ export const PASTELLE_CREDIT = (
   </>
 )
 
-export const VideoPlayCTAOverlay = styled(Row)<{ $width?: string | number; $height?: string | number }>`
+export const VideoPlayCTAOverlay = styled(Row).attrs(props => ({
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+  ...props
+}))<{
+  bgColor?: string
+  $width?: string | number
+  $height?: string | number
+}>`
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -2rem;
   cursor: pointer;
-  background: ${transparentize(0.5, BLACK)};
+  background: ${({ bgColor }) => `radial-gradient(76.02% 75.41% at 1.84% 0%, ${bgColor} 0%, #000000 100%)`};
   ${({ $width }) => $width && `width: ${$width};`}
   ${({ $height }) => $height && `height: ${$height};`}
   z-index: ${Z_INDEXES.PRODUCT_VIDEOS};
+
+  > img {
+    width: 20%;
+    margin: auto 20% auto auto;
+
+    animation: ${rotateKeyframe} 1s cubic-bezier(0.83, 0, 0.17, 1) infinite;
+  }
 `
 
 export const VideoControlButton = styled(Button)`

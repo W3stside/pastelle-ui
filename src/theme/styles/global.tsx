@@ -11,11 +11,8 @@ import {
   OFF_WHITE,
   setBestContrastingColour
 } from '../utils'
-import { ThemeModes } from '../styled'
 import FontStyles from './fonts'
-import { useAppColourTheme } from 'state/user/hooks'
-import { useMemo } from 'react'
-import { useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
+import { useCurrentProductMedia } from 'state/collection/hooks'
 import { setFlickerAnimation } from 'theme/styles/animations'
 
 export { FontStyles }
@@ -229,21 +226,6 @@ export const ThemedGlobalStyle = createGlobalStyle<{
 `
 
 export const ThemedGlobalComponent = () => {
-  const theme = useAppColourTheme()
-
-  const currentItem = useGetCurrentOnScreenCollectionProduct()
-
-  const { itemColor, navLogo, headerLogo, showAnimation } = useMemo(
-    () => ({
-      itemColor: theme.mode === ThemeModes.CHAMELEON ? currentItem?.color : undefined,
-      navLogo: theme.mode === ThemeModes.CHAMELEON ? currentItem?.navLogo : undefined,
-      headerLogo: theme.mode === ThemeModes.CHAMELEON ? currentItem?.headerLogo : undefined,
-      showAnimation: theme.mode === ThemeModes.CHAMELEON
-    }),
-    [currentItem?.headerLogo, currentItem?.color, currentItem?.navLogo, theme.mode]
-  )
-
-  return (
-    <ThemedGlobalStyle frameBgColor={itemColor} headerLogo={headerLogo} navLogo={navLogo} animation={showAnimation} />
-  )
+  const { color, headerLogo, navLogo } = useCurrentProductMedia()
+  return <ThemedGlobalStyle frameBgColor={color} headerLogo={headerLogo} navLogo={navLogo} animation />
 }
