@@ -570,14 +570,15 @@ export const PASTELLE_CREDIT = (
   </>
 )
 
-export const VideoPlayCTAOverlay = styled(Row)<{ $width?: string | number }>`
+export const VideoPlayCTAOverlay = styled(Row)<{ $width?: string | number; $height?: string | number }>`
   position: absolute;
   top: 0;
   bottom: 0;
   left: -2rem;
   cursor: pointer;
   background: ${transparentize(0.5, BLACK)};
-  ${({ $width }) => `width: ${$width};`}
+  ${({ $width }) => $width && `width: ${$width};`}
+  ${({ $height }) => $height && `height: ${$height};`}
   z-index: ${Z_INDEXES.PRODUCT_VIDEOS};
 `
 

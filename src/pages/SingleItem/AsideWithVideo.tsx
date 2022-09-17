@@ -53,7 +53,7 @@ import { FREE_SHIPPING_THRESHOLD, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants
 
 import ShippingSvg from 'assets/svg/shipping.svg'
 import { isMobile } from 'utils'
-import { getMobileShowcaseVideoWidth } from './utils'
+import { getMobileShowcaseVideo916Height } from './utils'
 
 export interface ProductPageProps {
   bgColor: string
@@ -279,9 +279,7 @@ export default function ItemPage({
                         videos={videos}
                         currentCarouselIndex={currentCarouselIndex}
                         zIndex={Z_INDEXES.PRODUCT_VIDEOS}
-                        height="auto"
-                        // width={innerContainerRef?.clientWidth ? innerContainerRef?.clientWidth + 'px' : '120%'}
-                        width={getMobileShowcaseVideoWidth(innerContainerRef)}
+                        height={getMobileShowcaseVideo916Height(innerContainerRef)}
                         margin="-2rem 0 2rem"
                         title="Tap to play/pause"
                         videoProps={{

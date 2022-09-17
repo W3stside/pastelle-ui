@@ -30,7 +30,7 @@ export const ItemVideoContent = ({
 
   useEffect(() => {
     setVideoStatus(undefined)
-  }, [videos])
+  }, [videos, currentCarouselIndex])
 
   useEffect(() => {
     if (!videoElement) return
@@ -86,7 +86,7 @@ export const ItemVideoContent = ({
               sourcesProps={sources
                 .map(({ url, mimeType }) => ({ src: url, type: mimeType }))
                 .filter(({ type }) => type === 'video/mp4')}
-              height="100%"
+              height={styleProps.height}
               width={styleProps.width}
               showTapToPlay={!isPlaying && videoProps?.autoPlay === false}
               Loader={Spinner}

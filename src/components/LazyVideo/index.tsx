@@ -12,6 +12,7 @@ import { BoxProps } from 'rebass'
 import { Z_INDEXES } from 'constants/config'
 import { BLUE, OFF_WHITE } from 'theme/utils'
 import { Play } from 'react-feather'
+import { getMobileShowcaseVideoWidth } from 'pages/SingleItem/utils'
 
 type WithContainer = {
   container: HTMLElement | null | undefined
@@ -82,7 +83,6 @@ export default forwardRef(function LazyVideo(
     forceLoad = false,
     showTapToPlay = false,
     container,
-    width,
     // Loader = Spinner,
     ...boxProps
   }: LazyVideoProps,
@@ -132,7 +132,7 @@ export default forwardRef(function LazyVideo(
     <VideoContainer justifyContent="center" {...boxProps}>
       {/* {!loaded && <Loader />} */}
       {showTapToPlay && (
-        <VideoPlayCTAOverlay $width={width as any} textAlign="center">
+        <VideoPlayCTAOverlay $width={getMobileShowcaseVideoWidth(videoElement)} $height="100%" textAlign="center">
           <ItemSubHeader color={OFF_WHITE} display="flex" alignItems="center" justifyContent="center">
             <Play size="1.8rem" style={{ marginRight: '0.5rem' }} /> TAP TO PLAY
           </ItemSubHeader>
