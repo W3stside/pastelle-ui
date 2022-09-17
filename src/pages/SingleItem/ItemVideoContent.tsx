@@ -9,6 +9,7 @@ import { Play, Pause } from 'react-feather'
 import { RowProps } from 'components/Layout'
 import { wait } from 'utils/async'
 
+type VideoStatus = 'PLAYING' | 'PAUSED' | 'LOADED_AND_WAITING' | undefined
 interface Params extends RowProps {
   videos: FragmentProductVideoFragment[]
   firstPaintOver?: boolean
@@ -31,14 +32,14 @@ export const ItemVideoContent = ({
   ...styleProps
 }: Params) => {
   const [videoIdx, setVideoIdx] = useState(currentCarouselIndex)
-  const [videoStatus, setVideoStatus] = useState<'PLAYING' | 'PAUSED' | 'LOADED_AND_WAITING' | undefined>(undefined)
+  const [videoStatus, setVideoStatus] = useState<VideoStatus>(undefined)
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
   const [videoDelay, showVideoUIDelay] = useState<boolean>(false)
 
   useEffect(() => {
     async function videoChange() {
       if (!isMobileWidth) {
-        delayedVideoUpdater({ currentCarouselIndex, showVideoUIDelay, setVideoIdx, setVideoStatus })
+        delayedVideoUpdater({ currentCarouselIndex, showVideoUIDelay, setVideoIdx })
       } else {
         setVideoIdx(currentCarouselIndex)
         setVideoStatus(undefined)
@@ -158,18 +159,15 @@ export function SmallScreenVideoContent(props: Props) {
 async function delayedVideoUpdater({
   currentCarouselIndex,
   showVideoUIDelay,
-  setVideoIdx,
-  setVideoStatus
+  setVideoIdx
 }: {
   currentCarouselIndex: number
   showVideoUIDelay: (state: boolean) => void
   setVideoIdx: (idx: number) => void
-  setVideoStatus: (status: undefined) => void
 }) {
   showVideoUIDelay(true)
   await wait(500)
   setVideoIdx(currentCarouselIndex)
   await wait(500)
-  setVideoStatus(undefined)
   showVideoUIDelay(false)
 }
