@@ -39,8 +39,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { buildItemUrl, checkIsCollectionPage } from 'utils/navigation'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
 import { formatCurrency } from 'utils/formatting'
-import { WHITE } from 'theme/utils'
+import { getThemeColours, WHITE } from 'theme/utils'
 import { COLLECTION_PATHNAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
+import Button, { ButtonVariations } from 'components/Button'
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
   return <ShoppingCartQuantityWrapper>{totalQuantity}</ShoppingCartQuantityWrapper>
@@ -88,13 +89,8 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
 
   return (
     <ShoppingCartPanelWrapper>
+      <CartTableHeader data={data} totalQuantity={totalQuantity} subTotal={subTotal} closeCartPanel={closeCartPanel} />
       <ShoppingCartPanelContentWrapper>
-        <CartTableHeader
-          data={data}
-          totalQuantity={totalQuantity}
-          subTotal={subTotal}
-          closeCartPanel={closeCartPanel}
-        />
         {loading ? (
           <LoadingRows rows={3} $height="11rem" $padding="1rem" $margin="1rem 0" $borderRadius="1rem" />
         ) : isEmptyCart ? (
@@ -110,6 +106,21 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
           cartLines?.map(line => <CartLine key={line.id} line={line} />)
         )}
       </ShoppingCartPanelContentWrapper>
+      {/* CHECKOUT */}
+      {process.env.REACT_APP_USE_CHECKOUT && data?.cart?.checkoutUrl && (
+        <CartTableHeaderWrapper gridTemplateColumns="max-content auto">
+          {subTotal && (
+            <CartHeader fontSize="3.5rem" letterSpacing={0}>
+              TOTAL {formatCurrency(subTotal.amount, subTotal.currencyCode)}
+            </CartHeader>
+          )}
+          <Button padding="1rem" backgroundColor={getThemeColours().purple2} variant={ButtonVariations.SUCCESS}>
+            <CartHeader margin="0" letterSpacing={-2} fontSize="3rem">
+              <a href={data.cart.checkoutUrl}>CHECKOUT</a>
+            </CartHeader>
+          </Button>
+        </CartTableHeaderWrapper>
+      )}
     </ShoppingCartPanelWrapper>
   )
 }
@@ -117,7 +128,6 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
 function CartTableHeader({
   data,
   totalQuantity,
-  subTotal,
   closeCartPanel
 }: {
   data: GetCartQuery | undefined
@@ -135,12 +145,7 @@ function CartTableHeader({
         <Column>
           {!!totalQuantity && (
             <CartHeader fontSize="3.5rem" letterSpacing={0}>
-              {totalQuantity} items
-            </CartHeader>
-          )}
-          {subTotal && (
-            <CartHeader fontSize="3.5rem" letterSpacing={0}>
-              {formatCurrency(subTotal.amount, subTotal.currencyCode)}
+              {!totalQuantity || totalQuantity > 1 ? `${totalQuantity} items` : '1 item'}
             </CartHeader>
           )}
         </Column>

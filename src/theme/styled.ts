@@ -48,6 +48,7 @@ export interface Colors {
   blue1: Color
   purple: Color
   purple1: Color
+  purple2: Color
 
   // states
   dangerLight: Color

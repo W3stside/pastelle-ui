@@ -203,9 +203,12 @@ const ButtonSizes = variants('component', 'size', {
 
 type ButtonStyleProps = BoxProps & {
   borderRadius?: string
+  backgroundColor?: string
+  margin?: string
+  padding?: string
 }
 
-const ButtonBase = styled.button.attrs(props => ({ ...props }))<ButtonStyleProps>`
+const ButtonBase = styled.button.attrs(props => props)<ButtonStyleProps>`
   border: none;
   border-radius: ${({ theme }) => theme.buttons.borderRadius};
   cursor: pointer;
@@ -215,7 +218,7 @@ const ButtonBase = styled.button.attrs(props => ({ ...props }))<ButtonStyleProps
 
   transition-duration: 0.2;
   transition-timing-function: ease-in-out;
-  transition-property: color, background, border-color, opacity, margin;
+  transition-property: color, background, background-color, border-color, opacity, margin;
 
   &:disabled,
   &[disabled] {
@@ -241,7 +244,14 @@ const ThemeWrappedButtonBase: React.FC<React.ButtonHTMLAttributes<Element>> = ({
   </ThemeProvider>
 )
 
-export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps>(({ size = BSV.DEFAULT, ...restProps }) => ({
-  ...restProps,
-  size
-}))<ButtonBaseProps & ButtonStyleProps>``
+export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps & ButtonStyleProps>(
+  ({ size = BSV.DEFAULT, ...restProps }) => ({
+    ...restProps,
+    size
+  })
+)<ButtonBaseProps & ButtonStyleProps>`
+  ${({ backgroundColor }) => backgroundColor && `background-color: ${backgroundColor};`}
+  ${({ color }) => color && `color: ${color};`}
+  ${({ margin }) => margin && `margin: ${margin};`}
+  ${({ padding }) => padding && `padding: ${padding};`}
+`
