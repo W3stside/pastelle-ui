@@ -568,7 +568,8 @@ export const PASTELLE_CREDIT = (
     Homegrown at <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> labs
   </>
 )
-
+// radial-gradient(76.02% 105.41% at 31.84% 0%,#7b649f 0%,#000000 100%)
+// background: ${({ bgColor }) => `radial-gradient(76.02% 75.41% at 1.84% 0%, ${bgColor} 0%, #000000 100%)`};
 export const VideoPlayCTAOverlay = styled(Row).attrs(props => ({
   top: 0,
   bottom: 0,
@@ -582,7 +583,7 @@ export const VideoPlayCTAOverlay = styled(Row).attrs(props => ({
 }>`
   position: absolute;
   cursor: pointer;
-  background: ${({ bgColor }) => `radial-gradient(76.02% 75.41% at 1.84% 0%, ${bgColor} 0%, #000000 100%)`};
+  background: ${({ bgColor }) => `radial-gradient(76.02% 105.41% at 31.84% 0%,${bgColor} 0%,#000000 100%)`};
   ${({ $width }) => $width && `width: ${$width};`}
   ${({ $height }) => $height && `height: ${$height};`}
   z-index: ${Z_INDEXES.PRODUCT_VIDEOS};
