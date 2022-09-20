@@ -207,12 +207,19 @@ export const ShoppingCartPanelWrapper = styled.div`
     margin-left: auto;
     width: 60%;
     
+    &:first-child {
+      padding: 1rem 3rem;
+    }
+
+    &:last-child {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+
     ${upToMedium`
       width: 100%;
       padding: 1rem 2rem;
     `}
-
-    padding: 1rem 3rem;
     
     ${fromExtraLarge`
       width: 50%;
@@ -220,7 +227,7 @@ export const ShoppingCartPanelWrapper = styled.div`
   }
   
   > ${ShoppingCartPanelContentWrapper} {
-    padding-bottom: 18rem;
+    padding: 0 3rem 18rem;
     height: 100%;
   }
 `

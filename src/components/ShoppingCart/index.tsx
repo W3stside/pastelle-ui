@@ -89,7 +89,10 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
 
   return (
     <ShoppingCartPanelWrapper>
+      {/* CART HEADER */}
       <CartTableHeader data={data} totalQuantity={totalQuantity} subTotal={subTotal} closeCartPanel={closeCartPanel} />
+
+      {/* CART LINES */}
       <ShoppingCartPanelContentWrapper>
         {loading ? (
           <LoadingRows rows={3} $height="11rem" $padding="1rem" $margin="1rem 0" $borderRadius="1rem" />
@@ -106,9 +109,10 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
           cartLines?.map(line => <CartLine key={line.id} line={line} />)
         )}
       </ShoppingCartPanelContentWrapper>
+
       {/* CHECKOUT */}
       {process.env.REACT_APP_USE_CHECKOUT && data?.cart?.checkoutUrl && (
-        <CartTableHeaderWrapper gridTemplateColumns="max-content auto">
+        <CartTableHeaderWrapper gridTemplateColumns="max-content auto" padding="0 0 2rem 0">
           {subTotal && (
             <CartHeader fontSize="3.5rem" letterSpacing={0}>
               TOTAL {formatCurrency(subTotal.amount, subTotal.currencyCode)}
