@@ -3,7 +3,7 @@ import styled, { ThemeProvider as StyledComponentsThemeProvider, css, DefaultThe
 
 import { Text, TextProps } from 'rebass'
 import { useAppColourTheme } from 'state/user/hooks'
-import { ThemeModes, Colors } from './styled'
+import { Colors } from './styled'
 import { getThemeColours } from './utils'
 import {
   mediaWidthTemplates as mediaWidth,
@@ -102,7 +102,7 @@ const ThemeProvider: FCC<{ themeExtension?: any }> = ({ children, themeExtension
   const { mode } = useAppColourTheme()
 
   const themeObject = useMemo(() => {
-    const themeColours = getThemeColours(mode)
+    const themeColours = getThemeColours()
 
     const computedTheme: DefaultTheme = {
       // Compute the app colour pallette using the passed in colourTheme
@@ -111,7 +111,7 @@ const ThemeProvider: FCC<{ themeExtension?: any }> = ({ children, themeExtension
       ...DEFAULT_THEME,
       mode,
       //shadows
-      shadow1: mode === ThemeModes.DARK ? '#000' : '#2F80ED',
+      shadow1: '#2F80ED',
       // unfold in any extensions
       // for example to make big/small buttons -> see src/components/Button ThemeWrappedButtonBase
       // to see it in action

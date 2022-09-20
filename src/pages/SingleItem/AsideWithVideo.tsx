@@ -382,6 +382,7 @@ export default function ItemPage({
               autoPlay: true,
               style: {
                 marginLeft: 'auto'
+                // filter: 'contrast(1) saturate(2.3)'
               }
             }}
             showPoster={false}

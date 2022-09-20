@@ -138,11 +138,16 @@ export const CartHeader = styled(ItemHeader).attrs(props => ({
   color: OFF_WHITE,
   itemColor: 'transparent',
   animation: false
-}))``
+}))`
+  > a {
+    text-decoration: none;
+    color: ${OFF_WHITE};
+  }
+`
 
-export const CartTableHeaderWrapper = styled(Row)`
+export const CartTableHeaderWrapper = styled(Row)<{ gridTemplateColumns?: string }>`
   display: grid;
-  grid-template-columns: min-content auto min-content;
+  grid-template-columns: ${({ gridTemplateColumns = 'min-content auto min-content' }) => gridTemplateColumns};
   text-align: center;
   grid-gap: 9rem;
 
@@ -163,8 +168,10 @@ export const CartTableHeaderWrapper = styled(Row)`
 `}
 `
 export const ShoppingCartPanelContentWrapper = styled(Column)`
+  height: 100vh;
   overflow: hidden;
   overflow-y: auto;
+
   #lenny-face {
     font-style: normal;
   }
@@ -179,6 +186,8 @@ export const ShoppingCartPanelContentWrapper = styled(Column)`
 `
 
 export const ShoppingCartPanelWrapper = styled.div`
+  display: grid;
+  grid-template-rows: min-content auto min-content;
   position: fixed;
   right: 0;
   top: 0;
@@ -198,25 +207,27 @@ export const ShoppingCartPanelWrapper = styled.div`
     margin-left: auto;
     width: 60%;
     
+    &:first-child {
+      padding: 1rem 3rem;
+    }
+
+    &:last-child {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+
     ${upToMedium`
       width: 100%;
-      padding: 1rem;
+      padding: 1rem 2rem;
     `}
-
-    padding-left: 3rem;
-    padding-right: 3rem;
     
     ${fromExtraLarge`
       width: 50%;
     `}
   }
   
-  > ${CartTableHeaderWrapper} {
-    padding: 2rem;
-  }
-  
   > ${ShoppingCartPanelContentWrapper} {
-    padding-bottom: 18rem;
+    padding: 0 3rem 18rem;
     height: 100%;
   }
 `

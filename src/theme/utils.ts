@@ -1,39 +1,23 @@
 import { DefaultTheme, FlattenSimpleInterpolation, css, CSSObject, SimpleInterpolation } from 'styled-components/macro'
 
-import { LIGHT_COLOURS, DARK_COLOURS, DEFAULT_COLOURS, VAMPIRE_COLOURS, CHAMELEON_COLOURS } from './styles'
-import { ThemeModes, Colors } from './styled'
+import { DEFAULT_COLOURS, CHAMELEON_COLOURS } from './styles'
+import { Colors } from './styled'
 import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
 import { MEDIA_WIDTHS } from './styles/mediaQueries'
 import { hex } from 'wcag-contrast'
 
-export function getThemeColours(colourTheme: ThemeModes): Colors {
-  let THEME_COLOURS = LIGHT_COLOURS
-
-  switch (colourTheme) {
-    case ThemeModes.LIGHT:
-      THEME_COLOURS = LIGHT_COLOURS
-      break
-    case ThemeModes.DARK:
-      THEME_COLOURS = DARK_COLOURS
-      break
-    case ThemeModes.VAMPIRE:
-      THEME_COLOURS = VAMPIRE_COLOURS
-      break
-    case ThemeModes.CHAMELEON:
-      THEME_COLOURS = CHAMELEON_COLOURS
-      break
-  }
+export function getThemeColours(): Colors {
   return {
     ...DEFAULT_COLOURS,
-    ...THEME_COLOURS
+    ...CHAMELEON_COLOURS
   }
 }
 
-export const WHITE = getThemeColours(ThemeModes.CHAMELEON).white
-export const OFF_WHITE = getThemeColours(ThemeModes.CHAMELEON).offWhite
-export const BLACK = getThemeColours(ThemeModes.CHAMELEON).black
-export const BLUE = getThemeColours(ThemeModes.CHAMELEON).blue1
-export const RED = getThemeColours(ThemeModes.CHAMELEON).red1
+export const WHITE = getThemeColours().white
+export const OFF_WHITE = getThemeColours().offWhite
+export const BLACK = getThemeColours().black
+export const BLUE = getThemeColours().blue1
+export const RED = getThemeColours().red1
 
 interface ThemeProps {
   theme: DefaultTheme

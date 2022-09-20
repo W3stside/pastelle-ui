@@ -3,7 +3,6 @@ import styled from 'styled-components/macro'
 import { AutoColumn, Row } from 'components/Layout'
 import { MarkdownRenderer } from 'components/Markdown'
 import { TYPE } from 'theme'
-import { ThemeModes } from 'theme/styled'
 import { getThemeColours } from 'theme/utils'
 import { ItemContainer, ItemAsidePanel, ItemHeader } from './styleds'
 import SmartImg, { ImageKitTransformation } from 'components/SmartImg'
@@ -55,7 +54,7 @@ export function AsideWithScrollableImages({ header, markdown, image }: Params) {
   return (
     <AsideWithScrollableImagesContainer id="#item-container" /* isViewingItem={isViewingItem} */>
       <ItemAsidePanel>
-        <AboutUsHeader fontWeight={100} itemColor={getThemeColours(ThemeModes.VAMPIRE).bg2} animation>
+        <AboutUsHeader fontWeight={100} itemColor={getThemeColours().bg2} animation>
           {header}
         </AboutUsHeader>
         <AboutUsTextContainer>
