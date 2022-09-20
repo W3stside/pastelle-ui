@@ -112,10 +112,10 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
 
       {/* CHECKOUT */}
       {process.env.REACT_APP_USE_CHECKOUT && data?.cart?.checkoutUrl && (
-        <CartTableHeaderWrapper gridTemplateColumns="max-content auto" padding="0 0 2rem 0">
+        <CartTableHeaderWrapper gridTemplateColumns="max-content auto">
           {subTotal && (
             <CartHeader fontSize="3.5rem" letterSpacing={0}>
-              TOTAL {formatCurrency(subTotal.amount, subTotal.currencyCode)}
+              {formatCurrency(subTotal.amount, subTotal.currencyCode)}
             </CartHeader>
           )}
           <Button padding="1rem" backgroundColor={getThemeColours().purple2} variant={ButtonVariations.SUCCESS}>

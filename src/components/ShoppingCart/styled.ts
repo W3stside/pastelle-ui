@@ -157,10 +157,10 @@ export const CartTableHeaderWrapper = styled(Row)<{ gridTemplateColumns?: string
   }
 `}
   ${upToSmall`
-  grid-gap: 4rem;
+  grid-gap: 2rem;
   > ${ItemHeader} {
-    font-size: 4rem;
-    letter-spacing: -0.5rem;
+    font-size: 3.2rem;
+    letter-spacing: -0.2rem;
   }
   > ${Column} > ${ItemHeader} {
     font-size: 2rem;
@@ -207,14 +207,27 @@ export const ShoppingCartPanelWrapper = styled.div`
     margin-left: auto;
     width: 60%;
     
+    // HEADER
     &:first-child {
       padding: 1rem 3rem;
     }
-
+    // FOOTER
     &:last-child {
       padding-left: 3rem;
       padding-right: 3rem;
     }
+
+    ${upToSmall`
+      // HEADER
+      &:first-child {
+        padding: 1rem;
+      }
+      // FOOTER
+      &:last-child {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    `}
 
     ${upToMedium`
       width: 100%;
@@ -229,5 +242,9 @@ export const ShoppingCartPanelWrapper = styled.div`
   > ${ShoppingCartPanelContentWrapper} {
     padding: 0 3rem 18rem;
     height: 100%;
+
+    ${upToSmall`
+      padding: 0 1rem 18rem;
+    `}
   }
 `
