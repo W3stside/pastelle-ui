@@ -54,6 +54,7 @@ import { FREE_SHIPPING_THRESHOLD, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants
 import ShippingSvg from 'assets/svg/shipping.svg'
 import { isMobile } from 'utils'
 import { getMobileShowcaseVideo916Height } from './utils'
+import useModelSizeSelector from 'components/ModelSizeSelector'
 
 export interface ProductPageProps {
   bgColor: string
@@ -175,6 +176,7 @@ export default function ItemPage({
   const collectionViewProductLogo = navLogo || headerLogo
 
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
+  const { ModelSizeSelector, modelSize, modelGender } = useModelSizeSelector()
   const merchandiseId = useQueryProductVariantId({ productId: id, key: 'Size', value: selectedSize })
 
   const [showShowcase, setShowShowcase] = useState(false)
@@ -339,6 +341,7 @@ export default function ItemPage({
                         </small>
                       </SubItemDescription>
                     )}
+                    <ModelSizeSelector />
                     <SizeSelector color={bgColor} margin="2rem 0" />
                     <AddToCartButtonAndQuantitySelector merchandiseId={merchandiseId} />
 
