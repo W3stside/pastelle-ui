@@ -127,6 +127,7 @@
     "@walletconnect/ethereum-provider": "1.7.1"
   },
   "scripts": {
+    "start:mock": "REACT_APP_IS_MOCK=true && yarn start",
     "start": "PORT=5001 GENERATE_SOURCEMAP=false craco start",
     "build": "craco build",
     "test": "craco test --env=jsdom",

@@ -10,7 +10,7 @@ const link = createHttpLink({
   fetch
 })
 
-const apolloClient = new ApolloClient({
+export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
   link
 })

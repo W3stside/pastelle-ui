@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client'
+import { useQuery as useRealQuery } from '@apollo/client'
 import { mapShopifyProductToProps } from 'shopify/utils'
 import { QUERY_GET_COLLECTION } from 'shopify/graphql/queries/collections'
 import {
@@ -14,6 +14,13 @@ import { useOnScreenProductHandle } from 'state/collection/hooks'
 import { QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
 import { GET_CART } from '../queries/cart'
 import { useParams } from 'react-router-dom'
+// MOCKS
+import { useMockQuery } from './mock/hooks'
+import { MOCK_COLLECTION_DATA } from './mock/queries'
+
+const isMock = !!process.env.REACT_APP_IS_MOCK
+
+const useQuery: typeof useRealQuery = isMock ? (useMockQuery as typeof useRealQuery) : useRealQuery
 
 export const DEFAULT_CURRENT_COLLECTION_VARIABLES = {
   collectionAmount: 1,
@@ -21,16 +28,29 @@ export const DEFAULT_CURRENT_COLLECTION_VARIABLES = {
   imageAmt: 20
 }
 
-export function useQueryCollections(variables: GetCollectionQueryVariables) {
+function useRealQueryCollections(variables: GetCollectionQueryVariables) {
   return useQuery<GetCollectionQuery, GetCollectionQueryVariables>(QUERY_GET_COLLECTION, {
     variables
   })
 }
 
+function useMockQueryCollection(variables: GetCollectionQueryVariables, mockOptions?: { error?: Error }) {
+  return {
+    data: MOCK_COLLECTION_DATA,
+    error: mockOptions?.error,
+    loading: false
+  }
+}
+
+export const useQueryCollections: typeof useRealQueryCollections = isMock
+  ? ((useMockQueryCollection as unknown) as typeof useRealQueryCollections)
+  : useRealQueryCollections
+
 export function useQueryCurrentCollection(
   variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
 ) {
   const { data, error } = useQueryCollections(variables)
+  console.log('🚀 ~ file: query.ts ~ line 52 ~ data', data)
 
   if (error) {
     console.error('Error fetching current collection using variables:' + variables, 'Error:', error)
