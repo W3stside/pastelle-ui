@@ -7,8 +7,9 @@ const ModelSizeSelectorWrapper = styled(Row)`
   position: relative;
   flex-flow: row wrap;
   width: 100%;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 0 0.7rem;
+  margin-bottom: 0;
+  justify-content: space-between;
 
   > div {
     flex: 1 1 48%;
@@ -20,15 +21,22 @@ const ModelSizeSelectorWrapper = styled(Row)`
     > select {
       font-size: 1.5rem;
       min-height: 3rem;
-      padding: 0.8rem;
+      margin: 0;
+      padding: 0.8rem 0 0.8rem 4rem;
       font-weight: 700;
       outline: none;
       font-style: italic;
+
+      &:hover {
+        background: ${({ theme }) => theme.green2};
+      }
+
+      transition: background 0.2s ease-in-out;
     }
   }
 `
 const GENDER_HEIGHT_MAP = {
-  FEMALE: [175],
+  FEMALE: [165, 175],
   MALE: [175, 185]
 }
 type ShowcaseGender = 'MALE' | 'FEMALE'

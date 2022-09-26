@@ -8,7 +8,6 @@ import { ScrollableContentComponentBaseProps } from 'components/ScrollingContent
 import SmartImg from 'components/SmartImg'
 import LargeImageCarouselModal from 'components/LargeImageCarouselModal'
 import AddToCartButtonAndQuantitySelector from 'components/AddToCartButtonAndQuantitySelector'
-import { TinyHelperText } from 'components/Common'
 import {
   ItemContainer,
   ItemAsidePanel,
@@ -48,13 +47,16 @@ import {
 } from 'shopify/graphql/types'
 
 import { getImageSizeMap } from 'shopify/utils'
-import { BLACK, OFF_WHITE } from 'theme/utils'
+import { OFF_WHITE } from 'theme/utils'
 import { FREE_SHIPPING_THRESHOLD, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 
 import ShippingSvg from 'assets/svg/shipping.svg'
 import { isMobile } from 'utils'
 import { getMobileShowcaseVideo916Height } from './utils'
 import useModelSizeSelector from 'components/ModelSizeSelector'
+import useShowShowcase from 'components/ShowcaseSettings'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 
 export interface ProductPageProps {
   bgColor: string
@@ -175,12 +177,10 @@ export default function ItemPage({
   // collection display logo to use
   const collectionViewProductLogo = navLogo || headerLogo
 
+  const { ShowcaseSettings } = useShowShowcase()
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
-  const { ModelSizeSelector, modelSize, modelGender } = useModelSizeSelector()
+  const { ModelSizeSelector } = useModelSizeSelector()
   const merchandiseId = useQueryProductVariantId({ productId: id, key: 'Size', value: selectedSize })
-
-  const [showShowcase, setShowShowcase] = useState(false)
-  const toggleMobileShowcase = () => setShowShowcase(state => !state)
 
   const isMobileWidth = useIsMobileWindowWidthSize()
 
@@ -294,57 +294,20 @@ export default function ItemPage({
                         isMobileWidth
                       />
                     )}
-                    <SubItemDescription
-                      fontWeight={300}
-                      padding="1.8rem"
-                      margin="0"
-                      style={{ zIndex: 1, cursor: 'pointer' }}
-                      onClick={toggleMobileShowcase}
-                    >
-                      SHOWCASE AVAILABLE! <TinyHelperText />{' '}
+                    {/* SHOWCASE MODEL SHOWCASE SETTINGS */}
+                    <SubItemDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
+                      <Row style={{ gap: '1rem' }}>
+                        <FontAwesomeIcon icon={faLightbulb} size={'sm'} /> SHOWCASE SETTINGS{' '}
+                      </Row>
                     </SubItemDescription>
-                    {/* MOBILE SHOWCASE */}
-                    {showShowcase && (
-                      <SubItemDescription
-                        backgroundColor="lightgoldenrodyellow"
-                        color={BLACK}
-                        padding="4rem 1.3rem 0.3rem"
-                        margin="-3rem auto 0"
-                        width="93%"
-                        fontWeight={300}
-                        fontSize="1.6rem"
-                        style={{
-                          flexFlow: 'column nowrap',
-                          alignItems: 'flex-start',
-                          zIndex: Z_INDEXES.ZERO
-                        }}
-                      >
-                        <small>
-                          Use showcase to view items in different sizes worn on different sized models.
-                          <br />
-                          <p>e.g</p>
-                          a. <strong>XL</strong> worn by our <strong>175cm</strong> tall <strong>female</strong> model
-                          <br />
-                          b. <strong>M</strong> worn by our <strong>185cm</strong> tall <strong>male</strong> model
-                          <p>Available filters below. Changes automatically update showcase videos.</p>
-                          <ul>
-                            <li>Select model height/gender via the toggles below.</li>
-                            <li>Select a different size</li>
-                            <li>Switch front/back views</li>
-                            <li>
-                              {isMobile || isMobileWidth
-                                ? 'Tap the video anywhere'
-                                : 'Click the gray button in the upper right hand corner'}{' '}
-                              to play/pause
-                            </li>
-                          </ul>
-                        </small>
-                      </SubItemDescription>
-                    )}
-                    <ModelSizeSelector />
+                    <ShowcaseSettings>
+                      {/* MOBILE SHOWCASE */}
+                      <ModelSizeSelector />
+                    </ShowcaseSettings>
+                    {/* PRODUCT SIZE SELECTOR */}
                     <SizeSelector color={bgColor} margin="2rem 0" />
+                    {/* ADD TO CART AND QUANTITY */}
                     <AddToCartButtonAndQuantitySelector merchandiseId={merchandiseId} />
-
                     {FREE_SHIPPING_THRESHOLD && (
                       <SubItemDescription margin={'2rem 0 0 0'} fontWeight={300}>
                         <img src={ShippingSvg} /> FREE SHIPPING OVER {FREE_SHIPPING_THRESHOLD}€

@@ -18,7 +18,7 @@ import { useParams } from 'react-router-dom'
 import { useMockQuery } from './mock/hooks'
 import { MOCK_COLLECTION_DATA } from './mock/queries'
 
-const isMock = !!process.env.REACT_APP_IS_MOCK
+const isMock = process.env.REACT_APP_IS_MOCK === 'true'
 
 const useQuery: typeof useRealQuery = isMock ? (useMockQuery as typeof useRealQuery) : useRealQuery
 
@@ -50,7 +50,6 @@ export function useQueryCurrentCollection(
   variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
 ) {
   const { data, error } = useQueryCollections(variables)
-  console.log('🚀 ~ file: query.ts ~ line 52 ~ data', data)
 
   if (error) {
     console.error('Error fetching current collection using variables:' + variables, 'Error:', error)

@@ -7,7 +7,11 @@ export const TinyHelperTextStyled = styled(TYPE.black)`
   cursor: pointer;
 `
 
-type TinyHelperTextParams = { label?: string; handleClick?: () => void }
-export function TinyHelperText({ label = 'What is this?', handleClick }: TinyHelperTextParams) {
-  return <TinyHelperTextStyled onClick={handleClick}>[+] {label}</TinyHelperTextStyled>
+type TinyHelperTextParams = { css?: string; label?: string; handleClick?: () => void }
+export function TinyHelperText({ css, label = 'What is this?', handleClick }: TinyHelperTextParams) {
+  return (
+    <TinyHelperTextStyled onClick={handleClick} css={css}>
+      [+] {label}
+    </TinyHelperTextStyled>
+  )
 }
