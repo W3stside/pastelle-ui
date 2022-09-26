@@ -7,7 +7,7 @@ const ModelSizeSelectorWrapper = styled(Row)`
   position: relative;
   flex-flow: row wrap;
   width: 100%;
-  gap: 0 0.7rem;
+  gap: 0.7rem;
   margin-bottom: 0;
   justify-content: space-between;
 
@@ -21,6 +21,7 @@ const ModelSizeSelectorWrapper = styled(Row)`
     > select {
       font-size: 1.5rem;
       min-height: 3rem;
+      min-width: 15.5rem;
       margin: 0;
       padding: 0.8rem 0 0.8rem 4rem;
       font-weight: 700;
