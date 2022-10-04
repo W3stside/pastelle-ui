@@ -208,7 +208,10 @@ export const SubItemDescription = styled(ItemDescription).attrs(props => ({
   gap: 1rem;
 `
 
-export const ItemContentContainer = styled(Column)``
+export const ItemContentContainer = styled(Column)`
+  position: relative;
+  overflow: hidden;
+`
 
 // COLLECTION NON-CAROUSEL VIEW vs NON-COLLECTION CAROUSEL ACTIVE VIEW
 // w/carousel
