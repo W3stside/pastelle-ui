@@ -63,7 +63,7 @@ export const CartLineWrapper = styled(Row)<{
   brandAssetMap: Partial<ProductBrandingAssets> | undefined
   color?: string
 }>`
-  border-radius: 1rem;
+  border-radius: ${({ theme }) => theme.buttons.borderRadius};
 
   > div {
     display: grid;

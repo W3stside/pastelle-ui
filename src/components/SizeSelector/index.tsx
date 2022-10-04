@@ -39,6 +39,9 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
   gap: 1px;
   padding: 1px;
 
+  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  overflow: hidden;
+
   width: 100%;
 
   > ${SquareSelectDiv} {

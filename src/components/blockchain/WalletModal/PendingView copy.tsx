@@ -27,7 +27,7 @@ const LoadingMessage = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: ${({ theme }) => theme.buttons.borderRadius};
 
   & > * {
     padding: 1rem;

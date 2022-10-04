@@ -4,7 +4,7 @@ import { ItemSubHeader } from 'pages/SingleItem/styleds'
 
 const ErrorWrapper = styled(ItemSubHeader)`
   background-color: ${({ theme }) => theme.dangerLight};
-  border-radius: 1rem;
+  border-radius: ${({ theme }) => theme.buttons.borderRadius};
 `
 
 export default function ErrorMessage({ error }: { error: ApolloError | Error }) {

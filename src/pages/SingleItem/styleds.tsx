@@ -192,7 +192,7 @@ export const ItemDescription = styled(TYPE.black).attrs(props => ({
   .item-description-p:first-child {
     margin-top: 0;
   }
-  border-radius: 1rem;
+  border-radius: ${({ theme }) => theme.buttons.borderRadius};
 `
 
 export const SubItemDescription = styled(ItemDescription).attrs(props => ({

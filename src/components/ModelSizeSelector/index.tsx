@@ -1,7 +1,10 @@
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, useCallback } from 'react'
 import styled from 'styled-components/macro'
 import { Row } from 'components/Layout'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
+import { ChevronDown } from 'react-feather'
+import { useGetShowcaseSettings, useUpdateShowcaseSettings } from 'state/user/hooks'
+import { ShowcaseGender, ShowcaseHeight } from 'state/user/reducer'
 
 const ModelSizeSelectorWrapper = styled(Row)`
   position: relative;
@@ -12,27 +15,44 @@ const ModelSizeSelectorWrapper = styled(Row)`
   justify-content: space-between;
 
   > div {
-    flex: 1 1 48%;
+    position: relative;
+    flex: 1 1 21.8rem;
+    height: 3.25rem;
+    min-width: 15.5rem;
+
     > ${ItemSubHeader} {
       position: absolute;
-      padding-left: 1.5rem;
       width: min-content;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding-left: 1.2rem;
     }
-    > select {
-      font-size: 1.5rem;
-      min-height: 3rem;
-      min-width: 15.5rem;
-      margin: 0;
-      padding: 0.8rem 0 0.8rem 4rem;
-      font-weight: 700;
-      outline: none;
-      font-style: italic;
 
-      &:hover {
-        background: ${({ theme }) => theme.green2};
+    > ${Row} {
+      > select {
+        font-size: 1.5rem;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0.8rem 0 0.8rem 0;
+        padding-left: calc(50% - 1.6rem);
+        font-weight: 700;
+        outline: none;
+        font-style: italic;
+
+        &:hover {
+          background: ${({ theme }) => theme.green2};
+        }
+
+        transition: background 0.2s ease-in-out;
       }
-
-      transition: background 0.2s ease-in-out;
+      > svg {
+        cursor: pointer;
+        width: 2rem;
+        height: 100%;
+        margin-left: -3rem;
+      }
     }
   }
 `
@@ -40,59 +60,70 @@ const GENDER_HEIGHT_MAP = {
   FEMALE: [165, 175],
   MALE: [175, 185]
 }
-type ShowcaseGender = 'MALE' | 'FEMALE'
-type ShowcaseHeight = 165 | 175 | 185 | 190
-export default function useModelSizeSelector() {
-  const [selectedGender, setSelectedGender] = useState<ShowcaseGender>('MALE')
-  const [selectedSize, setSelectedSize] = useState<ShowcaseHeight>(175)
 
-  const handleSelectGender = (e: ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault()
-    setSelectedGender(e.target.value as ShowcaseGender)
-  }
+export default function useModelSizeSelector() {
+  const { height: selectedHeight, gender: selectedGender } = useGetShowcaseSettings()
+  const updateShowcaseSettings = useUpdateShowcaseSettings()
+
+  const handleSelectGender = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      e.preventDefault()
+      updateShowcaseSettings({ gender: e.target.value as ShowcaseGender })
+    },
+    [updateShowcaseSettings]
+  )
+
+  const handleSelectHeight = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      e.preventDefault()
+      updateShowcaseSettings({ height: +e.target.value as ShowcaseHeight })
+    },
+    [updateShowcaseSettings]
+  )
 
   const ModelSizeSelector = useCallback(
     () => (
       <ModelSizeSelectorWrapper>
         {/* GENDER SELECT */}
         <div>
-          <ItemSubHeader margin="0" fontSize="1.5rem" fontWeight={300}>
+          <ItemSubHeader margin="0" fontSize="1.2rem" fontWeight={300}>
             GENDER
           </ItemSubHeader>
-          <select onChange={handleSelectGender}>
-            {Object.keys(GENDER_HEIGHT_MAP).map(gender => (
-              <option key={gender} value={gender} selected>
-                {gender}
-              </option>
-            ))}
-          </select>
+          <Row>
+            <select onChange={handleSelectGender} value={selectedGender}>
+              {Object.keys(GENDER_HEIGHT_MAP).map(gender => (
+                <option key={gender} value={gender}>
+                  {gender}
+                </option>
+              ))}
+            </select>
+            <ChevronDown />
+          </Row>
         </div>
 
         <div>
-          <ItemSubHeader margin="0" fontSize="1.5rem" fontWeight={300}>
+          <ItemSubHeader margin="0" fontSize="1.2rem" fontWeight={300}>
             HEIGHT
           </ItemSubHeader>
-          <select>
-            {GENDER_HEIGHT_MAP[selectedGender].map(size => (
-              <option
-                key={size}
-                value={size}
-                defaultValue={selectedSize}
-                onSelect={() => setSelectedSize(size as ShowcaseHeight)}
-              >
-                {size}cm
-              </option>
-            ))}
-          </select>
+          <Row>
+            <select onChange={handleSelectHeight} value={selectedHeight}>
+              {GENDER_HEIGHT_MAP[selectedGender].map(height => (
+                <option key={height} value={height}>
+                  {height}cm
+                </option>
+              ))}
+            </select>
+            <ChevronDown />
+          </Row>
         </div>
       </ModelSizeSelectorWrapper>
     ),
-    [selectedGender, selectedSize]
+    [handleSelectGender, handleSelectHeight, selectedGender, selectedHeight]
   )
 
   return {
     ModelSizeSelector,
-    modelSize: selectedSize,
+    modelSize: selectedHeight,
     modelGender: selectedGender
   }
 }

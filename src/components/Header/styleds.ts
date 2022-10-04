@@ -15,7 +15,7 @@ import PastelleLogoCursiveLong from 'assets/svg/pastelle-cursive-logo.svg'
 export const StyledNavLink = styled(NavLink)`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: left;
-  border-radius: 3rem;
+  border-radius: ${({ theme }) => theme.buttons.borderRadius};
   outline: none;
   cursor: pointer;
   text-decoration: none;
@@ -65,7 +65,7 @@ export const HeaderControls = styled.div`
 export const HeaderElement = styled.div`
   background: ${OFF_WHITE};
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: ${({ theme }) => theme.buttons.borderRadius};
   display: flex;
   align-items: center;
   gap: 8px;
@@ -145,7 +145,7 @@ export const AccountElement = styled.div<{ active: boolean }>`
   flex-direction: row;
   align-items: center;
   
-  border-radius: 12px;
+  border-radius: ${({ theme }) => theme.buttons.borderRadius};
   white-space: nowrap;
   width: 100%;
   cursor: pointer;
@@ -165,7 +165,7 @@ export const HideSmall = styled.span`
 `
 
 export const NetworkCard = styled(YellowCard)`
-  border-radius: 12px;
+  border-radius: ${({ theme }) => theme.buttons.borderRadius};
   padding: 8px 12px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;

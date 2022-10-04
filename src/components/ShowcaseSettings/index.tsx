@@ -45,24 +45,20 @@ export default function useShowShowcase() {
               width: '100%'
             }}
           >
-            Use showcase to view items in different sizes worn on different sized models.
+            Use the <strong>GENDER</strong> + <strong>HEIGHT</strong> filters above to view selected size worn on
+            different sized/gender models.
             <br />
             <p>e.g</p>
-            a. <strong>XL</strong> worn by our <strong>175cm</strong> tall <strong>female</strong> model
+            a. <strong>FEMALE</strong> model, <strong>175cm</strong> tall, wearing size <strong>L</strong>
             <br />
-            b. <strong>M</strong> worn by our <strong>185cm</strong> tall <strong>male</strong> model
+            b. <strong>MALE</strong> model, <strong>185cm</strong> tall, wearing size <strong>XL</strong>
             <p>Available filters below. Changes automatically update showcase videos.</p>
-            <ul>
-              <li>Select model height/gender via the toggles below.</li>
-              <li>Select a different size</li>
-              <li>Switch front/back views</li>
-              <li>
-                {isMobile || isMobileWidth
-                  ? 'Tap the video anywhere'
-                  : 'Click the gray button in the upper right hand corner'}{' '}
-                to play/pause
-              </li>
-            </ul>
+            <p>
+              {isMobile || isMobileWidth
+                ? 'Tap the video anywhere'
+                : 'Click the gray button in the upper right hand corner'}{' '}
+              to play/pause
+            </p>
           </small>
         )}
       </SubItemDescription>

@@ -75,7 +75,7 @@ const DEFAULT_THEME: Partial<DefaultTheme> = {
         large: '1.6rem'
       }
     },
-    borderRadius: '1.6rem',
+    borderRadius: '1rem',
     border: '0.1rem solid transparent'
   },
   // media queries

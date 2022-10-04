@@ -14,7 +14,7 @@ export const Web3StatusGeneric = styled(Button)`
   width: 100%;
   align-items: center;
   padding: 0.5rem;
-  border-radius: 12px;
+  border-radius: ${({ theme }) => theme.buttons.borderRadius};
   cursor: pointer;
   user-select: none;
   height: 36px;

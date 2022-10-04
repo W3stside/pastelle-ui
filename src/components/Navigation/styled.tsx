@@ -49,7 +49,7 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
     padding: 1rem;
     background: #000;
 
-    border-radius: 1rem;
+    border-radius: ${({ theme }) => theme.buttons.borderRadius};
 
     > svg {
       &:hover {
