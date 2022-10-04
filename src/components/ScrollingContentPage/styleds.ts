@@ -43,6 +43,8 @@ export const Scroller = styled.div<{ index?: number; clientHeight?: number }>`
 
 export const ScrollerContainer = styled.div`
   height: 100%;
+  position: relative;
+  overflow: hidden;
 
   touch-action: none;
   transition: transform 350ms ease-in-out;
