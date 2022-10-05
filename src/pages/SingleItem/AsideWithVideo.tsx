@@ -272,7 +272,12 @@ export default function ItemPage({
                 {/* ITEM CONTENT: description, credits, etc */}
                 <ItemContentContainer padding="0 0 3rem">
                   {/* Size selector */}
-                  <ItemSubHeader useGradient bgColor={color} label="CHOOSE SIZE + SHOWCASE" margin="0 0 2rem" />
+                  <ItemSubHeader
+                    useGradient
+                    bgColor={color}
+                    label="CHOOSE SIZE + SHOWCASE"
+                    margin={isMobileWidth ? '0' : '0 0 2rem 0'}
+                  />
                   <ItemContentContainer margin="0" padding={'0 2rem'}>
                     {isMobileWidth && (
                       <SmallScreenVideoContent
