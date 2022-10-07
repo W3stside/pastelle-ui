@@ -4,7 +4,7 @@ import { Row } from 'components/Layout'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { ChevronDown } from 'react-feather'
 import { useGetShowcaseSettings, useUpdateShowcaseSettings } from 'state/user/hooks'
-import { ShowcaseGender, ShowcaseHeight } from 'state/user/reducer'
+import { ShowcaseGender, ShowcaseHeight, UserState } from 'state/user/reducer'
 
 const ModelSizeSelectorWrapper = styled(Row)`
   position: relative;
@@ -56,9 +56,12 @@ const ModelSizeSelectorWrapper = styled(Row)`
     }
   }
 `
+const FEMALE_HEIGHT_LIST: ShowcaseHeight[] = [165, 175]
+const MALE_HEIGHT_LIST: ShowcaseHeight[] = [175, 185]
+
 const GENDER_HEIGHT_MAP = {
-  FEMALE: [165, 175],
-  MALE: [175, 185]
+  FEMALE: new Set(FEMALE_HEIGHT_LIST),
+  MALE: new Set(MALE_HEIGHT_LIST)
 }
 
 export default function useModelSizeSelector() {
@@ -68,9 +71,17 @@ export default function useModelSizeSelector() {
   const handleSelectGender = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
       e.preventDefault()
-      updateShowcaseSettings({ gender: e.target.value as ShowcaseGender })
+      const gender = e.target.value as ShowcaseGender
+      const changingState: Partial<UserState['showcase']> = { gender }
+
+      // height doesn't exist for selecte gender, set default
+      if (!GENDER_HEIGHT_MAP[gender].has(selectedHeight)) {
+        changingState.height = gender === 'FEMALE' ? FEMALE_HEIGHT_LIST[0] : MALE_HEIGHT_LIST[0]
+      }
+
+      updateShowcaseSettings(changingState)
     },
-    [updateShowcaseSettings]
+    [selectedHeight, updateShowcaseSettings]
   )
 
   const handleSelectHeight = useCallback(
@@ -107,7 +118,7 @@ export default function useModelSizeSelector() {
           </ItemSubHeader>
           <Row>
             <select onChange={handleSelectHeight} value={selectedHeight}>
-              {GENDER_HEIGHT_MAP[selectedGender].map(height => (
+              {Array.from(GENDER_HEIGHT_MAP[selectedGender]).map(height => (
                 <option key={height} value={height}>
                   {height}cm
                 </option>

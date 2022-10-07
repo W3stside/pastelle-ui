@@ -40,9 +40,20 @@ const userSlice = createSlice({
     },
     updateShowcaseSettings(state, { payload }: PayloadAction<Partial<UserState['showcase']>>) {
       const { showcase: currentShowcase } = current(state)
-      state.showcase = { ...currentShowcase, ...payload }
+
+      // proper state type check
+      if (_isShowcaseState(currentShowcase)) {
+        const newState = { ...currentShowcase, ...payload }
+        state.showcase = newState
+      } else {
+        state.showcase = initialState.showcase
+      }
     }
   }
 })
 export const { updateThemeAutoDetect, updateThemeMode, updateShowcaseSettings } = userSlice.actions
 export const user = userSlice.reducer
+
+function _isShowcaseState(showcase: UserState['showcase']) {
+  return (showcase.gender === 'MALE' || showcase.gender === 'FEMALE') && typeof showcase.height === 'number'
+}

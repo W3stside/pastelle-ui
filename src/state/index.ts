@@ -17,7 +17,7 @@ import { updateVersion } from 'state/global/actions'
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
 
-const PERSISTED_KEYS: string[] = ['user', 'blockchainTransactions', 'cart', 'collection']
+const PERSISTED_KEYS: string[] = ['blockchainTransactions', 'cart', 'collection', 'user']
 
 const store = configureStore({
   reducer: {
