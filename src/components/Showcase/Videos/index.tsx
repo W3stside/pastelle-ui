@@ -16,7 +16,6 @@ export default function ShowcaseVideos({ hideVideo, showcaseVideos, videos, ...r
   return useMemo(() => {
     // e.g 175-LARGE
     const builtUrlSearchString = height + '-' + sizeToFullSizeCapitalised(selectedSize)
-    console.log('🚀 ~ file: index.tsx ~ line 26 ~ builtUrlSearchString', builtUrlSearchString)
     const showcaseVideosByGender = showcaseVideos
       ? showcaseVideos[gender].reduce(_reduceShowcaseVideo(builtUrlSearchString), [])
       : videos
