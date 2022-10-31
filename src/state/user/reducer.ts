@@ -1,5 +1,4 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
-import { DEFAULT_SIZE_SELECTED } from 'constants/config'
 import { ProductSizes } from 'shopify/graphql/types'
 import { Theme, ThemeModes } from 'theme/styled'
 
@@ -26,7 +25,7 @@ export const initialState: UserState = {
   showcase: {
     gender: 'MALE',
     height: 175,
-    size: DEFAULT_SIZE_SELECTED
+    size: ProductSizes.L
   }
 }
 const userSlice = createSlice({
@@ -59,5 +58,9 @@ export const { updateThemeAutoDetect, updateThemeMode, updateShowcaseSettings } 
 export const user = userSlice.reducer
 
 function _isShowcaseState(showcase: UserState['showcase']) {
-  return (showcase.gender === 'MALE' || showcase.gender === 'FEMALE') && typeof showcase.height === 'number'
+  return (
+    (showcase?.gender === 'MALE' || showcase?.gender === 'FEMALE') &&
+    typeof showcase?.height === 'number' &&
+    typeof showcase?.size === 'string'
+  )
 }

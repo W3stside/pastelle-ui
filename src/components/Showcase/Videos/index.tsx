@@ -18,7 +18,6 @@ export default function ShowcaseVideos({ hideVideo, showcaseVideos, videos, ...r
   const isPreProd = process.env.REACT_APP_IS_PRE_PROD || false
 
   return useMemo(() => {
-    if (!selectedSize) return null
     // e.g 175-LARGE
     const builtUrlSearchString = height + '-' + sizeToFullSizeCapitalised(selectedSize)
     const showcaseVideosByGender = showcaseVideos
