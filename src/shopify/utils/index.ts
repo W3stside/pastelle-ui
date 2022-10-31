@@ -82,7 +82,7 @@ export function sizeToFullSize(size: ProductSizes): string {
   }
 }
 
-export const sizeToFullSizeCapitalised = (size: ProductSizes) => {
+export const sizeToFullSizeCapitalised = (size: ProductSizes): string => {
   const sizeSmall = sizeToFullSize(size)
   return sizeSmall.toUpperCase()
 }
