@@ -1,3 +1,4 @@
+import { ShowcaseGender } from 'state/user/reducer'
 import { AddNewCartLineMutation, GetCartQuery, ProductQuery } from './_generated_'
 
 export * from './_generated_'
@@ -17,6 +18,11 @@ export type ProductVideosBySize = {
 export type ProductVideos = {
   [size in ProductSizes]: ProductVideosBySize
 }
+export type ProductShowcaseVideos =
+  | {
+      [gender in ShowcaseGender]: (string | null)[]
+    }
+  | null
 
 export type ProductArtistInfo = {
   name: string

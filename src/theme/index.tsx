@@ -78,6 +78,10 @@ const DEFAULT_THEME: Partial<DefaultTheme> = {
     borderRadius: '1rem',
     border: '0.1rem solid transparent'
   },
+  // gradients
+  whiteGradient1: css`
+    background-image: linear-gradient(to top, ghostwhite, #fff 53%);
+  `,
   // media queries
   mediaWidth,
   // from size queries

@@ -5,6 +5,7 @@ import {
   FragmentProductVideoFragment,
   ProductArtistInfo,
   ProductBrandingAssets,
+  ProductShowcaseVideos,
   ProductSizes,
   ProductsList
 } from 'shopify/graphql/types'
@@ -52,6 +53,7 @@ export const mapShopifyProductToProps = (data: ProductsList = []): ProductPagePr
       images: datum.images.nodes.slice(0, 2),
       // @ts-ignore - type
       videos: datum.media.nodes.filter(media => media?.__typename === 'Video') as FragmentProductVideoFragment[],
+      showcaseVideos: getMetafields<ProductShowcaseVideos>(datum.showcaseVideos),
       sizes: getMetafields<ProductSizes[]>(datum.sizes[0].values)
     }
   })
@@ -67,7 +69,7 @@ export function getImageSizeMap(images: FragmentProductImageFragment[]) {
   }))
 }
 
-export function sizeToFullSize(size?: string | ProductSizes): string | null {
+export function sizeToFullSize(size: ProductSizes): string {
   switch (size) {
     case ProductSizes.S:
       return 'small'
@@ -77,7 +79,10 @@ export function sizeToFullSize(size?: string | ProductSizes): string | null {
       return 'large'
     case ProductSizes.XL:
       return 'extra-large'
-    default:
-      return null
   }
+}
+
+export const sizeToFullSizeCapitalised = (size: ProductSizes) => {
+  const sizeSmall = sizeToFullSize(size)
+  return sizeSmall.toUpperCase()
 }

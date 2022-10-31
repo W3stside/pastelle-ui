@@ -34,6 +34,9 @@ export const FRAGMENT_PRODUCT = gql`
       name
       values
     }
+    showcaseVideos: metafield(namespace: "custom", key: "videos") {
+      value
+    }
     brandingAssetMap: metafield(namespace: "custom", key: "brandingassetmap") {
       value
     }

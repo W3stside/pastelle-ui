@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import styled from 'styled-components/macro'
 import { transparentize } from 'polished'
 import { ProductOptionsSize, ProductSizes } from 'shopify/graphql/types'
-import { DEFAULT_SIZE_SELECTED } from 'constants/config'
 import { Row, RowProps } from 'components/Layout'
 import { TYPE } from 'theme'
 import { BLACK, OFF_WHITE, setBestContrastingColour } from 'theme/utils'
+import { useGetShowcaseSettings, useUpdateShowcaseSettings } from 'state/user/hooks'
 
 type SizeSelectorProps = Omit<RowProps, 'sizes'> & {
   sizes: ProductOptionsSize
@@ -37,8 +37,9 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
   justify-content: space-evenly;
   align-items: center;
   gap: 1px;
-  padding: 1px;
+  padding: 0;
 
+  ${({ theme }) => theme.whiteGradient1}
   border-radius: ${({ theme }) => theme.buttons.borderRadius};
   overflow: hidden;
 
@@ -49,7 +50,6 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background-color: ${({ theme }) => theme.offWhite};
     padding: 1rem 2rem;
     text-align: center;
     font-size: 2rem;
@@ -84,10 +84,9 @@ function SizeSelector({ sizes, selectedSize, handleSizeSelect, ...styleProps }: 
 }
 
 export default function useSizeSelector({ sizes }: Pick<SizeSelectorProps, 'sizes'>) {
-  const [selectedSize, setSize] = useState<ProductSizes>(DEFAULT_SIZE_SELECTED)
-  const handleSetSize = useCallback((size: ProductSizes) => {
-    setSize(size)
-  }, [])
+  const { size: selectedSize } = useGetShowcaseSettings()
+  const updateShowcaseSettings = useUpdateShowcaseSettings()
+  const handleSetSize = useCallback((size: ProductSizes) => updateShowcaseSettings({ size }), [updateShowcaseSettings])
 
   const SizeSelectorMemoed = useCallback(
     (props: Omit<SizeSelectorProps, 'selectedSize' | 'sizes' | 'handleSizeSelect'>) => (

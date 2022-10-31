@@ -16,7 +16,7 @@ export default function useShowShowcase() {
       <SubItemDescription
         color={BLACK}
         padding="4rem 1.3rem 0.3rem"
-        margin="-3rem auto 0"
+        margin="-3rem auto 2rem"
         width="93%"
         fontWeight={300}
         fontSize="1.2rem"

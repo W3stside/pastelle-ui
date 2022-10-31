@@ -206,6 +206,7 @@ export const ShoppingCartPanelWrapper = styled.div`
     background-color: ${({ theme }) => transparentize(0.1, theme.black)};
     margin-left: auto;
     width: 60%;
+    padding: 1rem 2rem;
     
     // HEADER
     &:first-child {
@@ -231,7 +232,6 @@ export const ShoppingCartPanelWrapper = styled.div`
 
     ${upToMedium`
       width: 100%;
-      padding: 1rem 2rem;
     `}
     
     ${fromExtraLarge`

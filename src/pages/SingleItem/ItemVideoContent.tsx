@@ -10,7 +10,7 @@ import { RowProps } from 'components/Layout'
 import { wait } from 'utils/async'
 
 type VideoStatus = 'PLAYING' | 'PAUSED' | 'LOADED_AND_WAITING' | undefined
-interface Params extends RowProps {
+export interface ItemVideoContentProps extends RowProps {
   videos: FragmentProductVideoFragment[]
   firstPaintOver?: boolean
   currentCarouselIndex: number
@@ -30,7 +30,7 @@ export const ItemVideoContent = ({
   videoProps,
   isMobileWidth,
   ...styleProps
-}: Params) => {
+}: ItemVideoContentProps) => {
   const [videoIdx, setVideoIdx] = useState(currentCarouselIndex)
   const [videoStatus, setVideoStatus] = useState<VideoStatus>(undefined)
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
@@ -139,7 +139,7 @@ function VideoControlButton({ callback, isPlaying }: VideoControlButtonParams) {
   )
 }
 
-type Props = Params & { isOpen: boolean; zIndex?: number }
+type Props = ItemVideoContentProps & { isOpen: boolean; zIndex?: number }
 export function SmallScreenVideoContent(props: Props) {
   const { isOpen, firstPaintOver, videos, currentCarouselIndex, ...styleProps } = props
 

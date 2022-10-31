@@ -3,7 +3,6 @@ import { BoxProps } from 'rebass'
 
 import { Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
-import { ItemVideoContent, SmallScreenVideoContent } from 'pages/SingleItem/ItemVideoContent'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import SmartImg from 'components/SmartImg'
 import LargeImageCarouselModal from 'components/LargeImageCarouselModal'
@@ -43,7 +42,8 @@ import {
   FragmentProductImageFragment,
   ProductOptionsSize,
   ProductArtistInfo,
-  Product
+  Product,
+  ProductShowcaseVideos
 } from 'shopify/graphql/types'
 
 import { getImageSizeMap } from 'shopify/utils'
@@ -54,9 +54,10 @@ import ShippingSvg from 'assets/svg/shipping.svg'
 import { isMobile } from 'utils'
 import { getMobileShowcaseVideo916Height } from './utils'
 import useModelSizeSelector from 'components/ModelSizeSelector'
-import useShowShowcase from 'components/ShowcaseSettings'
+import useShowShowcase from 'components/Showcase/Settings'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
+import ShowcaseVideos from 'components/Showcase/Videos'
 
 export interface ProductPageProps {
   bgColor: string
@@ -68,6 +69,7 @@ export interface ProductPageProps {
   navLogo?: string
   images: FragmentProductImageFragment[]
   videos: FragmentProductVideoFragment[]
+  showcaseVideos: ProductShowcaseVideos
   // media: (FragmentProductExternalVideoFragment | FragmentProductVideoFragment)[]
   sizes: ProductOptionsSize
   description: string
@@ -126,6 +128,7 @@ export default function ItemPage({
   headerLogo,
   images = [],
   videos = [],
+  showcaseVideos = null,
   // media,
   sizes = [],
   description,
@@ -275,30 +278,29 @@ export default function ItemPage({
                   <ItemSubHeader
                     useGradient
                     bgColor={color}
-                    label="CHOOSE SIZE + SHOWCASE"
+                    label="SIZE & SHOWCASE"
                     margin={isMobileWidth ? '0' : '0 0 2rem 0'}
                   />
                   <ItemContentContainer margin="0" padding={'0 2rem'}>
-                    {isMobileWidth && (
-                      <SmallScreenVideoContent
-                        isOpen
-                        firstPaintOver={firstPaintOver}
-                        videos={videos}
-                        currentCarouselIndex={currentCarouselIndex}
-                        zIndex={Z_INDEXES.PRODUCT_VIDEOS}
-                        height={getMobileShowcaseVideo916Height(innerContainerRef)}
-                        margin="-2rem 0 2rem"
-                        title="Tap to play/pause"
-                        videoProps={{
-                          // TODO: check ios autoplay
-                          autoPlay: false,
-                          style: {
-                            cursor: 'pointer'
-                          }
-                        }}
-                        isMobileWidth
-                      />
-                    )}
+                    <ShowcaseVideos
+                      videos={videos}
+                      showcaseVideos={showcaseVideos}
+                      videoProps={{
+                        // TODO: check ios autoplay
+                        autoPlay: false,
+                        style: {
+                          cursor: 'pointer'
+                        }
+                      }}
+                      currentCarouselIndex={currentCarouselIndex}
+                      hideVideo={!isMobileWidth}
+                      firstPaintOver={firstPaintOver}
+                      zIndex={Z_INDEXES.PRODUCT_VIDEOS}
+                      height={getMobileShowcaseVideo916Height(innerContainerRef)}
+                      margin="-2rem 0 2rem"
+                      title="Tap to play/pause"
+                      isMobileWidth
+                    />
                     {/* SHOWCASE MODEL SHOWCASE SETTINGS */}
                     <SubItemDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
                       <Row style={{ gap: '1rem' }}>
@@ -308,9 +310,9 @@ export default function ItemPage({
                     <ShowcaseSettings>
                       {/* MOBILE SHOWCASE */}
                       <ModelSizeSelector />
+                      {/* PRODUCT SIZE SELECTOR */}
+                      <SizeSelector color={color} margin="0" />
                     </ShowcaseSettings>
-                    {/* PRODUCT SIZE SELECTOR */}
-                    <SizeSelector color={bgColor} margin="2rem 0" />
                     {/* ADD TO CART AND QUANTITY */}
                     <AddToCartButtonAndQuantitySelector merchandiseId={merchandiseId} />
                     {FREE_SHIPPING_THRESHOLD && (
@@ -321,7 +323,7 @@ export default function ItemPage({
                   </ItemContentContainer>
 
                   {/* Item description */}
-                  <ItemSubHeader useGradient bgColor={color} label="INFO + CARE INSTRUCTIONS" />
+                  <ItemSubHeader useGradient bgColor={color} label="INFO & CARE INSTRUCTIONS" />
                   <ItemContentContainer padding="0 1.5rem">
                     <ItemDescription
                       dangerouslySetInnerHTML={{ __html: description }}
@@ -346,24 +348,24 @@ export default function ItemPage({
             )}
           </DynamicInnerContainer>
         </ItemAsidePanel>
-        {isMobileWidth || noVideo || collectionView ? null : (
-          <ItemVideoContent
-            videos={videos}
-            videoProps={{
-              autoPlay: true,
-              style: {
-                marginLeft: 'auto'
-                // filter: 'contrast(1) saturate(2.3)'
-              }
-            }}
-            showPoster={false}
-            height="calc(100vh - 10rem)"
-            zIndex={Z_INDEXES.BEHIND}
-            firstPaintOver={firstPaintOver}
-            currentCarouselIndex={currentCarouselIndex}
-            isMobileWidth={false}
-          />
-        )}
+        <ShowcaseVideos
+          videos={videos}
+          showcaseVideos={showcaseVideos}
+          videoProps={{
+            autoPlay: true,
+            style: {
+              marginLeft: 'auto'
+              // filter: 'contrast(1) saturate(2.3)'
+            }
+          }}
+          hideVideo={isMobileWidth || noVideo || collectionView}
+          showPoster={false}
+          height="calc(100vh - 10rem)"
+          zIndex={Z_INDEXES.BEHIND}
+          firstPaintOver={firstPaintOver}
+          currentCarouselIndex={currentCarouselIndex}
+          isMobileWidth={false}
+        />
       </ItemContainer>
     </>
   )

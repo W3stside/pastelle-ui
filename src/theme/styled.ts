@@ -85,6 +85,9 @@ declare module 'styled-components' {
       borderRadius: string
       border: string
     }
+    // gradient
+    whiteGradient1: FlattenSimpleInterpolation
+
     // shadows
     shadow1: string
 

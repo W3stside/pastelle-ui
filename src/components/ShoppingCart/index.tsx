@@ -10,7 +10,8 @@ import {
   FragmentCartCostFragment,
   FragmentCartLineFragment,
   GetCartQuery,
-  ProductBrandingAssets
+  ProductBrandingAssets,
+  ProductSizes
 } from 'shopify/graphql/types'
 import {
   useGetCartDispatch,
@@ -215,7 +216,7 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
     }
   }, [line.id, quantity, selectionIsValidQuantity, updateCartLineCallback, removeLineLoading, wasPreviousAndChanged])
 
-  const sizeFull = sizeToFullSize(line?.merchandise.size)
+  const sizeFull = line?.merchandise.size ? sizeToFullSize(line.merchandise.size as ProductSizes) : null
   const collectionCurrentProduct = useOnScreenProductHandle()
 
   return (

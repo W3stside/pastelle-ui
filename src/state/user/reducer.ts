@@ -1,4 +1,6 @@
 import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
+import { DEFAULT_SIZE_SELECTED } from 'constants/config'
+import { ProductSizes } from 'shopify/graphql/types'
 import { Theme, ThemeModes } from 'theme/styled'
 
 const currentTimestamp = () => new Date().getTime()
@@ -12,6 +14,7 @@ export interface UserState {
   showcase: {
     gender: ShowcaseGender
     height: ShowcaseHeight
+    size: ProductSizes
   }
 }
 
@@ -22,7 +25,8 @@ export const initialState: UserState = {
   },
   showcase: {
     gender: 'MALE',
-    height: 175
+    height: 175,
+    size: DEFAULT_SIZE_SELECTED
   }
 }
 const userSlice = createSlice({
