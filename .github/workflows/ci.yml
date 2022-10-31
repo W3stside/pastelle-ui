@@ -35,7 +35,7 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v2
         with:
-          node-version: lts/*
+          node-version: 16.17.1
 
       - name: Set output of cache
         id: yarn-cache
@@ -83,7 +83,7 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v2
         with:
-          node-version: lts/*
+          node-version: 16.17.1
 
       - name: Load dependencies
         id: cache-node-modules
@@ -118,7 +118,7 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v2
         with:
-          node-version: lts/*
+          node-version: 16.17.1
 
       - name: Load dependencies
         id: cache-node-modules
