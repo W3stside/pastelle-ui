@@ -4,6 +4,7 @@ import { useGetShowcaseSettings } from 'state/user/hooks'
 import { FragmentProductVideoFragment, MediaContentType } from 'shopify/graphql/types'
 import { sizeToFullSizeCapitalised } from 'shopify/utils'
 import { useMemo } from 'react'
+import { PreProdLabel } from 'components/Common'
 
 type ShowcaseVideosProps = Pick<SingleItemPageProps, 'firstPaintOver' | 'videos' | 'showcaseVideos'> &
   ItemVideoContentProps & {
@@ -13,14 +14,22 @@ type ShowcaseVideosProps = Pick<SingleItemPageProps, 'firstPaintOver' | 'videos'
 export default function ShowcaseVideos({ hideVideo, showcaseVideos, videos, ...restProps }: ShowcaseVideosProps) {
   const { gender, height, size: selectedSize } = useGetShowcaseSettings()
 
+  // TOOD: fix/remove
+  const isPreProd = process.env.IS_PRE_PROD || true
+
   return useMemo(() => {
     // e.g 175-LARGE
     const builtUrlSearchString = height + '-' + sizeToFullSizeCapitalised(selectedSize)
     const showcaseVideosByGender = showcaseVideos
       ? showcaseVideos[gender].reduce(_reduceShowcaseVideo(builtUrlSearchString), [])
       : videos
-    return hideVideo ? null : <ItemVideoContent {...restProps} videos={showcaseVideosByGender} />
-  }, [gender, height, hideVideo, restProps, selectedSize, showcaseVideos, videos])
+    return hideVideo ? null : (
+      <>
+        {isPreProd && <PreProdLabel>PROMOTIONAL VIDEO CONTENT - REAL CONTENT COMING SOON</PreProdLabel>}
+        <ItemVideoContent {...restProps} videos={showcaseVideosByGender} />
+      </>
+    )
+  }, [gender, height, hideVideo, isPreProd, restProps, selectedSize, showcaseVideos, videos])
 }
 
 const _reduceShowcaseVideo = (builtUrlSearchString: string) => (
