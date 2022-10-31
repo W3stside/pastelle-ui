@@ -15,7 +15,7 @@ export default function ShowcaseVideos({ hideVideo, showcaseVideos, videos, ...r
   const { gender, height, size: selectedSize } = useGetShowcaseSettings()
 
   // TOOD: fix/remove
-  const isPreProd = process.env.IS_PRE_PROD || true
+  const isPreProd = process.env.REACT_APP_IS_PRE_PROD || false
 
   return useMemo(() => {
     // e.g 175-LARGE
