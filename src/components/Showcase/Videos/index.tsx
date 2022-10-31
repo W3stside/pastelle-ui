@@ -25,7 +25,7 @@ export default function ShowcaseVideos({ hideVideo, showcaseVideos, videos, ...r
       : videos
     return hideVideo ? null : (
       <>
-        {isPreProd && <PreProdLabel>PROMOTIONAL VIDEO CONTENT - REAL CONTENT COMING SOON</PreProdLabel>}
+        {isPreProd && <PreProdLabel>PLACEHOLDER VIDEO CONTENT - REAL CONTENT COMING SOON</PreProdLabel>}
         <ItemVideoContent {...restProps} videos={showcaseVideosByGender} />
       </>
     )
