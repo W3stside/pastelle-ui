@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { BoxProps } from 'rebass'
 
-import { Row } from 'components/Layout'
+import { Column, Row } from 'components/Layout'
 import Carousel from 'components/Carousel'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import SmartImg from 'components/SmartImg'
@@ -281,7 +281,7 @@ export default function ItemPage({
                     label="SIZE & SHOWCASE"
                     margin={isMobileWidth ? '0' : '0 0 2rem 0'}
                   />
-                  <ItemContentContainer margin="0" padding={'0 2rem'}>
+                  <Column margin="0" padding={'0 2rem'}>
                     <ShowcaseVideos
                       videos={videos}
                       showcaseVideos={showcaseVideos}
@@ -320,21 +320,21 @@ export default function ItemPage({
                         <img src={ShippingSvg} /> FREE SHIPPING OVER {FREE_SHIPPING_THRESHOLD}€
                       </SubItemDescription>
                     )}
-                  </ItemContentContainer>
+                  </Column>
 
                   {/* Item description */}
                   <ItemSubHeader useGradient bgColor={color} label="INFO & CARE INSTRUCTIONS" />
-                  <ItemContentContainer padding="0 1.5rem">
+                  <Column padding="0 1.5rem">
                     <ItemDescription
                       dangerouslySetInnerHTML={{ __html: description }}
                       padding="0rem 4rem 1rem"
                       fontWeight={300}
                       backgroundColor={OFF_WHITE}
                     />
-                  </ItemContentContainer>
+                  </Column>
                   {/* Credits */}
                   <ItemSubHeader useGradient bgColor={color} label="CREDIT WHERE CREDIT IS DUE" margin="2rem 0" />
-                  <ItemContentContainer padding={'0 3rem'}>
+                  <Column padding={'0 3rem'}>
                     <ItemCredits>
                       {artistInfo ? (
                         <ItemArtistInfo {...artistInfo} bgColor={color} />
@@ -342,7 +342,7 @@ export default function ItemPage({
                         <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
                       )}
                     </ItemCredits>
-                  </ItemContentContainer>
+                  </Column>
                 </ItemContentContainer>
               </>
             )}

@@ -211,6 +211,14 @@ export const SubItemDescription = styled(ItemDescription).attrs(props => ({
 export const ItemContentContainer = styled(Column)`
   position: relative;
   overflow: hidden;
+
+  > ${Column} {
+    padding: 0 2rem;
+
+    ${upToSmall`
+      padding: 0 1rem;
+    `}
+  }
 `
 
 // COLLECTION NON-CAROUSEL VIEW vs NON-COLLECTION CAROUSEL ACTIVE VIEW

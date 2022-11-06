@@ -17,7 +17,7 @@ export default function useShowShowcase() {
         color={BLACK}
         padding="4rem 1.3rem 0.3rem"
         margin="-3rem auto 2rem"
-        width="93%"
+        width="97%"
         fontWeight={300}
         fontSize="1.2rem"
         backgroundColor={'#e8e8e8'}

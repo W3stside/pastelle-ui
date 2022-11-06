@@ -39,5 +39,9 @@ export const ShowcaseAlertMessages = styled.div`
     color: ${OFF_WHITE};
     text-align: center;
     margin: 0.5rem 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
   }
 `

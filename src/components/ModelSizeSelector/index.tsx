@@ -17,7 +17,6 @@ const ModelSizeSelectorWrapper = styled(Row)`
   > div {
     position: relative;
     flex: 1 1 21.8rem;
-    height: 3.25rem;
     min-width: 15.5rem;
 
     > ${ItemSubHeader} {
@@ -30,6 +29,8 @@ const ModelSizeSelectorWrapper = styled(Row)`
     }
 
     > ${Row} {
+      height: 5rem;
+
       > select {
         font-size: 1.5rem;
         height: 100%;
