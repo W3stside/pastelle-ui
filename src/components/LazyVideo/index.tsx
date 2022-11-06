@@ -113,6 +113,7 @@ export default forwardRef(function LazyVideo(
     !loadInView
   )
   const combinedVideoProps = { ...BASE_VIDEO_PROPS, ...videoProps }
+  const showDelayer = !showTapToPlay && (videoDelay || loading)
   return (
     <VideoContainer justifyContent="center" {...boxProps}>
       {/* 
@@ -120,7 +121,7 @@ export default forwardRef(function LazyVideo(
       {loading ? <LoadingComponent /> : videoDelay ? <VideoDelayer /> : null} 
       */}
       {/* Show delayer comp whether delayed or is loading */}
-      {(videoDelay || loading) && <VideoDelayer />}
+      {showDelayer && <VideoDelayer />}
       {showTapToPlay && (
         <VideoPlayCTAOverlay
           $width={getMobileShowcaseVideoWidth(videoElement)}
@@ -146,7 +147,7 @@ export function VideoDelayer() {
   const { color } = useCurrentProductMedia()
 
   return (
-    <VideoPlayCTAOverlay bgColor={color} $height="100%">
+    <VideoPlayCTAOverlay bgColor={color} $height="100%" $width="110%">
       <img src={PastelleCirclePinkYellow} />
     </VideoPlayCTAOverlay>
   )

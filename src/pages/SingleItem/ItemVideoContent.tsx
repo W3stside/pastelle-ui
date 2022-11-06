@@ -37,6 +37,7 @@ export const ItemVideoContent = ({
 
   useEffect(() => {
     async function videoChange() {
+      // if is web
       if (!isMobileWidth) {
         _delayedVideoUpdater({ currentCarouselIndex, showVideoUIDelay, setVideoIdx })
       } else {

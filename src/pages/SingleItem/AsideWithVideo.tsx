@@ -287,7 +287,7 @@ export default function ItemPage({
                       showcaseVideos={showcaseVideos}
                       videoProps={{
                         // TODO: check ios autoplay
-                        autoPlay: false,
+                        // autoPlay: false,
                         style: {
                           cursor: 'pointer'
                         }
