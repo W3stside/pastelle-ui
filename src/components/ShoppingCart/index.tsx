@@ -43,6 +43,7 @@ import { formatCurrency } from 'utils/formatting'
 import { getThemeColours, WHITE } from 'theme/utils'
 import { COLLECTION_PATHNAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import Button, { ButtonVariations } from 'components/Button'
+import { SHOW_CART } from 'constants/env'
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
   return <ShoppingCartQuantityWrapper>{totalQuantity}</ShoppingCartQuantityWrapper>
@@ -112,7 +113,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
       </ShoppingCartPanelContentWrapper>
 
       {/* CHECKOUT */}
-      {process.env.REACT_APP_USE_CHECKOUT && data?.cart?.checkoutUrl && (
+      {SHOW_CART && data?.cart?.checkoutUrl && (
         <CartTableHeaderWrapper gridTemplateColumns="max-content auto">
           {subTotal && (
             <CartHeader fontSize="3.5rem" letterSpacing={0}>

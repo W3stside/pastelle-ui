@@ -5,6 +5,7 @@ import { FragmentProductVideoFragment, MediaContentType, ProductSizes } from 'sh
 import { sizeToFullSizeCapitalised } from 'shopify/utils'
 import { useMemo } from 'react'
 import { ShowcaseAlertMessages } from 'components/Common'
+import { IS_PRE_PROD } from 'constants/env'
 
 type ShowcaseVideosProps = Pick<SingleItemPageProps, 'firstPaintOver' | 'videos' | 'showcaseVideos'> &
   ItemVideoContentProps & {
@@ -13,9 +14,6 @@ type ShowcaseVideosProps = Pick<SingleItemPageProps, 'firstPaintOver' | 'videos'
 
 export default function ShowcaseVideos({ hideVideo, showcaseVideos, videos, ...restProps }: ShowcaseVideosProps) {
   const { gender, height, size: selectedSize } = useGetShowcaseSettings()
-
-  // TOOD: fix/remove
-  const isPreProd = process.env.REACT_APP_IS_PRE_PROD || false
 
   return useMemo(() => {
     const nextRelatedSize = _getNextRelatedProductSize(selectedSize)
@@ -40,7 +38,7 @@ export default function ShowcaseVideos({ hideVideo, showcaseVideos, videos, ...r
     return hideVideo ? null : (
       <>
         <ShowcaseAlertMessages>
-          {isPreProd && <div>PLACEHOLDER VIDEO CONTENT - REAL CONTENT COMING SOON</div>}
+          {IS_PRE_PROD && <div>PLACEHOLDER VIDEO CONTENT - REAL CONTENT COMING SOON</div>}
           {!hasVideoForSize && <div>NO SHOWCASE FOR SELECTED SIZE. VIEWING SIZE &quot;{nextRelatedSize}&quot;</div>}
         </ShowcaseAlertMessages>
         <ItemVideoContent
@@ -49,7 +47,7 @@ export default function ShowcaseVideos({ hideVideo, showcaseVideos, videos, ...r
         />
       </>
     )
-  }, [gender, height, hideVideo, isPreProd, restProps, selectedSize, showcaseVideos, videos])
+  }, [gender, height, hideVideo, restProps, selectedSize, showcaseVideos, videos])
 }
 
 const _reduceShowcaseVideo = (builtUrlSearchString: string) => (
