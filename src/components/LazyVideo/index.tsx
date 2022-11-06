@@ -147,7 +147,7 @@ export function VideoDelayer() {
   const { color } = useCurrentProductMedia()
 
   return (
-    <VideoPlayCTAOverlay bgColor={color} $height="100%" $width="110%">
+    <VideoPlayCTAOverlay bgColor={color} $height="100%" $width="120%">
       <img src={PastelleCirclePinkYellow} />
     </VideoPlayCTAOverlay>
   )
