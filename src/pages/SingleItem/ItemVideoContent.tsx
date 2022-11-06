@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { ItemSubHeader, VideoContentWrapper, VideoControlButton as VideoControlButtonStyled } from './styleds'
 import LazyVideo, { LazyVideoProps } from 'components/LazyVideo'
-import { Spinner } from 'theme'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { ButtonVariations } from 'components/Button'
 import { Play, Pause } from 'react-feather'
@@ -39,7 +38,7 @@ export const ItemVideoContent = ({
   useEffect(() => {
     async function videoChange() {
       if (!isMobileWidth) {
-        delayedVideoUpdater({ currentCarouselIndex, showVideoUIDelay, setVideoIdx })
+        _delayedVideoUpdater({ currentCarouselIndex, showVideoUIDelay, setVideoIdx })
       } else {
         setVideoIdx(currentCarouselIndex)
         setVideoStatus(undefined)
@@ -83,33 +82,51 @@ export const ItemVideoContent = ({
     }
   }, [isPlaying, videoElement])
 
+  const videosContent = useMemo(
+    () =>
+      videos.map(({ id, sources, previewImage }, index) => {
+        const isSelected = index === videoIdx
+        if (!isSelected) return null
+
+        return (
+          <LazyVideo
+            key={id}
+            onClick={toggleVideo}
+            ref={setVideoElement}
+            container={document.querySelector('#COLLECTION-ARTICLE') as HTMLElement}
+            loadInView={firstPaintOver}
+            forceLoad={forceLoad}
+            videoProps={{ ...videoProps, poster: showPoster ? previewImage?.url : undefined }}
+            sourcesProps={sources
+              .map(({ url, mimeType }) => ({ src: url, type: mimeType }))
+              .filter(({ type }) => type === 'video/mp4')}
+            height={styleProps.height}
+            width={styleProps.width}
+            videoDelay={!isMobileWidth && videoDelay}
+            showTapToPlay={!isPlaying && videoProps?.autoPlay === false}
+          />
+        )
+      }),
+    [
+      firstPaintOver,
+      forceLoad,
+      isMobileWidth,
+      isPlaying,
+      showPoster,
+      styleProps.height,
+      styleProps.width,
+      toggleVideo,
+      videoDelay,
+      videoIdx,
+      videoProps,
+      videos
+    ]
+  )
+
   return (
     <>
       <VideoContentWrapper id="#video-content-wrapper" {...styleProps}>
-        {videos.map(({ id, sources, previewImage }, index) => {
-          const isSelected = index === videoIdx
-          if (!isSelected) return null
-
-          return (
-            <LazyVideo
-              key={id}
-              onClick={toggleVideo}
-              ref={setVideoElement}
-              container={document.querySelector('#COLLECTION-ARTICLE') as HTMLElement}
-              loadInView={firstPaintOver}
-              forceLoad={forceLoad}
-              videoProps={{ ...videoProps, poster: showPoster ? previewImage?.url : undefined }}
-              sourcesProps={sources
-                .map(({ url, mimeType }) => ({ src: url, type: mimeType }))
-                .filter(({ type }) => type === 'video/mp4')}
-              height={styleProps.height}
-              width={styleProps.width}
-              Loader={Spinner}
-              videoDelay={!isMobileWidth && videoDelay}
-              showTapToPlay={!isPlaying && videoProps?.autoPlay === false}
-            />
-          )
-        })}
+        {videosContent}
       </VideoContentWrapper>
       {/* PLAY/PAUSE */}
       {videoStatus && <VideoControlButton callback={toggleVideo} isPlaying={isPlaying} />}
@@ -156,7 +173,7 @@ export function SmallScreenVideoContent(props: Props) {
   )
 }
 
-async function delayedVideoUpdater({
+async function _delayedVideoUpdater({
   currentCarouselIndex,
   showVideoUIDelay,
   setVideoIdx

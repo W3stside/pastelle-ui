@@ -1,7 +1,6 @@
-import { ForwardedRef, forwardRef, ReactNode, useEffect, useState } from 'react'
+import { ForwardedRef, forwardRef, useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 
-import Loader from 'components/Loader'
 import { Row } from 'components/Layout'
 
 import useDetectScrollIntoView from 'hooks/useDetectScrollIntoView'
@@ -9,8 +8,7 @@ import useDetectScrollIntoView from 'hooks/useDetectScrollIntoView'
 import { ItemHeader, ItemSubHeader, VideoPlayCTAOverlay } from 'pages/SingleItem/styleds'
 
 import { BoxProps } from 'rebass'
-import { Z_INDEXES } from 'constants/config'
-import { BLUE, OFF_WHITE } from 'theme/utils'
+import { OFF_WHITE } from 'theme/utils'
 import { Play } from 'react-feather'
 import { getMobileShowcaseVideoWidth } from 'pages/SingleItem/utils'
 import { useCurrentProductMedia } from 'state/collection/hooks'
@@ -28,7 +26,6 @@ export type LazyVideoProps = {
   forceLoad?: boolean
   showTapToPlay?: boolean
   videoDelay?: boolean
-  Loader?: (...props: any[]) => JSX.Element
 } & WithContainer &
   BoxProps
 
@@ -41,24 +38,7 @@ const VideoContainer = styled(Row)`
     letter-spacing: -8px;
     font-size: 7.6rem;
   }
-
-  > svg {
-    position: absolute;
-    right: 30%;
-    z-index: ${Z_INDEXES.PRODUCT_VIDEOS};
-  }
 `
-
-export function Spinner({ label = 'pstl' }: { label?: ReactNode }) {
-  return (
-    <>
-      <ItemHeader itemColor={BLUE} animation>
-        {label}
-      </ItemHeader>
-      <Loader size={'100px'} />
-    </>
-  )
-}
 
 const BASE_VIDEO_PROPS: Partial<React.DetailedHTMLProps<
   React.VideoHTMLAttributes<HTMLVideoElement>,
@@ -88,14 +68,13 @@ export default forwardRef(function LazyVideo(
     showTapToPlay = false,
     videoDelay = false,
     container,
-    // Loader = Spinner,
     ...boxProps
   }: LazyVideoProps,
   forwardRef: ForwardedRef<HTMLVideoElement>
 ) {
-  const [, setDataLoaded] = useState(false)
-  const [, setMetaDataLoaded] = useState(false)
-  // const loaded = metaDataLoaded && dataLoaded
+  const [dataLoaded, setDataLoaded] = useState(false)
+  const [metadataLoaded, setMetaDataLoaded] = useState(false)
+  const loading = !metadataLoaded || !dataLoaded
 
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
 
@@ -106,6 +85,7 @@ export default forwardRef(function LazyVideo(
     }
   }, [forwardRef, videoElement])
 
+  // set video loading states
   useEffect(() => {
     const _handleDataLoad = () => setDataLoaded(true)
     const _handleMetaDataLoad = () => setMetaDataLoaded(true)
@@ -135,8 +115,12 @@ export default forwardRef(function LazyVideo(
   const combinedVideoProps = { ...BASE_VIDEO_PROPS, ...videoProps }
   return (
     <VideoContainer justifyContent="center" {...boxProps}>
-      {/* {!loaded && <Loader />} */}
-      {videoDelay && <VideoDelayer />}
+      {/* 
+      // TODO: reenable if in future loader/delayer should be different
+      {loading ? <LoadingComponent /> : videoDelay ? <VideoDelayer /> : null} 
+      */}
+      {/* Show delayer comp whether delayed or is loading */}
+      {(videoDelay || loading) && <VideoDelayer />}
       {showTapToPlay && (
         <VideoPlayCTAOverlay
           $width={getMobileShowcaseVideoWidth(videoElement)}

@@ -151,6 +151,10 @@ export const CartTableHeaderWrapper = styled(Row)<{ gridTemplateColumns?: string
   text-align: center;
   grid-gap: 9rem;
 
+  > svg {
+    cursor: pointer;
+  }
+
   ${upToMedium`
   > ${Column} > ${ItemHeader} {
     font-size: 3.2rem;

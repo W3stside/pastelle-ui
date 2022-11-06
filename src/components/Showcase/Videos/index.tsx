@@ -36,7 +36,7 @@ const _reduceShowcaseVideo = (builtUrlSearchString: string) => (
   acc: FragmentProductVideoFragment[],
   vidName: string | null
 ) => {
-  if (vidName?.search(builtUrlSearchString)) {
+  if (vidName?.includes(builtUrlSearchString)) {
     acc.push({
       id: vidName,
       mediaContentType: MediaContentType.ExternalVideo,

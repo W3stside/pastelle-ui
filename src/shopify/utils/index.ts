@@ -78,7 +78,7 @@ export function sizeToFullSize(size: ProductSizes): string {
     case ProductSizes.L:
       return 'large'
     case ProductSizes.XL:
-      return 'extra-large'
+      return 'xlarge'
   }
 }
 
