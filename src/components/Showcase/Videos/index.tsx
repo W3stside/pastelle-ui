@@ -1,10 +1,10 @@
 import { ItemVideoContent, ItemVideoContentProps } from 'pages/SingleItem/ItemVideoContent'
 import { SingleItemPageProps } from 'pages/SingleItem/AsideWithVideo'
 import { useGetShowcaseSettings } from 'state/user/hooks'
-import { FragmentProductVideoFragment, MediaContentType } from 'shopify/graphql/types'
+import { FragmentProductVideoFragment, MediaContentType, ProductSizes } from 'shopify/graphql/types'
 import { sizeToFullSizeCapitalised } from 'shopify/utils'
 import { useMemo } from 'react'
-import { PreProdLabel } from 'components/Common'
+import { ShowcaseAlertMessages } from 'components/Common'
 
 type ShowcaseVideosProps = Pick<SingleItemPageProps, 'firstPaintOver' | 'videos' | 'showcaseVideos'> &
   ItemVideoContentProps & {
@@ -18,15 +18,35 @@ export default function ShowcaseVideos({ hideVideo, showcaseVideos, videos, ...r
   const isPreProd = process.env.REACT_APP_IS_PRE_PROD || false
 
   return useMemo(() => {
+    const nextRelatedSize = _getNextRelatedProductSize(selectedSize)
     // e.g 175-LARGE
-    const builtUrlSearchString = height + '-' + sizeToFullSizeCapitalised(selectedSize)
+    const [builtUrlSearchString, relatedSizeBuiltUrlSearchString] = [
+      height + '-' + sizeToFullSizeCapitalised(selectedSize),
+      height + '-' + sizeToFullSizeCapitalised(nextRelatedSize)
+    ]
+
     const showcaseVideosByGender = showcaseVideos
       ? showcaseVideos[gender].reduce(_reduceShowcaseVideo(builtUrlSearchString), [])
       : videos
+
+    const hasVideoForSize = !!showcaseVideosByGender?.length
+
+    // get the video urls for the next relatable size, if necessary
+    const nextSizeShowcaseVideosByGender =
+      !showcaseVideos || hasVideoForSize
+        ? videos
+        : showcaseVideos[gender].reduce(_reduceShowcaseVideo(relatedSizeBuiltUrlSearchString), [])
+
     return hideVideo ? null : (
       <>
-        {isPreProd && <PreProdLabel>PLACEHOLDER VIDEO CONTENT - REAL CONTENT COMING SOON</PreProdLabel>}
-        <ItemVideoContent {...restProps} videos={showcaseVideosByGender} />
+        <ShowcaseAlertMessages>
+          {isPreProd && <div>PLACEHOLDER VIDEO CONTENT - REAL CONTENT COMING SOON</div>}
+          {!hasVideoForSize && <div>NO SHOWCASE FOR SELECTED SIZE. VIEWING SIZE &quot;{nextRelatedSize}&quot;</div>}
+        </ShowcaseAlertMessages>
+        <ItemVideoContent
+          {...restProps}
+          videos={hasVideoForSize ? showcaseVideosByGender : nextSizeShowcaseVideosByGender}
+        />
       </>
     )
   }, [gender, height, hideVideo, isPreProd, restProps, selectedSize, showcaseVideos, videos])
@@ -46,4 +66,17 @@ const _reduceShowcaseVideo = (builtUrlSearchString: string) => (
   }
 
   return acc
+}
+
+function _getNextRelatedProductSize(selectedSize: ProductSizes) {
+  switch (selectedSize) {
+    case ProductSizes.XL:
+      return ProductSizes.L
+    case ProductSizes.L:
+      return ProductSizes.XL
+    case ProductSizes.M:
+      return ProductSizes.L
+    case ProductSizes.S:
+      return ProductSizes.M
+  }
 }

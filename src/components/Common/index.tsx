@@ -19,17 +19,25 @@ export function TinyHelperText({ css, label = 'What is this?', handleClick }: Ti
   )
 }
 
-export const PreProdLabel = styled.div`
+export const ShowcaseAlertMessages = styled.div`
   width: 100%;
-  font-size: 150%;
-  font-weight: 600;
-  background-color: ${transparentize(0.5, BLACK)};
-  color: ${OFF_WHITE};
-  padding: 0.5rem 1rem;
   height: min-content;
   position: absolute;
   top: 0;
   left: 0;
   z-index: ${Z_INDEXES.PRODUCT_VIDEOS + 1};
-  text-align: center;
+
+  > div,
+  > p,
+  > span {
+    position: relative;
+    background-color: ${transparentize(0.5, BLACK)};
+    padding: 0.5rem 1rem;
+    width: inherit;
+    font-size: 150%;
+    font-weight: 600;
+    color: ${OFF_WHITE};
+    text-align: center;
+    margin: 0.5rem 0;
+  }
 `
