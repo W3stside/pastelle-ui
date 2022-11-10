@@ -43,7 +43,6 @@ import { formatCurrency } from 'utils/formatting'
 import { getThemeColours, WHITE } from 'theme/utils'
 import { COLLECTION_PATHNAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import Button, { ButtonVariations } from 'components/Button'
-import { SHOW_CART } from 'constants/env'
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
   return <ShoppingCartQuantityWrapper>{totalQuantity}</ShoppingCartQuantityWrapper>
@@ -113,16 +112,24 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
       </ShoppingCartPanelContentWrapper>
 
       {/* CHECKOUT */}
-      {SHOW_CART && data?.cart?.checkoutUrl && (
+      {data?.cart?.checkoutUrl && (
         <CartTableHeaderWrapper gridTemplateColumns="max-content auto">
           {subTotal && (
             <CartHeader fontSize="3.5rem" letterSpacing={0}>
               {formatCurrency(subTotal.amount, subTotal.currencyCode)}
             </CartHeader>
           )}
-          <Button padding="1rem" backgroundColor={getThemeColours().purple2} variant={ButtonVariations.SUCCESS}>
+          {/* TODO: remove disabled */}
+          <Button
+            padding="1rem"
+            backgroundColor={getThemeColours().purple2}
+            variant={ButtonVariations.SUCCESS}
+            disabled
+          >
             <CartHeader margin="0" letterSpacing={-2} fontSize="3rem">
-              <a href={data.cart.checkoutUrl}>CHECKOUT</a>
+              <a href={data.cart.checkoutUrl} target="_blank" rel="noopener noreferrer">
+                CHECKOUT
+              </a>
             </CartHeader>
           </Button>
         </CartTableHeaderWrapper>

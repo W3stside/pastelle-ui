@@ -223,6 +223,7 @@ const ButtonBase = styled.button.attrs(props => props)<ButtonStyleProps>`
   &:disabled,
   &[disabled] {
     pointer-events: none;
+    background-color: #292928;
   }
 `
 
