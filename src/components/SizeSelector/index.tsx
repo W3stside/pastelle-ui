@@ -19,13 +19,14 @@ const SquareSelectDiv = styled(TYPE.black)<{ isSelected: boolean; bgColor?: stri
     isSelected &&
     `
       &&&&& {
-        background-color: ${transparentize(0.3, bgColor)};
+        background-color: ${bgColor};
         color: ${setBestContrastingColour({
           bgColour: bgColor,
           fgColour: BLACK,
           lightColour: OFF_WHITE,
           darkColour: BLACK
         })};
+        filter: contrast(1.4) saturate(4);
         font-weight: 800;
         text-shadow: 0px 0px 3px ${transparentize(0.6, BLACK)};
       }
@@ -59,7 +60,7 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
     flex: 1 1 24%;
 
     &:hover {
-      background-color: ${({ theme, color = theme.white }) => transparentize(0.7, color)};
+      background-color: ${({ theme, color = theme.white }) => transparentize(0.5, color)};
     }
 
     transition: background-color 0.3s ease-out;
