@@ -15,9 +15,12 @@ import { FixedAnimatedLoader } from 'components/Loader'
 import { useQuery } from '@apollo/client'
 import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
 import { COLLECTION_PARAM_NAME } from 'constants/navigation'
+import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
 
 export default function App() {
-  const { loading } = useQuery(QUERY_PRODUCT, { variables: { amount: 10, imageAmt: 20 } })
+  const { loading } = useQuery(QUERY_PRODUCT, {
+    variables: { amount: PRODUCT_AMOUNT, imageAmt: PRODUCT_IMAGES_AMOUNT, videoAmt: PRODUCT_VIDEOS_AMOUNT }
+  })
 
   if (loading) return <FixedAnimatedLoader loadText={<PastelleCursiveLoader />} />
 

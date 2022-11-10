@@ -20,18 +20,18 @@ export function TinyHelperText({ css, label = 'What is this?', handleClick }: Ti
 }
 
 export const ShowcaseAlertMessages = styled.div`
-  width: 100%;
+  width: max-content;
   height: min-content;
   position: absolute;
-  top: 0;
-  left: 0;
+  bottom: 0;
+  right: 0;
   z-index: ${Z_INDEXES.PRODUCT_VIDEOS + 1};
 
   > div,
   > p,
   > span {
     position: relative;
-    background-color: ${transparentize(0.5, BLACK)};
+    background-color: ${transparentize(0.2, BLACK)};
     padding: 0.5rem 1rem;
     width: inherit;
     font-size: 150%;

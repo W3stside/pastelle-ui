@@ -153,6 +153,7 @@ export const CartTableHeaderWrapper = styled(Row)<{ gridTemplateColumns?: string
 
   > svg {
     cursor: pointer;
+    margin-left: auto;
   }
 
   ${upToMedium`
@@ -225,12 +226,12 @@ export const ShoppingCartPanelWrapper = styled.div`
     ${upToSmall`
       // HEADER
       &:first-child {
-        padding: 1rem;
+        padding: 1.5rem;
       }
       // FOOTER
       &:last-child {
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
       }
     `}
 

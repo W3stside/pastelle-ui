@@ -25,6 +25,7 @@ export type LazyVideoProps = {
   loadInView?: boolean
   forceLoad?: boolean
   showTapToPlay?: boolean
+  showError?: boolean
   videoDelay?: boolean
 } & WithContainer &
   BoxProps
@@ -67,15 +68,18 @@ export default forwardRef(function LazyVideo(
     forceLoad = false,
     showTapToPlay = false,
     videoDelay = false,
+    showError = false,
     container,
     ...boxProps
   }: LazyVideoProps,
   forwardRef: ForwardedRef<HTMLVideoElement>
 ) {
+  const [sourceErrored, setSourceErrored] = useState(false)
   const [dataLoaded, setDataLoaded] = useState(false)
   const [metadataLoaded, setMetaDataLoaded] = useState(false)
   const loading = !metadataLoaded || !dataLoaded
 
+  const [lastSourceElem, setLastSourceElem] = useState<HTMLSourceElement | null>(null)
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
 
   // forwardedRef in use, we need to assign our internal ref to the external
@@ -85,7 +89,22 @@ export default forwardRef(function LazyVideo(
     }
   }, [forwardRef, videoElement])
 
-  // set video loading states
+  // capture LAST source error state
+  useEffect(() => {
+    const _handleSourceErrored = () => setSourceErrored(true)
+
+    let source: HTMLSourceElement
+    if (lastSourceElem) {
+      source = lastSourceElem
+      source.addEventListener('error', _handleSourceErrored)
+    }
+
+    return () => {
+      source?.removeEventListener('error', _handleSourceErrored)
+    }
+  }, [lastSourceElem])
+
+  // set VIDEO loading states for forwardRef
   useEffect(() => {
     const _handleDataLoad = () => setDataLoaded(true)
     const _handleMetaDataLoad = () => setMetaDataLoaded(true)
@@ -121,7 +140,7 @@ export default forwardRef(function LazyVideo(
       {loading ? <LoadingComponent /> : videoDelay ? <VideoDelayer /> : null} 
       */}
       {/* Show delayer comp whether delayed or is loading */}
-      {showDelayer && <VideoDelayer />}
+      {showError || sourceErrored ? <VideoErrorOverlay /> : showDelayer ? <VideoDelayer /> : null}
       {showTapToPlay && (
         <VideoPlayCTAOverlay
           $width={getMobileShowcaseVideoWidth(videoElement)}
@@ -136,7 +155,10 @@ export default forwardRef(function LazyVideo(
       )}
       <video {...combinedVideoProps} ref={setVideoElement}>
         {isInView || forceLoad
-          ? sourcesProps.map(({ src, ...sourceProps }, index) => <source key={index} src={src} {...sourceProps} />)
+          ? sourcesProps.map(({ src, ...sourceProps }, index, arr) => {
+              const isLast = index === arr.length - 1
+              return <source key={src} src={src} ref={isLast ? setLastSourceElem : null} {...sourceProps} />
+            })
           : null}
       </video>
     </VideoContainer>
@@ -149,6 +171,27 @@ export function VideoDelayer() {
   return (
     <VideoPlayCTAOverlay bgColor={color} $height="100%" $width="120%">
       <img src={PastelleCirclePinkYellow} />
+    </VideoPlayCTAOverlay>
+  )
+}
+
+function VideoErrorOverlay() {
+  return (
+    <VideoPlayCTAOverlay bgColor="#620c0c" $height="100%" $width="120%">
+      <ItemHeader
+        itemColor={OFF_WHITE}
+        animation={false}
+        letterSpacing={0}
+        fontSize={20}
+        padding="10rem"
+        margin="0 15% 0 auto"
+      >
+        <p>
+          NO SHOWCASE AVAILABLE!{' '}
+          <span style={{ fontStyle: 'normal', fontWeight: 200, whiteSpace: 'pre' }}>ʕ ͡° ʖ̯ ͡°ʔ</span>
+        </p>
+        <div>TRY SELECTING A DIFFERENT SIZE</div>
+      </ItemHeader>
     </VideoPlayCTAOverlay>
   )
 }

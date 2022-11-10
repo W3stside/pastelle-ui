@@ -12,12 +12,13 @@ type VideoStatus = 'PLAYING' | 'PAUSED' | 'LOADED_AND_WAITING' | undefined
 export interface ItemVideoContentProps extends RowProps {
   videos: FragmentProductVideoFragment[]
   firstPaintOver?: boolean
-  currentCarouselIndex: number
+  currentCarouselIndex: number | null
   forceLoad?: boolean
   showPoster?: boolean
   zIndex?: number
   isMobileWidth: boolean
   videoProps?: LazyVideoProps['videoProps']
+  showError?: boolean
 }
 const CONTROL_BUTTON_SIZE = '1.6rem'
 export const ItemVideoContent = ({
@@ -28,6 +29,7 @@ export const ItemVideoContent = ({
   showPoster = true,
   videoProps,
   isMobileWidth,
+  showError,
   ...styleProps
 }: ItemVideoContentProps) => {
   const [videoIdx, setVideoIdx] = useState(currentCarouselIndex)
@@ -38,14 +40,14 @@ export const ItemVideoContent = ({
   useEffect(() => {
     async function videoChange() {
       // if is web
-      if (!isMobileWidth) {
+      if (!isMobileWidth && currentCarouselIndex !== null) {
         _delayedVideoUpdater({ currentCarouselIndex, showVideoUIDelay, setVideoIdx })
       } else {
         setVideoIdx(currentCarouselIndex)
         setVideoStatus(undefined)
       }
     }
-    videoChange()
+    currentCarouselIndex !== null && videoChange()
   }, [currentCarouselIndex, isMobileWidth])
 
   useEffect(() => {
@@ -86,21 +88,20 @@ export const ItemVideoContent = ({
   const videosContent = useMemo(
     () =>
       videos.map(({ id, sources, previewImage }, index) => {
-        const isSelected = index === videoIdx
+        const isSelected = currentCarouselIndex === null || index === videoIdx
         if (!isSelected) return null
 
         return (
           <LazyVideo
             key={id}
+            showError={showError}
             onClick={toggleVideo}
             ref={setVideoElement}
             container={document.querySelector('#COLLECTION-ARTICLE') as HTMLElement}
             loadInView={firstPaintOver}
             forceLoad={forceLoad}
             videoProps={{ ...videoProps, poster: showPoster ? previewImage?.url : undefined }}
-            sourcesProps={sources
-              .map(({ url, mimeType }) => ({ src: url, type: mimeType }))
-              .filter(({ type }) => type === 'video/mp4')}
+            sourcesProps={sources.map(({ url, mimeType }) => ({ src: url, type: mimeType }))}
             height={styleProps.height}
             width={styleProps.width}
             videoDelay={!isMobileWidth && videoDelay}
@@ -109,6 +110,8 @@ export const ItemVideoContent = ({
         )
       }),
     [
+      currentCarouselIndex,
+      showError,
       firstPaintOver,
       forceLoad,
       isMobileWidth,

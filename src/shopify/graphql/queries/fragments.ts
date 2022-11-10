@@ -71,6 +71,7 @@ export const FRAGMENT_PRODUCT_IMAGE = gql`
 export const FRAGMENT_PRODUCT_VIDEO = gql`
   fragment FragmentProductVideo on Video {
     id
+    alt
     mediaContentType
     previewImage {
       url

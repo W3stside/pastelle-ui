@@ -6718,6 +6718,7 @@ export type GetCollectionQueryVariables = Exact<{
   collectionAmount?: InputMaybe<Scalars['Int']>
   productAmt?: InputMaybe<Scalars['Int']>
   imageAmt?: InputMaybe<Scalars['Int']>
+  videoAmt?: InputMaybe<Scalars['Int']>
 }>
 
 export type GetCollectionQuery = {
@@ -6766,6 +6767,7 @@ export type GetCollectionQuery = {
               | {
                   __typename?: 'Video'
                   id: string
+                  alt?: string | null
                   mediaContentType: MediaContentType
                   previewImage?: {
                     __typename?: 'Image'
@@ -6837,6 +6839,7 @@ export type FragmentProductImageFragment = {
 export type FragmentProductVideoFragment = {
   __typename?: 'Video'
   id: string
+  alt?: string | null
   mediaContentType: MediaContentType
   previewImage?: { __typename?: 'Image'; url: any; width?: number | null; height?: number | null } | null
   sources: Array<{ __typename?: 'VideoSource'; mimeType: string; url: string }>
@@ -7044,6 +7047,7 @@ export type ImagesQuery = {
 export type ProductQueryVariables = Exact<{
   amount?: InputMaybe<Scalars['Int']>
   imageAmt?: InputMaybe<Scalars['Int']>
+  videoAmt?: InputMaybe<Scalars['Int']>
 }>
 
 export type ProductQuery = {
@@ -7084,6 +7088,7 @@ export type ProductQuery = {
           | {
               __typename?: 'Video'
               id: string
+              alt?: string | null
               mediaContentType: MediaContentType
               previewImage?: { __typename?: 'Image'; url: any; width?: number | null; height?: number | null } | null
               sources: Array<{ __typename?: 'VideoSource'; mimeType: string; url: string }>

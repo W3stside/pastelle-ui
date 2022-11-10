@@ -17,6 +17,7 @@ import { useParams } from 'react-router-dom'
 // MOCKS
 import { useMockQuery } from './mock/hooks'
 import { MOCK_COLLECTION_DATA } from './mock/queries'
+import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
 
 const isMock = process.env.REACT_APP_IS_MOCK === 'true'
 
@@ -24,8 +25,9 @@ const useQuery: typeof useRealQuery = isMock ? (useMockQuery as typeof useRealQu
 
 export const DEFAULT_CURRENT_COLLECTION_VARIABLES = {
   collectionAmount: 1,
-  productAmt: 10,
-  imageAmt: 20
+  productAmt: PRODUCT_AMOUNT,
+  imageAmt: PRODUCT_IMAGES_AMOUNT,
+  videoAmt: PRODUCT_VIDEOS_AMOUNT
 }
 
 function useRealQueryCollections(variables: GetCollectionQueryVariables) {

@@ -5,7 +5,7 @@ export const QUERY_PRODUCT = gql`
   ${FRAGMENT_PRODUCT}
   ${FRAGMENT_PRODUCT_IMAGE}
   ${FRAGMENT_PRODUCT_VIDEO}
-  query Product($amount: Int, $imageAmt: Int) {
+  query Product($amount: Int, $imageAmt: Int, $videoAmt: Int) {
     products(first: $amount) {
       nodes {
         ...FragmentProduct
@@ -15,7 +15,7 @@ export const QUERY_PRODUCT = gql`
             ...FragmentProductImage
           }
         }
-        media(first: $imageAmt, reverse: true) {
+        media(first: $videoAmt, reverse: true) {
           nodes {
             ...FragmentProductVideo
           }

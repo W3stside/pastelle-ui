@@ -42,8 +42,7 @@ import {
   FragmentProductImageFragment,
   ProductOptionsSize,
   ProductArtistInfo,
-  Product,
-  ProductShowcaseVideos
+  Product
 } from 'shopify/graphql/types'
 
 import { getImageSizeMap } from 'shopify/utils'
@@ -69,7 +68,6 @@ export interface ProductPageProps {
   navLogo?: string
   images: FragmentProductImageFragment[]
   videos: FragmentProductVideoFragment[]
-  showcaseVideos: ProductShowcaseVideos
   // media: (FragmentProductExternalVideoFragment | FragmentProductVideoFragment)[]
   sizes: ProductOptionsSize
   description: string
@@ -128,7 +126,6 @@ export default function ItemPage({
   headerLogo,
   images = [],
   videos = [],
-  showcaseVideos = null,
   // media,
   sizes = [],
   description,
@@ -284,7 +281,6 @@ export default function ItemPage({
                   <Column margin="0" padding={'0 2rem'}>
                     <ShowcaseVideos
                       videos={videos}
-                      showcaseVideos={showcaseVideos}
                       videoProps={{
                         // TODO: check ios autoplay
                         // autoPlay: false,
@@ -297,7 +293,7 @@ export default function ItemPage({
                       firstPaintOver={firstPaintOver}
                       zIndex={Z_INDEXES.PRODUCT_VIDEOS}
                       height={getMobileShowcaseVideo916Height(innerContainerRef)}
-                      margin="-2rem 0 2rem"
+                      margin="0 0 2rem"
                       title="Tap to play/pause"
                       isMobileWidth
                     />
@@ -350,7 +346,6 @@ export default function ItemPage({
         </ItemAsidePanel>
         <ShowcaseVideos
           videos={videos}
-          showcaseVideos={showcaseVideos}
           videoProps={{
             autoPlay: true,
             style: {

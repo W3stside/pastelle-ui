@@ -132,7 +132,6 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
 }
 
 function CartTableHeader({
-  data,
   totalQuantity,
   closeCartPanel
 }: {
@@ -147,15 +146,13 @@ function CartTableHeader({
         CART
       </CartHeader>
       {/* <Strikethrough /> */}
-      {data?.cart && (
-        <Column>
-          {!!totalQuantity && (
-            <CartHeader fontSize="3.5rem" letterSpacing={0}>
-              {!totalQuantity || totalQuantity > 1 ? `${totalQuantity} items` : '1 item'}
-            </CartHeader>
-          )}
-        </Column>
-      )}
+      <Column>
+        {!!totalQuantity && (
+          <CartHeader fontSize="3.5rem" letterSpacing={0}>
+            {!totalQuantity || totalQuantity > 1 ? `${totalQuantity} items` : '1 item'}
+          </CartHeader>
+        )}
+      </Column>
       <X size={'5rem'} color={WHITE} onClick={closeCartPanel} />
     </CartTableHeaderWrapper>
   )
