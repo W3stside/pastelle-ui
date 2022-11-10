@@ -8,7 +8,7 @@ import useDetectScrollIntoView from 'hooks/useDetectScrollIntoView'
 import { ItemHeader, ItemSubHeader, VideoPlayCTAOverlay } from 'pages/SingleItem/styleds'
 
 import { BoxProps } from 'rebass'
-import { OFF_WHITE } from 'theme/utils'
+import { getThemeColours, OFF_WHITE } from 'theme/utils'
 import { Play } from 'react-feather'
 import { getMobileShowcaseVideoWidth } from 'pages/SingleItem/utils'
 import { useCurrentProductMedia } from 'state/collection/hooks'
@@ -177,7 +177,7 @@ export function VideoDelayer() {
 
 function VideoErrorOverlay() {
   return (
-    <VideoPlayCTAOverlay bgColor="#620c0c" $height="100%" $width="120%">
+    <VideoPlayCTAOverlay bgColor={getThemeColours().red3} $height="100%" $width="120%">
       <ItemHeader
         itemColor={OFF_WHITE}
         animation={false}

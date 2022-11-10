@@ -5,7 +5,7 @@ import { Row } from 'components/Layout'
 import useDebouncedChangeHandler from './useDebouncedChangeHandler'
 import { BLACK, RED } from 'theme/utils'
 
-export const QuantitySelectorWrapper = styled(Row)`
+export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
   width: 100%;
   height: 6rem;
 
@@ -18,18 +18,28 @@ export const QuantitySelectorWrapper = styled(Row)`
       cursor: not-allowed;
     }
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 0.1rem;
     margin: 0 0.5rem;
-    background: ${({ theme }) => theme.black};
+    background-color: ${({ color = BLACK }) => color};
     color: ${({ theme }) => theme.offWhite};
     min-width: 3rem;
+
+    &:first-child:not(:disabled) {
+      background: none;
+      background-color: ${({ theme }) => theme.red3};
+    }
   }
   > button,
   > input {
     text-align: center;
     height: 100%;
-    font-weight: 700;
+    font-weight: 100;
     font-size: 1.6rem;
+    outline: none;
+  }
+
+  > input {
+    font-weight: 400;
   }
 
   > *:not(input[type='number']):not(button:disabled) {
@@ -66,9 +76,9 @@ export default function useQuantitySelector({
   const resetQuantity = useCallback(() => debouncedSetQuantity(1), [debouncedSetQuantity])
 
   const QuantitySelector = useCallback(
-    ({ isDisabled }: { isDisabled?: boolean }) => {
+    ({ isDisabled, color }: { isDisabled?: boolean; color?: string }) => {
       return (
-        <QuantitySelectorWrapper>
+        <QuantitySelectorWrapper color={color}>
           {/* - */}
           <button disabled={isDisabled || quantity === 1} onClick={handleOnClickDown}>
             -

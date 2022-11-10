@@ -1,10 +1,11 @@
-import styled, { css, FlattenInterpolation, ThemeProps, DefaultTheme } from 'styled-components/macro'
+import styled, { css, FlattenInterpolation, ThemeProps, DefaultTheme, ThemedStyledProps } from 'styled-components/macro'
 import { variants } from 'styled-theming'
 import ThemeProvider from 'theme'
 
-import { darken } from 'polished'
+import { darken, transparentize } from 'polished'
 import { THEME_LIST, ThemeModes } from 'theme/styled'
 import { BoxProps } from 'rebass'
+import { setCssBackground } from 'theme/utils'
 
 export type Writable<T> = {
   -readonly [K in keyof T]: T[K]
@@ -113,25 +114,51 @@ const DISABLED_BUTTON_STYLES = css`
 `
 
 const THEME_BUTTON_STYLES = css`
-  color: ${({ theme }): string => theme.text1};
-  background: ${({ theme }): string => theme.bg1};
+  color: ${({ theme }): string => theme.offWhite};
+  border-color: ${({ theme }): string => theme.offWhite};
+
+  filter: contrast(2) saturate(3);
+  border-color: ${({ theme }): string => theme.text1};
+  text-shadow: 0px 0px 12px #fff;
+
+  > div {
+    border-radius: 0.1rem;
+
+    background-color: black;
+    opacity: 0.66;
+
+    transition: background-color, filter, opacity 0.2s ease-out;
+  }
 
   &:hover {
-    background: ${({ theme }): string => darken(DEFAULT_DARKEN_AMOUNT, theme.bg1)};
+    filter: contrast(1.5) saturate(10);
     border-color: ${({ theme }): string => theme.text1};
+
+    > div {
+      background-color: black;
+      opacity: 0.66;
+      filter: invert(1);
+    }
   }
+
+  transition: text-shadow, background-color, filter 0.2s ease-in-out;
 `
 
 type ButtonVariationInterpolationObject = {
   [key in keyof typeof ButtonVariations]: ThemeInterpolationObject
 }
 
-type ThemeInterpolationObject = { [key in keyof typeof ThemeModes]: FlattenInterpolation<ThemeProps<DefaultTheme>> }
+type ThemeInterpolationObject = {
+  [key in keyof typeof ThemeModes]: FlattenInterpolation<ThemeProps<DefaultTheme>>
+}
 
 const ButtonThemeMap: Writable<ButtonVariationInterpolationObject> = BUTTON_VARIATION_LIST.reduce(
   (accum, [, buttonVariant]) => {
     // buttonStyle = 'secondary' or 'primary' etc style
-    let buttonStyle: FlattenInterpolation<ThemeProps<DefaultTheme>>
+    let buttonStyle: FlattenInterpolation<ThemedStyledProps<
+      { bgImage?: string; frameBgColor?: string | undefined },
+      DefaultTheme
+    >>
 
     switch (buttonVariant) {
       case ButtonVariations.DEFAULT:
@@ -204,13 +231,16 @@ const ButtonSizes = variants('component', 'size', {
 type ButtonStyleProps = BoxProps & {
   borderRadius?: string
   backgroundColor?: string
+  gradientColours?: string[]
   margin?: string
   padding?: string
 }
 
+export type ButtonProps = ButtonBaseProps & ButtonStyleProps & { bgImage?: string }
+
 const ButtonBase = styled.button.attrs(props => props)<ButtonStyleProps>`
   border: none;
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border-radius: 0.1rem;
   cursor: pointer;
   font-size: ${({ theme }) => theme.buttons.font.size.normal};
   font-weight: 600;
@@ -250,9 +280,19 @@ export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps & ButtonStyl
     ...restProps,
     size
   })
-)<ButtonBaseProps & ButtonStyleProps>`
+)<ButtonProps>`
   ${({ backgroundColor }) => backgroundColor && `background-color: ${backgroundColor};`}
   ${({ color }) => color && `color: ${color};`}
   ${({ margin }) => margin && `margin: ${margin};`}
   ${({ padding }) => padding && `padding: ${padding};`}
+  ${({ theme, bgImage, backgroundColor = transparentize(0.3, theme.bg1) }) =>
+    bgImage
+      ? setCssBackground(theme, {
+          isLogo: true,
+          imageUrls: [bgImage, bgImage],
+          backgroundColor,
+          backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
+          backgroundBlendMode: 'difference'
+        })
+      : theme.bg1}
 `

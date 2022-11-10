@@ -1,4 +1,4 @@
-import Button, { ButtonVariations, ButtonSizeVariations } from 'components/Button'
+import Button, { ButtonVariations, ButtonSizeVariations, ButtonProps } from 'components/Button'
 import ErrorMessage from 'components/ErrorMessage'
 import { ItemDescription } from 'pages/SingleItem/styleds'
 import { transparentize } from 'polished'
@@ -7,8 +7,18 @@ import { useAddLineToCartAndUpdateReduxCallback } from 'state/cart/hooks'
 
 import styled from 'styled-components/macro'
 
-export type AddToCartButtonParams = { label?: string; merchandiseId: string | undefined; quantity: number }
-export default function AddToCartButton({ label = 'Add to cart', merchandiseId, quantity }: AddToCartButtonParams) {
+export type AddToCartButtonParams = {
+  label?: string
+  merchandiseId: string | undefined
+  quantity: number
+  buttonProps?: ButtonProps
+}
+export default function AddToCartButton({
+  label = 'Add to cart',
+  merchandiseId,
+  quantity,
+  buttonProps = {}
+}: AddToCartButtonParams) {
   const { addLineToCartCallback, loading, error } = useAddLineToCartAndUpdateReduxCallback()
   const { message: disappearingMessage, shouldShow, setShow } = useDisappearingMessage({ message: 'Added to cart!' })
 
@@ -22,8 +32,10 @@ export default function AddToCartButton({ label = 'Add to cart', merchandiseId, 
           addLineToCartCallback({ quantity, merchandiseId })
         }}
         disabled={isDisabled}
-        variant={!isDisabled ? ButtonVariations.SUCCESS : ButtonVariations.DISABLED}
+        variant={ButtonVariations.THEME}
         size={ButtonSizeVariations.SMALL}
+        // override w/ button props if necessary
+        {...buttonProps}
       >
         {!error && (
           <ItemDescription color="inherit" backgroundColor="transparent" padding="1rem">

@@ -402,7 +402,8 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
     //  * INNER CONTAINER WITH CAROUSEL
     //  *
     > ${InnerContainer} {
-      background: ${({ theme, bgColor = theme.white }) => `linear-gradient(${bgColor} 30%, ${theme.white} 55%)`};
+      background: ${({ theme, bgColor = theme.white }) =>
+        `linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%)`};
       max-width: ${STORE_IMAGE_SIZES.SMALL}px;
       box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
 
@@ -419,12 +420,12 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
       // MEDIA QUERIES --> LARGE and up
       ${({ theme, bgColor = theme.white }) => fromLarge`
         max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
-        background: linear-gradient(${bgColor} 35%, ${theme.white} 60%);
+        background: linear-gradient(${bgColor} 35%, ${transparentize(0.3, theme.white)} 60%);
       `} d
       // MEDIA QUERIES --> X-LARGE and up
       ${({ theme, bgColor = theme.white }) => fromExtraLarge`
         max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
-        background: linear-gradient(${bgColor} 55%, ${theme.white} 80%);
+        background: linear-gradient(${bgColor} 55%, ${transparentize(0.3, theme.white)} 80%);
       `}
 
       > ${ItemLogo} {
