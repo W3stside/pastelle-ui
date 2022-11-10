@@ -7,6 +7,7 @@ export const DEFAULT_COLOURS = {
   offWhite: 'ghostwhite',
   red1: '#FF6871',
   red2: '#200202',
+  red3: '#620c0c',
   green1: '#09371d',
   green2: '#a9ffcd',
   yellow1: '#FFE270',
