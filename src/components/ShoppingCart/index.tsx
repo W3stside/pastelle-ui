@@ -175,7 +175,8 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
   const { QuantitySelector, quantity } = useQuantitySelector({
     defaultQuantity: line.quantity,
     onTrashClick: line.id
-      ? () => {
+      ? (e: React.MouseEvent<SVGElement, MouseEvent>) => {
+          e.stopPropagation()
           setRemoveOperationLoading(true)
           removeCartLineCallback(
             { lineIds: [line.id] },

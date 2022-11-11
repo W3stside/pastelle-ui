@@ -56,6 +56,10 @@ export const TopGlobalStyle = createGlobalStyle`
     }
   }
   
+  input {
+    border: none;
+  }
+
   html,
   body {
     font-size: 10px;

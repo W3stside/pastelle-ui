@@ -22,7 +22,6 @@ const Wrapper = styled(Row)`
 
     > input[type='number'] {
       width: 7rem;
-      border: none;
       border-radius: 0.5rem;
     }
   }

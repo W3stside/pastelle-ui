@@ -52,28 +52,47 @@ export default function useQuantitySelector({
   onTrashClick
 }: {
   defaultQuantity?: number
-  onTrashClick?: () => void | Promise<void>
+  onTrashClick?: (e: React.MouseEvent<SVGElement, MouseEvent>) => void | Promise<void>
 }) {
   const [quantity, setQuantity] = useState(defaultQuantity)
   const [debouncedQuantity, debouncedSetQuantity] = useDebouncedChangeHandler(quantity, setQuantity)
 
-  const handleOnClickDown = useCallback(() => {
-    if (quantity === 0) return
-    return setQuantity(state => state - 1)
-  }, [quantity])
-  const handleOnClickUp = useCallback(() => {
-    if (quantity === PURCHASE_LIMIT) return
-    return setQuantity(state => state + 1)
-  }, [quantity])
+  const handleOnClickDown = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation()
+
+      if (quantity === 0) return
+      return setQuantity(state => state - 1)
+    },
+    [quantity]
+  )
+  const handleOnClickUp = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation()
+
+      if (quantity === PURCHASE_LIMIT) return
+      return setQuantity(state => state + 1)
+    },
+    [quantity]
+  )
   const handleInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     e => {
+      e.stopPropagation()
+
       const value = Number(e.target.value)
       if (value <= 0 || value > PURCHASE_LIMIT) return
       return debouncedSetQuantity(value)
     },
     [debouncedSetQuantity]
   )
-  const resetQuantity = useCallback(() => debouncedSetQuantity(1), [debouncedSetQuantity])
+  const resetQuantity = useCallback(
+    (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+      e.stopPropagation()
+
+      return debouncedSetQuantity(1)
+    },
+    [debouncedSetQuantity]
+  )
 
   const QuantitySelector = useCallback(
     ({ isDisabled, color }: { isDisabled?: boolean; color?: string }) => {
@@ -83,7 +102,13 @@ export default function useQuantitySelector({
           <button disabled={isDisabled || quantity === 1} onClick={handleOnClickDown}>
             -
           </button>
-          <input disabled={isDisabled} type="number" onChange={handleInputChange} value={debouncedQuantity} />
+          <input
+            disabled={isDisabled}
+            type="number"
+            onChange={handleInputChange}
+            onClick={e => e.stopPropagation()}
+            value={debouncedQuantity}
+          />
           {/* + */}
           <button disabled={isDisabled || quantity === PURCHASE_LIMIT} onClick={handleOnClickUp}>
             +
