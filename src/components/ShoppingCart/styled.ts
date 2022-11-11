@@ -46,6 +46,7 @@ export const CartLineContent = styled(Row)`
 
   ${upToExtraSmall`
     > ${QuantitySelectorWrapper} {
+      position: relative;
       flex-flow: column-reverse nowrap;
       padding: 0 3rem 0 0;
       > button {
@@ -53,7 +54,7 @@ export const CartLineContent = styled(Row)`
       }
       > svg {
         position: absolute;
-        right: 3rem;
+        right: 0;
       }
     }
   `}
@@ -207,7 +208,6 @@ export const ShoppingCartPanelWrapper = styled.div`
 
   > ${ShoppingCartPanelContentWrapper}, > ${CartTableHeaderWrapper} {
     color: ${({ theme }) => theme.text1};
-    // background: ${({ theme }) => transparentize(0.2, theme.black)};
     background-color: ${({ theme }) => transparentize(0.1, theme.black)};
     margin-left: auto;
     width: 60%;

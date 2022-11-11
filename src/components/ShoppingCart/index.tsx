@@ -124,7 +124,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
             padding="1rem"
             backgroundColor={getThemeColours().purple2}
             variant={ButtonVariations.SUCCESS}
-            disabled
+            // disabled
           >
             <CartHeader margin="0" letterSpacing={-2} fontSize="3rem">
               <a href={data.cart.checkoutUrl} target="_blank" rel="noopener noreferrer">
