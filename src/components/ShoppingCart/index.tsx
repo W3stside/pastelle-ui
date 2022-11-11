@@ -112,7 +112,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
       </ShoppingCartPanelContentWrapper>
 
       {/* CHECKOUT */}
-      {data?.cart?.checkoutUrl && (
+      {data?.cart?.checkoutUrl && data?.cart?.totalQuantity > 0 && (
         <CartTableHeaderWrapper gridTemplateColumns="max-content auto">
           {subTotal && (
             <CartHeader fontSize="3.5rem" letterSpacing={0}>

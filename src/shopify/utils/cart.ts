@@ -57,7 +57,7 @@ export const addCartLineAndUpdateStore = async ({
   const totalQuantity = response?.data?.cartLinesAdd?.cart?.totalQuantity
   const costs = response.data?.cartLinesAdd?.cart?.cost
 
-  updateCartInfo({ totalQuantity, costs })
+  updateCartInfo({ cartId, totalQuantity, costs })
 }
 
 export const removeCartLineAndUpdateStore = async ({
@@ -80,7 +80,7 @@ export const removeCartLineAndUpdateStore = async ({
   const totalQuantity = response.data?.cartLinesRemove?.cart?.totalQuantity
   const costs = response.data?.cartLinesRemove?.cart?.cost
 
-  updateCartInfo({ totalQuantity, costs })
+  updateCartInfo({ cartId, totalQuantity, costs })
 }
 
 export const updateCartLineAndUpdateStore = async ({
@@ -105,5 +105,5 @@ export const updateCartLineAndUpdateStore = async ({
   const totalQuantity = response.data?.cartLinesUpdate?.cart?.totalQuantity
   const costs = response.data?.cartLinesUpdate?.cart?.cost
 
-  updateCartInfo({ totalQuantity, costs })
+  updateCartInfo({ cartId, totalQuantity, costs })
 }

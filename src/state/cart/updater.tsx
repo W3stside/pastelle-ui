@@ -1,61 +1,71 @@
+import { useApolloClient } from '@apollo/client'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import { useEffect } from 'react'
-import { useCreateCart, useQueryCart } from 'shopify/graphql/hooks'
-import { useCreateCartDispatch, useGetCartIdDispatch } from 'state/cart/hooks'
-import { CreateCartParams } from './reducer'
+import { useCreateCart } from 'shopify/graphql/hooks'
+import { GET_CART } from 'shopify/graphql/queries/cart'
+import { GetCartQuery, GetCartQueryVariables } from 'shopify/graphql/types'
+import { useUpdateCartInfoDispatch, useGetCartIdDispatch } from 'state/cart/hooks'
+import { UpdateCartInfoParams } from './reducer'
+
+interface CartCreationCbs {
+  createCart: ReturnType<typeof useCreateCart>[0]
+  updateCartInfo: (params: UpdateCartInfoParams) => void
+}
 
 export default function CartUpdater() {
-  const cartId = useGetCartIdDispatch()
   const [createCart] = useCreateCart()
+  const updateCartInfo = useUpdateCartInfoDispatch()
+  const { query } = useApolloClient()
 
-  const setCartInfo = useCreateCartDispatch()
+  const cartId = useGetCartIdDispatch()
 
-  return cartId ? (
-    <PreviousCartSubUpdater cartId={cartId} setCartInfo={setCartInfo} />
-  ) : (
-    <NewCartSubUpdater setCartInfo={setCartInfo} createCart={createCart} />
-  )
-}
-
-function NewCartSubUpdater({
-  createCart,
-  setCartInfo
-}: {
-  setCartInfo: (params: CreateCartParams) => void
-  createCart: (...params: any[]) => Promise<any>
-}) {
   useEffect(() => {
-    console.debug('[CART UPDATER::NEW CART SUB-UPDATER] --> New cart found! Setting.')
-    createCart()
-      .then(({ data: cartResponse }) => {
-        const cart = cartResponse?.cartCreate?.cart
-
-        cart && setCartInfo(cart.id)
-      })
-      .catch(error => {
-        console.error('Cart initialisation error!', error)
-      })
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    if (cartId) {
+      _queryAndUpdateCart({ cartId, query, updateCartInfo })
+    } else {
+      _createAndSaveCart({ createCart, updateCartInfo })
+    }
+  }, [cartId, createCart, query, updateCartInfo])
 
   return null
 }
 
-function PreviousCartSubUpdater({
-  cartId,
-  setCartInfo
-}: {
+interface QueryCartParams {
   cartId: string
-  setCartInfo: (params: CreateCartParams) => void
-}) {
-  const { data: previousCart } = useQueryCart({ cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
+  query: ReturnType<typeof useApolloClient>['query']
+  updateCartInfo: (params: UpdateCartInfoParams) => void
+}
 
-  useEffect(() => {
-    console.debug('[CART UPDATER::PREVIOUS CART SUB-UPDATER] --> Previous cart found! Setting.')
-    previousCart?.cart && setCartInfo(previousCart.cart.id)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+function _queryAndUpdateCart({ cartId, query, updateCartInfo }: QueryCartParams) {
+  return query<GetCartQuery, GetCartQueryVariables>({
+    query: GET_CART,
+    variables: { cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT }
+  })
+    .then(({ data, error }) => {
+      if (error) throw error
 
-  return null
+      if (data?.cart) {
+        console.debug('[CART UPDATER::PREVIOUS CART SUB-UPDATER] --> Previous cart found! Setting.')
+        updateCartInfo({
+          cartId: data.cart.id,
+          totalQuantity: data.cart.totalQuantity,
+          costs: data.cart.cost
+        })
+      }
+    })
+    .catch(error => {
+      console.error('CART UPDATER::PREVIOUS CART UPDATE ERROR!', error)
+    })
+}
+
+async function _createAndSaveCart({ updateCartInfo, createCart }: CartCreationCbs) {
+  return createCart()
+    .then(({ data: cartResponse }) => {
+      const cart = cartResponse?.cartCreate?.cart
+
+      cart && updateCartInfo({ cartId: cart.id })
+    })
+    .catch(error => {
+      console.error('[CART UPDATERS] Cart initialisation error!', error)
+    })
 }

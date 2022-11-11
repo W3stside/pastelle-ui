@@ -38,7 +38,7 @@ export function ScrollingContentPage<D>({
   ...indicatorProps
 }: Params<D>) {
   const { springs, setTargetRef, height, currentIndex, restSet } = useScrollingPageAnimation(data, {
-    visible: 1,
+    visible: 2,
     fixedHeight,
     snapOnScroll: false,
     // defaults to 0.8 scale on scroll and 1 scale default
