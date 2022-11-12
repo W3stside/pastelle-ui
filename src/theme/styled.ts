@@ -3,7 +3,13 @@ export interface Colors {
   // base
   white: Color
   offWhite: Color
+  offWhiteOpaque1: Color
+  offWhiteOpaque2: Color
+  offWhiteOpaque3: Color
   black: Color
+  blackOpaque1: Color
+  blackOpaque2: Color
+  blackOpaque3: Color
 
   // text
   text1: Color
@@ -50,18 +56,30 @@ export interface Colors {
   purple: Color
   purple1: Color
   purple2: Color
+  purple3: Color
 
   // states
   dangerLight: Color
   warningLight: Color
+  inputHoverColor: Color
+
+  // elems
+  products: {
+    aside: {
+      itemContainer: Color
+      textColor: Color
+      subItemDescription: Color
+      inputs: Color
+    }
+  }
+  darkModeFilter: string
+  darkModeToggle: Color
+  darkModeSvg: Color
 }
 
 export enum ThemeModes {
   LIGHT = 'LIGHT',
-  DARK = 'DARK',
-  // add whatever themes u want here...
-  VAMPIRE = 'VAMPIRE',
-  CHAMELEON = 'CHAMELEON'
+  DARK = 'DARK'
 }
 
 export type Theme = {

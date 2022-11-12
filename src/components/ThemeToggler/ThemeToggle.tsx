@@ -11,6 +11,7 @@ const ThemeButtonToggleWrapper = styled.div<{ disabled: boolean; $mode: boolean;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
   > button {
+    border-radius: 2rem;
     width: 75%;
     margin-left: ${({ $mode }): string => ($mode ? 'auto' : '0')};
 

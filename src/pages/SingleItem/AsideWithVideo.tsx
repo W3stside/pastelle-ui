@@ -23,8 +23,8 @@ import {
   ItemLogoCollectionView,
   InnerCollectionContainer,
   ItemContentContainer,
-  SubItemDescription,
-  ItemLogoCssImport
+  ItemLogoCssImport,
+  FreeShippingBanner
 } from './styleds'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
@@ -46,10 +46,9 @@ import {
 } from 'shopify/graphql/types'
 
 import { getImageSizeMap } from 'shopify/utils'
-import { OFF_WHITE } from 'theme/utils'
 import { FREE_SHIPPING_THRESHOLD, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 
-import ShippingSvg from 'assets/svg/shipping.svg'
+// import ShippingSvg from 'assets/svg/shipping.svg'
 import { isMobile } from 'utils'
 import { getMobileShowcaseVideo916Height } from './utils'
 import useModelSizeSelector from 'components/ModelSizeSelector'
@@ -57,6 +56,7 @@ import useShowShowcase from 'components/Showcase/Settings'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import ShowcaseVideos from 'components/Showcase/Videos'
+import { Package, Truck } from 'react-feather'
 
 export interface ProductPageProps {
   bgColor: string
@@ -116,7 +116,7 @@ export type SingleItemPageProps = ProductPageProps &
     showBreadCrumbs: boolean
   }
 export default function ItemPage({
-  bgColor,
+  // bgColor,
   color = '#000',
   id,
   handle,
@@ -204,7 +204,13 @@ export default function ItemPage({
         onCarouselChange={onCarouselChange}
       />
       {/* Item content */}
-      <ItemContainer id="#item-container" style={style} collectionView={collectionView} bgColor={bgColor}>
+      <ItemContainer
+        id="#item-container"
+        style={style}
+        collectionView={collectionView}
+        bgColor={color}
+        navLogo={navLogo}
+      >
         <ItemAsidePanel id="#item-aside-panel">
           <DynamicInnerContainer ref={setRef}>
             {/* Breadcrumbs */}
@@ -298,11 +304,11 @@ export default function ItemPage({
                       isMobileWidth
                     />
                     {/* SHOWCASE MODEL SHOWCASE SETTINGS */}
-                    <SubItemDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
+                    <ItemDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
                       <Row style={{ gap: '1rem' }}>
                         <FontAwesomeIcon icon={faLightbulb} size={'sm'} /> SHOWCASE SETTINGS{' '}
                       </Row>
-                    </SubItemDescription>
+                    </ItemDescription>
                     <ShowcaseSettings>
                       {/* MOBILE SHOWCASE */}
                       <ModelSizeSelector />
@@ -312,9 +318,10 @@ export default function ItemPage({
                     {/* ADD TO CART AND QUANTITY */}
                     <AddToCartButtonAndQuantitySelector merchandiseId={merchandiseId} />
                     {FREE_SHIPPING_THRESHOLD && (
-                      <SubItemDescription margin={'2rem 0 0 0'} fontWeight={300}>
-                        <img src={ShippingSvg} /> FREE SHIPPING OVER {FREE_SHIPPING_THRESHOLD}€
-                      </SubItemDescription>
+                      <FreeShippingBanner margin={'2rem 0 0 0'} fontWeight={300}>
+                        <Truck />
+                        <Package /> FREE SHIPPING OVER {FREE_SHIPPING_THRESHOLD}€
+                      </FreeShippingBanner>
                     )}
                   </Column>
 
@@ -325,7 +332,6 @@ export default function ItemPage({
                       dangerouslySetInnerHTML={{ __html: description }}
                       padding="0rem 4rem 1rem"
                       fontWeight={300}
-                      backgroundColor={OFF_WHITE}
                     />
                   </Column>
                   {/* Credits */}

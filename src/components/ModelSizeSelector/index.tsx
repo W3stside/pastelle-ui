@@ -32,6 +32,7 @@ const ModelSizeSelectorWrapper = styled(Row)`
       height: 5rem;
 
       > select {
+        color: ${({ theme }) => theme.products.aside.textColor};
         font-size: 1.5rem;
         height: 100%;
         width: 100%;
@@ -43,7 +44,7 @@ const ModelSizeSelectorWrapper = styled(Row)`
         font-style: italic;
 
         &:hover {
-          background: ${({ theme }) => theme.green2};
+          background: ${({ theme }) => theme.inputHoverColor};
         }
 
         transition: background 0.2s ease-in-out;

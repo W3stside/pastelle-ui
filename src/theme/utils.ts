@@ -1,23 +1,22 @@
 import { DefaultTheme, FlattenSimpleInterpolation, css, CSSObject, SimpleInterpolation } from 'styled-components/macro'
 
-import { DEFAULT_COLOURS, CHAMELEON_COLOURS } from './styles'
-import { Colors } from './styled'
+import { THEME_COLOURS } from './styles'
+import { Colors, ThemeModes } from './styled'
 import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
 import { MEDIA_WIDTHS } from './styles/mediaQueries'
 import { hex } from 'wcag-contrast'
+import { transparentize } from 'polished'
 
-export function getThemeColours(): Colors {
-  return {
-    ...DEFAULT_COLOURS,
-    ...CHAMELEON_COLOURS
-  }
+export function getThemeColours(mode: ThemeModes): Colors {
+  return THEME_COLOURS(mode)
 }
 
-export const WHITE = getThemeColours().white
-export const OFF_WHITE = getThemeColours().offWhite
-export const BLACK = getThemeColours().black
-export const BLUE = getThemeColours().blue1
-export const RED = getThemeColours().red1
+export const WHITE = getThemeColours(ThemeModes.DARK).white
+export const OFF_WHITE = getThemeColours(ThemeModes.DARK).offWhite
+export const BLACK = getThemeColours(ThemeModes.DARK).black
+export const BLACK_TRANSPARENT = transparentize(0.15, BLACK)
+export const BLUE = getThemeColours(ThemeModes.DARK).blue1
+export const RED = getThemeColours(ThemeModes.DARK).red1
 
 interface ThemeProps {
   theme: DefaultTheme

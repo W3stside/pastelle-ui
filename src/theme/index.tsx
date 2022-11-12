@@ -34,14 +34,25 @@ export const TYPE = {
   body(props: TextProps): ReactElement {
     return <TextWrapper fontWeight={400} fontSize={'1.6rem'} color="text1" {...props} />
   },
+  productText(props: TextProps): ReactElement {
+    return <TextWrapper color={'products.aside.textColor'} fontWeight={500} {...props} />
+  },
+  basic(props: TextProps): ReactElement {
+    return <TextWrapper {...props} />
+  },
+  header(props: TextProps): ReactElement {
+    return <TextWrapper fontSize={'10rem'} letterSpacing={7} fontWeight={500} fontStyle={'italic'} {...props} />
+  },
+  subHeader(props: TextProps): ReactElement {
+    return (
+      <TextWrapper fontSize={'1.8rem'} padding={2} margin={'2rem 0'} fontWeight={500} fontStyle={'italic'} {...props} />
+    )
+  },
   largeHeader(props: TextProps): ReactElement {
     return <TextWrapper fontWeight={600} fontSize={'2.4rem'} {...props} />
   },
   mediumHeader(props: TextProps): ReactElement {
     return <TextWrapper fontWeight={500} fontSize={'2rem'} {...props} />
-  },
-  subHeader(props: TextProps): ReactElement {
-    return <TextWrapper fontWeight={400} fontSize={'1.4rem'} {...props} />
   },
   small(props: TextProps): ReactElement {
     return <TextWrapper fontWeight={500} fontSize={'1.1rem'} {...props} />
@@ -106,7 +117,7 @@ const ThemeProvider: FCC<{ themeExtension?: any }> = ({ children, themeExtension
   const { mode } = useAppColourTheme()
 
   const themeObject = useMemo(() => {
-    const themeColours = getThemeColours()
+    const themeColours = getThemeColours(mode)
 
     const computedTheme: DefaultTheme = {
       // Compute the app colour pallette using the passed in colourTheme

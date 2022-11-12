@@ -25,7 +25,8 @@ export enum ButtonVariations {
   WARNING = 'WARNING',
   CANCEL = 'CANCEL',
   DISABLED = 'DISABLED',
-  THEME = 'THEME'
+  THEME = 'THEME',
+  DARK_MODE_TOGGLE = 'DARK_MODE_TOGGLE'
 }
 
 export enum ButtonSizeVariations {
@@ -53,10 +54,24 @@ const PRIMARY_BUTTON_STYLES = css`
 
 const SECONDARY_BUTTON_STYLES = css`
   color: ${({ theme }): string => theme.text1};
-  background: ${({ theme }): string => theme.bg3};
+  background: ${({ theme }): string => theme.purple3};
 
   &:hover {
-    background: ${({ theme }): string => darken(DEFAULT_DARKEN_AMOUNT, theme.bg3)};
+    background: ${({ theme }): string => darken(DEFAULT_DARKEN_AMOUNT, theme.purple2)};
+  }
+`
+
+const DARK_MODE_TOGGLE_STYLES = css`
+  color: ${({ theme }): string => theme.offWhite};
+  background: ${({ theme }): string => theme.darkModeToggle};
+
+  svg {
+    stroke: ${({ theme }) => theme.darkModeSvg};
+    fill: ${({ theme }) => theme.darkModeSvg};
+  }
+
+  &:hover {
+    background: ${({ theme }): string => darken(DEFAULT_DARKEN_AMOUNT, theme.darkModeToggle)};
   }
 `
 
@@ -117,11 +132,19 @@ const THEME_BUTTON_STYLES = css`
   color: ${({ theme }): string => theme.offWhite};
   border-color: ${({ theme }): string => theme.offWhite};
 
-  filter: contrast(2) saturate(3);
+  // VARIATION 1
+  // filter: contrast(2) saturate(3);
+  // VARIATION 2
+  filter: contrast(1.5) saturate(10);
+
   border-color: ${({ theme }): string => theme.text1};
   text-shadow: 0px 0px 12px #fff;
 
   > div {
+    // VARIATION 1
+    // filter: invert(0);
+    // VARIATION 2
+    filter: invert(1);
     border-radius: 0.1rem;
 
     background-color: black;
@@ -131,13 +154,17 @@ const THEME_BUTTON_STYLES = css`
   }
 
   &:hover {
-    filter: contrast(1.5) saturate(10);
+    // VARIATION 1
+    // filter: contrast(1.5) saturate(10);
+    // VARIATION 2
+    filter: contrast(2) saturate(3);
     border-color: ${({ theme }): string => theme.text1};
 
     > div {
-      background-color: black;
-      opacity: 0.66;
-      filter: invert(1);
+      // VARIATION 1
+      // filter: invert(1)
+      // VARIATION 2
+      filter: invert(0);
     }
   }
 
@@ -169,6 +196,9 @@ const ButtonThemeMap: Writable<ButtonVariationInterpolationObject> = BUTTON_VARI
         break
       case ButtonVariations.SECONDARY:
         buttonStyle = SECONDARY_BUTTON_STYLES
+        break
+      case ButtonVariations.DARK_MODE_TOGGLE:
+        buttonStyle = DARK_MODE_TOGGLE_STYLES
         break
       case ButtonVariations.DANGER:
         buttonStyle = DANGER_BUTTON_STYLES

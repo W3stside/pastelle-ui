@@ -1,7 +1,6 @@
 import Button, { ButtonVariations, ButtonSizeVariations, ButtonProps } from 'components/Button'
 import ErrorMessage from 'components/ErrorMessage'
 import { ItemDescription } from 'pages/SingleItem/styleds'
-import { transparentize } from 'polished'
 import { useCallback, useEffect, useState } from 'react'
 import { useAddLineToCartAndUpdateReduxCallback } from 'state/cart/hooks'
 
@@ -49,7 +48,7 @@ export default function AddToCartButton({
 }
 
 const DisappearingMessageWrapper = styled(ItemDescription)`
-  background-color: ${({ theme }) => transparentize(0.15, theme.offWhite)};
+  background-color: ${({ theme }) => theme.offWhiteOpaque1};
   color: ${({ theme }) => theme.text1};
 `
 function useDisappearingMessage(params: { message: string; showAtStart?: boolean }) {

@@ -4,7 +4,7 @@ import { transparentize } from 'polished'
 import { ProductOptionsSize, ProductSizes } from 'shopify/graphql/types'
 import { Row, RowProps } from 'components/Layout'
 import { TYPE } from 'theme'
-import { BLACK, OFF_WHITE, setBestContrastingColour } from 'theme/utils'
+import { BLACK } from 'theme/utils'
 import { useGetShowcaseSettings, useUpdateShowcaseSettings } from 'state/user/hooks'
 
 type SizeSelectorProps = Omit<RowProps, 'sizes'> & {
@@ -15,18 +15,12 @@ type SizeSelectorProps = Omit<RowProps, 'sizes'> & {
 }
 
 const SquareSelectDiv = styled(TYPE.black)<{ isSelected: boolean; bgColor?: string }>`
-  ${({ isSelected, theme, bgColor = theme.white }) =>
+  ${({ isSelected, theme }) =>
     isSelected &&
     `
       &&&&& {
-        background-color: ${bgColor};
-        color: ${setBestContrastingColour({
-          bgColour: bgColor,
-          fgColour: BLACK,
-          lightColour: OFF_WHITE,
-          darkColour: BLACK
-        })};
-        filter: contrast(1.4) saturate(4);
+        background-color: ${theme.inputHoverColor};
+        color: ${theme.offWhite};
         font-weight: 800;
         text-shadow: 0px 0px 3px ${transparentize(0.6, BLACK)};
       }
@@ -40,7 +34,7 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
   gap: 1px;
   padding: 0;
 
-  ${({ theme }) => theme.whiteGradient1}
+  background: ${({ theme }) => theme.products.aside.itemContainer};
   border-radius: ${({ theme }) => theme.buttons.borderRadius};
   overflow: hidden;
 
@@ -55,12 +49,12 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
     text-align: center;
     font-size: 2rem;
     font-weight: 400;
-
+    color: ${({ theme }) => theme.products.aside.textColor};
     height: 5rem;
     flex: 1 1 24%;
 
     &:hover {
-      background-color: ${({ theme, color = theme.white }) => transparentize(0.5, color)};
+      background-color: ${({ theme }) => transparentize(0.3, theme.inputHoverColor)};
     }
 
     transition: background-color 0.3s ease-out;

@@ -14,6 +14,7 @@ import { getMobileShowcaseVideoWidth } from 'pages/SingleItem/utils'
 import { useCurrentProductMedia } from 'state/collection/hooks'
 
 import PastelleCirclePinkYellow from 'assets/svg/pastelle-circle-pink-yellow.svg'
+import { ThemeModes } from 'theme/styled'
 
 type WithContainer = {
   container: HTMLElement | null | undefined
@@ -177,7 +178,7 @@ export function VideoDelayer() {
 
 function VideoErrorOverlay() {
   return (
-    <VideoPlayCTAOverlay bgColor={getThemeColours().red3} $height="100%" $width="120%">
+    <VideoPlayCTAOverlay bgColor={getThemeColours(ThemeModes.DARK).red3} $height="100%" $width="120%">
       <ItemHeader
         itemColor={OFF_WHITE}
         animation={false}

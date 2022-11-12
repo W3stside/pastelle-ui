@@ -4,7 +4,7 @@ import styled from 'styled-components/macro'
 import { TYPE } from 'theme'
 import { BLACK, OFF_WHITE } from 'theme/utils'
 
-export const TinyHelperTextStyled = styled(TYPE.black)`
+export const TinyHelperTextStyled = styled(TYPE.productText)`
   font-size: 1rem;
   text-decoration: underline;
   cursor: pointer;

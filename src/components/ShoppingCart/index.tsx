@@ -43,6 +43,7 @@ import { formatCurrency } from 'utils/formatting'
 import { getThemeColours, WHITE } from 'theme/utils'
 import { COLLECTION_PATHNAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import Button, { ButtonVariations } from 'components/Button'
+import { ThemeModes } from 'theme/styled'
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
   return <ShoppingCartQuantityWrapper>{totalQuantity}</ShoppingCartQuantityWrapper>
@@ -122,12 +123,12 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
           {/* TODO: remove disabled */}
           <Button
             padding="1rem"
-            backgroundColor={getThemeColours().purple2}
+            backgroundColor={getThemeColours(ThemeModes.DARK).purple2}
             variant={ButtonVariations.SUCCESS}
             // disabled
           >
             <CartHeader margin="0" letterSpacing={-2} fontSize="3rem">
-              <a href={data.cart.checkoutUrl} target="_blank" rel="noopener noreferrer">
+              <a href={data.cart.checkoutUrl} rel="noopener noreferrer">
                 CHECKOUT
               </a>
             </CartHeader>

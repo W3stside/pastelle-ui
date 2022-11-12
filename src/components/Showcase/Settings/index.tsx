@@ -2,9 +2,9 @@ import { useState, useCallback, ReactNode } from 'react'
 import { isMobile } from 'react-device-detect'
 import { Z_INDEXES } from 'constants/config'
 import { SubItemDescription } from 'pages/SingleItem/styleds'
-import { BLACK } from 'theme/utils'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 import { TinyHelperText } from 'components/Common'
+import { TYPE } from 'theme'
 
 export default function useShowShowcase() {
   const isMobileWidth = useIsMobileWindowWidthSize()
@@ -14,13 +14,11 @@ export default function useShowShowcase() {
   const ShowcaseSettings = useCallback(
     ({ children }: { children?: ReactNode }) => (
       <SubItemDescription
-        color={BLACK}
-        padding="4rem 1.3rem 0.3rem"
-        margin="-3rem auto 2rem"
-        width="97%"
+        padding="5rem 1.3rem 0.3rem"
+        margin="-4rem auto 2rem"
+        width="100%"
         fontWeight={300}
         fontSize="1.2rem"
-        backgroundColor={'#e8e8e8'}
         style={{
           flexFlow: 'column nowrap',
           alignItems: 'flex-start',
@@ -36,7 +34,7 @@ export default function useShowShowcase() {
           `}
         />
         {showShowcase && (
-          <small
+          <TYPE.black
             style={{
               backgroundColor: 'lightgoldenrodyellow',
               borderRadius: '1rem',
@@ -59,7 +57,7 @@ export default function useShowShowcase() {
                 : 'Click the gray button in the upper right hand corner'}{' '}
               to play/pause
             </p>
-          </small>
+          </TYPE.black>
         )}
       </SubItemDescription>
     ),

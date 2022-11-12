@@ -15,6 +15,7 @@ import { blockchainTransactions } from 'state/blockchainTransactions/reducer'
 import { updateVersion } from 'state/global/actions'
 
 import { ProductSizes } from 'shopify/graphql/types'
+import { ThemeModes } from 'theme/styled'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
@@ -42,7 +43,20 @@ const store = configureStore({
   preloadedState: load({
     states: PERSISTED_KEYS,
     // because localstorage can sometimes contain stale data from testing...
-    preloadedState: { user: { showcase: { size: ProductSizes.L, gender: 'MALE', height: 175 } } },
+    // TODO: remove this shit
+    preloadedState: {
+      user: {
+        theme: {
+          mode: ThemeModes.DARK,
+          autoDetect: false
+        },
+        showcase: {
+          gender: 'MALE',
+          height: 175,
+          size: ProductSizes.L
+        }
+      }
+    },
     disableWarnings: process.env.NODE_ENV === 'test'
   })
 })

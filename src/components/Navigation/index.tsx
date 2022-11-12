@@ -11,6 +11,7 @@ import { MobileNavOrb, NavigationStepsWrapper, NavLinkWrapper, SideEffectNavLink
 import { WHITE } from 'theme/utils'
 import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Row } from 'components/Layout'
+import ThemeToggleBar from 'components/ThemeToggler'
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string }
 
@@ -78,6 +79,7 @@ export default function Navigation({
             <LoadingRows rows={6} />
           )}
         </NavLinkWrapper>
+        <ThemeToggleBar />
       </NavigationStepsWrapper>
     </>
   )

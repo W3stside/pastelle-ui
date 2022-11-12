@@ -3,7 +3,7 @@ import { Trash2 } from 'react-feather'
 import styled from 'styled-components/macro'
 import { Row } from 'components/Layout'
 import useDebouncedChangeHandler from './useDebouncedChangeHandler'
-import { BLACK, RED } from 'theme/utils'
+import { BLACK, RED, setBestContrastingColour } from 'theme/utils'
 
 export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
   width: 100%;
@@ -16,12 +16,19 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
     &:disabled {
       background: lightgrey;
       cursor: not-allowed;
+      color: #000;
     }
     border: none;
     border-radius: 0.1rem;
     margin: 0 0.5rem;
     background-color: ${({ color = BLACK }) => color};
-    color: ${({ theme }) => theme.offWhite};
+    color: ${({ theme, color = BLACK }) =>
+      setBestContrastingColour({
+        bgColour: color,
+        fgColour: theme.offWhite,
+        lightColour: theme.offWhite,
+        darkColour: theme.black
+      })};
     min-width: 3rem;
 
     &:first-child:not(:disabled) {
@@ -33,17 +40,27 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
   > input {
     text-align: center;
     height: 100%;
-    font-weight: 100;
+    font-weight: 200;
     font-size: 1.6rem;
     outline: none;
   }
 
   > input {
     font-weight: 400;
+    background-color: ${({ theme }) => theme.products.aside.itemContainer};
+    color: ${({ theme }) => theme.products.aside.textColor};
   }
 
   > *:not(input[type='number']):not(button:disabled) {
     cursor: pointer;
+  }
+
+  #reset-button {
+    color: ${({ theme }) => theme.products.aside.textColor};
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0.1rem;
+    background-color: ${({ theme }) => theme.offWhiteOpaque3};
   }
 `
 const PURCHASE_LIMIT = 99
@@ -117,14 +134,7 @@ export default function useQuantitySelector({
             (!!onTrashClick ? (
               <Trash2 onClick={onTrashClick} color={RED} size={'2rem'} />
             ) : (
-              <span
-                style={{
-                  color: BLACK,
-                  textDecoration: 'underline',
-                  cursor: 'pointer'
-                }}
-                onClick={resetQuantity}
-              >
+              <span id="reset-button" onClick={resetQuantity}>
                 reset
               </span>
             ))}

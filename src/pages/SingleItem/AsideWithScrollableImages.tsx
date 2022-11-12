@@ -6,6 +6,7 @@ import { TYPE } from 'theme'
 import { getThemeColours } from 'theme/utils'
 import { ItemContainer, ItemAsidePanel, ItemHeader } from './styleds'
 import SmartImg, { ImageKitTransformation } from 'components/SmartImg'
+import { ThemeModes } from 'theme/styled'
 
 const ImageContainer = styled(AutoColumn)`
   overflow-y: auto;
@@ -54,7 +55,7 @@ export function AsideWithScrollableImages({ header, markdown, image }: Params) {
   return (
     <AsideWithScrollableImagesContainer id="#item-container" /* isViewingItem={isViewingItem} */>
       <ItemAsidePanel>
-        <AboutUsHeader fontWeight={100} itemColor={getThemeColours().bg2} animation>
+        <AboutUsHeader fontWeight={100} itemColor={getThemeColours(ThemeModes.DARK).bg2} animation>
           {header}
         </AboutUsHeader>
         <AboutUsTextContainer>

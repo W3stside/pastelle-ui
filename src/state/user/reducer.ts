@@ -19,7 +19,7 @@ export interface UserState {
 
 export const initialState: UserState = {
   theme: {
-    mode: ThemeModes.CHAMELEON,
+    mode: ThemeModes.DARK,
     autoDetect: false
   },
   showcase: {

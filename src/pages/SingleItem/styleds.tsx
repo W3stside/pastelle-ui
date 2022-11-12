@@ -10,16 +10,7 @@ import Button from 'components/Button'
 import { SocialType } from 'mock/types'
 import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
-import {
-  fromExtraLarge,
-  fromLarge,
-  fromMedium,
-  fromSmall,
-  OFF_WHITE,
-  setCssBackground,
-  upToLarge,
-  upToSmall
-} from 'theme/utils'
+import { fromExtraLarge, fromLarge, fromMedium, fromSmall, setCssBackground, upToLarge, upToSmall } from 'theme/utils'
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
@@ -41,12 +32,8 @@ export const Strikethrough = styled.div`
   height: 5px;
 `
 export type ItemHeaderProps = { animation?: boolean; animationDelay?: boolean; itemColor: string; maxWidth?: string }
-export const ItemHeader = styled(TYPE.white)<ItemHeaderProps>`
+export const ItemHeader = styled(TYPE.header)<ItemHeaderProps>`
   z-index: ${Z_INDEXES.PRODUCT_CONTENT};
-  font-style: italic;
-  letter-spacing: 7px;
-  font-size: 10rem;
-
   // logo
   > img {
     max-width: ${({ maxWidth = '100%' }) => maxWidth};
@@ -139,14 +126,13 @@ export const ItemLogoCollectionView = styled(ItemLogoCssImport)<{ $bgColor: stri
   `}
 `
 
-export const ItemSubHeader = styled(TYPE.black).attrs(props => ({
-  fontSize: '1.8rem',
-  padding: 2,
-  margin: '2rem 0',
-  fontWeight: 500,
-  fontStyle: 'italic',
-  ...props
-}))<{ bgColor?: string; useGradient?: boolean; label?: string }>`
+export const ItemSubHeader = styled(TYPE.subHeader)<{
+  color?: string
+  bgColor?: string
+  useGradient?: boolean
+  label?: string
+}>`
+  color: ${({ theme }) => theme.products.aside.textColor};
   background: ${({ useGradient = false, bgColor = 'transparent' }) =>
     useGradient ? `linear-gradient(15deg, ${bgColor} 0%, ${darken(0.1, bgColor)} 80%)` : bgColor};
   width: 100%;
@@ -184,6 +170,8 @@ export const ItemDescription = styled(TYPE.black).attrs(props => ({
   padding: props.padding || 0,
   fontWeight: props.fontWeight || 500,
   lineHeight: props.lineHeight || 1.2,
+  backgroundColor: props.theme.products.aside.itemContainer,
+  color: props.theme.products.aside.textColor,
   ...props
 }))`
   text-transform: uppercase;
@@ -192,14 +180,16 @@ export const ItemDescription = styled(TYPE.black).attrs(props => ({
   .item-description-p:first-child {
     margin-top: 0;
   }
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+
+  border-radius: ${({ theme: { buttons } }) => buttons.borderRadius};
 `
 
 export const SubItemDescription = styled(ItemDescription).attrs(props => ({
   ...props,
   padding: props.padding || '1.8rem',
   margin: props.margin || '2rem 0',
-  backgroundColor: props.backgroundColor || OFF_WHITE,
+  color: props.theme.products.aside.textColor,
+  backgroundColor: props.theme.products.aside.subItemDescription,
   fontWeight: props.fontWeight || 400
 }))`
   display: flex;
@@ -233,7 +223,12 @@ export const ItemAsidePanel = styled(Column)`
   align-items: flex-start;
 `
 
-export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionView?: boolean; bgColor?: string }>`
+export const ItemContainer = styled(Row)<{
+  side?: 'LEFT' | 'RIGHT'
+  collectionView?: boolean
+  bgColor?: string
+  navLogo?: string
+}>`
   width: 100%;
   height: 100%;
   justify-content: center;
@@ -402,8 +397,6 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
     //  * INNER CONTAINER WITH CAROUSEL
     //  *
     > ${InnerContainer} {
-      background: ${({ theme, bgColor = theme.white }) =>
-        `linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%)`};
       max-width: ${STORE_IMAGE_SIZES.SMALL}px;
       box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
 
@@ -418,15 +411,17 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
         }
       `}
       // MEDIA QUERIES --> LARGE and up
-      ${({ theme, bgColor = theme.white }) => fromLarge`
-        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
-        background: linear-gradient(${bgColor} 35%, ${transparentize(0.3, theme.white)} 60%);
-      `} d
-      // MEDIA QUERIES --> X-LARGE and up
-      ${({ theme, bgColor = theme.white }) => fromExtraLarge`
-        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
-        background: linear-gradient(${bgColor} 55%, ${transparentize(0.3, theme.white)} 80%);
+      ${fromLarge`
+        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge}; 
       `}
+      // MEDIA QUERIES --> X-LARGE and up
+      ${fromExtraLarge`
+        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
+      `}
+
+      > ${ItemLogo} {
+        filter: ${({ theme }) => theme.darkModeFilter};
+      }
 
       > ${ItemLogo} {
         width: 100%;
@@ -442,6 +437,19 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
         > img {
           margin: 0;
         }
+      }
+
+      > ${ItemContentContainer} {
+        background: ${({ theme, bgColor, navLogo }) =>
+          navLogo
+            ? setCssBackground(theme, {
+                isLogo: true,
+                imageUrls: [navLogo, navLogo],
+                backgroundColor: bgColor,
+                backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
+                backgroundBlendMode: 'difference'
+              })
+            : `linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%)`};
       }
 
       > ${CarouselContainer} {
@@ -475,8 +483,8 @@ export const ItemContainer = styled(Row)<{ side?: 'LEFT' | 'RIGHT'; collectionVi
     font-size: 1.25rem;
     cursor: pointer;
     line-height: 1.1;
-    background-color: #fff;
-    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+    background-color: ${({ theme }) => theme.products.aside.itemContainer};
+    // background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 
     display: grid;
     grid-template-areas: 'select';
@@ -660,4 +668,13 @@ export const HighlightedText = styled.span<{ color?: string; bgColor: string }>`
   background-color: ${({ bgColor }) => darken(0.3, bgColor)};
   padding: 0.5rem 1rem;
   line-height: 1.8;
+`
+
+export const FreeShippingBanner = styled(ItemDescription).attrs(props => ({ ...props, padding: '1.8rem' }))`
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  > svg {
+    filter: ${({ theme }) => theme.darkModeFilter};
+  }
 `
