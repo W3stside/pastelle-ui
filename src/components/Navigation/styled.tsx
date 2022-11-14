@@ -2,7 +2,7 @@ import styled from 'styled-components/macro'
 import Button from 'components/Button'
 import { MobileNavProps } from '.'
 import { Z_INDEXES } from 'constants/config'
-import { transparentize } from 'polished'
+import { Column } from 'components/Layout'
 
 export const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; minWidth?: string }>`
   width: ${({ width = 'auto' }) => width};
@@ -32,8 +32,15 @@ export const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: str
     justify-content: center;
     overflow: hidden;
     padding-bottom: 7rem;
+    
+    // theme toggler
+    > ${InnerNavWrapper}:nth-child(2) {
+      display: none;
+    }
+    
     width: ${isOpen ? '100%' : '0px'};
     opacity: ${isOpen ? '1' : '0'};
+
   `}
 `
 
@@ -86,9 +93,9 @@ export const SideEffectNavLink = styled.span`
 `
 
 // #1d1d1d
-export const NavLinkWrapper = styled.div`
+export const InnerNavWrapper = styled(Column)`
   width: 100%;
-  background: ${({ theme }) => transparentize(0.23, theme.black)};
+  background-color: ${({ theme }) => theme.blackOpaque2};
   padding: 1rem;
   border-radius: 0.5rem;
 `

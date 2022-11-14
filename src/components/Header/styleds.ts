@@ -7,10 +7,11 @@ import { RowFixed, Row, YellowCard } from 'components/Layout'
 import { SectionFrame } from 'components/Layout/Section'
 import { MobileNavOrb } from 'components/Navigation/styled'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
-import { upToExtraSmall, fromMedium, OFF_WHITE, fromExtraSmall } from 'theme/utils'
+import { upToExtraSmall, fromMedium, OFF_WHITE, fromExtraSmall, betweenSmallAndMedium } from 'theme/utils'
 
 import PastelleLogoSharpShort from 'assets/svg/PSTL-sharp.svg'
 import PastelleLogoCursiveLong from 'assets/svg/pastelle-cursive-logo.svg'
+import ThemeToggleBar from 'components/ThemeToggler'
 
 export const StyledNavLink = styled(NavLink)`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -85,6 +86,8 @@ export const Title = styled(NavLink)`
   }
 `
 
+export const StyledThemeToggleBar = styled(ThemeToggleBar)``
+
 export const HeaderRow = styled(RowFixed)`
   width: 100%;
   height: 100%;
@@ -97,10 +100,15 @@ export const HeaderRow = styled(RowFixed)`
     width: 100%;
   }
 
+  > ${StyledThemeToggleBar} {
+    display: none;
+  }
+
   > ${ShoppingCartFullWrapper} {
     margin-left: auto;
     margin-right: 2rem;
   }
+
   ${upToExtraSmall`
     > ${MobileNavOrb} {
       margin-left: auto;
@@ -116,6 +124,14 @@ export const HeaderRow = styled(RowFixed)`
         display: none;
       }
   `};
+
+  ${betweenSmallAndMedium`
+      grid-template-columns: minmax(10rem, 16rem) auto 11rem min-content min-content;
+      
+      > ${StyledThemeToggleBar} {
+        display: flex;
+      }
+  `}
 `
 
 export const HeaderLinks = styled(Row)`

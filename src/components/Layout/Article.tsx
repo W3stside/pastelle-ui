@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro'
 import { setCssBackground, upToExtraSmall } from 'theme/utils'
 import { setFadeInAnimation } from 'theme/styles/animations'
+import { ThemeModes } from 'theme/styled'
 
 const portugalBg = `${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}/portugal-bg_Rqj8jTKhFmds.jpg`
 
@@ -17,7 +18,7 @@ export const ArticleFadeInContainer = styled.article`
       isLogo: false,
       imageUrls: [portugalBg, portugalBg],
       backgroundAttributes: ['center/contain', 'center/contain'],
-      backgroundBlendMode: 'none'
+      backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'difference' : 'unset'
     })}}
   
   filter: contrast(1) blur(0px);

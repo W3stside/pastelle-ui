@@ -3,7 +3,7 @@ import { Box, BoxProps } from 'rebass/styled-components'
 
 export type RowProps = { align?: string; padding?: string; border?: string; borderRadius?: string } & BoxProps
 export const Row = styled(Box)<RowProps>`
-  width: 100%;
+  width: ${({ width = '100%' }) => width};
   display: flex;
   padding: 0;
   align-items: ${({ align = 'center' }) => align};

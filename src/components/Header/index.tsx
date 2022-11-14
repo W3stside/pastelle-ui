@@ -14,6 +14,7 @@ import {
   NetworkCard,
   Pastellecon,
   StyledNavLink,
+  StyledThemeToggleBar,
   Title
 } from './styleds'
 import Navigation from 'components/Navigation'
@@ -48,6 +49,8 @@ export default function Header() {
         )}
         {/* WEB3 */}
         {isEnabled && <Web3StatusHeader />}
+        {/* THEME TOGGLE - ONLY MEDIUM */}
+        <StyledThemeToggleBar themeToggleProps={{ width: '90%' }} />
         {/* SHOPPING CART */}
         <ShoppingCartHeader />
         <Navigation navOrbProps={{ bgColor: 'transparent', menuSize: 30 }} />

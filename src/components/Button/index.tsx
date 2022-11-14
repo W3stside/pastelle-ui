@@ -69,10 +69,6 @@ const DARK_MODE_TOGGLE_STYLES = css`
     stroke: ${({ theme }) => theme.darkModeSvg};
     fill: ${({ theme }) => theme.darkModeSvg};
   }
-
-  &:hover {
-    background: ${({ theme }): string => darken(DEFAULT_DARKEN_AMOUNT, theme.darkModeToggle)};
-  }
 `
 
 const DANGER_BUTTON_STYLES = css`
@@ -255,6 +251,19 @@ type ButtonStyleProps = BoxProps & {
   gradientColours?: string[]
   margin?: string
   padding?: string
+  bgBlendMode?:
+    | 'lighten'
+    | 'difference'
+    | 'color'
+    | 'color-burn'
+    | 'exclusion'
+    | 'saturation'
+    | 'hard-light'
+    | 'soft-light'
+    | 'screen'
+    | 'multiply'
+  bgAttributes?: [string, string]
+  filter?: string
 }
 
 export type ButtonProps = ButtonBaseProps & ButtonStyleProps & { bgImage?: string }
@@ -302,17 +311,24 @@ export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps & ButtonStyl
     size
   })
 )<ButtonProps>`
-  ${({ backgroundColor }) => backgroundColor && `background-color: ${backgroundColor};`}
+  ${({ backgroundColor, bgImage }) => !bgImage && backgroundColor && `background-color: ${backgroundColor};`}
   ${({ color }) => color && `color: ${color};`}
   ${({ margin }) => margin && `margin: ${margin};`}
   ${({ padding }) => padding && `padding: ${padding};`}
-  ${({ theme, bgImage, backgroundColor = transparentize(0.3, theme.bg1) }) =>
+  ${({ filter }) => filter && `filter: ${filter};`}
+  ${({
+    theme,
+    bgImage,
+    bgAttributes = ['center / cover no-repeat', '5px / cover repeat'],
+    bgBlendMode = 'difference',
+    backgroundColor = transparentize(0.3, theme.bg1)
+  }) =>
     bgImage &&
     setCssBackground(theme, {
       isLogo: true,
       imageUrls: [bgImage, bgImage],
       backgroundColor,
-      backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
-      backgroundBlendMode: 'difference'
+      backgroundAttributes: bgAttributes,
+      backgroundBlendMode: bgBlendMode
     })}
 `

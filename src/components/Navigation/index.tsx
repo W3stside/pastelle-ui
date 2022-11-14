@@ -7,7 +7,7 @@ import LoadingRows from 'components/Loader/LoadingRows'
 import { useCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
 import { buildItemUrl } from 'utils/navigation'
 import useOnResize from 'hooks/useOnResize'
-import { MobileNavOrb, NavigationStepsWrapper, NavLinkWrapper, SideEffectNavLink, CollectionLabel } from './styled'
+import { MobileNavOrb, NavigationStepsWrapper, InnerNavWrapper, SideEffectNavLink, CollectionLabel } from './styled'
 import { WHITE } from 'theme/utils'
 import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Row } from 'components/Layout'
@@ -60,7 +60,7 @@ export default function Navigation({
         {NavToggleButton}
       </MobileNavOrb>
       <NavigationStepsWrapper isOpen={isNavOpen} minWidth="9vw">
-        <NavLinkWrapper>
+        <InnerNavWrapper>
           <ItemSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
             <Row flexDirection={'row-reverse'} flexWrap={'wrap'} justifyContent="center" style={{ gap: '0.5rem' }}>
               <div style={{ fontWeight: 300, fontSize: '1.2rem' }}>{COLLECTION_PARAM_NAME}</div>
@@ -78,8 +78,20 @@ export default function Navigation({
           ) : (
             <LoadingRows rows={6} />
           )}
-        </NavLinkWrapper>
-        <ThemeToggleBar />
+        </InnerNavWrapper>
+        <InnerNavWrapper margin="auto auto 2rem auto" padding="0.8rem 1rem 1.5rem" alignItems={'center'}>
+          <ItemSubHeader
+            padding="0.2rem 0.2rem 1rem 0.2rem"
+            margin="0"
+            fontSize={isNavOpen ? '3.5rem' : '1.6rem'}
+            color={WHITE}
+          >
+            <Row flexWrap="wrap" justifyContent="center" style={{ gap: '0.5rem' }}>
+              THEME <div style={{ fontWeight: 300, fontSize: '1.2rem' }}>TOGGLER</div>
+            </Row>
+          </ItemSubHeader>
+          <ThemeToggleBar themeToggleProps={{ width: '90%' }} />
+        </InnerNavWrapper>
       </NavigationStepsWrapper>
     </>
   )

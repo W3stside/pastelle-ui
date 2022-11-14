@@ -8,6 +8,7 @@ import { fromExtraLarge, OFF_WHITE, upToExtraSmall, upToMedium, upToSmall } from
 import { ProductBrandingAssets } from 'shopify/graphql/types'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
 import { setFadeInAnimation } from 'theme/styles/animations'
+import { ThemeModes } from 'theme/styled'
 
 export const CartLineContent = styled(Row)`
   display: grid;
@@ -118,6 +119,7 @@ export const ShoppingCartHeaderWrapper = styled(Row)`
   justify-content: space-evenly;
   gap: 1rem;
   background: ${({ theme }) => theme.offWhite};
+  filter: invert(${({ theme }) => (theme.mode === ThemeModes.DARK ? 1 : 0)});
   padding: 1rem 1.5rem;
   margin-left: auto;
   width: fit-content;

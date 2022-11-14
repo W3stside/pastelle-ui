@@ -54,7 +54,11 @@ export function useQueryCurrentCollection(
   const { data, error } = useQueryCollections(variables)
 
   if (error) {
-    console.error('Error fetching current collection using variables:' + variables, 'Error:', error)
+    console.error(
+      'Error fetching current collection using variables:' + JSON.stringify(variables, null, 2),
+      'Error:',
+      error
+    )
   }
 
   // collection

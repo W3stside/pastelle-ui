@@ -3,6 +3,7 @@ import { SectionFrame } from '../Layout/Section'
 import { upToExtraSmall } from 'theme/utils'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
+import ThemeToggleBar from 'components/ThemeToggler'
 
 const FooterWrapper = styled(SectionFrame)`
   display: none;
@@ -15,7 +16,6 @@ const FooterWrapper = styled(SectionFrame)`
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     > ${ShoppingCartFullWrapper} {
       margin-left: auto;
-
     }
   `}
 `
@@ -23,6 +23,12 @@ const FooterWrapper = styled(SectionFrame)`
 const Footer = () => {
   return (
     <FooterWrapper as="footer">
+      <ThemeToggleBar
+        themeToggleProps={{
+          margin: '0 auto 0 0',
+          width: '10rem'
+        }}
+      />
       <ShoppingCartHeader />
     </FooterWrapper>
   )
