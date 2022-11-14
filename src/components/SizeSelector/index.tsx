@@ -36,6 +36,7 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
 
   background: ${({ theme }) => theme.products.aside.itemContainer};
   border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border: 1px solid ${({ theme }) => theme.products.aside.inputsBorderColor};
   overflow: hidden;
 
   width: 100%;

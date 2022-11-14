@@ -33,6 +33,8 @@ const ModelSizeSelectorWrapper = styled(Row)`
 
       > select {
         color: ${({ theme }) => theme.products.aside.textColor};
+        border: 1px solid ${({ theme }) => theme.products.aside.inputsBorderColor};
+        border-radius: 1rem;
         font-size: 1.5rem;
         height: 100%;
         width: 100%;

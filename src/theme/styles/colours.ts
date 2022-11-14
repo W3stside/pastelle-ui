@@ -118,6 +118,11 @@ export const MODE_COLOURS = (mode: ThemeModes) => ({
 
   darkModeToggle: mode === ThemeModes.DARK ? DEFAULT_COLOURS.yellow3 : DEFAULT_COLOURS.purple1,
   darkModeSvg: mode === ThemeModes.DARK ? DEFAULT_COLOURS.purple3 : DEFAULT_COLOURS.yellow3,
+  darkModeFilter: mode === ThemeModes.DARK ? 'invert(1) saturate(2) brightness(0.8)' : '',
+  darkModeLogoFilter:
+    mode === ThemeModes.DARK
+      ? 'invert(1) saturate(1.4) hue-rotate(180deg) drop-shadow(0px 0px 12px rgba(0,0,0,1))'
+      : 'drop-shadow(0px 0px 12px rgba(0,0,0,1))',
 
   // misc
   inputHoverColor: mode === ThemeModes.DARK ? DEFAULT_COLOURS.purple3 : DEFAULT_COLOURS.purple,
@@ -125,13 +130,13 @@ export const MODE_COLOURS = (mode: ThemeModes) => ({
   // elems
   products: {
     aside: {
-      itemContainer: mode === ThemeModes.DARK ? DEFAULT_COLOURS.blackOpaque2 : DEFAULT_COLOURS.offWhiteOpaque1,
+      itemContainer: mode === ThemeModes.DARK ? DEFAULT_COLOURS.blackOpaque1 : DEFAULT_COLOURS.offWhiteOpaque1,
       textColor: mode === ThemeModes.DARK ? DEFAULT_COLOURS.offWhite : DEFAULT_COLOURS.black,
-      subItemDescription: mode === ThemeModes.DARK ? DEFAULT_COLOURS.blackOpaque3 : DEFAULT_COLOURS.offWhiteOpaque3,
-      inputs: mode === ThemeModes.DARK ? DEFAULT_COLOURS.black : DEFAULT_COLOURS.offWhite
+      subItemDescription: mode === ThemeModes.DARK ? DEFAULT_COLOURS.blackOpaque2 : DEFAULT_COLOURS.offWhiteOpaque3,
+      inputs: mode === ThemeModes.DARK ? DEFAULT_COLOURS.black : DEFAULT_COLOURS.offWhite,
+      inputsBorderColor: mode === ThemeModes.DARK ? DEFAULT_COLOURS.purple3 : 'transparent'
     }
-  },
-  darkModeFilter: mode === ThemeModes.DARK ? 'invert(1) saturate(2) brightness(0.8)' : ''
+  }
 })
 
 export const THEME_COLOURS = (mode: ThemeModes) => ({

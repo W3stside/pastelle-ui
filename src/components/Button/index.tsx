@@ -132,19 +132,14 @@ const THEME_BUTTON_STYLES = css`
   color: ${({ theme }): string => theme.offWhite};
   border-color: ${({ theme }): string => theme.offWhite};
 
-  // VARIATION 1
-  // filter: contrast(2) saturate(3);
-  // VARIATION 2
-  filter: contrast(1.5) saturate(10);
+  filter: ${({ theme: { mode } }) =>
+    mode === ThemeModes.DARK ? 'contrast(2) saturate(3)' : 'contrast(1.5) saturate(10)'};
 
   border-color: ${({ theme }): string => theme.text1};
   text-shadow: 0px 0px 12px #fff;
 
   > div {
-    // VARIATION 1
-    // filter: invert(0);
-    // VARIATION 2
-    filter: invert(1);
+    filter: ${({ theme: { mode } }) => `invert(${mode === ThemeModes.DARK ? 0 : 1})`};
     border-radius: 0.1rem;
 
     background-color: black;
@@ -154,17 +149,13 @@ const THEME_BUTTON_STYLES = css`
   }
 
   &:hover {
-    // VARIATION 1
-    // filter: contrast(1.5) saturate(10);
-    // VARIATION 2
-    filter: contrast(2) saturate(3);
+    filter: ${({ theme: { mode } }) =>
+      mode === ThemeModes.DARK ? 'contrast(1.5) saturate(10)' : 'contrast(2) saturate(3)'};
+
     border-color: ${({ theme }): string => theme.text1};
 
     > div {
-      // VARIATION 1
-      // filter: invert(1)
-      // VARIATION 2
-      filter: invert(0);
+      filter: ${({ theme: { mode } }) => `invert(${mode === ThemeModes.DARK ? 1 : 0})`};
     }
   }
 
@@ -316,13 +307,12 @@ export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps & ButtonStyl
   ${({ margin }) => margin && `margin: ${margin};`}
   ${({ padding }) => padding && `padding: ${padding};`}
   ${({ theme, bgImage, backgroundColor = transparentize(0.3, theme.bg1) }) =>
-    bgImage
-      ? setCssBackground(theme, {
-          isLogo: true,
-          imageUrls: [bgImage, bgImage],
-          backgroundColor,
-          backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
-          backgroundBlendMode: 'difference'
-        })
-      : theme.bg1}
+    bgImage &&
+    setCssBackground(theme, {
+      isLogo: true,
+      imageUrls: [bgImage, bgImage],
+      backgroundColor,
+      backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
+      backgroundBlendMode: 'difference'
+    })}
 `

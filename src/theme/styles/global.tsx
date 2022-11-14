@@ -14,6 +14,7 @@ import {
 import FontStyles from './fonts'
 import { useCurrentProductMedia } from 'state/collection/hooks'
 import { setFlickerAnimation } from 'theme/styles/animations'
+import { ThemeModes } from 'theme/styled'
 
 export { FontStyles }
 
@@ -193,7 +194,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
       setCssBackground(theme, {
         isLogo: true,
         imageUrls: [headerLogo, headerLogo],
-        backgroundColor: frameBgColor,
+        backgroundColor: theme.mode === ThemeModes.DARK ? BLACK /* adjustHue(200, frameBgColor) */ : frameBgColor,
         backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
         backgroundBlendMode: 'difference'
       })}
@@ -219,7 +220,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
       setCssBackground(theme, {
         isLogo: true,
         imageUrls: [navLogo, navLogo],
-        backgroundColor: frameBgColor,
+        backgroundColor: theme.mode === ThemeModes.DARK ? BLACK /* adjustHue(200, frameBgColor) */ : frameBgColor,
         backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
         backgroundBlendMode: 'difference'
       })}

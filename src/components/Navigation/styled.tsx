@@ -31,8 +31,9 @@ export const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: str
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    width: ${isOpen ? '100%' : 0};
-    opacity: ${isOpen ? 1 : 0};
+    padding-bottom: 7rem;
+    width: ${isOpen ? '100%' : '0px'};
+    opacity: ${isOpen ? '1' : '0'};
   `}
 `
 

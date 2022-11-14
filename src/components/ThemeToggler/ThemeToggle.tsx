@@ -4,7 +4,7 @@ import Button, { ButtonBaseProps, ButtonSizeVariations, ButtonVariations } from 
 const ThemeButtonToggleWrapper = styled.div<{ disabled: boolean; $mode: boolean; $margin?: string; $width?: string }>`
   display: inline-flex;
   width: ${({ $width = '6rem' }): string => $width};
-  background-color: gainsboro;
+  background-color: #f8f8ff47;
   border-radius: 2rem;
   margin: ${({ $margin = '0' }): string => $margin};
 

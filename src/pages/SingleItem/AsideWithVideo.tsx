@@ -210,6 +210,7 @@ export default function ItemPage({
         collectionView={collectionView}
         bgColor={color}
         navLogo={navLogo}
+        logo={logo}
       >
         <ItemAsidePanel id="#item-aside-panel">
           <DynamicInnerContainer ref={setRef}>
@@ -306,7 +307,7 @@ export default function ItemPage({
                     {/* SHOWCASE MODEL SHOWCASE SETTINGS */}
                     <ItemDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
                       <Row style={{ gap: '1rem' }}>
-                        <FontAwesomeIcon icon={faLightbulb} size={'sm'} /> SHOWCASE SETTINGS{' '}
+                        <FontAwesomeIcon icon={faLightbulb} /> SHOWCASE SETTINGS{' '}
                       </Row>
                     </ItemDescription>
                     <ShowcaseSettings>
@@ -332,6 +333,26 @@ export default function ItemPage({
                       dangerouslySetInnerHTML={{ __html: description }}
                       padding="0rem 4rem 1rem"
                       fontWeight={300}
+                      css={`
+                        blockquote {
+                          margin: 0;
+                        }
+
+                        h1,
+                        h2,
+                        h3,
+                        h4 {
+                          text-decoration: underline 0.3rem solid ${color};
+                          &:not(h1) {
+                            margin-bottom: 1rem;
+                          }
+                        }
+                        ul,
+                        ol {
+                          list-style: tibetan;
+                          margin-top: 0;
+                        }
+                      `}
                     />
                   </Column>
                   {/* Credits */}

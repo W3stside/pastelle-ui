@@ -70,9 +70,11 @@ export interface Colors {
       textColor: Color
       subItemDescription: Color
       inputs: Color
+      inputsBorderColor: Color
     }
   }
   darkModeFilter: string
+  darkModeLogoFilter: string
   darkModeToggle: Color
   darkModeSvg: Color
 }
