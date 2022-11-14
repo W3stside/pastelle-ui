@@ -79,7 +79,7 @@ export default function Navigation({
             <LoadingRows rows={6} />
           )}
         </InnerNavWrapper>
-        <InnerNavWrapper margin="auto auto 2rem auto" padding="0.8rem 1rem 1.5rem" alignItems={'center'}>
+        <InnerNavWrapper margin="auto auto 1rem auto" padding="0.8rem 1rem 1.5rem" alignItems={'center'}>
           <ItemSubHeader
             padding="0.2rem 0.2rem 1rem 0.2rem"
             margin="0"
