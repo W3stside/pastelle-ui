@@ -88,10 +88,6 @@ export const ItemLogo = styled.div<{
     margin-top: ${$marginTop};  
   `}
 `
-/* 
-background: ${({ logoUri }) =>
-    `url(${logoUri}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) center, url(${logoUri}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) center no-repeat`};
-*/
 export const ItemLogoCssImport = styled(ItemLogo)<{ position?: string; height?: number; logoUri: string }>`
   position: ${({ position = 'fixed' }) => position};
   ${({ theme, logoUri }) =>
@@ -433,11 +429,19 @@ export const ItemContainer = styled(Row)<{
       ${fromExtraLarge`
         max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
       `}
-      
+
       > ${ItemLogo} {
         width: 100%;
         margin-top: -18.5%;
+        
+        // for mobile logos in single
+        &${ItemLogoCssImport} {
+          margin-top: -15.1%;
+        }
+        
         padding-top: 2rem;
+
+        filter: ${({ theme }) => theme.darkModeLogoFilter};
 
         ${fromLarge`
           width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
@@ -448,7 +452,6 @@ export const ItemContainer = styled(Row)<{
 
         > img {
           margin: 0;
-          filter: ${({ theme }) => theme.darkModeLogoFilter};
         }
       }
 

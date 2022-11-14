@@ -102,14 +102,6 @@ export default function useQuantitySelector({
     },
     [debouncedSetQuantity]
   )
-  const resetQuantity = useCallback(
-    (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-      e.stopPropagation()
-
-      return debouncedSetQuantity(1)
-    },
-    [debouncedSetQuantity]
-  )
 
   const QuantitySelector = useCallback(
     ({ isDisabled, color }: { isDisabled?: boolean; color?: string }) => {
@@ -130,18 +122,11 @@ export default function useQuantitySelector({
           <button disabled={isDisabled || quantity === PURCHASE_LIMIT} onClick={handleOnClickUp}>
             +
           </button>
-          {!isDisabled &&
-            (!!onTrashClick ? (
-              <Trash2 onClick={onTrashClick} color={RED} size={'2rem'} />
-            ) : (
-              <span id="reset-button" onClick={resetQuantity}>
-                reset
-              </span>
-            ))}
+          {!isDisabled && (!!onTrashClick ? <Trash2 onClick={onTrashClick} color={RED} size={'2rem'} /> : null)}
         </QuantitySelectorWrapper>
       )
     },
-    [debouncedQuantity, handleInputChange, handleOnClickDown, handleOnClickUp, quantity, resetQuantity, onTrashClick]
+    [debouncedQuantity, handleInputChange, handleOnClickDown, handleOnClickUp, onTrashClick, quantity]
   )
 
   return {
