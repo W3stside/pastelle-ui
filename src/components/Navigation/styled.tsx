@@ -3,6 +3,7 @@ import Button from 'components/Button'
 import { MobileNavProps } from '.'
 import { Z_INDEXES } from 'constants/config'
 import { Column } from 'components/Layout'
+import { setBestTextColour } from 'theme/utils'
 
 export const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; minWidth?: string }>`
   width: ${({ width = 'auto' }) => width};
@@ -76,15 +77,18 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   `};
 `
 
-export const CollectionLabel = styled.span<{ active: boolean }>`
-  font-weight: ${({ active }) => (active ? 700 : 400)};
-  ${({ active }) =>
+export const CollectionLabel = styled.div<{ active: boolean; bgColor?: string }>`
+  font-weight: ${({ active }) => (active ? 700 : 300)};
+  padding: 0 1rem;
+  ${({ active, bgColor = 'transparent' }) =>
     active &&
     `
+      color: ${setBestTextColour(bgColor)};
+      background-color: ${bgColor};
       text-decoration: line-through;
       text-decoration-thickness: from-font;
       font-size: larger;
-      // filter: blur(1.2px);
+      width: 100%;
     `}
 `
 

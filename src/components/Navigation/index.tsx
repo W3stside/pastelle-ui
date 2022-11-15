@@ -70,8 +70,16 @@ export default function Navigation({
           {collection ? (
             Object.values(collection).map(product => (
               <SideEffectNavLink key={product.id} onClick={e => handleNavMove(e, product)}>
-                <ItemSubHeader padding="2px" margin="0" fontSize={isNavOpen ? '3.5rem' : '1.6rem'} color={WHITE}>
-                  {<CollectionLabel active={product.id === currentProduct?.id}>{product.title}</CollectionLabel>}
+                <ItemSubHeader
+                  width={'100%'}
+                  padding="2px"
+                  margin="0"
+                  fontSize={isNavOpen ? '3.5rem' : '1.6rem'}
+                  color={WHITE}
+                >
+                  <CollectionLabel active={product.id === currentProduct?.id} bgColor={currentProduct?.bgColor}>
+                    {product.title}
+                  </CollectionLabel>
                 </ItemSubHeader>
               </SideEffectNavLink>
             ))
