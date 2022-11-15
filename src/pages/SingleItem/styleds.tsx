@@ -327,7 +327,7 @@ export const ItemContainer = styled(Row)<{
       > ${CarouselContainer} {
         // MEDIA QUERY --> SMALL and below
         ${upToSmall`
-          margin-top: 50px;
+          margin: 5rem 0 2.7rem;
         `}
         // MEDIA QUERY --> LARGE and up
         ${fromMedium`  
@@ -356,6 +356,10 @@ export const ItemContainer = styled(Row)<{
 
             > picture {
               border-radius: 1rem 0 0 1rem;
+
+              ${upToSmall`
+                border-radius: 0;
+              `}
             }
           }
 
