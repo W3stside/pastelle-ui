@@ -8,11 +8,14 @@ import {
   BLUE,
   setHeaderBackground,
   setNavBackground,
-  setBestTextColour
+  setBestTextColour,
+  getThemeColours
 } from '../utils'
 import FontStyles from './fonts'
-import { useCurrentProductMedia } from 'state/collection/hooks'
 import { setFlickerAnimation } from 'theme/styles/animations'
+import { ThemeModes } from 'theme/styled'
+
+const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
 
 export { FontStyles }
 
@@ -137,9 +140,6 @@ export const TopGlobalStyle = createGlobalStyle`
 `
 
 export const ThemedGlobalStyle = createGlobalStyle<{
-  frameBgColor?: string
-  headerLogo?: string
-  navLogo?: string
   animation?: boolean
   animationDelay?: number
 }>`
@@ -184,33 +184,31 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   }
 
   header, nav, footer {
-    background: ${({ theme, frameBgColor = transparentize(0.3, theme.bg1) }) => frameBgColor};
+    background: ${({ theme }) => theme.currentMedia?.color || DEFAULT_BG};
   }
 
   header, footer {
-    ${({ theme, headerLogo, frameBgColor = transparentize(0.3, theme.bg1) }) =>
-      setHeaderBackground(theme, headerLogo, frameBgColor)}
+    ${({ theme }) =>
+      setHeaderBackground(theme, theme.currentMedia?.headerLogo, theme.currentMedia?.color || DEFAULT_BG)}
 
     #header-links-container {
       border-radius: 0.5rem;
-      background-color: ${({ frameBgColor, theme }) =>
-        frameBgColor ? darken(0.03, frameBgColor) : transparentize(0.3, theme.bg1)};
+      background-color: ${({ theme }) =>
+        theme.currentMedia?.color ? darken(0.03, theme.currentMedia?.color) : DEFAULT_BG};
         > a {
-          color: ${({ frameBgColor }) => setBestTextColour(frameBgColor)};
+          color: ${({ theme }) => setBestTextColour(theme.currentMedia?.color || DEFAULT_BG)};
         }
     }
   }
 
+  
   nav {
-    ${({ theme, navLogo, frameBgColor = transparentize(0.3, theme.bg1) }) =>
-      setNavBackground(theme, navLogo, frameBgColor)}
-    }
-
+    ${({ theme }) => setNavBackground(theme, theme.currentMedia?.navLogo, theme.currentMedia?.color || DEFAULT_BG)}
     ${({ animation, animationDelay }) =>
       setFlickerAnimation({ state: !!animation, delay: animationDelay, duration: 4, count: 2 })}
+  }
 `
 
-export const ThemedGlobalComponent = () => {
-  const { color, headerLogo, navLogo } = useCurrentProductMedia()
-  return <ThemedGlobalStyle frameBgColor={color} headerLogo={headerLogo} navLogo={navLogo} animation />
+export function ThemedGlobalComponent() {
+  return <ThemedGlobalStyle animation />
 }

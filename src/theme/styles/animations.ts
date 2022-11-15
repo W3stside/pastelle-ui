@@ -216,7 +216,6 @@ export function setAnimation<Props extends Record<any, any>>(
 ): FlattenInterpolation<ThemedStyledProps<Props, DefaultTheme>> | undefined {
   if (!animation || state === false) return
   return css`
-    // animation
     ${animation}
     ${name && `animation-name: ${name};`}
     animation-duration: ${duration}s;
@@ -224,7 +223,6 @@ export function setAnimation<Props extends Record<any, any>>(
     ${delay && `animation-delay: ${delay}s;`}
     ${fillMode && `animation-fill-mode: ${fillMode};`}
     
-    // whatever else CSS
     ${customCss}
   `
 }

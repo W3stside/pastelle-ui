@@ -19,6 +19,7 @@ import {
   setBestTextColour,
   setCssBackground,
   setHeaderBackground,
+  setNavBackground,
   upToLarge,
   upToSmall
 } from 'theme/utils'
@@ -478,14 +479,8 @@ export const ItemContainer = styled(Row)<{
       > ${ItemContentContainer} {
         ${({ theme, bgColor = BLACK, navLogo }) =>
           navLogo
-            ? setCssBackground(theme, {
-                isLogo: true,
-                imageUrls: [navLogo, navLogo],
-                backgroundColor: theme.mode === ThemeModes.DARK ? BLACK /* adjustHue(200, bgColor) */ : bgColor,
-                backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
-                backgroundBlendMode: 'difference'
-              })
-            : `background: linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%)`};
+            ? setNavBackground(theme, navLogo, bgColor)
+            : `background: linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%);`}
       }
 
       > ${CarouselContainer} {

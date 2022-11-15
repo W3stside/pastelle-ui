@@ -66,7 +66,7 @@ export const betweenLargeAndExtraLarge = whenMediaBetween('betweenLargeAndExtraL
 
 // big to small
 // e.g { width: 500, ar: "3:2" }
-const IMG_SET_SIZE_ENTRIES = Object.entries(MEDIA_WIDTHS)
+const IMG_SET_SIZE_ENTRIES = Object.entries(MEDIA_WIDTHS).reverse()
 const LOGO_TRANSFORMS = [DEFAULT_IK_TRANSFORMS.HQ_LOGO, DEFAULT_IK_TRANSFORMS.LQ_LOGO]
 const IMAGE_TRANSFORMS = [DEFAULT_IK_TRANSFORMS.HQ_IMAGE, DEFAULT_IK_TRANSFORMS.LQ_IMAGE]
 type SetCssBackgroundParams = {
@@ -78,7 +78,7 @@ type SetCssBackgroundParams = {
   logoTransforms?: string[]
   imageTransforms?: string[]
 }
-type SizeKey = keyof typeof MEDIA_WIDTHS
+type UpToSizeKey = keyof typeof MEDIA_WIDTHS
 
 type CheckHexColourContrastParams = { bgColour: string; fgColour: string }
 export function checkHexColourContrast({ bgColour, fgColour }: CheckHexColourContrastParams) {
@@ -140,8 +140,8 @@ export const setCssBackground = (
       : backgroundColor
   }
 
-  const backgroundMediaQueries = IMG_SET_SIZE_ENTRIES.reverse().map(([size, width]) => {
-    const queryMethod = theme.mediaWidth?.[size as SizeKey]
+  const backgroundMediaQueries = IMG_SET_SIZE_ENTRIES.map(([size, width]) => {
+    const queryMethod = theme.mediaWidth?.[size as UpToSizeKey]
 
     if (!queryMethod) return null
 
@@ -161,7 +161,7 @@ type NavHeaderCssBgProps = Partial<
 >
 export function setHeaderBackground(
   theme: DefaultTheme,
-  headerLogo = '',
+  headerLogo = theme.currentMedia?.headerLogo || '',
   color = '',
   auxOptions: NavHeaderCssBgProps = {}
 ) {
@@ -175,7 +175,12 @@ export function setHeaderBackground(
   })
 }
 
-export function setNavBackground(theme: DefaultTheme, navLogo = '', color = '', auxOptions: NavHeaderCssBgProps = {}) {
+export function setNavBackground(
+  theme: DefaultTheme,
+  navLogo = theme.currentMedia?.navLogo || '',
+  color = '',
+  auxOptions: NavHeaderCssBgProps = {}
+) {
   return setCssBackground(theme, {
     isLogo: true,
     imageUrls: [navLogo, navLogo],

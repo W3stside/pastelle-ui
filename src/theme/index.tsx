@@ -10,6 +10,7 @@ import {
   fromMediaWidthTemplates as fromMediaWidth,
   betweenMediaWidthTemplates as betweenMediaWidth
 } from './styles/mediaQueries'
+import { useCurrentProductMedia } from 'state/collection/hooks'
 
 export * from './components'
 
@@ -115,6 +116,7 @@ const DEFAULT_THEME: Partial<DefaultTheme> = {
 // Extension/override of styled-components' ThemeProvider but with our own constructed theme object
 const ThemeProvider: FCC<{ themeExtension?: any }> = ({ children, themeExtension }) => {
   const { mode } = useAppColourTheme()
+  const currentMedia = useCurrentProductMedia()
 
   const themeObject = useMemo(() => {
     const themeColours = getThemeColours(mode)
@@ -127,6 +129,8 @@ const ThemeProvider: FCC<{ themeExtension?: any }> = ({ children, themeExtension
       mode,
       //shadows
       shadow1: '#2F80ED',
+      // current product media
+      currentMedia,
       // unfold in any extensions
       // for example to make big/small buttons -> see src/components/Button ThemeWrappedButtonBase
       // to see it in action
@@ -134,7 +138,7 @@ const ThemeProvider: FCC<{ themeExtension?: any }> = ({ children, themeExtension
     }
 
     return computedTheme
-  }, [mode, themeExtension])
+  }, [mode, themeExtension, currentMedia])
 
   return (
     <StyledComponentsThemeProvider theme={themeObject}>

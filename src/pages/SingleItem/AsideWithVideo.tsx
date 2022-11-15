@@ -263,7 +263,7 @@ export default function ItemPage({
                   justifyContent="center"
                   onClick={handleMobileItemClick && handleMobileItemClick}
                 >
-                  <strong style={{ marginLeft: 7 }}>VIEW MORE</strong>
+                  <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
                 </MobileItemCTA>
               </>
             ) : (
