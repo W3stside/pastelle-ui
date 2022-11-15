@@ -682,7 +682,7 @@ export const VideoControlButton = styled(Button)`
 export const MobileItemCTA = styled(Row)`
   display: none;
   position: fixed;
-  top: 0;
+  bottom: 0;
   right: 0;
   height: auto;
   text-align: center;
@@ -692,6 +692,8 @@ export const MobileItemCTA = styled(Row)`
   width: calc(100% - 600px);
   color: #000;
   letter-spacing: -3.5;
+
+  z-index: ${Z_INDEXES.PRODUCT_VIDEOS};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
       width: 100%;

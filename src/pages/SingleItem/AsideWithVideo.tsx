@@ -213,7 +213,7 @@ export default function ItemPage({
       {/* Product label: used in scolling collection */}
       {showProductLabel && (
         <ScrollingProductLabel logo={headerLogo} labelColor={bgColor}>
-          <strong>{title}</strong> <span style={{ fontSize: 'smaller' }}>{tags.join(' // ')}</span>
+          <strong>{title}</strong> <span style={{ fontSize: 'smaller' }}>{tags?.join(' // ')}</span>
         </ScrollingProductLabel>
       )}
       {/* Item content */}
@@ -263,7 +263,7 @@ export default function ItemPage({
                   justifyContent="center"
                   onClick={handleMobileItemClick && handleMobileItemClick}
                 >
-                  <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
+                  <strong style={{ marginLeft: 7 }}> VIEW</strong>
                 </MobileItemCTA>
               </>
             ) : (
