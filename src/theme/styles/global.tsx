@@ -6,15 +6,13 @@ import {
   setBgColour,
   fromExtraLarge,
   BLUE,
-  setCssBackground,
-  BLACK,
-  OFF_WHITE,
-  setBestContrastingColour
+  setHeaderBackground,
+  setNavBackground,
+  setBestTextColour
 } from '../utils'
 import FontStyles from './fonts'
 import { useCurrentProductMedia } from 'state/collection/hooks'
 import { setFlickerAnimation } from 'theme/styles/animations'
-import { ThemeModes } from 'theme/styled'
 
 export { FontStyles }
 
@@ -191,39 +189,21 @@ export const ThemedGlobalStyle = createGlobalStyle<{
 
   header, footer {
     ${({ theme, headerLogo, frameBgColor = transparentize(0.3, theme.bg1) }) =>
-      setCssBackground(theme, {
-        isLogo: true,
-        imageUrls: [headerLogo, headerLogo],
-        backgroundColor: theme.mode === ThemeModes.DARK ? BLACK /* adjustHue(200, frameBgColor) */ : frameBgColor,
-        backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
-        backgroundBlendMode: 'difference'
-      })}
+      setHeaderBackground(theme, headerLogo, frameBgColor)}
 
     #header-links-container {
       border-radius: 0.5rem;
       background-color: ${({ frameBgColor, theme }) =>
         frameBgColor ? darken(0.03, frameBgColor) : transparentize(0.3, theme.bg1)};
         > a {
-          color: ${({ frameBgColor, theme }) =>
-            setBestContrastingColour({
-              bgColour: frameBgColor ? darken(0.05, frameBgColor) : transparentize(0.3, theme.bg1),
-              fgColour: OFF_WHITE,
-              darkColour: BLACK,
-              lightColour: OFF_WHITE
-            })};
+          color: ${({ frameBgColor }) => setBestTextColour(frameBgColor)};
         }
     }
   }
 
   nav {
     ${({ theme, navLogo, frameBgColor = transparentize(0.3, theme.bg1) }) =>
-      setCssBackground(theme, {
-        isLogo: true,
-        imageUrls: [navLogo, navLogo],
-        backgroundColor: theme.mode === ThemeModes.DARK ? BLACK /* adjustHue(200, frameBgColor) */ : frameBgColor,
-        backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
-        backgroundBlendMode: 'difference'
-      })}
+      setNavBackground(theme, navLogo, frameBgColor)}
     }
 
     ${({ animation, animationDelay }) =>

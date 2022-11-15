@@ -17,11 +17,25 @@ import {
   fromMedium,
   fromSmall,
   setCssBackground,
+  setHeaderBackground,
   upToLarge,
   upToSmall
 } from 'theme/utils'
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
+
+export const ScrollingProductLabel = styled.div<{ logo?: string; labelColor?: string }>`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  margin: auto;
+  z-index: 999;
+  padding: 1rem;
+  font-size: 2rem;
+  font-weight: 300;
+  text-shadow: 0px 0 0.5rem ${({ labelColor }) => labelColor || BLACK};
+  ${({ theme, logo }) => setHeaderBackground(theme, logo, BLACK)}
+`
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
   z-index: ${({ zIndex = 1 }) => zIndex};
@@ -311,6 +325,10 @@ export const ItemContainer = styled(Row)<{
         // MEDIA QUERY --> SMALL and below
         ${upToSmall`
           margin-top: 50px;
+        `}
+        // MEDIA QUERY --> LARGE and up
+        ${fromMedium`  
+          margin-top: 2rem;
         `}
         // MEDIA QUERY --> LARGE and up
         ${fromLarge`  

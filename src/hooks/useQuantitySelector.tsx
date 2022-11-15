@@ -3,7 +3,7 @@ import { Trash2 } from 'react-feather'
 import styled from 'styled-components/macro'
 import { Row } from 'components/Layout'
 import useDebouncedChangeHandler from './useDebouncedChangeHandler'
-import { BLACK, RED, setBestContrastingColour } from 'theme/utils'
+import { BLACK, RED, setBestTextColour } from 'theme/utils'
 
 export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
   width: 100%;
@@ -22,13 +22,7 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
     border-radius: 0.1rem;
     margin: 0 0.5rem;
     background-color: ${({ color = BLACK }) => color};
-    color: ${({ theme, color = BLACK }) =>
-      setBestContrastingColour({
-        bgColour: color,
-        fgColour: theme.offWhite,
-        lightColour: theme.offWhite,
-        darkColour: theme.black
-      })};
+    color: ${({ color = BLACK }) => setBestTextColour(color)};
     min-width: 3rem;
 
     &:first-child:not(:disabled) {

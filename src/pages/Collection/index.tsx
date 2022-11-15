@@ -35,6 +35,7 @@ export default function Collection() {
         collectionView
         showBreadCrumbs={false}
         loadInView={{ container: document, conditionalCheck: true }}
+        showProductLabel
       />
     ),
     []

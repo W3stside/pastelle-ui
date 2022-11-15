@@ -77,6 +77,20 @@ type SetCssBackgroundParams = {
   backgroundBlendMode?: string
 }
 type SizeKey = keyof typeof MEDIA_WIDTHS
+
+/**
+ *
+ * @param theme
+ * @param options
+ * @example {
+    isLogo?: boolean | undefined;
+    imageUrls?: (string | undefined)[] | undefined;
+    backgroundColor?: string | undefined;
+    backgroundAttributes: string[];
+    backgroundBlendMode?: string | undefined;
+} 
+ * @returns
+ */
 export const setCssBackground = (
   theme: DefaultTheme,
   {
@@ -136,4 +150,34 @@ export function setBestContrastingColour({ bgColour, fgColour, lightColour, dark
   })
 
   return contrastLevel < CONTRAST_THRESHOLD ? lightColour : darkColour
+}
+
+const getBaseCssBgProps = (theme: DefaultTheme, logo: string, color: string) => ({
+  isLogo: true,
+  imageUrls: [logo, logo],
+  backgroundColor: theme.mode === ThemeModes.DARK ? BLACK : color,
+  backgroundAttributes: ['center / cover no-repeat'],
+  backgroundBlendMode: 'difference'
+})
+export function setHeaderBackground(theme: DefaultTheme, headerLogo = '', color = '') {
+  const baseProps = getBaseCssBgProps(theme, headerLogo, color)
+  baseProps.backgroundAttributes = baseProps.backgroundAttributes.concat('0px 0px / cover no-repeat')
+
+  return setCssBackground(theme, baseProps)
+}
+
+export function setNavBackground(theme: DefaultTheme, navLogo = '', color = '') {
+  const baseProps = getBaseCssBgProps(theme, navLogo, color)
+  baseProps.backgroundAttributes = baseProps.backgroundAttributes.concat('5px / cover repeat')
+
+  return setCssBackground(theme, baseProps)
+}
+
+export function setBestTextColour(bgColor = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)) {
+  return setBestContrastingColour({
+    bgColour: bgColor,
+    fgColour: OFF_WHITE,
+    darkColour: BLACK,
+    lightColour: OFF_WHITE
+  })
 }

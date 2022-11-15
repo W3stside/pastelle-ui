@@ -24,7 +24,8 @@ import {
   InnerCollectionContainer,
   ItemContentContainer,
   ItemLogoCssImport,
-  FreeShippingBanner
+  FreeShippingBanner,
+  ScrollingProductLabel
 } from './styleds'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
@@ -112,11 +113,12 @@ const DEFAULT_MEDIA_START_INDEX = 0
 export type SingleItemPageProps = ProductPageProps &
   ScrollableContentComponentBaseProps & {
     style?: any
-    handleMobileItemClick?: React.MouseEventHandler<HTMLHeadingElement>
     showBreadCrumbs: boolean
+    showProductLabel?: boolean
+    handleMobileItemClick?: React.MouseEventHandler<HTMLHeadingElement>
   }
 export default function ItemPage({
-  // bgColor,
+  bgColor,
   color = '#000',
   id,
   handle,
@@ -139,6 +141,7 @@ export default function ItemPage({
   noVideo = false,
   noDescription = false,
   showBreadCrumbs,
+  showProductLabel = false,
   style,
   handleMobileItemClick
 }: SingleItemPageProps) {
@@ -203,6 +206,12 @@ export default function ItemPage({
         mediaStartIndex={currentCarouselIndex}
         onCarouselChange={onCarouselChange}
       />
+      {/* Product label: used in scolling collection */}
+      {showProductLabel && (
+        <ScrollingProductLabel logo={headerLogo} labelColor={bgColor}>
+          <strong>{title}</strong>: COTTON // HEAVY-WEIGHT // SHORTSLEEVE-T
+        </ScrollingProductLabel>
+      )}
       {/* Item content */}
       <ItemContainer
         id="#item-container"
