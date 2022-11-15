@@ -16,6 +16,7 @@ import {
   fromLarge,
   fromMedium,
   fromSmall,
+  setBestTextColour,
   setCssBackground,
   setHeaderBackground,
   upToLarge,
@@ -24,17 +25,18 @@ import {
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
 
-export const ScrollingProductLabel = styled.div<{ logo?: string; labelColor?: string }>`
+export const ScrollingProductLabel = styled(Row)<{ logo?: string; labelColor?: string }>`
   position: absolute;
   top: 0;
   width: 100%;
   margin: auto;
-  z-index: 999;
+  z-index: ${Z_INDEXES.SCROLLER_DIV + 50};
   padding: 1rem;
+  gap: 0.5rem;
   font-size: 2rem;
   font-weight: 300;
   text-shadow: 0px 0 0.5rem ${({ labelColor }) => labelColor || BLACK};
-  ${({ theme, logo }) => setHeaderBackground(theme, logo, BLACK)}
+  ${({ theme, logo }) => setHeaderBackground(theme, logo, BLACK, { logoTransforms: ['q-40', 'q-10'] })}
 `
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
@@ -178,8 +180,8 @@ export const ItemSubHeader = styled(TYPE.subHeader)<{
   `}
 `
 
-export const ItemBreadcrumb = styled(NavLink)`
-  color: ${({ theme }) => theme.black};
+export const ItemBreadcrumb = styled(NavLink)<{ color: string }>`
+  color: ${({ color }) => setBestTextColour(color)};
   font-size: 1rem;
   font-weight: 300;
   text-decoration: none;

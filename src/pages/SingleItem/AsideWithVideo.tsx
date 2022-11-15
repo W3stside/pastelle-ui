@@ -64,6 +64,7 @@ export interface ProductPageProps {
   color: string
   title: string
   handle: string
+  tags: string[]
   logo?: string
   headerLogo?: string
   navLogo?: string
@@ -87,10 +88,12 @@ export type ItemPageDesignsProps = {
 }
 
 function Breadcrumbs({
+  color,
   breadcrumbs,
   lastCrumb,
   ...rowProps
 }: {
+  color: string
   breadcrumbs: string[]
   lastCrumb: string | undefined
 } & BoxProps) {
@@ -99,7 +102,7 @@ function Breadcrumbs({
       {breadcrumbs?.map((crumb, index) => {
         const isLastCrumb = crumb === lastCrumb
         return (
-          <ItemBreadcrumb key={crumb + '_' + index} to="/#">
+          <ItemBreadcrumb key={crumb + '_' + index} color={color} to="/#">
             <span>{!isLastCrumb ? crumb : <strong>{crumb}</strong>}</span>
             {!isLastCrumb && <span>{'//'}</span>}
           </ItemBreadcrumb>
@@ -123,6 +126,7 @@ export default function ItemPage({
   id,
   handle,
   title,
+  tags,
   logo,
   navLogo,
   headerLogo,
@@ -209,7 +213,7 @@ export default function ItemPage({
       {/* Product label: used in scolling collection */}
       {showProductLabel && (
         <ScrollingProductLabel logo={headerLogo} labelColor={bgColor}>
-          <strong>{title}</strong>: COTTON // HEAVY-WEIGHT // SHORTSLEEVE-T
+          <strong>{title}</strong> <span style={{ fontSize: 'smaller' }}>{tags.join(' // ')}</span>
         </ScrollingProductLabel>
       )}
       {/* Item content */}
@@ -225,7 +229,7 @@ export default function ItemPage({
           <DynamicInnerContainer ref={setRef}>
             {/* Breadcrumbs */}
             {showBreadCrumbs && (
-              <Breadcrumbs {...breadcrumbs} marginTop="0.5rem" marginLeft="0.5rem" marginBottom={-25} />
+              <Breadcrumbs {...breadcrumbs} marginTop="0.5rem" marginLeft="0.5rem" marginBottom={-25} color={bgColor} />
             )}
             {/* Item carousel */}
             <Carousel

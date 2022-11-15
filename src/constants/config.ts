@@ -45,7 +45,7 @@ export const DEFAULT_IK_TRANSFORMS = {
   LQ_IMAGE: 'q-10,w-1,h-1:',
   HQ_IMAGE: '',
   LQ_LOGO: 'q-40,',
-  HQ_LOGO: 'q-90,'
+  HQ_LOGO: 'q-70,'
 }
 
 export const enum Z_INDEXES {

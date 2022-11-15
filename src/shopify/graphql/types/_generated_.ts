@@ -6670,6 +6670,7 @@ export type GetCartQuery = {
             id: string
             title: string
             handle: string
+            tags: Array<string>
             updatedAt: any
             description: string
             descriptionHtml: any
@@ -6738,6 +6739,7 @@ export type GetCollectionQuery = {
           id: string
           title: string
           handle: string
+          tags: Array<string>
           updatedAt: any
           description: string
           descriptionHtml: any
@@ -6808,6 +6810,7 @@ export type FragmentProductFragment = {
   id: string
   title: string
   handle: string
+  tags: Array<string>
   updatedAt: any
   description: string
   descriptionHtml: any
@@ -6874,6 +6877,7 @@ export type FragmentCartLineFragment = {
       id: string
       title: string
       handle: string
+      tags: Array<string>
       updatedAt: any
       description: string
       descriptionHtml: any
@@ -6946,6 +6950,7 @@ export type FragmentCartFragment = {
           id: string
           title: string
           handle: string
+          tags: Array<string>
           updatedAt: any
           description: string
           descriptionHtml: any
@@ -7059,6 +7064,7 @@ export type ProductQuery = {
       id: string
       title: string
       handle: string
+      tags: Array<string>
       updatedAt: any
       description: string
       descriptionHtml: any

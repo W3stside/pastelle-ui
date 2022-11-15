@@ -75,8 +75,31 @@ type SetCssBackgroundParams = {
   backgroundColor?: string
   backgroundAttributes: string[]
   backgroundBlendMode?: string
+  logoTransforms?: string[]
+  imageTransforms?: string[]
 }
 type SizeKey = keyof typeof MEDIA_WIDTHS
+
+type CheckHexColourContrastParams = { bgColour: string; fgColour: string }
+export function checkHexColourContrast({ bgColour, fgColour }: CheckHexColourContrastParams) {
+  const contrast = hex(bgColour, fgColour)
+
+  return contrast
+}
+
+type BestContrastingColourParams = CheckHexColourContrastParams & {
+  lightColour: string
+  darkColour: string
+}
+const CONTRAST_THRESHOLD = 10
+export function setBestContrastingColour({ bgColour, fgColour, lightColour, darkColour }: BestContrastingColourParams) {
+  const contrastLevel = checkHexColourContrast({
+    bgColour,
+    fgColour
+  })
+
+  return contrastLevel < CONTRAST_THRESHOLD ? lightColour : darkColour
+}
 
 /**
  *
@@ -98,7 +121,9 @@ export const setCssBackground = (
     imageUrls,
     backgroundColor = '',
     backgroundAttributes = ['cover no-repeat', 'cover no-repeat'],
-    backgroundBlendMode = 'unset'
+    backgroundBlendMode = 'unset',
+    logoTransforms = LOGO_TRANSFORMS,
+    imageTransforms = IMAGE_TRANSFORMS
   }: SetCssBackgroundParams
 ) => {
   const getBackground = (width?: number) => {
@@ -106,7 +131,7 @@ export const setCssBackground = (
       ? imageUrls.map((url, i, { length }) => {
           const isLast = i === length - 1
 
-          const urlBuilt = `${url}?tr=pr-true,${(isLogo ? LOGO_TRANSFORMS : IMAGE_TRANSFORMS)[i]}${
+          const urlBuilt = `${url}?tr=pr-true,${(isLogo ? logoTransforms : imageTransforms)[i]}${
             width ? `w-${width}` : ''
           }`
 
@@ -131,46 +156,34 @@ export const setCssBackground = (
   `
 }
 
-type CheckHexColourContrastParams = { bgColour: string; fgColour: string }
-export function checkHexColourContrast({ bgColour, fgColour }: CheckHexColourContrastParams) {
-  const contrast = hex(bgColour, fgColour)
-
-  return contrast
-}
-
-type BestContrastingColourParams = CheckHexColourContrastParams & {
-  lightColour: string
-  darkColour: string
-}
-const CONTRAST_THRESHOLD = 10
-export function setBestContrastingColour({ bgColour, fgColour, lightColour, darkColour }: BestContrastingColourParams) {
-  const contrastLevel = checkHexColourContrast({
-    bgColour,
-    fgColour
+type NavHeaderCssBgProps = Partial<
+  Omit<SetCssBackgroundParams, 'isLogo' | 'imageUrls' | 'backgroundAttributes' | 'backgroundColor'>
+>
+export function setHeaderBackground(
+  theme: DefaultTheme,
+  headerLogo = '',
+  color = '',
+  auxOptions: NavHeaderCssBgProps = {}
+) {
+  return setCssBackground(theme, {
+    isLogo: true,
+    imageUrls: [headerLogo, headerLogo],
+    backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
+    backgroundBlendMode: 'difference',
+    backgroundColor: theme.mode === ThemeModes.DARK ? BLACK : color,
+    ...auxOptions
   })
-
-  return contrastLevel < CONTRAST_THRESHOLD ? lightColour : darkColour
 }
 
-const getBaseCssBgProps = (theme: DefaultTheme, logo: string, color: string) => ({
-  isLogo: true,
-  imageUrls: [logo, logo],
-  backgroundColor: theme.mode === ThemeModes.DARK ? BLACK : color,
-  backgroundAttributes: ['center / cover no-repeat'],
-  backgroundBlendMode: 'difference'
-})
-export function setHeaderBackground(theme: DefaultTheme, headerLogo = '', color = '') {
-  const baseProps = getBaseCssBgProps(theme, headerLogo, color)
-  baseProps.backgroundAttributes = baseProps.backgroundAttributes.concat('0px 0px / cover no-repeat')
-
-  return setCssBackground(theme, baseProps)
-}
-
-export function setNavBackground(theme: DefaultTheme, navLogo = '', color = '') {
-  const baseProps = getBaseCssBgProps(theme, navLogo, color)
-  baseProps.backgroundAttributes = baseProps.backgroundAttributes.concat('5px / cover repeat')
-
-  return setCssBackground(theme, baseProps)
+export function setNavBackground(theme: DefaultTheme, navLogo = '', color = '', auxOptions: NavHeaderCssBgProps = {}) {
+  return setCssBackground(theme, {
+    isLogo: true,
+    imageUrls: [navLogo, navLogo],
+    backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
+    backgroundBlendMode: 'difference',
+    backgroundColor: theme.mode === ThemeModes.DARK ? BLACK : color,
+    ...auxOptions
+  })
 }
 
 export function setBestTextColour(bgColor = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)) {
