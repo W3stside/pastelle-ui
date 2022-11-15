@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro'
 import { SectionFrame } from '../Layout/Section'
-import { upToExtraSmall } from 'theme/utils'
+import { upToSmall } from 'theme/utils'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
 import ThemeToggleBar from 'components/ThemeToggler'
@@ -8,7 +8,7 @@ import ThemeToggleBar from 'components/ThemeToggler'
 const FooterWrapper = styled(SectionFrame)`
   display: none;
 
-  ${upToExtraSmall`
+  ${upToSmall`
     display: flex;
     position: fixed;
     bottom: 0;

@@ -130,6 +130,8 @@ export const HeaderRow = styled(RowFixed)`
       
       > ${StyledThemeToggleBar} {
         display: flex;
+        margin-left: auto;
+        max-width: 11rem;
       }
   `}
 `
