@@ -64,7 +64,6 @@ export interface ProductPageProps {
   color: string
   title: string
   handle: string
-  tags: string[]
   logo?: string
   headerLogo?: string
   navLogo?: string
@@ -74,6 +73,7 @@ export interface ProductPageProps {
   sizes: ProductOptionsSize
   description: string
   artistInfo?: ProductArtistInfo
+  shortDescription?: string
   id: string
   collectionView?: boolean
   noVideo?: boolean
@@ -126,7 +126,7 @@ export default function ItemPage({
   id,
   handle,
   title,
-  tags,
+  shortDescription,
   logo,
   navLogo,
   headerLogo,
@@ -213,7 +213,7 @@ export default function ItemPage({
       {/* Product label: used in scolling collection */}
       {showProductLabel && (
         <ScrollingProductLabel logo={headerLogo} labelColor={bgColor}>
-          <strong>{title}</strong> <span style={{ fontSize: 'smaller' }}>{tags?.join(' // ')}</span>
+          <strong>{title}</strong> <span style={{ fontSize: 'smaller' }}>{shortDescription}</span>
         </ScrollingProductLabel>
       )}
       {/* Item content */}

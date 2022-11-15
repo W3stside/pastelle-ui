@@ -19,7 +19,6 @@ export const FRAGMENT_PRODUCT = gql`
     id
     title
     handle
-    tags
     updatedAt
     description
     descriptionHtml
@@ -48,6 +47,9 @@ export const FRAGMENT_PRODUCT = gql`
       value
     }
     artistInfo: metafield(namespace: "custom", key: "artistInfo") {
+      value
+    }
+    shortDescription: metafield(namespace: "custom", key: "short_description") {
       value
     }
   }

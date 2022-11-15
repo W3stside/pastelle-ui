@@ -30,7 +30,7 @@ export function getMetafields<T>(query: any) {
     return test as T
   }
 }
-const sortTags = (tags: string[]) => tags.slice().sort()
+
 export const mapShopifyProductToProps = (data: ProductsList = []): ProductPageProps[] => {
   return data.map(datum => {
     const brandingAssetsMap = getMetafields<ProductBrandingAssets | undefined>(datum.brandingAssetMap)
@@ -39,7 +39,6 @@ export const mapShopifyProductToProps = (data: ProductsList = []): ProductPagePr
       id: datum.id,
       title: datum.title,
       handle: datum.handle,
-      tags: sortTags(datum.tags),
       // TODO: fix
       logo: brandingAssetsMap?.logo,
       headerLogo: brandingAssetsMap?.header,
@@ -53,7 +52,8 @@ export const mapShopifyProductToProps = (data: ProductsList = []): ProductPagePr
       images: datum.images.nodes.slice(0, 2),
       // @ts-ignore - type
       videos: datum.media.nodes.filter(media => media?.__typename === 'Video') as FragmentProductVideoFragment[],
-      sizes: getMetafields<ProductSizes[]>(datum.sizes[0].values)
+      sizes: getMetafields<ProductSizes[]>(datum.sizes[0].values),
+      shortDescription: getMetafields<string>(datum.shortDescription)
     }
   })
 }

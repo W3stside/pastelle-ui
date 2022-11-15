@@ -6670,7 +6670,6 @@ export type GetCartQuery = {
             id: string
             title: string
             handle: string
-            tags: Array<string>
             updatedAt: any
             description: string
             descriptionHtml: any
@@ -6699,6 +6698,7 @@ export type GetCartQuery = {
             bgColor?: { __typename?: 'Metafield'; value: string } | null
             color?: { __typename?: 'Metafield'; value: string } | null
             artistInfo?: { __typename?: 'Metafield'; value: string } | null
+            shortDescription?: { __typename?: 'Metafield'; value: string } | null
           }
           unitPrice?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
         }
@@ -6739,7 +6739,6 @@ export type GetCollectionQuery = {
           id: string
           title: string
           handle: string
-          tags: Array<string>
           updatedAt: any
           description: string
           descriptionHtml: any
@@ -6789,6 +6788,7 @@ export type GetCollectionQuery = {
           bgColor?: { __typename?: 'Metafield'; value: string } | null
           color?: { __typename?: 'Metafield'; value: string } | null
           artistInfo?: { __typename?: 'Metafield'; value: string } | null
+          shortDescription?: { __typename?: 'Metafield'; value: string } | null
         }>
       }
     }>
@@ -6810,7 +6810,6 @@ export type FragmentProductFragment = {
   id: string
   title: string
   handle: string
-  tags: Array<string>
   updatedAt: any
   description: string
   descriptionHtml: any
@@ -6822,6 +6821,7 @@ export type FragmentProductFragment = {
   bgColor?: { __typename?: 'Metafield'; value: string } | null
   color?: { __typename?: 'Metafield'; value: string } | null
   artistInfo?: { __typename?: 'Metafield'; value: string } | null
+  shortDescription?: { __typename?: 'Metafield'; value: string } | null
 }
 
 export type FragmentProductImageFragment = {
@@ -6877,7 +6877,6 @@ export type FragmentCartLineFragment = {
       id: string
       title: string
       handle: string
-      tags: Array<string>
       updatedAt: any
       description: string
       descriptionHtml: any
@@ -6906,6 +6905,7 @@ export type FragmentCartLineFragment = {
       bgColor?: { __typename?: 'Metafield'; value: string } | null
       color?: { __typename?: 'Metafield'; value: string } | null
       artistInfo?: { __typename?: 'Metafield'; value: string } | null
+      shortDescription?: { __typename?: 'Metafield'; value: string } | null
     }
     unitPrice?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
   }
@@ -6950,7 +6950,6 @@ export type FragmentCartFragment = {
           id: string
           title: string
           handle: string
-          tags: Array<string>
           updatedAt: any
           description: string
           descriptionHtml: any
@@ -6979,6 +6978,7 @@ export type FragmentCartFragment = {
           bgColor?: { __typename?: 'Metafield'; value: string } | null
           color?: { __typename?: 'Metafield'; value: string } | null
           artistInfo?: { __typename?: 'Metafield'; value: string } | null
+          shortDescription?: { __typename?: 'Metafield'; value: string } | null
         }
         unitPrice?: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode } | null
       }
@@ -7064,7 +7064,6 @@ export type ProductQuery = {
       id: string
       title: string
       handle: string
-      tags: Array<string>
       updatedAt: any
       description: string
       descriptionHtml: any
@@ -7109,6 +7108,7 @@ export type ProductQuery = {
       bgColor?: { __typename?: 'Metafield'; value: string } | null
       color?: { __typename?: 'Metafield'; value: string } | null
       artistInfo?: { __typename?: 'Metafield'; value: string } | null
+      shortDescription?: { __typename?: 'Metafield'; value: string } | null
     }>
   }
 }
