@@ -32,7 +32,7 @@ export const ScrollingProductLabel = styled(Row)<{ logo?: string; labelColor?: s
   margin: auto;
   z-index: ${Z_INDEXES.SCROLLER_DIV + 50};
   padding: 1rem;
-  gap: 0.5rem;
+  gap: 1rem;
   font-size: 2rem;
   font-weight: 300;
   text-shadow: 0px 0 0.5rem ${({ labelColor }) => labelColor || BLACK};
