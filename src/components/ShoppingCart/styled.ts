@@ -80,11 +80,13 @@ export const CartLineWrapper = styled(Row)<{
   }
 
   background: ${({ theme, bgLogo, color }) =>
-    bgLogo ? `url(${bgLogo}) center repeat, url(${bgLogo}) center repeat` : color || transparentize(0.3, theme.bg1)};
+    bgLogo
+      ? `url(${bgLogo}) center / contain repeat, url(${bgLogo}) center -56px / contain repeat`
+      : color || transparentize(0.3, theme.bg1)};
 
   background-color: ${({ theme, color = transparentize(0.3, theme.bg1) }) => color};
   background-size: initial;
-  background-blend-mode: unset;
+  background-blend-mode: difference;
 
   border-top: 1px solid black;
 
