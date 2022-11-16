@@ -7,23 +7,22 @@ import AsideWithVideo, { SingleItemPageProps } from 'pages/SingleItem/AsideWithV
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { isMobile } from 'utils'
-import { useOnScreenProductHandle } from 'state/collection/hooks'
 import { buildItemUrl } from 'utils/navigation'
 
 export default function Collection() {
   const navigate = useNavigate()
   // get latest collection and the current on screen item handle
   const { collection } = useCurrentCollection()
-  const product = useOnScreenProductHandle()
 
   // on mobile sizes we set a fixed height
   const fixedHeight = isMobile ? 550 : undefined
 
-  const onContentClick = useCallback(() => {
-    if (product) {
-      navigate(buildItemUrl(product.handle))
-    }
-  }, [product, navigate])
+  const onContentClick = useCallback(
+    (handle?: string) => {
+      handle && navigate(buildItemUrl(handle))
+    },
+    [navigate]
+  )
 
   const AsideWithVideoAux = useCallback(
     (
