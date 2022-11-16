@@ -15,7 +15,6 @@ export const ArticleFadeInContainer = styled.article`
 
   ${({ theme }) =>
     setCssBackground(theme, {
-      isLogo: false,
       imageUrls: [portugalBg, portugalBg],
       backgroundAttributes: ['center/contain', 'center/contain'],
       backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'difference' : 'unset'

@@ -4,7 +4,6 @@ import {
   FragmentProductImageFragment,
   FragmentProductVideoFragment,
   ProductArtistInfo,
-  ProductBrandingAssets,
   ProductSizes,
   ProductsList
 } from 'shopify/graphql/types'
@@ -33,23 +32,33 @@ export function getMetafields<T>(query: any) {
 
 export const mapShopifyProductToProps = (data: ProductsList = []): ProductPageProps[] => {
   return data.map(datum => {
-    const brandingAssetsMap = getMetafields<ProductBrandingAssets | undefined>(datum.brandingAssetMap)
+    const productImages = datum.images.nodes.slice(0, 2)
+
+    const metaAssets = datum.images.nodes.slice(2)
+    const metaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
+      const mappedAsset = metaAssets[i]
+      if (mappedAsset?.altText) {
+        acc[mappedAsset.altText as 'LOGO' | 'HEADER' | 'NAVBAR'] = asset
+      }
+
+      return acc
+    }, {} as { LOGO: GenericImageSrcSet; NAVBAR: GenericImageSrcSet; HEADER: GenericImageSrcSet })
 
     return {
       id: datum.id,
       title: datum.title,
       handle: datum.handle,
       // TODO: fix
-      logo: brandingAssetsMap?.logo,
-      headerLogo: brandingAssetsMap?.header,
-      navLogo: brandingAssetsMap?.navBar,
+      logo: metaAssetMap?.LOGO,
+      headerLogo: metaAssetMap?.HEADER,
+      navLogo: metaAssetMap?.NAVBAR,
       description: datum.descriptionHtml,
       // metafields
       bgColor: getMetafields<string>(datum.bgColor)?.toString(),
       color: getMetafields<string>(datum.color)?.toString(),
       artistInfo: getMetafields<ProductArtistInfo>(datum.artistInfo),
       // TODO: fix
-      images: datum.images.nodes.slice(0, 2),
+      images: productImages,
       // @ts-ignore - type
       videos: datum.media.nodes.filter(media => media?.__typename === 'Video') as FragmentProductVideoFragment[],
       sizes: getMetafields<ProductSizes[]>(datum.sizes[0].values),
@@ -59,12 +68,13 @@ export const mapShopifyProductToProps = (data: ProductsList = []): ProductPagePr
 }
 
 export function getImageSizeMap(images: FragmentProductImageFragment[]) {
-  return images.map<GenericImageSrcSet>(({ url, url500, url720, url960, url1280 }) => ({
+  return images.map<GenericImageSrcSet>(({ url, url500, url720, url960, url1280, url1440 }) => ({
     defaultUrl: url,
     '500': url500,
     '720': url720,
     '960': url960,
-    '1280': url1280
+    '1280': url1280,
+    '1440': url1440
   }))
 }
 

@@ -325,7 +325,6 @@ export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps & ButtonStyl
   }) =>
     bgImage &&
     setCssBackground(theme, {
-      isLogo: true,
       imageUrls: [bgImage, bgImage],
       backgroundColor,
       backgroundAttributes: bgAttributes,

@@ -58,12 +58,13 @@ export const FRAGMENT_PRODUCT = gql`
 export const FRAGMENT_PRODUCT_IMAGE = gql`
   fragment FragmentProductImage on Image {
     id
-    url125: url(transform: { maxWidth: 125 })
-    url250: url(transform: { maxWidth: 250 })
-    url500: url(transform: { maxWidth: 500 })
-    url720: url(transform: { maxWidth: 720 })
-    url960: url(transform: { maxWidth: 960 })
-    url1280: url(transform: { maxWidth: 1280 })
+    url125: url(transform: { maxWidth: 125, preferredContentType: WEBP, scale: 2 })
+    url250: url(transform: { maxWidth: 250, preferredContentType: WEBP, scale: 2 })
+    url500: url(transform: { maxWidth: 500, preferredContentType: WEBP, scale: 2 })
+    url720: url(transform: { maxWidth: 720, preferredContentType: WEBP, scale: 2 })
+    url960: url(transform: { maxWidth: 960, preferredContentType: WEBP, scale: 2 })
+    url1280: url(transform: { maxWidth: 1280, preferredContentType: WEBP, scale: 2 })
+    url1440: url(transform: { maxWidth: 1440, preferredContentType: WEBP, scale: 2 })
     url
     altText
     width
@@ -130,7 +131,7 @@ export const FRAGMENT_CART_LINE = gql`
         size: title
         product {
           ...FragmentProduct
-          images(first: 1) {
+          images(first: 5) {
             nodes {
               ...FragmentProductImage
             }

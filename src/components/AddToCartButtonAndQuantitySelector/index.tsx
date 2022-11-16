@@ -37,7 +37,7 @@ export default function AddToCartButtonAndQuantitySelector({
       <AddToCartButton
         merchandiseId={merchandiseId}
         quantity={quantity}
-        buttonProps={{ bgImage: navLogo, backgroundColor: color || '#000' }}
+        buttonProps={{ bgImage: navLogo?.defaultUrl, backgroundColor: color || '#000' }}
       />
       <QuantitySelector color={color} />
     </Wrapper>

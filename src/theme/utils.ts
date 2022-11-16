@@ -2,7 +2,6 @@ import { DefaultTheme, FlattenSimpleInterpolation, css, CSSObject, SimpleInterpo
 
 import { THEME_COLOURS } from './styles'
 import { Colors, ThemeModes } from './styled'
-import { DEFAULT_IK_TRANSFORMS } from 'constants/config'
 import { MEDIA_WIDTHS } from './styles/mediaQueries'
 import { hex } from 'wcag-contrast'
 import { transparentize } from 'polished'
@@ -68,16 +67,13 @@ export const betweenLargeAndExtraLarge = whenMediaBetween('betweenLargeAndExtraL
 // big to small
 // e.g { width: 500, ar: "3:2" }
 const IMG_SET_SIZE_ENTRIES = Object.entries(MEDIA_WIDTHS).reverse()
-const LOGO_TRANSFORMS = [DEFAULT_IK_TRANSFORMS.HQ_LOGO, DEFAULT_IK_TRANSFORMS.LQ_LOGO]
-const IMAGE_TRANSFORMS = [DEFAULT_IK_TRANSFORMS.HQ_IMAGE, DEFAULT_IK_TRANSFORMS.LQ_IMAGE]
+// const LOGO_TRANSFORMS = [DEFAULT_IK_TRANSFORMS.HQ_LOGO, DEFAULT_IK_TRANSFORMS.LQ_LOGO]
+// const IMAGE_TRANSFORMS = [DEFAULT_IK_TRANSFORMS.HQ_IMAGE, DEFAULT_IK_TRANSFORMS.LQ_IMAGE]
 type SetCssBackgroundParams = {
-  isLogo?: boolean
   imageUrls?: (string | undefined)[]
   backgroundColor?: string
   backgroundAttributes: string[]
   backgroundBlendMode?: string
-  logoTransforms?: string[]
-  imageTransforms?: string[]
   skipMediaQueries?: boolean
 }
 type UpToSizeKey = keyof typeof MEDIA_WIDTHS
@@ -119,13 +115,10 @@ export function setBestContrastingColour({ bgColour, fgColour, lightColour, dark
 export const setCssBackground = (
   theme: DefaultTheme,
   {
-    isLogo = false,
     imageUrls,
     backgroundColor = '',
     backgroundAttributes = ['cover no-repeat', 'cover no-repeat'],
     backgroundBlendMode = 'unset',
-    logoTransforms = LOGO_TRANSFORMS,
-    imageTransforms = IMAGE_TRANSFORMS,
     skipMediaQueries = false
   }: SetCssBackgroundParams
 ) => {
@@ -134,9 +127,7 @@ export const setCssBackground = (
       ? imageUrls.map((url, i, { length }) => {
           const isLast = i === length - 1
 
-          const urlBuilt = `${url}?tr=pr-true,${(isLogo ? logoTransforms : imageTransforms)[i]}${
-            width ? `w-${width}` : ''
-          }`
+          const urlBuilt = `${url}?tr=${width ? `w-${width}` : ''}`
 
           return `url(${urlBuilt}) ${backgroundAttributes[i]}${isLast ? ` ${backgroundColor}` : ','}`
         })
@@ -163,12 +154,11 @@ export const setCssBackground = (
 type NavHeaderCssBgProps = Partial<Omit<SetCssBackgroundParams, 'isLogo' | 'imageUrls' | 'backgroundColor'>>
 export function setHeaderBackground(
   theme: DefaultTheme,
-  headerLogo = theme.currentMedia?.headerLogo || '',
+  headerLogo = theme.currentMedia?.headerLogo?.defaultUrl || '',
   [lightModeColor, darkModeColor] = [BLACK, BLACK],
   auxOptions: NavHeaderCssBgProps = {}
 ) {
   return setCssBackground(theme, {
-    isLogo: true,
     imageUrls: [headerLogo, headerLogo],
     backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
     backgroundBlendMode: 'difference',
@@ -179,12 +169,11 @@ export function setHeaderBackground(
 
 export function setNavBackground(
   theme: DefaultTheme,
-  navLogo = theme.currentMedia?.navLogo || '',
+  navLogo = theme.currentMedia?.navLogo?.defaultUrl || '',
   [lightModeColor, darkModeColor] = [BLACK, BLACK],
   auxOptions: NavHeaderCssBgProps = {}
 ) {
   return setCssBackground(theme, {
-    isLogo: true,
     imageUrls: [navLogo, navLogo],
     backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
     backgroundBlendMode: 'difference',

@@ -6,13 +6,7 @@ import LoadingRows from 'components/Loader/LoadingRows'
 import SmartImg from 'components/SmartImg'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { useQueryCart } from 'shopify/graphql/hooks'
-import {
-  FragmentCartCostFragment,
-  FragmentCartLineFragment,
-  GetCartQuery,
-  ProductBrandingAssets,
-  ProductSizes
-} from 'shopify/graphql/types'
+import { FragmentCartCostFragment, FragmentCartLineFragment, GetCartQuery, ProductSizes } from 'shopify/graphql/types'
 import {
   useGetCartDispatch,
   useGetCartIdDispatch,
@@ -195,19 +189,16 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
   const wasPreviousAndChanged = !!previousQuantity && previousQuantity !== quantity
   const selectionIsValidQuantity = Number(quantity)
 
-  const { color, brandingAssetMap, handle, images } = line.merchandise.product
+  const { color, handle, images } = line.merchandise.product
 
-  const { brandAssetMap, color: itemColor } = useMemo(
+  const { bgLogo, color: itemColor } = useMemo(
     () => ({
-      brandAssetMap: {
-        ...getMetafields<ProductBrandingAssets | undefined>(brandingAssetMap),
-        get header() {
-          return this?.logo || this?.header || this?.navBar
-        }
-      },
+      bgLogo: images.nodes?.find(
+        node => node.altText === 'LOGO' || node.altText === 'HEADER' || node.altText === 'NAVBAR'
+      )?.url500,
       color: getMetafields<string>(color)
     }),
-    [brandingAssetMap, color]
+    [color, images.nodes]
   )
 
   const navigate = useNavigate()
@@ -227,7 +218,7 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
   const collectionCurrentProduct = useOnScreenProductHandle()
 
   return (
-    <CartLineWrapper brandAssetMap={brandAssetMap} color={itemColor}>
+    <CartLineWrapper bgLogo={bgLogo} color={itemColor}>
       <div>
         {/* 1 */}
         {/* <SMART IMG SPAN />*/}

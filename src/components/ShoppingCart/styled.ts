@@ -2,10 +2,9 @@ import styled from 'styled-components/macro'
 import { transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
-import { DEFAULT_IK_TRANSFORMS, Z_INDEXES } from 'constants/config'
+import { Z_INDEXES } from 'constants/config'
 import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
 import { fromExtraLarge, OFF_WHITE, upToExtraSmall, upToMedium, upToSmall } from 'theme/utils'
-import { ProductBrandingAssets } from 'shopify/graphql/types'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
 import { setFadeInAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
@@ -62,7 +61,7 @@ export const CartLineContent = styled(Row)`
 `
 
 export const CartLineWrapper = styled(Row)<{
-  brandAssetMap: Partial<ProductBrandingAssets> | undefined
+  bgLogo: string | undefined
   color?: string
 }>`
   border-radius: ${({ theme }) => theme.buttons.borderRadius};
@@ -80,10 +79,8 @@ export const CartLineWrapper = styled(Row)<{
     `}
   }
 
-  background: ${({ theme, brandAssetMap, color }) =>
-    brandAssetMap?.header
-      ? `url(${brandAssetMap?.header}?tr=${DEFAULT_IK_TRANSFORMS.HQ_LOGO}) center repeat, url(${brandAssetMap?.header}?tr=${DEFAULT_IK_TRANSFORMS.LQ_LOGO}) center repeat`
-      : color || transparentize(0.3, theme.bg1)};
+  background: ${({ theme, bgLogo, color }) =>
+    bgLogo ? `url(${bgLogo}) center repeat, url(${bgLogo}) center repeat` : color || transparentize(0.3, theme.bg1)};
 
   background-color: ${({ theme, color = transparentize(0.3, theme.bg1) }) => color};
   background-size: initial;

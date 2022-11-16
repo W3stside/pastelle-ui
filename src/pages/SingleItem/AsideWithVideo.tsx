@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { BoxProps } from 'rebass'
 
 import { Column, Row } from 'components/Layout'
-import Carousel from 'components/Carousel'
+import Carousel, { GenericImageSrcSet } from 'components/Carousel'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import SmartImg from 'components/SmartImg'
 import LargeImageCarouselModal from 'components/LargeImageCarouselModal'
@@ -64,9 +64,9 @@ export interface ProductPageProps {
   color: string
   title: string
   handle: string
-  logo?: string
-  headerLogo?: string
-  navLogo?: string
+  logo?: GenericImageSrcSet
+  headerLogo?: GenericImageSrcSet
+  navLogo?: GenericImageSrcSet
   images: FragmentProductImageFragment[]
   videos: FragmentProductVideoFragment[]
   // media: (FragmentProductExternalVideoFragment | FragmentProductVideoFragment)[]
@@ -212,7 +212,7 @@ export default function ItemPage({
       />
       {/* Product label: used in scolling collection */}
       {showProductLabel && (
-        <ScrollingProductLabel logo={headerLogo} labelColor={bgColor}>
+        <ScrollingProductLabel logo={headerLogo?.defaultUrl} labelColor={bgColor}>
           <strong>{title}</strong> <span style={{ fontSize: 'smaller' }}>{shortDescription}</span>
         </ScrollingProductLabel>
       )}
@@ -222,8 +222,8 @@ export default function ItemPage({
         style={style}
         collectionView={collectionView}
         bgColor={color}
-        navLogo={navLogo}
-        logo={logo}
+        navLogo={navLogo?.defaultUrl}
+        logo={logo?.defaultUrl}
       >
         <ItemAsidePanel id="#item-aside-panel">
           <DynamicInnerContainer ref={setRef}>
@@ -248,7 +248,7 @@ export default function ItemPage({
             {noDescription ? null : collectionView ? (
               <>
                 {collectionViewProductLogo ? (
-                  <ItemLogoCollectionView logoUri={collectionViewProductLogo} $bgColor="ghostwhite" />
+                  <ItemLogoCollectionView logoUri={collectionViewProductLogo.defaultUrl} $bgColor="ghostwhite" />
                 ) : (
                   <ItemLogo
                     $marginTop={
@@ -273,7 +273,7 @@ export default function ItemPage({
                 ) : !isMobile ? (
                   <ItemLogo>
                     <SmartImg
-                      path={{ ikPath: logo }}
+                      path={{ ikPath: logo.defaultUrl }}
                       transformation={[{ width: innerContainerRef?.clientWidth, quality: 90, pr: true }]}
                       lazy={false}
                       lq
@@ -282,7 +282,7 @@ export default function ItemPage({
                 ) : (
                   innerContainerRef?.clientWidth && (
                     <ItemLogoCssImport
-                      logoUri={logo}
+                      logoUri={logo.defaultUrl}
                       height={innerContainerRef.clientWidth / 3.64}
                       position="relative"
                     />

@@ -6688,6 +6688,7 @@ export type GetCartQuery = {
                 url720: any
                 url960: any
                 url1280: any
+                url1440: any
               }>
             }
             sizes: Array<{ __typename?: 'ProductOption'; values: Array<string> }>
@@ -6757,6 +6758,7 @@ export type GetCollectionQuery = {
               url720: any
               url960: any
               url1280: any
+              url1440: any
             }>
           }
           media: {
@@ -6837,6 +6839,7 @@ export type FragmentProductImageFragment = {
   url720: any
   url960: any
   url1280: any
+  url1440: any
 }
 
 export type FragmentProductVideoFragment = {
@@ -6895,6 +6898,7 @@ export type FragmentCartLineFragment = {
           url720: any
           url960: any
           url1280: any
+          url1440: any
         }>
       }
       sizes: Array<{ __typename?: 'ProductOption'; values: Array<string> }>
@@ -6968,6 +6972,7 @@ export type FragmentCartFragment = {
               url720: any
               url960: any
               url1280: any
+              url1440: any
             }>
           }
           sizes: Array<{ __typename?: 'ProductOption'; values: Array<string> }>
@@ -7082,6 +7087,7 @@ export type ProductQuery = {
           url720: any
           url960: any
           url1280: any
+          url1440: any
         }>
       }
       media: {
