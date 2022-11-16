@@ -420,6 +420,7 @@ export const ItemContainer = styled(Row)<{
       // ITEM COLLECTION LOGO
       // ----------------------- //
       > ${ItemLogoCollectionView} {
+        filter: ${({ theme }) => theme.darkModeFilter};
         // MEDIA QUERY --> SMALL and below
         ${upToSmall`
           max-width: 100%;

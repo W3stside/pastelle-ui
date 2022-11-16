@@ -118,7 +118,7 @@ export const MODE_COLOURS = (mode: ThemeModes) => ({
 
   darkModeToggle: mode === ThemeModes.DARK ? DEFAULT_COLOURS.yellow3 : DEFAULT_COLOURS.purple1,
   darkModeSvg: mode === ThemeModes.DARK ? DEFAULT_COLOURS.purple3 : DEFAULT_COLOURS.yellow3,
-  darkModeFilter: mode === ThemeModes.DARK ? 'invert(1) saturate(2) brightness(0.8)' : '',
+  darkModeFilter: mode === ThemeModes.DARK ? 'invert(1) saturate(2) brightness(0.8) hue-rotate(90deg)' : '',
   darkModeLogoFilter:
     mode === ThemeModes.DARK
       ? 'invert(1) saturate(1.4) hue-rotate(180deg) drop-shadow(0px 0px 12px rgba(0,0,0,1))'
