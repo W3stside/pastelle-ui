@@ -9,11 +9,13 @@ import {
   setHeaderBackground,
   setNavBackground,
   setBestTextColour,
-  getThemeColours
+  getThemeColours,
+  BLACK
 } from '../utils'
 import FontStyles from './fonts'
 import { setFlickerAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
+import { NAV_CSS_LOGO_TRANSFORMS } from 'constants/config'
 
 const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
 
@@ -189,7 +191,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
 
   header, footer {
     ${({ theme }) =>
-      setHeaderBackground(theme, theme.currentMedia?.headerLogo, theme.currentMedia?.color || DEFAULT_BG)}
+      setHeaderBackground(theme, theme.currentMedia?.headerLogo, [theme.currentMedia?.color || DEFAULT_BG, BLACK])}
 
     #header-links-container {
       border-radius: 0.5rem;
@@ -203,7 +205,11 @@ export const ThemedGlobalStyle = createGlobalStyle<{
 
   
   nav {
-    ${({ theme }) => setNavBackground(theme, theme.currentMedia?.navLogo, theme.currentMedia?.color || DEFAULT_BG)}
+    ${({ theme }) =>
+      setNavBackground(theme, theme.currentMedia?.navLogo, [theme.currentMedia?.color || DEFAULT_BG, BLACK], {
+        skipMediaQueries: true,
+        logoTransforms: NAV_CSS_LOGO_TRANSFORMS
+      })}
     ${({ animation, animationDelay }) =>
       setFlickerAnimation({ state: !!animation, delay: animationDelay, duration: 4, count: 2 })}
   }

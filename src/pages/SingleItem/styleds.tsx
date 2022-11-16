@@ -8,10 +8,16 @@ import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
-import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
+import {
+  FIXED_IMAGE_SIZE_CONSTRAINTS,
+  SINGLE_ITEM_ASIDE_CSS_LOGO_TRANSFORMS,
+  STORE_IMAGE_SIZES,
+  Z_INDEXES
+} from 'constants/config'
 import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
 import {
   BLACK,
+  CHARCOAL_BLACK,
   fromExtraLarge,
   fromLarge,
   fromMedium,
@@ -37,7 +43,7 @@ export const ScrollingProductLabel = styled(Row)<{ logo?: string; labelColor?: s
   font-size: 2rem;
   font-weight: 300;
   text-shadow: 0px 0 0.5rem ${({ labelColor }) => labelColor || BLACK};
-  ${({ theme, logo }) => setHeaderBackground(theme, logo, BLACK, { logoTransforms: ['q-40', 'q-10'] })}
+  ${({ theme, logo }) => setHeaderBackground(theme, logo, undefined, { logoTransforms: ['q-40', 'q-10'] })}
 `
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
@@ -483,7 +489,11 @@ export const ItemContainer = styled(Row)<{
       > ${ItemContentContainer} {
         ${({ theme, bgColor = BLACK, navLogo }) =>
           navLogo
-            ? setNavBackground(theme, navLogo, bgColor)
+            ? setNavBackground(theme, navLogo, [bgColor, CHARCOAL_BLACK], {
+                skipMediaQueries: true,
+                backgroundAttributes: ['center / cover no-repeat', '36px / cover repeat'],
+                logoTransforms: SINGLE_ITEM_ASIDE_CSS_LOGO_TRANSFORMS
+              })
             : `background: linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%);`}
       }
 

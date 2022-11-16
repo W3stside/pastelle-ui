@@ -14,6 +14,7 @@ export function getThemeColours(mode: ThemeModes): Colors {
 export const WHITE = getThemeColours(ThemeModes.DARK).white
 export const OFF_WHITE = getThemeColours(ThemeModes.DARK).offWhite
 export const BLACK = getThemeColours(ThemeModes.DARK).black
+export const CHARCOAL_BLACK = '#242424'
 export const BLACK_TRANSPARENT = transparentize(0.15, BLACK)
 export const BLUE = getThemeColours(ThemeModes.DARK).blue1
 export const RED = getThemeColours(ThemeModes.DARK).red1
@@ -77,6 +78,7 @@ type SetCssBackgroundParams = {
   backgroundBlendMode?: string
   logoTransforms?: string[]
   imageTransforms?: string[]
+  skipMediaQueries?: boolean
 }
 type UpToSizeKey = keyof typeof MEDIA_WIDTHS
 
@@ -123,7 +125,8 @@ export const setCssBackground = (
     backgroundAttributes = ['cover no-repeat', 'cover no-repeat'],
     backgroundBlendMode = 'unset',
     logoTransforms = LOGO_TRANSFORMS,
-    imageTransforms = IMAGE_TRANSFORMS
+    imageTransforms = IMAGE_TRANSFORMS,
+    skipMediaQueries = false
   }: SetCssBackgroundParams
 ) => {
   const getBackground = (width?: number) => {
@@ -140,13 +143,14 @@ export const setCssBackground = (
       : backgroundColor
   }
 
-  const backgroundMediaQueries = IMG_SET_SIZE_ENTRIES.map(([size, width]) => {
-    const queryMethod = theme.mediaWidth?.[size as UpToSizeKey]
+  const backgroundMediaQueries = skipMediaQueries
+    ? null
+    : IMG_SET_SIZE_ENTRIES.map(([size, width]) => {
+        const queryMethod = theme.mediaWidth?.[size as UpToSizeKey]
+        if (!queryMethod) return null
 
-    if (!queryMethod) return null
-
-    return queryMethod`background: ${getBackground(width)};`
-  })
+        return queryMethod`background: ${getBackground(width)};`
+      })
 
   return css`
     background: ${getBackground()};
@@ -156,13 +160,11 @@ export const setCssBackground = (
   `
 }
 
-type NavHeaderCssBgProps = Partial<
-  Omit<SetCssBackgroundParams, 'isLogo' | 'imageUrls' | 'backgroundAttributes' | 'backgroundColor'>
->
+type NavHeaderCssBgProps = Partial<Omit<SetCssBackgroundParams, 'isLogo' | 'imageUrls' | 'backgroundColor'>>
 export function setHeaderBackground(
   theme: DefaultTheme,
   headerLogo = theme.currentMedia?.headerLogo || '',
-  color = '',
+  [lightModeColor, darkModeColor] = [BLACK, BLACK],
   auxOptions: NavHeaderCssBgProps = {}
 ) {
   return setCssBackground(theme, {
@@ -170,7 +172,7 @@ export function setHeaderBackground(
     imageUrls: [headerLogo, headerLogo],
     backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
     backgroundBlendMode: 'difference',
-    backgroundColor: theme.mode === ThemeModes.DARK ? BLACK : color,
+    backgroundColor: theme.mode === ThemeModes.DARK ? darkModeColor : lightModeColor,
     ...auxOptions
   })
 }
@@ -178,7 +180,7 @@ export function setHeaderBackground(
 export function setNavBackground(
   theme: DefaultTheme,
   navLogo = theme.currentMedia?.navLogo || '',
-  color = '',
+  [lightModeColor, darkModeColor] = [BLACK, BLACK],
   auxOptions: NavHeaderCssBgProps = {}
 ) {
   return setCssBackground(theme, {
@@ -186,7 +188,7 @@ export function setNavBackground(
     imageUrls: [navLogo, navLogo],
     backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
     backgroundBlendMode: 'difference',
-    backgroundColor: theme.mode === ThemeModes.DARK ? BLACK : color,
+    backgroundColor: theme.mode === ThemeModes.DARK ? darkModeColor : lightModeColor,
     ...auxOptions
   })
 }

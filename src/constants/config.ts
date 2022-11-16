@@ -42,10 +42,10 @@ export const FIXED_IMAGE_SIZE_CONSTRAINTS = {
 export const DEFAULT_SIZE_SELECTED: ProductSizes = ProductSizes.L
 
 export const DEFAULT_IK_TRANSFORMS = {
-  LQ_IMAGE: 'q-10,w-1,h-1:',
-  HQ_IMAGE: '',
-  LQ_LOGO: 'q-40,',
-  HQ_LOGO: 'q-70,'
+  LQ_IMAGE: 'pr-true,q-10,w-1,h-1:',
+  HQ_IMAGE: 'pr-true,',
+  LQ_LOGO: 'pr-true,q-40,',
+  HQ_LOGO: 'pr-true,q-70,'
 }
 
 export const enum Z_INDEXES {
@@ -61,3 +61,9 @@ export const enum Z_INDEXES {
 }
 export const DEFAULT_CART_LINES_AMOUNT = 30
 export const FREE_SHIPPING_THRESHOLD: number | undefined = 200
+
+export const SINGLE_ITEM_ASIDE_CSS_LOGO_TRANSFORMS = [
+  `pr-true,dpr-2,q-70,w-${STORE_IMAGE_SIZES.SMALL},h-2400`,
+  `pr-true,dpr-2,q-40,w-${STORE_IMAGE_SIZES.SMALL},h-2400`
+]
+export const NAV_CSS_LOGO_TRANSFORMS = ['pr-true,dpr-2,q-70,w-183', 'pr-true,dpr-2,q-40,w-183']
