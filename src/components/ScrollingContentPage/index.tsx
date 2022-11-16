@@ -1,13 +1,17 @@
-import { useEffect } from 'react'
+import { Fragment, MouseEvent, useCallback, useEffect } from 'react'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/ScrollingIndicator'
-import { ScrollerContainer, AnimatedDivContainer } from './styleds'
+import { ScrollerContainer, AnimatedDivContainer, Scroller } from './styleds'
 
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 import useScrollingPageAnimation from 'hooks/useScrollingPageAnimation'
 import { LoadInView } from 'hooks/useDetectScrollIntoView'
 import { COLLECTION_MAX_WIDTH } from 'constants/config'
+import { isMobile } from 'utils'
+import { Product } from 'shopify/graphql/types'
 
+// TODO: bullshit
+const HEADER_HEIGHT = 80
 interface ScrollingContentPageParams<D> {
   data: D[]
   dataItem: D | undefined
@@ -38,7 +42,16 @@ export function ScrollingContentPage<D>({
   IterableComponent,
   ...indicatorProps
 }: Params<D>) {
-  const { springs, setTargetRef, height, currentIndex, restSet } = useScrollingPageAnimation(data, {
+  const {
+    springs,
+    api,
+    setScrollingZoneRef,
+    setHeightRef,
+    height,
+    currentIndex,
+    restSet,
+    target
+  } = useScrollingPageAnimation(data, {
     visible: 2,
     fixedHeight,
     snapOnScroll: false,
@@ -51,24 +64,51 @@ export function ScrollingContentPage<D>({
 
   // set target ref node as collection article
   useEffect(() => {
-    setTargetRef(document.getElementById('COLLECTION-ARTICLE'))
-  }, [setTargetRef])
+    const heightTarget = document.getElementById('COLLECTION-ARTICLE')
+
+    setHeightRef(heightTarget)
+    !isMobile && setScrollingZoneRef(heightTarget)
+  }, [setHeightRef, setScrollingZoneRef])
+
+  const handleItemSelect = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      if (!onContentClick) return
+      const products = data as Product[]
+      const halfHeight = height / 2
+      const clickY = e.clientY - HEADER_HEIGHT - halfHeight
+      const nextIdx = currentIndex < data.length - 1 ? currentIndex + 1 : 0
+      const prevIdx = currentIndex === 0 ? data.length - 1 : currentIndex - 1
+      const positions = {
+        currItem: api.current[currentIndex].springs.y.get(),
+        nextItem: api.current[nextIdx].springs.y.get(),
+        prevItem: api.current[prevIdx].springs.y.get()
+      }
+
+      const clickedNext = positions.nextItem - halfHeight < clickY
+      const clickedPrev =
+        positions.prevItem + halfHeight - (target?.clientHeight ? target.clientHeight - height : height) / 2 > clickY
+
+      return onContentClick(products[clickedNext ? nextIdx : clickedPrev ? prevIdx : currentIndex].handle)
+    },
+    [api, currentIndex, data, height, onContentClick, target]
+  )
 
   if (!dataItem) return null
 
   return (
     <>
       <FixedAnimatedLoader loadText={<img src={PastelleIvoryOutlined} />} left="50%" animation width="40vw" />
+      {/* mobile only scrolling ref, using collection-article doesn't work on mobile */}
+      {isMobile && <Scroller ref={setScrollingZoneRef} onClick={handleItemSelect} />}
       <ScrollerContainer>
-        {/* Were in mobile or the data passed only has 1 item, don't run loop animations */}
         {springs.map(({ y, scale }, i) => {
           return (
             <AnimatedDivContainer
-              key={i}
+              key={y.id}
               style={{ scale, height, y }}
               $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
               $useBoxShadow={useBoxShadow}
-              onClick={() => onContentClick?.((data[i] as any).handle)}
+              onClick={isMobile ? undefined : () => onContentClick?.((data[i] as any).handle)}
             >
               {showIndicator && <ScrollingContentIndicator {...indicatorProps} />}
               <IterableComponent

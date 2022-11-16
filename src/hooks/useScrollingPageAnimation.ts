@@ -78,7 +78,7 @@ export default function useScrollingPageAnimation(
 ) {
   const prev = useRef([0, 1])
 
-  const [target, setContainerRef] = useStateRef(null, node => node)
+  const [scrollingZoneTarget, setScrollingZoneRef] = useStateRef(null, node => node)
   const [height, setHeightRef] = useStateRef<number>(
     0,
     node => fixedHeight || Math.min(node?.clientHeight, minHeight) || 0
@@ -86,30 +86,18 @@ export default function useScrollingPageAnimation(
 
   // handle window resizing
   const size = useGetWindowSize()
-  useEffect(() => {
-    if (!fixedHeight && target?.clientHeight) {
-      setHeightRef(target)
-    }
-  }, [fixedHeight, setHeightRef, size, target])
-  /* 
-  useEffect(() => {
-    // resize handler - update clientHeight
-    const _handleWindowResize = () => !fixedHeight && target?.clientHeight && setHeightRef(target)
 
-    window?.addEventListener('resize', _handleWindowResize)
-    // first run call
-    _handleWindowResize()
-    return () => {
-      window?.removeEventListener('resize', _handleWindowResize)
+  useEffect(() => {
+    if (!fixedHeight && scrollingZoneTarget?.clientHeight) {
+      setHeightRef(scrollingZoneTarget)
     }
-  }, [fixedHeight, setHeightRef, target])
-  */
+  }, [fixedHeight, setHeightRef, size, scrollingZoneTarget])
 
-  const setTargetRef = useCallback((node: any) => {
-    setContainerRef(node)
-    setHeightRef(node)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // const setTargetRef = useCallback((node: any) => {
+  //   setContainerRef(node)
+  //   setHeightRef(node)
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
   const [currentIndex, setCurrentIndex] = useState(prev.current[0])
   // const [firstPaintOver, setFirstPaintOver] = useState(false)
@@ -215,15 +203,17 @@ export default function useScrollingPageAnimation(
       }
     },
     {
-      target,
+      target: scrollingZoneTarget,
       eventOptions: { passive: false }
     }
   )
 
   return {
     springs,
-    target,
-    setTargetRef,
+    api,
+    target: scrollingZoneTarget,
+    setScrollingZoneRef,
+    setHeightRef,
     height,
     currentIndex,
     // firstPaintOver,
