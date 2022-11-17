@@ -6678,10 +6678,10 @@ export type GetCartQuery = {
               nodes: Array<{
                 __typename?: 'Image'
                 id?: string | null
-                url: any
                 altText?: string | null
                 width?: number | null
                 height?: number | null
+                url: any
                 url125: any
                 url250: any
                 url500: any
@@ -6689,6 +6689,20 @@ export type GetCartQuery = {
                 url960: any
                 url1280: any
                 url1440: any
+                url125_2x: any
+                url250_2x: any
+                url500_2x: any
+                url720_2x: any
+                url960_2x: any
+                url1280_2x: any
+                url1440_2x: any
+                url125_3x: any
+                url250_3x: any
+                url500_3x: any
+                url720_3x: any
+                url960_3x: any
+                url1280_3x: any
+                url1440_3x: any
               }>
             }
             sizes: Array<{ __typename?: 'ProductOption'; values: Array<string> }>
@@ -6748,10 +6762,10 @@ export type GetCollectionQuery = {
             nodes: Array<{
               __typename?: 'Image'
               id?: string | null
-              url: any
               altText?: string | null
               width?: number | null
               height?: number | null
+              url: any
               url125: any
               url250: any
               url500: any
@@ -6759,6 +6773,20 @@ export type GetCollectionQuery = {
               url960: any
               url1280: any
               url1440: any
+              url125_2x: any
+              url250_2x: any
+              url500_2x: any
+              url720_2x: any
+              url960_2x: any
+              url1280_2x: any
+              url1440_2x: any
+              url125_3x: any
+              url250_3x: any
+              url500_3x: any
+              url720_3x: any
+              url960_3x: any
+              url1280_3x: any
+              url1440_3x: any
             }>
           }
           media: {
@@ -6826,13 +6854,8 @@ export type FragmentProductFragment = {
   shortDescription?: { __typename?: 'Metafield'; value: string } | null
 }
 
-export type FragmentProductImageFragment = {
+export type FragmentProductImageUrlsFragment = {
   __typename?: 'Image'
-  id?: string | null
-  url: any
-  altText?: string | null
-  width?: number | null
-  height?: number | null
   url125: any
   url250: any
   url500: any
@@ -6840,6 +6863,50 @@ export type FragmentProductImageFragment = {
   url960: any
   url1280: any
   url1440: any
+  url125_2x: any
+  url250_2x: any
+  url500_2x: any
+  url720_2x: any
+  url960_2x: any
+  url1280_2x: any
+  url1440_2x: any
+  url125_3x: any
+  url250_3x: any
+  url500_3x: any
+  url720_3x: any
+  url960_3x: any
+  url1280_3x: any
+  url1440_3x: any
+}
+
+export type FragmentProductImageFragment = {
+  __typename?: 'Image'
+  id?: string | null
+  altText?: string | null
+  width?: number | null
+  height?: number | null
+  url: any
+  url125: any
+  url250: any
+  url500: any
+  url720: any
+  url960: any
+  url1280: any
+  url1440: any
+  url125_2x: any
+  url250_2x: any
+  url500_2x: any
+  url720_2x: any
+  url960_2x: any
+  url1280_2x: any
+  url1440_2x: any
+  url125_3x: any
+  url250_3x: any
+  url500_3x: any
+  url720_3x: any
+  url960_3x: any
+  url1280_3x: any
+  url1440_3x: any
 }
 
 export type FragmentProductVideoFragment = {
@@ -6888,10 +6955,10 @@ export type FragmentCartLineFragment = {
         nodes: Array<{
           __typename?: 'Image'
           id?: string | null
-          url: any
           altText?: string | null
           width?: number | null
           height?: number | null
+          url: any
           url125: any
           url250: any
           url500: any
@@ -6899,6 +6966,20 @@ export type FragmentCartLineFragment = {
           url960: any
           url1280: any
           url1440: any
+          url125_2x: any
+          url250_2x: any
+          url500_2x: any
+          url720_2x: any
+          url960_2x: any
+          url1280_2x: any
+          url1440_2x: any
+          url125_3x: any
+          url250_3x: any
+          url500_3x: any
+          url720_3x: any
+          url960_3x: any
+          url1280_3x: any
+          url1440_3x: any
         }>
       }
       sizes: Array<{ __typename?: 'ProductOption'; values: Array<string> }>
@@ -6962,10 +7043,10 @@ export type FragmentCartFragment = {
             nodes: Array<{
               __typename?: 'Image'
               id?: string | null
-              url: any
               altText?: string | null
               width?: number | null
               height?: number | null
+              url: any
               url125: any
               url250: any
               url500: any
@@ -6973,6 +7054,20 @@ export type FragmentCartFragment = {
               url960: any
               url1280: any
               url1440: any
+              url125_2x: any
+              url250_2x: any
+              url500_2x: any
+              url720_2x: any
+              url960_2x: any
+              url1280_2x: any
+              url1440_2x: any
+              url125_3x: any
+              url250_3x: any
+              url500_3x: any
+              url720_3x: any
+              url960_3x: any
+              url1280_3x: any
+              url1440_3x: any
             }>
           }
           sizes: Array<{ __typename?: 'ProductOption'; values: Array<string> }>
@@ -7077,10 +7172,10 @@ export type ProductQuery = {
         nodes: Array<{
           __typename?: 'Image'
           id?: string | null
-          url: any
           altText?: string | null
           width?: number | null
           height?: number | null
+          url: any
           url125: any
           url250: any
           url500: any
@@ -7088,6 +7183,20 @@ export type ProductQuery = {
           url960: any
           url1280: any
           url1440: any
+          url125_2x: any
+          url250_2x: any
+          url500_2x: any
+          url720_2x: any
+          url960_2x: any
+          url1280_2x: any
+          url1440_2x: any
+          url125_3x: any
+          url250_3x: any
+          url500_3x: any
+          url720_3x: any
+          url960_3x: any
+          url1280_3x: any
+          url1440_3x: any
         }>
       }
       media: {

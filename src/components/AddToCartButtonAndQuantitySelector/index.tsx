@@ -30,14 +30,14 @@ export default function AddToCartButtonAndQuantitySelector({
   merchandiseId
 }: Pick<AddToCartButtonParams, 'merchandiseId'>) {
   const { quantity, QuantitySelector } = useQuantitySelector({ defaultQuantity: 1 })
-  const { color, navLogo } = useCurrentProductMedia()
+  const { color, navLogoSet } = useCurrentProductMedia()
 
   return (
     <Wrapper>
       <AddToCartButton
         merchandiseId={merchandiseId}
         quantity={quantity}
-        buttonProps={{ bgImage: navLogo?.defaultUrl, backgroundColor: color || '#000' }}
+        buttonProps={{ bgImage: navLogoSet, backgroundColor: color || '#000' }}
       />
       <QuantitySelector color={color} />
     </Wrapper>

@@ -38,20 +38,20 @@ export const mapShopifyProductToProps = (data: ProductsList = []): ProductPagePr
     const metaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
       const mappedAsset = metaAssets[i]
       if (mappedAsset?.altText) {
-        acc[mappedAsset.altText as 'LOGO' | 'HEADER' | 'NAVBAR'] = asset
+        acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
       }
 
       return acc
-    }, {} as { LOGO: GenericImageSrcSet; NAVBAR: GenericImageSrcSet; HEADER: GenericImageSrcSet })
+    }, {} as { logo: GenericImageSrcSet; navbar: GenericImageSrcSet; header: GenericImageSrcSet })
 
     return {
       id: datum.id,
       title: datum.title,
       handle: datum.handle,
       // TODO: fix
-      logo: metaAssetMap?.LOGO,
-      headerLogo: metaAssetMap?.HEADER,
-      navLogo: metaAssetMap?.NAVBAR,
+      logo: metaAssetMap?.logo,
+      headerLogo: metaAssetMap?.header,
+      navLogo: metaAssetMap?.navbar,
       description: datum.descriptionHtml,
       // metafields
       bgColor: getMetafields<string>(datum.bgColor)?.toString(),
@@ -68,13 +68,13 @@ export const mapShopifyProductToProps = (data: ProductsList = []): ProductPagePr
 }
 
 export function getImageSizeMap(images: FragmentProductImageFragment[]) {
-  return images.map<GenericImageSrcSet>(({ url, url500, url720, url960, url1280, url1440 }) => ({
+  return images.map<GenericImageSrcSet>(({ url, ...urls }) => ({
     defaultUrl: url,
-    '500': url500,
-    '720': url720,
-    '960': url960,
-    '1280': url1280,
-    '1440': url1440
+    '500': { '1x': urls.url500, '2x': urls.url500_2x, '3x': urls.url500_3x },
+    '720': { '1x': urls.url720, '2x': urls.url720_2x, '3x': urls.url720_3x },
+    '960': { '1x': urls.url960, '2x': urls.url960_2x, '3x': urls.url960_3x },
+    '1280': { '1x': urls.url1280, '2x': urls.url1280_2x, '3x': urls.url1280_3x },
+    '1440': { '1x': urls.url1440, '2x': urls.url1440_2x, '3x': urls.url1440_3x }
   }))
 }
 

@@ -212,7 +212,7 @@ export default function ItemPage({
       />
       {/* Product label: used in scolling collection */}
       {showProductLabel && (
-        <ScrollingProductLabel logo={headerLogo?.defaultUrl} labelColor={bgColor}>
+        <ScrollingProductLabel logo={headerLogo} labelColor={bgColor}>
           <strong>{title}</strong> <span style={{ fontSize: 'smaller' }}>{shortDescription}</span>
         </ScrollingProductLabel>
       )}
@@ -222,8 +222,8 @@ export default function ItemPage({
         style={style}
         collectionView={collectionView}
         bgColor={color}
-        navLogo={navLogo?.defaultUrl}
-        logo={logo?.defaultUrl}
+        navLogo={navLogo}
+        logo={logo}
       >
         <ItemAsidePanel id="#item-aside-panel">
           <DynamicInnerContainer ref={setRef}>
@@ -248,7 +248,7 @@ export default function ItemPage({
             {noDescription ? null : collectionView ? (
               <>
                 {collectionViewProductLogo ? (
-                  <ItemLogoCollectionView logoUri={collectionViewProductLogo.defaultUrl} $bgColor="ghostwhite" />
+                  <ItemLogoCollectionView logoUri={collectionViewProductLogo} $bgColor="ghostwhite" />
                 ) : (
                   <ItemLogo
                     $marginTop={
@@ -272,17 +272,12 @@ export default function ItemPage({
                   title
                 ) : !isMobile ? (
                   <ItemLogo>
-                    <SmartImg
-                      path={{ ikPath: logo.defaultUrl }}
-                      transformation={[{ width: innerContainerRef?.clientWidth, quality: 90, pr: true }]}
-                      lazy={false}
-                      lq
-                    />
+                    <SmartImg path={{ defaultPath: logo.defaultUrl }} pathSrcSet={logo} lazy={false} lq />
                   </ItemLogo>
                 ) : (
                   innerContainerRef?.clientWidth && (
                     <ItemLogoCssImport
-                      logoUri={logo.defaultUrl}
+                      logoUri={logo}
                       height={innerContainerRef.clientWidth / 3.64}
                       position="relative"
                     />

@@ -4,6 +4,7 @@ import useStateRef from 'hooks/useStateRef'
 import { useState, useMemo, /* useRef, */ useEffect, forwardRef, ForwardedRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { useGetWindowSize } from 'state/window/hooks'
+import { MediaWidths } from 'theme/styles/mediaQueries'
 import {
   CarouselContainer,
   CarouselStep as CarouselStepContainer,
@@ -11,7 +12,10 @@ import {
   CarouselButton
 } from './styleds'
 
-export type GenericImageSrcSet = { defaultUrl: string } & { [sizeKey: string]: string }
+export type DDPXImageUrlMap = { '1x': string; '2x'?: string; '3x'?: string }
+export type GenericImageSrcSet = { defaultUrl: string } & {
+  [K in MediaWidths]: DDPXImageUrlMap
+}
 export type CarouselProps = {
   fixedHeight?: string
   buttonColor: string

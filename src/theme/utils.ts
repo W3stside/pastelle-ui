@@ -2,9 +2,10 @@ import { DefaultTheme, FlattenSimpleInterpolation, css, CSSObject, SimpleInterpo
 
 import { THEME_COLOURS } from './styles'
 import { Colors, ThemeModes } from './styled'
-import { MEDIA_WIDTHS } from './styles/mediaQueries'
+import { MediaWidths, MEDIA_WIDTHS } from './styles/mediaQueries'
 import { hex } from 'wcag-contrast'
 import { transparentize } from 'polished'
+import { GenericImageSrcSet } from 'components/Carousel'
 
 export function getThemeColours(mode: ThemeModes): Colors {
   return THEME_COLOURS(mode)
@@ -67,14 +68,13 @@ export const betweenLargeAndExtraLarge = whenMediaBetween('betweenLargeAndExtraL
 // big to small
 // e.g { width: 500, ar: "3:2" }
 const IMG_SET_SIZE_ENTRIES = Object.entries(MEDIA_WIDTHS).reverse()
-// const LOGO_TRANSFORMS = [DEFAULT_IK_TRANSFORMS.HQ_LOGO, DEFAULT_IK_TRANSFORMS.LQ_LOGO]
-// const IMAGE_TRANSFORMS = [DEFAULT_IK_TRANSFORMS.HQ_IMAGE, DEFAULT_IK_TRANSFORMS.LQ_IMAGE]
 type SetCssBackgroundParams = {
-  imageUrls?: (string | undefined)[]
-  backgroundColor?: string
-  backgroundAttributes: string[]
+  imageUrls?: GenericImageSrcSet[]
+  backgroundAttributes?: string[]
   backgroundBlendMode?: string
-  skipMediaQueries?: boolean
+  backgroundColor?: string
+  ignoreQueriesWithFixedWidth?: MediaWidths
+  dpiLevel?: '3x' | '2x' | '1x'
 }
 type UpToSizeKey = keyof typeof MEDIA_WIDTHS
 
@@ -119,22 +119,28 @@ export const setCssBackground = (
     backgroundColor = '',
     backgroundAttributes = ['cover no-repeat', 'cover no-repeat'],
     backgroundBlendMode = 'unset',
-    skipMediaQueries = false
+    ignoreQueriesWithFixedWidth = undefined,
+    dpiLevel = '1x'
   }: SetCssBackgroundParams
 ) => {
-  const getBackground = (width?: number) => {
+  const getBackground = (width?: MediaWidths) => {
     return imageUrls
-      ? imageUrls.map((url, i, { length }) => {
+      ? imageUrls.map((urlSet, i, { length }) => {
           const isLast = i === length - 1
+          const urlAtWidth = width && urlSet[width]?.[dpiLevel]
 
-          const urlBuilt = `${url}?tr=${width ? `w-${width}` : ''}`
+          const urlBuilt = `
+            url(${urlAtWidth ? urlAtWidth : urlSet.defaultUrl}) ${backgroundAttributes[i] || ''}${
+            isLast ? ` ${backgroundColor}` : ','
+          }
+          `
 
-          return `url(${urlBuilt}) ${backgroundAttributes[i]}${isLast ? ` ${backgroundColor}` : ','}`
+          return urlBuilt
         })
       : backgroundColor
   }
 
-  const backgroundMediaQueries = skipMediaQueries
+  const backgroundMediaQueries = !!ignoreQueriesWithFixedWidth
     ? null
     : IMG_SET_SIZE_ENTRIES.map(([size, width]) => {
         const queryMethod = theme.mediaWidth?.[size as UpToSizeKey]
@@ -144,42 +150,16 @@ export const setCssBackground = (
       })
 
   return css`
-    background: ${getBackground()};
+    background: ${getBackground(ignoreQueriesWithFixedWidth)};
     ${backgroundMediaQueries}
 
     background-blend-mode: ${backgroundBlendMode};
   `
 }
 
-type NavHeaderCssBgProps = Partial<Omit<SetCssBackgroundParams, 'isLogo' | 'imageUrls' | 'backgroundColor'>>
-export function setHeaderBackground(
-  theme: DefaultTheme,
-  headerLogo = theme.currentMedia?.headerLogo?.defaultUrl || '',
-  [lightModeColor, darkModeColor] = [BLACK, BLACK],
-  auxOptions: NavHeaderCssBgProps = {}
-) {
-  return setCssBackground(theme, {
-    imageUrls: [headerLogo, headerLogo],
-    backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
-    backgroundBlendMode: 'difference',
-    backgroundColor: theme.mode === ThemeModes.DARK ? darkModeColor : lightModeColor,
-    ...auxOptions
-  })
-}
-
-export function setNavBackground(
-  theme: DefaultTheme,
-  navLogo = theme.currentMedia?.navLogo?.defaultUrl || '',
-  [lightModeColor, darkModeColor] = [BLACK, BLACK],
-  auxOptions: NavHeaderCssBgProps = {}
-) {
-  return setCssBackground(theme, {
-    imageUrls: [navLogo, navLogo],
-    backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
-    backgroundBlendMode: 'difference',
-    backgroundColor: theme.mode === ThemeModes.DARK ? darkModeColor : lightModeColor,
-    ...auxOptions
-  })
+type BackgroundWithDPIProps = Partial<Omit<SetCssBackgroundParams, 'isLogo' | 'imageUrls'>> & {
+  preset?: 'navbar' | 'header' | 'logo'
+  modeColours?: [string, string]
 }
 
 export function setBestTextColour(bgColor = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)) {
@@ -189,4 +169,56 @@ export function setBestTextColour(bgColor = transparentize(0.3, getThemeColours(
     darkColour: BLACK,
     lightColour: OFF_WHITE
   })
+}
+
+export function setBackgroundWithDPI(
+  theme: DefaultTheme,
+  logoUrlSet: GenericImageSrcSet | SetCssBackgroundParams['imageUrls'],
+  auxOptions: BackgroundWithDPIProps = {}
+) {
+  const imageUrls = logoUrlSet && (Array.isArray(logoUrlSet) ? logoUrlSet : [logoUrlSet, logoUrlSet])
+  const presetOptions = _getPresetOptions(auxOptions, theme.mode)
+  const options = Object.assign({ imageUrls }, presetOptions, auxOptions)
+  return css`
+    ${setCssBackground(theme, options)}
+
+    @media (min-resolution: 2x) {
+      ${setCssBackground(theme, { ...options, dpiLevel: '2x' })}
+    }
+
+    @media (min-resolution: 3x) {
+      ${setCssBackground(theme, { ...options, dpiLevel: '3x' })}}
+    }
+  `
+}
+
+function _getPresetOptions(
+  options: BackgroundWithDPIProps,
+  mode: ThemeModes
+): Partial<SetCssBackgroundParams> | undefined {
+  if (!options?.preset) return {}
+
+  switch (options.preset) {
+    case 'header': {
+      const [lmColour, dmColour] = options.modeColours || [OFF_WHITE, BLACK]
+      return {
+        backgroundColor: mode === ThemeModes.LIGHT ? lmColour : dmColour,
+        backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
+        backgroundBlendMode: 'difference'
+      }
+    }
+    case 'navbar': {
+      const [lmColour, dmColour] = options.modeColours || [BLACK, BLACK]
+      return {
+        backgroundColor: mode === ThemeModes.LIGHT ? lmColour : dmColour,
+        backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
+        backgroundBlendMode: 'difference'
+      }
+    }
+    case 'logo':
+      return {
+        backgroundAttributes: ['center/cover', 'center/cover no-repeat']
+        // rest is default
+      }
+  }
 }

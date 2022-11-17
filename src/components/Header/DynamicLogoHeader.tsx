@@ -25,11 +25,6 @@ export default function DynamicHeaderLogo(props: DynamicHeaderLogoProps) {
     else if (size.width < MEDIA_WIDTHS.upToSmall) {
       return 'PASTELLE'
       // size.width < 960px
-    } else if (size.width < MEDIA_WIDTHS.upToMedium) {
-      return 'PASTELLE APPAREL'
-      // size.width < 1280px
-    } else if (size.width < MEDIA_WIDTHS.upToLarge) {
-      return 'PASTELLE APPAREL'
     } else {
       return 'PASTELLE APPAREL'
     }

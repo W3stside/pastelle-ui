@@ -1,6 +1,8 @@
 import { ThemedCssFunction, DefaultTheme, CSSObject, FlattenSimpleInterpolation, css } from 'styled-components/macro'
 
-export const MEDIA_WIDTHS = {
+export type MediaWidths = 500 | 720 | 960 | 1280 | 1440
+
+export const MEDIA_WIDTHS: { [key in keyof DefaultTheme['mediaWidth']]: MediaWidths } = {
   upToExtraSmall: 500,
   upToSmall: 720,
   upToMedium: 960,

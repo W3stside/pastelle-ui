@@ -6,15 +6,16 @@ import {
   setBgColour,
   fromExtraLarge,
   BLUE,
-  setHeaderBackground,
-  setNavBackground,
   setBestTextColour,
   getThemeColours,
-  BLACK
+  BLACK,
+  setBackgroundWithDPI,
+  OFF_WHITE
 } from '../utils'
 import FontStyles from './fonts'
 import { setFlickerAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
+import { useCurrentProductMedia } from 'state/collection/hooks'
 
 const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
 
@@ -141,6 +142,7 @@ export const TopGlobalStyle = createGlobalStyle`
 `
 
 export const ThemedGlobalStyle = createGlobalStyle<{
+  currentMedia: ReturnType<typeof useCurrentProductMedia>
   animation?: boolean
   animationDelay?: number
 }>`
@@ -189,11 +191,9 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   }
 
   header, footer {
-    ${({ theme }) =>
-      setHeaderBackground(theme, theme.currentMedia?.headerLogo?.defaultUrl, [
-        theme.currentMedia?.color || DEFAULT_BG,
-        BLACK
-      ])}
+    ${({ theme, currentMedia: { headerLogoSet, color = OFF_WHITE } }) =>
+      setBackgroundWithDPI(theme, headerLogoSet, { preset: 'header', modeColours: [color, BLACK] })}
+    
 
     #header-links-container {
       border-radius: 0.5rem;
@@ -207,20 +207,19 @@ export const ThemedGlobalStyle = createGlobalStyle<{
 
   
   nav {
-    ${({ theme }) =>
-      setNavBackground(
-        theme,
-        theme.currentMedia?.navLogo?.defaultUrl,
-        [theme.currentMedia?.color || DEFAULT_BG, BLACK],
-        {
-          skipMediaQueries: true
-        }
-      )}
+    ${({ theme, currentMedia: { navLogoSet, color = DEFAULT_BG } }) =>
+      setBackgroundWithDPI(theme, navLogoSet, {
+        preset: 'navbar',
+        modeColours: [color, BLACK],
+        ignoreQueriesWithFixedWidth: 1440
+      })}
+
     ${({ animation, animationDelay }) =>
       setFlickerAnimation({ state: !!animation, delay: animationDelay, duration: 4, count: 2 })}
   }
 `
 
 export function ThemedGlobalComponent() {
-  return <ThemedGlobalStyle animation />
+  const currentMedia = useCurrentProductMedia()
+  return <ThemedGlobalStyle animation currentMedia={currentMedia} />
 }

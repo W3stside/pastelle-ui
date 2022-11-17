@@ -17,17 +17,16 @@ import {
   fromLarge,
   fromMedium,
   fromSmall,
+  setBackgroundWithDPI,
   setBestTextColour,
-  setCssBackground,
-  setHeaderBackground,
-  setNavBackground,
   upToLarge,
   upToSmall
 } from 'theme/utils'
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
+import { GenericImageSrcSet } from 'components/Carousel'
 
-export const ScrollingProductLabel = styled(Row)<{ logo?: string; labelColor?: string }>`
+export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; labelColor?: string }>`
   position: absolute;
   top: 0;
   width: 100%;
@@ -38,7 +37,11 @@ export const ScrollingProductLabel = styled(Row)<{ logo?: string; labelColor?: s
   font-size: 2rem;
   font-weight: 300;
   text-shadow: 0px 0 0.5rem ${({ labelColor }) => labelColor || BLACK};
-  ${({ theme, logo }) => setHeaderBackground(theme, logo, undefined)}
+  ${({ theme, logo }) =>
+    setBackgroundWithDPI(theme, logo, {
+      preset: 'navbar',
+      backgroundAttributes: ['center/cover no-repeat', '0px -8px / cover no-repeat']
+    })}
 `
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
@@ -106,13 +109,9 @@ export const ItemLogo = styled.div<{
     margin-top: ${$marginTop};  
   `}
 `
-export const ItemLogoCssImport = styled(ItemLogo)<{ position?: string; height?: number; logoUri: string }>`
+export const ItemLogoCssImport = styled(ItemLogo)<{ position?: string; height?: number; logoUri: GenericImageSrcSet }>`
   position: ${({ position = 'fixed' }) => position};
-  ${({ theme, logoUri }) =>
-    setCssBackground(theme, {
-      imageUrls: [logoUri, logoUri],
-      backgroundAttributes: ['center/cover', 'center/cover no-repeat']
-    })}
+  ${({ theme, logoUri }) => setBackgroundWithDPI(theme, logoUri, { preset: 'logo' })}
     
   height: ${({ height = 160 }) => height}px;
 `
@@ -124,13 +123,11 @@ export const ItemLogoCollectionView = styled(ItemLogoCssImport)<{ $bgColor: stri
   right: 0;
   bottom: 0;
   top: 0;
+  
   background-size: contain;
   background-blend-mode: difference;
   background-color: ${({ $bgColor }) => $bgColor};
-  /* animation-name: flickerIn;
-  animation-duration: 4s;
-  animation-iteration-count: 2;
-  animation-delay: 3s; */
+  
   height: auto;
   max-width: 30%;
   z-index: ${Z_INDEXES.ZERO};
@@ -254,8 +251,8 @@ export const ItemContainer = styled(Row)<{
   side?: 'LEFT' | 'RIGHT'
   collectionView?: boolean
   bgColor?: string
-  navLogo?: string
-  logo?: string
+  navLogo?: GenericImageSrcSet
+  logo?: GenericImageSrcSet
 }>`
   width: 100%;
   height: 100%;
@@ -484,9 +481,10 @@ export const ItemContainer = styled(Row)<{
       > ${ItemContentContainer} {
         ${({ theme, bgColor = BLACK, navLogo }) =>
           navLogo
-            ? setNavBackground(theme, navLogo, [bgColor, CHARCOAL_BLACK], {
-                skipMediaQueries: true,
-                backgroundAttributes: ['center / cover no-repeat', '36px / cover repeat']
+            ? setBackgroundWithDPI(theme, navLogo, {
+                ignoreQueriesWithFixedWidth: 960,
+                backgroundAttributes: ['center / cover no-repeat', '36px / cover repeat'],
+                modeColours: [bgColor, CHARCOAL_BLACK]
               })
             : `background: linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%);`}
       }

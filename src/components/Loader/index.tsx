@@ -2,6 +2,11 @@ import { ReactNode } from 'react'
 import { ItemHeader } from 'pages/SingleItem/styleds'
 import styled from 'styled-components/macro'
 import { rotateKeyframe } from 'theme/styles/animations'
+import { setCssBackground } from 'theme/utils'
+import { GenericImageSrcSet } from 'components/Carousel'
+import { ThemeModes } from 'theme/styled'
+import { portugalBg } from 'components/Layout/Article'
+import { ColumnCenter } from 'components/Layout'
 
 export const StyledSVG = styled.svg<{ size: string; stroke?: string }>`
   animation: 2s ${rotateKeyframe} linear infinite;
@@ -20,13 +25,30 @@ type StyleParams = {
   width?: string
 }
 
-const FixedContainer = styled.div<StyleParams>`
+const moddedPtBgUrl = portugalBg + 'q-1,w-10,h-10,'
+const FixedContainer = styled(ColumnCenter).attrs(props => ({ ...props, justifyContent: 'center' }))<StyleParams>`
   position: fixed;
   top: ${({ top = '25%' }) => top};
   bottom: ${({ bottom = '25%' }) => bottom};
   left: ${({ left = '25%' }) => left};
   right: ${({ right = '25%' }) => right};
   width: ${({ width = 'auto' }) => width};
+
+  ${({ theme }) =>
+    setCssBackground(theme, {
+      imageUrls: [
+        { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
+        { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
+        { defaultUrl: moddedPtBgUrl + 'w-1,h-1' } as GenericImageSrcSet
+      ],
+      backgroundAttributes: ['center/contain repeat', '-1px -1px/contain repeat'],
+      backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'color-burn' : 'difference'
+    })}
+
+  > * {
+    width: 60%;
+    margin: auto;
+  }
 `
 
 export const FixedAnimatedLoader = ({

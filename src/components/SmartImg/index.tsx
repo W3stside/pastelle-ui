@@ -1,13 +1,15 @@
-import { forwardRef, useMemo } from 'react'
+import { forwardRef, Fragment, useMemo } from 'react'
 import { IKImage, IKContext } from 'imagekitio-react'
 import useDetectScrollIntoView, { LoadInView } from 'hooks/useDetectScrollIntoView'
 import useEffectRef from 'hooks/useEffectRef'
 import styled from 'styled-components/macro'
+import { DDPXImageUrlMap } from 'components/Carousel'
+import { MediaWidths } from 'theme/styles/mediaQueries'
 
 export type ImageKitTransformation = { [x: string]: undefined | number | string | boolean }[]
 
 interface BaseImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  pathSrcSet?: { [sizekey: string | number]: string }
+  pathSrcSet?: { [sizekey in MediaWidths]: DDPXImageUrlMap }
   lq?: boolean
   lazy?: boolean
   forwardedRef?: React.ForwardedRef<any>
@@ -69,7 +71,7 @@ export function ApiImage({
   lq = true,
   forwardedRef,
   ...rest
-}: SmartImageProps & { path: any }): JSX.Element | null {
+}: SmartImageProps): JSX.Element | null {
   // load if in view only!
   const [refToSet, ref] = useEffectRef<HTMLSpanElement>(null)
   const isInView = useDetectScrollIntoView(
@@ -110,16 +112,18 @@ export function ApiImage({
     <>
       {/* Observable span to detect if in view */}
       <span ref={refToSet} />
-      {
-        <StyledPicture>
-          {/* e.g [500, "shopify.com/thing_500.px"] // [1280, "shopify.com/thing_1280.px"] */}
-          {pathSrcSet &&
-            Object.entries(pathSrcSet).map(([size, url]) => (
-              <source key={url} media={`(max-width: ${size}px)`} srcSet={url} />
-            ))}
-          <img src={!isInView ? undefined : path?.defaultPath} loading="lazy" ref={forwardedRef} {...rest} />
-        </StyledPicture>
-      }
+      <StyledPicture>
+        {/* e.g [500, { 1x: 'cdn.shopify.com/123/image_500x@1x.webp', 2x: 'cdn.shopify.com/123/image_500x@2x.webp' }] */}
+        {pathSrcSet &&
+          Object.entries(pathSrcSet).map(([size, dpiMap]) => (
+            <Fragment key={size}>
+              <source media={`only screen and (min-resolution: 3x) and (max-width: ${size}px)`} srcSet={dpiMap['3x']} />
+              <source media={`only screen and (min-resolution: 2x) and (max-width: ${size}px)`} srcSet={dpiMap['2x']} />
+              <source media={`only screen and (max-width: ${size}px)`} srcSet={dpiMap['1x']} />
+            </Fragment>
+          ))}
+        <img src={!isInView ? undefined : path?.defaultPath} loading="lazy" ref={forwardedRef} {...rest} />
+      </StyledPicture>
     </>
   ) : null
 }

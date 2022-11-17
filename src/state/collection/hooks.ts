@@ -60,9 +60,9 @@ export function useCurrentProductMedia() {
     () => ({
       bgColor: currentItem?.bgColor,
       color: currentItem?.color,
-      headerLogo: currentItem?.headerLogo,
-      logo: currentItem?.logo,
-      navLogo: currentItem?.navLogo
+      headerLogoSet: currentItem?.headerLogo,
+      logoSet: currentItem?.logo,
+      navLogoSet: currentItem?.navLogo
     }),
     [currentItem]
   )

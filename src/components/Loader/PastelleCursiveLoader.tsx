@@ -1,11 +1,11 @@
 import styled from 'styled-components/macro'
-import { strokeWidth } from 'theme/styles/animations'
+import { setAnimation, strokeWidth } from 'theme/styles/animations'
 
 const SvgWrapper = styled.svg`
   path {
-    stroke: #2c2f36;
-    strokewidth: 10.8;
-    animation: 4s ${strokeWidth} ease-in-out infinite;
+    stroke: #ffffff14;
+    stroke-width: 0;
+    ${setAnimation(strokeWidth, { state: true, name: 'strokeWidth', delay: 0, duration: 6, count: 'infinite' })}
   }
 `
 

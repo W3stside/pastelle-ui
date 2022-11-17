@@ -5,7 +5,8 @@ import ThemeProvider from 'theme'
 import { darken, transparentize } from 'polished'
 import { THEME_LIST, ThemeModes } from 'theme/styled'
 import { BoxProps } from 'rebass'
-import { setCssBackground } from 'theme/utils'
+import { setBackgroundWithDPI } from 'theme/utils'
+import { GenericImageSrcSet } from 'components/Carousel'
 
 export type Writable<T> = {
   -readonly [K in keyof T]: T[K]
@@ -266,7 +267,7 @@ type ButtonStyleProps = BoxProps & {
   filter?: string
 }
 
-export type ButtonProps = ButtonBaseProps & ButtonStyleProps & { bgImage?: string }
+export type ButtonProps = ButtonBaseProps & ButtonStyleProps & { bgImage?: GenericImageSrcSet }
 
 const ButtonBase = styled.button.attrs(props => props)<ButtonStyleProps>`
   border: none;
@@ -324,10 +325,10 @@ export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps & ButtonStyl
     backgroundColor = transparentize(0.3, theme.bg1)
   }) =>
     bgImage &&
-    setCssBackground(theme, {
-      imageUrls: [bgImage, bgImage],
+    setBackgroundWithDPI(theme, bgImage, {
       backgroundColor,
       backgroundAttributes: bgAttributes,
-      backgroundBlendMode: bgBlendMode
+      backgroundBlendMode: bgBlendMode,
+      ignoreQueriesWithFixedWidth: 720
     })}
 `

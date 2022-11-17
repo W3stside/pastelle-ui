@@ -6,11 +6,12 @@ import { BSV, ButtonProps, BV } from '../Button'
 import { useThemeManager } from 'state/user/hooks'
 import pstlLogo from 'assets/svg/pastelle-circle-pink-yellow.svg'
 import { Row } from 'components/Layout'
+import { GenericImageSrcSet } from 'components/Carousel'
 
 export const getBaseButtonProps = (isDarkMode: boolean, toggleDarkMode: () => void): ButtonProps => ({
   size: BSV.DEFAULT,
   variant: BV.DARK_MODE_TOGGLE,
-  bgImage: pstlLogo,
+  bgImage: { defaultUrl: pstlLogo } as GenericImageSrcSet,
   backgroundColor: isDarkMode ? 'darkslategrey' : 'blue',
   filter: 'invert(' + isDarkMode ? '1' : '0' + ') contrast(2) saturate(2)',
   bgBlendMode: 'lighten',
