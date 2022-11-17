@@ -640,7 +640,8 @@ export const VideoPlayCTAOverlay = styled(Row).attrs(props => ({
 }>`
   position: absolute;
   cursor: pointer;
-  background: ${({ bgColor }) => `radial-gradient(76.02% 105.41% at 31.84% 0%,${bgColor} 0%,#000000 100%)`};
+  background: ${({ theme, bgColor }) =>
+    `radial-gradient(76.02% 105.41% at 31.84% 0%,${bgColor} 0%,${theme.blackOpaque1} 100%)`};
   ${({ $width }) => $width && `width: ${$width};`}
   ${({ $height }) => $height && `height: ${$height};`}
   z-index: ${Z_INDEXES.PRODUCT_VIDEOS};

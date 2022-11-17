@@ -1,5 +1,8 @@
-import SmartImg, { SmartImageProps } from 'components/SmartImg'
+import { FixedColumn } from 'components/Layout'
+import { AnimatedPastelleLoader } from 'components/Loader'
+import SmartImg, { PlaceholderPicture, SmartImageProps } from 'components/SmartImg'
 import { LoadInView } from 'hooks/useDetectScrollIntoView'
+import useImageLoadingEvent from 'hooks/useImageLoadingEvent'
 import useStateRef from 'hooks/useStateRef'
 import { useState, useMemo, /* useRef, */ useEffect, forwardRef, ForwardedRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
@@ -66,7 +69,7 @@ function CarouselStepWithoutRef(props: CarouselStepsProps) {
       $transformAmount={transformAmount}
       $width={parentWidth}
     >
-      <SmartImg {...imageProps} />
+      <SmartImg {...imageProps} ref={imageProps.forwardedRef} />
       {showCarouselContentIndicators && isMultipleCarousel && (
         <CarouselButtonContainer onClick={onImageClick}>
           <CarouselButton onClick={onPrev} buttonColor={buttonColor}>
@@ -110,6 +113,13 @@ export default function Carousel({
 
   // ref to carousel container
   const [carouselContainer, setCarouselContainerRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+  // ref to images inside carousel e.g to track loading state
+  const [innerImagesRef, setInnerImagesRef] = useStateRef<HTMLImageElement | null>(
+    null,
+    (node: HTMLImageElement | null) => node
+  )
+  const imageLoaded = useImageLoadingEvent(innerImagesRef)
+
   // set carouselContainer states and focus carousel
   useEffect(() => {
     setParentWidth(carouselContainer?.parentElement?.offsetWidth)
@@ -123,16 +133,6 @@ export default function Carousel({
   useEffect(() => {
     setParentWidth(carouselContainer?.parentElement?.offsetWidth)
   }, [carouselContainer?.parentElement?.offsetWidth, sizes])
-  /* useEffect(() => {
-    function handleResizeParentWidth() {
-      setParentWidth(carouselContainer?.parentElement?.offsetWidth)
-    }
-    window.addEventListener('resize', handleResizeParentWidth)
-
-    return () => {
-      window.removeEventListener('resize', handleResizeParentWidth)
-    }
-  }, [parentWidth, carouselContainer?.parentElement?.offsetWidth]) */
 
   const smartImageTransformation = useMemo(
     () => [
@@ -150,6 +150,15 @@ export default function Carousel({
       ref={setCarouselContainerRef}
       fixedHeight={fixedHeight || parentWidth + 'px'}
     >
+      {/* LOADING COMPONENTS */}
+      {!imageLoaded && (
+        <PlaceholderPicture>
+          <AnimatedPastelleLoader />
+          <FixedColumn justifyContent="center" alignItems="center">
+            <div>LOADING CONTENT...</div>
+          </FixedColumn>
+        </PlaceholderPicture>
+      )}
       {/* CAROUSEL CONTENT */}
       {imageList.map(({ defaultUrl, ...urlRest }, index) => {
         if (!parentWidth) return null
@@ -204,7 +213,8 @@ export default function Carousel({
               path: { defaultPath: defaultUrl },
               pathSrcSet: fullSizeContent ? undefined : urlRest,
               transformation: transformation || smartImageTransformation,
-              loadInView: loadInViewOptions
+              loadInView: loadInViewOptions,
+              forwardedRef: setInnerImagesRef
             }}
           />
         )

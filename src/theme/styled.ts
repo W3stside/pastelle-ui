@@ -1,5 +1,3 @@
-import { useCurrentProductMedia } from 'state/collection/hooks'
-
 export type Color = string
 export interface Colors {
   // base
@@ -113,9 +111,6 @@ declare module 'styled-components' {
 
     // shadows
     shadow1: string
-
-    // current media
-    currentMedia?: ReturnType<typeof useCurrentProductMedia>
 
     // media queries
     mediaWidth: {

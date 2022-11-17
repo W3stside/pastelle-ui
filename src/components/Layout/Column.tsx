@@ -20,3 +20,11 @@ export const AutoColumn = styled(Column)<{
   grid-row-gap: ${({ gap }) => (gap === 'sm' && '8px') || (gap === 'md' && '12px') || (gap === 'lg' && '24px') || gap};
   ${({ justify }) => justify && `justify-items: ${justify};`}
 `
+
+export const FixedColumn = styled(AutoColumn)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+`

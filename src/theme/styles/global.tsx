@@ -187,7 +187,7 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   }
 
   header, nav, footer {
-    background: ${({ theme }) => theme.currentMedia?.color || DEFAULT_BG};
+    background: ${({ currentMedia: { color = DEFAULT_BG } }) => color || DEFAULT_BG};
   }
 
   header, footer {
@@ -197,10 +197,9 @@ export const ThemedGlobalStyle = createGlobalStyle<{
 
     #header-links-container {
       border-radius: 0.5rem;
-      background-color: ${({ theme }) =>
-        theme.currentMedia?.color ? darken(0.03, theme.currentMedia?.color) : DEFAULT_BG};
+      background-color: ${({ currentMedia: { color } }) => (color ? darken(0.03, color) : DEFAULT_BG)};
         > a {
-          color: ${({ theme }) => setBestTextColour(theme.currentMedia?.color || DEFAULT_BG)};
+          color: ${({ currentMedia: { color = DEFAULT_BG } }) => setBestTextColour(color)};
         }
     }
   }

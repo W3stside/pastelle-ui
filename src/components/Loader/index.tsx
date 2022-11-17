@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { ItemHeader } from 'pages/SingleItem/styleds'
+import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import styled from 'styled-components/macro'
 import { rotateKeyframe } from 'theme/styles/animations'
 import { setCssBackground } from 'theme/utils'
@@ -7,6 +7,7 @@ import { GenericImageSrcSet } from 'components/Carousel'
 import { ThemeModes } from 'theme/styled'
 import { portugalBg } from 'components/Layout/Article'
 import { ColumnCenter } from 'components/Layout'
+import PastelleCursiveLoader from './PastelleCursiveLoader'
 
 export const StyledSVG = styled.svg<{ size: string; stroke?: string }>`
   animation: 2s ${rotateKeyframe} linear infinite;
@@ -26,14 +27,11 @@ type StyleParams = {
 }
 
 const moddedPtBgUrl = portugalBg + 'q-1,w-10,h-10,'
-const FixedContainer = styled(ColumnCenter).attrs(props => ({ ...props, justifyContent: 'center' }))<StyleParams>`
-  position: fixed;
-  top: ${({ top = '25%' }) => top};
-  bottom: ${({ bottom = '25%' }) => bottom};
-  left: ${({ left = '25%' }) => left};
-  right: ${({ right = '25%' }) => right};
-  width: ${({ width = 'auto' }) => width};
-
+export const AnimatedContainer = styled(ColumnCenter).attrs(props => ({
+  ...props,
+  height: '100%',
+  justifyContent: 'center'
+}))`
   ${({ theme }) =>
     setCssBackground(theme, {
       imageUrls: [
@@ -42,7 +40,8 @@ const FixedContainer = styled(ColumnCenter).attrs(props => ({ ...props, justifyC
         { defaultUrl: moddedPtBgUrl + 'w-1,h-1' } as GenericImageSrcSet
       ],
       backgroundAttributes: ['center/contain repeat', '-1px -1px/contain repeat'],
-      backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'color-burn' : 'difference'
+      backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'color-burn' : 'hard-light',
+      backgroundColor: theme.mode === ThemeModes.DARK ? '#0000001f' : '#000'
     })}
 
   > * {
@@ -50,19 +49,51 @@ const FixedContainer = styled(ColumnCenter).attrs(props => ({ ...props, justifyC
     margin: auto;
   }
 `
+const FixedContainer = styled(AnimatedContainer)<StyleParams>`
+  position: fixed;
+  top: ${({ top = '25%' }) => top};
+  bottom: ${({ bottom = '25%' }) => bottom};
+  left: ${({ left = '25%' }) => left};
+  right: ${({ right = '25%' }) => right};
+  width: ${({ width = 'auto' }) => width};
+`
+
+interface LoadingParams {
+  loadingLabel?: string
+  loadingComponent: ReactNode
+}
 
 export const FixedAnimatedLoader = ({
-  loadText,
-  animation = true,
-  animationDelay = false,
+  loadingComponent,
+  loadingLabel,
   ...styleParams
-}: { loadText: ReactNode; animation?: boolean; animationDelay?: boolean } & StyleParams) => (
+}: LoadingParams & StyleParams) => (
   <FixedContainer {...styleParams}>
-    <ItemHeader itemColor="#FFBEBC" animation={animation} animationDelay={animationDelay}>
-      {loadText}
-    </ItemHeader>
+    <ItemSubHeader>
+      {loadingComponent}
+      <strong>{loadingLabel}</strong>
+    </ItemSubHeader>
   </FixedContainer>
 )
+
+const topLevelLoaderProps = {
+  top: '0',
+  left: '0',
+  right: '0',
+  bottom: '0'
+}
+export const FallbackLoader = () => (
+  <FixedAnimatedLoader loadingComponent={<PastelleCursiveLoader />} {...topLevelLoaderProps} />
+)
+
+export const AnimatedLoader = ({ loadingComponent, loadingLabel }: LoadingParams) => (
+  <AnimatedContainer>
+    {loadingComponent}
+    {loadingLabel && <strong>{loadingLabel}</strong>}
+  </AnimatedContainer>
+)
+
+export const AnimatedPastelleLoader = () => <AnimatedLoader loadingComponent={<PastelleCursiveLoader />} />
 
 /**
  * Takes in custom size and stroke for circle color, default to primary color as fill,

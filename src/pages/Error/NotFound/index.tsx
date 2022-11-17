@@ -5,6 +5,7 @@ import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
 import SmartImg from 'components/SmartImg'
 import { Z_INDEXES } from 'constants/config'
 import { transparentize } from 'polished'
+import { FallbackLoader } from 'components/Loader'
 
 const pastelle404IMG = 'https://ik.imagekit.io/pastelle/artists-mathieu_sgnA_QA83.jpeg'
 
@@ -53,7 +54,11 @@ export default function NotFound() {
         <ItemHeader itemColor="#000" animation={false} letterSpacing={-5}>
           PAGE NOT FOUND!
         </ItemHeader>
-        <SmartImg path={{ ikPath: pastelle404IMG }} transformation={[{ pr: true }]} />
+        <SmartImg
+          loadingComponent={<FallbackLoader />}
+          path={{ ikPath: pastelle404IMG }}
+          transformation={[{ pr: true }]}
+        />
         <ItemHeader itemColor="#000" animation={false} letterSpacing={0} fontSize={'2.2rem'}>
           The page you are looking for does not exist{' '}
           <span style={{ fontSize: '3rem', fontStyle: 'normal' }}>ʕ ͡° ʖ̯ ͡°ʔ</span>

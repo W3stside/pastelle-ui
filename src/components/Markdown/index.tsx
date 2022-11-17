@@ -25,7 +25,7 @@ const MarkdownContent = (props: ReactMarkdownProps & { children: string }) => (
 export function MarkdownRenderer({ filePath }: MarkdownParams) {
   const { error, loading, file } = useFetchFile(filePath)
 
-  if (loading) return <FixedAnimatedLoader loadText="PASTL" />
+  if (loading) return <FixedAnimatedLoader loadingComponent="PSTL" />
 
   return (
     <>
