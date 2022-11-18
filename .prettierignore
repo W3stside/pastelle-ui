@@ -5,7 +5,6 @@ build
 src/**/*.d.ts
 src/abis
 src/**/*.md
-# src/shopify/graphql/types/_generated_.ts
 
 # public
 public/index.html

@@ -3,9 +3,15 @@ import Button from 'components/Button'
 import { MobileNavProps } from '.'
 import { Z_INDEXES } from 'constants/config'
 import { Column } from 'components/Layout'
-import { setBestTextColour } from 'theme/utils'
+import { BLACK, setBackgroundWithDPI, setBestTextColour } from 'theme/utils'
+import { setFlickerAnimation } from 'theme/styles/animations'
 
-export const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: string; minWidth?: string }>`
+export const NavigationStepsWrapper = styled.nav<{
+  isOpen?: boolean
+  width?: string
+  minWidth?: string
+  currentMedia: { navLogoSet?: any; color?: string }
+}>`
   width: ${({ width = 'auto' }) => width};
   ${({ minWidth }) => minWidth && `min-width: ${minWidth};`}
   display: flex;
@@ -25,6 +31,15 @@ export const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: str
 
   z-index: ${Z_INDEXES.NAV_MENU};
 
+  ${({ theme, currentMedia: { navLogoSet, color = theme.bg1 } }) =>
+    setBackgroundWithDPI(theme, navLogoSet, {
+      preset: 'navbar',
+      modeColours: [color, BLACK],
+      ignoreQueriesWithFixedWidth: 1440
+    })}
+
+  ${setFlickerAnimation({ state: true, duration: 4, count: 2 })}
+
   ${({ theme, isOpen }) => theme.mediaWidth.upToMedium`
     display: ${isOpen ? 'flex' : 'none'};
     position: fixed;
@@ -41,7 +56,6 @@ export const NavigationStepsWrapper = styled.nav<{ isOpen?: boolean; width?: str
     
     width: ${isOpen ? '100%' : '0px'};
     opacity: ${isOpen ? '1' : '0'};
-
   `}
 `
 

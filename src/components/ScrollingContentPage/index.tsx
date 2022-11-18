@@ -97,7 +97,12 @@ export function ScrollingContentPage<D>({
 
   return (
     <>
-      <FixedAnimatedLoader loadingComponent={<img src={PastelleIvoryOutlined} />} left="50%" width="40vw" />
+      <FixedAnimatedLoader
+        showBg={false}
+        loadingComponent={<img src={PastelleIvoryOutlined} />}
+        left="50%"
+        width="40vw"
+      />
       {/* mobile only scrolling ref, using collection-article doesn't work on mobile */}
       {isMobile && <Scroller ref={setScrollingZoneRef} onClick={handleItemSelect} />}
       <ScrollerContainer>

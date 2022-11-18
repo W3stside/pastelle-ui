@@ -130,7 +130,7 @@
     "start:mock": "REACT_APP_IS_MOCK=true && yarn start",
     "start": "PORT=8080 GENERATE_SOURCEMAP=false craco start",
     "build": "craco build",
-    "build:serve": "craco build && npx serve dist",
+    "build:serve": "DISABLE_ESLINT_PLUGIN='true' craco build && npx serve build",
     "test": "craco test --env=jsdom",
     "test:debug": "craco --inspect-brk test --runInBand --no-cache",
     "contracts:compile:abi": "typechain --target ethers-v5 --out-dir src/blockchain/abis/types './src/blockchain/abis/**/*.json'",

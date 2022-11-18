@@ -1,5 +1,4 @@
 import { FixedColumn } from 'components/Layout'
-import { AnimatedPastelleLoader } from 'components/Loader'
 import SmartImg, { PlaceholderPicture, SmartImageProps } from 'components/SmartImg'
 import { LoadInView } from 'hooks/useDetectScrollIntoView'
 import useImageLoadingEvent from 'hooks/useImageLoadingEvent'
@@ -153,7 +152,6 @@ export default function Carousel({
       {/* LOADING COMPONENTS */}
       {!imageLoaded && (
         <PlaceholderPicture>
-          <AnimatedPastelleLoader />
           <FixedColumn justifyContent="center" alignItems="center">
             <div>LOADING CONTENT...</div>
           </FixedColumn>

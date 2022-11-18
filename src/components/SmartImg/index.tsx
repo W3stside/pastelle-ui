@@ -46,12 +46,12 @@ export const PlaceholderPicture = styled(StyledPicture)<{ bgColor?: string }>`
   width: 100%;
   font-size: 300%;
   font-weight: 100;
-  background-color: ${({ theme, bgColor = theme.blackOpaque2 }) => bgColor};
-  filter: brightness(0.7) contrast(1.2);
-  opacity: 0.85;
+  background-color: ${({ theme, bgColor = theme.blackOpaque1 }) => bgColor};
+  filter: brightness(0.7);
+  opacity: 0.98;
 
   > div {
-    color: ${({ theme }) => (theme.mode === ThemeModes.DARK ? theme.offWhite : theme.black)};
+    color: ${({ theme }) => (theme.mode === ThemeModes.DARK ? theme.offWhite : theme.offWhite)};
     font-weight: 100;
     font-size: 150%;
     letter-spacing: -1px;

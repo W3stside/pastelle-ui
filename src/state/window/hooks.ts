@@ -16,3 +16,9 @@ export const useIsMobileWindowWidthSize = () => {
 
   return Boolean(sizes?.width && sizes.width <= MEDIA_WIDTHS.upToSmall)
 }
+
+export const useIsMediumWindowWidthSize = () => {
+  const sizes = useGetWindowSize()
+
+  return Boolean(sizes?.width && sizes.width <= MEDIA_WIDTHS.upToMedium)
+}

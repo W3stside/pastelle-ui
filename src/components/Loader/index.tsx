@@ -4,7 +4,6 @@ import styled from 'styled-components/macro'
 import { rotateKeyframe } from 'theme/styles/animations'
 import { setCssBackground } from 'theme/utils'
 import { GenericImageSrcSet } from 'components/Carousel'
-import { ThemeModes } from 'theme/styled'
 import { portugalBg } from 'components/Layout/Article'
 import { ColumnCenter } from 'components/Layout'
 import PastelleCursiveLoader from './PastelleCursiveLoader'
@@ -24,6 +23,7 @@ type StyleParams = {
   bottom?: string
   left?: string
   width?: string
+  showBg?: boolean
 }
 
 const moddedPtBgUrl = portugalBg + 'q-1,w-10,h-10,'
@@ -31,8 +31,9 @@ export const AnimatedContainer = styled(ColumnCenter).attrs(props => ({
   ...props,
   height: '100%',
   justifyContent: 'center'
-}))`
-  ${({ theme }) =>
+}))<{ showBg?: boolean }>`
+  ${({ theme, showBg = true }) =>
+    showBg &&
     setCssBackground(theme, {
       imageUrls: [
         { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
@@ -40,9 +41,12 @@ export const AnimatedContainer = styled(ColumnCenter).attrs(props => ({
         { defaultUrl: moddedPtBgUrl + 'w-1,h-1' } as GenericImageSrcSet
       ],
       backgroundAttributes: ['center/contain repeat', '-1px -1px/contain repeat'],
-      backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'color-burn' : 'hard-light',
-      backgroundColor: theme.mode === ThemeModes.DARK ? '#0000001f' : '#000'
+      backgroundBlendMode: 'color-burn',
+      backgroundColor: '#e6e6e61c', // '#0000001f',
+      skipIk: true
     })}
+
+  filter: contrast(2.5);
 
   > * {
     width: 60%;
@@ -56,6 +60,14 @@ const FixedContainer = styled(AnimatedContainer)<StyleParams>`
   left: ${({ left = '25%' }) => left};
   right: ${({ right = '25%' }) => right};
   width: ${({ width = 'auto' }) => width};
+
+  ${({ showBg = true }) => !showBg && `background: unset;`}
+
+  z-index: 0;
+
+  > * {
+    z-index: 1;
+  }
 `
 
 interface LoadingParams {

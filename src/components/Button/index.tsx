@@ -329,6 +329,7 @@ export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps & ButtonStyl
       backgroundColor,
       backgroundAttributes: bgAttributes,
       backgroundBlendMode: bgBlendMode,
-      ignoreQueriesWithFixedWidth: 720
+      ignoreQueriesWithFixedWidth: 500,
+      skipIk: true
     })}
 `

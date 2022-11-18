@@ -9,11 +9,9 @@ import {
   setBestTextColour,
   getThemeColours,
   BLACK,
-  setBackgroundWithDPI,
-  OFF_WHITE
+  setBackgroundWithDPI
 } from '../utils'
 import FontStyles from './fonts'
-import { setFlickerAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
 import { useCurrentProductMedia } from 'state/collection/hooks'
 
@@ -143,8 +141,6 @@ export const TopGlobalStyle = createGlobalStyle`
 
 export const ThemedGlobalStyle = createGlobalStyle<{
   currentMedia: ReturnType<typeof useCurrentProductMedia>
-  animation?: boolean
-  animationDelay?: number
 }>`
   * {
     &::-webkit-scrollbar-thumb {
@@ -191,10 +187,12 @@ export const ThemedGlobalStyle = createGlobalStyle<{
   }
 
   header, footer {
-    ${({ theme, currentMedia: { headerLogoSet, color = OFF_WHITE } }) =>
-      setBackgroundWithDPI(theme, headerLogoSet, { preset: 'header', modeColours: [color, BLACK] })}
+    ${({ theme, currentMedia: { headerLogoSet, color = theme.offWhite } }) =>
+      setBackgroundWithDPI(theme, headerLogoSet, {
+        preset: 'header',
+        modeColours: [color, BLACK]
+      })} 
     
-
     #header-links-container {
       border-radius: 0.5rem;
       background-color: ${({ currentMedia: { color } }) => (color ? darken(0.03, color) : DEFAULT_BG)};
@@ -203,22 +201,29 @@ export const ThemedGlobalStyle = createGlobalStyle<{
         }
     }
   }
-
-  
-  nav {
-    ${({ theme, currentMedia: { navLogoSet, color = DEFAULT_BG } }) =>
-      setBackgroundWithDPI(theme, navLogoSet, {
-        preset: 'navbar',
-        modeColours: [color, BLACK],
-        ignoreQueriesWithFixedWidth: 1440
-      })}
-
-    ${({ animation, animationDelay }) =>
-      setFlickerAnimation({ state: !!animation, delay: animationDelay, duration: 4, count: 2 })}
-  }
 `
 
 export function ThemedGlobalComponent() {
   const currentMedia = useCurrentProductMedia()
-  return <ThemedGlobalStyle animation currentMedia={currentMedia} />
+  return <ThemedGlobalStyle currentMedia={currentMedia} />
 }
+
+// OLD FN CODE
+/* 
+${({ theme, currentMedia: { headerLogoSet, color = OFF_WHITE } }) => 
+  setBackgroundWithDPI(theme, headerLogoSet, { 
+    preset: 'header', 
+    modeColours: [color, BLACK] 
+  })} 
+*/
+
+/*
+  background: ${({ currentMedia: { headerLogoSet } }) => `
+    url(${headerLogoSet?.[500]['1x']}) center / cover no-repeat,
+    url(${headerLogoSet?.[1440]['3x']}) center / cover no-repeat,
+    url(${headerLogoSet?.[1440]['3x']}) 0px 0px / cover no-repeat
+  `};
+  background-color: ${({ theme: { mode, offWhite }, currentMedia: { color = offWhite } }) =>
+    mode === ThemeModes.DARK ? BLACK : color};
+  background-blend-mode: difference;
+*/

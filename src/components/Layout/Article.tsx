@@ -9,7 +9,7 @@ export const portugalBg = `${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}/portug
 export const ArticleFadeInContainer = styled.article`
   position: relative;
   overflow: hidden;
-  touch-actions: none;
+  touch-action: none;
 
   ${upToExtraSmall`
     padding-bottom: 4rem;
@@ -23,7 +23,8 @@ export const ArticleFadeInContainer = styled.article`
         { defaultUrl: portugalBg + 'q-20,w-10,h-10' } as GenericImageSrcSet
       ],
       backgroundAttributes: ['center/contain no-repeat', '-1px -1px/contain repeat', 'center/cover no-repeat'],
-      backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'difference' : 'unset'
+      backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'difference' : 'unset',
+      skipIk: true
     })}}
   
   // required for fade in animation

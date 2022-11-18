@@ -29,10 +29,13 @@ import { NETWORK_LABELS } from 'blockchain/constants'
 
 import { checkIsCollectionPage } from 'utils/navigation'
 import { isWeb3Enabled } from 'blockchain/connectors'
+import { useIsMediumWindowWidthSize } from 'state/window/hooks'
 
 export default function Header() {
   const location = useLocation()
   const isEnabled = useMemo(() => isWeb3Enabled(), [])
+
+  const isMediumOrBelow = useIsMediumWindowWidthSize()
 
   return (
     <HeaderFrame as="header">
@@ -53,7 +56,7 @@ export default function Header() {
         <StyledThemeToggleBar themeToggleProps={{ width: '90%' }} />
         {/* SHOPPING CART */}
         <ShoppingCartHeader />
-        <Navigation navOrbProps={{ bgColor: 'transparent', menuSize: 30 }} />
+        {isMediumOrBelow && <Navigation navOrbProps={{ bgColor: 'transparent', menuSize: 30 }} />}
       </HeaderRow>
     </HeaderFrame>
   )

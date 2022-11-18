@@ -239,7 +239,9 @@ export const ItemContentContainer = styled(Column)`
 // w/carousel
 export const InnerContainer = styled(Column)<{ bgColor?: string }>``
 // w.o carousel (collection)
-export const InnerCollectionContainer = styled(Column)<{ bgColor?: string }>``
+export const InnerCollectionContainer = styled(Column)<{ bgColor?: string }>`
+  height: 100%;
+`
 
 export const ItemAsidePanel = styled(Column)`
   display: flex;
@@ -484,6 +486,7 @@ export const ItemContainer = styled(Row)<{
             ? setBackgroundWithDPI(theme, navLogo, {
                 ignoreQueriesWithFixedWidth: 960,
                 backgroundAttributes: ['center / cover no-repeat', '36px / cover repeat'],
+                backgroundBlendMode: 'difference',
                 modeColours: [bgColor, CHARCOAL_BLACK]
               })
             : `background: linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%);`}

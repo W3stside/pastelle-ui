@@ -14,11 +14,14 @@ import { useQuery } from '@apollo/client'
 import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
 import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
+import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 export default function App() {
   const { loading } = useQuery(QUERY_PRODUCT, {
     variables: { amount: PRODUCT_AMOUNT, imageAmt: PRODUCT_IMAGES_AMOUNT, videoAmt: PRODUCT_VIDEOS_AMOUNT }
   })
+
+  const isMobileWidthOrBelow = useIsMobileWindowWidthSize()
 
   if (loading) return <FallbackLoader />
 
@@ -29,7 +32,7 @@ export default function App() {
       {/* HEADER */}
       <Header />
       {/* SIDE-NAV */}
-      <Navigation mobileHide />
+      {!isMobileWidthOrBelow && <Navigation mobileHide />}
 
       {/* ARTICLE CONTENT */}
       <Routes>

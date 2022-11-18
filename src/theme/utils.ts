@@ -5,7 +5,7 @@ import { Colors, ThemeModes } from './styled'
 import { MediaWidths, MEDIA_WIDTHS } from './styles/mediaQueries'
 import { hex } from 'wcag-contrast'
 import { transparentize } from 'polished'
-import { GenericImageSrcSet } from 'components/Carousel'
+import { DDPXImageUrlMap, GenericImageSrcSet } from 'components/Carousel'
 
 export function getThemeColours(mode: ThemeModes): Colors {
   return THEME_COLOURS(mode)
@@ -68,14 +68,6 @@ export const betweenLargeAndExtraLarge = whenMediaBetween('betweenLargeAndExtraL
 // big to small
 // e.g { width: 500, ar: "3:2" }
 const IMG_SET_SIZE_ENTRIES = Object.entries(MEDIA_WIDTHS).reverse()
-type SetCssBackgroundParams = {
-  imageUrls?: GenericImageSrcSet[]
-  backgroundAttributes?: string[]
-  backgroundBlendMode?: string
-  backgroundColor?: string
-  ignoreQueriesWithFixedWidth?: MediaWidths
-  dpiLevel?: '3x' | '2x' | '1x'
-}
 type UpToSizeKey = keyof typeof MEDIA_WIDTHS
 
 type CheckHexColourContrastParams = { bgColour: string; fgColour: string }
@@ -98,7 +90,10 @@ export function setBestContrastingColour({ bgColour, fgColour, lightColour, dark
 
   return contrastLevel < CONTRAST_THRESHOLD ? lightColour : darkColour
 }
-
+function _getLqIkUrl(urlAtWidth: DDPXImageUrlMap | undefined, { dpi }: { dpi: keyof DDPXImageUrlMap } = { dpi: '2x' }) {
+  const urlObj = (urlAtWidth && urlAtWidth?.[dpi] && new URL(urlAtWidth[dpi] || '')) || undefined
+  return (process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT || '') + urlObj?.pathname + '?tr=pr-true,q-30'
+}
 /**
  *
  * @param theme
@@ -112,6 +107,15 @@ export function setBestContrastingColour({ bgColour, fgColour, lightColour, dark
 } 
  * @returns
  */
+type SetCssBackgroundParams = {
+  imageUrls?: GenericImageSrcSet[]
+  backgroundAttributes?: string[]
+  backgroundBlendMode?: string
+  backgroundColor?: string
+  ignoreQueriesWithFixedWidth?: MediaWidths
+  dpiLevel?: '3x' | '2x' | '1x'
+  skipIk?: boolean
+}
 export const setCssBackground = (
   theme: DefaultTheme,
   {
@@ -120,17 +124,22 @@ export const setCssBackground = (
     backgroundAttributes = ['cover no-repeat', 'cover no-repeat'],
     backgroundBlendMode = 'unset',
     ignoreQueriesWithFixedWidth = undefined,
-    dpiLevel = '1x'
+    dpiLevel = '1x',
+    skipIk = false
   }: SetCssBackgroundParams
 ) => {
   const getBackground = (width?: MediaWidths) => {
     return imageUrls
       ? imageUrls.map((urlSet, i, { length }) => {
-          const isLast = i === length - 1
-          const urlAtWidth = width && urlSet[width]?.[dpiLevel]
+          const [isFirst, isLast] = [!i, i === length - 1]
+
+          const urlAtWidth = width && urlSet[width]
+          const urlAtDpi = urlAtWidth?.[dpiLevel]
+
+          const lqUrl = !skipIk && isFirst && _getLqIkUrl(urlAtWidth)
 
           const urlBuilt = `
-            url(${urlAtWidth ? urlAtWidth : urlSet.defaultUrl}) ${backgroundAttributes[i] || ''}${
+            url(${lqUrl || urlAtDpi || urlSet.defaultUrl}) ${backgroundAttributes[i] || ''}${
             isLast ? ` ${backgroundColor}` : ','
           }
           `
@@ -196,13 +205,12 @@ function _getPresetOptions(
   options: BackgroundWithDPIProps,
   mode: ThemeModes
 ): Partial<SetCssBackgroundParams> | undefined {
-  if (!options?.preset) return {}
-
+  const isLightMode = mode === ThemeModes.LIGHT
   switch (options.preset) {
     case 'header': {
       const [lmColour, dmColour] = options.modeColours || [OFF_WHITE, BLACK]
       return {
-        backgroundColor: mode === ThemeModes.LIGHT ? lmColour : dmColour,
+        backgroundColor: isLightMode ? lmColour : dmColour,
         backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
         backgroundBlendMode: 'difference'
       }
@@ -210,7 +218,7 @@ function _getPresetOptions(
     case 'navbar': {
       const [lmColour, dmColour] = options.modeColours || [BLACK, BLACK]
       return {
-        backgroundColor: mode === ThemeModes.LIGHT ? lmColour : dmColour,
+        backgroundColor: isLightMode ? lmColour : dmColour,
         backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
         backgroundBlendMode: 'difference'
       }
@@ -220,5 +228,13 @@ function _getPresetOptions(
         backgroundAttributes: ['center/cover', 'center/cover no-repeat']
         // rest is default
       }
+
+    default: {
+      const [lmColour, dmColour] = options.modeColours || [BLACK, BLACK]
+      return {
+        ...options,
+        backgroundColor: isLightMode ? lmColour : dmColour
+      }
+    }
   }
 }

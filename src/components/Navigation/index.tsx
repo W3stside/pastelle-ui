@@ -59,7 +59,11 @@ export default function Navigation({
       <MobileNavOrb onClick={toggleNav} mobileHide={mobileHide} {...navOrbProps}>
         {NavToggleButton}
       </MobileNavOrb>
-      <NavigationStepsWrapper isOpen={isNavOpen} minWidth="9vw">
+      <NavigationStepsWrapper
+        isOpen={isNavOpen}
+        minWidth="9vw"
+        currentMedia={{ navLogoSet: currentProduct?.navLogo, color: currentProduct?.color }}
+      >
         <InnerNavWrapper>
           <ItemSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
             <Row flexDirection={'row-reverse'} flexWrap={'wrap'} justifyContent="center" style={{ gap: '0.5rem' }}>
