@@ -90,9 +90,20 @@ export function setBestContrastingColour({ bgColour, fgColour, lightColour, dark
 
   return contrastLevel < CONTRAST_THRESHOLD ? lightColour : darkColour
 }
-function _getLqIkUrl(urlAtWidth: DDPXImageUrlMap | undefined, { dpi }: { dpi: keyof DDPXImageUrlMap } = { dpi: '2x' }) {
-  const urlObj = (urlAtWidth && urlAtWidth?.[dpi] && new URL(urlAtWidth[dpi] || '')) || undefined
-  return (process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT || '') + urlObj?.pathname + '?tr=pr-true,q-30'
+function _getLqIkUrl(
+  urlAtWidth: DDPXImageUrlMap | undefined,
+  {
+    defaultUrl,
+    dpi = '2x',
+    transform = '?tr=pr-true,q-30'
+  }: { defaultUrl: string; dpi?: keyof DDPXImageUrlMap; transform?: string }
+) {
+  const queryUrl = urlAtWidth?.[dpi] || defaultUrl
+  const urlObj = urlAtWidth && queryUrl && new URL(queryUrl)
+
+  if (!process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT || !urlObj) return null
+
+  return process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + urlObj?.pathname + transform
 }
 /**
  *
@@ -136,7 +147,7 @@ export const setCssBackground = (
           const urlAtWidth = width && urlSet[width]
           const urlAtDpi = urlAtWidth?.[dpiLevel]
 
-          const lqUrl = !skipIk && isFirst && _getLqIkUrl(urlAtWidth)
+          const lqUrl = !skipIk && isFirst && _getLqIkUrl(urlAtWidth, { defaultUrl: urlSet.defaultUrl })
 
           const urlBuilt = `
             url(${lqUrl || urlAtDpi || urlSet.defaultUrl}) ${backgroundAttributes[i] || ''}${
@@ -225,8 +236,8 @@ function _getPresetOptions(
     }
     case 'logo':
       return {
+        ...options,
         backgroundAttributes: ['center/cover', 'center/cover no-repeat']
-        // rest is default
       }
 
     default: {

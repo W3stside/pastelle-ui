@@ -26,7 +26,7 @@ type StyleParams = {
   showBg?: boolean
 }
 
-const moddedPtBgUrl = portugalBg + 'q-1,w-10,h-10,'
+const moddedPtBgUrl = portugalBg + 'q-1,w-10,h-10,bl-5,'
 export const AnimatedContainer = styled(ColumnCenter).attrs(props => ({
   ...props,
   height: '100%',
@@ -42,7 +42,7 @@ export const AnimatedContainer = styled(ColumnCenter).attrs(props => ({
       ],
       backgroundAttributes: ['center/contain repeat', '-1px -1px/contain repeat'],
       backgroundBlendMode: 'color-burn',
-      backgroundColor: '#e6e6e61c', // '#0000001f',
+      backgroundColor: '#e6e6e61c',
       skipIk: true
     })}
 

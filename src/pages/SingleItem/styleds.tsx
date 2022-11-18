@@ -111,7 +111,7 @@ export const ItemLogo = styled.div<{
 `
 export const ItemLogoCssImport = styled(ItemLogo)<{ position?: string; height?: number; logoUri: GenericImageSrcSet }>`
   position: ${({ position = 'fixed' }) => position};
-  ${({ theme, logoUri }) => setBackgroundWithDPI(theme, logoUri, { preset: 'logo' })}
+  ${({ theme, logoUri }) => setBackgroundWithDPI(theme, logoUri, { preset: 'logo', skipIk: true })}
     
   height: ${({ height = 160 }) => height}px;
 `
@@ -342,11 +342,25 @@ export const ItemContainer = styled(Row)<{
           position: relative;
           height: 100%;
           
-          > picture{
-            overflow: hidden;
-            img {
-              max-width: unset;
-              height: 100%;
+          &:first-child {
+            > picture {
+              margin-right: auto;
+              overflow: hidden;
+              img {
+                max-width: unset;
+                height: 100%;
+              }
+            }
+          }
+
+          &:last-child {
+            > picture {
+              overflow: hidden;
+              margin-left: auto;
+              img {
+                max-width: unset;
+                height: 100%;
+              }
             }
           }
 

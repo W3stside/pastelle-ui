@@ -34,7 +34,7 @@ export const STORE_IMAGE_SIZES = {
   SMALL: 600
 }
 
-export const COLLECTION_MAX_WIDTH = 1950
+export const COLLECTION_MAX_WIDTH = 2500
 export const FIXED_IMAGE_SIZE_CONSTRAINTS = {
   fromLarge: '38vw',
   fromExtraLarge: '38vw'

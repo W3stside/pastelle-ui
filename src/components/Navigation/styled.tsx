@@ -5,12 +5,13 @@ import { Z_INDEXES } from 'constants/config'
 import { Column } from 'components/Layout'
 import { BLACK, setBackgroundWithDPI, setBestTextColour } from 'theme/utils'
 import { setFlickerAnimation } from 'theme/styles/animations'
+import { GenericImageSrcSet } from 'components/Carousel'
 
 export const NavigationStepsWrapper = styled.nav<{
   isOpen?: boolean
   width?: string
   minWidth?: string
-  currentMedia: { navLogoSet?: any; color?: string }
+  currentMedia: { navLogoSet?: GenericImageSrcSet; color?: string }
 }>`
   width: ${({ width = 'auto' }) => width};
   ${({ minWidth }) => minWidth && `min-width: ${minWidth};`}
