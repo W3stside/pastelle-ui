@@ -26,7 +26,7 @@ type StyleParams = {
   showBg?: boolean
 }
 
-const moddedPtBgUrl = portugalBg + 'q-1,w-10,h-10,bl-5,'
+const moddedPtBgUrl = portugalBg + 'q-2,w-10,h-10,bl-10,'
 export const AnimatedContainer = styled(ColumnCenter).attrs(props => ({
   ...props,
   height: '100%',
