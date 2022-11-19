@@ -1,4 +1,4 @@
-Momimport { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
 import { darken, transparentize } from 'polished'
 
