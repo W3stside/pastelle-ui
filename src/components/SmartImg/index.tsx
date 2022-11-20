@@ -101,12 +101,16 @@ export function ApiImage({
   // load if in view only!
   const [refToSet, ref] = useEffectRef<HTMLSpanElement>(null)
   const isInView = useDetectScrollIntoView(
+    // elem to track is in view
     !!loadInView?.conditionalCheck ? ref?.current : undefined,
     {
       ...BASE_INTERSECTION_OPTIONS,
+      // root component to use as "in view" containment
       root: loadInView?.container || document
     },
     // default view state
+    // if left blank will show
+    // else use explicitly set boolean value
     loadInView === undefined
   )
 
@@ -161,15 +165,19 @@ export function ApiImage({
                 <Fragment key={size}>
                   <source
                     media={`only screen and (min-resolution: 3x) and (max-width: ${size}px)`}
-                    srcSet={dpiMap['3x']}
+                    srcSet={!isInView ? undefined : dpiMap['3x']}
                     type="image/webp"
                   />
                   <source
                     media={`only screen and (min-resolution: 2x) and (max-width: ${size}px)`}
-                    srcSet={dpiMap['2x']}
+                    srcSet={!isInView ? undefined : dpiMap['2x']}
                     type="image/webp"
                   />
-                  <source media={`only screen and (max-width: ${size}px)`} srcSet={dpiMap['1x']} type="image/webp" />
+                  <source
+                    media={`only screen and (max-width: ${size}px)`}
+                    srcSet={!isInView ? undefined : dpiMap['1x']}
+                    type="image/webp"
+                  />
                 </Fragment>
               ))}
             <img
@@ -185,19 +193,6 @@ export function ApiImage({
               }}
               {...rest}
             />
-            {/* LQ IMG */}
-            {/* <img
-              src={
-                !isInView
-                  ? undefined
-                  : `${getLqIkUrl(undefined, {
-                      defaultUrl: path?.defaultPath,
-                      transform: `?tr=pr-true,q-${DEFAULT_LQ_IP.quality},bl-${DEFAULT_LQ_IP.blur}`
-                    })}`
-              }
-              loading="lazy"
-              {...rest}
-            /> */}
           </StyledPicture>
         </>
       ) : null}

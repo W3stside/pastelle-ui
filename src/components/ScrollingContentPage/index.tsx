@@ -15,7 +15,7 @@ const HEADER_HEIGHT = 80
 interface ScrollingContentPageParams<D> {
   data: D[]
   dataItem: D | undefined
-  fixedHeight?: number
+  fixedItemHeight?: number
   hideHeight?: number
   showIndicator?: boolean
   useBoxShadow?: boolean
@@ -35,7 +35,7 @@ type Params<P> = ScrollingContentPageParams<P> & Omit<ScrollingIndicatorParams, 
 export function ScrollingContentPage<D>({
   data,
   dataItem,
-  fixedHeight,
+  fixedItemHeight,
   showIndicator = true,
   useBoxShadow = false,
   onContentClick,
@@ -43,17 +43,17 @@ export function ScrollingContentPage<D>({
   ...indicatorProps
 }: Params<D>) {
   const {
-    springs,
     api,
-    setScrollingZoneRef,
-    setHeightRef,
-    height,
+    springs,
+    target,
+    itemHeight,
     currentIndex,
-    restSet,
-    target
+    firstPaintOver,
+    setHeightRef,
+    setScrollingZoneRef
   } = useScrollingPageAnimation(data, {
     visible: 2,
-    fixedHeight,
+    fixedItemHeight,
     snapOnScroll: false,
     // defaults to 0.8 scale on scroll and 1 scale default
     scaleOptions: {
@@ -62,19 +62,25 @@ export function ScrollingContentPage<D>({
     }
   })
 
+  /**
+   * Reference ELEM for which we:
+   *
+   * Set the target HEIGHT ref (sets the heights of scrolling article divs accordingly)
+   * Set as the "loadInView" boundary - that is when elems scroll into it's view they are loaded
+   */
+  const HEIGHT_AND_VIEW_TARGET = document.getElementById('COLLECTION-ARTICLE')
+
   // set target ref node as collection article
   useEffect(() => {
-    const heightTarget = document.getElementById('COLLECTION-ARTICLE')
-
-    setHeightRef(heightTarget)
-    !isMobile && setScrollingZoneRef(heightTarget)
-  }, [setHeightRef, setScrollingZoneRef])
+    setHeightRef(HEIGHT_AND_VIEW_TARGET)
+    !isMobile && setScrollingZoneRef(HEIGHT_AND_VIEW_TARGET)
+  }, [HEIGHT_AND_VIEW_TARGET, setHeightRef, setScrollingZoneRef])
 
   const handleItemSelect = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
       if (!onContentClick) return
       const products = data as Product[]
-      const halfHeight = height / 2
+      const halfHeight = itemHeight / 2
       const clickY = e.clientY - HEADER_HEIGHT - halfHeight
       const nextIdx = currentIndex < data.length - 1 ? currentIndex + 1 : 0
       const prevIdx = currentIndex === 0 ? data.length - 1 : currentIndex - 1
@@ -86,11 +92,12 @@ export function ScrollingContentPage<D>({
 
       const clickedNext = positions.nextItem - halfHeight < clickY
       const clickedPrev =
-        positions.prevItem + halfHeight - (target?.clientHeight ? target.clientHeight - height : height) / 2 > clickY
+        positions.prevItem + halfHeight - (target?.clientHeight ? target.clientHeight - itemHeight : itemHeight) / 2 >
+        clickY
 
       return onContentClick(products[clickedNext ? nextIdx : clickedPrev ? prevIdx : currentIndex].handle)
     },
-    [api, currentIndex, data, height, onContentClick, target]
+    [api, currentIndex, data, itemHeight, onContentClick, target]
   )
 
   if (!dataItem) return null
@@ -110,7 +117,7 @@ export function ScrollingContentPage<D>({
           return (
             <AnimatedDivContainer
               key={y.id}
-              style={{ scale, height, y }}
+              style={{ scale, height: itemHeight, y }}
               $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
               $useBoxShadow={useBoxShadow}
               onClick={isMobile ? undefined : () => onContentClick?.((data[i] as any).handle)}
@@ -118,10 +125,10 @@ export function ScrollingContentPage<D>({
               {showIndicator && <ScrollingContentIndicator {...indicatorProps} />}
               <IterableComponent
                 loadInView={{
-                  container: document,
-                  conditionalCheck: restSet.size === data.length
+                  container: HEIGHT_AND_VIEW_TARGET || document,
+                  conditionalCheck: firstPaintOver
                 }}
-                firstPaintOver={restSet.size === data.length}
+                firstPaintOver={firstPaintOver}
                 isActive={currentIndex === i}
                 itemIndex={currentIndex}
                 key={i}

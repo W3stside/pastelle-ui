@@ -54,10 +54,10 @@ export default function useScrollingPageAnimation(
   items: any[],
   {
     visible = 1,
-    // fixed height - bypasses useRef
-    fixedHeight,
-    // minimum height to render collection
-    minHeight = MINIMUM_COLLECTION_ITEM_HEIGHT,
+    // fixed itemHeight - bypasses useRef
+    fixedItemHeight,
+    // minimum itemHeight to render collection
+    minItemHeight = MINIMUM_COLLECTION_ITEM_HEIGHT,
     // snap nearest screen after scroll end
     snapOnScroll = false,
     scaleOptions = {
@@ -67,8 +67,8 @@ export default function useScrollingPageAnimation(
   }: {
     scale?: number
     visible: number
-    fixedHeight?: number
-    minHeight?: number
+    fixedItemHeight?: number
+    minItemHeight?: number
     snapOnScroll?: boolean
     scaleOptions?: {
       scaleOnScroll?: number
@@ -79,47 +79,38 @@ export default function useScrollingPageAnimation(
   const prev = useRef([0, 1])
 
   const [scrollingZoneTarget, setScrollingZoneRef] = useStateRef(null, node => node)
-  const [height, setHeightRef] = useStateRef<number>(
+  const [itemHeight, setHeightRef] = useStateRef<number>(
     0,
-    node => fixedHeight || Math.min(node?.clientHeight, minHeight) || 0
+    node => fixedItemHeight || Math.min(node?.clientHeight, minItemHeight) || 0
   )
 
   // handle window resizing
   const size = useGetWindowSize()
 
   useEffect(() => {
-    if (!fixedHeight && scrollingZoneTarget?.clientHeight) {
+    if (!fixedItemHeight && scrollingZoneTarget?.clientHeight) {
       setHeightRef(scrollingZoneTarget)
     }
-  }, [fixedHeight, setHeightRef, size, scrollingZoneTarget])
-
-  // const setTargetRef = useCallback((node: any) => {
-  //   setContainerRef(node)
-  //   setHeightRef(node)
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+  }, [fixedItemHeight, setHeightRef, size, scrollingZoneTarget])
 
   const [currentIndex, setCurrentIndex] = useState(prev.current[0])
-  // const [firstPaintOver, setFirstPaintOver] = useState(false)
-
-  const [restSet, setRestSet] = useState(new Set())
+  const [firstPaintOver, setFirstPaintOver] = useState(false)
 
   const [springs, api] = useSprings(
     items.length,
     i => ({
       scale: scaleOptions.initialScale,
-      y: (i < items.length - 1 ? i : -1) * height,
+      y: (i < items.length - 1 ? i : -1) * itemHeight,
       onRest: () => {
         // useful in knowing when the FIRST animation has ended
         // like for setup
-        if (!restSet.has(i)) {
-          const map = restSet.add(i)
-          setRestSet(map)
+        if (!firstPaintOver) {
+          setFirstPaintOver(true)
         }
       }
       // config: WHEEL_SPRING_CONFIG // MAC_SPRING_CONFIG
     }),
-    [height]
+    [itemHeight]
   )
 
   const getIndex = useCallback((y: number, l = items.length) => (y < 0 ? y + l : y) % l, [items])
@@ -135,13 +126,13 @@ export default function useScrollingPageAnimation(
       const rank = firstVis - (y < 0 ? items.length : 0) + position - firstVisIdx
 
       // const configPos = dy > 0 ? position : items.length - position
-      const yPos = (-y % (height * items.length)) + height * rank
+      const yPos = (-y % (itemHeight * items.length)) + itemHeight * rank
       const scale =
         scaleOptions?.scaleOnScroll && !isMobile && active
-          ? Math.max(1 - Math.abs(my) / height / 2, scaleOptions.scaleOnScroll)
+          ? Math.max(1 - Math.abs(my) / itemHeight / 2, scaleOptions.scaleOnScroll)
           : scaleOptions.initialScale
 
-      const anchorPoint = _getNearestAxisPoint(yPos, height)
+      const anchorPoint = _getNearestAxisPoint(yPos, itemHeight)
 
       // the frame at the 0 anchor point is the current one in frame
       // set it as the current index - sets header, nav, etc
@@ -158,12 +149,12 @@ export default function useScrollingPageAnimation(
         config: isMobile ? MOBILE_SPRING_CONFIG : MAC_SPRING_CONFIG // WHEEL_SPRING_CONFIG
       }
     },
-    [getPos, height, items.length, scaleOptions, snapOnScroll]
+    [getPos, itemHeight, items.length, scaleOptions, snapOnScroll]
   )
 
   const runSprings = useCallback(
     (y: number, dy: number, my: number, active: boolean) => {
-      const itemPosition = Math.floor(y / height) % items.length
+      const itemPosition = Math.floor(y / itemHeight) % items.length
       const firstVis = getIndex(itemPosition)
       const firstVisIdx = dy < 0 ? items.length - visible - 1 : 1
 
@@ -171,7 +162,7 @@ export default function useScrollingPageAnimation(
 
       prev.current = [firstVis, firstVisIdx]
     },
-    [height, items.length, getIndex, visible, api, calculateApiLogic]
+    [itemHeight, items.length, getIndex, visible, api, calculateApiLogic]
   )
 
   const wheelOffset = useRef(0)
@@ -181,7 +172,7 @@ export default function useScrollingPageAnimation(
     {
       onDrag: ({ active, offset: [, y], movement: [, my], direction: [, dy] }) => {
         if (dy) {
-          const aY = _getNearestAxisPoint(y, height)
+          const aY = _getNearestAxisPoint(y, itemHeight)
           dragOffset.current = -aY ?? -y
           const computedY = wheelOffset.current + -y / CONFIG.DRAG_SPEED_COEFFICIENT
           runSprings(computedY, -dy, -my, active)
@@ -190,12 +181,8 @@ export default function useScrollingPageAnimation(
       onWheel: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
         event.preventDefault()
 
-        // we need to check the scroll type... intertial vs linear
-        // -1/1 = linear down/up scroll, respectively.
-        // false = intertial
-
         if (dy) {
-          const aY = _getNearestAxisPoint(y, height)
+          const aY = _getNearestAxisPoint(y, itemHeight)
           wheelOffset.current = aY ?? y
           const computedY = dragOffset.current + y / CONFIG.SCROLL_SPEED_COEFFICIENT
           runSprings(computedY, dy, my, active)
@@ -212,11 +199,10 @@ export default function useScrollingPageAnimation(
     springs,
     api,
     target: scrollingZoneTarget,
-    setScrollingZoneRef,
-    setHeightRef,
-    height,
+    itemHeight,
     currentIndex,
-    // firstPaintOver,
-    restSet
+    firstPaintOver,
+    setHeightRef,
+    setScrollingZoneRef
   }
 }

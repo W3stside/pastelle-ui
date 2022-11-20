@@ -15,7 +15,7 @@ export default function Collection() {
   const { collection } = useCurrentCollection()
 
   // on mobile sizes we set a fixed height
-  const fixedHeight = isMobile ? 550 : undefined
+  const fixedItemHeight = isMobile ? 550 : undefined
 
   const onContentClick = useCallback(
     (handle?: string) => {
@@ -55,7 +55,7 @@ export default function Collection() {
           bgColor="#ffffffdb"
           onlyOne="BOTTOM"
           showIndicator={false}
-          fixedHeight={fixedHeight}
+          fixedItemHeight={fixedItemHeight}
           onContentClick={onContentClick}
         />
       ) : (
