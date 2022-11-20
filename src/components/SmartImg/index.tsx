@@ -60,8 +60,8 @@ export const PlaceholderPicture = styled(StyledPicture)<{ bgColor?: string }>`
 `
 
 const DEFAULT_LQ_IP = {
-  quality: 10,
-  blur: 2
+  quality: 1,
+  blur: 15
 }
 const DEFAULT_TRANSFORMATIONS = [{ pr: true }]
 const BASE_INTERSECTION_OPTIONS = {
@@ -150,7 +150,11 @@ export function ApiImage({
         <>
           {/* Observable span to detect if in view */}
           <span ref={refToSet} />
-          <StyledPicture>
+          <StyledPicture
+            style={{
+              background: `url(https://ik.imagekit.io/pastelle/s/files/1/0567/9389/0867/products/back-large-v3.jpg.webp?tr=pr-true,q-1,bl-15) center/contain no-repeat`
+            }}
+          >
             {/* e.g [500, { 1x: 'cdn.shopify.com/123/image_500x@1x.webp', 2x: 'cdn.shopify.com/123/image_500x@2x.webp' }] */}
             {pathSrcSet &&
               Object.entries(pathSrcSet).map(([size, dpiMap]) => (
@@ -181,6 +185,19 @@ export function ApiImage({
               }}
               {...rest}
             />
+            {/* LQ IMG */}
+            {/* <img
+              src={
+                !isInView
+                  ? undefined
+                  : `${getLqIkUrl(undefined, {
+                      defaultUrl: path?.defaultPath,
+                      transform: `?tr=pr-true,q-${DEFAULT_LQ_IP.quality},bl-${DEFAULT_LQ_IP.blur}`
+                    })}`
+              }
+              loading="lazy"
+              {...rest}
+            /> */}
           </StyledPicture>
         </>
       ) : null}

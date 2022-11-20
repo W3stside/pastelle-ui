@@ -90,7 +90,7 @@ export const FRAGMENT_PRODUCT_IMAGE = gql`
     altText
     width
     height
-    url: url(transform: { preferredContentType: WEBP })
+    url
 
     ...FragmentProductImageUrls
   }
