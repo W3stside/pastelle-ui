@@ -341,28 +341,15 @@ export const ItemContainer = styled(Row)<{
         > ${CarouselStep} {
           position: relative;
           height: 100%;
-          
-          &:first-child {
-            > picture {
-              margin-right: auto;
-              overflow: hidden;
-              img {
-                max-width: unset;
-                height: 100%;
-              }
-            }
-          }
 
-          &:last-child {
-            > picture {
-              overflow: hidden;
-              margin-left: auto;
+           > picture {
+              overflow: hidden; 
+
               img {
                 max-width: unset;
                 height: 100%;
               }
             }
-          }
 
           &:first-child {
             box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
@@ -373,6 +360,10 @@ export const ItemContainer = styled(Row)<{
               ${upToSmall`
                 border-radius: 0;
               `}
+
+              ${fromExtraLarge`
+                margin-right: auto;
+              `}
             }
           }
 
@@ -381,6 +372,10 @@ export const ItemContainer = styled(Row)<{
 
             > picture {
               border-radius: 0 1rem 1rem 0;
+              
+              ${fromExtraLarge`
+                margin-left: auto;
+              `}
             }
           }
 
