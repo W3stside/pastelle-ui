@@ -154,30 +154,23 @@ export function ApiImage({
         <>
           {/* Observable span to detect if in view */}
           <span ref={refToSet} />
-          <StyledPicture
-            style={{
-              background: `url(https://ik.imagekit.io/pastelle/s/files/1/0567/9389/0867/products/back-large-v3.jpg.webp?tr=pr-true,q-1,bl-15) center/contain no-repeat`
-            }}
-          >
+          <StyledPicture>
             {/* e.g [500, { 1x: 'cdn.shopify.com/123/image_500x@1x.webp', 2x: 'cdn.shopify.com/123/image_500x@2x.webp' }] */}
             {pathSrcSet &&
+              isInView &&
               Object.entries(pathSrcSet).map(([size, dpiMap]) => (
                 <Fragment key={size}>
                   <source
                     media={`only screen and (min-resolution: 3x) and (max-width: ${size}px)`}
-                    srcSet={!isInView ? undefined : dpiMap['3x']}
+                    srcSet={dpiMap['3x']}
                     type="image/webp"
                   />
                   <source
                     media={`only screen and (min-resolution: 2x) and (max-width: ${size}px)`}
-                    srcSet={!isInView ? undefined : dpiMap['2x']}
+                    srcSet={dpiMap['2x']}
                     type="image/webp"
                   />
-                  <source
-                    media={`only screen and (max-width: ${size}px)`}
-                    srcSet={!isInView ? undefined : dpiMap['1x']}
-                    type="image/webp"
-                  />
+                  <source media={`only screen and (max-width: ${size}px)`} srcSet={dpiMap['1x']} type="image/webp" />
                 </Fragment>
               ))}
             <img
