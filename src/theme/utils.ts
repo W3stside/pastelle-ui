@@ -95,7 +95,7 @@ export function getLqIkUrl(
   {
     defaultUrl,
     dpi = '2x',
-    transform = '?tr=pr-true,q-30'
+    transform = 'pr-true,q-30'
   }: { defaultUrl: string; dpi?: keyof DDPXImageUrlMap; transform?: string }
 ) {
   const queryUrl = urlAtWidth?.[dpi] || defaultUrl
@@ -103,7 +103,7 @@ export function getLqIkUrl(
 
   if (!process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT || !urlObj) return null
 
-  return process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + urlObj?.pathname + transform
+  return process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT + urlObj?.pathname + '?tr=' + transform
 }
 /**
  *

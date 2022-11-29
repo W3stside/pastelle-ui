@@ -1,6 +1,6 @@
 import { ForwardedRef, forwardRef, Fragment, ReactNode, useMemo } from 'react'
 import { IKImage, IKContext } from 'imagekitio-react'
-import useDetectScrollIntoView, { LoadInView } from 'hooks/useDetectScrollIntoView'
+import useDetectScrollIntoView, { LoadInViewOptions } from 'hooks/useDetectScrollIntoView'
 import useEffectRef from 'hooks/useEffectRef'
 import styled from 'styled-components/macro'
 import { DDPXImageUrlMap } from 'components/Carousel'
@@ -8,19 +8,26 @@ import { MediaWidths } from 'theme/styles/mediaQueries'
 import useStateRef from 'hooks/useStateRef'
 
 import useImageLoadingEvent from 'hooks/useImageLoadingEvent'
-import { ColumnCenter } from 'components/Layout'
 import { ThemeModes } from 'theme/styled'
+import { getLqIkUrl } from 'theme/utils'
+import { ColumnCenter } from 'components/Layout'
 
 export type ImageKitTransformation = { [x: string]: undefined | number | string | boolean }[]
 
+export interface LqImageOptions {
+  width: number
+  height: number
+  showLoadingIndicator: boolean
+}
+
 interface BaseImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   pathSrcSet?: { [sizekey in MediaWidths]: DDPXImageUrlMap }
-  lq?: boolean
   lazy?: boolean
   forwardedRef?: React.ForwardedRef<HTMLImageElement>
   transformation?: ImageKitTransformation
-  loadInView?: LoadInView
   loadingComponent?: ReactNode
+  loadInViewOptions?: LoadInViewOptions
+  lqImageOptions?: LqImageOptions
 }
 
 type ImagePropsWithDefaultImage = BaseImageProps & {
@@ -44,11 +51,11 @@ export const PlaceholderPicture = styled(StyledPicture)<{ bgColor?: string }>`
   top: 0;
   left: 0;
   width: 100%;
-  font-size: 300%;
+  font-size: 275%;
   font-weight: 100;
   background-color: ${({ theme, bgColor = theme.blackOpaque1 }) => bgColor};
   filter: brightness(0.7);
-  opacity: 0.98;
+  opacity: 0.38;
 
   > div {
     color: ${({ theme }) => (theme.mode === ThemeModes.DARK ? theme.offWhite : theme.offWhite)};
@@ -60,8 +67,13 @@ export const PlaceholderPicture = styled(StyledPicture)<{ bgColor?: string }>`
 `
 
 const DEFAULT_LQ_IP = {
-  quality: 1,
-  blur: 15
+  quality: 5,
+  blur: 10
+}
+const DEFAULT_LQ_IMAGE_OPTIONS = {
+  width: 0,
+  height: 0,
+  showLoadingIndicator: true
 }
 const DEFAULT_TRANSFORMATIONS = [{ pr: true }]
 const BASE_INTERSECTION_OPTIONS = {
@@ -73,58 +85,57 @@ export function ApiImage({
   path,
   pathSrcSet,
   transformation,
-  loadInView,
+  loadInViewOptions,
+  lqImageOptions,
   lazy,
-  lq,
   forwardedRef
 }: ImagePropsWithDefaultImage): JSX.Element | null
 export function ApiImage({
   path,
   pathSrcSet,
   transformation,
-  loadInView,
+  loadInViewOptions,
+  lqImageOptions,
   lazy,
-  lq,
   forwardedRef
 }: ImagePropsWithIkImage): JSX.Element | null
 export function ApiImage({
   path,
   pathSrcSet,
   transformation = DEFAULT_TRANSFORMATIONS,
-  loadInView,
+  loadInViewOptions,
+  lqImageOptions = DEFAULT_LQ_IMAGE_OPTIONS,
   lazy = true,
-  lq = true,
   forwardedRef,
-  loadingComponent,
   ...rest
 }: SmartImageProps): JSX.Element | null {
   // load if in view only!
   const [refToSet, ref] = useEffectRef<HTMLSpanElement>(null)
   const isInView = useDetectScrollIntoView(
     // elem to track is in view
-    !!loadInView?.conditionalCheck ? ref?.current : undefined,
+    !!loadInViewOptions?.conditionalCheck ? ref?.current : undefined,
     {
       ...BASE_INTERSECTION_OPTIONS,
       // root component to use as "in view" containment
-      root: loadInView?.container || document
+      root: loadInViewOptions?.container || document
     },
     // default view state
     // if left blank will show
     // else use explicitly set boolean value
-    loadInView === undefined
+    loadInViewOptions === undefined
   )
 
-  const [LQIP, derivedTransformations] = useMemo(() => [{ ...DEFAULT_LQ_IP, active: lq }, transformation], [
-    lq,
-    transformation
-  ])
+  const [LQIP, derivedTransformations] = useMemo(
+    () => [{ ...DEFAULT_LQ_IP, active: !!lqImageOptions }, transformation],
+    [lqImageOptions, transformation]
+  )
 
   const [innerImgRef, setInnerRef] = useStateRef(null, node => node)
   const imageLoaded = useImageLoadingEvent(innerImgRef)
 
   return (
     <>
-      {!imageLoaded && loadingComponent && (
+      {lqImageOptions.showLoadingIndicator && !imageLoaded && (
         <PlaceholderPicture>
           <ColumnCenter>
             <div>Loading content...</div>
@@ -140,11 +151,11 @@ export function ApiImage({
           {/* Observable span to detect if in view */}
           <span ref={refToSet} />
           <IKImage
-            // path={path?.ikPath.replace(process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT as string, '')}
+            {...rest}
             src={!isInView ? undefined : path?.ikPath}
             lqip={LQIP}
             transformation={derivedTransformations}
-            ref={forwardedRef}
+            ref={(node: typeof IKImage) => _setImgRef(forwardedRef, setInnerRef, node?.imageRef?.current)}
             // lazy breaks for itemLogo in AsideWithVideo - never sets intersecting to true
             // thus never loads fullSrcUrl (stuck to lq)
             loading={lazy ? 'lazy' : 'eager'}
@@ -176,21 +187,45 @@ export function ApiImage({
             <img
               src={!isInView ? undefined : path?.defaultPath}
               loading="lazy"
-              ref={node => {
-                typeof forwardedRef === 'function'
-                  ? forwardedRef(node)
-                  : forwardedRef?.current
-                  ? (forwardedRef.current = node)
-                  : null
-                setInnerRef(node)
-              }}
+              ref={node => _setImgRef(forwardedRef, setInnerRef, node)}
               {...rest}
+              style={imageLoaded || !lqImageOptions ? undefined : _getLqImageOptions(path, lqImageOptions)}
             />
           </StyledPicture>
         </>
       ) : null}
     </>
   )
+}
+
+function _setImgRef(
+  forwardedRef: ForwardedRef<any> | undefined,
+  setRef: (node: HTMLElement | null) => void,
+  node: HTMLElement | null
+): void {
+  if (typeof forwardedRef === 'function') {
+    forwardedRef(node)
+  } else if (forwardedRef?.current) {
+    forwardedRef.current = node
+  }
+
+  setRef(node)
+}
+
+function _getLqImageOptions(path: SmartImageProps['path'], lqImageOptions: SmartImageProps['lqImageOptions']) {
+  const width = lqImageOptions?.width,
+    height = lqImageOptions?.height
+
+  if (!width || !height) return
+
+  return {
+    background: `url(${getLqIkUrl(undefined, {
+      defaultUrl: path?.defaultPath,
+      transform: `q-1,bl-20,pr-true,w-${width},h-${height}:w-${width / 4},h-${height / 4}`
+    })}) center/contain no-repeat`,
+    width,
+    height
+  }
 }
 
 const SmartImg = forwardRef((props: SmartImageProps, ref: ForwardedRef<HTMLImageElement>) => (

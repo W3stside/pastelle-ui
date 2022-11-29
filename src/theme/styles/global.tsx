@@ -207,23 +207,3 @@ export function ThemedGlobalComponent() {
   const currentMedia = useCurrentProductMedia()
   return <ThemedGlobalStyle currentMedia={currentMedia} />
 }
-
-// OLD FN CODE
-/* 
-${({ theme, currentMedia: { headerLogoSet, color = OFF_WHITE } }) => 
-  setBackgroundWithDPI(theme, headerLogoSet, { 
-    preset: 'header', 
-    modeColours: [color, BLACK] 
-  })} 
-*/
-
-/*
-  background: ${({ currentMedia: { headerLogoSet } }) => `
-    url(${headerLogoSet?.[500]['1x']}) center / cover no-repeat,
-    url(${headerLogoSet?.[1440]['3x']}) center / cover no-repeat,
-    url(${headerLogoSet?.[1440]['3x']}) 0px 0px / cover no-repeat
-  `};
-  background-color: ${({ theme: { mode, offWhite }, currentMedia: { color = offWhite } }) =>
-    mode === ThemeModes.DARK ? BLACK : color};
-  background-blend-mode: difference;
-*/

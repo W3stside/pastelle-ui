@@ -1,7 +1,5 @@
-import { FixedColumn } from 'components/Layout'
-import SmartImg, { PlaceholderPicture, SmartImageProps } from 'components/SmartImg'
-import { LoadInView } from 'hooks/useDetectScrollIntoView'
-import useImageLoadingEvent from 'hooks/useImageLoadingEvent'
+import SmartImg, { SmartImageProps } from 'components/SmartImg'
+import { LoadInViewOptions } from 'hooks/useDetectScrollIntoView'
 import useStateRef from 'hooks/useStateRef'
 import { useState, useMemo, /* useRef, */ useEffect, forwardRef, ForwardedRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
@@ -25,7 +23,7 @@ export type CarouselProps = {
   transformation?: SmartImageProps['transformation']
   mediaStartIndex: number
   showCarouselContentIndicators?: boolean
-  loadInViewOptions?: LoadInView
+  loadInViewOptions?: LoadInViewOptions
   collectionView?: boolean
   fullSizeContent?: boolean
   onCarouselChange?: (index: number) => void
@@ -113,11 +111,7 @@ export default function Carousel({
   // ref to carousel container
   const [carouselContainer, setCarouselContainerRef] = useStateRef<HTMLDivElement | null>(null, node => node)
   // ref to images inside carousel e.g to track loading state
-  const [innerImagesRef, setInnerImagesRef] = useStateRef<HTMLImageElement | null>(
-    null,
-    (node: HTMLImageElement | null) => node
-  )
-  const imageLoaded = useImageLoadingEvent(innerImagesRef)
+  const [, setInnerImagesRef] = useStateRef<HTMLImageElement | null>(null, (node: HTMLImageElement | null) => node)
 
   // set carouselContainer states and focus carousel
   useEffect(() => {
@@ -131,16 +125,17 @@ export default function Carousel({
   const sizes = useGetWindowSize()
   useEffect(() => {
     setParentWidth(carouselContainer?.parentElement?.offsetWidth)
-  }, [carouselContainer?.parentElement?.offsetWidth, sizes])
+  }, [carouselContainer?.parentElement?.offsetWidth, carouselContainer?.parentElement?.clientHeight, sizes])
 
   const smartImageTransformation = useMemo(
     () => [
       {
-        width: carouselContainer?.clientWidth,
+        width: carouselContainer?.clientWidth || 0,
+        height: fixedHeight ? carouselContainer?.clientWidth || 0 : carouselContainer?.clientHeight || 0,
         pr: true
       }
     ],
-    [carouselContainer?.clientWidth]
+    [fixedHeight, carouselContainer?.clientWidth, carouselContainer?.clientHeight]
   )
 
   return (
@@ -149,14 +144,6 @@ export default function Carousel({
       ref={setCarouselContainerRef}
       fixedHeight={fixedHeight || parentWidth + 'px'}
     >
-      {/* LOADING COMPONENTS */}
-      {!imageLoaded && (
-        <PlaceholderPicture>
-          <FixedColumn justifyContent="center" alignItems="center">
-            <div>LOADING CONTENT...</div>
-          </FixedColumn>
-        </PlaceholderPicture>
-      )}
       {/* CAROUSEL CONTENT */}
       {imageList.map(({ defaultUrl, ...urlRest }, index) => {
         if (!parentWidth) return null
@@ -211,7 +198,8 @@ export default function Carousel({
               path: { defaultPath: defaultUrl },
               pathSrcSet: fullSizeContent ? undefined : urlRest,
               transformation: transformation || smartImageTransformation,
-              loadInView: loadInViewOptions,
+              loadInViewOptions,
+              lqImageOptions: { ...smartImageTransformation[0], showLoadingIndicator: true },
               forwardedRef: setInnerImagesRef
             }}
           />

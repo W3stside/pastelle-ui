@@ -4,7 +4,7 @@ export default function useImageLoadingEvent(imageElem: HTMLImageElement | null)
   const [imageLoaded, setImageLoaded] = useState(false)
 
   useEffect(() => {
-    if (!imageElem) return
+    if (!imageElem?.addEventListener) return
 
     const handleImageLoaded = () => setImageLoaded(true)
 

@@ -47,7 +47,9 @@ export default function Header() {
         {/* NAV */}
         {!checkIsCollectionPage(location) && (
           <HeaderLinks id="header-links-container">
-            <StyledNavLink to={DEFAULT_COLLECTION_URL}>FULL {COLLECTION_PARAM_NAME}</StyledNavLink>
+            <StyledNavLink to={DEFAULT_COLLECTION_URL}>
+              {'<'} BACK TO {COLLECTION_PARAM_NAME.toLocaleUpperCase()}
+            </StyledNavLink>
           </HeaderLinks>
         )}
         {/* WEB3 */}

@@ -40,7 +40,8 @@ export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; la
   ${({ theme, logo }) =>
     setBackgroundWithDPI(theme, logo, {
       preset: 'navbar',
-      backgroundAttributes: ['center/cover no-repeat', '0px 0px / cover no-repeat']
+      backgroundAttributes: ['center/cover no-repeat', '0px 0px / cover no-repeat'],
+      dpiLevel: '1x'
     })}
 `
 

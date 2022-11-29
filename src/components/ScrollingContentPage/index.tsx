@@ -5,7 +5,7 @@ import { ScrollerContainer, AnimatedDivContainer, Scroller } from './styleds'
 
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 import useScrollingPageAnimation from 'hooks/useScrollingPageAnimation'
-import { LoadInView } from 'hooks/useDetectScrollIntoView'
+import { LoadInViewOptions } from 'hooks/useDetectScrollIntoView'
 import { COLLECTION_MAX_WIDTH } from 'constants/config'
 import { isMobile } from 'utils'
 import { Product } from 'shopify/graphql/types'
@@ -27,7 +27,7 @@ export interface ScrollableContentComponentBaseProps {
   itemIndex: number
   isActive: boolean
   firstPaintOver: boolean
-  loadInView?: LoadInView
+  loadInViewOptions?: LoadInViewOptions
 }
 
 type Params<P> = ScrollingContentPageParams<P> & Omit<ScrollingIndicatorParams, 'isLastIndex'>
@@ -66,7 +66,7 @@ export function ScrollingContentPage<D>({
    * Reference ELEM for which we:
    *
    * Set the target HEIGHT ref (sets the heights of scrolling article divs accordingly)
-   * Set as the "loadInView" boundary - that is when elems scroll into it's view they are loaded
+   * Set as the "loadInViewOptions" boundary - that is when elems scroll into it's view they are loaded
    */
   const HEIGHT_AND_VIEW_TARGET = document.getElementById('COLLECTION-ARTICLE')
 
@@ -124,7 +124,7 @@ export function ScrollingContentPage<D>({
             >
               {showIndicator && <ScrollingContentIndicator {...indicatorProps} />}
               <IterableComponent
-                loadInView={{
+                loadInViewOptions={{
                   container: HEIGHT_AND_VIEW_TARGET || document,
                   conditionalCheck: firstPaintOver
                 }}

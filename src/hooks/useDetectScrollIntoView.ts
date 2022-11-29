@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-export type LoadInView = {
+export type LoadInViewOptions = {
   container: Document | Element
   conditionalCheck?: boolean
 }

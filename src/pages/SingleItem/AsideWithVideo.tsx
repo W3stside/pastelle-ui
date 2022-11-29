@@ -47,7 +47,7 @@ import {
 } from 'shopify/graphql/types'
 
 import { getImageSizeMap } from 'shopify/utils'
-import { FREE_SHIPPING_THRESHOLD, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
+import { FREE_SHIPPING_THRESHOLD, SINGLE_ITEM_LOGO_RATIO, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 
 // import ShippingSvg from 'assets/svg/shipping.svg'
 import { isMobile } from 'utils'
@@ -140,7 +140,7 @@ export default function ItemPage({
   // id,
   isActive,
   firstPaintOver,
-  loadInView,
+  loadInViewOptions,
   collectionView = false,
   noVideo = false,
   noDescription = false,
@@ -239,7 +239,7 @@ export default function ItemPage({
               mediaStartIndex={currentCarouselIndex}
               onCarouselChange={onCarouselChange}
               onImageClick={toggleModal}
-              loadInViewOptions={loadInView}
+              loadInViewOptions={loadInViewOptions}
               collectionView={collectionView}
               fixedHeight={collectionView ? '100%' : undefined}
             />
@@ -272,7 +272,18 @@ export default function ItemPage({
                   title
                 ) : !isMobile ? (
                   <ItemLogo>
-                    <SmartImg path={{ defaultPath: logo.defaultUrl }} pathSrcSet={logo} lazy={false} lq />
+                    <SmartImg
+                      path={{ defaultPath: logo.defaultUrl }}
+                      pathSrcSet={logo}
+                      lazy={false}
+                      lqImageOptions={{
+                        width: innerContainerRef?.clientWidth || 0,
+                        get height() {
+                          return (this.width * SINGLE_ITEM_LOGO_RATIO[0]) / SINGLE_ITEM_LOGO_RATIO[1]
+                        },
+                        showLoadingIndicator: false
+                      }}
+                    />
                   </ItemLogo>
                 ) : (
                   innerContainerRef?.clientWidth && (

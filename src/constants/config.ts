@@ -34,6 +34,8 @@ export const STORE_IMAGE_SIZES = {
   SMALL: 600
 }
 
+export const SINGLE_ITEM_LOGO_RATIO = [20, 73]
+
 export const COLLECTION_MAX_WIDTH = 2370
 export const FIXED_IMAGE_SIZE_CONSTRAINTS = {
   fromLarge: '38vw',
