@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro'
+import { ThemeModes } from 'theme/styled'
 
 export const LogoContainer = styled.div<{ isHeader: boolean }>`
   position: absolute;
@@ -13,10 +14,11 @@ export const LogoContainer = styled.div<{ isHeader: boolean }>`
     width: 100%;
     height: 100%;
 
+    ${({ theme: { mode } }) =>
+      mode === ThemeModes.DARK && 'filter: invert(0) hue-rotate(180deg) contrast(1.5) saturate(2) brightness(0.8);'}
+
     > img {
       ${({ isHeader }) => (isHeader ? 'min-height: 100%;' : 'min-width: 100%;')}
-      //   min-height: 100%;
-      //   width: calc(100% * 791 / 50);
       z-index: -1;
     }
   }
