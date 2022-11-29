@@ -33,7 +33,7 @@ export default function Collection() {
         // collection mode
         collectionView
         showBreadCrumbs={false}
-        loadInView={{ container: document, conditionalCheck: true }}
+        loadInViewOptions={{ container: document, conditionalCheck: true }}
         showProductLabel
       />
     ),
