@@ -1,17 +1,28 @@
 import styled from 'styled-components/macro'
 import { NavLink } from 'react-router-dom'
-import { darken } from 'polished'
+import { darken, transparentize } from 'polished'
 import { Text } from 'rebass'
 
 import { RowFixed, Row, YellowCard } from 'components/Layout'
 import { SectionFrame } from 'components/Layout/Section'
 import { MobileNavOrb } from 'components/Navigation/styled'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
-import { upToExtraSmall, fromMedium, OFF_WHITE, fromExtraSmall, betweenSmallAndMedium } from 'theme/utils'
+import {
+  upToExtraSmall,
+  fromMedium,
+  OFF_WHITE,
+  fromExtraSmall,
+  betweenSmallAndMedium,
+  getThemeColours,
+  setBestTextColour
+} from 'theme/utils'
 
 import PastelleLogoSharpShort from 'assets/svg/PSTL-sharp.svg'
 import PastelleLogoCursiveLong from 'assets/svg/pastelle-cursive-logo.svg'
 import ThemeToggleBar from 'components/ThemeToggler'
+import { ThemeModes } from 'theme/styled'
+
+const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
 
 export const StyledNavLink = styled(NavLink)`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -94,6 +105,7 @@ export const HeaderRow = styled(RowFixed)`
   display: grid;
   grid-template-columns: minmax(10rem, 16rem) auto min-content min-content;
   grid-gap: 1rem;
+  z-index: 1;
 
   > ${Title} {
     height: 100%;
@@ -136,13 +148,17 @@ export const HeaderRow = styled(RowFixed)`
   `}
 `
 
-export const HeaderLinks = styled(Row)`
+export const HeaderLinks = styled(Row)<{ color?: string }>`
   width: max-content;
   margin-right: auto;
   justify-content: center;
   padding: 1rem;
 
+  border-radius: 0.5rem;
+  background-color: ${({ color }) => (color ? darken(0.03, color) : DEFAULT_BG)};
+
   > a {
+    color: ${({ color = DEFAULT_BG }) => setBestTextColour(color)};
     white-space: nowrap;
     flex: 1 0 auto;
 

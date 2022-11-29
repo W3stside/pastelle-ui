@@ -23,7 +23,7 @@ import CartUpdater from 'state/cart/updater'
 import CollectionUpdater from 'state/collection/updater'
 import WindowSizeUpdater from 'state/window/updater'
 
-import { TopGlobalStyle, ThemedGlobalComponent, FontStyles } from 'theme/styles/global'
+import { TopGlobalStyle, ThemedGlobalStyle, FontStyles } from 'theme/styles/global'
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { nodeRemoveChildFix } from 'utils/node'
@@ -77,7 +77,7 @@ root.render(
             <BlockchainUpdaters />
             <ThemeProvider>
               {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-              <ThemedGlobalComponent />
+              <ThemedGlobalStyle />
               <App />
             </ThemeProvider>
           </Web3ReactProvider>

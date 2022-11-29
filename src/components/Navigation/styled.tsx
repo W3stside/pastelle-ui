@@ -3,7 +3,7 @@ import Button from 'components/Button'
 import { MobileNavProps } from '.'
 import { Z_INDEXES } from 'constants/config'
 import { Column } from 'components/Layout'
-import { BLACK, setBackgroundWithDPI, setBestTextColour } from 'theme/utils'
+import { setBestTextColour } from 'theme/utils'
 import { setFlickerAnimation } from 'theme/styles/animations'
 import { GenericImageSrcSet } from 'components/Carousel'
 
@@ -13,6 +13,8 @@ export const NavigationStepsWrapper = styled.nav<{
   minWidth?: string
   currentMedia: { navLogoSet?: GenericImageSrcSet; color?: string }
 }>`
+  position: relative;
+  overflow: hidden;
   width: ${({ width = 'auto' }) => width};
   ${({ minWidth }) => minWidth && `min-width: ${minWidth};`}
   display: flex;
@@ -22,22 +24,15 @@ export const NavigationStepsWrapper = styled.nav<{
 
   text-align: left;
 
-  padding: 1rem;
   gap: 0px;
 
-  // all links in nav
+  z-index: 1;
+
   > a {
     font-size: 1.6rem;
   }
 
   z-index: ${Z_INDEXES.NAV_MENU};
-
-  ${({ theme, currentMedia: { navLogoSet, color = theme.bg1 } }) =>
-    setBackgroundWithDPI(theme, navLogoSet, {
-      preset: 'navbar',
-      modeColours: [color, BLACK],
-      ignoreQueriesWithFixedWidth: 1440
-    })}
 
   ${setFlickerAnimation({ state: true, duration: 4, count: 2 })}
 
@@ -116,5 +111,5 @@ export const InnerNavWrapper = styled(Column)`
   width: 100%;
   background-color: ${({ theme }) => theme.blackOpaque2};
   padding: 1rem;
-  border-radius: 0.5rem;
+  // border-radius: 0.5rem;
 `

@@ -1,21 +1,8 @@
 import { createGlobalStyle } from 'styled-components/macro'
-import { darken, transparentize } from 'polished'
+import { transparentize } from 'polished'
 
-import {
-  setTextColour,
-  setBgColour,
-  fromExtraLarge,
-  BLUE,
-  setBestTextColour,
-  getThemeColours,
-  BLACK,
-  setBackgroundWithDPI
-} from '../utils'
+import { setTextColour, setBgColour, fromExtraLarge, BLUE } from '../utils'
 import FontStyles from './fonts'
-import { ThemeModes } from 'theme/styled'
-import { useCurrentProductMedia } from 'state/collection/hooks'
-
-const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
 
 export { FontStyles }
 
@@ -139,9 +126,7 @@ export const TopGlobalStyle = createGlobalStyle`
   }
 `
 
-export const ThemedGlobalStyle = createGlobalStyle<{
-  currentMedia: ReturnType<typeof useCurrentProductMedia>
-}>`
+export const ThemedGlobalStyle = createGlobalStyle`
   * {
     &::-webkit-scrollbar-thumb {
       background: transparent;
@@ -181,29 +166,4 @@ export const ThemedGlobalStyle = createGlobalStyle<{
       font-size: 0.5vw;
     `}
   }
-
-  header, nav, footer {
-    background: ${({ currentMedia: { color = DEFAULT_BG } }) => color || DEFAULT_BG};
-  }
-
-  header, footer {
-    ${({ theme, currentMedia: { headerLogoSet, color = theme.offWhite } }) =>
-      setBackgroundWithDPI(theme, headerLogoSet, {
-        preset: 'header',
-        modeColours: [color, BLACK]
-      })} 
-    
-    #header-links-container {
-      border-radius: 0.5rem;
-      background-color: ${({ currentMedia: { color } }) => (color ? darken(0.03, color) : DEFAULT_BG)};
-        > a {
-          color: ${({ currentMedia: { color = DEFAULT_BG } }) => setBestTextColour(color)};
-        }
-    }
-  }
 `
-
-export function ThemedGlobalComponent() {
-  const currentMedia = useCurrentProductMedia()
-  return <ThemedGlobalStyle currentMedia={currentMedia} />
-}

@@ -13,6 +13,7 @@ const FooterWrapper = styled(SectionFrame)`
     position: fixed;
     bottom: 0;
     padding: 1rem;
+    background-color: #000000d1;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     > ${ShoppingCartFullWrapper} {
       margin-left: auto;
@@ -20,9 +21,10 @@ const FooterWrapper = styled(SectionFrame)`
   `}
 `
 
-const Footer = () => {
+function Footer() {
   return (
     <FooterWrapper as="footer">
+      {/* <NavLogo parentNode={node} logoSrcSet={headerLogoSet} /> */}
       <ThemeToggleBar
         themeToggleProps={{
           margin: '0 auto 0 0',
