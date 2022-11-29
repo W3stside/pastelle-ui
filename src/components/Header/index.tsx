@@ -33,6 +33,7 @@ import { useIsMediumWindowWidthSize } from 'state/window/hooks'
 import { useCurrentProductMedia } from 'state/collection/hooks'
 import useStateRef from 'hooks/useStateRef'
 import { HeaderLogo } from 'components/BackgroundLogo'
+import { SkipBack } from 'react-feather'
 
 export default function Header() {
   const location = useLocation()
@@ -53,8 +54,8 @@ export default function Header() {
         {/* NAV */}
         {!checkIsCollectionPage(location) && (
           <HeaderLinks id="header-links-container" color={color}>
-            <StyledNavLink to={DEFAULT_COLLECTION_URL}>
-              {'<'} BACK TO {COLLECTION_PARAM_NAME.toLocaleUpperCase()}
+            <StyledNavLink to={DEFAULT_COLLECTION_URL} style={{ alignItems: 'center', gap: '0.5rem' }}>
+              <SkipBack size={12} /> {COLLECTION_PARAM_NAME.toLocaleUpperCase()}
             </StyledNavLink>
           </HeaderLinks>
         )}
