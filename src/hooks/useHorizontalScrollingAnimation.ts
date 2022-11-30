@@ -7,11 +7,12 @@ import { useGetWindowSize } from 'state/window/hooks'
 
 const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 3.2,
-  DRAG_SPEED_COEFFICIENT: 0.5
+  DRAG_SPEED_COEFFICIENT: 1.3
 }
 const MAC_SPRING_CONFIG: SpringConfig = { friction: 90, tension: 280 }
 // const WHEEL_SPRING_CONFIG: SpringConfig = { friction: 40, tension: 100 }
-const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 50, mass: 1 }
+// const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 30, tension: 280, clamp: true, mass: 1 }
+const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 10, tension: 200, clamp: true }
 /**
  *
  * @param a input
@@ -40,9 +41,9 @@ function _getNearestAxisPoint(point: number, multiple: number) {
 }
 interface ScrollSpringParams {
   i: number
-  y: number
-  dy: number
-  my: number
+  x: number
+  dx: number
+  mx: number
   active: boolean
   firstVis: number
   firstVisIdx: number
@@ -50,24 +51,24 @@ interface ScrollSpringParams {
 
 const MINIMUM_COLLECTION_ITEM_HEIGHT = 773
 
-export default function useScrollingPageAnimation(
+export default function useHorizontalScrollingAnimation(
   items: any[],
   {
     visible = 1,
-    // fixed itemHeight - bypasses useRef
-    fixedItemHeight,
-    // minimum itemHeight to render collection
+    // fixed itemWidth - bypasses useRef
+    fixedItemWidth,
+    // minimum itemWidth to render collection
     minItemHeight = MINIMUM_COLLECTION_ITEM_HEIGHT,
     // snap nearest screen after scroll end
     snapOnScroll = false,
     scaleOptions = {
-      scaleOnScroll: 0.8,
+      scaleOnScroll: 1,
       initialScale: 1
     }
   }: {
     scale?: number
     visible: number
-    fixedItemHeight?: number
+    fixedItemWidth?: number
     minItemHeight?: number
     snapOnScroll?: boolean
     scaleOptions?: {
@@ -79,60 +80,66 @@ export default function useScrollingPageAnimation(
   const prev = useRef([0, 1])
 
   const [scrollingZoneTarget, setScrollingZoneRef] = useStateRef(null, node => node)
-  const [itemHeight, setHeightRef] = useStateRef<number>(
+  const [itemWidth, setWidthRef] = useStateRef<number>(
     0,
-    node => fixedItemHeight || Math.min(node?.clientHeight, minItemHeight) || 0
+    node => fixedItemWidth || Math.min(node?.clientHeight, minItemHeight) || 0
   )
 
   // handle window resizing
   const size = useGetWindowSize()
 
   useEffect(() => {
-    if (!fixedItemHeight && scrollingZoneTarget?.clientHeight) {
-      setHeightRef(scrollingZoneTarget)
+    if (!fixedItemWidth && scrollingZoneTarget?.clientHeight) {
+      setWidthRef(scrollingZoneTarget)
     }
-  }, [fixedItemHeight, setHeightRef, size, scrollingZoneTarget])
+  }, [fixedItemWidth, setWidthRef, size, scrollingZoneTarget])
 
   const [currentIndex, setCurrentIndex] = useState(prev.current[0])
   const [firstPaintOver, setFirstPaintOver] = useState(false)
 
   const [springs, api] = useSprings(
     items.length,
-    i => ({
-      scale: scaleOptions.initialScale,
-      y: (i < items.length - 1 ? i : -1) * itemHeight,
-      onRest: () => {
-        // useful in knowing when the FIRST animation has ended
-        // like for setup
-        if (!firstPaintOver) {
-          setFirstPaintOver(true)
-        }
+    i => {
+      const lastItemIndex = items.length - 1
+      const referenceIndex = i > lastItemIndex ? -1 : i
+      return {
+        scale: scaleOptions.initialScale,
+        // if current item index is GREATER than array length
+        // then we
+        x: referenceIndex * itemWidth,
+        onRest: () => {
+          // useful in knowing when the FIRST animation has ended
+          // like for setup
+          if (!firstPaintOver) {
+            setFirstPaintOver(true)
+          }
+        },
+        config: MOBILE_SPRING_CONFIG
       }
-      // config: WHEEL_SPRING_CONFIG // MAC_SPRING_CONFIG
-    }),
-    [itemHeight]
+    },
+    [itemWidth]
   )
 
-  const getIndex = useCallback((y: number, l = items.length) => (y < 0 ? y + l : y) % l, [items])
+  const getIndex = useCallback((x: number, l = items.length) => (x < 0 ? x + l : x) % l, [items])
   const getPos = useCallback(
     (i: number, firstVisible: number, firstVisibleIndex: number) => getIndex(i - firstVisible + firstVisibleIndex),
     [getIndex]
   )
 
   const calculateApiLogic = useCallback(
-    ({ i, y, dy, my, active, firstVis, firstVisIdx }: ScrollSpringParams) => {
+    ({ i, x, dx, mx, active, firstVis, firstVisIdx }: ScrollSpringParams) => {
       const position = getPos(i, firstVis, firstVisIdx)
       const prevPosition = getPos(i, prev.current[0], prev.current[1])
-      const rank = firstVis - (y < 0 ? items.length : 0) + position - firstVisIdx
+      const rank = firstVis - (x < 0 ? items.length : 0) + position - firstVisIdx
 
-      // const configPos = dy > 0 ? position : items.length - position
-      const yPos = (-y % (itemHeight * items.length)) + itemHeight * rank
+      // const configPos = dx > 0 ? position : items.length - position
+      const xPos = (-x % (itemWidth * items.length)) + itemWidth * rank
       const scale =
         scaleOptions?.scaleOnScroll && !isMobile && active
-          ? Math.max(1 - Math.abs(my) / itemHeight / 2, scaleOptions.scaleOnScroll)
+          ? Math.max(1 - Math.abs(mx) / itemWidth / 2, scaleOptions.scaleOnScroll)
           : scaleOptions.initialScale
 
-      const anchorPoint = _getNearestAxisPoint(yPos, itemHeight)
+      const anchorPoint = _getNearestAxisPoint(xPos, itemWidth)
 
       // the frame at the 0 anchor point is the current one in frame
       // set it as the current index - sets header, nav, etc
@@ -141,57 +148,54 @@ export default function useScrollingPageAnimation(
       }
 
       return {
-        y: active || !snapOnScroll ? yPos : anchorPoint,
+        x: active || !snapOnScroll ? xPos : anchorPoint,
         scale,
-        immediate: dy < 0 ? prevPosition > position : prevPosition < position,
+        immediate: dx < 0 ? prevPosition > position : prevPosition < position,
         // set configs based on intertial vs non-intertial scroll
         // s === false means intertial
-        config: isMobile ? MOBILE_SPRING_CONFIG : MAC_SPRING_CONFIG // WHEEL_SPRING_CONFIG
+        config: MOBILE_SPRING_CONFIG // WHEEL_SPRING_CONFIG
       }
     },
-    [getPos, itemHeight, items.length, scaleOptions, snapOnScroll]
+    [getPos, itemWidth, items.length, scaleOptions, snapOnScroll]
   )
 
   const runSprings = useCallback(
-    (y: number, dy: number, my: number, active: boolean) => {
-      const itemPosition = Math.floor(y / itemHeight) % items.length
+    (x: number, dx: number, mx: number, active: boolean) => {
+      const itemPosition = Math.floor(x / itemWidth) % items.length
       const firstVis = getIndex(itemPosition)
-      const firstVisIdx = dy < 0 ? items.length - visible - 1 : 1
+      const firstVisIdx = dx < 0 ? items.length - visible - 1 : 0
 
-      api.start(i => calculateApiLogic({ i, y, dy, my, active, firstVis, firstVisIdx }))
+      api.start(i => calculateApiLogic({ i, x, dx, mx, active, firstVis, firstVisIdx }))
 
       prev.current = [firstVis, firstVisIdx]
     },
-    [itemHeight, items.length, getIndex, visible, api, calculateApiLogic]
+    [itemWidth, items.length, getIndex, visible, api, calculateApiLogic]
   )
 
-  const wheelOffset = useRef(0)
   const dragOffset = useRef(0)
 
   useGesture(
     {
-      onDrag: ({ active, offset: [, y], movement: [, my], direction: [, dy] }) => {
-        if (dy) {
-          const aY = _getNearestAxisPoint(y, itemHeight)
-          dragOffset.current = -aY ?? -y
-          const computedY = wheelOffset.current + -y / CONFIG.DRAG_SPEED_COEFFICIENT
-          runSprings(computedY, -dy, -my, active)
-        }
-      },
-      onWheel: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
-        event.preventDefault()
-
-        if (dy) {
-          const aY = _getNearestAxisPoint(y, itemHeight)
-          wheelOffset.current = aY ?? y
-          const computedY = dragOffset.current + y / CONFIG.SCROLL_SPEED_COEFFICIENT
-          runSprings(computedY, dy, my, active)
+      onDrag: ({ active, offset: [x], movement: [mx], direction: [dx] }) => {
+        if (dx) {
+          //   const aX = _getNearestAxisPoint(x, itemWidth)
+          dragOffset.current = -x
+          const computedX = dragOffset.current + -x / CONFIG.DRAG_SPEED_COEFFICIENT
+          runSprings(computedX, -dx, -mx, active)
         }
       }
     },
     {
       target: scrollingZoneTarget,
-      eventOptions: { passive: false }
+      eventOptions: { passive: false },
+      drag: {
+        axis: 'x',
+        filterTaps: true,
+        pointer: {
+          touch: true,
+          lock: true
+        }
+      }
     }
   )
 
@@ -199,10 +203,10 @@ export default function useScrollingPageAnimation(
     springs,
     api,
     target: scrollingZoneTarget,
-    itemHeight,
+    itemWidth,
     currentIndex,
     firstPaintOver,
-    setHeightRef,
+    setWidthRef,
     setScrollingZoneRef
   }
 }
