@@ -39,14 +39,15 @@ export const NavigationStepsWrapper = styled.nav<{
   ${({ theme, isOpen }) => theme.mediaWidth.upToMedium`
     display: ${isOpen ? 'flex' : 'none'};
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0; left: 0; bottom: 0;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     padding-bottom: 7rem;
+    width: 100%;
     
     // theme toggler
-    > ${InnerNavWrapper}:nth-child(2) {
+    > ${InnerNavWrapper}:nth-child(3) {
       display: none;
     }
     
