@@ -5,6 +5,7 @@ import styled from 'styled-components/macro'
 import { isMobile } from 'utils'
 import { Z_INDEXES } from 'constants/config'
 import { useEffect } from 'react'
+import { upToExtraSmall } from 'theme/utils'
 
 const AnimatedDialogOverlay = animated(DialogOverlay)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -38,6 +39,9 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
 })`
   border: none;
   height: ${({ mobile }) => (mobile ? '80%' : '100%')};
+  ${upToExtraSmall`
+    height: 80%;
+  `}
 
   &[data-reach-dialog-content] {
     outline: none;
