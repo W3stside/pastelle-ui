@@ -52,7 +52,7 @@ export function CarouselStepWithoutRef(props: CarouselStepsProps) {
       $transformAmount={transformAmount}
       $width={parentWidth}
     >
-      <SmartImg {...imageProps} ref={imageProps.forwardedRef} />
+      <SmartImg {...imageProps} ref={imageProps.forwardedRef} onClick={showButtons ? undefined : onImageClick} />
       {showButtons && isMultipleCarousel && (
         <CarouselButtonContainer onClick={onImageClick}>
           <CarouselButton onClick={onPrev ?? undefined} buttonColor={buttonColor}>

@@ -156,7 +156,7 @@ export default function ItemPage({
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
 
   // MODALS
-  const toggleModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
+  const toggleLargeImageModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
   const closeModals = useCloseModals()
   const showLargeImage = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
 
@@ -197,7 +197,7 @@ export default function ItemPage({
       {/* Large images */}
       <LargeImageCarouselModal
         isOpen={isActive && showLargeImage}
-        toggleModal={toggleModal}
+        toggleModal={toggleLargeImageModal}
         dismissModal={closeModals}
         // Carousel props
         buttonColor={color}
@@ -239,7 +239,7 @@ export default function ItemPage({
               imageList={imageUrls}
               startIndex={currentCarouselIndex}
               onCarouselChange={onCarouselChange}
-              onImageClick={toggleModal}
+              onImageClick={toggleLargeImageModal}
               loadInViewOptions={loadInViewOptions}
               collectionView={collectionView}
               fixedHeight={collectionView ? '100%' : undefined}

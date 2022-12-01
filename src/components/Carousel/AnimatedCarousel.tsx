@@ -1,5 +1,6 @@
 import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
 import useHorizontalScrollingAnimation from 'hooks/useHorizontalScrollingAnimation'
+import { Fragment } from 'react'
 import { CarouselIndicators, CarouselStep } from './common'
 import { useCarouselSetup } from './hooks'
 import { CarouselContainer } from './styleds'
@@ -44,10 +45,9 @@ export default function AnimatedCarousel({
         if (!parentWidth) return null
 
         return (
-          <>
+          <Fragment key={index}>
             <CarouselIndicators size={imageList.length} currentIndex={currentIndex} color={buttonColor} />
             <AnimatedDivContainer
-              key={index}
               style={{ scale, width: itemWidth, x }}
               $borderRadius="0px"
               $withBoxShadow={false}
@@ -77,7 +77,7 @@ export default function AnimatedCarousel({
                 onPrev={null}
               />
             </AnimatedDivContainer>
-          </>
+          </Fragment>
         )
       })}
     </CarouselContainer>
