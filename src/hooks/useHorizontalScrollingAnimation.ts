@@ -4,7 +4,7 @@ import { useSprings, config } from 'react-spring'
 import useStateRef from 'hooks/useStateRef'
 import { useGetWindowSize } from 'state/window/hooks'
 
-const DRAG_SPEED_COEFFICIENT = 0.4
+const DRAG_SPEED_COEFFICIENT = 0.7
 
 /**
  *

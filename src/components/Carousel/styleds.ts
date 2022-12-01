@@ -2,6 +2,7 @@ import styled from 'styled-components/macro'
 import { transparentize } from 'polished'
 import { Row } from 'components/Layout'
 import { ScrollerContainer } from 'components/ScrollingContentPage/styleds'
+import { Z_INDEXES } from 'constants/config'
 
 const BaseCarouselStep = styled(Row)<{
   $width: number
@@ -86,4 +87,24 @@ export const CarouselButtonContainer = styled.div`
   right: 0;
 
   cursor: pointer;
+`
+
+export const CarouselIndicator = styled.div<{ isCurrent: boolean; color?: string }>`
+  background: ${({ isCurrent, theme, color = theme.blackOpaque2 }) => (isCurrent ? color : 'transparent')};
+  border: 1px solid ${({ isCurrent, theme, color = theme.blackOpaque2 }) => (isCurrent ? 'transparent' : color)};
+  border-radius: 1rem;
+  flex: 1;
+  // filter: hue-rotate(124deg) invert(0);
+`
+export const CarouselIndicatorWrapper = styled(Row)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.8rem;
+  gap: 0.5rem;
+  width: 15%;
+  height: 1rem;
+  justify-content: center;
+  align-items: stretch;
+  z-index: ${Z_INDEXES.SCROLLER_DIV};
 `

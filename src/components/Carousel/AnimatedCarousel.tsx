@@ -1,6 +1,6 @@
 import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
 import useHorizontalScrollingAnimation from 'hooks/useHorizontalScrollingAnimation'
-import { CarouselStep } from './common'
+import { CarouselIndicators, CarouselStep } from './common'
 import { useCarouselSetup } from './hooks'
 import { CarouselContainer } from './styleds'
 import { BaseCarouselProps } from './types'
@@ -19,10 +19,13 @@ export default function AnimatedCarousel({
     startIndex
   })
 
-  const { springs, setScrollingZoneRef, setWidthRef, itemWidth } = useHorizontalScrollingAnimation(imageList, {
-    snapOnScroll: true,
-    visible: 1
-  })
+  const { currentIndex, itemWidth, springs, setScrollingZoneRef, setWidthRef } = useHorizontalScrollingAnimation(
+    imageList,
+    {
+      snapOnScroll: true,
+      visible: 1
+    }
+  )
 
   return (
     <CarouselContainer
@@ -41,35 +44,40 @@ export default function AnimatedCarousel({
         if (!parentWidth) return null
 
         return (
-          <AnimatedDivContainer
-            key={index}
-            style={{ scale, width: itemWidth, x }}
-            $borderRadius="0px"
-            $withBoxShadow={false}
-            $isVerticalScroll={false}
-          >
-            <CarouselStep
-              index={index}
-              parentWidth={parentWidth}
-              buttonColor={buttonColor}
-              onImageClick={onImageClick}
-              // image props
-              imageProps={{
-                path: { defaultPath: defaultUrl },
-                pathSrcSet: fullSizeContent ? undefined : urlRest,
-                transformation: transformation || imageTransformations,
-                loadInViewOptions,
-                lqImageOptions: { ...imageTransformations[0], showLoadingIndicator: true }
-              }}
-              // flags
-              transformAmount={0}
-              isMultipleCarousel={false}
-              showCarouselContentIndicators={false}
-              // cbs
-              onNext={null}
-              onPrev={null}
-            />
-          </AnimatedDivContainer>
+          <>
+            <CarouselIndicators size={imageList.length} currentIndex={currentIndex} color={buttonColor} />
+            <AnimatedDivContainer
+              key={index}
+              style={{ scale, width: itemWidth, x }}
+              $borderRadius="0px"
+              $withBoxShadow={false}
+              $isVerticalScroll={false}
+            >
+              <CarouselStep
+                index={index}
+                size={imageList.length}
+                parentWidth={parentWidth}
+                buttonColor={buttonColor}
+                onImageClick={onImageClick}
+                // image props
+                imageProps={{
+                  path: { defaultPath: defaultUrl },
+                  pathSrcSet: fullSizeContent ? undefined : urlRest,
+                  transformation: transformation || imageTransformations,
+                  loadInViewOptions,
+                  lqImageOptions: { ...imageTransformations[0], showLoadingIndicator: true }
+                }}
+                // flags
+                showIndicators
+                transformAmount={0}
+                isMultipleCarousel={false}
+                showButtons={false}
+                // cbs
+                onNext={null}
+                onPrev={null}
+              />
+            </AnimatedDivContainer>
+          </>
         )
       })}
     </CarouselContainer>

@@ -5,19 +5,19 @@ import { CarouselContainer } from './styleds'
 import { BaseCarouselProps } from './types'
 
 export interface ButtonCarouselProps extends BaseCarouselProps {
-  showCarouselContentIndicators?: boolean
+  showButtons?: boolean
   onCarouselChange?: (index: number) => void
 }
 
 export default function ButtonCarousel({
   imageList,
   startIndex,
+  showButtons,
   fixedHeight,
   buttonColor,
   transformation,
   fullSizeContent,
   loadInViewOptions,
-  showCarouselContentIndicators,
   onCarouselChange,
   onImageClick
 }: ButtonCarouselProps) {
@@ -81,10 +81,9 @@ export default function ButtonCarousel({
           <CarouselStep
             key={index}
             index={index}
+            size={imageList.length}
             parentWidth={parentWidth}
             transformAmount={calculatedWidth}
-            showCarouselContentIndicators={showCarouselContentIndicators}
-            isMultipleCarousel={isMultipleCarousel}
             buttonColor={buttonColor}
             // cbs&handlers
             onNext={onNext}
@@ -98,6 +97,10 @@ export default function ButtonCarousel({
               loadInViewOptions,
               lqImageOptions: { ...imageTransformations[0], showLoadingIndicator: true }
             }}
+            // flags
+            showIndicators
+            showButtons={showButtons}
+            isMultipleCarousel={isMultipleCarousel}
           />
         )
       })}

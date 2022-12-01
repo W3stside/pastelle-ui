@@ -19,7 +19,6 @@ import {
   fromSmall,
   setBackgroundWithDPI,
   setBestTextColour,
-  upToExtraSmall,
   upToLarge,
   upToSmall
 } from 'theme/utils'
