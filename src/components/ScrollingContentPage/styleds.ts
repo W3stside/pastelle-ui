@@ -4,14 +4,24 @@ import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
 import { ThemeModes } from 'theme/styled'
 
-export const AnimatedDivContainer = styled(a.div)<{ $useBoxShadow?: boolean; $maxWidth?: string }>`
-  position: absolute;
-  width: 100%;
+export const AnimatedDivContainer = styled(a.div)<{
+  $isVerticalScroll: boolean
+  $withBoxShadow?: boolean
+  $maxWidth?: string
+  $maxHeight?: string
+  $borderRadius?: string
+}>`
   will-change: transform;
+  position: absolute;
+  cursor: pointer;
+  border-radius: ${({ $borderRadius = '0.9rem' }) => $borderRadius};
+  overflow: hidden;
 
   max-width: ${({ $maxWidth }) => ($maxWidth ? $maxWidth : 'none')};
-
-  cursor: pointer;
+  max-height: ${({ $maxHeight }) => ($maxHeight ? $maxHeight : 'none')};
+  ${({ $isVerticalScroll }) => ($isVerticalScroll ? 'width: 100%;' : 'height: 100%;')}
+  ${({ $withBoxShadow = true, theme }) =>
+    $withBoxShadow && `box-shadow: 0px 0.1rem 2rem 0.9rem ${transparentize(0.5, theme.black)};`}
 
   &:hover {
     box-shadow: ${({ theme }) =>
@@ -19,11 +29,6 @@ export const AnimatedDivContainer = styled(a.div)<{ $useBoxShadow?: boolean; $ma
   }
 
   transition: box-shadow 0.2s ease-in-out;
-
-  ${({ $useBoxShadow = true, theme }) =>
-    $useBoxShadow && `box-shadow: 0px 0.1rem 2rem 0.9rem ${transparentize(0.5, theme.black)};`}
-  border-radius: 0.9rem;
-  overflow: hidden;
 `
 
 export const Scroller = styled.div`
@@ -42,8 +47,8 @@ export const Scroller = styled.div`
   `}
 `
 
-export const ScrollerContainer = styled.div`
-  height: 100%;
+export const ScrollerContainer = styled.div<{ $isVerticalScroll: boolean }>`
+  ${({ $isVerticalScroll }) => ($isVerticalScroll ? 'height: 100%;' : 'width: 100%;')}
   position: relative;
   overflow: hidden;
 

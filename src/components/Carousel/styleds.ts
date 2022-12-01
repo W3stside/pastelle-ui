@@ -1,36 +1,43 @@
 import styled from 'styled-components/macro'
 import { transparentize } from 'polished'
 import { Row } from 'components/Layout'
+import { ScrollerContainer } from 'components/ScrollingContentPage/styleds'
 
-export const CarouselStep = styled(Row)<{
-  $transformAmount: number
+const BaseCarouselStep = styled(Row)<{
   $width: number
   $height?: string
 }>`
   position: absolute;
   top: 0;
   left: 0;
-  transform: ${({ $transformAmount }) => `translateX(${$transformAmount}px)`};
   width: ${({ $width }) => $width}px;
   ${({ $height }) => $height && `height: ${$height};`}
   overflow: hidden;
-
-  z-index: ${({ $transformAmount }) => ($transformAmount > 0 ? 1 : 0)};
-
   // TODO: BE SURE THIS ISNT SHITTY
   align-items: flex-start;
 
   img {
     max-width: 100%;
-    box-shadow: 3px 6px 8px 0px #686868ad;
+    // box-shadow: 3px 6px 8px 0px #686868ad;
   }
+`
+
+export const AnimatedCarouselStep = styled(BaseCarouselStep)``
+export const StaticCarouselStep = styled(BaseCarouselStep)<{
+  $transformAmount: number
+}>`
+  transform: ${({ $transformAmount }) => `translateX(${$transformAmount}px)`};
 
   // transform one differently than the others
   transition: ${({ $transformAmount }) =>
     $transformAmount > 0 ? 'transform 1s ease-in-out;' : 'transform 0.7s ease-out'};
+
+  z-index: ${({ $transformAmount }) => ($transformAmount > 0 ? 1 : 0)};
 `
 
-export const CarouselContainer = styled.div<{ fixedHeight?: string }>`
+export const CarouselContainer = styled(ScrollerContainer).attrs({ $isVerticalScroll: false })<{
+  fixedHeight?: string
+}>`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -43,7 +50,7 @@ export const CarouselContainer = styled.div<{ fixedHeight?: string }>`
   ${({ fixedHeight }) => `height: ${fixedHeight};`}
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    > ${CarouselStep} {
+    > ${StaticCarouselStep} {
         max-width: 100%;
         height: auto;
       }

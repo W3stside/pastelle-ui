@@ -1,5 +1,6 @@
-import Carousel, { CarouselProps } from 'components/Carousel'
-import { CarouselContainer, CarouselStep, CarouselButtonContainer } from 'components/Carousel/styleds'
+import AnimatedCarousel from 'components/Carousel/AnimatedCarousel'
+import { CarouselContainer, StaticCarouselStep, CarouselButtonContainer } from 'components/Carousel/styleds'
+import { BaseCarouselProps } from 'components/Carousel/types'
 import Modal from 'components/Modal'
 import styled from 'styled-components/macro'
 import { upToSmall } from 'theme/utils'
@@ -9,7 +10,7 @@ const LargeImageModal = styled(Modal)`
   ${CarouselContainer}{
     height: 90%;
     margin: auto 0 0 0;
-    ${CarouselStep} {
+    ${StaticCarouselStep} {
       // let user scroll
       overflow: auto;
       > ${CarouselButtonContainer} {
@@ -19,7 +20,7 @@ const LargeImageModal = styled(Modal)`
   `}
 `
 
-interface LargeImageCarouselModalProps extends CarouselProps {
+interface LargeImageCarouselModalProps extends BaseCarouselProps {
   isOpen: boolean
   dismissModal: () => void
   toggleModal: () => void
@@ -28,7 +29,7 @@ export default function LargeImageCarouselModal(props: LargeImageCarouselModalPr
   const { isOpen, dismissModal, ...carouselProps } = props
   return (
     <LargeImageModal isOpen={isOpen} onDismiss={dismissModal} isLargeImageModal>
-      <Carousel {...carouselProps} fullSizeContent />
+      <AnimatedCarousel {...carouselProps} fullSizeContent />
     </LargeImageModal>
   )
 }

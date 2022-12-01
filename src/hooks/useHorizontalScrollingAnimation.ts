@@ -1,18 +1,11 @@
 import { useRef, useEffect, useCallback, useState } from 'react'
-import { isMobile } from 'react-device-detect'
 import { useGesture } from '@use-gesture/react'
-import { SpringConfig, useSprings } from 'react-spring'
+import { useSprings, config } from 'react-spring'
 import useStateRef from 'hooks/useStateRef'
 import { useGetWindowSize } from 'state/window/hooks'
 
-const CONFIG = {
-  SCROLL_SPEED_COEFFICIENT: 3.2,
-  DRAG_SPEED_COEFFICIENT: 1.3
-}
-const MAC_SPRING_CONFIG: SpringConfig = { friction: 90, tension: 280 }
-// const WHEEL_SPRING_CONFIG: SpringConfig = { friction: 40, tension: 100 }
-// const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 30, tension: 280, clamp: true, mass: 1 }
-const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 10, tension: 200, clamp: true }
+const DRAG_SPEED_COEFFICIENT = 0.4
+
 /**
  *
  * @param a input
@@ -114,7 +107,7 @@ export default function useHorizontalScrollingAnimation(
             setFirstPaintOver(true)
           }
         },
-        config: MOBILE_SPRING_CONFIG
+        config: config.stiff
       }
     },
     [itemWidth]
@@ -135,7 +128,7 @@ export default function useHorizontalScrollingAnimation(
       // const configPos = dx > 0 ? position : items.length - position
       const xPos = (-x % (itemWidth * items.length)) + itemWidth * rank
       const scale =
-        scaleOptions?.scaleOnScroll && !isMobile && active
+        scaleOptions?.scaleOnScroll && active
           ? Math.max(1 - Math.abs(mx) / itemWidth / 2, scaleOptions.scaleOnScroll)
           : scaleOptions.initialScale
 
@@ -150,10 +143,7 @@ export default function useHorizontalScrollingAnimation(
       return {
         x: active || !snapOnScroll ? xPos : anchorPoint,
         scale,
-        immediate: dx < 0 ? prevPosition > position : prevPosition < position,
-        // set configs based on intertial vs non-intertial scroll
-        // s === false means intertial
-        config: MOBILE_SPRING_CONFIG // WHEEL_SPRING_CONFIG
+        immediate: dx < 0 ? prevPosition > position : prevPosition < position
       }
     },
     [getPos, itemWidth, items.length, scaleOptions, snapOnScroll]
@@ -180,7 +170,7 @@ export default function useHorizontalScrollingAnimation(
         if (dx) {
           //   const aX = _getNearestAxisPoint(x, itemWidth)
           dragOffset.current = -x
-          const computedX = dragOffset.current + -x / CONFIG.DRAG_SPEED_COEFFICIENT
+          const computedX = dragOffset.current + -x / DRAG_SPEED_COEFFICIENT
           runSprings(computedX, -dx, -mx, active)
         }
       }

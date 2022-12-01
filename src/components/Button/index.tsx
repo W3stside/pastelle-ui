@@ -6,7 +6,7 @@ import { darken, transparentize } from 'polished'
 import { THEME_LIST, ThemeModes } from 'theme/styled'
 import { BoxProps } from 'rebass'
 import { setBackgroundWithDPI } from 'theme/utils'
-import { GenericImageSrcSet } from 'components/Carousel'
+import { GenericImageSrcSet } from 'shopify/graphql/types'
 
 export type Writable<T> = {
   -readonly [K in keyof T]: T[K]

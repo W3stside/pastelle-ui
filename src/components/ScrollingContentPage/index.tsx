@@ -4,7 +4,7 @@ import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/
 import { ScrollerContainer, AnimatedDivContainer, Scroller } from './styleds'
 
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
-import useScrollingPageAnimation from 'hooks/useScrollingPageAnimation'
+import useVerticalScrollingAnimation from 'hooks/useVerticalScrollingAnimation'
 import { LoadInViewOptions } from 'hooks/useDetectScrollIntoView'
 import { COLLECTION_MAX_WIDTH } from 'constants/config'
 import { isMobile } from 'utils'
@@ -18,7 +18,7 @@ interface ScrollingContentPageParams<D> {
   fixedItemHeight?: number
   hideHeight?: number
   showIndicator?: boolean
-  useBoxShadow?: boolean
+  withBoxShadow?: boolean
   onContentClick?: (handle?: string) => void // React.MouseEventHandler<HTMLDivElement>
   IterableComponent: (props: D & ScrollableContentComponentBaseProps) => JSX.Element
 }
@@ -37,7 +37,7 @@ export function ScrollingContentPage<D>({
   dataItem,
   fixedItemHeight,
   showIndicator = true,
-  useBoxShadow = false,
+  withBoxShadow = false,
   onContentClick,
   IterableComponent,
   ...indicatorProps
@@ -51,7 +51,7 @@ export function ScrollingContentPage<D>({
     firstPaintOver,
     setHeightRef,
     setScrollingZoneRef
-  } = useScrollingPageAnimation(data, {
+  } = useVerticalScrollingAnimation(data, {
     visible: 2,
     fixedItemHeight,
     snapOnScroll: false,
@@ -112,15 +112,16 @@ export function ScrollingContentPage<D>({
       />
       {/* mobile only scrolling ref, using collection-article doesn't work on mobile */}
       {isMobile && <Scroller ref={setScrollingZoneRef} onClick={handleItemSelect} />}
-      <ScrollerContainer>
+      <ScrollerContainer $isVerticalScroll>
         {springs.map(({ y, scale }, i) => {
           return (
             <AnimatedDivContainer
               key={y.id}
               style={{ scale, height: itemHeight, y }}
               $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
-              $useBoxShadow={useBoxShadow}
+              $withBoxShadow={withBoxShadow}
               onClick={isMobile ? undefined : () => onContentClick?.((data[i] as any).handle)}
+              $isVerticalScroll
             >
               {showIndicator && <ScrollingContentIndicator {...indicatorProps} />}
               <IterableComponent

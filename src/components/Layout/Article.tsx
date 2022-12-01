@@ -2,7 +2,7 @@ import styled from 'styled-components/macro'
 import { setCssBackground, upToExtraSmall } from 'theme/utils'
 import { setFadeInAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
-import { GenericImageSrcSet } from 'components/Carousel'
+import { GenericImageSrcSet } from 'shopify/graphql/types'
 
 export const portugalBg = `${process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}/portugal-bg_Rqj8jTKhFmds.jpg?tr=pr-true,`
 

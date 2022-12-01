@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { BoxProps } from 'rebass'
 
 import { Column, Row } from 'components/Layout'
-import Carousel, { GenericImageSrcSet } from 'components/Carousel'
+import AnimatedCarousel from 'components/Carousel/AnimatedCarousel'
+import ButtonCarousel from 'components/Carousel/ButtonCarousel'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import SmartImg from 'components/SmartImg'
 import LargeImageCarouselModal from 'components/LargeImageCarouselModal'
@@ -58,6 +59,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import ShowcaseVideos from 'components/Showcase/Videos'
 import { Package, Truck } from 'react-feather'
+import { GenericImageSrcSet } from 'shopify/graphql/types'
 
 export interface ProductPageProps {
   bgColor: string
@@ -163,10 +165,6 @@ export default function ItemPage({
   // IMAGES
   const imageUrls = getImageSizeMap(images)
 
-  /**
-   * SIDE EFFECTS
-   */
-  // 1. Update in state the currently being viewed product
   const updateCurrentlyViewing = useUpdateCurrentlyViewing()
   useEffect(() => {
     if (isActive) {
@@ -176,10 +174,12 @@ export default function ItemPage({
 
   // inner container ref
   const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)
-
   const DynamicInnerContainer = useMemo(() => (collectionView ? InnerCollectionContainer : InnerContainer), [
     collectionView
   ])
+
+  // mobile vs web carousel
+  const Carousel = useMemo(() => (isMobile && !collectionView ? AnimatedCarousel : ButtonCarousel), [collectionView])
 
   // collection display logo to use
   const collectionViewProductLogo = navLogo || headerLogo
@@ -207,8 +207,8 @@ export default function ItemPage({
             height: images[0]?.height || STORE_IMAGE_SIZES.LARGE /* , xc: 500, yc: 500 */
           }
         ]}
-        mediaStartIndex={currentCarouselIndex}
-        onCarouselChange={onCarouselChange}
+        startIndex={currentCarouselIndex}
+        // onCarouselChange={onCarouselChange}
       />
       {/* Product label: used in scolling collection */}
       {showProductLabel && (
@@ -236,7 +236,7 @@ export default function ItemPage({
               showCarouselContentIndicators={!collectionView}
               buttonColor={color}
               imageList={imageUrls}
-              mediaStartIndex={currentCarouselIndex}
+              startIndex={currentCarouselIndex}
               onCarouselChange={onCarouselChange}
               onImageClick={toggleModal}
               loadInViewOptions={loadInViewOptions}

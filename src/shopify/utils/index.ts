@@ -1,4 +1,4 @@
-import { GenericImageSrcSet } from 'components/Carousel'
+import { GenericImageSrcSet } from 'shopify/graphql/types'
 import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
 import {
   FragmentProductImageFragment,

@@ -9,7 +9,7 @@ import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
 import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
-import { CarouselContainer, CarouselStep } from 'components/Carousel/styleds'
+import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/styleds'
 import {
   BLACK,
   CHARCOAL_BLACK,
@@ -19,12 +19,13 @@ import {
   fromSmall,
   setBackgroundWithDPI,
   setBestTextColour,
+  upToExtraSmall,
   upToLarge,
   upToSmall
 } from 'theme/utils'
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
-import { GenericImageSrcSet } from 'components/Carousel'
+import { GenericImageSrcSet } from 'shopify/graphql/types'
 
 export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; labelColor?: string }>`
   position: absolute;
@@ -339,7 +340,7 @@ export const ItemContainer = styled(Row)<{
           overflow: visible;
         `}
 
-        > ${CarouselStep} {
+        > ${StaticCarouselStep} {
           position: relative;
           height: 100%;
 
@@ -354,6 +355,17 @@ export const ItemContainer = styled(Row)<{
 
           &:first-child {
             box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
+
+            
+
+            // MEDIA QUERY --> EXTRA SMALL and below
+            ${upToExtraSmall`
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 80%;
+              height: 75%;
+            `}
 
             > picture {
               border-radius: 1rem 0 0 1rem;
@@ -378,6 +390,17 @@ export const ItemContainer = styled(Row)<{
                 margin-left: auto;
               `}
             }
+
+            // MEDIA QUERY --> EXTRA SMALL and below
+            ${upToExtraSmall`
+              position: absolute;
+              transform: none;
+              top: 54%;
+              left: 50%;
+              width: 50%;
+              height: 45%;
+              z-index: 1;
+            `}
           }
 
           // MEDIA QUERY --> SMALL and below
@@ -503,7 +526,7 @@ export const ItemContainer = styled(Row)<{
       }
 
       > ${CarouselContainer} {
-        > ${CarouselStep} {
+        > ${StaticCarouselStep} {
           height: 100%;
 
           img {

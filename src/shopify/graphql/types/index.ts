@@ -1,4 +1,5 @@
 import { ShowcaseGender } from 'state/user/reducer'
+import { MediaWidths } from 'theme/styles/mediaQueries'
 import { AddNewCartLineMutation, GetCartQuery, ProductQuery } from './_generated_'
 
 export * from './_generated_'
@@ -48,3 +49,8 @@ export type ProductImagesSrcSet = {
 export type ProductImageSrcSetKeys = 'url' | 'url500' | 'url720' | 'url960' | 'url1280'
 export type CartQueryCart = GetCartQuery['cart']
 export type CartMutationCartLinesAdd = AddNewCartLineMutation['cartLinesAdd']
+
+export type DDPXImageUrlMap = { '1x': string; '2x'?: string; '3x'?: string }
+export type GenericImageSrcSet = { defaultUrl: string } & {
+  [K in MediaWidths]: DDPXImageUrlMap
+}

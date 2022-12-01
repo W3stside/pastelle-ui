@@ -5,7 +5,7 @@ import { Colors, ThemeModes } from './styled'
 import { MediaWidths, MEDIA_WIDTHS } from './styles/mediaQueries'
 import { hex } from 'wcag-contrast'
 import { transparentize } from 'polished'
-import { DDPXImageUrlMap, GenericImageSrcSet } from 'components/Carousel'
+import { DDPXImageUrlMap, GenericImageSrcSet } from 'shopify/graphql/types'
 
 export function getThemeColours(mode: ThemeModes): Colors {
   return THEME_COLOURS(mode)

@@ -3,7 +3,6 @@ import { IKImage, IKContext } from 'imagekitio-react'
 import useDetectScrollIntoView, { LoadInViewOptions } from 'hooks/useDetectScrollIntoView'
 import useEffectRef from 'hooks/useEffectRef'
 import styled from 'styled-components/macro'
-import { DDPXImageUrlMap } from 'components/Carousel'
 import { MediaWidths } from 'theme/styles/mediaQueries'
 import useStateRef from 'hooks/useStateRef'
 
@@ -11,6 +10,7 @@ import useImageLoadingEvent from 'hooks/useImageLoadingEvent'
 import { ThemeModes } from 'theme/styled'
 import { getLqIkUrl } from 'theme/utils'
 import { ColumnCenter } from 'components/Layout'
+import { DDPXImageUrlMap } from 'shopify/graphql/types'
 
 export type ImageKitTransformation = { [x: string]: undefined | number | string | boolean }[]
 
