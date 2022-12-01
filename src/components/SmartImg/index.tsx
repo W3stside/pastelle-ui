@@ -11,6 +11,7 @@ import { ThemeModes } from 'theme/styled'
 import { getLqIkUrl } from 'theme/utils'
 import { ColumnCenter } from 'components/Layout'
 import { DDPXImageUrlMap } from 'shopify/graphql/types'
+import { setForwardedRef } from 'utils'
 
 export type ImageKitTransformation = { [x: string]: undefined | number | string | boolean }[]
 
@@ -203,12 +204,7 @@ function _setImgRef(
   setRef: (node: HTMLElement | null) => void,
   node: HTMLElement | null
 ): void {
-  if (typeof forwardedRef === 'function') {
-    forwardedRef(node)
-  } else if (forwardedRef?.current) {
-    forwardedRef.current = node
-  }
-
+  forwardedRef && setForwardedRef(node, forwardedRef)
   setRef(node)
 }
 

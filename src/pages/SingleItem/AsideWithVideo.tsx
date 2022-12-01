@@ -201,7 +201,7 @@ export default function ItemPage({
         dismissModal={closeModals}
         // Carousel props
         buttonColor={color}
-        imageList={imageUrls}
+        imageList={[imageUrls[currentCarouselIndex]]}
         transformation={[
           {
             width: images[0]?.width || STORE_IMAGE_SIZES.LARGE,

@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { ForwardedRef, forwardRef, useMemo, useState } from 'react'
+import { setForwardedRef } from 'utils'
 import { CarouselStep } from './common'
 import { useCarouselSetup } from './hooks'
 import { CarouselContainer } from './styleds'
@@ -6,6 +7,7 @@ import { BaseCarouselProps } from './types'
 
 export interface ButtonCarouselProps extends BaseCarouselProps {
   showButtons?: boolean
+  forwardedRef?: ForwardedRef<HTMLDivElement>
   onCarouselChange?: (index: number) => void
 }
 
@@ -18,6 +20,7 @@ export default function ButtonCarousel({
   transformation,
   fullSizeContent,
   loadInViewOptions,
+  forwardedRef,
   onCarouselChange,
   onImageClick
 }: ButtonCarouselProps) {
@@ -29,7 +32,7 @@ export default function ButtonCarousel({
 
   const { isMultipleCarousel, lastStepIndex } = useMemo(
     () => ({
-      isMultipleCarousel: imageList.length > 0,
+      isMultipleCarousel: imageList.length > 1,
       lastStepIndex: imageList.length - 1
     }),
     [imageList.length]
@@ -38,13 +41,16 @@ export default function ButtonCarousel({
   return (
     <CarouselContainer
       id="#carousel-container"
-      ref={setCarouselContainerRef}
+      ref={node => {
+        setCarouselContainerRef(node)
+        node && forwardedRef && setForwardedRef(node, forwardedRef)
+      }}
       fixedHeight={fixedHeight || parentWidth + 'px'}
     >
       {/* CAROUSEL CONTENT */}
       {imageList.map(({ defaultUrl, ...urlRest }, index) => {
         if (!parentWidth) return null
-        const isCurrentStep = index === selectedStep
+        const isCurrentStep = !isMultipleCarousel || index === selectedStep
         // has multiple steps and is on last item
         const isLastStep = isMultipleCarousel && selectedStep === lastStepIndex
         const calculatedWidth = isCurrentStep ? 0 : parentWidth
@@ -107,3 +113,7 @@ export default function ButtonCarousel({
     </CarouselContainer>
   )
 }
+
+export const ButtonCarouselWithRef = forwardRef(function ButtonCarouselWithRef(props: any, ref) {
+  return <ButtonCarousel {...props} forwardedRef={ref} />
+})

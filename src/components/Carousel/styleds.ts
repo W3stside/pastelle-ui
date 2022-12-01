@@ -39,6 +39,7 @@ export const StaticCarouselStep = styled(BaseCarouselStep)<{
 export const CarouselContainer = styled(ScrollerContainer).attrs({ $isVerticalScroll: false })<{
   fixedHeight?: string
 }>`
+  user-select: none;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;

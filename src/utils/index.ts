@@ -1,3 +1,4 @@
+import { ForwardedRef } from 'react'
 import { UAParser } from 'ua-parser-js'
 
 export function escapeRegExp(string: string): string {
@@ -65,4 +66,12 @@ export function randomiseArray(arr: any[]) {
   const newFirstItem = arr[randomIndex - 1]
 
   return [newFirstItem, ...adjustedArrBeg, ...adjustedArrEnd]
+}
+
+export function setForwardedRef<T extends HTMLElement>(node: T, forwardedRef: ForwardedRef<T>) {
+  if (typeof forwardedRef === 'function') {
+    forwardedRef(node)
+  } else if (forwardedRef?.current) {
+    forwardedRef.current = node
+  }
 }
