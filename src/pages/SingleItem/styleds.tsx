@@ -356,10 +356,8 @@ export const ItemContainer = styled(Row)<{
           &:first-child {
             box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
 
-            
-
             // MEDIA QUERY --> EXTRA SMALL and below
-            ${upToExtraSmall`
+            ${upToSmall`
               position: absolute;
               top: 0;
               left: 0;
@@ -371,7 +369,7 @@ export const ItemContainer = styled(Row)<{
               border-radius: 1rem 0 0 1rem;
 
               ${upToSmall`
-                border-radius: 0;
+                border-radius: 0rem;
               `}
 
               ${fromExtraLarge`
@@ -383,16 +381,8 @@ export const ItemContainer = styled(Row)<{
           &:last-child {
             box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
 
-            > picture {
-              border-radius: 0 1rem 1rem 0;
-              
-              ${fromExtraLarge`
-                margin-left: auto;
-              `}
-            }
-
             // MEDIA QUERY --> EXTRA SMALL and below
-            ${upToExtraSmall`
+            ${upToSmall`
               position: absolute;
               transform: none;
               top: 54%;
@@ -401,6 +391,20 @@ export const ItemContainer = styled(Row)<{
               height: 45%;
               z-index: 1;
             `}
+
+            > picture {
+              border-radius: 0 1rem 1rem 0;
+              
+              ${upToSmall`
+                border-radius: 0rem;
+              `}
+
+              ${fromExtraLarge`
+                margin-left: auto;
+              `}
+            }
+
+            
           }
 
           // MEDIA QUERY --> SMALL and below
