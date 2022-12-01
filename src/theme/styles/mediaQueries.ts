@@ -22,7 +22,9 @@ export const BETWEEN_MEDIA_WIDTHS = {
   betweenExtraSmallAndSmall: [MEDIA_WIDTHS.upToExtraSmall, MEDIA_WIDTHS.upToSmall],
   betweenSmallAndMedium: [MEDIA_WIDTHS.upToSmall, MEDIA_WIDTHS.upToMedium],
   betweenMediumAndLarge: [MEDIA_WIDTHS.upToMedium, MEDIA_WIDTHS.upToLarge],
-  betweenLargeAndExtraLarge: [MEDIA_WIDTHS.upToLarge, MEDIA_WIDTHS.upToExtraLarge]
+  betweenLargeAndExtraLarge: [MEDIA_WIDTHS.upToLarge, MEDIA_WIDTHS.upToExtraLarge],
+  // weird but useful
+  betweenSmallAndLarge: [MEDIA_WIDTHS.upToSmall, MEDIA_WIDTHS.upToLarge]
 }
 
 type MediaWidthKeys = keyof typeof MEDIA_WIDTHS

@@ -136,6 +136,8 @@ declare module 'styled-components' {
       betweenSmallAndMedium: ThemedCssFunction<DefaultTheme>
       betweenMediumAndLarge: ThemedCssFunction<DefaultTheme>
       betweenLargeAndExtraLarge: ThemedCssFunction<DefaultTheme>
+      // random but useful
+      betweenSmallAndLarge: ThemedCssFunction<DefaultTheme>
     }
 
     // css snippets

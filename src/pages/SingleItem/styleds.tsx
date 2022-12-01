@@ -11,6 +11,7 @@ import { SocialType } from 'mock/types'
 import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/styleds'
 import {
+  betweenSmallAndLarge,
   BLACK,
   CHARCOAL_BLACK,
   fromExtraLarge,
@@ -355,15 +356,6 @@ export const ItemContainer = styled(Row)<{
           &:first-child {
             box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
 
-            // MEDIA QUERY --> EXTRA SMALL and below
-            ${upToSmall`
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 80%;
-              height: 75%;
-            `}
-
             > picture {
               border-radius: 1rem 0 0 1rem;
 
@@ -380,22 +372,12 @@ export const ItemContainer = styled(Row)<{
           &:last-child {
             box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
 
-            // MEDIA QUERY --> EXTRA SMALL and below
-            ${upToSmall`
-              position: absolute;
-              transform: none;
-              top: 54%;
-              left: 50%;
-              width: 50%;
-              height: 45%;
-              z-index: 1;
-            `}
-
             > picture {
               border-radius: 0 1rem 1rem 0;
               
               ${upToSmall`
                 border-radius: 0rem;
+                display: none;
               `}
 
               ${fromExtraLarge`
@@ -412,24 +394,48 @@ export const ItemContainer = styled(Row)<{
             justify-content: center;            
             :not(:first-child) {
               position: absolute;
-            }
-          `}
-          // MEDIA QUERY --> SMALL and above
-          ${fromSmall`
-            max-width: 100%;
-            z-index: 1;
-          
-            :not(:first-child) {
               visibility: hidden;
               transform: none;
               z-index: ${Z_INDEXES.ZERO};
             }
           `}
-          // MEDIA QUERY --> MEDIUM and above
-          ${fromMedium`
+          // MEDIA QUERY --> SMALL and above
+          ${({ theme }) => betweenSmallAndLarge`
             position: absolute;
-            justify-content: flex-start;       
+            max-width: 100%;
+            z-index: 1;
+          
+            transform: none;
+            overflow: visible;
+
+            > picture {
+              overflow: visible;
+            }
+
+            &:first-child {
+              > picture {
+                position: absolute;
+                width: 60%;
+                top: 0;
+                left: 0;
+              }
+            }
+
+            &:not(:first-child) {
+              > picture {
+                > img {
+                  border-radius: 1rem;
+                  box-shadow: 1rem 0px 5rem 0.5rem ${transparentize(0.5, theme.black)};
+                }
+                position: absolute;
+                width: 50%;
+                height: 65%;
+                top: 50%;
+                left: 60%;
+              }
+            }
           `}
+          
           // MEDIA QUERY --> LARGE and above
           ${fromLarge`
             position: relative;

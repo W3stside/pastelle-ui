@@ -64,6 +64,7 @@ export const betweenExtraSmallAndSmall = whenMediaBetween('betweenExtraSmallAndS
 export const betweenSmallAndMedium = whenMediaBetween('betweenSmallAndMedium')
 export const betweenMediumAndLarge = whenMediaBetween('betweenMediumAndLarge')
 export const betweenLargeAndExtraLarge = whenMediaBetween('betweenLargeAndExtraLarge')
+export const betweenSmallAndLarge = whenMediaBetween('betweenSmallAndLarge')
 
 // big to small
 // e.g { width: 500, ar: "3:2" }
