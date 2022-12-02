@@ -14,13 +14,16 @@ import {
   fromExtraSmall,
   betweenSmallAndMedium,
   getThemeColours,
-  setBestTextColour
+  setBestTextColour,
+  setBackgroundWithDPI,
+  BLACK
 } from 'theme/utils'
 
 import PastelleLogoSharpShort from 'assets/svg/PSTL-sharp.svg'
 import PastelleLogoCursiveLong from 'assets/svg/pastelle-cursive-logo.svg'
 import ThemeToggleBar from 'components/ThemeToggler'
 import { ThemeModes } from 'theme/styled'
+import { GenericImageSrcSet } from 'shopify/graphql/types'
 
 const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
 
@@ -58,9 +61,17 @@ export const BalanceText = styled(Text)`
   `};
 `
 
-export const HeaderFrame = styled(SectionFrame)`
+export const HeaderFrame = styled(SectionFrame)<{ color?: string; logoSet?: GenericImageSrcSet }>`
   top: 0;
   padding: 1rem;
+
+  ${({ theme, color = BLACK, logoSet }) =>
+    logoSet &&
+    setBackgroundWithDPI(theme, logoSet, {
+      preset: 'navbar',
+      modeColours: [color, BLACK],
+      lqIkUrlOptions: { dpi: '3x', transform: 'pr-true,q-2,w-770,h-50' }
+    })}
 
   ${fromExtraSmall`
     height: 10rem;

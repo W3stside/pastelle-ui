@@ -13,7 +13,7 @@ import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Row } from 'components/Layout'
 import ThemeToggleBar from 'components/ThemeToggler'
 import useStateRef from 'hooks/useStateRef'
-import { NavLogo } from 'components/BackgroundLogo'
+// import { NavLogo } from 'components/BackgroundLogo'
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string }
 
@@ -53,7 +53,7 @@ export default function Navigation({
     [navigate, isNavOpen, toggleNav]
   )
 
-  const [parentNode, setNodeRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+  const [, /* parentNode */ setNodeRef] = useStateRef<HTMLDivElement | null>(null, node => node)
 
   // close open nav on resize
   useOnResize(() => setIsNavOpen(false), isNavOpen)
@@ -70,7 +70,7 @@ export default function Navigation({
         currentMedia={{ navLogoSet: currentProduct?.navLogo, color: currentProduct?.color }}
         ref={setNodeRef}
       >
-        <NavLogo parentNode={parentNode} logoSrcSet={currentProduct?.navLogo} />
+        {/* <NavLogo parentNode={parentNode} logoSrcSet={currentProduct?.navLogo} /> */}
         <InnerNavWrapper>
           <ItemSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
             <Row flexDirection={'row-reverse'} flexWrap={'wrap'} justifyContent="center" style={{ gap: '0.5rem' }}>

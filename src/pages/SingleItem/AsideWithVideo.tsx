@@ -205,7 +205,7 @@ export default function ItemPage({
         transformation={[
           {
             width: images[0]?.width || STORE_IMAGE_SIZES.LARGE,
-            height: images[0]?.height || STORE_IMAGE_SIZES.LARGE /* , xc: 500, yc: 500 */
+            height: images[0]?.height || STORE_IMAGE_SIZES.LARGE
           }
         ]}
         startIndex={currentCarouselIndex}

@@ -3,7 +3,7 @@ import Button from 'components/Button'
 import { MobileNavProps } from '.'
 import { Z_INDEXES } from 'constants/config'
 import { Column } from 'components/Layout'
-import { setBestTextColour } from 'theme/utils'
+import { BLACK, setBackgroundWithDPI, setBestTextColour } from 'theme/utils'
 import { setFlickerAnimation } from 'theme/styles/animations'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
 
@@ -26,6 +26,13 @@ export const NavigationStepsWrapper = styled.nav<{
 
   gap: 0px;
 
+  ${({ theme, currentMedia }) =>
+    setBackgroundWithDPI(theme, currentMedia.navLogoSet, {
+      preset: 'navbar',
+      modeColours: [currentMedia.color || BLACK, BLACK],
+      lqIkUrlOptions: { dpi: '3x', transform: 'pr-true,q-2,w-50,h-700' }
+    })}
+
   z-index: 1;
 
   > a {
@@ -47,7 +54,8 @@ export const NavigationStepsWrapper = styled.nav<{
     width: 100%;
     
     // theme toggler
-    > ${InnerNavWrapper}:nth-child(3) {
+    // TODO: change when you don't want CSS BGs for logos (e.g use component)
+    > ${InnerNavWrapper}:nth-child(2) {
       display: none;
     }
     

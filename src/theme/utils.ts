@@ -91,13 +91,10 @@ export function setBestContrastingColour({ bgColour, fgColour, lightColour, dark
 
   return contrastLevel < CONTRAST_THRESHOLD ? lightColour : darkColour
 }
+type LqIkUrlOptions = { defaultUrl: string; dpi?: keyof DDPXImageUrlMap; transform?: string }
 export function getLqIkUrl(
   urlAtWidth: DDPXImageUrlMap | undefined,
-  {
-    defaultUrl,
-    dpi = '2x',
-    transform = 'pr-true,q-30'
-  }: { defaultUrl: string; dpi?: keyof DDPXImageUrlMap; transform?: string }
+  { defaultUrl, dpi = '2x', transform = 'pr-true,q-30' }: LqIkUrlOptions
 ) {
   const queryUrl = urlAtWidth?.[dpi] || defaultUrl
   const urlObj = queryUrl && new URL(queryUrl)
@@ -127,28 +124,31 @@ type SetCssBackgroundParams = {
   ignoreQueriesWithFixedWidth?: MediaWidths
   dpiLevel?: '3x' | '2x' | '1x'
   skipIk?: boolean
+  lqIkUrlOptions?: Omit<LqIkUrlOptions, 'defaultUrl'>
 }
 export const setCssBackground = (
   theme: DefaultTheme,
   {
     imageUrls,
     backgroundColor = '',
-    backgroundAttributes = ['cover no-repeat', 'cover no-repeat'],
+    backgroundAttributes = ['center/cover no-repeat', 'center/cover no-repeat'],
     backgroundBlendMode = 'unset',
     ignoreQueriesWithFixedWidth = undefined,
     dpiLevel = '1x',
-    skipIk = false
+    skipIk = false,
+    lqIkUrlOptions = {}
   }: SetCssBackgroundParams
 ) => {
   const getBackground = (width?: MediaWidths) => {
     return imageUrls
       ? imageUrls.map((urlSet, i, { length }) => {
-          const [isFirst, isLast] = [!i, i === length - 1]
+          const [, isLast] = [!i, i === length - 1]
 
           const urlAtWidth = width && urlSet[width]
           const urlAtDpi = urlAtWidth?.[dpiLevel]
 
-          const lqUrl = !skipIk && isFirst && getLqIkUrl(urlAtWidth, { defaultUrl: urlSet.defaultUrl })
+          const lqUrl =
+            !skipIk && isLast && getLqIkUrl(urlAtWidth, { defaultUrl: urlSet.defaultUrl, ...lqIkUrlOptions })
 
           const urlBuilt = `
             url(${lqUrl || urlAtDpi || urlSet.defaultUrl}) ${backgroundAttributes[i] || ''}${
