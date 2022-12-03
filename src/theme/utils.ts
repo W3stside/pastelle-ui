@@ -228,7 +228,7 @@ function _getPresetOptions(
       const [lmColour, dmColour] = options.modeColours || [OFF_WHITE, BLACK]
       return {
         backgroundColor: isLightMode ? lmColour : dmColour,
-        backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
+        backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
         backgroundBlendMode: 'difference',
         lqIkUrlOptions: { dpi: '3x', transforms: [null, 'pr-true,q-2,w-770,h-50'], ...options.lqIkUrlOptions }
       }

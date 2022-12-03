@@ -68,7 +68,7 @@ export const HeaderFrame = styled(SectionFrame)<{ color?: string; logoSet?: Gene
   ${({ theme, color = BLACK, logoSet }) =>
     logoSet &&
     setBackgroundWithDPI(theme, logoSet, {
-      preset: 'navbar',
+      preset: 'header',
       modeColours: [color, BLACK]
     })}
 
