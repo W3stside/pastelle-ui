@@ -69,8 +69,7 @@ export const HeaderFrame = styled(SectionFrame)<{ color?: string; logoSet?: Gene
     logoSet &&
     setBackgroundWithDPI(theme, logoSet, {
       preset: 'navbar',
-      modeColours: [color, BLACK],
-      lqIkUrlOptions: { dpi: '3x', transform: 'pr-true,q-2,w-770,h-50' }
+      modeColours: [color, BLACK]
     })}
 
   ${fromExtraSmall`

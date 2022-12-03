@@ -216,7 +216,7 @@ function _getLqImageOptions(path: SmartImageProps['path'], lqImageOptions: Smart
 
   return {
     background: `url(${getLqIkUrl(undefined, {
-      defaultUrl: path?.defaultPath,
+      fallbackUrl: path?.defaultPath,
       transform: `q-1,bl-20,pr-true,w-${width},h-${height}:w-${width / 4},h-${height / 4}`
     })}) center/contain no-repeat`,
     width,

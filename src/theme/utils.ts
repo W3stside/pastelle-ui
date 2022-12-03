@@ -91,12 +91,12 @@ export function setBestContrastingColour({ bgColour, fgColour, lightColour, dark
 
   return contrastLevel < CONTRAST_THRESHOLD ? lightColour : darkColour
 }
-type LqIkUrlOptions = { defaultUrl: string; dpi?: keyof DDPXImageUrlMap; transform?: string }
+type LqIkUrlOptions = { fallbackUrl: string; dpi?: keyof DDPXImageUrlMap; transforms?: string | (string | null)[] }
 export function getLqIkUrl(
   urlAtWidth: DDPXImageUrlMap | undefined,
-  { defaultUrl, dpi = '2x', transform = 'pr-true,q-30' }: LqIkUrlOptions
+  { fallbackUrl, dpi = '2x', transform = '' }: Omit<LqIkUrlOptions, 'transforms'> & { transform?: string | null }
 ) {
-  const queryUrl = urlAtWidth?.[dpi] || defaultUrl
+  const queryUrl = urlAtWidth?.[dpi] || fallbackUrl
   const urlObj = queryUrl && new URL(queryUrl)
 
   if (!process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT || !urlObj) return null
@@ -124,7 +124,7 @@ type SetCssBackgroundParams = {
   ignoreQueriesWithFixedWidth?: MediaWidths
   dpiLevel?: '3x' | '2x' | '1x'
   skipIk?: boolean
-  lqIkUrlOptions?: Omit<LqIkUrlOptions, 'defaultUrl'>
+  lqIkUrlOptions?: Omit<LqIkUrlOptions, 'fallbackUrl'>
 }
 export const setCssBackground = (
   theme: DefaultTheme,
@@ -147,11 +147,16 @@ export const setCssBackground = (
           const urlAtWidth = width && urlSet[width]
           const urlAtDpi = urlAtWidth?.[dpiLevel]
 
+          const lqTransform =
+            typeof lqIkUrlOptions.transforms === 'string' ? lqIkUrlOptions.transforms : lqIkUrlOptions.transforms?.[i]
+
           const lqUrl =
-            !skipIk && isLast && getLqIkUrl(urlAtWidth, { defaultUrl: urlSet.defaultUrl, ...lqIkUrlOptions })
+            !skipIk &&
+            !!lqTransform &&
+            getLqIkUrl(urlAtWidth, { fallbackUrl: urlSet.defaultUrl, transform: lqTransform, ...lqIkUrlOptions })
 
           const urlBuilt = `
-            url(${lqUrl || urlAtDpi || urlSet.defaultUrl}) ${backgroundAttributes[i] || ''}${
+            url(${lqUrl || urlAtDpi || urlSet.defaultUrl}) ${backgroundAttributes[i] || 'center/cover no-repeat'}${
             isLast ? ` ${backgroundColor}` : ','
           }
           `
@@ -224,7 +229,8 @@ function _getPresetOptions(
       return {
         backgroundColor: isLightMode ? lmColour : dmColour,
         backgroundAttributes: ['center / cover no-repeat', '0px 0px / cover no-repeat'],
-        backgroundBlendMode: 'difference'
+        backgroundBlendMode: 'difference',
+        lqIkUrlOptions: { dpi: '3x', transforms: [null, 'pr-true,q-2,w-770,h-50'], ...options.lqIkUrlOptions }
       }
     }
     case 'navbar': {
@@ -232,13 +238,14 @@ function _getPresetOptions(
       return {
         backgroundColor: isLightMode ? lmColour : dmColour,
         backgroundAttributes: ['center / cover no-repeat', '5px / cover repeat'],
-        backgroundBlendMode: 'difference'
+        backgroundBlendMode: 'difference',
+        lqIkUrlOptions: { dpi: '3x', transforms: [null, 'pr-true,q-2,w-50,h-700'], ...options.lqIkUrlOptions }
       }
     }
     case 'logo':
       return {
         ...options,
-        backgroundAttributes: ['center/cover', 'center/cover no-repeat']
+        backgroundAttributes: ['center/cover repeat', 'center/cover repeat']
       }
 
     default: {

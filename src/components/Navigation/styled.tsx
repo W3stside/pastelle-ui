@@ -26,11 +26,10 @@ export const NavigationStepsWrapper = styled.nav<{
 
   gap: 0px;
 
-  ${({ theme, currentMedia }) =>
-    setBackgroundWithDPI(theme, currentMedia.navLogoSet, {
+  ${({ theme, currentMedia: { navLogoSet, color = BLACK } }) =>
+    setBackgroundWithDPI(theme, navLogoSet, {
       preset: 'navbar',
-      modeColours: [currentMedia.color || BLACK, BLACK],
-      lqIkUrlOptions: { dpi: '3x', transform: 'pr-true,q-2,w-50,h-700' }
+      modeColours: [color, BLACK]
     })}
 
   z-index: 1;

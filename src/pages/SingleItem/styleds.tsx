@@ -40,9 +40,9 @@ export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; la
   text-shadow: 0px 0 0.5rem ${({ labelColor }) => labelColor || BLACK};
   ${({ theme, logo }) =>
     setBackgroundWithDPI(theme, logo, {
-      preset: 'navbar',
-      backgroundAttributes: ['center/cover no-repeat', '0px 0px / cover no-repeat'],
-      dpiLevel: '1x'
+      preset: 'header',
+      dpiLevel: '1x',
+      modeColours: [BLACK, BLACK]
     })}
 `
 
@@ -113,7 +113,14 @@ export const ItemLogo = styled.div<{
 `
 export const ItemLogoCssImport = styled(ItemLogo)<{ position?: string; height?: number; logoUri: GenericImageSrcSet }>`
   position: ${({ position = 'fixed' }) => position};
-  ${({ theme, logoUri }) => setBackgroundWithDPI(theme, logoUri, { preset: 'logo', skipIk: true })}
+  ${({ theme, logoUri }) =>
+    setBackgroundWithDPI(theme, [logoUri, logoUri], {
+      preset: 'logo',
+      backgroundAttributes: ['center/cover no-repeat', 'center/cover repeat'],
+      lqIkUrlOptions: {
+        transforms: [null, 'pr-true,q-60,bl-12']
+      }
+    })}
     
   height: ${({ height = 160 }) => height}px;
 `
