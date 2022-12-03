@@ -24,7 +24,8 @@ export const AnimatedDivContainer = styled(a.div)<{
     $withBoxShadow && `box-shadow: 0px 0.1rem 2rem 0.9rem ${transparentize(0.5, theme.black)};`}
 
   &:hover {
-    box-shadow: ${({ theme }) =>
+    box-shadow: ${({ theme, $withBoxShadow = true }) =>
+      $withBoxShadow &&
       `0px 0px 3rem 1rem ${theme.mode === ThemeModes.DARK ? theme.blackOpaque2 : theme.offWhiteOpaque3}`};
   }
 
