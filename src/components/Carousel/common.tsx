@@ -12,7 +12,6 @@ import {
 
 export type CarouselStepsProps = Pick<BaseCarouselProps, 'buttonColor' | 'onImageClick'> & {
   index: number
-  size: number
   imageProps: SmartImageProps
   parentWidth: number
   transformAmount: number

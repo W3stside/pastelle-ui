@@ -1,6 +1,6 @@
 import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
 import useHorizontalScrollingAnimation from 'hooks/useHorizontalScrollingAnimation'
-import { Fragment } from 'react'
+import { Fragment, useMemo } from 'react'
 import { CarouselIndicators, CarouselStep } from './common'
 import { useCarouselSetup } from './hooks'
 import { CarouselContainer } from './styleds'
@@ -20,11 +20,15 @@ export default function AnimatedCarousel({
     startIndex
   })
 
+  const optimisedImageList = useMemo(() => (imageList.length === 2 ? imageList.concat(imageList) : imageList), [
+    imageList
+  ])
+
   const { currentIndex, itemWidth, springs, setScrollingZoneRef, setWidthRef } = useHorizontalScrollingAnimation(
-    imageList,
+    optimisedImageList,
     {
       snapOnScroll: true,
-      visible: 1
+      visible: Math.round(optimisedImageList.length / 2)
     }
   )
 
@@ -40,7 +44,7 @@ export default function AnimatedCarousel({
     >
       {/* CAROUSEL CONTENT */}
       {springs.map(({ x, scale }, index) => {
-        const { defaultUrl, ...urlRest } = imageList[index]
+        const { defaultUrl, ...urlRest } = optimisedImageList[index]
 
         if (!parentWidth) return null
 
@@ -55,7 +59,6 @@ export default function AnimatedCarousel({
             >
               <CarouselStep
                 index={index}
-                size={imageList.length}
                 parentWidth={parentWidth}
                 buttonColor={buttonColor}
                 onImageClick={onImageClick}

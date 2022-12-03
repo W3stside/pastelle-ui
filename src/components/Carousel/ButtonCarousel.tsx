@@ -87,7 +87,6 @@ export default function ButtonCarousel({
           <CarouselStep
             key={index}
             index={index}
-            size={imageList.length}
             parentWidth={parentWidth}
             transformAmount={calculatedWidth}
             buttonColor={buttonColor}

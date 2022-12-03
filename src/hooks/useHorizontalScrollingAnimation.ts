@@ -1,6 +1,6 @@
 import { useRef, useEffect, useCallback, useState } from 'react'
 import { useGesture } from '@use-gesture/react'
-import { useSprings, config } from 'react-spring'
+import { useSprings } from 'react-spring'
 import useStateRef from 'hooks/useStateRef'
 import { useGetWindowSize } from 'state/window/hooks'
 
@@ -107,7 +107,10 @@ export default function useHorizontalScrollingAnimation(
             setFirstPaintOver(true)
           }
         },
-        config: config.stiff
+        config: {
+          tension: 260,
+          friction: 50
+        }
       }
     },
     [itemWidth]
@@ -143,7 +146,7 @@ export default function useHorizontalScrollingAnimation(
       return {
         x: active || !snapOnScroll ? xPos : anchorPoint,
         scale,
-        immediate: dx < 0 ? prevPosition > position : prevPosition < position
+        immediate: dx < 0 ? prevPosition > position * 2 : prevPosition * 2 < position
       }
     },
     [getPos, itemWidth, items.length, scaleOptions, snapOnScroll]
