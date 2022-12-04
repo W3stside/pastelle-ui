@@ -73,7 +73,7 @@ export default function AnimatedCarousel({
         return (
           <AnimatedDivContainer
             key={index}
-            style={{ width: itemSize, x }}
+            style={{ width: itemSize, x, zIndex: index === 0 ? 1 : 0 }}
             $borderRadius="0px"
             $withBoxShadow={false}
             $isVerticalScroll={false}
