@@ -3,14 +3,26 @@ import { Z_INDEXES } from 'constants/config'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
 import { ThemeModes } from 'theme/styled'
-
+export type TouchAction =
+  | 'auto'
+  | 'none'
+  | 'pan-x'
+  | 'pan-left'
+  | 'pan-right'
+  | 'pan-y'
+  | 'pan-up'
+  | 'pan-down'
+  | 'pinch-zoom'
+  | 'manipulation'
 export const AnimatedDivContainer = styled(a.div)<{
   $isVerticalScroll: boolean
   $withBoxShadow?: boolean
   $maxWidth?: string
   $maxHeight?: string
   $borderRadius?: string
+  $touchAction?: TouchAction
 }>`
+  touch-action: ${({ $touchAction = 'auto' }) => $touchAction};
   will-change: transform;
   position: absolute;
   cursor: pointer;

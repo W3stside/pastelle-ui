@@ -69,3 +69,4 @@ export const SINGLE_ITEM_ASIDE_CSS_LOGO_TRANSFORMS = [
   `pr-true,dpr-2,q-40,w-${STORE_IMAGE_SIZES.SMALL},h-2400`
 ]
 export const NAV_CSS_LOGO_TRANSFORMS = ['pr-true,dpr-2,q-70,w-183', 'pr-true,dpr-2,q-40,w-183']
+export const MINIMUM_COLLECTION_ITEM_HEIGHT = 773

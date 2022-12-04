@@ -1,6 +1,7 @@
 import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
-import useHorizontalScrollingAnimation from 'hooks/useHorizontalScrollingAnimation'
-import { Fragment, useMemo } from 'react'
+import { STORE_IMAGE_SIZES } from 'constants/config'
+import useHorizontalScrollingAnimation from 'hooks/useScrollingAnimation/useHorizontalScrollingAnimation'
+import { useMemo } from 'react'
 import { CarouselIndicators, CarouselStep } from './common'
 import { useCarouselSetup } from './hooks'
 import { CarouselContainer } from './styleds'
@@ -24,11 +25,20 @@ export default function AnimatedCarousel({
     imageList
   ])
 
-  const { currentIndex, itemWidth, springs, setScrollingZoneRef, setWidthRef } = useHorizontalScrollingAnimation(
+  const { currentIndex, itemSize, springs, setScrollingZoneRef, setItemSizeRef } = useHorizontalScrollingAnimation(
     optimisedImageList,
     {
+      sizeOptions: {
+        minSize: STORE_IMAGE_SIZES.SMALL
+      },
+      scaleOptions: { initialScale: 1 },
       snapOnScroll: true,
-      visible: Math.round(optimisedImageList.length / 2)
+      visible: imageList.length - 1,
+      config: ({ length, configPos }) => ({
+        tension: (1 + length - configPos) * 140,
+        friction: 1 + configPos * 40
+        // clamp: true
+      })
     }
   )
 
@@ -38,49 +48,57 @@ export default function AnimatedCarousel({
       ref={node => {
         setCarouselContainerRef(node)
         setScrollingZoneRef(node)
-        setWidthRef(node)
+        setItemSizeRef(node)
       }}
       fixedHeight={fixedHeight || parentWidth + 'px'}
     >
+      <CarouselIndicators
+        size={imageList.length}
+        currentIndex={
+          optimisedImageList.length === imageList.length
+            ? currentIndex
+            : currentIndex % (optimisedImageList.length - imageList.length)
+        }
+        color={buttonColor}
+      />
       {/* CAROUSEL CONTENT */}
-      {springs.map(({ x, scale }, index) => {
+      {springs.map(({ x }, index) => {
         const { defaultUrl, ...urlRest } = optimisedImageList[index]
 
         if (!parentWidth) return null
 
         return (
-          <Fragment key={index}>
-            <CarouselIndicators size={imageList.length} currentIndex={currentIndex} color={buttonColor} />
-            <AnimatedDivContainer
-              style={{ scale, width: itemWidth, x }}
-              $borderRadius="0px"
-              $withBoxShadow={false}
-              $isVerticalScroll={false}
-            >
-              <CarouselStep
-                index={index}
-                parentWidth={parentWidth}
-                buttonColor={buttonColor}
-                onImageClick={onImageClick}
-                // image props
-                imageProps={{
-                  path: { defaultPath: defaultUrl },
-                  pathSrcSet: fullSizeContent ? undefined : urlRest,
-                  transformation: transformation || imageTransformations,
-                  loadInViewOptions,
-                  lqImageOptions: { ...imageTransformations[0], showLoadingIndicator: true }
-                }}
-                // flags
-                showIndicators
-                transformAmount={0}
-                isMultipleCarousel={false}
-                showButtons={false}
-                // cbs
-                onNext={null}
-                onPrev={null}
-              />
-            </AnimatedDivContainer>
-          </Fragment>
+          <AnimatedDivContainer
+            key={index}
+            style={{ width: itemSize, x }}
+            $borderRadius="0px"
+            $withBoxShadow={false}
+            $isVerticalScroll={false}
+            $touchAction="none"
+          >
+            <CarouselStep
+              index={index}
+              parentWidth={parentWidth}
+              buttonColor={buttonColor}
+              onImageClick={onImageClick}
+              // image props
+              imageProps={{
+                path: { defaultPath: defaultUrl },
+                pathSrcSet: fullSizeContent ? undefined : urlRest,
+                transformation: transformation || imageTransformations,
+                loadInViewOptions,
+                lqImageOptions: { ...imageTransformations[0], showLoadingIndicator: true }
+              }}
+              // flags
+              showIndicators
+              transformAmount={0}
+              isMultipleCarousel={false}
+              showButtons={false}
+              // cbs
+              onNext={null}
+              onPrev={null}
+            />
+          </AnimatedDivContainer>
         )
       })}
     </CarouselContainer>

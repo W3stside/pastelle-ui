@@ -4,9 +4,9 @@ import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/
 import { ScrollerContainer, AnimatedDivContainer, Scroller } from './styleds'
 
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
-import useVerticalScrollingAnimation from 'hooks/useVerticalScrollingAnimation'
+import useVerticalScrollingAnimation from 'hooks/useScrollingAnimation/useVerticalScrollingAnimation'
 import { LoadInViewOptions } from 'hooks/useDetectScrollIntoView'
-import { COLLECTION_MAX_WIDTH } from 'constants/config'
+import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
 import { isMobile } from 'utils'
 import { Product } from 'shopify/graphql/types'
 
@@ -49,11 +49,11 @@ export function ScrollingContentPage<D>({
     itemHeight,
     currentIndex,
     firstPaintOver,
-    setHeightRef,
+    setItemSizeRef: setHeightRef,
     setScrollingZoneRef
   } = useVerticalScrollingAnimation(data, {
     visible: 2,
-    fixedItemHeight,
+    sizeOptions: { fixedSize: fixedItemHeight, minSize: MINIMUM_COLLECTION_ITEM_HEIGHT },
     snapOnScroll: false,
     // defaults to 0.8 scale on scroll and 1 scale default
     scaleOptions: {
