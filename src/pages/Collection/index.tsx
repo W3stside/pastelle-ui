@@ -5,7 +5,6 @@ import { useCurrentCollection } from 'state/collection/hooks'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
 import AsideWithVideo, { SingleItemPageProps } from 'pages/SingleItem/AsideWithVideo'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
-import { STORE_IMAGE_SIZES } from 'constants/config'
 import { isMobile } from 'utils'
 import { buildItemUrl } from 'utils/navigation'
 
@@ -50,11 +49,6 @@ export default function Collection() {
           data={collectionProductList}
           dataItem={collectionProductList[0]}
           IterableComponent={AsideWithVideoAux}
-          baseContentMessage="SCROLL/DRAG FOR MORE SHIT!"
-          width={`calc(100% - ${STORE_IMAGE_SIZES.SMALL}px)`}
-          bgColor="#ffffffdb"
-          onlyOne="BOTTOM"
-          showIndicator={false}
           fixedItemHeight={fixedItemHeight}
           onContentClick={onContentClick}
         />

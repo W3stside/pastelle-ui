@@ -1,6 +1,5 @@
 import { Fragment, MouseEvent, useCallback, useEffect } from 'react'
 import { FixedAnimatedLoader } from 'components/Loader'
-import { ScrollingContentIndicator, ScrollingIndicatorParams } from 'components/ScrollingIndicator'
 import { ScrollerContainer, AnimatedDivContainer, Scroller } from './styleds'
 
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
@@ -30,17 +29,15 @@ export interface ScrollableContentComponentBaseProps {
   loadInViewOptions?: LoadInViewOptions
 }
 
-type Params<P> = ScrollingContentPageParams<P> & Omit<ScrollingIndicatorParams, 'isLastIndex'>
+type Params<P> = ScrollingContentPageParams<P>
 
 export function ScrollingContentPage<D>({
   data,
   dataItem,
   fixedItemHeight,
-  showIndicator = true,
   withBoxShadow = false,
   onContentClick,
-  IterableComponent,
-  ...indicatorProps
+  IterableComponent
 }: Params<D>) {
   const {
     api,
@@ -123,7 +120,6 @@ export function ScrollingContentPage<D>({
               onClick={isMobile ? undefined : () => onContentClick?.((data[i] as any).handle)}
               $isVerticalScroll
             >
-              {showIndicator && <ScrollingContentIndicator {...indicatorProps} />}
               <IterableComponent
                 loadInViewOptions={{
                   container: HEIGHT_AND_VIEW_TARGET || document,
