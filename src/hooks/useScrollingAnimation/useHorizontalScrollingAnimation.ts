@@ -8,7 +8,7 @@ const DRAG_SPEED_COEFFICIENT = 0.5
 
 export default function useHorizontalScrollingAnimation(
   items: any[],
-  options: Omit<AnimationHookParams, 'axisDirection'>
+  options: Omit<AnimationHookParams, 'axisDirection' | 'scaleOptions'>
 ) {
   const {
     prev,
@@ -18,7 +18,13 @@ export default function useHorizontalScrollingAnimation(
     firstPaintOver,
     scrollingZoneTarget,
     callbacks: { setCurrentIndex, setFirstPaintOver, ...restCbs }
-  } = useScrollingAnimationSetup(items, { ...options, axisDirection: 'x' })
+  } = useScrollingAnimationSetup(items, {
+    ...options,
+    scaleOptions: {
+      initialScale: 1
+    },
+    axisDirection: 'x'
+  })
 
   const [springs, api] = useSprings(items.length, i => ({
     x: (i < items.length - 1 ? i : -1) * itemSize,

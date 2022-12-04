@@ -31,14 +31,17 @@ export default function AnimatedCarousel({
       sizeOptions: {
         minSize: STORE_IMAGE_SIZES.SMALL
       },
-      scaleOptions: { initialScale: 1 },
       snapOnScroll: true,
-      visible: imageList.length - 1,
-      config: ({ length, configPos }) => ({
+      visible: imageList.length,
+      scrollSpeed: 0.4,
+      config: {
+        tension: 260,
+        friction: 50
+      } /* ({ length, configPos }) => ({
         tension: (1 + length - configPos) * 140,
         friction: 1 + configPos * 40
         // clamp: true
-      })
+      }) */
     }
   )
 
