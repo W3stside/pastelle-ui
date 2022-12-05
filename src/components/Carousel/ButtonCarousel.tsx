@@ -21,6 +21,7 @@ export default function ButtonCarousel({
   fullSizeContent,
   loadInViewOptions,
   forwardedRef,
+  collectionView,
   onCarouselChange,
   onImageClick
 }: ButtonCarouselProps) {
@@ -100,7 +101,7 @@ export default function ButtonCarousel({
               pathSrcSet: fullSizeContent ? undefined : urlRest,
               transformation: transformation || imageTransformations,
               loadInViewOptions,
-              lqImageOptions: { ...imageTransformations[0], showLoadingIndicator: true }
+              lqImageOptions: { ...imageTransformations[0], showLoadingIndicator: !collectionView }
             }}
             // flags
             showIndicators

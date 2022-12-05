@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { isMobile } from 'react-device-detect'
 import { useGesture } from '@use-gesture/react'
-import { SpringConfig, useSprings } from 'react-spring'
+import { useSprings } from 'react-spring'
 import { AnimationHookParams } from './types'
 import useScrollingAnimationSetup from './useScrollingAnimationSetup'
 import { getNearestAxisPoint, runSprings } from './utils'
@@ -10,8 +10,8 @@ const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 3.2,
   DRAG_SPEED_COEFFICIENT: 0.5
 }
-const MAC_SPRING_CONFIG: SpringConfig = { friction: 90, tension: 280 }
-const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 50, mass: 1 }
+// const MAC_SPRING_CONFIG: SpringConfig = { friction: 90, tension: 280 }
+// const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 50, mass: 1 }
 
 export default function useVerticalScrollingAnimation(
   items: any[],
@@ -38,8 +38,8 @@ export default function useVerticalScrollingAnimation(
         if (!firstPaintOver) {
           setFirstPaintOver(true)
         }
-      },
-      config: options.config || isMobile ? MOBILE_SPRING_CONFIG : MAC_SPRING_CONFIG
+      }
+      // config: options.config || isMobile ? MOBILE_SPRING_CONFIG : MAC_SPRING_CONFIG
     }),
     [itemHeight]
   )
@@ -61,7 +61,8 @@ export default function useVerticalScrollingAnimation(
             visible,
             prev,
             scaleOptions: options.scaleOptions,
-            axisDirection: 'y'
+            axisDirection: 'y',
+            config: options.config
           })
         }
       },
@@ -80,7 +81,8 @@ export default function useVerticalScrollingAnimation(
             visible,
             prev,
             scaleOptions: options.scaleOptions,
-            axisDirection: 'y'
+            axisDirection: 'y',
+            config: options.config
           })
         }
       }

@@ -435,10 +435,10 @@ export const ItemContainer = styled(Row)<{
                   box-shadow: 1rem 0px 5rem 0.5rem ${transparentize(0.5, theme.black)};
                 }
                 position: absolute;
-                width: 50%;
-                height: 65%;
-                top: 50%;
-                left: 60%;
+                width: 65%;
+                height: 80%;
+                top: 40%;
+                left: 50%;
               }
             }
           `}

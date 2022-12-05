@@ -9,7 +9,7 @@ export interface BaseCarouselProps {
   fixedHeight?: string
   collectionView?: boolean
   transformation?: SmartImageProps['transformation']
-  fullSizeContent?: boolean
   loadInViewOptions?: LoadInViewOptions
+  fullSizeContent?: boolean
   onImageClick?: () => void
 }
