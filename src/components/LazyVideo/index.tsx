@@ -75,7 +75,6 @@ export default forwardRef(function LazyVideo(
     showTapToPlay = false,
     videoDelay = false,
     showError = false,
-    autoPlayOptions,
     container,
     ...boxProps
   }: LazyVideoProps,
@@ -121,13 +120,6 @@ export default forwardRef(function LazyVideo(
       video?.removeEventListener('loadedmetadata', _handleMetaDataLoad)
       setMetaDataLoaded(true)
     }
-    const _handleTimeUpdate = (e?: any) => {
-      if (autoPlayOptions && (e?.target?.currentTime || 0) >= autoPlayOptions.stopTime) {
-        console.debug('TIME PASSED')
-        video?.removeEventListener('timeupdate', _handleTimeUpdate)
-        video?.pause()
-      }
-    }
 
     let video: HTMLVideoElement
     if (videoElement) {
@@ -135,13 +127,11 @@ export default forwardRef(function LazyVideo(
 
       video.addEventListener('loadeddata', _handleDataLoad)
       video.addEventListener('loadedmetadata', _handleMetaDataLoad)
-      video.addEventListener('timeupdate', _handleTimeUpdate)
     }
 
     return () => {
       video?.removeEventListener('loadeddata', _handleDataLoad)
       video?.removeEventListener('loadedmetadata', _handleMetaDataLoad)
-      video?.removeEventListener('timeupdate', _handleTimeUpdate)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoElement])

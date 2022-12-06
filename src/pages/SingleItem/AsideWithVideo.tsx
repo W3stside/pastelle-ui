@@ -50,7 +50,6 @@ import {
 import { getImageSizeMap } from 'shopify/utils'
 import { FREE_SHIPPING_THRESHOLD, SINGLE_ITEM_LOGO_RATIO, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 
-// import ShippingSvg from 'assets/svg/shipping.svg'
 import { isMobile } from 'utils'
 import { getMobileShowcaseVideo916Height } from './utils'
 import useModelSizeSelector from 'components/ModelSizeSelector'
@@ -61,6 +60,7 @@ import ShowcaseVideos from 'components/Showcase/Videos'
 import { Package, Truck } from 'react-feather'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
 import { useAppSelector } from 'state'
+import ShowcaseVideoControls from 'components/Showcase/Videos/Settings'
 
 export interface ProductPageProps {
   bgColor: string
@@ -187,7 +187,7 @@ export default function ItemPage({
   const collectionViewProductLogo = navLogo || headerLogo
 
   const { ShowcaseSettings } = useShowShowcase()
-  const autoPlay = useAppSelector(state => state.user.showcase.autoplay)
+  const { autoplay } = useAppSelector(state => state.user.showcase.videoSettings)
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
   const { ModelSizeSelector } = useModelSizeSelector()
   const merchandiseId = useQueryProductVariantId({ productId: id, key: 'Size', value: selectedSize })
@@ -312,7 +312,7 @@ export default function ItemPage({
                       videos={videos}
                       videoProps={{
                         // TODO: check ios autoplay
-                        autoPlay,
+                        autoPlay: autoplay,
                         style: {
                           cursor: 'pointer'
                         }
@@ -333,6 +333,7 @@ export default function ItemPage({
                       </Row>
                     </ItemDescription>
                     <ShowcaseSettings>
+                      <ShowcaseVideoControls isMobile={isMobileWidth || isMobile} />
                       {/* MOBILE SHOWCASE */}
                       <ModelSizeSelector />
                       {/* PRODUCT SIZE SELECTOR */}

@@ -14,7 +14,7 @@ export interface UserState {
     gender: ShowcaseGender
     height: ShowcaseHeight
     size: ProductSizes
-    autoplay: boolean
+    videoSettings: { autoplay: boolean; status: 'play' | 'pause' }
   }
 }
 
@@ -27,7 +27,7 @@ export const initialState: UserState = {
     gender: 'MALE',
     height: 175,
     size: ProductSizes.L,
-    autoplay: false
+    videoSettings: { autoplay: false, status: 'pause' }
   }
 }
 const userSlice = createSlice({
@@ -64,6 +64,7 @@ function _isShowcaseState(showcase: UserState['showcase']) {
     (showcase?.gender === 'MALE' || showcase?.gender === 'FEMALE') &&
     typeof showcase?.height === 'number' &&
     typeof showcase?.size === 'string' &&
-    typeof showcase?.autoplay === 'boolean'
+    typeof showcase?.videoSettings?.autoplay === 'boolean' &&
+    typeof showcase?.videoSettings?.status === 'string'
   )
 }

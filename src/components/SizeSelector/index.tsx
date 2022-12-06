@@ -4,7 +4,7 @@ import { transparentize } from 'polished'
 import { ProductOptionsSize, ProductSizes } from 'shopify/graphql/types'
 import { Row, RowProps } from 'components/Layout'
 import { TYPE } from 'theme'
-import { BLACK } from 'theme/utils'
+import { BLACK, upToExtraSmall } from 'theme/utils'
 import { useGetShowcaseSettings, useUpdateShowcaseSettings } from 'state/user/hooks'
 
 type SizeSelectorProps = Omit<RowProps, 'sizes'> & {
@@ -26,13 +26,9 @@ const SquareSelectDiv = styled(TYPE.black)<{ isSelected: boolean; bgColor?: stri
       }
     `}
 `
-const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
-  align-items: center;
+const GridSelect = styled(Row)<RowProps & Pick<SizeSelectorProps, 'color'>>`
   gap: 1px;
-  padding: 0;
+  flex-flow: row wrap;
 
   background: ${({ theme }) => theme.products.aside.itemContainer};
   border-radius: ${({ theme }) => theme.buttons.borderRadius};
@@ -54,6 +50,10 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
     height: 5rem;
     flex: 1 1 24%;
 
+    ${upToExtraSmall`
+      flex: 1 1 50%;
+    `}
+
     &:hover {
       background-color: ${({ theme }) => transparentize(0.3, theme.inputHoverColor)};
     }
@@ -64,7 +64,7 @@ const GridSelect = styled(Row)<Pick<SizeSelectorProps, 'color'>>`
 
 function SizeSelector({ sizes, selectedSize, handleSizeSelect, ...styleProps }: SizeSelectorProps) {
   return (
-    <GridSelect {...styleProps}>
+    <GridSelect justifyContent="space-evenly" alignItems="center" padding="0" {...styleProps}>
       {sizes.map((size, index) => (
         <SquareSelectDiv
           key={size + '_' + index}

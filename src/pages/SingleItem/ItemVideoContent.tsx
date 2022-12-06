@@ -7,10 +7,10 @@ import { ButtonVariations } from 'components/Button'
 import { Play, Pause } from 'react-feather'
 import { RowProps } from 'components/Layout'
 import { wait } from 'utils/async'
-import { useUpdateAutoplaySettings } from 'state/user/hooks'
+import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
 import { isMobile } from 'utils'
+import usePrevious from 'hooks/usePrevious'
 
-type VideoStatus = 'PLAYING' | 'PAUSED' | 'LOADED_AND_WAITING' | undefined
 export interface ItemVideoContentProps extends RowProps {
   videos: FragmentProductVideoFragment[]
   firstPaintOver?: boolean
@@ -37,11 +37,9 @@ export const ItemVideoContent = ({
   ...styleProps
 }: ItemVideoContentProps) => {
   const [videoIdx, setVideoIdx] = useState(currentCarouselIndex)
-  const [videoStatus, setVideoStatus] = useState<VideoStatus>(undefined)
+  const [{ autoplay, status: videoStatus }, updateVideoSettings] = useUpdateShowcaseVideoSettings()
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
   const [videoDelay, showVideoUIDelay] = useState<boolean>(false)
-
-  const [autoplay, updateAutoplay] = useUpdateAutoplaySettings()
 
   useEffect(() => {
     async function videoChange() {
@@ -50,48 +48,35 @@ export const ItemVideoContent = ({
         _delayedVideoUpdater({ currentCarouselIndex, showVideoUIDelay, setVideoIdx })
       } else {
         setVideoIdx(currentCarouselIndex)
-        setVideoStatus(undefined)
       }
     }
     currentCarouselIndex !== null && videoChange()
   }, [currentCarouselIndex, isMobileWidth])
 
+  const isPlaying = videoStatus === 'play'
+  const prevAutoplay = usePrevious(autoplay)
+  const prevVideoStatus = usePrevious(videoStatus)
   useEffect(() => {
     if (!videoElement) return
-    else if (!videoStatus) {
-      setVideoStatus('LOADED_AND_WAITING')
-    }
+    const isPaused = videoStatus === 'pause'
+    const isPlaying = !isPaused
 
-    function handleOnPlaying() {
-      setVideoStatus('PLAYING')
-    }
-
-    function handleOnPaused() {
-      setVideoStatus('PAUSED')
-    }
-
-    videoElement.addEventListener('playing', handleOnPlaying)
-    videoElement.addEventListener('pause', handleOnPaused)
-
-    return () => {
-      videoElement.removeEventListener('playing', handleOnPlaying)
-      videoElement.removeEventListener('pause', handleOnPaused)
-    }
-  }, [videoElement, videoStatus, videoElement?.currentSrc])
-
-  const isPlaying = videoStatus === 'PLAYING'
-
-  const toggleVideo = useCallback(() => {
-    if (!videoElement) return
-
-    if (isPlaying) {
-      videoElement.pause()
-    } else {
+    if (prevAutoplay === false && autoplay && isPaused) {
+      updateVideoSettings({ autoplay: true, status: 'play' })
+    } else if (prevAutoplay === true && !autoplay && isPlaying) {
+      updateVideoSettings({ autoplay: false, status: 'pause' })
+    } else if (isPlaying) {
       videoElement.play()
+    } else if (isPaused) {
+      videoElement.pause()
     }
+  }, [autoplay, prevAutoplay, prevVideoStatus, updateVideoSettings, videoElement, videoStatus])
 
-    !autoplay && updateAutoplay(true)
-  }, [autoplay, isPlaying, updateAutoplay, videoElement])
+  const toggleVideo = useCallback(() => updateVideoSettings({ autoplay, status: isPlaying ? 'pause' : 'play' }), [
+    autoplay,
+    isPlaying,
+    updateVideoSettings
+  ])
 
   const videosContent = useMemo(
     () =>
@@ -108,7 +93,10 @@ export const ItemVideoContent = ({
             container={document.querySelector('#COLLECTION-ARTICLE') as HTMLElement}
             loadInView={firstPaintOver}
             forceLoad={forceLoad}
-            videoProps={{ ...videoProps, poster: showPoster ? previewImage?.url : undefined }}
+            videoProps={{
+              ...videoProps,
+              poster: showPoster ? previewImage?.url : undefined
+            }}
             sourcesProps={sources.map(({ url, mimeType }) => ({ src: url, type: mimeType }))}
             height={styleProps.height}
             width={styleProps.width}
@@ -202,3 +190,36 @@ async function _delayedVideoUpdater({
   await wait(500)
   showVideoUIDelay(false)
 }
+
+/* 
+// VIDEO EVENT LISTNERS
+useEffect(() => {
+    if (!videoElement) return
+
+    function handleOnPlaying() {
+      console.debug('play')
+    }
+
+    function handleOnPaused() {
+      console.debug('pause')
+    }
+
+    const _handleTimeUpdate = (e?: any) => {
+      if (!autoplay && autoPlayOptions && (e?.target?.currentTime || 0) >= autoPlayOptions.stopTime) {
+        videoElement?.removeEventListener('timeupdate', _handleTimeUpdate)
+        console.debug('timeupdate event listener fired')
+        // videoElement?.pause()
+      }
+    }
+
+    videoElement.addEventListener('playing', handleOnPlaying)
+    videoElement.addEventListener('pause', handleOnPaused)
+    videoElement.addEventListener('timeupdate', _handleTimeUpdate)
+
+    return () => {
+      videoElement.removeEventListener('playing', handleOnPlaying)
+      videoElement.removeEventListener('pause', handleOnPaused)
+      videoElement?.removeEventListener('timeupdate', _handleTimeUpdate)
+    }
+  }, [videoElement, videoStatus, videoElement?.currentSrc, autoplay, autoPlayOptions])
+*/

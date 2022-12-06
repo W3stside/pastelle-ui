@@ -53,7 +53,11 @@ const store = configureStore({
         showcase: {
           gender: 'MALE',
           height: 175,
-          size: ProductSizes.L
+          size: ProductSizes.L,
+          videoSettings: {
+            autoplay: true,
+            status: 'play'
+          }
         }
       }
     },
