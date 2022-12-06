@@ -53,9 +53,9 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
     display: flex;
     align-self: center;
 
-    border-radius: ${({ mobile }) => (mobile ? 0 : '2rem')};
+    border-radius: 0;
     margin: 0 0 auto 0;
-    padding: 0;
+    padding-top: 2rem;
     width: ${({ isLargeImageModal }) => (isLargeImageModal ? '90' : '50')}vh;
     max-width: ${({ maxHeight, isLargeImageModal = false }) => `${isLargeImageModal ? maxHeight + 'vh' : '42rem'}`};
     ${({ maxHeight }) => maxHeight && `max-height: ${maxHeight}vh;`}
