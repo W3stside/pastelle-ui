@@ -10,6 +10,7 @@ import { wait } from 'utils/async'
 import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
 import { isMobile } from 'utils'
 import usePrevious from 'hooks/usePrevious'
+import { useOnScreenProductHandle } from 'state/collection/hooks'
 
 export interface ItemVideoContentProps extends RowProps {
   videos: FragmentProductVideoFragment[]
@@ -40,6 +41,7 @@ export const ItemVideoContent = ({
   const [{ autoplay, status: videoStatus }, updateVideoSettings] = useUpdateShowcaseVideoSettings()
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
   const [videoDelay, showVideoUIDelay] = useState<boolean>(false)
+  const currentHandle = useOnScreenProductHandle()
 
   useEffect(() => {
     async function videoChange() {
@@ -70,7 +72,15 @@ export const ItemVideoContent = ({
     } else if (isPaused) {
       videoElement.pause()
     }
-  }, [autoplay, prevAutoplay, prevVideoStatus, updateVideoSettings, videoElement, videoStatus])
+
+    return () => {
+      if (autoplay && isPaused) {
+        updateVideoSettings({ autoplay, status: 'play' })
+      } else if (!autoplay && isPlaying) {
+        updateVideoSettings({ autoplay, status: 'pause' })
+      }
+    }
+  }, [autoplay, prevAutoplay, prevVideoStatus, updateVideoSettings, videoElement, videoStatus, currentHandle?.id])
 
   const toggleVideo = useCallback(() => updateVideoSettings({ autoplay, status: isPlaying ? 'pause' : 'play' }), [
     autoplay,
