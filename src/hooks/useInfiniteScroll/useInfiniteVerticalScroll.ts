@@ -1,5 +1,4 @@
 import { useRef } from 'react'
-import { isMobile } from 'react-device-detect'
 import { useGesture } from '@use-gesture/react'
 import { useSprings } from 'react-spring'
 import { InfiniteScrollHookOptions, SizeOptions } from './types'
