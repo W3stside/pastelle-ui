@@ -310,7 +310,7 @@ export default function ItemPage({
                       videos={videos}
                       videoProps={{
                         // TODO: check ios autoplay
-                        // autoPlay: false,
+                        autoPlay: false,
                         style: {
                           cursor: 'pointer'
                         }
