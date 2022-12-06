@@ -8,6 +8,7 @@ import { LoadInViewOptions } from 'hooks/useDetectScrollIntoView'
 import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
 import { isMobile } from 'utils'
 import { Product } from 'shopify/graphql/types'
+import { STIFF_SPRINGS } from 'constants/springs'
 
 // TODO: bullshit
 const HEADER_HEIGHT = 80
@@ -59,7 +60,7 @@ export function ScrollingContentPage<D>({
         initialScale: 0.92
       },
       scrollSpeed: isMobile ? 0.4 : undefined,
-      config: ({ configPos }) => ({ tension: (1 + data.length - configPos) * 100, friction: 30 + configPos * 40 })
+      config: STIFF_SPRINGS
     },
     { fixedSize: fixedItemHeight, minSize: MINIMUM_COLLECTION_ITEM_HEIGHT }
   )
