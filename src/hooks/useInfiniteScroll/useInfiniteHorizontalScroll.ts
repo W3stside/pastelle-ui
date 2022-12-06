@@ -45,8 +45,8 @@ export default function useInfiniteHorizontalScroll(
     },
     {
       // target: scrollingZoneTarget,
-      eventOptions: { passive: true },
-      preventDefault: false,
+      eventOptions: { passive: true, capture: false, once: true },
+      preventDefault: true,
       axis: 'x',
       filterTaps: true
     }

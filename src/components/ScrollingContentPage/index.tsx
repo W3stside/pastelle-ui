@@ -120,6 +120,7 @@ export function ScrollingContentPage<D>({
           return (
             <AnimatedDivContainer
               key={y.id}
+              $touchAction="none"
               style={{ scale, height: itemHeight, y }}
               $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
               $withBoxShadow={withBoxShadow}
