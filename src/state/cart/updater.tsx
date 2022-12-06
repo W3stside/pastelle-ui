@@ -44,7 +44,7 @@ function _queryAndUpdateCart({ cartId, query, updateCartInfo }: QueryCartParams)
     .then(({ data, error }) => {
       if (error) throw error
 
-      if (data?.cart) {
+      if (!!data?.cart?.totalQuantity) {
         console.debug('[CART UPDATER::PREVIOUS CART SUB-UPDATER] --> Previous cart found! Setting.')
         updateCartInfo({
           cartId: data.cart.id,
