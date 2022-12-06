@@ -38,7 +38,7 @@ export const calculateApiLogic = (
   setCurrentIndex: (i: number) => void,
   {
     i,
-    prev,
+    prevRef,
     active,
     axis,
     dAxis,
@@ -52,7 +52,7 @@ export const calculateApiLogic = (
   }: Omit<ScrollSpringParams & AnimationHookParams, 'visible' | 'sizeOptions'>
 ) => {
   const position = getPos(i, firstVis, firstVisIdx, itemsLength)
-  const prevPosition = getPos(i, prev.current[0], prev.current[1], itemsLength)
+  const prevPosition = getPos(i, prevRef.current[0], prevRef.current[1], itemsLength)
   const rank = firstVis - (axis < 0 ? itemsLength : 0) + position - firstVisIdx
   // const configPos = dAxis > 0 ? position : itemsLength - position
 
@@ -75,7 +75,7 @@ export const calculateApiLogic = (
   const immediate = dAxis < 0 ? prevPosition > position : prevPosition < position
 
   return {
-    [axisDirection]: active || !snapOnScroll ? axisPos : anchorPoint,
+    [axisDirection]: !active && snapOnScroll ? anchorPoint : axisPos,
     scale,
     immediate,
     config: typeof config === 'function' ? config({ configPos, length: itemsLength }) : config
@@ -84,27 +84,27 @@ export const calculateApiLogic = (
 
 export function runSprings<T extends Record<any, any>>(
   api: SpringRef<T>,
-  itemLength: number,
+  dataLength: number,
   itemSize: number,
   setCurrentIndex: (i: number) => void,
   {
     axis,
     dAxis,
+    prevRef,
     active,
     visible,
-    prev,
     axisDirection,
     snapOnScroll,
     scaleOptions,
     config
   }: Omit<ScrollSpringParams & AnimationHookParams, 'i' | 'visibile' | 'sizeOptions' | 'firstVis' | 'firstVisIdx'>
 ) {
-  const itemPosition = Math.floor(axis / itemSize) % itemLength
-  const firstVis = getIndex(itemPosition, itemLength)
-  const firstVisIdx = dAxis < 0 ? itemLength - visible - 1 : 1
+  const itemPosition = Math.floor(axis / itemSize) % dataLength
+  const firstVis = getIndex(itemPosition, dataLength)
+  const firstVisIdx = dAxis < 0 ? dataLength - visible - 1 : 1
 
   api.start(i =>
-    calculateApiLogic(itemLength, itemSize, setCurrentIndex, {
+    calculateApiLogic(dataLength, itemSize, setCurrentIndex, {
       i,
       axis,
       dAxis,
@@ -113,11 +113,11 @@ export function runSprings<T extends Record<any, any>>(
       firstVisIdx,
       axisDirection,
       snapOnScroll,
-      prev,
+      prevRef,
       scaleOptions,
       config
     })
   )
 
-  prev.current = [firstVis, firstVisIdx]
+  prevRef.current = [firstVis, firstVisIdx]
 }

@@ -11,13 +11,11 @@ export default function useHorizontalScrollingAnimation(
   options: Omit<AnimationHookParams, 'axisDirection' | 'scaleOptions'>
 ) {
   const {
-    prev,
-    itemSize,
-    visible,
+    springsParams,
     currentIndex,
     firstPaintOver,
     scrollingZoneTarget,
-    callbacks: { setCurrentIndex, setFirstPaintOver, ...restCbs }
+    callbacks: { setFirstPaintOver, ...restCbs }
   } = useScrollingAnimationSetup(items, {
     ...options,
     scaleOptions: {
@@ -27,7 +25,7 @@ export default function useHorizontalScrollingAnimation(
   })
 
   const [springs, api] = useSprings(items.length, i => ({
-    x: (i < items.length - 1 ? i : -1) * itemSize,
+    x: (i < items.length - 1 ? i : -1) * springsParams.itemSize,
     onRest() {
       if (!firstPaintOver) {
         return setFirstPaintOver(true)
@@ -39,41 +37,31 @@ export default function useHorizontalScrollingAnimation(
     }
   }))
 
-  useDrag(
-    ({ event, active, dragging, offset: [x], direction: [dx] }) => {
-      event.preventDefault()
-
-      runSprings(api, items.length, itemSize, setCurrentIndex, {
+  const bind = useDrag(
+    ({ active, dragging, offset: [x], direction: [dx] }) => {
+      runSprings(api, items.length, springsParams.itemSize, springsParams.setCurrentIndex, {
+        ...springsParams,
         axis: -x / (options.scrollSpeed || DRAG_SPEED_COEFFICIENT),
-        visible,
-        snapOnScroll: options.snapOnScroll,
-        prev,
         dAxis: -dx,
-        axisDirection: 'x',
         active: !!(active || dragging),
-        scaleOptions: {
-          initialScale: 1
-        },
         config: options.config
       })
     },
     {
-      target: scrollingZoneTarget,
+      // target: scrollingZoneTarget,
       eventOptions: { passive: false },
+      preventDefault: true,
       axis: 'x',
-      filterTaps: true,
-      pointer: {
-        touch: true,
-        lock: true
-      }
+      filterTaps: true
     }
   )
 
   return {
     springs,
     api,
+    bind,
     target: scrollingZoneTarget,
-    itemSize,
+    itemSize: springsParams.itemSize,
     currentIndex,
     firstPaintOver,
     ...restCbs

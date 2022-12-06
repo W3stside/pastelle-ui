@@ -43,7 +43,7 @@ export function ScrollingContentPage<D>({
     api,
     springs,
     target,
-    itemHeight,
+    itemSize: itemHeight,
     currentIndex,
     firstPaintOver,
     setItemSizeRef: setHeightRef,

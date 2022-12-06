@@ -18,20 +18,18 @@ export default function useVerticalScrollingAnimation(
   options: Omit<AnimationHookParams, 'axisDirection'>
 ) {
   const {
-    prev,
-    itemSize: itemHeight,
-    visible,
+    springsParams,
     currentIndex,
     firstPaintOver,
     scrollingZoneTarget,
-    callbacks: { setCurrentIndex, setFirstPaintOver, ...restCbs }
+    callbacks: { setFirstPaintOver, ...restCbs }
   } = useScrollingAnimationSetup(items, { ...options, axisDirection: 'y' })
 
   const [springs, api] = useSprings(
     items.length,
     i => ({
       scale: options.scaleOptions.initialScale || 0.92,
-      y: (i < items.length - 1 ? i : -1) * itemHeight,
+      y: (i < items.length - 1 ? i : -1) * springsParams.itemSize,
       onRest: () => {
         // useful in knowing when the FIRST animation has ended
         // like for setup
@@ -41,48 +39,41 @@ export default function useVerticalScrollingAnimation(
       }
       // config: options.config || isMobile ? MOBILE_SPRING_CONFIG : MAC_SPRING_CONFIG
     }),
-    [itemHeight]
+    [springsParams.itemSize]
   )
 
   const wheelOffset = useRef(0)
   const dragOffset = useRef(0)
   useGesture(
     {
-      onDrag: ({ active, offset: [, y], movement: [, my], direction: [, dy] }) => {
+      onDrag: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
+        event.preventDefault()
+
         if (dy) {
-          const aY = getNearestAxisPoint(y, itemHeight)
+          const aY = getNearestAxisPoint(y, springsParams.itemSize)
           dragOffset.current = -aY ?? -y
           const computedY = wheelOffset.current + -y / CONFIG.DRAG_SPEED_COEFFICIENT
-          runSprings(api, items.length, itemHeight, setCurrentIndex, {
+          runSprings(api, items.length, springsParams.itemSize, springsParams.setCurrentIndex, {
+            ...springsParams,
+            active,
             axis: computedY,
             dAxis: -dy,
-            mAxis: -my,
-            active,
-            visible,
-            prev,
-            scaleOptions: options.scaleOptions,
-            axisDirection: 'y',
-            config: options.config
+            mAxis: -my
           })
         }
       },
       onWheel: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
         event.preventDefault()
-
         if (dy) {
-          const aY = getNearestAxisPoint(y, itemHeight)
+          const aY = getNearestAxisPoint(y, springsParams.itemSize)
           wheelOffset.current = aY ?? y
           const computedY = dragOffset.current + y / CONFIG.SCROLL_SPEED_COEFFICIENT
-          runSprings(api, items.length, itemHeight, setCurrentIndex, {
+          runSprings(api, items.length, springsParams.itemSize, springsParams.setCurrentIndex, {
+            ...springsParams,
+            active,
             axis: computedY,
             dAxis: dy,
-            mAxis: my,
-            active,
-            visible,
-            prev,
-            scaleOptions: options.scaleOptions,
-            axisDirection: 'y',
-            config: options.config
+            mAxis: my
           })
         }
       }
@@ -92,7 +83,7 @@ export default function useVerticalScrollingAnimation(
       eventOptions: { passive: false },
       drag: isMobile
         ? {
-            filterTaps: true,
+            // filterTaps: true,
             axis: 'y',
             pointer: {
               touch: true,
@@ -107,7 +98,7 @@ export default function useVerticalScrollingAnimation(
     springs,
     api,
     target: scrollingZoneTarget,
-    itemHeight,
+    itemSize: springsParams.itemSize,
     currentIndex,
     firstPaintOver,
     ...restCbs

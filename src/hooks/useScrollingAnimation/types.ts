@@ -28,5 +28,5 @@ export interface ScrollSpringParams {
   active: boolean
   firstVis: number
   firstVisIdx: number
-  prev: MutableRefObject<number[]>
+  prevRef: MutableRefObject<number[]>
 }
