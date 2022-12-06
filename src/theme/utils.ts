@@ -91,7 +91,11 @@ export function setBestContrastingColour({ bgColour, fgColour, lightColour, dark
 
   return contrastLevel < CONTRAST_THRESHOLD ? lightColour : darkColour
 }
-type LqIkUrlOptions = { fallbackUrl: string; dpi?: keyof DDPXImageUrlMap; transforms?: string | (string | null)[] }
+type LqIkUrlOptions = {
+  fallbackUrl: string
+  dpi?: keyof DDPXImageUrlMap
+  transforms?: string | (((width?: number) => string) | string | null)[]
+}
 export function getLqIkUrl(
   urlAtWidth: DDPXImageUrlMap | undefined,
   { fallbackUrl, dpi = '2x', transform = '' }: Omit<LqIkUrlOptions, 'transforms'> & { transform?: string | null }
@@ -147,8 +151,13 @@ export const setCssBackground = (
           const urlAtWidth = width && urlSet[width]
           const urlAtDpi = urlAtWidth?.[dpiLevel]
 
+          const lqProp = lqIkUrlOptions.transforms?.[i]
           const lqTransform =
-            typeof lqIkUrlOptions.transforms === 'string' ? lqIkUrlOptions.transforms : lqIkUrlOptions.transforms?.[i]
+            typeof lqIkUrlOptions.transforms === 'string'
+              ? lqIkUrlOptions.transforms
+              : typeof lqProp === 'function'
+              ? lqProp(width)
+              : lqProp
 
           const lqUrl =
             !skipIk &&

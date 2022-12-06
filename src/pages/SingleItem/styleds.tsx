@@ -21,6 +21,7 @@ import {
   setBackgroundWithDPI,
   setBestTextColour,
   upToLarge,
+  upToMedium,
   upToSmall
 } from 'theme/utils'
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
@@ -42,7 +43,10 @@ export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; la
     setBackgroundWithDPI(theme, logo, {
       preset: 'header',
       dpiLevel: '1x',
-      modeColours: [BLACK, BLACK]
+      modeColours: [BLACK, BLACK],
+      lqIkUrlOptions: {
+        transforms: ['pr-true,q-30', 'pr-true,q-10,bl-12']
+      }
     })}
 `
 
