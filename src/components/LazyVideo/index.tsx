@@ -20,6 +20,10 @@ type WithContainer = {
   container: HTMLElement | null | undefined
 }
 
+type AutoPlayOptions = {
+  stopTime: number
+}
+
 export type LazyVideoProps = {
   sourcesProps: React.DetailedHTMLProps<React.SourceHTMLAttributes<HTMLSourceElement>, HTMLSourceElement>[]
   videoProps?: React.DetailedHTMLProps<React.VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement>
@@ -28,6 +32,7 @@ export type LazyVideoProps = {
   showTapToPlay?: boolean
   showError?: boolean
   videoDelay?: boolean
+  autoPlayOptions?: AutoPlayOptions
 } & WithContainer &
   BoxProps
 
@@ -70,6 +75,7 @@ export default forwardRef(function LazyVideo(
     showTapToPlay = false,
     videoDelay = false,
     showError = false,
+    autoPlayOptions,
     container,
     ...boxProps
   }: LazyVideoProps,
@@ -107,8 +113,21 @@ export default forwardRef(function LazyVideo(
 
   // set VIDEO loading states for forwardRef
   useEffect(() => {
-    const _handleDataLoad = () => setDataLoaded(true)
-    const _handleMetaDataLoad = () => setMetaDataLoaded(true)
+    const _handleDataLoad = () => {
+      video?.removeEventListener('loadeddata', _handleDataLoad)
+      setDataLoaded(true)
+    }
+    const _handleMetaDataLoad = () => {
+      video?.removeEventListener('loadedmetadata', _handleMetaDataLoad)
+      setMetaDataLoaded(true)
+    }
+    const _handleTimeUpdate = (e?: any) => {
+      if (autoPlayOptions && (e?.target?.currentTime || 0) >= autoPlayOptions.stopTime) {
+        console.debug('TIME PASSED')
+        video?.removeEventListener('timeupdate', _handleTimeUpdate)
+        video?.pause()
+      }
+    }
 
     let video: HTMLVideoElement
     if (videoElement) {
@@ -116,12 +135,15 @@ export default forwardRef(function LazyVideo(
 
       video.addEventListener('loadeddata', _handleDataLoad)
       video.addEventListener('loadedmetadata', _handleMetaDataLoad)
+      video.addEventListener('timeupdate', _handleTimeUpdate)
     }
 
     return () => {
       video?.removeEventListener('loadeddata', _handleDataLoad)
       video?.removeEventListener('loadedmetadata', _handleMetaDataLoad)
+      video?.removeEventListener('timeupdate', _handleTimeUpdate)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoElement])
 
   const isInView = useDetectScrollIntoView(

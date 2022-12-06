@@ -8,6 +8,7 @@ import { Play, Pause } from 'react-feather'
 import { RowProps } from 'components/Layout'
 import { wait } from 'utils/async'
 import { useUpdateAutoplaySettings } from 'state/user/hooks'
+import { isMobile } from 'utils'
 
 type VideoStatus = 'PLAYING' | 'PAUSED' | 'LOADED_AND_WAITING' | undefined
 export interface ItemVideoContentProps extends RowProps {
@@ -19,6 +20,7 @@ export interface ItemVideoContentProps extends RowProps {
   zIndex?: number
   isMobileWidth: boolean
   videoProps?: LazyVideoProps['videoProps']
+  autoPlayOptions?: LazyVideoProps['autoPlayOptions']
   showError?: boolean
 }
 const CONTROL_BUTTON_SIZE = '1.6rem'
@@ -31,6 +33,7 @@ export const ItemVideoContent = ({
   videoProps,
   isMobileWidth,
   showError,
+  autoPlayOptions,
   ...styleProps
 }: ItemVideoContentProps) => {
   const [videoIdx, setVideoIdx] = useState(currentCarouselIndex)
@@ -110,25 +113,27 @@ export const ItemVideoContent = ({
             height={styleProps.height}
             width={styleProps.width}
             videoDelay={!isMobileWidth && videoDelay}
-            showTapToPlay={!isPlaying && videoProps?.autoPlay === false}
+            showTapToPlay={(isMobileWidth || isMobile) && (!isPlaying || videoProps?.autoPlay === false)}
+            autoPlayOptions={autoPlayOptions}
           />
         )
       }),
     [
+      videos,
       currentCarouselIndex,
+      videoIdx,
       showError,
+      toggleVideo,
       firstPaintOver,
       forceLoad,
-      isMobileWidth,
-      isPlaying,
+      videoProps,
       showPoster,
       styleProps.height,
       styleProps.width,
-      toggleVideo,
+      isMobileWidth,
       videoDelay,
-      videoIdx,
-      videoProps,
-      videos
+      isPlaying,
+      autoPlayOptions
     ]
   )
 

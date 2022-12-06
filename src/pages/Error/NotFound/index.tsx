@@ -25,10 +25,6 @@ const ContainerDiv = styled.div`
     width: 80%;
     padding: 9px;
     margin: 2rem;
-    color: ${({ theme }) => theme.primaryText1};
-    &:hover {
-      ${({ theme }) => theme.bg5}
-    }
   }
 
   img {
@@ -63,7 +59,7 @@ export default function NotFound() {
           The page you are looking for does not exist{' '}
           <span style={{ fontSize: '3rem', fontStyle: 'normal' }}>ʕ ͡° ʖ̯ ͡°ʔ</span>
         </ItemHeader>
-        <ButtonPrimary onClick={() => navigate('/')} variant={ButtonVariations.SUCCESS}>
+        <ButtonPrimary onClick={() => navigate('/')} variant={ButtonVariations.WARNING}>
           <ItemSubHeader>Back to the collection</ItemSubHeader>
         </ButtonPrimary>
       </ContainerDiv>

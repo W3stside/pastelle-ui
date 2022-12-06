@@ -34,16 +34,3 @@ export default function ShowcaseVideos({ hideVideo, videos, ...restProps }: Show
     )
   }, [hideVideo, restProps, showcaseVideoKey, showcaseVideosMap, videos])
 }
-
-// function _getNextRelatedProductSize(selectedSize: ProductSizes) {
-//   switch (selectedSize) {
-//     case ProductSizes.XL:
-//       return ProductSizes.L
-//     case ProductSizes.L:
-//       return ProductSizes.XL
-//     case ProductSizes.M:
-//       return ProductSizes.L
-//     case ProductSizes.S:
-//       return ProductSizes.M
-//   }
-// }
