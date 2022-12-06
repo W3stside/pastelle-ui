@@ -115,9 +115,8 @@ export const SideEffectNavLink = styled.span`
 `
 
 // #1d1d1d
-export const InnerNavWrapper = styled(Column)`
+export const InnerNavWrapper = styled(Column)<{ bgColor?: string }>`
   width: 100%;
-  background-color: ${({ theme }) => theme.blackOpaque2};
+  background-color: ${({ theme, bgColor = theme.blackOpaque2 }) => bgColor};
   padding: 1rem;
-  // border-radius: 0.5rem;
 `

@@ -98,17 +98,7 @@ export default function Navigation({
             <LoadingRows rows={6} />
           )}
         </InnerNavWrapper>
-        <InnerNavWrapper margin="auto auto 1rem auto" padding="0.8rem 1rem 1.5rem" alignItems={'center'}>
-          <ItemSubHeader
-            padding="0.2rem 0.2rem 1rem 0.2rem"
-            margin="0"
-            fontSize={isNavOpen ? '3.5rem' : '1.6rem'}
-            color={WHITE}
-          >
-            <Row flexWrap="wrap" justifyContent="center" style={{ gap: '0.5rem' }}>
-              THEME <div style={{ fontWeight: 300, fontSize: '1.2rem' }}>TOGGLER</div>
-            </Row>
-          </ItemSubHeader>
+        <InnerNavWrapper margin="auto auto 1rem auto" padding="1.5rem 1rem" alignItems={'center'} bgColor="transparent">
           <ThemeToggleBar themeToggleProps={{ width: '90%' }} />
         </InnerNavWrapper>
       </NavigationStepsWrapper>
