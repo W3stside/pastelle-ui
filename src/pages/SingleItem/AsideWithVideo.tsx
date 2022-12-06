@@ -402,10 +402,10 @@ export default function ItemPage({
               marginLeft: 'auto'
             }
           }}
-          // starts autoplaying and stops on "stopTime" seconds
-          autoPlayOptions={{
-            stopTime: 4
-          }}
+          // // starts autoplaying and stops on "stopTime" seconds
+          // autoPlayOptions={{
+          //   stopTime: 4
+          // }}
           hideVideo={isMobileWidth || noVideo || collectionView}
           showPoster={false}
           height="calc(100vh - 10rem)"
