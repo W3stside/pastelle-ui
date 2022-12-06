@@ -60,6 +60,7 @@ import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import ShowcaseVideos from 'components/Showcase/Videos'
 import { Package, Truck } from 'react-feather'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { useAppSelector } from 'state'
 
 export interface ProductPageProps {
   bgColor: string
@@ -186,6 +187,7 @@ export default function ItemPage({
   const collectionViewProductLogo = navLogo || headerLogo
 
   const { ShowcaseSettings } = useShowShowcase()
+  const autoPlay = useAppSelector(state => state.user.showcase.autoplay)
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
   const { ModelSizeSelector } = useModelSizeSelector()
   const merchandiseId = useQueryProductVariantId({ productId: id, key: 'Size', value: selectedSize })
@@ -310,7 +312,7 @@ export default function ItemPage({
                       videos={videos}
                       videoProps={{
                         // TODO: check ios autoplay
-                        autoPlay: false,
+                        autoPlay,
                         style: {
                           cursor: 'pointer'
                         }

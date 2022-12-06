@@ -7,6 +7,7 @@ import { ButtonVariations } from 'components/Button'
 import { Play, Pause } from 'react-feather'
 import { RowProps } from 'components/Layout'
 import { wait } from 'utils/async'
+import { useUpdateAutoplaySettings } from 'state/user/hooks'
 
 type VideoStatus = 'PLAYING' | 'PAUSED' | 'LOADED_AND_WAITING' | undefined
 export interface ItemVideoContentProps extends RowProps {
@@ -36,6 +37,8 @@ export const ItemVideoContent = ({
   const [videoStatus, setVideoStatus] = useState<VideoStatus>(undefined)
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
   const [videoDelay, showVideoUIDelay] = useState<boolean>(false)
+
+  const [autoplay, updateAutoplay] = useUpdateAutoplaySettings()
 
   useEffect(() => {
     async function videoChange() {
@@ -71,7 +74,7 @@ export const ItemVideoContent = ({
       videoElement.removeEventListener('playing', handleOnPlaying)
       videoElement.removeEventListener('pause', handleOnPaused)
     }
-  }, [videoElement, videoStatus])
+  }, [videoElement, videoStatus, videoElement?.currentSrc])
 
   const isPlaying = videoStatus === 'PLAYING'
 
@@ -83,7 +86,9 @@ export const ItemVideoContent = ({
     } else {
       videoElement.play()
     }
-  }, [isPlaying, videoElement])
+
+    !autoplay && updateAutoplay(true)
+  }, [autoplay, isPlaying, updateAutoplay, videoElement])
 
   const videosContent = useMemo(
     () =>

@@ -43,3 +43,10 @@ export function useUpdateShowcaseSettings() {
 export function useGetShowcaseSettings() {
   return useAppSelector(state => state.user.showcase)
 }
+
+export function useUpdateAutoplaySettings(): [boolean, (autoplay: boolean) => void] {
+  const { autoplay } = useAppSelector(state => state.user.showcase)
+  const updateShowcase = useUpdateShowcaseSettings()
+
+  return [autoplay, (autoplay: boolean) => updateShowcase({ autoplay })]
+}
