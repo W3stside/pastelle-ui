@@ -1,18 +1,23 @@
 import { MutableRefObject } from 'react'
 import { SpringConfig } from 'react-spring'
 
-export interface AnimationHookParams {
-  axisDirection: 'x' | 'y'
+export type SizeOptions = {
+  fixedSize?: number
+  minSize: number
+}
+
+export interface InifniteScrollDataParams {
+  itemSize: number
+  dataLength: number
+  setCurrentIndex: (i: number) => void
+}
+
+export interface InfiniteScrollHookOptions {
   scale?: number
   visible: number
   scrollSpeed?: number
   snapOnScroll?: boolean
   dynamicConfig?: boolean
-  // size options
-  sizeOptions: {
-    fixedSize?: number
-    minSize: number
-  }
   scaleOptions: {
     scaleOnScroll?: number
     initialScale: number
@@ -20,8 +25,7 @@ export interface AnimationHookParams {
   config?: SpringConfig | ((options: { configPos: number; length: number }) => SpringConfig)
 }
 
-export interface ScrollSpringParams {
-  i: number
+export interface InfiniteScrollSpringsState {
   axis: number
   dAxis: number
   mAxis?: number

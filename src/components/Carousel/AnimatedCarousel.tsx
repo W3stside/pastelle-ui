@@ -1,7 +1,7 @@
 import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { STIFF_SPRINGS } from 'constants/springs'
-import useHorizontalScrollingAnimation from 'hooks/useScrollingAnimation/useHorizontalScrollingAnimation'
+import useHorizontalScrollingAnimation from 'hooks/useInfiniteScroll/useInfiniteHorizontalScroll'
 import { useMemo } from 'react'
 import { CarouselIndicators, CarouselStep } from './common'
 import { useCarouselSetup } from './hooks'
@@ -29,18 +29,16 @@ export default function AnimatedCarousel({
   const { bind, currentIndex, itemSize, springs, setItemSizeRef } = useHorizontalScrollingAnimation(
     optimisedImageList,
     {
-      sizeOptions: {
-        minSize: STORE_IMAGE_SIZES.SMALL
-      },
       snapOnScroll: true,
       visible: imageList.length,
       scrollSpeed: 0.4,
-      config: STIFF_SPRINGS
-      /* ({ length, configPos }) => ({
-        tension: (1 + length - configPos) * 500,
-        friction: 1 + configPos * 80
-        // clamp: true
-      }) */
+      config: STIFF_SPRINGS,
+      scaleOptions: {
+        initialScale: 1
+      }
+    },
+    {
+      minSize: STORE_IMAGE_SIZES.SMALL
     }
   )
 

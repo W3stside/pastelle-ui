@@ -1,31 +1,26 @@
 import { useDrag } from '@use-gesture/react'
 import { useSprings } from 'react-spring'
-import useScrollingAnimationSetup from './useScrollingAnimationSetup'
-import { AnimationHookParams } from './types'
+import useInfiniteScrollSetup from './useInfiniteScrollSetup'
+import { InfiniteScrollHookOptions, SizeOptions } from './types'
 import { runSprings } from './utils'
 
 const DRAG_SPEED_COEFFICIENT = 0.5
 
-export default function useHorizontalScrollingAnimation(
+export default function useInfiniteHorizontalScroll(
   items: any[],
-  options: Omit<AnimationHookParams, 'axisDirection' | 'scaleOptions'>
+  options: InfiniteScrollHookOptions,
+  sizeOptions: SizeOptions
 ) {
   const {
-    springsParams,
+    gestureParams,
     currentIndex,
     firstPaintOver,
     scrollingZoneTarget,
     callbacks: { setFirstPaintOver, ...restCbs }
-  } = useScrollingAnimationSetup(items, {
-    ...options,
-    scaleOptions: {
-      initialScale: 1
-    },
-    axisDirection: 'x'
-  })
+  } = useInfiniteScrollSetup('x', sizeOptions, options)
 
   const [springs, api] = useSprings(items.length, i => ({
-    x: (i < items.length - 1 ? i : -1) * springsParams.itemSize,
+    x: (i < items.length - 1 ? i : -1) * gestureParams.itemSize,
     onRest() {
       if (!firstPaintOver) {
         return setFirstPaintOver(true)
@@ -39,8 +34,9 @@ export default function useHorizontalScrollingAnimation(
 
   const bind = useDrag(
     ({ active, dragging, offset: [x], direction: [dx] }) => {
-      runSprings(api, items.length, springsParams.itemSize, springsParams.setCurrentIndex, {
-        ...springsParams,
+      runSprings(api, 'x', {
+        ...gestureParams,
+        dataLength: items.length,
         axis: -x / (options.scrollSpeed || DRAG_SPEED_COEFFICIENT),
         dAxis: -dx,
         active: !!(active || dragging),
@@ -61,7 +57,7 @@ export default function useHorizontalScrollingAnimation(
     api,
     bind,
     target: scrollingZoneTarget,
-    itemSize: springsParams.itemSize,
+    itemSize: gestureParams.itemSize,
     currentIndex,
     firstPaintOver,
     ...restCbs

@@ -1,5 +1,5 @@
 import { SpringRef } from 'react-spring'
-import { AnimationHookParams, ScrollSpringParams } from './types'
+import { InfiniteScrollHookOptions, InfiniteScrollSpringsState, InifniteScrollDataParams } from './types'
 
 /**
  *
@@ -33,11 +33,9 @@ export const getPos = (i: number, firstVisible: number, firstVisibleIndex: numbe
   getIndex(i - firstVisible + firstVisibleIndex, length)
 
 export const calculateApiLogic = (
-  itemsLength: number,
-  itemSize: number,
-  setCurrentIndex: (i: number) => void,
+  i: number,
+  axisDirection: 'x' | 'y',
   {
-    i,
     prevRef,
     active,
     axis,
@@ -47,21 +45,23 @@ export const calculateApiLogic = (
     firstVisIdx,
     scaleOptions,
     snapOnScroll,
-    axisDirection,
-    config
-  }: Omit<ScrollSpringParams & AnimationHookParams, 'visible' | 'sizeOptions'>
+    config,
+    dataLength,
+    itemSize,
+    setCurrentIndex
+  }: Omit<InfiniteScrollHookOptions, 'visible'> & InfiniteScrollSpringsState & InifniteScrollDataParams
 ) => {
-  const position = getPos(i, firstVis, firstVisIdx, itemsLength)
-  const prevPosition = getPos(i, prevRef.current[0], prevRef.current[1], itemsLength)
-  const rank = firstVis - (axis < 0 ? itemsLength : 0) + position - firstVisIdx
-  // const configPos = dAxis > 0 ? position : itemsLength - position
+  const position = getPos(i, firstVis, firstVisIdx, dataLength)
+  const prevPosition = getPos(i, prevRef.current[0], prevRef.current[1], dataLength)
+  const rank = firstVis - (axis < 0 ? dataLength : 0) + position - firstVisIdx
+  // const configPos = dAxis > 0 ? position : dataLength - position
 
   const scale =
     mAxis && scaleOptions?.scaleOnScroll && active
       ? Math.max(1 - Math.abs(mAxis) / itemSize / 2, scaleOptions.scaleOnScroll)
       : scaleOptions.initialScale
 
-  const axisPos = (-axis % (itemSize * itemsLength)) + itemSize * rank
+  const axisPos = (-axis % (itemSize * dataLength)) + itemSize * rank
   const anchorPoint = getNearestAxisPoint(axisPos, itemSize)
   const onScreen = anchorPoint === 0
 
@@ -71,51 +71,38 @@ export const calculateApiLogic = (
     setCurrentIndex(i)
   }
 
-  const configPos = dAxis > 0 ? position : itemsLength - position
+  const configPos = dAxis > 0 ? position : dataLength - position
   const immediate = dAxis < 0 ? prevPosition > position : prevPosition < position
 
   return {
     [axisDirection]: !active && snapOnScroll ? anchorPoint : axisPos,
     scale,
     immediate,
-    config: typeof config === 'function' ? config({ configPos, length: itemsLength }) : config
+    config: typeof config === 'function' ? config({ configPos, length: dataLength }) : config
   }
 }
-
+type RunSpringsParams = Omit<InfiniteScrollSpringsState, 'firstVis' | 'firstVisIdx'> &
+  InfiniteScrollHookOptions &
+  InifniteScrollDataParams
 export function runSprings<T extends Record<any, any>>(
   api: SpringRef<T>,
-  dataLength: number,
-  itemSize: number,
-  setCurrentIndex: (i: number) => void,
-  {
-    axis,
-    dAxis,
-    prevRef,
-    active,
-    visible,
-    axisDirection,
-    snapOnScroll,
-    scaleOptions,
-    config
-  }: Omit<ScrollSpringParams & AnimationHookParams, 'i' | 'visibile' | 'sizeOptions' | 'firstVis' | 'firstVisIdx'>
+  axisDirection: 'x' | 'y',
+  { dataLength, itemSize, axis, dAxis, visible, prevRef, ...rest }: RunSpringsParams
 ) {
   const itemPosition = Math.floor(axis / itemSize) % dataLength
   const firstVis = getIndex(itemPosition, dataLength)
   const firstVisIdx = dAxis < 0 ? dataLength - visible - 1 : 1
 
   api.start(i =>
-    calculateApiLogic(dataLength, itemSize, setCurrentIndex, {
-      i,
+    calculateApiLogic(i, axisDirection, {
       axis,
       dAxis,
-      active,
       firstVis,
       firstVisIdx,
-      axisDirection,
-      snapOnScroll,
+      itemSize,
+      dataLength,
       prevRef,
-      scaleOptions,
-      config
+      ...rest
     })
   )
 

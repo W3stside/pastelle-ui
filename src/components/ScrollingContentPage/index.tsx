@@ -3,7 +3,7 @@ import { FixedAnimatedLoader } from 'components/Loader'
 import { ScrollerContainer, AnimatedDivContainer, Scroller } from './styleds'
 
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
-import useVerticalScrollingAnimation from 'hooks/useScrollingAnimation/useVerticalScrollingAnimation'
+import useInfiniteVerticalScroll from 'hooks/useInfiniteScroll/useInfiniteVerticalScroll'
 import { LoadInViewOptions } from 'hooks/useDetectScrollIntoView'
 import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
 import { isMobile } from 'utils'
@@ -48,17 +48,21 @@ export function ScrollingContentPage<D>({
     firstPaintOver,
     setItemSizeRef: setHeightRef,
     setScrollingZoneRef
-  } = useVerticalScrollingAnimation(data, {
-    visible: 2,
-    sizeOptions: { fixedSize: fixedItemHeight, minSize: MINIMUM_COLLECTION_ITEM_HEIGHT },
-    snapOnScroll: false,
-    // defaults to 0.8 scale on scroll and 1 scale default
-    scaleOptions: {
-      initialScale: 0.92
+  } = useInfiniteVerticalScroll(
+    data,
+    {
+      visible: 2,
+
+      snapOnScroll: false,
+      // defaults to 0.8 scale on scroll and 1 scale default
+      scaleOptions: {
+        initialScale: 0.92
+      },
+      scrollSpeed: isMobile ? 0.4 : undefined,
+      config: ({ configPos }) => ({ tension: (1 + data.length - configPos) * 100, friction: 30 + configPos * 40 })
     },
-    scrollSpeed: isMobile ? 0.4 : undefined,
-    config: ({ configPos }) => ({ tension: (1 + data.length - configPos) * 100, friction: 30 + configPos * 40 })
-  })
+    { fixedSize: fixedItemHeight, minSize: MINIMUM_COLLECTION_ITEM_HEIGHT }
+  )
 
   /**
    * Reference ELEM for which we:
