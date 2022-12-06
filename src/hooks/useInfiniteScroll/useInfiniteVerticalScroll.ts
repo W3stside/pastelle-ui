@@ -47,9 +47,7 @@ export default function useInfiniteVerticalScroll(
 
   useGesture(
     {
-      onDrag: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
-        event.preventDefault()
-
+      onDrag: ({ active, offset: [, y], movement: [, my], direction: [, dy] }) => {
         if (dy) {
           const aY = getNearestAxisPoint(y, gestureParams.itemSize)
           dragOffset.current = -aY ?? -y
@@ -64,8 +62,7 @@ export default function useInfiniteVerticalScroll(
           })
         }
       },
-      onWheel: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
-        event.preventDefault()
+      onWheel: ({ active, offset: [, y], movement: [, my], direction: [, dy] }) => {
         if (dy) {
           const aY = getNearestAxisPoint(y, gestureParams.itemSize)
           wheelOffset.current = aY ?? y
@@ -83,7 +80,7 @@ export default function useInfiniteVerticalScroll(
     },
     {
       target: scrollingZoneTarget,
-      eventOptions: { passive: false },
+      eventOptions: { passive: true },
       drag: isMobile
         ? {
             // filterTaps: true,
