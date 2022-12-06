@@ -485,6 +485,10 @@ export const ItemContainer = styled(Row)<{
       max-width: ${STORE_IMAGE_SIZES.SMALL}px;
       box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
 
+      ${upToLarge`
+        max-width: 40vw; 
+      `}
+
       // MEDIA QUERIES --> SMALL and below
       ${upToSmall`
         max-width: 100%;
