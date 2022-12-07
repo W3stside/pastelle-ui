@@ -9,6 +9,7 @@ import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/
 import { isMobile } from 'utils'
 import { Product } from 'shopify/graphql/types'
 import { STIFF_SPRINGS } from 'constants/springs'
+import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 // TODO: bullshit
 const HEADER_HEIGHT = 80
@@ -40,6 +41,7 @@ export function ScrollingContentPage<D>({
   onContentClick,
   IterableComponent
 }: Params<D>) {
+  const isMobileWidth = useIsMobileWindowWidthSize()
   const {
     api,
     springs,
@@ -57,7 +59,7 @@ export function ScrollingContentPage<D>({
       snapOnScroll: false,
       // defaults to 0.8 scale on scroll and 1 scale default
       scaleOptions: {
-        initialScale: 0.92
+        initialScale: isMobileWidth || isMobile ? 0.97 : 0.92
       },
       scrollSpeed: isMobile ? 0.4 : undefined,
       config: STIFF_SPRINGS
