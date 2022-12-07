@@ -2,9 +2,8 @@ import { ReactNode } from 'react'
 import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import styled from 'styled-components/macro'
 import { rotateKeyframe } from 'theme/styles/animations'
-import { setCssBackground } from 'theme/utils'
+import { setBackgroundWithDPI } from 'theme/utils'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
-import { portugalBg } from 'components/Layout/Article'
 import { ColumnCenter } from 'components/Layout'
 import PastelleCursiveLoader from './PastelleCursiveLoader'
 
@@ -26,7 +25,12 @@ type StyleParams = {
   showBg?: boolean
 }
 
-const moddedPtBgUrl = portugalBg + 'q-2,w-10,h-10,bl-10,'
+const moddedPtBgUrl = 'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=q-40,w-100,h-100,bl-6,'
+const MODDED_PT_URL_LIST = [
+  { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
+  { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
+  { defaultUrl: moddedPtBgUrl + 'w-10,h-10' } as GenericImageSrcSet
+]
 export const AnimatedContainer = styled(ColumnCenter).attrs(props => ({
   ...props,
   height: '100%',
@@ -34,19 +38,16 @@ export const AnimatedContainer = styled(ColumnCenter).attrs(props => ({
 }))<{ showBg?: boolean }>`
   ${({ theme, showBg = true }) =>
     showBg &&
-    setCssBackground(theme, {
-      imageUrls: [
-        { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
-        { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
-        { defaultUrl: moddedPtBgUrl + 'w-1,h-1' } as GenericImageSrcSet
-      ],
+    setBackgroundWithDPI(theme, MODDED_PT_URL_LIST, {
+      dpiLevel: '1x',
+      // backgroundColor: '#e6e6e61c',
+      backgroundColor: '#4242421c',
       backgroundAttributes: ['center/contain repeat', '-1px -1px/contain repeat'],
       backgroundBlendMode: 'color-burn',
-      backgroundColor: '#e6e6e61c',
       skipIk: true
     })}
 
-  filter: contrast(2.5);
+  filter: contrast(1.5);
 
   > * {
     width: 60%;
