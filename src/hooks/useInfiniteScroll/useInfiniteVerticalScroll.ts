@@ -36,6 +36,10 @@ export default function useInfiniteVerticalScroll(
         if (!firstPaintOver) {
           setFirstPaintOver(true)
         }
+      },
+      from: {
+        scale: 5,
+        y: i * gestureParams.itemSize
       }
     }),
     [gestureParams.itemSize]
