@@ -21,7 +21,6 @@ import {
   setBackgroundWithDPI,
   setBestTextColour,
   upToLarge,
-  upToMedium,
   upToSmall
 } from 'theme/utils'
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
@@ -150,6 +149,7 @@ export const ItemLogoCollectionView = styled(ItemLogoCssImport)<{ $bgColor: stri
     position: absolute;
     max-width: 100%;
     height: 100%;
+    background: none;
     // z-index: 1;
   `}
 
@@ -312,7 +312,7 @@ export const ItemContainer = styled(Row)<{
     > ${InnerCollectionContainer} {
       // MEDIA QUERY --> SMALL and below
       ${upToSmall`
-        padding: 15px;
+        padding: 0;
       `}
       // MEDIA QUERY --> LARGE and below
       ${upToLarge`
@@ -339,7 +339,7 @@ export const ItemContainer = styled(Row)<{
       > ${CarouselContainer} {
         // MEDIA QUERY --> SMALL and below
         ${upToSmall`
-          margin: 5rem 0 2.7rem;
+          margin: 7rem 0 0;
         `}
         // MEDIA QUERY --> LARGE and up
         ${fromMedium`  

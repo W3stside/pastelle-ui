@@ -1,4 +1,4 @@
-import { ForwardedRef, forwardRef, Fragment, ReactNode, useMemo } from 'react'
+import { ForwardedRef, forwardRef, Fragment, useMemo } from 'react'
 import { IKImage, IKContext } from 'imagekitio-react'
 import useDetectScrollIntoView, { LoadInViewOptions } from 'hooks/useDetectScrollIntoView'
 import useEffectRef from 'hooks/useEffectRef'
@@ -26,7 +26,6 @@ interface BaseImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   lazy?: boolean
   forwardedRef?: React.ForwardedRef<HTMLImageElement>
   transformation?: ImageKitTransformation
-  loadingComponent?: ReactNode
   loadInViewOptions?: LoadInViewOptions
   lqImageOptions?: LqImageOptions
 }

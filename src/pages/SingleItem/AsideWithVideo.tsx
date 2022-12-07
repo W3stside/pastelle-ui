@@ -18,7 +18,6 @@ import {
   PASTELLE_CREDIT,
   ItemSubHeader,
   ItemBreadcrumb,
-  MobileItemCTA,
   InnerContainer,
   HighlightedText,
   ItemLogoCollectionView,
@@ -122,7 +121,6 @@ export type SingleItemPageProps = ProductPageProps &
     style?: any
     showBreadCrumbs: boolean
     showProductLabel?: boolean
-    handleMobileItemClick?: React.MouseEventHandler<HTMLHeadingElement>
   }
 export default function ItemPage({
   bgColor,
@@ -150,8 +148,7 @@ export default function ItemPage({
   noDescription = false,
   showBreadCrumbs,
   showProductLabel = false,
-  style,
-  handleMobileItemClick
+  style
 }: SingleItemPageProps) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
@@ -215,8 +212,13 @@ export default function ItemPage({
       />
       {/* Product label: used in scolling collection */}
       {showProductLabel && (
-        <ScrollingProductLabel logo={headerLogo} labelColor={bgColor}>
-          <strong>{title}</strong> <span style={{ fontSize: 'smaller' }}>{shortDescription}</span>
+        <ScrollingProductLabel logo={headerLogo} labelColor={bgColor} flexWrap="wrap">
+          <Row>
+            <strong>{title}</strong>
+          </Row>
+          <Row>
+            <span style={{ fontSize: 'smaller' }}>{shortDescription}</span>
+          </Row>
         </ScrollingProductLabel>
       )}
       {/* Item content */}
@@ -261,13 +263,6 @@ export default function ItemPage({
                     {title}
                   </ItemLogo>
                 )}
-                <MobileItemCTA
-                  alignItems="center"
-                  justifyContent="center"
-                  onClick={handleMobileItemClick && handleMobileItemClick}
-                >
-                  <strong style={{ marginLeft: 7 }}> VIEW MORE</strong>
-                </MobileItemCTA>
               </>
             ) : (
               <>
