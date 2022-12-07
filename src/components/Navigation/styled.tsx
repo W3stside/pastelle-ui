@@ -2,7 +2,7 @@ import styled from 'styled-components/macro'
 import Button from 'components/Button'
 import { MobileNavProps } from '.'
 import { Z_INDEXES } from 'constants/config'
-import { Column } from 'components/Layout'
+import { Column, Row } from 'components/Layout'
 import { BLACK, setBackgroundWithDPI, setBestTextColour } from 'theme/utils'
 import { setFlickerAnimation } from 'theme/styles/animations'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
@@ -95,9 +95,11 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   `};
 `
 
-export const CollectionLabel = styled.div<{ active: boolean; bgColor?: string }>`
+export const CollectionLabel = styled(Row)<{ active: boolean; bgColor?: string }>`
   font-weight: ${({ active }) => (active ? 700 : 300)};
   padding: 0 1rem;
+  gap: 1rem;
+
   ${({ active, bgColor = 'transparent' }) =>
     active &&
     `

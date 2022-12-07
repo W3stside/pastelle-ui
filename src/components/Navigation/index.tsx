@@ -13,7 +13,6 @@ import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Row } from 'components/Layout'
 import ThemeToggleBar from 'components/ThemeToggler'
 import useStateRef from 'hooks/useStateRef'
-// import { NavLogo } from 'components/BackgroundLogo'
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string }
 
