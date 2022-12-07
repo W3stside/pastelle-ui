@@ -40,9 +40,10 @@ export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; la
   text-shadow: 0px 0 0.5rem ${({ labelColor }) => labelColor || BLACK};
   ${({ theme, logo }) =>
     setBackgroundWithDPI(theme, logo, {
-      preset: 'header',
       dpiLevel: '1x',
-      modeColours: [BLACK, BLACK],
+      backgroundColor: BLACK,
+      backgroundAttributes: ['center / cover no-repeat', '-8px / cover repeat'],
+      backgroundBlendMode: 'difference',
       lqIkUrlOptions: {
         transforms: ['pr-true,q-30', 'pr-true,q-10,bl-12']
       }
