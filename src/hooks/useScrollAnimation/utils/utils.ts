@@ -1,5 +1,5 @@
 import { SpringRef } from 'react-spring'
-import { InfiniteScrollHookOptions, InfiniteScrollSpringsState, InifniteScrollDataParams } from './types'
+import { InfiniteScrollHookOptions, InfiniteScrollSpringsState, InifniteScrollDataParams } from '../types'
 
 /**
  *
@@ -32,7 +32,7 @@ export const getIndex = (axis: number, l: number) => (axis < 0 ? axis + l : axis
 export const getPos = (i: number, firstVisible: number, firstVisibleIndex: number, length: number) =>
   getIndex(i - firstVisible + firstVisibleIndex, length)
 
-export const calculateApiLogic = (
+export const calculateInfiniteScrollApiLogic = (
   i: number,
   axisDirection: 'x' | 'y',
   {
@@ -84,7 +84,7 @@ export const calculateApiLogic = (
 type RunSpringsParams = Omit<InfiniteScrollSpringsState, 'firstVis' | 'firstVisIdx'> &
   InfiniteScrollHookOptions &
   InifniteScrollDataParams
-export function runSprings<T extends Record<any, any>>(
+export function runInfiniteScrollSprings<T extends Record<any, any>>(
   api: SpringRef<T>,
   axisDirection: 'x' | 'y',
   { dataLength, itemSize, axis, dAxis, visible, prevRef, ...rest }: RunSpringsParams
@@ -94,7 +94,7 @@ export function runSprings<T extends Record<any, any>>(
   const firstVisIdx = dAxis < 0 ? dataLength - visible - 1 : 1
 
   api.start(i =>
-    calculateApiLogic(i, axisDirection, {
+    calculateInfiniteScrollApiLogic(i, axisDirection, {
       axis,
       dAxis,
       firstVis,

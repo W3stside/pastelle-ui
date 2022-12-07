@@ -37,7 +37,7 @@ export const StaticCarouselStep = styled(BaseCarouselStep)<{
 `
 
 export const CarouselContainer = styled(ScrollerContainer).attrs({ $isVerticalScroll: false })<{
-  fixedHeight?: string
+  $fixedHeight?: string
 }>`
   user-select: none;
   display: flex;
@@ -49,7 +49,7 @@ export const CarouselContainer = styled(ScrollerContainer).attrs({ $isVerticalSc
   overflow: hidden;
   width: 100%;
   z-index: 1;
-  ${({ fixedHeight }) => `height: ${fixedHeight};`}
+  ${({ $fixedHeight }) => `height: ${$fixedHeight};`}
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     > ${StaticCarouselStep} {

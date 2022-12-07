@@ -1,8 +1,8 @@
 import { useDrag } from '@use-gesture/react'
 import { useSprings } from 'react-spring'
-import useInfiniteScrollSetup from './useInfiniteScrollSetup'
+import useInfiniteScrollSetup from './utils/useScrollSetup'
 import { InfiniteScrollHookOptions, SizeOptions } from './types'
-import { runSprings } from './utils'
+import { runInfiniteScrollSprings } from './utils/utils'
 
 const DRAG_SPEED_COEFFICIENT = 0.5
 
@@ -37,7 +37,7 @@ export default function useInfiniteHorizontalScroll(
 
   const bind = useDrag(
     ({ active, dragging, offset: [x], direction: [dx] }) => {
-      runSprings(api, 'x', {
+      runInfiniteScrollSprings(api, 'x', {
         ...gestureParams,
         dataLength: items.length,
         axis: -x / (options.scrollSpeed || DRAG_SPEED_COEFFICIENT),

@@ -1,9 +1,9 @@
-import { Fragment, MouseEvent, useCallback, useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { FixedAnimatedLoader } from 'components/Loader'
-import { ScrollerContainer, AnimatedDivContainer, Scroller } from './styleds'
+import { ScrollerContainer, AnimatedDivContainer } from './styleds'
 
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
-import useInfiniteVerticalScroll from 'hooks/useInfiniteScroll/useInfiniteVerticalScroll'
+import { useInfiniteVerticalScroll } from 'hooks/useScrollAnimation'
 import { LoadInViewOptions } from 'hooks/useDetectScrollIntoView'
 import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
 import { isMobile } from 'utils'
@@ -11,8 +11,6 @@ import { Product } from 'shopify/graphql/types'
 import { STIFF_SPRINGS } from 'constants/springs'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
-// TODO: bullshit
-const HEADER_HEIGHT = 80
 interface ScrollingContentPageParams<D> {
   data: D[]
   dataItem: D | undefined
@@ -43,9 +41,8 @@ export function ScrollingContentPage<D>({
 }: Params<D>) {
   const isMobileWidth = useIsMobileWindowWidthSize()
   const {
-    api,
+    bind,
     springs,
-    target,
     itemSize: itemHeight,
     currentIndex,
     firstPaintOver,
@@ -82,27 +79,8 @@ export function ScrollingContentPage<D>({
   }, [HEIGHT_AND_VIEW_TARGET, setHeightRef, setScrollingZoneRef])
 
   const handleItemSelect = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      if (!onContentClick) return
-      const products = data as Product[]
-      const halfHeight = itemHeight / 2
-      const clickY = e.clientY - HEADER_HEIGHT - halfHeight
-      const nextIdx = currentIndex < data.length - 1 ? currentIndex + 1 : 0
-      const prevIdx = currentIndex === 0 ? data.length - 1 : currentIndex - 1
-      const positions = {
-        currItem: api.current[currentIndex].springs.y.get(),
-        nextItem: api.current[nextIdx].springs.y.get(),
-        prevItem: api.current[prevIdx].springs.y.get()
-      }
-
-      const clickedNext = positions.nextItem - halfHeight < clickY
-      const clickedPrev =
-        positions.prevItem + halfHeight - (target?.clientHeight ? target.clientHeight - itemHeight : itemHeight) / 2 >
-        clickY
-
-      return onContentClick(products[clickedNext ? nextIdx : clickedPrev ? prevIdx : currentIndex].handle)
-    },
-    [api, currentIndex, data, itemHeight, onContentClick, target]
+    (index: number) => onContentClick && onContentClick((data[index] as Product).handle),
+    [data, onContentClick]
   )
 
   if (!dataItem) return null
@@ -115,18 +93,17 @@ export function ScrollingContentPage<D>({
         left="50%"
         width="40vw"
       />
-      {/* mobile only scrolling ref, using collection-article doesn't work on mobile */}
-      {isMobile && <Scroller ref={setScrollingZoneRef} onClick={handleItemSelect} />}
-      <ScrollerContainer $isVerticalScroll>
+      <ScrollerContainer $isVerticalScroll {...bind()}>
         {springs.map(({ y, scale }, i) => {
           return (
             <AnimatedDivContainer
-              key={y.id}
+              {...bind(i)}
+              key={i}
               $touchAction="none"
               style={{ scale, height: itemHeight, y }}
               $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
               $withBoxShadow={withBoxShadow}
-              onClick={isMobile ? undefined : () => onContentClick?.((data[i] as any).handle)}
+              onClick={() => handleItemSelect(i)}
               $isVerticalScroll
             >
               <IterableComponent

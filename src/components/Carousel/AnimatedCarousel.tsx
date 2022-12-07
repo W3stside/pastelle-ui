@@ -1,12 +1,9 @@
 import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
-import { STORE_IMAGE_SIZES } from 'constants/config'
-import { STIFF_SPRINGS } from 'constants/springs'
-import useHorizontalScrollingAnimation from 'hooks/useInfiniteScroll/useInfiniteHorizontalScroll'
-import { useMemo } from 'react'
 import { CarouselIndicators, CarouselStep } from './common'
 import { useCarouselSetup } from './hooks'
 import { CarouselContainer } from './styleds'
 import { BaseCarouselProps } from './types'
+import { useLimitedHorizontalScroll } from 'hooks/useScrollAnimation'
 
 export default function AnimatedCarousel({
   imageList,
@@ -22,25 +19,12 @@ export default function AnimatedCarousel({
     startIndex
   })
 
-  const optimisedImageList = useMemo(() => (imageList.length === 2 ? imageList.concat(imageList) : imageList), [
-    imageList
-  ])
-
-  const { bind, currentIndex, itemSize, springs, setItemSizeRef } = useHorizontalScrollingAnimation(
-    optimisedImageList,
-    {
-      snapOnScroll: true,
-      visible: imageList.length,
-      scrollSpeed: 0.4,
-      config: STIFF_SPRINGS,
-      scaleOptions: {
-        initialScale: 1
-      }
-    },
-    {
-      minSize: STORE_IMAGE_SIZES.SMALL
-    }
-  )
+  const {
+    bind,
+    springs,
+    state: { currentIndex, width },
+    refCallbacks: { setItemSizeRef }
+  } = useLimitedHorizontalScroll(imageList, { sensitivity: 4 })
 
   return (
     <CarouselContainer
@@ -49,20 +33,12 @@ export default function AnimatedCarousel({
         setCarouselContainerRef(node)
         setItemSizeRef(node)
       }}
-      fixedHeight={fixedHeight || parentWidth + 'px'}
+      $fixedHeight={fixedHeight || parentWidth + 'px'}
     >
-      <CarouselIndicators
-        size={imageList.length}
-        currentIndex={
-          optimisedImageList.length === imageList.length
-            ? currentIndex
-            : currentIndex % (optimisedImageList.length - imageList.length)
-        }
-        color={buttonColor}
-      />
+      <CarouselIndicators size={imageList.length} currentIndex={currentIndex} color={buttonColor} />
       {/* CAROUSEL CONTENT */}
-      {springs.map(({ x }, index) => {
-        const { defaultUrl, ...urlRest } = optimisedImageList[index]
+      {springs.map(({ x, display }, index) => {
+        const { defaultUrl, ...urlRest } = imageList[index]
 
         if (!parentWidth) return null
 
@@ -70,7 +46,7 @@ export default function AnimatedCarousel({
           <AnimatedDivContainer
             {...bind(index)}
             key={index}
-            style={{ width: itemSize, x, zIndex: index === 0 ? 1 : 0 }}
+            style={{ width, x, display }}
             $borderRadius="0px"
             $withBoxShadow={false}
             $isVerticalScroll={false}

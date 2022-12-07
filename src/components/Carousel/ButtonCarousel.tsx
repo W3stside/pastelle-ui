@@ -46,7 +46,7 @@ export default function ButtonCarousel({
         setCarouselContainerRef(node)
         node && forwardedRef && setForwardedRef(node, forwardedRef)
       }}
-      fixedHeight={fixedHeight || parentWidth + 'px'}
+      $fixedHeight={fixedHeight || parentWidth + 'px'}
     >
       {/* CAROUSEL CONTENT */}
       {imageList.map(({ defaultUrl, ...urlRest }, index) => {

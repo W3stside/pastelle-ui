@@ -30,7 +30,10 @@ export interface InfiniteScrollSpringsState {
   dAxis: number
   mAxis?: number
   active: boolean
+  first?: boolean
+  last?: boolean
   firstVis: number
   firstVisIdx: number
   prevRef: MutableRefObject<number[]>
+  memo?: { [key: number]: number }
 }

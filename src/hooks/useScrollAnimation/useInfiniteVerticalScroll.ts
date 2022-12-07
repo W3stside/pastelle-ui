@@ -2,8 +2,8 @@ import { useRef } from 'react'
 import { useGesture } from '@use-gesture/react'
 import { useSprings } from 'react-spring'
 import { InfiniteScrollHookOptions, SizeOptions } from './types'
-import useInfiniteScrollSetup from './useInfiniteScrollSetup'
-import { getNearestAxisPoint, runSprings } from './utils'
+import useInfiniteScrollSetup from './utils/useScrollSetup'
+import { getNearestAxisPoint, runInfiniteScrollSprings } from './utils/utils'
 
 const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 3.2,
@@ -21,7 +21,7 @@ export default function useInfiniteVerticalScroll(
     gestureParams,
     currentIndex,
     firstPaintOver,
-    scrollingZoneTarget,
+    // scrollingZoneTarget,
     callbacks: { setFirstPaintOver, ...restCbs }
   } = useInfiniteScrollSetup('y', sizeOptions, options)
 
@@ -48,53 +48,49 @@ export default function useInfiniteVerticalScroll(
   const wheelOffset = useRef(0)
   const dragOffset = useRef(0)
 
-  useGesture(
+  const bind = useGesture(
     {
-      onDrag: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
-        event.preventDefault()
-
+      onDrag: ({ active, last, offset: [, y], movement: [, my], direction: [, dy] }) => {
         if (dy) {
           const aY = getNearestAxisPoint(y, gestureParams.itemSize)
           dragOffset.current = -aY ?? -y
           const computedY = wheelOffset.current + -y / CONFIG.DRAG_SPEED_COEFFICIENT
-          runSprings(api, 'y', {
+          runInfiniteScrollSprings(api, 'y', {
             ...gestureParams,
             dataLength: items.length,
             active,
             axis: computedY,
             dAxis: -dy,
-            mAxis: -my
+            mAxis: -my,
+            last
           })
         }
       },
-      onWheel: ({ event, active, offset: [, y], movement: [, my], direction: [, dy] }) => {
-        event.preventDefault()
-
+      onWheel: ({ active, last, offset: [, y], movement: [, my], direction: [, dy] }) => {
         if (dy) {
-          const aY = getNearestAxisPoint(y, gestureParams.itemSize)
-          wheelOffset.current = aY ?? y
+          wheelOffset.current = y
           const computedY = dragOffset.current + y / CONFIG.SCROLL_SPEED_COEFFICIENT
-          runSprings(api, 'y', {
+          runInfiniteScrollSprings(api, 'y', {
             ...gestureParams,
             dataLength: items.length,
             active,
             axis: computedY,
             dAxis: dy,
-            mAxis: my
+            mAxis: my,
+            last
           })
         }
       }
     },
     {
-      target: scrollingZoneTarget,
       eventOptions: { passive: false, once: true, capture: false }
     }
   )
 
   return {
+    bind,
     springs,
     api,
-    target: scrollingZoneTarget,
     itemSize: gestureParams.itemSize,
     currentIndex,
     firstPaintOver,
