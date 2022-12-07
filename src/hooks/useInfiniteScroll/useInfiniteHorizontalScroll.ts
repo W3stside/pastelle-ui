@@ -26,6 +26,9 @@ export default function useInfiniteHorizontalScroll(
         return setFirstPaintOver(true)
       }
     },
+    from: {
+      x: i * gestureParams.itemSize
+    },
     config: {
       tension: 260,
       friction: 50

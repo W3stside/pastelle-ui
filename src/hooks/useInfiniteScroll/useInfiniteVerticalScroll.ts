@@ -38,7 +38,7 @@ export default function useInfiniteVerticalScroll(
         }
       },
       from: {
-        scale: 5,
+        scale: options.scaleOptions.initialScale || 0.92,
         y: i * gestureParams.itemSize
       }
     }),
