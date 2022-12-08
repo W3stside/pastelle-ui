@@ -50,7 +50,7 @@ export function ShoppingCartHeader() {
   return (
     <ShoppingCartFullWrapper>
       <ShoppingCartHeaderWrapper onClick={() => setShoppingPanelOpen(true)}>
-        <ShoppingCartIcon size={'3rem'} />
+        <ShoppingCartIcon size={30} />
         <ShoppingCartQuantity totalQuantity={cart.totalQuantity} />
       </ShoppingCartHeaderWrapper>
       {shoppingPanelOpen && <ShoppingCart closeCartPanel={() => setShoppingPanelOpen(false)} />}

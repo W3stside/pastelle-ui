@@ -24,7 +24,7 @@ export interface ItemVideoContentProps extends RowProps {
   autoPlayOptions?: LazyVideoProps['autoPlayOptions']
   showError?: boolean
 }
-const CONTROL_BUTTON_SIZE = '1.6rem'
+const CONTROL_BUTTON_SIZE = '16px'
 export const ItemVideoContent = ({
   videos,
   currentCarouselIndex,

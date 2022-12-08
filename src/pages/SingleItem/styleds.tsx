@@ -294,6 +294,15 @@ export const ItemContainer = styled(Row)<{
 
     // MEDIA QUERIES --> SMALL and below
     ${({ theme }) => theme.mediaWidth.upToSmall`
+    // corresponds with > InnerC0ntainer below
+    // ios does NOT support overflow-x: clip; so we need this
+      @supports not (overflow:clip) {
+        position: fixed;
+        left: 0;
+        right: 0;
+
+        overflow-x: hidden;
+      }
       border: none;
       margin: 0;
     `}
@@ -492,12 +501,17 @@ export const ItemContainer = styled(Row)<{
 
       ${upToLarge`
         max-width: 40vw; 
+        min-width: 36rem;
       `}
 
       // MEDIA QUERIES --> SMALL and below
       ${upToSmall`
         max-width: 100%;
-        overflow-x: clip;
+        min-width: unset;
+        // corresponds with @supports not above in itemAsidePanel
+        @supports (overflow:clip) {
+          overflow-x: clip;
+        }
         
         > ${ItemContentContainer} {
           padding-left: 0;
