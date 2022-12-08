@@ -496,11 +496,10 @@ export const ItemContainer = styled(Row)<{
 
       // MEDIA QUERIES --> SMALL and below
       ${upToSmall`
-        position: fixed;
-        top: 0; 
-        left: 0;
-        right: 0;
-        height: auto;
+        max-width: 100%;
+
+        overflow: auto;
+        overflow-x: hidden;
         
         > ${ItemContentContainer} {
           padding-left: 0;
