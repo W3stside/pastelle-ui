@@ -24,7 +24,7 @@ export default function AnimatedCarousel({
     springs,
     state: { currentIndex, width },
     refCallbacks: { setItemSizeRef }
-  } = useLimitedHorizontalScroll(imageList, { sensitivity: 4 })
+  } = useLimitedHorizontalScroll(imageList, { sensitivity: 2 })
 
   return (
     <CarouselContainer
