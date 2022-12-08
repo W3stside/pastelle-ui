@@ -502,7 +502,7 @@ export const ItemContainer = styled(Row)<{
           overflow-x: clip;
         }
         
-        overflow: hidden;
+        overflow-x: hidden;
         
         > ${ItemContentContainer} {
           padding-left: 0;
