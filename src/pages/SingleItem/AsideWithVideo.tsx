@@ -47,7 +47,13 @@ import {
 } from 'shopify/graphql/types'
 
 import { getImageSizeMap } from 'shopify/utils'
-import { FREE_SHIPPING_THRESHOLD, SINGLE_ITEM_LOGO_RATIO, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
+import {
+  FREE_SHIPPING_THRESHOLD,
+  MINIMUM_COLLECTION_ITEM_HEIGHT,
+  SINGLE_ITEM_LOGO_RATIO,
+  STORE_IMAGE_SIZES,
+  Z_INDEXES
+} from 'constants/config'
 
 import { isMobile } from 'utils'
 import { getMobileShowcaseVideo916Height } from './utils'
@@ -244,6 +250,7 @@ export default function ItemPage({
               startIndex={currentCarouselIndex}
               onCarouselChange={onCarouselChange}
               onImageClick={toggleLargeImageModal}
+              lqImageOptions={_setCatalogImagesLqProps(innerContainerRef, collectionView)}
               loadInViewOptions={loadInViewOptions}
               collectionView={collectionView}
               fixedHeight={collectionView ? '100%' : undefined}
@@ -412,4 +419,18 @@ export default function ItemPage({
       </ItemContainer>
     </>
   )
+}
+
+function _setCatalogImagesLqProps(node: HTMLElement | null, isCollectionView: boolean) {
+  return isCollectionView
+    ? {
+        width: (node?.clientWidth || 1) * 0.6 || 500,
+        height: node?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
+        showLoadingIndicator: false
+      }
+    : {
+        width: node?.clientWidth || 0,
+        height: node?.clientWidth || 0,
+        showLoadingIndicator: true
+      }
 }
