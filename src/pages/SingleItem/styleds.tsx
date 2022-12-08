@@ -499,7 +499,7 @@ export const ItemContainer = styled(Row)<{
         max-width: 100%;
 
         overflow: auto;
-        overflow-x: hidden;
+        overflow-y: visible;
         
         > ${ItemContentContainer} {
           padding-left: 0;
