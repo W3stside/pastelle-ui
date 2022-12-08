@@ -24,6 +24,7 @@ import PastelleLogoCursiveLong from 'assets/svg/pastelle-cursive-logo.svg'
 import ThemeToggleBar from 'components/ThemeToggler'
 import { ThemeModes } from 'theme/styled'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { Z_INDEXES } from 'constants/config'
 
 const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
 
@@ -64,6 +65,8 @@ export const BalanceText = styled(Text)`
 export const HeaderFrame = styled(SectionFrame)<{ color?: string; logoSet?: GenericImageSrcSet }>`
   top: 0;
   padding: 1rem;
+
+  z-index: ${Z_INDEXES.HEADER};
 
   ${({ theme, color = BLACK, logoSet }) =>
     logoSet &&

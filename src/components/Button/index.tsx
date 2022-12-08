@@ -271,7 +271,7 @@ export type ButtonProps = ButtonBaseProps & ButtonStyleProps & { bgImage?: Gener
 
 const ButtonBase = styled.button.attrs(props => props)<ButtonStyleProps>`
   border: none;
-  border-radius: 0.1rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-size: ${({ theme }) => theme.buttons.font.size.normal};
   font-weight: 600;

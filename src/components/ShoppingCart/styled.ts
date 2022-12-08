@@ -203,6 +203,8 @@ export const ShoppingCartPanelWrapper = styled.div`
   z-index: ${Z_INDEXES.SHOPPING_CART};
   cursor: initial;
 
+  background-color: #340303ba;
+
   // animation
   filter: contrast(1) blur(0px);
   ${setFadeInAnimation({ duration: 0.4 })}
