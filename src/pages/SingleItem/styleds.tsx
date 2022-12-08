@@ -498,8 +498,9 @@ export const ItemContainer = styled(Row)<{
       ${upToSmall`
         max-width: 100%;
 
-        overflow-x: hidden;
-        overflow-y: visible;
+        @supports (overflow: clip) {
+            overflow-x: clip;
+        }
         
         > ${ItemContentContainer} {
           padding-left: 0;
