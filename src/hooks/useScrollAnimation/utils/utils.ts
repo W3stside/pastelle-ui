@@ -38,6 +38,7 @@ export const calculateInfiniteScrollApiLogic = (
   {
     prevRef,
     active,
+    last,
     axis,
     dAxis,
     mAxis,
@@ -62,7 +63,7 @@ export const calculateInfiniteScrollApiLogic = (
       : scaleOptions.initialScale
 
   const axisPos = (-axis % (itemSize * dataLength)) + itemSize * rank
-  const anchorPoint = getNearestAxisPoint(axisPos, itemSize)
+  const anchorPoint = last && getNearestAxisPoint(axisPos, itemSize)
   const onScreen = anchorPoint === 0
 
   // the frame at the 0 anchor point is the current one in frame
