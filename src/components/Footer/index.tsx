@@ -1,9 +1,10 @@
 import styled from 'styled-components/macro'
 import { SectionFrame } from '../Layout/Section'
-import { upToSmall } from 'theme/utils'
+import { fromExtraSmall, upToSmall } from 'theme/utils'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
 import ThemeToggleBar from 'components/ThemeToggler'
+import { Z_INDEXES } from 'constants/config'
 
 const FooterWrapper = styled(SectionFrame)`
   display: none;
@@ -11,12 +12,21 @@ const FooterWrapper = styled(SectionFrame)`
   ${upToSmall`
     display: flex;
     position: fixed;
+    height: 6rem;
     bottom: 0;
     padding: 1rem;
-    background-color: #000000d1;
+    background-color: rgb(34 12 61 / 86%);
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: ${Z_INDEXES.HEADER + 10};
     > ${ShoppingCartFullWrapper} {
       margin-left: auto;
+    }
+  `}
+
+  ${fromExtraSmall`
+    z-index: 1;
+    > ${ShoppingCartFullWrapper} {
+      display: none;
     }
   `}
 `

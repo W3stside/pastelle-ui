@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useCreateCart } from 'shopify/graphql/hooks'
 import { GET_CART } from 'shopify/graphql/queries/cart'
 import { GetCartQuery, GetCartQueryVariables } from 'shopify/graphql/types'
-import { useUpdateCartInfoDispatch, useGetCartIdDispatch } from 'state/cart/hooks'
+import { useUpdateCartInfoDispatch, useGetCartIdState } from 'state/cart/hooks'
 import { UpdateCartInfoParams } from './reducer'
 
 interface CartCreationCbs {
@@ -17,7 +17,7 @@ export default function CartUpdater() {
   const updateCartInfo = useUpdateCartInfoDispatch()
   const { query } = useApolloClient()
 
-  const cartId = useGetCartIdDispatch()
+  const cartId = useGetCartIdState()
 
   useEffect(() => {
     if (cartId) {

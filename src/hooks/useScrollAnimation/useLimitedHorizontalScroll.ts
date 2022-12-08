@@ -2,7 +2,7 @@ import { useDrag } from '@use-gesture/react'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { useState } from 'react'
 import { useSprings } from 'react-spring'
-import clamp from 'lodash/clamp'
+import clamp from 'lodash.clamp'
 import useScrollZoneRefs from './utils/useScrollZoneRef'
 interface Options {
   sensitivity: number

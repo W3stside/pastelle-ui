@@ -3,7 +3,7 @@ import Button from 'components/Button'
 import { MobileNavProps } from '.'
 import { Z_INDEXES } from 'constants/config'
 import { Column, Row } from 'components/Layout'
-import { BLACK, setBackgroundWithDPI, setBestTextColour } from 'theme/utils'
+import { BLACK, setBackgroundWithDPI, setBestTextColour, upToExtraSmall, upToMedium } from 'theme/utils'
 import { setFlickerAnimation } from 'theme/styles/animations'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
 
@@ -42,7 +42,7 @@ export const NavigationStepsWrapper = styled.nav<{
 
   ${setFlickerAnimation({ state: true, duration: 4, count: 2 })}
 
-  ${({ theme, isOpen }) => theme.mediaWidth.upToMedium`
+  ${({ isOpen }) => upToMedium`
     display: ${isOpen ? 'flex' : 'none'};
     position: fixed;
     top: 0; left: 0; bottom: 0;
@@ -60,6 +60,10 @@ export const NavigationStepsWrapper = styled.nav<{
     
     width: ${isOpen ? '100%' : '0px'};
     opacity: ${isOpen ? '1' : '0'};
+  `}
+
+  ${upToExtraSmall`
+    bottom: 6rem;
   `}
 `
 

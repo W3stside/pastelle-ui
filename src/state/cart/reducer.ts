@@ -5,13 +5,15 @@ export type CartState = {
   cartId: string | undefined
   totalQuantity: number
   costs?: FragmentCartCostFragment
+  readonly showCart: boolean
 }
 
 const initialState: CartState = {
   cartId: undefined,
   totalQuantity: 0,
-  costs: undefined
-} as CartState
+  costs: undefined,
+  showCart: false
+}
 
 export type CreateCartParams = string
 export type UpdateCartInfoParams = {
@@ -34,9 +36,12 @@ const cartSlice = createSlice({
       state.cartId = cartId
       state.totalQuantity = totalQuantity
       state.costs = costs
+    },
+    setShowCart(state, action: PayloadAction<boolean>) {
+      state.showCart = action.payload
     }
   }
 })
 
-export const { createCart, updateCartInfo } = cartSlice.actions
+export const { createCart, updateCartInfo, setShowCart } = cartSlice.actions
 export const cart = cartSlice.reducer

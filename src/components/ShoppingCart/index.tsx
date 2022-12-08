@@ -8,10 +8,11 @@ import { ItemSubHeader } from 'pages/SingleItem/styleds'
 import { useQueryCart } from 'shopify/graphql/hooks'
 import { FragmentCartCostFragment, FragmentCartLineFragment, GetCartQuery, ProductSizes } from 'shopify/graphql/types'
 import {
-  useGetCartDispatch,
-  useGetCartIdDispatch,
+  useGetCartState,
+  useGetCartIdState,
   useRemoveCartLineAndUpdateReduxCallback,
-  useUpdateCartLineAndUpdateReduxCallback
+  useUpdateCartLineAndUpdateReduxCallback,
+  useToggleCartAndState
 } from 'state/cart/hooks'
 import { CartState } from 'state/cart/reducer'
 import {
@@ -23,7 +24,8 @@ import {
   ShoppingCartQuantityWrapper,
   ShoppingCartHeaderWrapper,
   ShoppingCartFullWrapper,
-  CartHeader
+  CartHeader,
+  CartTableHeaderBaseWrapper
 } from './styled'
 import useQuantitySelector from 'hooks/useQuantitySelector'
 import { getMetafields, sizeToFullSize } from 'shopify/utils'
@@ -45,22 +47,22 @@ function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'
 
 // Icon and count to show in header
 export function ShoppingCartHeader() {
-  const [shoppingPanelOpen, setShoppingPanelOpen] = useState(false)
-  const cart = useGetCartDispatch()
+  const [cartOpen, openOrCloseCart] = useToggleCartAndState()
+  const cart = useGetCartState()
   return (
     <ShoppingCartFullWrapper>
-      <ShoppingCartHeaderWrapper onClick={() => setShoppingPanelOpen(true)}>
+      <ShoppingCartHeaderWrapper onClick={() => openOrCloseCart(true)}>
         <ShoppingCartIcon size={30} />
         <ShoppingCartQuantity totalQuantity={cart.totalQuantity} />
       </ShoppingCartHeaderWrapper>
-      {shoppingPanelOpen && <ShoppingCart closeCartPanel={() => setShoppingPanelOpen(false)} />}
+      {cartOpen && <ShoppingCart closeCartPanel={() => openOrCloseCart(false)} />}
     </ShoppingCartFullWrapper>
   )
 }
 
 // Standalone shopping cart panel
 export function ShoppingCart({ closeCartPanel }: { closeCartPanel: () => void }) {
-  const cartId = useGetCartIdDispatch()
+  const cartId = useGetCartIdState()
   if (!cartId) return null
   return <ShoppingCartPanel cartId={cartId} closeCartPanel={closeCartPanel} />
 }
@@ -70,6 +72,8 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
   const cartLines = data?.cart?.lines.nodes
   const totalQuantity = data?.cart?.totalQuantity
   const subTotal = data?.cart?.cost.subtotalAmount
+
+  const [checkoutClicked, setCheckoutClicked] = useState(false)
 
   const isEmptyCart = !Boolean(cartLines?.length)
 
@@ -108,26 +112,46 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
 
       {/* CHECKOUT */}
       {data?.cart?.checkoutUrl && data?.cart?.totalQuantity > 0 && (
-        <CartTableHeaderWrapper gridTemplateColumns="max-content auto">
+        <CartTableHeaderBaseWrapper
+          justifyContent="space-evenly"
+          flexWrap="wrap"
+          css={`
+            > * {
+              flex: 1;
+              min-width: 25rem;
+              &:first-child {
+                min-width: 20rem;
+              }
+              &:last-child {
+                flex: 2;
+              }
+            }
+          `}
+        >
           {subTotal && (
-            <CartHeader fontSize="3.5rem" letterSpacing={0}>
-              {formatCurrency(subTotal.amount, subTotal.currencyCode)}
+            <CartHeader fontSize="3.5rem" letterSpacing={0.2} justifyContent="center" textAlign="left">
+              <div style={{ fontSize: 'small', marginLeft: '0.5rem' }}>total:</div>{' '}
+              <div>{formatCurrency(subTotal.amount, subTotal.currencyCode)}</div>
             </CartHeader>
           )}
           {/* TODO: remove disabled */}
           <Button
-            padding="1rem"
             backgroundColor={getThemeColours(ThemeModes.DARK).purple2}
             variant={ButtonVariations.SUCCESS}
-            // disabled
+            disabled={checkoutClicked}
+            padding="0"
           >
-            <CartHeader margin="0" letterSpacing={-2} fontSize="3rem">
-              <a href={data.cart.checkoutUrl} rel="noopener noreferrer">
-                CHECKOUT
+            <CartHeader display="flex" margin="0" letterSpacing={-2} fontSize="2.8rem">
+              <a
+                href={data.cart.checkoutUrl}
+                style={{ width: '100%', height: '100%', padding: '1rem' }}
+                onClick={() => setCheckoutClicked(true)}
+              >
+                {checkoutClicked ? <small style={{ fontSize: '2rem' }}>redirecting to checkout...</small> : 'CHECKOUT'}
               </a>
             </CartHeader>
           </Button>
-        </CartTableHeaderWrapper>
+        </CartTableHeaderBaseWrapper>
       )}
     </ShoppingCartPanelWrapper>
   )

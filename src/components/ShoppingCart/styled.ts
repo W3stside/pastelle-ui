@@ -146,12 +146,10 @@ export const CartHeader = styled(ItemHeader).attrs(props => ({
     color: ${OFF_WHITE};
   }
 `
-
-export const CartTableHeaderWrapper = styled(Row)<{ gridTemplateColumns?: string }>`
-  display: grid;
-  grid-template-columns: ${({ gridTemplateColumns = 'min-content auto min-content' }) => gridTemplateColumns};
+export const CartTableHeaderBaseWrapper = styled(Row)`
   text-align: center;
-  grid-gap: 9rem;
+  line-height: 1;
+  grid-gap: 0.5rem;
 
   > svg {
     cursor: pointer;
@@ -164,15 +162,19 @@ export const CartTableHeaderWrapper = styled(Row)<{ gridTemplateColumns?: string
   }
 `}
   ${upToSmall`
-  grid-gap: 2rem;
   > ${ItemHeader} {
     font-size: 3.2rem;
-    letter-spacing: -0.2rem;
+    letter-spacing: -1px;
   }
   > ${Column} > ${ItemHeader} {
     font-size: 2rem;
   }
 `}
+`
+export const CartTableHeaderWrapper = styled(CartTableHeaderBaseWrapper)<{ gridTemplateColumns?: string }>`
+  display: grid;
+  grid-template-columns: ${({ gridTemplateColumns = 'min-content auto min-content' }) => gridTemplateColumns};
+  grid-gap: 2rem;
 `
 export const ShoppingCartPanelContentWrapper = styled(Column)`
   height: 100vh;
@@ -209,7 +211,7 @@ export const ShoppingCartPanelWrapper = styled.div`
   filter: contrast(1) blur(0px);
   ${setFadeInAnimation({ duration: 0.4 })}
 
-  > ${ShoppingCartPanelContentWrapper}, > ${CartTableHeaderWrapper} {
+  > ${ShoppingCartPanelContentWrapper}, > ${CartTableHeaderWrapper}, > ${CartTableHeaderBaseWrapper} {
     color: ${({ theme }) => theme.text1};
     background-color: ${({ theme }) => transparentize(0.1, theme.black)};
     margin-left: auto;

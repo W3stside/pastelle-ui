@@ -31,21 +31,17 @@ import { checkIsCollectionPage } from 'utils/navigation'
 import { isWeb3Enabled } from 'blockchain/connectors'
 import { useIsMediumWindowWidthSize } from 'state/window/hooks'
 import { useCurrentProductMedia } from 'state/collection/hooks'
-import useStateRef from 'hooks/useStateRef'
-// import { HeaderLogo } from 'components/BackgroundLogo'
 import { SkipBack } from 'react-feather'
 
 export default function Header() {
   const location = useLocation()
   const isEnabled = useMemo(() => isWeb3Enabled(), [])
   const { headerLogoSet, color } = useCurrentProductMedia()
-  const [, /* node */ setNodeRef] = useStateRef<HTMLDivElement | null>(null, node => node)
 
   const isMediumOrBelow = useIsMediumWindowWidthSize()
 
   return (
-    <HeaderFrame as="header" ref={setNodeRef} color={color} logoSet={headerLogoSet}>
-      {/* <HeaderLogo parentNode={node} logoSrcSet={headerLogoSet} /> */}
+    <HeaderFrame as="header" color={color} logoSet={headerLogoSet}>
       <HeaderRow>
         {/* ICON and HOME BUTTON */}
         <Title to="/#">

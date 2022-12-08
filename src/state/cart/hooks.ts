@@ -1,7 +1,6 @@
 import { MutationHookOptions } from '@apollo/client'
 import { AddToCartButtonParams } from 'components/AddToCartButton'
 import { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 import { useAddNewCartLine, useRemoveCartLine, useUpdateCartLine } from 'shopify/graphql/hooks'
 import {
   addCartLineAndUpdateStore,
@@ -10,30 +9,30 @@ import {
   updateCartLineAndUpdateStore,
   UpdateLineParams
 } from 'shopify/utils/cart'
-import { useAppSelector } from 'state'
-import { createCart, CreateCartParams, updateCartInfo, UpdateCartInfoParams } from './reducer'
+import { useAppDispatch, useAppSelector } from 'state'
+import { createCart, CreateCartParams, setShowCart, updateCartInfo, UpdateCartInfoParams } from './reducer'
 
 export function useCreateCartDispatch() {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   return useCallback((params: CreateCartParams) => dispatch(createCart(params)), [dispatch])
 }
 
-export function useGetCartDispatch() {
+export function useGetCartState() {
   return useAppSelector(state => state.cart)
 }
 
-export function useGetCartIdDispatch() {
-  return useGetCartDispatch()?.cartId
+export function useGetCartIdState() {
+  return useGetCartState()?.cartId
 }
 
 export function useUpdateCartInfoDispatch() {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   return useCallback((params: UpdateCartInfoParams) => dispatch(updateCartInfo(params)), [dispatch])
 }
 
 export function useRemoveCartLineAndUpdateReduxCallback() {
-  const cartId = useGetCartIdDispatch()
+  const cartId = useGetCartIdState()
   const updateCartInfo = useUpdateCartInfoDispatch()
   const [removeCartLine, rest] = useRemoveCartLine()
 
@@ -48,7 +47,7 @@ export function useRemoveCartLineAndUpdateReduxCallback() {
 }
 
 export function useUpdateCartLineAndUpdateReduxCallback() {
-  const cartId = useGetCartIdDispatch()
+  const cartId = useGetCartIdState()
   const updateCartInfo = useUpdateCartInfoDispatch()
   const [updateCartLine, rest] = useUpdateCartLine()
 
@@ -63,7 +62,7 @@ export function useUpdateCartLineAndUpdateReduxCallback() {
 }
 
 export function useAddLineToCartAndUpdateReduxCallback() {
-  const cartId = useGetCartIdDispatch()
+  const cartId = useGetCartIdState()
   const updateCartInfo = useUpdateCartInfoDispatch()
   const [addNewCartLine, rest] = useAddNewCartLine()
 
@@ -75,4 +74,26 @@ export function useAddLineToCartAndUpdateReduxCallback() {
       [addNewCartLine, cartId, updateCartInfo]
     )
   }
+}
+
+export function useOpenOrCloseCart() {
+  const dispatch = useAppDispatch()
+  return useCallback((state: boolean) => dispatch(setShowCart(state)), [dispatch])
+}
+
+export function useCloseCart(): () => void {
+  const setter = useOpenOrCloseCart()
+  return useCallback(() => setter(false), [setter])
+}
+
+export function useToggleCart(): () => void {
+  const cartOpen = useAppSelector(state => state.cart.showCart)
+  const dispatch = useAppDispatch()
+  return useCallback(() => dispatch(setShowCart(!cartOpen)), [dispatch, cartOpen])
+}
+
+export function useToggleCartAndState(): [boolean, (state: boolean) => void] {
+  const cartOpen = useAppSelector(state => state.cart.showCart)
+  const dispatch = useOpenOrCloseCart()
+  return [cartOpen, dispatch]
 }

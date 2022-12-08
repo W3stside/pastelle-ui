@@ -14,7 +14,7 @@ export const SectionFrame = styled.div`
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
     padding: 0 1rem;
-    width: calc(100%);
+    width: 100%;
     position: relative;
   `};
 
