@@ -430,7 +430,7 @@ export function Price({ price, bgColor, ...boxProps }: any) {
   if (!price) return null
   const { amount, currencyCode } = price
   return (
-    <ItemDescription
+    <TYPE.productText
       display="flex"
       alignItems={'center'}
       backgroundColor={bgColor}
@@ -438,6 +438,6 @@ export function Price({ price, bgColor, ...boxProps }: any) {
       {...boxProps}
     >
       {formatCurrency(amount, currencyCode)} <span style={{ fontSize: '0.8rem', textTransform: 'none' }}>pre-VAT</span>
-    </ItemDescription>
+    </TYPE.productText>
   )
 }
