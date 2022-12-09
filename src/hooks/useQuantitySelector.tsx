@@ -7,8 +7,9 @@ import { BLACK, RED, setBestTextColour } from 'theme/utils'
 
 export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
   width: 100%;
-  height: 6rem;
+  min-height: 6rem;
 
+  align-items: stretch;
   justify-content: center;
   padding: 1rem;
 
@@ -30,10 +31,10 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
       background-color: ${({ theme }) => theme.red3};
     }
   }
+
   > button,
   > input {
     text-align: center;
-    height: 100%;
     font-weight: 200;
     font-size: 1.6rem;
     outline: none;
@@ -57,14 +58,13 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
     background-color: ${({ theme }) => theme.offWhiteOpaque3};
   }
 `
-const PURCHASE_LIMIT = 99
-export default function useQuantitySelector({
-  defaultQuantity = 1,
-  onTrashClick
-}: {
+export interface QuantitySelectorParams {
   defaultQuantity?: number
   onTrashClick?: (e: React.MouseEvent<SVGElement, MouseEvent>) => void | Promise<void>
-}) {
+  options?: { numberInput: boolean }
+}
+const PURCHASE_LIMIT = 99
+export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick, options }: QuantitySelectorParams) {
   const [quantity, setQuantity] = useState(defaultQuantity)
   const [debouncedQuantity, debouncedSetQuantity] = useDebouncedChangeHandler(quantity, setQuantity)
 
@@ -105,13 +105,15 @@ export default function useQuantitySelector({
           <button disabled={isDisabled || quantity === 1} onClick={handleOnClickDown}>
             -
           </button>
-          <input
-            disabled={isDisabled}
-            type="number"
-            onChange={handleInputChange}
-            onClick={e => e.stopPropagation()}
-            value={debouncedQuantity}
-          />
+          {options?.numberInput && (
+            <input
+              disabled={isDisabled}
+              type="number"
+              onChange={handleInputChange}
+              onClick={e => e.stopPropagation()}
+              value={debouncedQuantity}
+            />
+          )}
           {/* + */}
           <button disabled={isDisabled || quantity === PURCHASE_LIMIT} onClick={handleOnClickUp}>
             +
@@ -120,7 +122,15 @@ export default function useQuantitySelector({
         </QuantitySelectorWrapper>
       )
     },
-    [debouncedQuantity, handleInputChange, handleOnClickDown, handleOnClickUp, onTrashClick, quantity]
+    [
+      debouncedQuantity,
+      handleInputChange,
+      handleOnClickDown,
+      handleOnClickUp,
+      onTrashClick,
+      options?.numberInput,
+      quantity
+    ]
   )
 
   return {

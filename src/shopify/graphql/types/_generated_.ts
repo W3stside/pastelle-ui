@@ -7238,6 +7238,13 @@ export type ProductVariantQuery = {
   __typename?: 'QueryRoot'
   product?: {
     __typename?: 'Product'
-    variantBySelectedOptions?: { __typename?: 'ProductVariant'; id: string; title: string } | null
+    variantBySelectedOptions?: {
+      __typename?: 'ProductVariant'
+      id: string
+      title: string
+      availableForSale: boolean
+      quantityAvailable?: number | null
+      priceV2: { __typename?: 'MoneyV2'; amount: any; currencyCode: CurrencyCode }
+    } | null
   } | null
 }

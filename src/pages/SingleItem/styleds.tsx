@@ -222,6 +222,27 @@ export const ItemDescription = styled(TYPE.black).attrs(props => ({
   border-radius: ${({ theme: { buttons } }) => buttons.borderRadius};
 `
 
+export const ItemBackendDescription = styled(ItemDescription)<{ accentColor: string }>`
+  blockquote {
+    margin: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-decoration: ${({ accentColor }) => `underline 0.3rem solid ${accentColor}`};
+    &:not(h1) {
+      margin-bottom: 1rem;
+    }
+  }
+  ul,
+  ol {
+    list-style: tibetan;
+    margin-top: 0;
+  }
+`
+
 export const SubItemDescription = styled(ItemDescription).attrs(props => ({
   ...props,
   padding: props.padding || '1.8rem',

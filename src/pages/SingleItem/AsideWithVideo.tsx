@@ -7,7 +7,6 @@ import ButtonCarousel from 'components/Carousel/ButtonCarousel'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import SmartImg from 'components/SmartImg'
 import LargeImageCarouselModal from 'components/LargeImageCarouselModal'
-import AddToCartButtonAndQuantitySelector from 'components/AddToCartButtonAndQuantitySelector'
 import {
   ItemContainer,
   ItemAsidePanel,
@@ -25,14 +24,15 @@ import {
   ItemContentContainer,
   ItemLogoCssImport,
   FreeShippingBanner,
-  ScrollingProductLabel
+  ScrollingProductLabel,
+  ItemBackendDescription
 } from './styleds'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
 import { useToggleModal, useModalOpen, useCloseModals } from 'state/modalsAndPopups/hooks'
 import { useUpdateCurrentlyViewing } from 'state/collection/hooks'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
-import { useQueryProductVariantId } from 'shopify/graphql/hooks'
+import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import useStateRef from 'hooks/useStateRef'
 import useSizeSelector from 'components/SizeSelector'
 
@@ -60,6 +60,10 @@ import { Package, Truck } from 'react-feather'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
 import { useAppSelector } from 'state'
 import ShowcaseVideoControls from 'components/Showcase/Videos/Settings'
+import { formatCurrency } from 'utils/formatting'
+import AddToCartButton from 'components/AddToCartButton'
+import { darken, transparentize } from 'polished'
+import { TYPE } from 'theme'
 
 export interface ProductPageProps {
   bgColor: string
@@ -100,7 +104,7 @@ function Breadcrumbs({
   lastCrumb: string | undefined
 } & BoxProps) {
   return (
-    <Row {...rowProps} style={{ position: 'absolute', top: 0, left: 0, margin: '0.8rem', zIndex: 100 }}>
+    <Row {...rowProps} margin="0.8rem" style={{ position: 'absolute', top: 0, left: 0, zIndex: 100 }}>
       {breadcrumbs?.map((crumb, index) => {
         if (!crumb) return null
         const isLastCrumb = crumb === lastCrumb
@@ -187,7 +191,7 @@ export default function ItemPage({
   const { autoplay } = useAppSelector(state => state.user.showcase.videoSettings)
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
   const { ModelSizeSelector } = useModelSizeSelector()
-  const merchandiseId = useQueryProductVariantId({ productId: id, key: 'Size', value: selectedSize })
+  const variant = useQueryProductVariantByKeyValue({ productId: id, key: 'Size', value: selectedSize })
 
   const isMobileWidth = useIsMobileWindowWidthSize()
 
@@ -296,6 +300,25 @@ export default function ItemPage({
 
                 {/* ITEM CONTENT: description, credits, etc */}
                 <ItemContentContainer padding="0 0 3rem">
+                  <Row alignItems={'center'} justifyContent="space-evenly" padding="1rem">
+                    <Column maxWidth={'60%'}>
+                      <TYPE.productText fontSize="3rem" fontWeight={200}>
+                        {title}
+                      </TYPE.productText>
+                      <TYPE.productText>{shortDescription}</TYPE.productText>
+                    </Column>
+                    {/* VARIANT PRICE */}
+                    <Price
+                      price={variant?.variantBySelectedOptions?.priceV2}
+                      fontWeight={300}
+                      fontSize={'2rem'}
+                      margin={'auto 0 0 auto'}
+                      padding={'0.5rem'}
+                      flex="0 1 auto"
+                      maxWidth="40%"
+                      bgColor={darken(0.13, transparentize(0.2, color))}
+                    />
+                  </Row>
                   {/* Size selector */}
                   <ItemSubHeader
                     useGradient
@@ -322,9 +345,10 @@ export default function ItemPage({
                       title="Tap to play/pause"
                       isMobileWidth
                     />
+
                     {/* SHOWCASE MODEL SHOWCASE SETTINGS */}
                     <ItemDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
-                      <Row style={{ gap: '1rem' }}>
+                      <Row gap="1rem">
                         <FontAwesomeIcon icon={faLightbulb} /> SHOWCASE SETTINGS{' '}
                       </Row>
                     </ItemDescription>
@@ -335,10 +359,15 @@ export default function ItemPage({
                       {/* PRODUCT SIZE SELECTOR */}
                       <SizeSelector color={color} margin="0" />
                     </ShowcaseSettings>
-                    {/* ADD TO CART AND QUANTITY */}
-                    <AddToCartButtonAndQuantitySelector merchandiseId={merchandiseId} />
+                    {/* ADD TO CART */}
+                    <AddToCartButton
+                      merchandiseId={variant?.variantBySelectedOptions?.id}
+                      quantity={1}
+                      buttonProps={{ bgImage: navLogo, backgroundColor: color || '#000' }}
+                    />
+                    {/* FREE SHIPPING LABEL */}
                     {FREE_SHIPPING_THRESHOLD && (
-                      <FreeShippingBanner margin={'2rem 0 0 0'} fontWeight={300}>
+                      <FreeShippingBanner fontWeight={300} flex="auto" minWidth={'21rem'} marginTop="2rem">
                         <Truck />
                         <Package /> FREE SHIPPING OVER {FREE_SHIPPING_THRESHOLD}€
                       </FreeShippingBanner>
@@ -348,30 +377,12 @@ export default function ItemPage({
                   {/* Item description */}
                   <ItemSubHeader useGradient bgColor={color} label="INFO & CARE INSTRUCTIONS" />
                   <Column padding="0 1.5rem">
-                    <ItemDescription
+                    {/* From shopify backened console */}
+                    <ItemBackendDescription
                       dangerouslySetInnerHTML={{ __html: description }}
                       padding="0rem 4rem 1rem"
                       fontWeight={300}
-                      css={`
-                        blockquote {
-                          margin: 0;
-                        }
-
-                        h1,
-                        h2,
-                        h3,
-                        h4 {
-                          text-decoration: underline 0.3rem solid ${color};
-                          &:not(h1) {
-                            margin-bottom: 1rem;
-                          }
-                        }
-                        ul,
-                        ol {
-                          list-style: tibetan;
-                          margin-top: 0;
-                        }
-                      `}
+                      accentColor={color}
                     />
                   </Column>
                   {/* Credits */}
@@ -412,5 +423,21 @@ export default function ItemPage({
         />
       </ItemContainer>
     </>
+  )
+}
+
+export function Price({ price, bgColor, ...boxProps }: any) {
+  if (!price) return null
+  const { amount, currencyCode } = price
+  return (
+    <ItemDescription
+      display="flex"
+      alignItems={'center'}
+      backgroundColor={bgColor}
+      style={{ gap: '0.5rem' }}
+      {...boxProps}
+    >
+      {formatCurrency(amount, currencyCode)} <span style={{ fontSize: '0.8rem', textTransform: 'none' }}>pre-VAT</span>
+    </ItemDescription>
   )
 }

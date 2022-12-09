@@ -31,6 +31,12 @@ export const QUERY_PRODUCT_VARIANT_BY_KEY_VALUE = gql`
       variantBySelectedOptions(selectedOptions: { name: $key, value: $value }) {
         id
         title
+        priceV2 {
+          amount
+          currencyCode
+        }
+        availableForSale
+        quantityAvailable
       }
     }
   }
