@@ -5,6 +5,7 @@ import { ShoppingCartHeader } from 'components/ShoppingCart'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
 import ThemeToggleBar from 'components/ThemeToggler'
 import { Z_INDEXES } from 'constants/config'
+import { FOOTER_HEIGHT_REM } from 'constants/sizes'
 
 const FooterWrapper = styled(SectionFrame)`
   display: none;
@@ -12,7 +13,7 @@ const FooterWrapper = styled(SectionFrame)`
   ${upToSmall`
     display: flex;
     position: fixed;
-    height: 6rem;
+    height: ${FOOTER_HEIGHT_REM}rem;
     bottom: 0;
     padding: 1rem;
     background-color: rgb(34 12 61 / 86%);

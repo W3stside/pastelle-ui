@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useCurrentCollection } from 'state/collection/hooks'
@@ -7,14 +7,25 @@ import AsideWithVideo, { SingleItemPageProps } from 'pages/SingleItem/AsideWithV
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { isMobile } from 'utils'
 import { buildItemUrl } from 'utils/navigation'
+import useStateRef from 'hooks/useStateRef'
+import { BASE_FONT_SIZE, HEADER_HEIGHT_REM } from 'constants/sizes'
 
+const PRODUCT_LABEL_HEIGHT_REM = 7
 export default function Collection() {
   const navigate = useNavigate()
+  const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, node => node)
   // get latest collection and the current on screen item handle
   const { collection } = useCurrentCollection()
 
   // on mobile sizes we set a fixed height
-  const fixedItemHeight = isMobile ? 550 : undefined
+  const fixedItemHeight = useMemo(
+    () =>
+      isMobile && container?.clientHeight
+        ? // container height - the header and 70px to fit the next product label
+          container.clientHeight - (HEADER_HEIGHT_REM + PRODUCT_LABEL_HEIGHT_REM) * BASE_FONT_SIZE
+        : undefined,
+    [container?.clientHeight]
+  )
 
   const onContentClick = useCallback(
     (handle?: string) => {
@@ -43,7 +54,7 @@ export default function Collection() {
   const collectionProductList = Object.values(collection)
 
   return (
-    <ArticleFadeInContainer id="COLLECTION-ARTICLE">
+    <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>
       {collectionProductList.length > 1 ? (
         <ScrollingContentPage
           data={collectionProductList}

@@ -75,6 +75,9 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   z-index: ${Z_INDEXES.NAV_MENU + 1};
   gap: 5px;
 
+  padding-right: 0;
+  margin-right: -1rem;
+
   > div {
     display: flex;
     padding: 1rem;

@@ -15,10 +15,15 @@ export default function useScrollZoneRefs(axisDirection: 'x' | 'y', sizeOptions:
   )
   useEffect(() => {
     const handler = (e: any) => e.preventDefault()
-    scrollingZoneTarget?.addEventListener('wheel', handler)
+
+    scrollingZoneTarget?.addEventListener('gesturestart', handler)
+    scrollingZoneTarget?.addEventListener('gesturechange', handler)
+    scrollingZoneTarget?.addEventListener('gestureend', handler)
 
     return () => {
-      scrollingZoneTarget?.removeEventListener('wheel', handler)
+      scrollingZoneTarget?.removeEventListener('gesturestart', handler)
+      scrollingZoneTarget?.removeEventListener('gesturechange', handler)
+      scrollingZoneTarget?.removeEventListener('gestureend', handler)
     }
   }, [scrollingZoneTarget])
 

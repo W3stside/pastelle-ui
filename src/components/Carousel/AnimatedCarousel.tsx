@@ -24,7 +24,7 @@ export default function AnimatedCarousel({
     bind,
     springs,
     state: { currentIndex, width },
-    refCallbacks: { setItemSizeRef }
+    refCallbacks: { setItemSizeRef, setScrollingZoneRef }
   } = useLimitedHorizontalSwipe(imageList, {
     sensitivity: 2,
     sizeOptions: { fixedSize: fixedSizes?.fixedWidth, minSize: STORE_IMAGE_SIZES.SMALL }
@@ -50,11 +50,12 @@ export default function AnimatedCarousel({
           <AnimatedDivContainer
             {...bind(index)}
             key={index}
+            ref={setScrollingZoneRef}
             style={{ width, x, display, zIndex: index === currentIndex ? 1 : -1 }}
             $borderRadius="0px"
             $withBoxShadow={false}
             $isVerticalScroll={false}
-            $touchAction="none"
+            $touchAction="pinch-zoom"
           >
             <CarouselStep
               index={index}

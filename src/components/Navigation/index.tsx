@@ -39,7 +39,11 @@ export default function Navigation({
   }, [isNavOpen])
 
   const NavToggleButton = useMemo(() => {
-    return <div>{isNavOpen ? <X size={20} /> : <Menu size={navOrbProps?.menuSize || 20} />}</div>
+    return (
+      <Row alignItems={'center'} gap="1rem">
+        ALL ITEMS{isNavOpen ? <X size={20} /> : <Menu size={navOrbProps?.menuSize || 20} />}
+      </Row>
+    )
   }, [isNavOpen, navOrbProps?.menuSize])
 
   const handleNavMove = useCallback(

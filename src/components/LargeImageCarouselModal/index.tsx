@@ -1,9 +1,13 @@
-import ButtonCarousel from 'components/Carousel/ButtonCarousel'
+// import ButtonCarousel from 'components/Carousel/ButtonCarousel'
+import { CarouselStep } from 'components/Carousel/common'
+import { useCarouselSetup } from 'components/Carousel/hooks'
 import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/styleds'
 import { BaseCarouselProps } from 'components/Carousel/types'
 import { Row } from 'components/Layout'
 import Modal from 'components/Modal'
-import { SyntheticEvent, useCallback, useState } from 'react'
+import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
+import { usePinchZoomAndDrag } from 'hooks/useScrollAnimation/usePinchDragAndZoom'
+import { SyntheticEvent, useCallback } from 'react'
 import { ZoomIn, ZoomOut } from 'react-feather'
 import styled from 'styled-components/macro'
 import { CloseIcon } from 'theme'
@@ -47,7 +51,7 @@ interface ModalBottomControlsProps {
   zoomOutCb: (e: SyntheticEvent) => false | void
   zoomInCb: (e: SyntheticEvent) => false | void
 }
-const ModalBottomControls = ({ zoomLevel, closeCb, zoomOutCb, zoomInCb }: ModalBottomControlsProps) => (
+export const ModalBottomControls = ({ zoomLevel, closeCb, zoomOutCb, zoomInCb }: ModalBottomControlsProps) => (
   <Row
     justifyContent="space-between"
     backgroundColor="#ab92e1a6"
@@ -88,25 +92,72 @@ interface LargeImageCarouselModalProps extends BaseCarouselProps {
 export default function LargeImageCarouselModal(props: LargeImageCarouselModalProps) {
   const { isOpen, dismissModal: dismissModalPre, ...carouselProps } = props
 
+  const { parentWidth, imageTransformations, setCarouselContainerRef } = useCarouselSetup({
+    fixedSizes: undefined
+  })
+  const {
+    bind,
+    springs,
+    refCallbacks: { setItemSizeRef, setScrollingZoneRef }
+  } = usePinchZoomAndDrag(carouselProps.imageList)
+
   const dismissModal = useCallback(() => {
-    setZoomLevel(1)
     dismissModalPre()
   }, [dismissModalPre])
 
-  const [zoomLevel, setZoomLevel] = useState<number>(1)
-  const zoomIn = (e: SyntheticEvent) => {
-    e.preventDefault()
-    return zoomLevel < 3 && setZoomLevel(state => state + 1)
-  }
-  const zoomOut = (e: SyntheticEvent) => {
-    e.preventDefault()
-    return zoomLevel > 1 && setZoomLevel(state => state - 1)
-  }
-
   return (
-    <LargeImageModal isOpen={isOpen} onDismiss={dismissModal} isLargeImageModal zoomLevel={zoomLevel}>
-      <ButtonCarousel {...carouselProps} fullSizeContent />
-      <ModalBottomControls zoomInCb={zoomIn} closeCb={dismissModal} zoomOutCb={zoomOut} zoomLevel={zoomLevel} />
+    <LargeImageModal isOpen={isOpen} onDismiss={dismissModal} isLargeImageModal zoomLevel={1}>
+      <CarouselContainer
+        id="#carousel-container"
+        ref={node => {
+          setCarouselContainerRef(node)
+          setItemSizeRef(node)
+        }}
+        $fixedHeight={/* fixedSizes?.fixedHeight || */ parentWidth + 'px'}
+      >
+        {/* <AnimatedCarousel {...carouselProps} fullSizeContent /> */}
+        {springs.map(({ x, y, scale, display }, index) => {
+          const { defaultUrl } = carouselProps.imageList[index]
+
+          if (!parentWidth) return null
+
+          return (
+            <AnimatedDivContainer
+              {...bind(index)}
+              key={index}
+              ref={setScrollingZoneRef}
+              style={{ width: parentWidth, x, y, scale, display }}
+              $borderRadius="0px"
+              $withBoxShadow={false}
+              $isVerticalScroll={false}
+              $touchAction="none"
+            >
+              <CarouselStep
+                index={index}
+                parentWidth={parentWidth}
+                buttonColor={'red'}
+                onImageClick={console.debug}
+                // image props
+                imageProps={{
+                  path: { defaultPath: defaultUrl },
+                  pathSrcSet: undefined,
+                  transformation: imageTransformations,
+                  // loadInViewOptions,
+                  lqImageOptions: { ...imageTransformations[0], showLoadingIndicator: true }
+                }}
+                // flags
+                showIndicators
+                transformAmount={0}
+                isMultipleCarousel={false}
+                showButtons={false}
+                // cbs
+                onNext={null}
+                onPrev={null}
+              />
+            </AnimatedDivContainer>
+          )
+        })}
+      </CarouselContainer>
     </LargeImageModal>
   )
 }

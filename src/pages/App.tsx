@@ -1,7 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
-const Footer = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "FOOTER" */ 'components/Footer'))
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
 const Collection = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "COLLECTION" */ 'pages/Collection'))
@@ -42,9 +41,6 @@ export default function App() {
         <Route path="/404" element={<NotFound />} />
         <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} />
       </Routes>
-
-      {/* FOOTER */}
-      <Footer />
     </Suspense>
   )
 }

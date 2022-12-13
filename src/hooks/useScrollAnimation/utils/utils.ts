@@ -1,5 +1,7 @@
+import { DragState, PinchState } from '@use-gesture/react'
+import clamp from 'lodash.clamp'
 import { SpringRef } from 'react-spring'
-import { InfiniteScrollHookOptions, InfiniteScrollSpringsState, InifniteScrollDataParams } from '../types'
+import { AxisDirection, InfiniteScrollHookOptions, WheelGestureParams, InifniteScrollDataParams } from '../types'
 
 /**
  *
@@ -34,7 +36,7 @@ export const getPos = (i: number, firstVisible: number, firstVisibleIndex: numbe
 
 export const calculateInfiniteScrollApiLogic = (
   i: number,
-  axisDirection: 'x' | 'y',
+  axisDirection: AxisDirection,
   {
     prevRef,
     active,
@@ -50,7 +52,7 @@ export const calculateInfiniteScrollApiLogic = (
     dataLength,
     itemSize,
     setCurrentIndex
-  }: Omit<InfiniteScrollHookOptions, 'visible'> & InfiniteScrollSpringsState & InifniteScrollDataParams
+  }: Omit<InfiniteScrollHookOptions, 'visible'> & Omit<WheelGestureParams, 'cancel'> & InifniteScrollDataParams
 ) => {
   const position = getPos(i, firstVis, firstVisIdx, dataLength)
   const prevPosition = getPos(i, prevRef.current[0], prevRef.current[1], dataLength)
@@ -82,13 +84,11 @@ export const calculateInfiniteScrollApiLogic = (
     config: typeof config === 'function' ? config({ configPos, length: dataLength }) : config
   }
 }
-type RunSpringsParams = Omit<InfiniteScrollSpringsState, 'firstVis' | 'firstVisIdx'> &
-  InfiniteScrollHookOptions &
-  InifniteScrollDataParams
+type RunSpringsParams<T> = Omit<T, 'firstVis' | 'firstVisIdx'> & InfiniteScrollHookOptions & InifniteScrollDataParams
 export function runInfiniteScrollSprings<T extends Record<any, any>>(
   api: SpringRef<T>,
-  axisDirection: 'x' | 'y',
-  { dataLength, itemSize, axis, dAxis, visible, prevRef, ...rest }: RunSpringsParams
+  axisDirection: AxisDirection,
+  { dataLength, itemSize, axis, dAxis, visible, prevRef, ...rest }: RunSpringsParams<Omit<WheelGestureParams, 'cancel'>>
 ) {
   const itemPosition = Math.floor(axis / itemSize) % dataLength
   const firstVis = getIndex(itemPosition, dataLength)
@@ -108,4 +108,85 @@ export function runInfiniteScrollSprings<T extends Record<any, any>>(
   )
 
   prevRef.current = [firstVis, firstVisIdx]
+}
+
+type GestureIndexOptions = {
+  current: number
+  last: number
+  setIndex: (index: number) => void
+}
+
+type DragLogicOptions = {
+  indexOptions: GestureIndexOptions
+  itemSize: number
+  direction: AxisDirection
+}
+
+const runLimitedSwipe = ([, api]: any[], { direction, indexOptions, itemSize }: DragLogicOptions) => ({
+  active,
+  last: lastEvent,
+  movement,
+  swipe
+}: DragState) => {
+  const directionIdx = direction === 'x' ? 0 : 1
+  const [mAxis, swDir] = [movement[directionIdx], swipe[directionIdx]]
+  const { current, last, setIndex } = indexOptions
+
+  if (swDir) {
+    const bounds: [number, number] = [current - 1 > 0 ? current - 1 : 0, current + 1 < last ? current + 1 : last]
+    const clampedIdx = clamp(current + (swDir > 0 ? -1 : 1), ...bounds)
+    // if any movement greater than half the screen
+    if (Math.abs(mAxis) > itemSize / 10) {
+      lastEvent && setIndex(clampedIdx)
+    }
+
+    api.start((i: number) => {
+      if (i < clampedIdx - 1 || i > clampedIdx + 1) return { display: 'none' }
+      const axisPoint = (i - clampedIdx) * itemSize + (active ? mAxis : 0)
+      return { [direction]: axisPoint, display: 'block' }
+    })
+  }
+}
+
+type PinchLogicOptions = {
+  ref?: HTMLElement | null
+}
+
+const runPinchZoom = ([springs, api]: any[], { ref }: PinchLogicOptions) => ({
+  args: [index],
+  origin: [ox, oy],
+  first,
+  movement: [ms],
+  offset: [s],
+  memo
+}: PinchState) => {
+  if (first) {
+    memo = {}
+    const refSizes = ref?.getBoundingClientRect()
+
+    const tx = ox - (ox + (refSizes?.width || 0) / 2)
+    const ty = oy - (oy + (refSizes?.height || 0) / 2)
+
+    memo[index.toString()] = [springs[index].x.get(), springs[index].y.get(), tx, ty]
+  }
+
+  const x = memo[index.toString()][0] - (ms - 1) * memo[index.toString()][2]
+  const y = memo[index.toString()][1] - (ms - 1) * memo[index.toString()][3]
+
+  api.start(() => ({ scale: s, x, y }))
+
+  return memo
+}
+
+export default {
+  wheel: {
+    infinite: runInfiniteScrollSprings
+  },
+  drag: {
+    infinite: runInfiniteScrollSprings,
+    limited: runLimitedSwipe
+  },
+  pinch: {
+    zoom: runPinchZoom
+  }
 }

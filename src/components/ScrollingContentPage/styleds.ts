@@ -53,7 +53,7 @@ export const Scroller = styled.div`
   cursor: pointer;
   z-index: ${Z_INDEXES.SCROLLER_DIV};
 
-  touch-action: none;
+  touch-action: pinch-zoom;
 
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     width: 100%;
@@ -65,6 +65,6 @@ export const ScrollerContainer = styled.div<{ $isVerticalScroll: boolean }>`
   position: relative;
   overflow: hidden;
 
-  touch-action: none;
+  touch-action: pinch-zoom;
   transition: transform 350ms ease-in-out;
 `

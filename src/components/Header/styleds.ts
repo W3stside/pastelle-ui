@@ -102,9 +102,7 @@ export const Title = styled(NavLink)`
   pointer-events: auto;
   justify-self: flex-start;
   margin-right: 12px;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    justify-self: center;
-  `};
+
   :hover {
     cursor: pointer;
   }
@@ -116,7 +114,7 @@ export const HeaderRow = styled(RowFixed)`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: minmax(7.5rem, 16rem) auto min-content min-content;
+  grid-template-columns: minmax(7.5rem, 16rem) auto min-content;
   grid-gap: 1rem;
   z-index: 1;
 
@@ -229,8 +227,8 @@ export const Pastellecon = styled.div`
   width: 100%;
   transition: transform 0.3s ease;
 
-  background: url(${PastelleLogoSharpShort}) center/contain no-repeat;
-  ${fromExtraSmall`background: url(${PastelleLogoCursiveLong}) center/contain no-repeat;`}
+  background: url(${PastelleLogoSharpShort}) left/contain no-repeat;
+  ${fromExtraSmall`background: url(${PastelleLogoCursiveLong}) left/contain no-repeat;`}
 
   &:hover {
     transform: rotate(-5deg);

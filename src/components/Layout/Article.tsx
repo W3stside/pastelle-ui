@@ -15,7 +15,7 @@ const LOGO_SET = [
 export const ArticleFadeInContainer = styled.article`
   position: relative;
   overflow: hidden;
-  touch-action: none;
+  touch-action: pinch-zoom;
 
   ${({ theme }) =>
     setBackgroundWithDPI(theme, LOGO_SET, {

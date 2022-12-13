@@ -26,6 +26,7 @@ import {
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
 
 export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; labelColor?: string }>`
   position: absolute;
@@ -261,6 +262,10 @@ export const ItemContentContainer = styled(Column)`
   position: relative;
   overflow: hidden;
 
+  ${upToSmall`
+    height: 100vh;
+  `}
+
   > ${Column} {
     padding: 0 2rem;
 
@@ -343,173 +348,180 @@ export const ItemContainer = styled(Row)<{
     > ${InnerCollectionContainer} {
       // MEDIA QUERY --> SMALL and below
       ${upToSmall`
-        padding: 0;
+      padding: 0;
       `}
       // MEDIA QUERY --> LARGE and below
       ${upToLarge`
-        height: 100%;
-        max-width: 100%;
+      height: 100%;
+      max-width: 100%;
       `}
       // MEDIA QUERY --> LARGE and up
       ${fromLarge`
-        overflow: hidden;
-        width: 100%;
-        max-width: unset;
+      overflow: hidden;
+      width: 100%;
+      max-width: unset;
       `}
+      
+      > ${ItemContentContainer} {
+        // ----------------------- //
+        // COLLECTION ITEM LOGO
+        // ----------------------- //
+        > ${ItemLogo} {
+          margin-top: 0px;
+        }
 
-      // ----------------------- //
-      // COLLECTION ITEM LOGO
-      // ----------------------- //
-      > ${ItemLogo} {
-        margin-top: 0px;
-      }
-
-      // ----------------------- //
-      // COLLECTION CAROUSEL CONTAINER 
-      // ----------------------- //
-      > ${CarouselContainer} {
-        // MEDIA QUERY --> SMALL and below
-        ${upToSmall`
-          margin: 7rem 0 0;
-        `}
-        // MEDIA QUERY --> LARGE and up
-        ${fromMedium`  
-          margin-top: 2rem;
-        `}
-        // MEDIA QUERY --> LARGE and up
-        ${fromLarge`  
-          justify-content: space-between;
-          overflow: visible;
-        `}
-
-        > ${StaticCarouselStep} {
-          position: relative;
-          height: 100%;
-
-           > picture {
-              overflow: hidden; 
-
-              img {
-                max-width: unset;
-                height: 100%;
-              }
-            }
-
-          &:first-child {
-            box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
-
-            > picture {
-              border-radius: 1rem 0 0 1rem;
-
-              ${upToSmall`
-                border-radius: 0rem;
-              `}
-
-              ${fromExtraLarge`
-                margin-right: auto;
-              `}
-            }
-          }
-
-          &:last-child {
-            box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
-
-            > picture {
-              border-radius: 0 1rem 1rem 0;
-              
-              ${upToSmall`
-                border-radius: 0rem;
-                display: none;
-              `}
-
-              ${fromExtraLarge`
-                margin-left: auto;
-              `}
-            }
-
-            
-          }
-
+        // ----------------------- //
+        // COLLECTION CAROUSEL CONTAINER 
+        // ----------------------- //
+        > ${CarouselContainer} {
           // MEDIA QUERY --> SMALL and below
           ${upToSmall`
-            width: auto;
-            justify-content: center;            
-            :not(:first-child) {
-              position: absolute;
-              visibility: hidden;
-              transform: none;
-              z-index: ${Z_INDEXES.ZERO};
+            margin: 7rem 0 0;
+            > ${AnimatedDivContainer} {
+              picture {
+                margin-top: -3.5rem;
+              }
             }
           `}
-          // MEDIA QUERY --> SMALL and above
-          ${({ theme }) => betweenSmallAndLarge`
-            position: absolute;
-            max-width: 100%;
-            z-index: 1;
-          
-            transform: none;
+          // MEDIA QUERY --> LARGE and up
+          ${fromMedium`  
+            margin-top: 2rem;
+          `}
+          // MEDIA QUERY --> LARGE and up
+          ${fromLarge`  
+            justify-content: space-between;
             overflow: visible;
+          `}
+
+          > ${StaticCarouselStep} {
+            position: relative;
+            height: 100%;
 
             > picture {
-              overflow: visible;
-            }
+                overflow: hidden; 
+
+                img {
+                  max-width: unset;
+                  height: 100%;
+                }
+              }
 
             &:first-child {
+              box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
+
               > picture {
-                position: absolute;
-                width: 60%;
-                top: 0;
-                left: 0;
+                border-radius: 1rem 0 0 1rem;
+
+                ${upToSmall`
+                  border-radius: 0rem;
+                `}
+
+                ${fromExtraLarge`
+                  margin-right: auto;
+                `}
               }
             }
 
-            &:not(:first-child) {
+            &:last-child {
+              box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
+
               > picture {
-                > img {
-                  border-radius: 1rem;
-                  box-shadow: 1rem 0px 5rem 0.5rem ${transparentize(0.5, theme.black)};
-                }
-                position: absolute;
-                width: 65%;
-                height: 80%;
-                top: 40%;
-                left: 50%;
+                border-radius: 0 1rem 1rem 0;
+                
+                ${upToSmall`
+                  border-radius: 0rem;
+                  display: none;
+                `}
+
+                ${fromExtraLarge`
+                  margin-left: auto;
+                `}
               }
+
+              
             }
+
+            // MEDIA QUERY --> SMALL and below
+            ${upToSmall`
+              width: auto;
+              justify-content: center;            
+              :not(:first-child) {
+                position: absolute;
+                visibility: hidden;
+                transform: none;
+                z-index: ${Z_INDEXES.ZERO};
+              }
+            `}
+            // MEDIA QUERY --> SMALL and above
+            ${({ theme }) => betweenSmallAndLarge`
+              position: absolute;
+              max-width: 100%;
+              z-index: 1;
+            
+              transform: none;
+              overflow: visible;
+
+              > picture {
+                overflow: visible;
+              }
+
+              &:first-child {
+                > picture {
+                  position: absolute;
+                  width: 60%;
+                  top: 0;
+                  left: 0;
+                }
+              }
+
+              &:not(:first-child) {
+                > picture {
+                  > img {
+                    border-radius: 1rem;
+                    box-shadow: 1rem 0px 5rem 0.5rem ${transparentize(0.5, theme.black)};
+                  }
+                  position: absolute;
+                  width: 65%;
+                  height: 80%;
+                  top: 40%;
+                  left: 50%;
+                }
+              }
+            `}
+            
+            // MEDIA QUERY --> LARGE and above
+            ${fromLarge`
+              position: relative;
+              justify-content: center;
+              width: 40%;
+              transform: none;
+              z-index: 5;
+              :not(:first-child) {
+                visibility: visible;
+              }       
+            `}
+
+          }
+        }
+
+        // ----------------------- //
+        // ITEM COLLECTION LOGO
+        // ----------------------- //
+        > ${ItemLogoCollectionView} {
+          filter: ${({ theme }) => theme.darkModeFilter};
+          // MEDIA QUERY --> SMALL and below
+          ${upToSmall`
+            max-width: 100%;
           `}
-          
+          // MEDIA QUERY --> SMALL and above
+          ${fromSmall`
+            max-width: 50%;
+          `}
           // MEDIA QUERY --> LARGE and above
           ${fromLarge`
-            position: relative;
-            justify-content: center;
-            width: 40%;
-            transform: none;
-            z-index: 5;
-            :not(:first-child) {
-              visibility: visible;
-            }       
+            max-width: 35%;
           `}
-
         }
-      }
-
-      // ----------------------- //
-      // ITEM COLLECTION LOGO
-      // ----------------------- //
-      > ${ItemLogoCollectionView} {
-        filter: ${({ theme }) => theme.darkModeFilter};
-        // MEDIA QUERY --> SMALL and below
-        ${upToSmall`
-          max-width: 100%;
-        `}
-        // MEDIA QUERY --> SMALL and above
-        ${fromSmall`
-          max-width: 50%;
-        `}
-        // MEDIA QUERY --> LARGE and above
-        ${fromLarge`
-          max-width: 35%;
-        `}
       }
     }
 
@@ -548,7 +560,7 @@ export const ItemContainer = styled(Row)<{
         max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
       `}
 
-      > ${ItemLogo} {
+      ${ItemLogo} {
         width: 100%;
         margin-top: -18.5%;
         

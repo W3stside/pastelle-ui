@@ -149,10 +149,10 @@ export default function ItemPage({
   loadInViewOptions,
   collectionView = false,
   noVideo = false,
-  noDescription = false,
   showBreadCrumbs,
   showProductLabel = false,
-  style
+  style,
+  itemIndex
 }: SingleItemPageProps) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
@@ -177,15 +177,11 @@ export default function ItemPage({
 
   // inner container ref
   const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+  const [viewRef, setViewRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+
   const DynamicInnerContainer = useMemo(() => (collectionView ? InnerCollectionContainer : InnerContainer), [
     collectionView
   ])
-
-  // mobile vs web carousel
-  const Carousel = useMemo(() => (isMobile && !collectionView ? AnimatedCarousel : ButtonCarousel), [collectionView])
-
-  // collection display logo to use
-  const collectionViewProductLogo = navLogo || headerLogo
 
   const { ShowcaseSettings } = useShowShowcase()
   const { autoplay } = useAppSelector(state => state.user.showcase.videoSettings)
@@ -194,6 +190,9 @@ export default function ItemPage({
   const variant = useQueryProductVariantByKeyValue({ productId: id, key: 'Size', value: selectedSize })
 
   const isMobileWidth = useIsMobileWindowWidthSize()
+
+  // mobile vs web carousel
+  const Carousel = useMemo(() => (isMobile || isMobileWidth ? AnimatedCarousel : ButtonCarousel), [isMobileWidth])
 
   return (
     <>
@@ -212,13 +211,17 @@ export default function ItemPage({
           }
         ]}
         startIndex={currentCarouselIndex}
-        // onCarouselChange={onCarouselChange}
       />
       {/* Product label: used in scolling collection */}
       {showProductLabel && (
         <ScrollingProductLabel logo={headerLogo} labelColor={bgColor} flexWrap="wrap">
           <Row>
-            <strong>{title}</strong>
+            <Row justifyContent="space-between" alignItems={'center'} width="100%">
+              <strong>{title}</strong>
+              <strong>
+                VIEWING {itemIndex + 1}/{6}
+              </strong>
+            </Row>
           </Row>
           <Row>
             <span style={{ fontSize: 'smaller' }}>{shortDescription}</span>
@@ -236,95 +239,84 @@ export default function ItemPage({
       >
         <ItemAsidePanel id="#item-aside-panel">
           <DynamicInnerContainer ref={setRef}>
-            {/* Breadcrumbs */}
-            {showBreadCrumbs && (
-              <Breadcrumbs {...breadcrumbs} marginTop="0.5rem" marginLeft="0.5rem" marginBottom={-25} color={bgColor} />
-            )}
-            {/* Item carousel */}
-            <Carousel
-              showButtons={!collectionView}
-              buttonColor={color}
-              imageList={imageUrls}
-              startIndex={currentCarouselIndex}
-              onCarouselChange={onCarouselChange}
-              onImageClick={toggleLargeImageModal}
-              lqImageOptions={setCatalogImagesLqProps(innerContainerRef, collectionView)}
-              loadInViewOptions={loadInViewOptions}
-              collectionView={collectionView}
-              fixedHeight={collectionView ? '100%' : undefined}
-            />
+            {/* SCREEN 1 - CAROUSEL & LOGO */}
+            <ItemContentContainer ref={setViewRef}>
+              {/* Breadcrumbs */}
+              {showBreadCrumbs && (
+                <Breadcrumbs
+                  {...breadcrumbs}
+                  marginTop="0.5rem"
+                  marginLeft="0.5rem"
+                  marginBottom={-25}
+                  color={bgColor}
+                />
+              )}
+              {/* Item carousel */}
+              <Carousel
+                showButtons={!collectionView}
+                buttonColor={color}
+                imageList={imageUrls}
+                startIndex={currentCarouselIndex}
+                onCarouselChange={onCarouselChange}
+                onImageClick={toggleLargeImageModal}
+                lqImageOptions={setCatalogImagesLqProps(innerContainerRef, collectionView)}
+                // dont in view load for collection scroll
+                loadInViewOptions={collectionView ? undefined : loadInViewOptions}
+                collectionView={collectionView}
+                fixedSizes={
+                  collectionView
+                    ? // set collection view to the innerContainer height
+                      {
+                        fixedHeight: innerContainerRef?.clientHeight || 0,
+                        fixedWidth: innerContainerRef?.clientHeight || 0
+                      }
+                    : isMobile && viewRef?.clientHeight
+                    ? {
+                        fixedHeight: (viewRef.clientHeight - 80) * 0.74,
+                        fixedWidth: (viewRef.clientHeight - 80) * 0.74
+                      }
+                    : undefined
+                }
+              />
+              {/* DYNAMIC LOGO */}
+              <Logo
+                parentNode={innerContainerRef}
+                isCollectionView={collectionView}
+                logos={{ header: headerLogo, nav: navLogo, main: logo }}
+              />
+              {!collectionView && (
+                <Row alignItems={'center'} justifyContent="space-evenly" padding="1rem">
+                  <Column maxWidth={'60%'}>
+                    <TYPE.productText fontSize="3rem" fontWeight={200}>
+                      {title}
+                    </TYPE.productText>
+                    <TYPE.productText>{shortDescription}</TYPE.productText>
+                  </Column>
+                  {/* VARIANT PRICE */}
+                  <Price
+                    price={variant?.variantBySelectedOptions?.priceV2}
+                    fontWeight={300}
+                    fontSize={'2rem'}
+                    margin={'auto 0 0 auto'}
+                    padding={'0.5rem'}
+                    flex="0 1 auto"
+                    maxWidth="40%"
+                    bgColor={darken(0.13, transparentize(0.2, color))}
+                  />
+                </Row>
+              )}
+            </ItemContentContainer>
 
-            {/* Wrap everything else in a fragment */}
-            {noDescription ? null : collectionView ? (
+            {/* SCREEN 2 - ITEM CONTENT: description, credits, etc */}
+            {!collectionView && (
               <>
-                {collectionViewProductLogo ? (
-                  <ItemLogoCollectionView logoUri={collectionViewProductLogo} $bgColor="ghostwhite" />
-                ) : (
-                  <ItemLogo
-                    $marginTop={
-                      innerContainerRef?.clientWidth ? `calc(${innerContainerRef?.clientWidth}px / -7)` : undefined
-                    }
-                  >
-                    {title}
-                  </ItemLogo>
-                )}
-              </>
-            ) : (
-              <>
-                {!logo ? (
-                  title
-                ) : !isMobile ? (
-                  <ItemLogo>
-                    <SmartImg
-                      path={{ defaultPath: logo.defaultUrl }}
-                      pathSrcSet={logo}
-                      lazy={false}
-                      lqImageOptions={{
-                        width: innerContainerRef?.clientWidth || 0,
-                        get height() {
-                          return (this.width * SINGLE_ITEM_LOGO_RATIO[0]) / SINGLE_ITEM_LOGO_RATIO[1]
-                        },
-                        showLoadingIndicator: false
-                      }}
-                    />
-                  </ItemLogo>
-                ) : (
-                  innerContainerRef?.clientWidth && (
-                    <ItemLogoCssImport
-                      logoUri={logo}
-                      height={innerContainerRef.clientWidth / 3.64}
-                      position="relative"
-                    />
-                  )
-                )}
-
-                {/* ITEM CONTENT: description, credits, etc */}
                 <ItemContentContainer padding="0 0 3rem">
-                  <Row alignItems={'center'} justifyContent="space-evenly" padding="1rem">
-                    <Column maxWidth={'60%'}>
-                      <TYPE.productText fontSize="3rem" fontWeight={200}>
-                        {title}
-                      </TYPE.productText>
-                      <TYPE.productText>{shortDescription}</TYPE.productText>
-                    </Column>
-                    {/* VARIANT PRICE */}
-                    <Price
-                      price={variant?.variantBySelectedOptions?.priceV2}
-                      fontWeight={300}
-                      fontSize={'2rem'}
-                      margin={'auto 0 0 auto'}
-                      padding={'0.5rem'}
-                      flex="0 1 auto"
-                      maxWidth="40%"
-                      bgColor={darken(0.13, transparentize(0.2, color))}
-                    />
-                  </Row>
                   {/* Size selector */}
                   <ItemSubHeader
                     useGradient
                     bgColor={color}
                     label="SIZE & SHOWCASE"
-                    margin={isMobileWidth ? '0' : '0 0 2rem 0'}
+                    margin={isMobileWidth ? '1rem 0' : '0 0 2rem 0'}
                   />
                   <Column margin="0" padding={'0 2rem'}>
                     <ShowcaseVideos
@@ -373,7 +365,9 @@ export default function ItemPage({
                       </FreeShippingBanner>
                     )}
                   </Column>
+                </ItemContentContainer>
 
+                <ItemContentContainer>
                   {/* Item description */}
                   <ItemSubHeader useGradient bgColor={color} label="INFO & CARE INSTRUCTIONS" />
                   <Column padding="0 1.5rem">
@@ -401,26 +395,28 @@ export default function ItemPage({
             )}
           </DynamicInnerContainer>
         </ItemAsidePanel>
-        <ShowcaseVideos
-          videos={videos}
-          videoProps={{
-            autoPlay: true,
-            style: {
-              marginLeft: 'auto'
-            }
-          }}
-          // // starts autoplaying and stops on "stopTime" seconds
-          // autoPlayOptions={{
-          //   stopTime: 4
-          // }}
-          hideVideo={isMobileWidth || noVideo || collectionView}
-          showPoster={false}
-          height="calc(100vh - 10rem)"
-          zIndex={Z_INDEXES.BEHIND}
-          firstPaintOver={firstPaintOver}
-          currentCarouselIndex={currentCarouselIndex}
-          isMobileWidth={false}
-        />
+        {!collectionView && (
+          <ShowcaseVideos
+            videos={videos}
+            videoProps={{
+              autoPlay: true,
+              style: {
+                marginLeft: 'auto'
+              }
+            }}
+            // // starts autoplaying and stops on "stopTime" seconds
+            // autoPlayOptions={{
+            //   stopTime: 4
+            // }}
+            hideVideo={isMobileWidth || noVideo || collectionView}
+            showPoster={false}
+            height="calc(100vh - 10rem)"
+            zIndex={Z_INDEXES.BEHIND}
+            firstPaintOver={firstPaintOver}
+            currentCarouselIndex={currentCarouselIndex}
+            isMobileWidth={false}
+          />
+        )}
       </ItemContainer>
     </>
   )
@@ -440,4 +436,39 @@ export function Price({ price, bgColor, ...boxProps }: any) {
       {formatCurrency(amount, currencyCode)} <span style={{ fontSize: '0.8rem', textTransform: 'none' }}>pre-VAT</span>
     </TYPE.productText>
   )
+}
+
+type LogoParams = {
+  parentNode: HTMLElement | null
+  logos: { header?: GenericImageSrcSet; nav?: GenericImageSrcSet; main?: GenericImageSrcSet }
+  isCollectionView: boolean
+}
+function Logo({ isCollectionView, logos, parentNode }: LogoParams) {
+  const showCollectionLogo = isCollectionView && (logos.nav || logos.header)
+  const collectionLogo = logos.nav || logos.header
+
+  if (showCollectionLogo && collectionLogo) {
+    return <ItemLogoCollectionView logoUri={collectionLogo} $bgColor="ghostwhite" />
+  } else if (parentNode?.clientWidth && logos.main) {
+    return !isMobile ? (
+      <ItemLogo>
+        <SmartImg
+          path={{ defaultPath: logos.main.defaultUrl }}
+          pathSrcSet={logos.main}
+          lazy={false}
+          lqImageOptions={{
+            width: parentNode?.clientWidth || 0,
+            get height() {
+              return (this.width * SINGLE_ITEM_LOGO_RATIO[0]) / SINGLE_ITEM_LOGO_RATIO[1]
+            },
+            showLoadingIndicator: false
+          }}
+        />
+      </ItemLogo>
+    ) : (
+      <ItemLogoCssImport logoUri={logos.main} height={parentNode.clientWidth / 3.64} position="relative" />
+    )
+  } else {
+    return null
+  }
 }

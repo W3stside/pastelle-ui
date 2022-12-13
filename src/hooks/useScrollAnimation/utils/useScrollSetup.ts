@@ -1,9 +1,9 @@
 import { useState, useRef, useMemo } from 'react'
-import { InfiniteScrollHookOptions, SizeOptions } from '../types'
+import { AxisDirection, InfiniteScrollHookOptions, SizeOptions } from '../types'
 import useScrollZoneRefs from './useScrollZoneRef'
 
 export default function useInfiniteScrollSetup(
-  axisDirection: 'x' | 'y',
+  axisDirection: AxisDirection,
   sizeOptions: SizeOptions,
   options: InfiniteScrollHookOptions
 ) {

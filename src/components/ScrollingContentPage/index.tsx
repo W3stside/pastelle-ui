@@ -52,7 +52,6 @@ export function ScrollingContentPage<D>({
     data,
     {
       visible: 2,
-
       snapOnScroll: false,
       // defaults to 0.8 scale on scroll and 1 scale default
       scaleOptions: {
@@ -94,13 +93,14 @@ export function ScrollingContentPage<D>({
         width="40vw"
       />
       <ScrollerContainer $isVerticalScroll {...bind()}>
-        {springs.map(({ y, scale }, i) => {
+        {springs.map(({ y, scale }, i, { length }) => {
           return (
             <AnimatedDivContainer
               {...bind(i)}
               key={i}
               $touchAction="none"
-              style={{ scale, height: itemHeight, y }}
+              // z-index here is to set the next card under the stack
+              style={{ scale, height: itemHeight, y, zIndex: length * 2 - i }}
               $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
               $withBoxShadow={withBoxShadow}
               onClick={() => handleItemSelect(i)}
@@ -113,7 +113,7 @@ export function ScrollingContentPage<D>({
                 }}
                 firstPaintOver={firstPaintOver}
                 isActive={currentIndex === i}
-                itemIndex={currentIndex}
+                itemIndex={i}
                 key={i}
                 {...data[i]}
               />
