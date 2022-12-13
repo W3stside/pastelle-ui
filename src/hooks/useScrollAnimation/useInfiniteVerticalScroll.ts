@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useGesture } from '@use-gesture/react'
 import { useSprings } from 'react-spring'
 import { InfiniteScrollHookOptions, SizeOptions } from './types'
@@ -23,7 +23,6 @@ export default function useInfiniteVerticalScroll(
     gestureParams,
     currentIndex,
     firstPaintOver,
-    // scrollingZoneTarget,
     callbacks: { setFirstPaintOver, ...restCbs }
   } = useInfiniteScrollSetup('y', sizeOptions, options)
 
@@ -50,14 +49,13 @@ export default function useInfiniteVerticalScroll(
   const dragOffset = useRef(0)
 
   const dragIndexRef = useRef(0)
-  const [dragIndex, setDragIndex] = useState(dragIndexRef.current)
 
   const bind = useGesture(
     {
       onDrag: utils.drag.limited(gestureApi, {
         axis: 'y',
         itemSize: gestureParams.itemSize,
-        indexOptions: { current: dragIndexRef, setIndex: setDragIndex, last: lastIndex }
+        indexOptions: { current: dragIndexRef, setIndex: undefined, last: lastIndex }
       }),
       onWheel: ({ active, last, offset: [, y], movement: [, my], direction: [, dy] }) => {
         if (dy) {
@@ -88,7 +86,7 @@ export default function useInfiniteVerticalScroll(
     springs: gestureApi[0],
     api: gestureApi[1],
     itemSize: gestureParams.itemSize,
-    currentIndex: isMobile ? dragIndex : currentIndex,
+    currentIndex: isMobile ? undefined : currentIndex,
     firstPaintOver,
     ...restCbs
   }

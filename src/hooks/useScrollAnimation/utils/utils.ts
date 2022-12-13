@@ -114,7 +114,7 @@ export function runInfiniteScrollSprings<T extends Record<any, any>>(
 type GestureIndexOptions = {
   current: MutableRefObject<number>
   last: number
-  setIndex: React.Dispatch<SetStateAction<number>>
+  setIndex?: React.Dispatch<SetStateAction<number>>
 }
 
 type DragLogicOptions = {
@@ -143,7 +143,7 @@ const runLimitedSwipe = ([, api]: any[], { axis: axisDirection, indexOptions, it
       const clampedIdx = clamp(current.current + -gestDir, ...bounds)
       current.current = clampedIdx
       cancel()
-      setIndex(clampedIdx)
+      setIndex?.(clampedIdx)
     }
 
     api.start((i: number) => {

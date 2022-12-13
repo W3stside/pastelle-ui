@@ -25,7 +25,7 @@ export function useLimitedHorizontalSwipe(data: any[], options?: Options) {
       x: i * width,
       display: 'block'
     }),
-    [data]
+    [width]
   )
 
   const bind = useDrag(
@@ -54,10 +54,14 @@ export function useLimitedVerticalSwipe(data: any[], options?: Options) {
   const indexRef = useRef(0)
   const [indexState, setIndexState] = useState(indexRef.current)
 
-  const [springs, api] = useSprings(data.length, i => ({
-    y: i * height,
-    display: 'block'
-  }))
+  const [springs, api] = useSprings(
+    data.length,
+    i => ({
+      y: i * height,
+      display: 'block'
+    }),
+    [height]
+  )
 
   const bind = useDrag(
     utils.drag.limited([, api], {
