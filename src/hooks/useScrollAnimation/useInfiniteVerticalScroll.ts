@@ -5,6 +5,7 @@ import { InfiniteScrollHookOptions, SizeOptions } from './types'
 import useInfiniteScrollSetup from './utils/useScrollSetup'
 import utils, { runInfiniteScrollSprings } from './utils/utils'
 import { isMobile } from 'utils'
+import { STIFF_SPRINGS } from 'constants/springs'
 
 const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 3.2,
@@ -40,10 +41,7 @@ export default function useInfiniteVerticalScroll(
           setFirstPaintOver(true)
         }
       },
-      from: {
-        scale: options.scaleOptions.initialScale || 0.92,
-        y: i * gestureParams.itemSize
-      }
+      config: STIFF_SPRINGS
     }),
     [gestureParams.itemSize]
   )
@@ -51,14 +49,15 @@ export default function useInfiniteVerticalScroll(
   const wheelOffset = useRef(0)
   const dragOffset = useRef(0)
 
-  const [currentIndexDrag, setDragIndex] = useState(0)
+  const dragIndexRef = useRef(0)
+  const [dragIndex, setDragIndex] = useState(dragIndexRef.current)
 
   const bind = useGesture(
     {
       onDrag: utils.drag.limited(gestureApi, {
-        direction: 'y',
+        axis: 'y',
         itemSize: gestureParams.itemSize,
-        indexOptions: { setIndex: setDragIndex, current: currentIndexDrag, last: lastIndex }
+        indexOptions: { current: dragIndexRef, setIndex: setDragIndex, last: lastIndex }
       }),
       onWheel: ({ active, last, offset: [, y], movement: [, my], direction: [, dy] }) => {
         if (dy) {
@@ -80,7 +79,6 @@ export default function useInfiniteVerticalScroll(
       drag: {
         axis: 'y',
         preventScrollAxis: 'x'
-        // threshold: 10
       }
     }
   )
@@ -90,7 +88,7 @@ export default function useInfiniteVerticalScroll(
     springs: gestureApi[0],
     api: gestureApi[1],
     itemSize: gestureParams.itemSize,
-    currentIndex: isMobile ? currentIndexDrag : currentIndex,
+    currentIndex: isMobile ? dragIndex : currentIndex,
     firstPaintOver,
     ...restCbs
   }

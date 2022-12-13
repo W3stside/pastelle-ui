@@ -1,5 +1,6 @@
 import { DragState, PinchState } from '@use-gesture/react'
 import clamp from 'lodash.clamp'
+import { MutableRefObject, SetStateAction } from 'react'
 import { SpringRef } from 'react-spring'
 import { AxisDirection, InfiniteScrollHookOptions, WheelGestureParams, InifniteScrollDataParams } from '../types'
 
@@ -111,39 +112,44 @@ export function runInfiniteScrollSprings<T extends Record<any, any>>(
 }
 
 type GestureIndexOptions = {
-  current: number
+  current: MutableRefObject<number>
   last: number
-  setIndex: (index: number) => void
+  setIndex: React.Dispatch<SetStateAction<number>>
 }
 
 type DragLogicOptions = {
   indexOptions: GestureIndexOptions
   itemSize: number
-  direction: AxisDirection
+  axis: AxisDirection
 }
 
-const runLimitedSwipe = ([, api]: any[], { direction, indexOptions, itemSize }: DragLogicOptions) => ({
+const runLimitedSwipe = ([, api]: any[], { axis: axisDirection, indexOptions, itemSize }: DragLogicOptions) => ({
   active,
-  last: lastEvent,
   movement,
-  swipe
+  direction,
+  cancel
 }: DragState) => {
-  const directionIdx = direction === 'x' ? 0 : 1
-  const [mAxis, swDir] = [movement[directionIdx], swipe[directionIdx]]
-  const { current, last, setIndex } = indexOptions
+  const axis = axisDirection === 'x' ? 0 : 1
+  const [mAxis, gestDir] = [movement[axis], direction[axis]]
+  if (gestDir) {
+    const { current, last: lastIndx, setIndex } = indexOptions
 
-  if (swDir) {
-    const bounds: [number, number] = [current - 1 > 0 ? current - 1 : 0, current + 1 < last ? current + 1 : last]
-    const clampedIdx = clamp(current + (swDir > 0 ? -1 : 1), ...bounds)
-    // if any movement greater than half the screen
-    if (Math.abs(mAxis) > itemSize / 10) {
-      lastEvent && setIndex(clampedIdx)
+    const bounds: [number, number] = [
+      current.current - 1 > 0 ? current.current - 1 : 0,
+      current.current + 1 < lastIndx ? current.current + 1 : lastIndx
+    ]
+
+    if (active && Math.abs(mAxis) > itemSize / 10) {
+      const clampedIdx = clamp(current.current + -gestDir, ...bounds)
+      current.current = clampedIdx
+      cancel()
+      setIndex(clampedIdx)
     }
 
     api.start((i: number) => {
-      if (i < clampedIdx - 1 || i > clampedIdx + 1) return { display: 'none' }
-      const axisPoint = (i - clampedIdx) * itemSize + (active ? mAxis : 0)
-      return { [direction]: axisPoint, display: 'block' }
+      if (i < current.current - 1 || i > current.current + 1) return { display: 'none' }
+      const axisPoint = (i - current.current) * itemSize + (active ? mAxis : 0)
+      return { [axisDirection]: axisPoint, display: 'block' }
     })
   }
 }

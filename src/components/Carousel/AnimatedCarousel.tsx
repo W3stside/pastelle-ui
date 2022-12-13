@@ -51,7 +51,7 @@ export default function AnimatedCarousel({
             {...bind(index)}
             key={index}
             ref={setScrollingZoneRef}
-            style={{ width, x, display, zIndex: index === currentIndex ? 1 : -1 }}
+            style={{ width, x, display }}
             $borderRadius="0px"
             $withBoxShadow={false}
             $isVerticalScroll={false}

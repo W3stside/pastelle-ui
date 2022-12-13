@@ -1,6 +1,6 @@
 import { useDrag } from '@use-gesture/react'
 import { STORE_IMAGE_SIZES } from 'constants/config'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useSprings } from 'react-spring'
 import useScrollZoneRefs from './utils/useScrollZoneRef'
 import { SizeOptions } from './types'
@@ -16,25 +16,31 @@ export function useLimitedHorizontalSwipe(data: any[], options?: Options) {
     refCallbacks
   } = useScrollZoneRefs('x', options?.sizeOptions || { minSize: STORE_IMAGE_SIZES.SMALL })
 
-  const [currentIndex, setIndex] = useState(0)
+  const indexRef = useRef(0)
+  const [indexState, setIndexState] = useState(indexRef.current)
 
-  const [springs, api] = useSprings(data.length, i => ({
-    x: i * width,
-    display: 'block'
-  }))
+  const [springs, api] = useSprings(
+    data.length,
+    i => ({
+      x: i * width,
+      display: 'block'
+    }),
+    [data]
+  )
 
   const bind = useDrag(
     utils.drag.limited([, api], {
-      direction: 'x',
-      indexOptions: { setIndex, current: currentIndex, last: data.length - 1 },
+      axis: 'x',
+      indexOptions: { current: indexRef, setIndex: setIndexState, last: data.length - 1 },
       itemSize: width
-    })
+    }),
+    { axis: 'x' }
   )
 
   return {
     bind,
     springs,
-    state: { currentIndex, width },
+    state: { currentIndex: indexState, width },
     refCallbacks
   }
 }
@@ -45,7 +51,8 @@ export function useLimitedVerticalSwipe(data: any[], options?: Options) {
     refCallbacks
   } = useScrollZoneRefs('y', options?.sizeOptions || { minSize: STORE_IMAGE_SIZES.SMALL })
 
-  const [currentIndex, setIndex] = useState(0)
+  const indexRef = useRef(0)
+  const [indexState, setIndexState] = useState(indexRef.current)
 
   const [springs, api] = useSprings(data.length, i => ({
     y: i * height,
@@ -54,16 +61,17 @@ export function useLimitedVerticalSwipe(data: any[], options?: Options) {
 
   const bind = useDrag(
     utils.drag.limited([, api], {
-      direction: 'y',
-      indexOptions: { setIndex, current: currentIndex, last: data.length - 1 },
+      axis: 'y',
+      indexOptions: { current: indexRef, setIndex: setIndexState, last: data.length - 1 },
       itemSize: height
-    })
+    }),
+    { axis: 'y' }
   )
 
   return {
     bind,
     springs,
-    state: { currentIndex, height },
+    state: { currentIndex: indexState, height },
     refCallbacks
   }
 }

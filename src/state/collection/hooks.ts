@@ -67,3 +67,10 @@ export function useCurrentProductMedia() {
     [currentItem]
   )
 }
+
+export function useGetAllProductLogos() {
+  const { collection } = useCurrentCollection()
+  if (!collection) return null
+
+  return Object.values(collection).map(({ headerLogo, navLogo, logo }) => ({ headerLogo, navLogo, logo }))
+}
