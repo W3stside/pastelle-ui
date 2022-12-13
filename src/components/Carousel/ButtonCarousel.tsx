@@ -15,7 +15,7 @@ export default function ButtonCarousel({
   imageList,
   startIndex,
   showButtons,
-  fixedHeight,
+  fixedSizes,
   buttonColor,
   transformation,
   fullSizeContent,
@@ -28,8 +28,7 @@ export default function ButtonCarousel({
 }: ButtonCarouselProps) {
   const [selectedStep, setSelectedStep] = useState(startIndex)
   const { parentWidth, imageTransformations, setCarouselContainerRef } = useCarouselSetup({
-    startIndex,
-    fixedHeight
+    fixedSizes
   })
 
   const { isMultipleCarousel, lastStepIndex } = useMemo(
@@ -47,7 +46,7 @@ export default function ButtonCarousel({
         setCarouselContainerRef(node)
         node && forwardedRef && setForwardedRef(node, forwardedRef)
       }}
-      $fixedHeight={fixedHeight || parentWidth + 'px'}
+      $fixedHeight={(fixedSizes?.fixedHeight || parentWidth) + 'px'}
     >
       {/* CAROUSEL CONTENT */}
       {imageList.map(({ defaultUrl, ...urlRest }, index) => {

@@ -6,7 +6,7 @@ export interface BaseCarouselProps {
   imageList: GenericImageSrcSet[]
   startIndex: number
   buttonColor: string
-  fixedHeight?: string
+  fixedSizes?: { fixedWidth: number; fixedHeight: number }
   collectionView?: boolean
   transformation?: SmartImageProps['transformation']
   loadInViewOptions?: LoadInViewOptions

@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro'
-import { setBackgroundWithDPI, upToExtraSmall } from 'theme/utils'
+import { setBackgroundWithDPI } from 'theme/utils'
 import { setFadeInAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
@@ -17,10 +17,6 @@ export const ArticleFadeInContainer = styled.article`
   overflow: hidden;
   touch-action: none;
 
-  ${upToExtraSmall`
-    padding-bottom: 4rem;
-  `}
-
   ${({ theme }) =>
     setBackgroundWithDPI(theme, LOGO_SET, {
       dpiLevel: '1x',
@@ -34,8 +30,7 @@ export const ArticleFadeInContainer = styled.article`
       backgroundAttributes: ['center/contain no-repeat', '-1px -1px/contain repeat', 'center/cover no-repeat'],
       backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'difference' : 'unset'
     })}
-    
-  
+
   // required for fade in animation
   filter: contrast(1) blur(0px);
   ${setFadeInAnimation()}

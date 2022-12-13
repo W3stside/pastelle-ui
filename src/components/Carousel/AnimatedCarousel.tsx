@@ -3,20 +3,21 @@ import { CarouselIndicators, CarouselStep } from './common'
 import { useCarouselSetup } from './hooks'
 import { CarouselContainer } from './styleds'
 import { BaseCarouselProps } from './types'
-import { useLimitedHorizontalScroll } from 'hooks/useScrollAnimation'
+import { useLimitedHorizontalSwipe } from 'hooks/useScrollAnimation'
+import { STORE_IMAGE_SIZES } from 'constants/config'
 
 export default function AnimatedCarousel({
   imageList,
-  startIndex,
-  fixedHeight,
+  fixedSizes,
   buttonColor,
   transformation,
   fullSizeContent,
   loadInViewOptions,
+  lqImageOptions,
   onImageClick
 }: BaseCarouselProps) {
   const { parentWidth, imageTransformations, setCarouselContainerRef } = useCarouselSetup({
-    startIndex
+    fixedSizes
   })
 
   const {
@@ -24,7 +25,10 @@ export default function AnimatedCarousel({
     springs,
     state: { currentIndex, width },
     refCallbacks: { setItemSizeRef }
-  } = useLimitedHorizontalScroll(imageList, { sensitivity: 2 })
+  } = useLimitedHorizontalSwipe(imageList, {
+    sensitivity: 2,
+    sizeOptions: { fixedSize: fixedSizes?.fixedWidth, minSize: STORE_IMAGE_SIZES.SMALL }
+  })
 
   return (
     <CarouselContainer
@@ -33,7 +37,7 @@ export default function AnimatedCarousel({
         setCarouselContainerRef(node)
         setItemSizeRef(node)
       }}
-      $fixedHeight={fixedHeight || parentWidth + 'px'}
+      $fixedHeight={(fixedSizes?.fixedHeight || parentWidth) + 'px'}
     >
       <CarouselIndicators size={imageList.length} currentIndex={currentIndex} color={buttonColor} />
       {/* CAROUSEL CONTENT */}
@@ -63,7 +67,7 @@ export default function AnimatedCarousel({
                 pathSrcSet: fullSizeContent ? undefined : urlRest,
                 transformation: transformation || imageTransformations,
                 loadInViewOptions,
-                lqImageOptions: { ...imageTransformations[0], showLoadingIndicator: true }
+                lqImageOptions: { ...imageTransformations[0], showLoadingIndicator: true, ...lqImageOptions }
               }}
               // flags
               showIndicators

@@ -11,7 +11,8 @@ export function getMobileShowcaseVideo916Height(innerContainerRef: HTMLElement |
 export function setCatalogImagesLqProps(node: HTMLElement | null, isCollectionView: boolean) {
   return isCollectionView
     ? {
-        width: (node?.clientWidth || 1) * 0.6 || 500,
+        // width: (node?.clientWidth || 1) * 0.6 || 500,
+        width: node?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
         height: node?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
         showLoadingIndicator: false
       }
