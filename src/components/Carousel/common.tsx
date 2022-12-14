@@ -1,5 +1,3 @@
-import SmartImg, { SmartImageProps } from 'components/SmartImg'
-import { ForwardedRef, forwardRef, RefObject } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 import { BaseCarouselProps } from './types'
 import {
@@ -10,54 +8,48 @@ import {
   CarouselIndicatorWrapper
 } from './styleds'
 
-export type CarouselStepsProps = Pick<BaseCarouselProps, 'buttonColor' | 'onImageClick'> & {
+export type CarouselStepsProps = Pick<BaseCarouselProps, 'accentColor' | 'onCarouselItemClick'> & {
+  children: React.ReactNode
   index: number
-  imageProps: SmartImageProps
   parentWidth: number
   transformAmount: number
-  isMultipleCarousel: boolean
+
   showButtons?: boolean
   showIndicators?: boolean
 
-  forwardedRef?: ForwardedRef<unknown>
-
-  onNext: ((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) | null
-  onPrev: ((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) | null
+  isMultipleCarousel?: boolean
+  onNext?: ((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) | null
+  onPrev?: ((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) | null
 }
 
-export function CarouselStepWithoutRef(props: CarouselStepsProps) {
+export function CarouselStep(props: CarouselStepsProps) {
   const {
+    children,
     index,
-    imageProps,
-    buttonColor,
+    accentColor,
     transformAmount,
     parentWidth,
     showButtons,
     isMultipleCarousel,
-    forwardedRef,
-    onImageClick,
+    onCarouselItemClick,
     onNext,
     onPrev
   } = props
 
   return (
     <StaticCarouselStep
-      ref={
-        (forwardedRef as ((instance: HTMLDivElement | null) => void) | RefObject<HTMLDivElement> | null | undefined) ??
-        null
-      }
       id={'carousel-step-' + index}
       justifyContent="center"
       $transformAmount={transformAmount}
       $width={parentWidth}
     >
-      <SmartImg {...imageProps} ref={imageProps.forwardedRef} onClick={showButtons ? undefined : onImageClick} />
+      {children}
       {showButtons && isMultipleCarousel && (
-        <CarouselButtonContainer onClick={onImageClick}>
-          <CarouselButton onClick={onPrev ?? undefined} buttonColor={buttonColor}>
+        <CarouselButtonContainer onClick={onCarouselItemClick}>
+          <CarouselButton onClick={onPrev ?? undefined} buttonColor={accentColor}>
             <ChevronLeft />
           </CarouselButton>
-          <CarouselButton onClick={onNext ?? undefined} buttonColor={buttonColor}>
+          <CarouselButton onClick={onNext ?? undefined} buttonColor={accentColor}>
             <ChevronRight />
           </CarouselButton>
         </CarouselButtonContainer>
@@ -65,10 +57,6 @@ export function CarouselStepWithoutRef(props: CarouselStepsProps) {
     </StaticCarouselStep>
   )
 }
-
-export const CarouselStep = forwardRef(function CarouselStep(props: CarouselStepsProps, ref) {
-  return <CarouselStepWithoutRef {...props} forwardedRef={ref} />
-})
 
 export const CarouselIndicators = ({
   color,

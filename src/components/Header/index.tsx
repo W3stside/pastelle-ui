@@ -45,7 +45,7 @@ export default function Header() {
   const { headerLogoSet: dynamicHeaderLogoSet, color } = useCurrentProductMedia()
   // "randomly" select a product header from collection for header (on mobile collection view ONLY)
   const staticRandomLogoSet = useMemo(
-    () => productLogos?.[Math.ceil(Math.random() * productLogos.length - 1)].headerLogo,
+    () => productLogos?.[Math.ceil(Math.random() * productLogos.length - 1)]?.headerLogo,
     // only update when navving in-out of collection page on mobile
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isCollectionPage]

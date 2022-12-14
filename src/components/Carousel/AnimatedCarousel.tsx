@@ -2,20 +2,16 @@ import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
 import { CarouselIndicators, CarouselStep } from './common'
 import { useCarouselSetup } from './hooks'
 import { CarouselContainer } from './styleds'
-import { BaseCarouselProps } from './types'
-import { useLimitedHorizontalSwipe } from 'hooks/useScrollAnimation'
-import { STORE_IMAGE_SIZES } from 'constants/config'
+import { BaseAnimatedCarouselProps } from './types'
 
 export default function AnimatedCarousel({
-  imageList,
+  data,
+  animationProps,
   fixedSizes,
-  buttonColor,
-  transformation,
-  fullSizeContent,
-  loadInViewOptions,
-  lqImageOptions,
-  onImageClick
-}: BaseCarouselProps) {
+  accentColor,
+  touchAction,
+  children
+}: BaseAnimatedCarouselProps) {
   const { parentWidth, imageTransformations, setCarouselContainerRef } = useCarouselSetup({
     fixedSizes
   })
@@ -23,12 +19,9 @@ export default function AnimatedCarousel({
   const {
     bind,
     springs,
-    state: { currentIndex, width },
+    state: { currentIndex, itemSize: width },
     refCallbacks: { setItemSizeRef, setScrollingZoneRef }
-  } = useLimitedHorizontalSwipe(imageList, {
-    sensitivity: 2,
-    sizeOptions: { fixedSize: fixedSizes?.fixedWidth, minSize: STORE_IMAGE_SIZES.SMALL }
-  })
+  } = animationProps
 
   return (
     <CarouselContainer
@@ -38,12 +31,11 @@ export default function AnimatedCarousel({
         setItemSizeRef(node)
       }}
       $fixedHeight={(fixedSizes?.fixedHeight || parentWidth) + 'px'}
+      $touchAction={touchAction}
     >
-      <CarouselIndicators size={imageList.length} currentIndex={currentIndex} color={buttonColor} />
+      <CarouselIndicators size={data.length} currentIndex={currentIndex} color={accentColor} />
       {/* CAROUSEL CONTENT */}
-      {springs.map(({ x, display }, index) => {
-        const { defaultUrl, ...urlRest } = imageList[index]
-
+      {springs.map((props, index, { length }) => {
         if (!parentWidth) return null
 
         return (
@@ -51,34 +43,21 @@ export default function AnimatedCarousel({
             {...bind(index)}
             key={index}
             ref={setScrollingZoneRef}
-            style={{ width, x, display }}
+            style={{ width, ...props }}
             $borderRadius="0px"
             $withBoxShadow={false}
             $isVerticalScroll={false}
-            $touchAction="pinch-zoom"
+            $touchAction={touchAction}
           >
             <CarouselStep
               index={index}
+              accentColor={accentColor}
               parentWidth={parentWidth}
-              buttonColor={buttonColor}
-              onImageClick={onImageClick}
-              // image props
-              imageProps={{
-                path: { defaultPath: defaultUrl },
-                pathSrcSet: fullSizeContent ? undefined : urlRest,
-                transformation: transformation || imageTransformations,
-                loadInViewOptions,
-                lqImageOptions: { ...imageTransformations[0], showLoadingIndicator: true, ...lqImageOptions }
-              }}
-              // flags
-              showIndicators
               transformAmount={0}
-              isMultipleCarousel={false}
               showButtons={false}
-              // cbs
-              onNext={null}
-              onPrev={null}
-            />
+            >
+              {children({ index, imageTransformations, isLast: index === length - 1 })}
+            </CarouselStep>
           </AnimatedDivContainer>
         )
       })}

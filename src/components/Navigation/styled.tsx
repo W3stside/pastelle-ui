@@ -3,7 +3,7 @@ import Button from 'components/Button'
 import { MobileNavProps } from '.'
 import { Z_INDEXES } from 'constants/config'
 import { Column, Row } from 'components/Layout'
-import { BLACK, setBackgroundWithDPI, setBestTextColour, upToExtraSmall, upToMedium } from 'theme/utils'
+import { BLACK, setBackgroundWithDPI, setBestTextColour, upToMedium } from 'theme/utils'
 import { setFlickerAnimation } from 'theme/styles/animations'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
 
@@ -61,10 +61,6 @@ export const NavigationStepsWrapper = styled.nav<{
     width: ${isOpen ? '100%' : '0px'};
     opacity: ${isOpen ? '1' : '0'};
   `}
-
-  ${upToExtraSmall`
-    bottom: 6rem;
-  `}
 `
 
 export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boolean }>`
@@ -76,7 +72,7 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   gap: 5px;
 
   padding-right: 0;
-  margin-right: -1rem;
+  // margin-right: -1rem;
 
   > div {
     display: flex;

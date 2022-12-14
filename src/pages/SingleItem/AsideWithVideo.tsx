@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { BoxProps } from 'rebass'
 
 import { Column, Row } from 'components/Layout'
-import AnimatedCarousel from 'components/Carousel/AnimatedCarousel'
 import ButtonCarousel from 'components/Carousel/ButtonCarousel'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import SmartImg from 'components/SmartImg'
@@ -29,7 +28,7 @@ import {
 } from './styleds'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
-import { useToggleModal, useModalOpen, useCloseModals } from 'state/modalsAndPopups/hooks'
+import { useCloseModals, useModalOpen, useToggleModal } from 'state/modalsAndPopups/hooks'
 import { useUpdateCurrentlyViewing } from 'state/collection/hooks'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
@@ -50,7 +49,7 @@ import { getImageSizeMap } from 'shopify/utils'
 import { FREE_SHIPPING_THRESHOLD, SINGLE_ITEM_LOGO_RATIO, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
 
 import { isMobile } from 'utils'
-import { getMobileShowcaseVideo916Height, setCatalogImagesLqProps } from './utils'
+import { /* getMobileShowcaseVideo916Height, */ setCatalogImagesLqProps } from './utils'
 import useModelSizeSelector from 'components/ModelSizeSelector'
 import useShowShowcase from 'components/Showcase/Settings'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -64,6 +63,7 @@ import { formatCurrency } from 'utils/formatting'
 import AddToCartButton from 'components/AddToCartButton'
 import { darken, transparentize } from 'polished'
 import { TYPE } from 'theme'
+import HorizontalSwipeCarousel from 'components/Carousel/HorizontalSwipeCarousel'
 
 export interface ProductPageProps {
   bgColor: string
@@ -192,7 +192,7 @@ export default function ItemPage({
   const isMobileWidth = useIsMobileWindowWidthSize()
 
   // mobile vs web carousel
-  const Carousel = useMemo(() => (isMobile || isMobileWidth ? AnimatedCarousel : ButtonCarousel), [isMobileWidth])
+  const Carousel = useMemo(() => (isMobile ? HorizontalSwipeCarousel : ButtonCarousel), [])
 
   return (
     <>
@@ -202,16 +202,36 @@ export default function ItemPage({
         toggleModal={toggleLargeImageModal}
         dismissModal={closeModals}
         // Carousel props
-        buttonColor={color}
-        imageList={[imageUrls[currentCarouselIndex]]}
+        accentColor={color}
+        data={[imageUrls[currentCarouselIndex]]}
         transformation={[
           {
             width: images[0]?.width || STORE_IMAGE_SIZES.LARGE,
             height: images[0]?.height || STORE_IMAGE_SIZES.LARGE
           }
         ]}
+        fixedSizes={undefined}
         startIndex={currentCarouselIndex}
-      />
+      >
+        {({ index, imageTransformations }) => {
+          const { defaultUrl, ...urlRest } = imageUrls[index]
+
+          return (
+            <SmartImg
+              {...{
+                path: { defaultPath: defaultUrl },
+                pathSrcSet: urlRest,
+                transformation: imageTransformations,
+                loadInViewOptions,
+                lqImageOptions: setCatalogImagesLqProps(innerContainerRef, collectionView)
+              }}
+              // ref={imageProps.forwardedRef}
+              onClick={toggleLargeImageModal}
+            />
+          )
+        }}
+      </LargeImageCarouselModal>
+
       {/* Product label: used in scolling collection */}
       {showProductLabel && (
         <ScrollingProductLabel logo={headerLogo} labelColor={bgColor} flexWrap="wrap">
@@ -253,16 +273,14 @@ export default function ItemPage({
               )}
               {/* Item carousel */}
               <Carousel
+                accentColor={color}
                 showButtons={!collectionView}
-                buttonColor={color}
-                imageList={imageUrls}
+                collectionView={collectionView}
                 startIndex={currentCarouselIndex}
                 onCarouselChange={onCarouselChange}
-                onImageClick={toggleLargeImageModal}
-                lqImageOptions={setCatalogImagesLqProps(innerContainerRef, collectionView)}
-                // dont in view load for collection scroll
-                loadInViewOptions={collectionView ? undefined : loadInViewOptions}
-                collectionView={collectionView}
+                // collection view? disable touch actions
+                // else default to horizontal default (pan-y/zoom)
+                touchAction={collectionView ? 'none' : 'pan-y'}
                 fixedSizes={
                   collectionView
                     ? // set collection view to the innerContainer height
@@ -271,13 +289,59 @@ export default function ItemPage({
                         fixedWidth: innerContainerRef?.clientHeight || 0
                       }
                     : isMobile && viewRef?.clientHeight
-                    ? {
+                    ? // TODO: check and fix
+                      {
                         fixedHeight: (viewRef.clientHeight - 80) * 0.74,
                         fixedWidth: (viewRef.clientHeight - 80) * 0.74
                       }
                     : undefined
                 }
-              />
+                // image related props
+                onCarouselItemClick={toggleLargeImageModal}
+                data={isMobile || isMobileWidth ? imageUrls.concat(null as any) : imageUrls}
+              >
+                {({ index, imageTransformations }) => {
+                  if (!imageUrls[index]?.defaultUrl) {
+                    return (
+                      <ShowcaseVideos
+                        videos={videos}
+                        videoProps={{
+                          // TODO: check ios autoplay
+                          autoPlay: autoplay,
+                          style: {
+                            cursor: 'pointer'
+                          }
+                        }}
+                        currentCarouselIndex={currentCarouselIndex}
+                        hideVideo={!isMobileWidth}
+                        firstPaintOver={firstPaintOver}
+                        zIndex={Z_INDEXES.PRODUCT_VIDEOS}
+                        height={'100%'}
+                        margin="0 0 2rem"
+                        title="Tap to play/pause"
+                        isMobileWidth
+                      />
+                    )
+                  } else {
+                    const { defaultUrl, ...urlRest } = imageUrls[index]
+
+                    return (
+                      <SmartImg
+                        path={{ defaultPath: defaultUrl }}
+                        pathSrcSet={urlRest}
+                        transformation={imageTransformations}
+                        loadInViewOptions={loadInViewOptions}
+                        lqImageOptions={{
+                          ...imageTransformations?.[0],
+                          ...setCatalogImagesLqProps(innerContainerRef, collectionView)
+                        }}
+                        // ref={imageProps.forwardedRef}
+                        onClick={toggleLargeImageModal}
+                      />
+                    )
+                  }
+                }}
+              </Carousel>
               {/* DYNAMIC LOGO */}
               <Logo
                 parentNode={innerContainerRef}
@@ -319,25 +383,6 @@ export default function ItemPage({
                     margin={isMobileWidth ? '1rem 0' : '0 0 2rem 0'}
                   />
                   <Column margin="0" padding={'0 2rem'}>
-                    <ShowcaseVideos
-                      videos={videos}
-                      videoProps={{
-                        // TODO: check ios autoplay
-                        autoPlay: autoplay,
-                        style: {
-                          cursor: 'pointer'
-                        }
-                      }}
-                      currentCarouselIndex={currentCarouselIndex}
-                      hideVideo={!isMobileWidth}
-                      firstPaintOver={firstPaintOver}
-                      zIndex={Z_INDEXES.PRODUCT_VIDEOS}
-                      height={getMobileShowcaseVideo916Height(innerContainerRef)}
-                      margin="0 0 2rem"
-                      title="Tap to play/pause"
-                      isMobileWidth
-                    />
-
                     {/* SHOWCASE MODEL SHOWCASE SETTINGS */}
                     <ItemDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
                       <Row gap="1rem">

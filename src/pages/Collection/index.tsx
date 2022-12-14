@@ -62,6 +62,7 @@ export default function Collection() {
           IterableComponent={AsideWithVideoAux}
           fixedItemHeight={fixedItemHeight}
           onContentClick={onContentClick}
+          touchAction="none"
         />
       ) : (
         <AsideWithVideoAux

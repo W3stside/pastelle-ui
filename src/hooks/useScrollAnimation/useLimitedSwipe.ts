@@ -1,20 +1,33 @@
 import { useDrag } from '@use-gesture/react'
 import { STORE_IMAGE_SIZES } from 'constants/config'
-import { useRef, useState } from 'react'
+import { DOMAttributes, useRef, useState } from 'react'
 import { useSprings } from 'react-spring'
 import useScrollZoneRefs from './utils/useScrollZoneRef'
-import { SizeOptions } from './types'
+import { AxisDirection, SizeOptions } from './types'
 import utils from './utils/utils'
 interface Options {
   sensitivity: number
   sizeOptions?: SizeOptions
 }
 
-export function useLimitedHorizontalSwipe(data: any[], options?: Options) {
+export interface SpringAnimationHookReturn {
+  bind: (...args: any[]) => DOMAttributes<any>
+  springs: ReturnType<typeof useSprings>[0]
+  state: {
+    currentIndex: number
+    itemSize: number
+  }
+  refCallbacks: {
+    setScrollingZoneRef: (newNode: any) => void
+    setItemSizeRef: (newNode: any) => void
+  }
+}
+
+export function useLimitedSwipe(axis: AxisDirection, data: any[], options?: Options): SpringAnimationHookReturn {
   const {
-    refs: { itemSize: width },
+    refs: { itemSize },
     refCallbacks
-  } = useScrollZoneRefs('x', options?.sizeOptions || { minSize: STORE_IMAGE_SIZES.SMALL })
+  } = useScrollZoneRefs(axis, options?.sizeOptions || { minSize: STORE_IMAGE_SIZES.SMALL })
 
   const indexRef = useRef(0)
   const [indexState, setIndexState] = useState(indexRef.current)
@@ -22,60 +35,33 @@ export function useLimitedHorizontalSwipe(data: any[], options?: Options) {
   const [springs, api] = useSprings(
     data.length,
     i => ({
-      x: i * width,
+      [axis]: i * itemSize,
       display: 'block'
     }),
-    [width]
+    [itemSize]
   )
 
   const bind = useDrag(
     utils.drag.limited([, api], {
-      axis: 'x',
+      axis,
       indexOptions: { current: indexRef, setIndex: setIndexState, last: data.length - 1 },
-      itemSize: width
+      itemSize
     }),
-    { axis: 'x' }
+    { axis }
   )
 
   return {
     bind,
     springs,
-    state: { currentIndex: indexState, width },
+    state: { currentIndex: indexState, itemSize },
     refCallbacks
   }
 }
 
-export function useLimitedVerticalSwipe(data: any[], options?: Options) {
-  const {
-    refs: { itemSize: height },
-    refCallbacks
-  } = useScrollZoneRefs('y', options?.sizeOptions || { minSize: STORE_IMAGE_SIZES.SMALL })
+export function useLimitedHorizontalSwipe(data: any[], options?: Options): SpringAnimationHookReturn {
+  return useLimitedSwipe('x', data, options)
+}
 
-  const indexRef = useRef(0)
-  const [indexState, setIndexState] = useState(indexRef.current)
-
-  const [springs, api] = useSprings(
-    data.length,
-    i => ({
-      y: i * height,
-      display: 'block'
-    }),
-    [height]
-  )
-
-  const bind = useDrag(
-    utils.drag.limited([, api], {
-      axis: 'y',
-      indexOptions: { current: indexRef, setIndex: setIndexState, last: data.length - 1 },
-      itemSize: height
-    }),
-    { axis: 'y' }
-  )
-
-  return {
-    bind,
-    springs,
-    state: { currentIndex: indexState, height },
-    refCallbacks
-  }
+export function useLimitedVerticalSwipe(data: any[], options?: Options): SpringAnimationHookReturn {
+  return useLimitedSwipe('y', data, options)
 }

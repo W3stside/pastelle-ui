@@ -12,19 +12,13 @@ export interface ButtonCarouselProps extends BaseCarouselProps {
 }
 
 export default function ButtonCarousel({
-  imageList,
+  data,
   startIndex,
-  showButtons,
   fixedSizes,
-  buttonColor,
-  transformation,
-  fullSizeContent,
-  loadInViewOptions,
-  lqImageOptions,
+  accentColor,
   forwardedRef,
-  collectionView,
   onCarouselChange,
-  onImageClick
+  children
 }: ButtonCarouselProps) {
   const [selectedStep, setSelectedStep] = useState(startIndex)
   const { parentWidth, imageTransformations, setCarouselContainerRef } = useCarouselSetup({
@@ -33,14 +27,15 @@ export default function ButtonCarousel({
 
   const { isMultipleCarousel, lastStepIndex } = useMemo(
     () => ({
-      isMultipleCarousel: imageList.length > 1,
-      lastStepIndex: imageList.length - 1
+      isMultipleCarousel: data.length > 1,
+      lastStepIndex: data.length - 1
     }),
-    [imageList.length]
+    [data.length]
   )
 
   return (
     <CarouselContainer
+      $touchAction={'auto'}
       id="#carousel-container"
       ref={node => {
         setCarouselContainerRef(node)
@@ -49,7 +44,7 @@ export default function ButtonCarousel({
       $fixedHeight={(fixedSizes?.fixedHeight || parentWidth) + 'px'}
     >
       {/* CAROUSEL CONTENT */}
-      {imageList.map(({ defaultUrl, ...urlRest }, index) => {
+      {data.map((_, index) => {
         if (!parentWidth) return null
         const isCurrentStep = !isMultipleCarousel || index === selectedStep
         // has multiple steps and is on last item
@@ -88,26 +83,15 @@ export default function ButtonCarousel({
           <CarouselStep
             key={index}
             index={index}
-            parentWidth={parentWidth}
+            accentColor={accentColor}
             transformAmount={calculatedWidth}
-            buttonColor={buttonColor}
-            // cbs&handlers
-            onNext={onNext}
+            parentWidth={parentWidth}
+            isMultipleCarousel={!!data.length}
             onPrev={onPrevious}
-            onImageClick={onImageClick}
-            // image props
-            imageProps={{
-              path: { defaultPath: defaultUrl },
-              pathSrcSet: fullSizeContent ? undefined : urlRest,
-              transformation: transformation || imageTransformations,
-              loadInViewOptions,
-              lqImageOptions: { ...imageTransformations[0], ...lqImageOptions, showLoadingIndicator: !collectionView }
-            }}
-            // flags
-            showIndicators
-            showButtons={showButtons}
-            isMultipleCarousel={isMultipleCarousel}
-          />
+            onNext={onNext}
+          >
+            {children({ index, imageTransformations, isLast: index === length - 1 })}
+          </CarouselStep>
         )
       })}
     </CarouselContainer>

@@ -5,6 +5,7 @@ import { useGetShowcaseSettings } from 'state/user/hooks'
 import { reduceShopifyMediaToShowcaseVideos } from 'shopify/utils'
 import { ShowcaseAlertMessages } from 'components/Common'
 import { IS_PRE_PROD } from 'constants/env'
+import { isMobile } from 'utils'
 
 type ShowcaseVideosProps = Pick<SingleItemPageProps, 'firstPaintOver' | 'videos'> &
   ItemVideoContentProps & {
@@ -14,11 +15,19 @@ type ShowcaseVideosProps = Pick<SingleItemPageProps, 'firstPaintOver' | 'videos'
 export default function ShowcaseVideos({ hideVideo, videos, ...restProps }: ShowcaseVideosProps) {
   const { gender, height, size: selectedSize } = useGetShowcaseSettings()
 
-  const showcaseVideosMap = useMemo(() => videos.reduce(reduceShopifyMediaToShowcaseVideos, {}), [videos])
-  const showcaseVideoKey = useMemo(() => `${gender}-${height}-${selectedSize}`, [gender, height, selectedSize])
+  const { videoMap, webKey, mobileKey } = useMemo(
+    () => ({
+      videoMap: videos.reduce(reduceShopifyMediaToShowcaseVideos, {}),
+      webKey: `${gender}-${height}-${selectedSize}`,
+      get mobileKey() {
+        return this.webKey + '-MOBILE'
+      }
+    }),
+    [gender, height, selectedSize, videos]
+  )
 
   return useMemo(() => {
-    const hasVideoForSize = !!showcaseVideosMap[showcaseVideoKey]
+    const sizeVideo = videoMap[isMobile ? mobileKey : webKey] || videoMap[webKey]
 
     return hideVideo ? null : (
       <>
@@ -27,10 +36,10 @@ export default function ShowcaseVideos({ hideVideo, videos, ...restProps }: Show
         </ShowcaseAlertMessages>
         <ItemVideoContent
           {...restProps}
-          videos={hasVideoForSize ? [showcaseVideosMap[showcaseVideoKey]] : videos}
+          videos={sizeVideo ? [sizeVideo] : videos.slice(0, 1)}
           currentCarouselIndex={null}
         />
       </>
     )
-  }, [hideVideo, restProps, showcaseVideoKey, showcaseVideosMap, videos])
+  }, [hideVideo, mobileKey, restProps, videoMap, videos, webKey])
 }

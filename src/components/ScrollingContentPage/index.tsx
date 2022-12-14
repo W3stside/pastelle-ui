@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import { FixedAnimatedLoader } from 'components/Loader'
-import { ScrollerContainer, AnimatedDivContainer } from './styleds'
+import { ScrollerContainer, AnimatedDivContainer, TouchAction } from './styleds'
 
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 import { useInfiniteVerticalScroll } from 'hooks/useScrollAnimation'
@@ -18,6 +18,7 @@ interface ScrollingContentPageParams<D> {
   hideHeight?: number
   showIndicator?: boolean
   withBoxShadow?: boolean
+  touchAction: TouchAction
   onContentClick?: (handle?: string) => void // React.MouseEventHandler<HTMLDivElement>
   IterableComponent: (props: D & ScrollableContentComponentBaseProps) => JSX.Element
 }
@@ -36,6 +37,7 @@ export function ScrollingContentPage<D>({
   dataItem,
   fixedItemHeight,
   withBoxShadow = false,
+  touchAction,
   onContentClick,
   IterableComponent
 }: Params<D>) {
@@ -92,13 +94,13 @@ export function ScrollingContentPage<D>({
         left="50%"
         width="40vw"
       />
-      <ScrollerContainer $isVerticalScroll {...bind()}>
+      <ScrollerContainer $touchAction={touchAction} $isVerticalScroll {...bind()}>
         {springs.map(({ y, scale }, i, { length }) => {
           return (
             <AnimatedDivContainer
               {...bind(i)}
               key={i}
-              $touchAction="none"
+              $touchAction={touchAction}
               // z-index here is to set the next card under the stack
               style={{ scale, height: itemHeight, y, zIndex: length * 2 - i }}
               $maxWidth={COLLECTION_MAX_WIDTH + 'px'}

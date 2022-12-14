@@ -41,7 +41,7 @@ export default function Navigation({
   const NavToggleButton = useMemo(() => {
     return (
       <Row alignItems={'center'} gap="1rem">
-        ALL ITEMS{isNavOpen ? <X size={20} /> : <Menu size={navOrbProps?.menuSize || 20} />}
+        {isNavOpen ? <X size={20} /> : <Menu size={navOrbProps?.menuSize || 20} />}
       </Row>
     )
   }, [isNavOpen, navOrbProps?.menuSize])

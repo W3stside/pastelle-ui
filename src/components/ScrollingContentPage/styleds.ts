@@ -1,9 +1,8 @@
 import { a } from '@react-spring/web'
-import { Z_INDEXES } from 'constants/config'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
 import { ThemeModes } from 'theme/styled'
-export type TouchAction =
+export type TouchActionChoices =
   | 'auto'
   | 'none'
   | 'pan-x'
@@ -14,15 +13,18 @@ export type TouchAction =
   | 'pan-down'
   | 'pinch-zoom'
   | 'manipulation'
+
+export type TouchAction = TouchActionChoices[] | TouchActionChoices
+
 export const AnimatedDivContainer = styled(a.div)<{
   $isVerticalScroll: boolean
   $withBoxShadow?: boolean
   $maxWidth?: string
   $maxHeight?: string
   $borderRadius?: string
-  $touchAction?: TouchAction
+  $touchAction: TouchAction
 }>`
-  touch-action: ${({ $touchAction = 'auto' }) => $touchAction};
+  touch-action: ${({ $touchAction }) => (typeof $touchAction === 'string' ? $touchAction : $touchAction.join(' '))};
   will-change: transform;
   position: absolute;
   cursor: pointer;
@@ -44,27 +46,10 @@ export const AnimatedDivContainer = styled(a.div)<{
   transition: box-shadow 0.2s ease-in-out;
 `
 
-export const Scroller = styled.div`
-  position: absolute;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  top: 0;
-  cursor: pointer;
-  z-index: ${Z_INDEXES.SCROLLER_DIV};
-
-  touch-action: pinch-zoom;
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    width: 100%;
-  `}
-`
-
-export const ScrollerContainer = styled.div<{ $isVerticalScroll: boolean }>`
+export const ScrollerContainer = styled.div<{ $touchAction: TouchAction; $isVerticalScroll: boolean }>`
+  touch-action: ${({ $touchAction }) => (typeof $touchAction === 'string' ? $touchAction : $touchAction.join(' '))};
   ${({ $isVerticalScroll }) => ($isVerticalScroll ? 'height: 100%;' : 'width: 100%;')}
   position: relative;
   overflow: hidden;
-
-  touch-action: pinch-zoom;
   transition: transform 350ms ease-in-out;
 `

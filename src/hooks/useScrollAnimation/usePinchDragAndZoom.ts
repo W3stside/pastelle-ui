@@ -2,24 +2,29 @@ import { useGesture } from '@use-gesture/react'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { useSprings } from 'react-spring'
 import { SizeOptions } from './types'
+import { SpringAnimationHookReturn } from './useLimitedSwipe'
 import useScrollZoneRefs from './utils/useScrollZoneRef'
 import utils from './utils/utils'
 interface Options {
   sensitivity: number
   sizeOptions?: SizeOptions
 }
-export function usePinchZoomAndDrag(data: any[], options?: Options) {
+export function usePinchZoomAndDrag(data: any[], options?: Options): SpringAnimationHookReturn {
   const {
-    refs: { itemSize: width, scrollingZoneTarget: ref },
+    refs: { itemSize, scrollingZoneTarget: ref },
     refCallbacks
   } = useScrollZoneRefs('x', options?.sizeOptions || { minSize: STORE_IMAGE_SIZES.SMALL })
 
-  const [springs, api] = useSprings(data.length, i => ({
-    x: i * width,
-    y: 0,
-    scale: 1,
-    display: 'block'
-  }))
+  const [springs, api] = useSprings(
+    data.length,
+    i => ({
+      x: i * itemSize,
+      y: 0,
+      scale: 1,
+      display: 'block'
+    }),
+    [data.length]
+  )
 
   const bind = useGesture(
     {
@@ -30,7 +35,7 @@ export function usePinchZoomAndDrag(data: any[], options?: Options) {
       onPinch: utils.pinch.zoom([springs, api], { ref })
     },
     {
-      drag: { from: () => [springs[0].x.get(), springs[0].y.get()] },
+      drag: { from: () => [springs[0].x.get(), springs[0].y.get()], bound: ref?.getBoundingClientRect() },
       pinch: { scaleBounds: { min: 0.8, max: 3 }, rubberband: true }
     }
   )
@@ -38,7 +43,7 @@ export function usePinchZoomAndDrag(data: any[], options?: Options) {
   return {
     bind,
     springs,
-    state: { width },
+    state: { currentIndex: 0, itemSize },
     refCallbacks
   }
 }

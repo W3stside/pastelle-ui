@@ -40,7 +40,6 @@ export const CarouselContainer = styled(ScrollerContainer).attrs({ $isVerticalSc
   $fixedHeight?: string
   $fixedWidth?: string
 }>`
-  user-select: none;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
