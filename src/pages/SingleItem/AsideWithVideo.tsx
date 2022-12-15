@@ -451,7 +451,7 @@ export function Price({ price, bgColor, ...boxProps }: any) {
       style={{ gap: '0.5rem' }}
       {...boxProps}
     >
-      {formatCurrency(amount, currencyCode)} <span style={{ fontSize: '0.8rem', textTransform: 'none' }}>pre-VAT</span>
+      {formatCurrency(amount, currencyCode)}
     </TYPE.productText>
   )
 }
