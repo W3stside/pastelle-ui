@@ -27,8 +27,8 @@ import { TopGlobalStyle, ThemedGlobalStyle, FontStyles } from 'theme/styles/glob
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { nodeRemoveChildFix } from 'utils/node'
-import { devLog } from 'utils/logging'
 import { isWeb3Enabled } from 'blockchain/connectors'
+import reportWebVitals from 'reportWebVitals'
 
 // Node removeChild hackaround
 // based on: https://github.com/facebook/react/issues/11538#issuecomment-417504600
@@ -87,36 +87,10 @@ root.render(
   </StrictMode>
 )
 
-async function deleteAllCaches() {
-  const cacheNames = (await caches.keys()) || []
+// SERVICE WORKER (e.g USER OFFLINE USE)
+// README: change to unregister to remove SW
+serviceWorkerRegistration.register()
 
-  cacheNames.map(cacheName => {
-    devLog('[worker] Delete cache', cacheName)
-    // Delete old caches
-    // https://developers.google.com/web/ilt/pwa/caching-files-with-service-worker#removing_outdated_caches
-    return caches.delete(cacheName)
-  })
-}
-
-async function unregisterAllWorkers() {
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
-    for (const registration of registrations) {
-      registration.unregister()
-    }
-  })
-}
-
-if ('serviceWorker' in navigator) {
-  devLog('[worker] Unregister worker...')
-  serviceWorkerRegistration.unregister()
-
-  devLog('[worker] Deleting all caches...')
-  deleteAllCaches()
-    .then(() => devLog('[worker] All caches have been deleted'))
-    .catch(console.error)
-
-  devLog('[worker] Unregistering all workers...')
-  unregisterAllWorkers()
-    .then(() => devLog('[worker] All workers have been unregistered'))
-    .catch(console.error)
-}
+// WEB VITALS REPORTING
+// README: change to unregister to remove web vitals reporting
+reportWebVitals()
