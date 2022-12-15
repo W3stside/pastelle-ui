@@ -55,7 +55,5 @@ export function isWeb3Enabled() {
   const preParse = localStorage.getItem(WEB3_ENABLED_LOCAL_STORAGE_KEY)
   const enableBc = Boolean(preParse && JSON.parse(preParse) === true)
 
-  console.debug('[PASTELLE::UPDATERS] -> BLOCKCHAIN USE', enableBc ? 'ENABLED' : 'DISABLED')
-
   return enableBc
 }
