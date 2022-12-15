@@ -15,6 +15,7 @@ import {
   useUpdateBlockNumber,
   useUpdateChainId
 } from 'state/blockchain/hooks'
+import { devError } from 'utils/logging'
 
 const NETWORK_HEALTH_CHECK_MS = ms`15s`
 const DEFAULT_MS_BEFORE_WARNING = ms`10m`
@@ -101,7 +102,7 @@ export default function Updater(): null {
     provider
       .getBlockNumber()
       .then(blockNumberCallback)
-      .catch(error => console.error(`Failed to get block number for chainId: ${chainId}`, error))
+      .catch(error => devError(`Failed to get block number for chainId: ${chainId}`, error))
 
     provider.on('block', blockNumberCallback)
     return () => {

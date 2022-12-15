@@ -27,8 +27,11 @@ export function useCarouselSetup({ fixedSizes }: Pick<BaseCarouselProps, 'fixedS
   const imageTransformations = useMemo(
     () => [
       {
-        width: fixedSizes?.fixedWidth || carouselContainer?.clientWidth || 0,
-        height: fixedSizes?.fixedHeight || carouselContainer?.clientHeight || carouselContainer?.clientWidth || 0,
+        width: _getTransformationsFromValue(fixedSizes?.fixedWidth, carouselContainer?.clientWidth || 0),
+        height: _getTransformationsFromValue(
+          fixedSizes?.fixedHeight,
+          carouselContainer?.clientHeight || carouselContainer?.clientWidth || 0
+        ),
         pr: true
       }
     ],
@@ -41,4 +44,12 @@ export function useCarouselSetup({ fixedSizes }: Pick<BaseCarouselProps, 'fixedS
     imageTransformations,
     setCarouselContainerRef
   }
+}
+
+function _getTransformationsFromValue(val?: string | number, fallback?: number) {
+  if (!val || typeof val === 'string') {
+    return undefined
+  }
+
+  return fallback || val
 }

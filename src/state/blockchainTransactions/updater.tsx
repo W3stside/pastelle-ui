@@ -4,6 +4,7 @@ import { useBlockNumber } from 'state/blockchain/hooks'
 
 import { useAddTxPopup, useFinalizeTransaction, useCheckedTransaction } from 'state/modalsAndPopups/hooks'
 import { useAppSelector } from 'state'
+import { devError } from 'utils/logging'
 
 export function shouldCheck(
   lastBlockNumber: number,
@@ -79,7 +80,7 @@ export default function Updater(): null {
             }
           })
           .catch(error => {
-            console.error(`failed to check transaction hash: ${hash}`, error)
+            devError(`failed to check transaction hash: ${hash}`, error)
           })
       })
   }, [chainId, provider, lastBlockNumber, addTxPopup, state, finalizeTransaction, checkedTransaction])

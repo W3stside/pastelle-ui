@@ -5,6 +5,7 @@ import { useCreateCart } from 'shopify/graphql/hooks'
 import { GET_CART } from 'shopify/graphql/queries/cart'
 import { GetCartQuery, GetCartQueryVariables } from 'shopify/graphql/types'
 import { useUpdateCartInfoDispatch, useGetCartIdState, useToggleCartAndState } from 'state/cart/hooks'
+import { devError } from 'utils/logging'
 import { UpdateCartInfoParams } from './reducer'
 
 interface CartCreationCbs {
@@ -82,6 +83,6 @@ async function _createAndSaveCart({ updateCartInfo, createCart, toggleCartOption
       }
     })
     .catch(error => {
-      console.error('[CART UPDATERS] Cart initialisation error!', error)
+      devError('[CART UPDATERS] Cart initialisation error!', error)
     })
 }

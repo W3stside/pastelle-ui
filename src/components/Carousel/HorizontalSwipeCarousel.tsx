@@ -10,7 +10,6 @@ export default function HorizontalSwipeCarousel({
   ...rest
 }: BaseCarouselProps & WithTouchAction) {
   const animationProps = useLimitedHorizontalSwipe(data, {
-    sensitivity: 2,
     sizeOptions: { fixedSize: fixedSizes?.fixedWidth, minSize: STORE_IMAGE_SIZES.SMALL }
   })
 

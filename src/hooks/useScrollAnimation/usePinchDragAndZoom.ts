@@ -1,15 +1,12 @@
 import { useGesture } from '@use-gesture/react'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { useSprings } from 'react-spring'
-import { SizeOptions } from './types'
+import { OverwritingOptions } from './types'
 import { SpringAnimationHookReturn } from './useLimitedSwipe'
 import useScrollZoneRefs from './utils/useScrollZoneRef'
 import utils from './utils/utils'
-interface Options {
-  sensitivity: number
-  sizeOptions?: SizeOptions
-}
-export function usePinchZoomAndDrag(data: any[], options?: Options): SpringAnimationHookReturn {
+
+export function usePinchZoomAndDrag(data: any[], options?: OverwritingOptions): SpringAnimationHookReturn {
   const {
     refs: { itemSize, scrollingZoneTarget: ref },
     refCallbacks
@@ -18,6 +15,7 @@ export function usePinchZoomAndDrag(data: any[], options?: Options): SpringAnima
   const [springs, api] = useSprings(
     data.length,
     i => ({
+      ...options?.styleMixin,
       x: i * itemSize,
       y: 0,
       scale: 1,

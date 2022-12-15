@@ -3,19 +3,17 @@ import { STORE_IMAGE_SIZES } from 'constants/config'
 import { DOMAttributes, useRef, useState } from 'react'
 import { useSprings } from 'react-spring'
 import useScrollZoneRefs from './utils/useScrollZoneRef'
-import { AxisDirection, SizeOptions } from './types'
+import { AxisDirection, OverwritingOptions } from './types'
 import utils from './utils/utils'
-interface Options {
-  sensitivity: number
-  sizeOptions?: SizeOptions
-}
 
 export interface SpringAnimationHookReturn {
+  target?: HTMLElement | null
   bind: (...args: any[]) => DOMAttributes<any>
   springs: ReturnType<typeof useSprings>[0]
   state: {
     currentIndex: number
     itemSize: number
+    firstAnimationOver?: boolean
   }
   refCallbacks: {
     setScrollingZoneRef: (newNode: any) => void
@@ -23,7 +21,11 @@ export interface SpringAnimationHookReturn {
   }
 }
 
-export function useLimitedSwipe(axis: AxisDirection, data: any[], options?: Options): SpringAnimationHookReturn {
+export function useLimitedSwipe(
+  axis: AxisDirection,
+  data: any[],
+  options?: OverwritingOptions
+): SpringAnimationHookReturn {
   const {
     refs: { itemSize },
     refCallbacks
@@ -35,6 +37,7 @@ export function useLimitedSwipe(axis: AxisDirection, data: any[], options?: Opti
   const [springs, api] = useSprings(
     data.length,
     i => ({
+      ...options?.styleMixin,
       [axis]: i * itemSize,
       display: 'block'
     }),
@@ -58,10 +61,10 @@ export function useLimitedSwipe(axis: AxisDirection, data: any[], options?: Opti
   }
 }
 
-export function useLimitedHorizontalSwipe(data: any[], options?: Options): SpringAnimationHookReturn {
+export function useLimitedHorizontalSwipe(data: any[], options?: OverwritingOptions): SpringAnimationHookReturn {
   return useLimitedSwipe('x', data, options)
 }
 
-export function useLimitedVerticalSwipe(data: any[], options?: Options): SpringAnimationHookReturn {
+export function useLimitedVerticalSwipe(data: any[], options?: OverwritingOptions): SpringAnimationHookReturn {
   return useLimitedSwipe('y', data, options)
 }

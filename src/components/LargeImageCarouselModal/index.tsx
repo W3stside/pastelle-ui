@@ -89,7 +89,7 @@ interface LargeImageCarouselModalProps extends BaseCarouselProps {
 export default function LargeImageCarouselModal(props: LargeImageCarouselModalProps) {
   const { isOpen, dismissModal: dismissModalPre, ...carouselProps } = props
 
-  const animationProps = usePinchZoomAndDrag(carouselProps.data)
+  const animationProps = usePinchZoomAndDrag(carouselProps.data, { styleMixin: { width: '100%' } })
 
   const dismissModal = useCallback(() => {
     dismissModalPre()
@@ -97,7 +97,7 @@ export default function LargeImageCarouselModal(props: LargeImageCarouselModalPr
 
   return (
     <LargeImageModal isOpen={isOpen} onDismiss={dismissModal} isLargeImageModal zoomLevel={1}>
-      <AnimatedCarousel {...carouselProps} touchAction={['none']} animationProps={animationProps} />
+      <AnimatedCarousel {...carouselProps} touchAction={'none'} animationProps={animationProps} />
     </LargeImageModal>
   )
 }

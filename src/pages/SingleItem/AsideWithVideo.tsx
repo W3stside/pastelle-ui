@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import { BoxProps } from 'rebass'
 
 import { Column, Row } from 'components/Layout'
 import ButtonCarousel from 'components/Carousel/ButtonCarousel'
@@ -15,7 +14,6 @@ import {
   ItemArtistInfo,
   PASTELLE_CREDIT,
   ItemSubHeader,
-  ItemBreadcrumb,
   InnerContainer,
   HighlightedText,
   ItemLogoCollectionView,
@@ -64,6 +62,7 @@ import AddToCartButton from 'components/AddToCartButton'
 import { darken, transparentize } from 'polished'
 import { TYPE } from 'theme'
 import HorizontalSwipeCarousel from 'components/Carousel/HorizontalSwipeCarousel'
+import { Breadcrumbs } from 'components/Breadcrumbs'
 
 export interface ProductPageProps {
   bgColor: string
@@ -91,32 +90,6 @@ export type CollectionMap = Record<Product['handle'], ProductPageProps>
 export type ItemPageDesignsProps = {
   headerLogo?: string
   navLogo?: string
-}
-
-function Breadcrumbs({
-  color,
-  breadcrumbs,
-  lastCrumb,
-  ...rowProps
-}: {
-  color: string
-  breadcrumbs: string[]
-  lastCrumb: string | undefined
-} & BoxProps) {
-  return (
-    <Row {...rowProps} margin="0.8rem" style={{ position: 'absolute', top: 0, left: 0, zIndex: 100 }}>
-      {breadcrumbs?.map((crumb, index) => {
-        if (!crumb) return null
-        const isLastCrumb = crumb === lastCrumb
-        return (
-          <ItemBreadcrumb key={crumb + '_' + index} color={color} to="/#">
-            <span>{!isLastCrumb ? crumb : <strong>{crumb}</strong>}</span>
-            {!isLastCrumb && <span>{'//'}</span>}
-          </ItemBreadcrumb>
-        )
-      })}
-    </Row>
-  )
 }
 
 const DEFAULT_MEDIA_START_INDEX = 0

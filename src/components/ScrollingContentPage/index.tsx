@@ -45,25 +45,19 @@ export function ScrollingContentPage<D>({
   const {
     bind,
     springs,
-    itemSize: itemHeight,
-    currentIndex,
-    firstPaintOver,
-    setItemSizeRef: setHeightRef,
-    setScrollingZoneRef
-  } = useInfiniteVerticalScroll(
-    data,
-    {
-      visible: 2,
-      snapOnScroll: false,
-      // defaults to 0.8 scale on scroll and 1 scale default
-      scaleOptions: {
-        initialScale: isMobileWidth || isMobile ? 0.97 : 0.92
-      },
-      scrollSpeed: isMobile ? 0.4 : undefined,
-      config: STIFF_SPRINGS
+    state: { itemSize: itemHeight, currentIndex, firstAnimationOver: firstPaintOver },
+    refCallbacks: { setItemSizeRef: setHeightRef, setScrollingZoneRef }
+  } = useInfiniteVerticalScroll(data, {
+    visible: 2,
+    snapOnScroll: false,
+    // defaults to 0.8 scale on scroll and 1 scale default
+    scaleOptions: {
+      initialScale: isMobileWidth || isMobile ? 0.97 : 0.92
     },
-    { fixedSize: fixedItemHeight, minSize: MINIMUM_COLLECTION_ITEM_HEIGHT }
-  )
+    scrollSpeed: isMobile ? 0.4 : undefined,
+    config: STIFF_SPRINGS,
+    sizeOptions: { fixedSize: fixedItemHeight, minSize: MINIMUM_COLLECTION_ITEM_HEIGHT }
+  })
 
   /**
    * Reference ELEM for which we:
@@ -113,7 +107,8 @@ export function ScrollingContentPage<D>({
                   container: HEIGHT_AND_VIEW_TARGET || document,
                   conditionalCheck: firstPaintOver
                 }}
-                firstPaintOver={firstPaintOver}
+                // undefined = paint is over
+                firstPaintOver={firstPaintOver !== false}
                 isActive={currentIndex === i}
                 itemIndex={i}
                 key={i}

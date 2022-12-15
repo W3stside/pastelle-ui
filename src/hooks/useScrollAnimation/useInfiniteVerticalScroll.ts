@@ -1,11 +1,12 @@
 import { useRef } from 'react'
 import { useGesture } from '@use-gesture/react'
 import { useSprings } from 'react-spring'
-import { InfiniteScrollHookOptions, SizeOptions } from './types'
+import { InfiniteScrollOptions } from './types'
 import useInfiniteScrollSetup from './utils/useScrollSetup'
 import utils, { runInfiniteScrollSprings } from './utils/utils'
 import { isMobile } from 'utils'
 import { STIFF_SPRINGS } from 'constants/springs'
+import { SpringAnimationHookReturn } from './useLimitedSwipe'
 
 const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 3.2,
@@ -16,27 +17,27 @@ const CONFIG = {
 
 export default function useInfiniteVerticalScroll(
   items: any[],
-  options: InfiniteScrollHookOptions,
-  sizeOptions: SizeOptions
-) {
+  options: InfiniteScrollOptions
+): SpringAnimationHookReturn {
   const {
     gestureParams,
     currentIndex,
-    firstPaintOver,
+    firstAnimationOver,
     callbacks: { setFirstPaintOver, ...restCbs }
-  } = useInfiniteScrollSetup('y', sizeOptions, options)
+  } = useInfiniteScrollSetup('y', options)
 
   const lastIndex = items.length - 1
 
   const gestureApi = useSprings(
     items.length,
     i => ({
+      ...options?.styleMixin,
       scale: options.scaleOptions.initialScale || 0.92,
       y: (i < lastIndex ? i : -1) * gestureParams.itemSize,
       onRest: () => {
         // useful in knowing when the FIRST animation has ended
         // like for setup
-        if (!firstPaintOver) {
+        if (!firstAnimationOver) {
           setFirstPaintOver(true)
         }
       },
@@ -84,10 +85,12 @@ export default function useInfiniteVerticalScroll(
   return {
     bind,
     springs: gestureApi[0],
-    api: gestureApi[1],
-    itemSize: gestureParams.itemSize,
-    currentIndex: isMobile ? undefined : currentIndex,
-    firstPaintOver,
-    ...restCbs
+    state: {
+      // TODO: check we want this
+      currentIndex: isMobile ? 0 : currentIndex,
+      itemSize: gestureParams.itemSize,
+      firstAnimationOver
+    },
+    refCallbacks: restCbs
   }
 }

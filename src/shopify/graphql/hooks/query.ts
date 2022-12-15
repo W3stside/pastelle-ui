@@ -18,6 +18,7 @@ import { useParams } from 'react-router-dom'
 import { useMockQuery } from './mock/hooks'
 import { MOCK_COLLECTION_DATA } from './mock/queries'
 import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
+import { devError } from 'utils/logging'
 
 const isMock = process.env.REACT_APP_IS_MOCK === 'true'
 
@@ -54,11 +55,7 @@ export function useQueryCurrentCollection(
   const { data, error } = useQueryCollections(variables)
 
   if (error) {
-    console.error(
-      'Error fetching current collection using variables:' + JSON.stringify(variables, null, 2),
-      'Error:',
-      error
-    )
+    devError('Error fetching current collection using variables:' + JSON.stringify(variables, null, 2), 'Error:', error)
   }
 
   // collection
@@ -109,7 +106,7 @@ export function useQueryProductVariantByKeyValue(variables: ProductVariantQueryV
     { variables }
   )
   if (error) {
-    console.error(error)
+    devError(error)
   }
 
   // return first
@@ -120,7 +117,7 @@ export function useQueryCart(variables: GetCartQueryVariables) {
   const { data, loading, error } = useQuery<GetCartQuery, GetCartQueryVariables>(GET_CART, { variables })
 
   if (error) {
-    console.error(error)
+    devError(error)
   }
 
   return { data, loading, error }
