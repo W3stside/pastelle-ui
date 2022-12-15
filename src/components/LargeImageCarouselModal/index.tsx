@@ -4,7 +4,7 @@ import { BaseCarouselProps } from 'components/Carousel/types'
 import { Row } from 'components/Layout'
 import Modal from 'components/Modal'
 import { usePinchZoomAndDrag } from 'hooks/useScrollAnimation/usePinchDragAndZoom'
-import { SyntheticEvent, useCallback } from 'react'
+import { ForwardedRef, forwardRef, SyntheticEvent } from 'react'
 import { ZoomIn, ZoomOut } from 'react-feather'
 import styled from 'styled-components/macro'
 import { CloseIcon } from 'theme'
@@ -13,6 +13,9 @@ import { isMobile } from 'utils'
 
 const LargeImageModal = styled(Modal)<{ zoomLevel: number }>`
   padding-bottom: 5rem;
+
+  -webkit-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 
   ${CarouselContainer} {
@@ -20,6 +23,15 @@ const LargeImageModal = styled(Modal)<{ zoomLevel: number }>`
     width: 100%;
     overflow: auto;
     margin: auto;
+
+    picture,
+    source,
+    img,
+    video {
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
 
     ${upToSmall`
       width: 100%;
@@ -83,17 +95,14 @@ export const ModalBottomControls = ({ zoomLevel, closeCb, zoomOutCb, zoomInCb }:
 
 interface LargeImageCarouselModalProps extends BaseCarouselProps {
   isOpen: boolean
+  forwardedRef?: ForwardedRef<unknown>
   dismissModal: () => void
   toggleModal: () => void
 }
-export default function LargeImageCarouselModal(props: LargeImageCarouselModalProps) {
-  const { isOpen, dismissModal: dismissModalPre, ...carouselProps } = props
+export function LargeImageCarouselModalWithoutRef(props: LargeImageCarouselModalProps) {
+  const { isOpen, dismissModal, ...carouselProps } = props
 
   const animationProps = usePinchZoomAndDrag(carouselProps.data, { styleMixin: { width: '100%' } })
-
-  const dismissModal = useCallback(() => {
-    dismissModalPre()
-  }, [dismissModalPre])
 
   return (
     <LargeImageModal isOpen={isOpen} onDismiss={dismissModal} isLargeImageModal zoomLevel={1}>
@@ -101,3 +110,10 @@ export default function LargeImageCarouselModal(props: LargeImageCarouselModalPr
     </LargeImageModal>
   )
 }
+
+const LargeImageCarouselModal = forwardRef((props: LargeImageCarouselModalProps, ref) => (
+  <LargeImageCarouselModalWithoutRef {...props} forwardedRef={ref} />
+))
+LargeImageCarouselModal.displayName = 'LargeImageCarouselModal'
+
+export default LargeImageCarouselModal

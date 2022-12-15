@@ -4,7 +4,6 @@ import { Column, Row } from 'components/Layout'
 import ButtonCarousel from 'components/Carousel/ButtonCarousel'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import SmartImg from 'components/SmartImg'
-import LargeImageCarouselModal from 'components/LargeImageCarouselModal'
 import {
   ItemContainer,
   ItemAsidePanel,
@@ -44,7 +43,7 @@ import {
 } from 'shopify/graphql/types'
 
 import { getImageSizeMap } from 'shopify/utils'
-import { FREE_SHIPPING_THRESHOLD, SINGLE_ITEM_LOGO_RATIO, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
+import { FREE_SHIPPING_THRESHOLD, SINGLE_ITEM_LOGO_RATIO, Z_INDEXES } from 'constants/config'
 
 import { isMobile } from 'utils'
 import { /* getMobileShowcaseVideo916Height, */ setCatalogImagesLqProps } from './utils'
@@ -57,12 +56,13 @@ import { Package, Truck } from 'react-feather'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
 import { useAppSelector } from 'state'
 import ShowcaseVideoControls from 'components/Showcase/Videos/Settings'
-import { formatCurrency } from 'utils/formatting'
 import AddToCartButton from 'components/AddToCartButton'
 import { darken, transparentize } from 'polished'
 import { TYPE } from 'theme'
 import HorizontalSwipeCarousel from 'components/Carousel/HorizontalSwipeCarousel'
 import { Breadcrumbs } from 'components/Breadcrumbs'
+import { Price } from 'components/Price'
+import { LargeImageCarousel } from './LargeImageCarousel'
 
 export interface ProductPageProps {
   bgColor: string
@@ -169,41 +169,21 @@ export default function ItemPage({
 
   return (
     <>
-      {/* Large images */}
-      <LargeImageCarouselModal
+      <LargeImageCarousel
+        images={[imageUrls[currentCarouselIndex]]}
+        accentColor={color}
         isOpen={isActive && showLargeImage}
+        imageProps={{
+          loadInViewOptions,
+          lqImageOptions: {
+            width: innerContainerRef?.clientWidth || 0,
+            height: innerContainerRef?.clientWidth || 0,
+            showLoadingIndicator: true
+          }
+        }}
         toggleModal={toggleLargeImageModal}
         dismissModal={closeModals}
-        // Carousel props
-        accentColor={color}
-        data={[imageUrls[currentCarouselIndex]]}
-        transformation={[
-          {
-            width: images[0]?.width || STORE_IMAGE_SIZES.LARGE,
-            height: images[0]?.height || STORE_IMAGE_SIZES.LARGE
-          }
-        ]}
-        fixedSizes={undefined}
-        startIndex={currentCarouselIndex}
-      >
-        {({ index, imageTransformations }) => {
-          const { defaultUrl, ...urlRest } = imageUrls[index]
-
-          return (
-            <SmartImg
-              {...{
-                path: { defaultPath: defaultUrl },
-                pathSrcSet: urlRest,
-                transformation: imageTransformations,
-                loadInViewOptions,
-                lqImageOptions: setCatalogImagesLqProps(innerContainerRef, collectionView)
-              }}
-              // ref={imageProps.forwardedRef}
-              onClick={toggleLargeImageModal}
-            />
-          )
-        }}
-      </LargeImageCarouselModal>
+      />
 
       {/* Product label: used in scolling collection */}
       {showProductLabel && (
@@ -437,22 +417,6 @@ export default function ItemPage({
         )}
       </ItemContainer>
     </>
-  )
-}
-
-export function Price({ price, bgColor, ...boxProps }: any) {
-  if (!price) return null
-  const { amount, currencyCode } = price
-  return (
-    <TYPE.productText
-      display="flex"
-      alignItems={'center'}
-      backgroundColor={bgColor}
-      style={{ gap: '0.5rem' }}
-      {...boxProps}
-    >
-      {formatCurrency(amount, currencyCode)}
-    </TYPE.productText>
   )
 }
 

@@ -18,7 +18,8 @@ export default function ButtonCarousel({
   accentColor,
   forwardedRef,
   onCarouselChange,
-  children
+  children,
+  onCarouselItemClick
 }: ButtonCarouselProps) {
   const [selectedStep, setSelectedStep] = useState(startIndex)
   const { parentWidth, imageTransformations, setCarouselContainerRef } = useCarouselSetup({
@@ -90,6 +91,7 @@ export default function ButtonCarousel({
             showButtons
             onPrev={onPrevious}
             onNext={onNext}
+            onCarouselItemClick={onCarouselItemClick}
           >
             {children({ index, imageTransformations, isLast: index === length - 1 })}
           </CarouselStep>
