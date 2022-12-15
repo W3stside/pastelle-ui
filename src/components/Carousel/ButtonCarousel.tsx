@@ -87,6 +87,7 @@ export default function ButtonCarousel({
             transformAmount={calculatedWidth}
             parentWidth={parentWidth}
             isMultipleCarousel={!!data.length}
+            showButtons
             onPrev={onPrevious}
             onNext={onNext}
           >
