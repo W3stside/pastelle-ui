@@ -12,12 +12,6 @@ import { devLog } from 'utils/logging'
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
 
-declare global {
-  interface Window {
-    swNeedUpdate: boolean
-  }
-}
-
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -31,32 +25,10 @@ type Config = {
   onUpdate?: (registration: ServiceWorkerRegistration) => void
 }
 
-const SWHelper = {
-  async getWaitingWorker() {
-    const registrations = (await navigator?.serviceWorker?.getRegistrations()) || []
-    const registrationWithWaiting = registrations.find(reg => reg.waiting)
-    return registrationWithWaiting?.waiting
-  },
-
-  async skipWaiting() {
-    return (await SWHelper.getWaitingWorker())?.postMessage({ type: 'SKIP_WAITING_WHEN_SOLO' })
-  },
-
-  async prepareCachesForUpdate() {
-    devLog('[worker] prepareCachesForUpdate')
-    return (await SWHelper.getWaitingWorker())?.postMessage({ type: 'PREPARE_CACHES_FOR_UPDATE' })
-  }
-}
-
 function registerValidSW(swUrl: string, config?: Config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
-      if (registration.waiting && registration.active) {
-        devLog('[worker] Needs update (waiting & active)')
-        window.swNeedUpdate = true
-      }
-
       registration.onupdatefound = () => {
         const installingWorker = registration.installing
         if (installingWorker == null) {
@@ -65,16 +37,12 @@ function registerValidSW(swUrl: string, config?: Config) {
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
-              devLog('[worker] Needs update (installed)')
-              window.swNeedUpdate = true
-
-              SWHelper.prepareCachesForUpdate().then()
-
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
               devLog(
-                '[worker] New content is available and will be used when all tabs for this page are closed. See https://cra.link/PWA.'
+                '[SW] New content is available and will be used when all ' +
+                  'tabs for this page are closed. See https://cra.link/PWA.'
               )
 
               // Execute callback
@@ -85,7 +53,7 @@ function registerValidSW(swUrl: string, config?: Config) {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
-              devLog('[worker] Content is cached for offline use.')
+              devLog('[SW] Content is cached for offline use.')
 
               // Execute callback
               if (config && config.onSuccess) {
@@ -97,7 +65,7 @@ function registerValidSW(swUrl: string, config?: Config) {
       }
     })
     .catch(error => {
-      console.error('[worker] Error during service worker registration:', error)
+      console.error('[SW] Error during service worker registration:', error)
     })
 }
 
@@ -122,7 +90,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
       }
     })
     .catch(() => {
-      devLog('No internet connection found. App is running in offline mode.')
+      devLog('[SW] No internet connection found. App is running in offline mode.')
     })
 }
 
@@ -148,18 +116,13 @@ export function register(config?: Config) {
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
           devLog(
-            '[worker] This web app is being served cache-first by a service worker. To learn more, visit https://cra.link/PWA'
+            '[SW] This web app is being served cache-first by a service ' +
+              'worker. To learn more, visit https://cra.link/PWA'
           )
         })
       } else {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config)
-      }
-    })
-
-    window.addEventListener('beforeunload', async () => {
-      if (window.swNeedUpdate) {
-        await SWHelper.skipWaiting()
       }
     })
   }
