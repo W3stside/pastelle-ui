@@ -1,7 +1,7 @@
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
-import { devLog } from 'utils/logging'
+import { devError, devLog } from 'utils/logging'
 
 // This lets the app load faster on subsequent visits in production, and gives
 // it offline capabilities. However, it also means that developers (and users)
@@ -65,7 +65,7 @@ function registerValidSW(swUrl: string, config?: Config) {
       }
     })
     .catch(error => {
-      console.error('[SW] Error during service worker registration:', error)
+      devError('[SW] Error during service worker registration:', error)
     })
 }
 
@@ -139,7 +139,7 @@ export function unregister() {
         registration.unregister()
       })
       .catch(error => {
-        console.error(error.message)
+        devError(error.message)
       })
   }
 }
