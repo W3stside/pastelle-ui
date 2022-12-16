@@ -50,7 +50,7 @@ export const NavigationStepsWrapper = styled.nav<{
     width: 100%;
     
     > div:last-child {
-      width: 100%;
+      width: 90%;
       padding: 2rem;
       background: linear-gradient(267deg, #000000c2 33%, transparent);
       border-radius: 0 1rem 1rem 0;
@@ -134,8 +134,8 @@ export const SideEffectNavLink = styled.span`
 `
 
 // #1d1d1d
-export const InnerNavWrapper = styled(Column)<{ bgColor?: string }>`
-  width: 100%;
+export const InnerNavWrapper = styled(Column)<{ bgColor?: string; $width: string }>`
+  width: ${({ $width }) => $width};
   background-color: ${({ theme, bgColor = theme.blackOpaque2 }) => bgColor};
   padding: 1rem;
 

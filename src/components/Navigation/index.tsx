@@ -77,7 +77,7 @@ export default function Navigation({
         // ref={setNodeRef}
       >
         {/* <NavLogo parentNode={parentNode} logoSrcSet={currentProduct?.navLogo} /> */}
-        <InnerNavWrapper>
+        <InnerNavWrapper $width={isNavOpen ? '90%' : '100%'}>
           <ProductSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
             <Row flexDirection={'row-reverse'} flexWrap={'wrap'} justifyContent="center" style={{ gap: '0.5rem' }}>
               <div style={{ fontWeight: 300, fontSize: '1.2rem' }}>{COLLECTION_PARAM_NAME}</div>
@@ -113,7 +113,13 @@ export default function Navigation({
             )}
           </Column>
         </InnerNavWrapper>
-        <InnerNavWrapper margin="auto auto 1rem auto" padding="1.5rem 1rem" alignItems={'center'} bgColor="transparent">
+        <InnerNavWrapper
+          margin="auto auto 1rem auto"
+          padding="1.5rem 1rem"
+          alignItems={'center'}
+          bgColor="transparent"
+          $width={isNavOpen ? '90%' : '100%'}
+        >
           <div>
             <ThemeToggleBar themeToggleProps={{ width: '90%' }} />
           </div>
