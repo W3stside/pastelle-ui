@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useAppSelector } from 'state'
 import useStateRef from 'hooks/useStateRef'
-import { useGetSelectedProductShowcaseVideo, useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
+import { /* useGetSelectedProductShowcaseVideo, */ useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
 
 import { Row } from 'components/Layout'
 import { ProductContainer, ProductAsidePanel, ProductScreen, ScrollingProductLabel } from 'pages/common/styleds'
@@ -30,7 +30,7 @@ export default function CollectionProductPage({
   color = '#000',
   handle,
   images = [],
-  videos = [],
+  // videos = [],
   bgColor,
   navLogo,
   isActive,
@@ -47,7 +47,7 @@ export default function CollectionProductPage({
   // IMAGES
   const imageUrls = getImageSizeMap(images)
   // SELECTED SHOWCASE VIDEO
-  const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
+  // const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
   // CONTENT CONTAINER REF FOR DYNAMIC SIZE UPDATING AND CAROUSELS
   const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)
   // USER VIDEO AUTOPLAY SETTINGS
@@ -74,7 +74,7 @@ export default function CollectionProductPage({
             <ProductScreen>
               {/* Product carousel */}
               <Carousel
-                data={isMobile ? [...imageUrls, selectedVideo] : imageUrls}
+                data={isMobile ? [...imageUrls /* , selectedVideo */] : imageUrls}
                 startIndex={currentCarouselIndex}
                 accentColor={color}
                 videoProps={{ autoPlay }}
