@@ -66,7 +66,7 @@ const ThemeToggleBar = ({
         themeToggleProps={themeToggleProps}
         buttonProps={buttonProps}
       >
-        <span id="theme-toggle-label">{isDarkMode ? 'LIGHT' : 'DARK'}</span>
+        <span id="theme-toggle-label">{isDarkMode ? 'LIGHT MODE' : 'DARK MODE'}</span>
       </ThemeToggleButton>
     </Row>
   )

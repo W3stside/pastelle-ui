@@ -30,25 +30,40 @@ import { NETWORK_LABELS } from 'blockchain/constants'
 import { checkIsCollectionPage } from 'utils/navigation'
 import { isWeb3Enabled } from 'blockchain/connectors'
 import { useIsMediumWindowWidthSize } from 'state/window/hooks'
-import { useCurrentProductMedia } from 'state/collection/hooks'
+import { useCurrentProductMedia, useGetAllProductLogos } from 'state/collection/hooks'
 import { SkipBack } from 'react-feather'
+import { isMobile } from 'utils'
 
 export default function Header() {
   const location = useLocation()
+  const isCollectionPage = checkIsCollectionPage(location)
   const isEnabled = useMemo(() => isWeb3Enabled(), [])
-  const { headerLogoSet, color } = useCurrentProductMedia()
 
   const isMediumOrBelow = useIsMediumWindowWidthSize()
 
+  const productLogos = useGetAllProductLogos()
+  const { headerLogoSet: dynamicHeaderLogoSet, color } = useCurrentProductMedia()
+  // "randomly" select a product header from collection for header (on mobile collection view ONLY)
+  const staticRandomLogoSet = useMemo(
+    () => productLogos?.[Math.ceil(Math.random() * productLogos.length - 1)]?.headerLogo,
+    // only update when navving in-out of collection page on mobile
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isCollectionPage]
+  )
+
   return (
-    <HeaderFrame as="header" color={color} logoSet={headerLogoSet}>
+    <HeaderFrame
+      as="header"
+      color={color}
+      logoSet={isMobile && isCollectionPage ? staticRandomLogoSet : dynamicHeaderLogoSet}
+    >
       <HeaderRow>
         {/* ICON and HOME BUTTON */}
         <Title to="/#">
           <Pastellecon />
         </Title>
         {/* NAV */}
-        {!checkIsCollectionPage(location) && (
+        {!isCollectionPage && (
           <HeaderLinks id="header-links-container" color={color}>
             <StyledNavLink to={DEFAULT_COLLECTION_URL} style={{ alignItems: 'center', gap: '0.5rem' }}>
               <SkipBack size={12} /> {COLLECTION_PARAM_NAME.toLocaleUpperCase()}

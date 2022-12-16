@@ -40,6 +40,7 @@ const ThemeButtonToggleWrapper = styled.div<{
       color: ${({ theme }) => theme.offWhite};
       font-weight: 300;
       font-size: 1rem;
+      max-width: 22%;
       ${({ $mode }) => ($mode ? 'left: 10%;' : 'right: 10%;')}
     }
   }

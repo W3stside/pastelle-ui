@@ -1,28 +1,29 @@
 import { useDrag } from '@use-gesture/react'
 import { useSprings } from 'react-spring'
 import useInfiniteScrollSetup from './utils/useScrollSetup'
-import { InfiniteScrollHookOptions, SizeOptions } from './types'
+import { InfiniteScrollOptions } from './types'
 import { runInfiniteScrollSprings } from './utils/utils'
+import { SpringAnimationHookReturn } from './useLimitedSwipe'
 
 const DRAG_SPEED_COEFFICIENT = 0.5
 
 export default function useInfiniteHorizontalScroll(
   items: any[],
-  options: InfiniteScrollHookOptions,
-  sizeOptions: SizeOptions
-) {
+  options: InfiniteScrollOptions
+): SpringAnimationHookReturn {
   const {
     gestureParams,
     currentIndex,
-    firstPaintOver,
+    firstAnimationOver,
     scrollingZoneTarget,
     callbacks: { setFirstPaintOver, ...restCbs }
-  } = useInfiniteScrollSetup('x', sizeOptions, options)
+  } = useInfiniteScrollSetup('x', options)
 
   const [springs, api] = useSprings(items.length, i => ({
+    ...options?.styleMixin,
     x: (i < items.length - 1 ? i : -1) * gestureParams.itemSize,
     onRest() {
-      if (!firstPaintOver) {
+      if (!firstAnimationOver) {
         return setFirstPaintOver(true)
       }
     },
@@ -56,13 +57,14 @@ export default function useInfiniteHorizontalScroll(
   )
 
   return {
-    springs,
-    api,
-    bind,
     target: scrollingZoneTarget,
-    itemSize: gestureParams.itemSize,
-    currentIndex,
-    firstPaintOver,
-    ...restCbs
+    bind,
+    springs,
+    state: {
+      currentIndex,
+      itemSize: gestureParams.itemSize,
+      firstAnimationOver
+    },
+    refCallbacks: restCbs
   }
 }

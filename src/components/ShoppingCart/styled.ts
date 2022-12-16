@@ -3,7 +3,7 @@ import { transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
 import { Z_INDEXES } from 'constants/config'
-import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
+import { ItemHeader, ItemSubHeader } from 'pages/common/styleds'
 import { fromExtraLarge, OFF_WHITE, upToExtraSmall, upToMedium, upToSmall } from 'theme/utils'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
 import { setFadeInAnimation } from 'theme/styles/animations'

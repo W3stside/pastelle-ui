@@ -1,8 +1,13 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 import { ProductPageMap, updateCollection, ProductCurrentlyViewing, updateCurrentlyViewing } from './reducer'
-import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
+import { BaseProductPageProps } from 'pages/common/types'
 import { useParams } from 'react-router-dom'
+import { isMobile } from 'utils'
+import { reduceShopifyMediaToShowcaseVideos } from 'shopify/utils'
+import { useGetShowcaseSettings } from 'state/user/hooks'
+import { ShowcaseVideosProps } from 'components/Showcase/Videos'
+import { Product } from 'shopify/graphql/types'
 
 export function useUpdateCurrentlyViewing() {
   const dispatch = useAppDispatch()
@@ -11,6 +16,18 @@ export function useUpdateCurrentlyViewing() {
 }
 
 export const useOnScreenProductHandle = () => useAppSelector(({ collection }) => collection.currentlyViewing)
+export function useUpdateCurrentlyViewingProduct(
+  isActive: boolean | undefined,
+  product?: Pick<Product, 'handle' | 'id'> | null
+) {
+  const updateCurrentlyViewing = useUpdateCurrentlyViewing()
+  useEffect(() => {
+    if (isActive && product) {
+      updateCurrentlyViewing(product)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isActive, product?.handle, product?.id, updateCurrentlyViewing])
+}
 
 export function useCollection() {
   return useAppSelector(state => state.collection)
@@ -37,7 +54,7 @@ export function useGetCurrentCollectionProductsFromUrl() {
   const currentCollectionProduct = handle ? collection?.[handle] : undefined
   if (!currentCollectionProduct) return null
 
-  const collectionProductList: ProductPageProps[] = Object.values(currentCollectionProduct)
+  const collectionProductList: BaseProductPageProps[] = Object.values(currentCollectionProduct)
 
   return {
     collectionProductList,
@@ -66,4 +83,32 @@ export function useCurrentProductMedia() {
     }),
     [currentItem]
   )
+}
+
+export function useGetAllProductLogos() {
+  const { collection } = useCurrentCollection()
+  if (!collection) return null
+
+  return Object.values(collection).map(({ headerLogo, navLogo, logo }) => ({ headerLogo, navLogo, logo }))
+}
+
+export function useGetProductShowcaseVideos({ videos }: Pick<ShowcaseVideosProps, 'videos'>) {
+  const { gender, height, size: selectedSize } = useGetShowcaseSettings()
+
+  return useMemo(
+    () => ({
+      videoMap: videos.reduce(reduceShopifyMediaToShowcaseVideos, {}),
+      webKey: `${gender}-${height}-${selectedSize}`,
+      get mobileKey() {
+        return this.webKey + '-MOBILE'
+      }
+    }),
+    [gender, height, selectedSize, videos]
+  )
+}
+
+export function useGetSelectedProductShowcaseVideo(props: Pick<ShowcaseVideosProps, 'videos'>) {
+  const { videoMap, mobileKey, webKey } = useGetProductShowcaseVideos(props)
+
+  return useMemo(() => videoMap[isMobile ? mobileKey : webKey] || videoMap[webKey], [mobileKey, videoMap, webKey])
 }

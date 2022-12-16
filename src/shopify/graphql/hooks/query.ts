@@ -9,7 +9,7 @@ import {
   GetCartQueryVariables,
   GetCartQuery
 } from 'shopify/graphql/types'
-import { ProductPageProps, CollectionMap } from 'pages/SingleItem/AsideWithVideo'
+import { BaseProductPageProps, CollectionMap } from 'pages/common/types'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
 import { QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
 import { GET_CART } from '../queries/cart'
@@ -18,6 +18,7 @@ import { useParams } from 'react-router-dom'
 import { useMockQuery } from './mock/hooks'
 import { MOCK_COLLECTION_DATA } from './mock/queries'
 import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
+import { devError } from 'utils/logging'
 
 const isMock = process.env.REACT_APP_IS_MOCK === 'true'
 
@@ -54,11 +55,7 @@ export function useQueryCurrentCollection(
   const { data, error } = useQueryCollections(variables)
 
   if (error) {
-    console.error(
-      'Error fetching current collection using variables:' + JSON.stringify(variables, null, 2),
-      'Error:',
-      error
-    )
+    devError('Error fetching current collection using variables:' + JSON.stringify(variables, null, 2), 'Error:', error)
   }
 
   // collection
@@ -67,7 +64,7 @@ export function useQueryCurrentCollection(
   // products from collection mapped = collection
   const collectionProductList = mapShopifyProductToProps(collection?.products.nodes)
   // { [PRODUCT_HANDLE]: PRODUCT }
-  const collectionProductMap = collectionProductList.reduce((acc, product: ProductPageProps) => {
+  const collectionProductMap = collectionProductList.reduce((acc, product: BaseProductPageProps) => {
     acc[product.handle] = product
 
     return acc
@@ -109,7 +106,7 @@ export function useQueryProductVariantByKeyValue(variables: ProductVariantQueryV
     { variables }
   )
   if (error) {
-    console.error(error)
+    devError(error)
   }
 
   // return first
@@ -120,7 +117,7 @@ export function useQueryCart(variables: GetCartQueryVariables) {
   const { data, loading, error } = useQuery<GetCartQuery, GetCartQueryVariables>(GET_CART, { variables })
 
   if (error) {
-    console.error(error)
+    devError(error)
   }
 
   return { data, loading, error }

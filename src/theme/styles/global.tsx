@@ -3,6 +3,7 @@ import { transparentize } from 'polished'
 
 import { setTextColour, setBgColour, fromExtraLarge, BLUE } from '../utils'
 import FontStyles from './fonts'
+import { BASE_FONT_SIZE } from 'constants/sizes'
 
 export { FontStyles }
 
@@ -51,7 +52,7 @@ export const TopGlobalStyle = createGlobalStyle`
 
   html,
   body {
-    font-size: 10px;
+    font-size: ${BASE_FONT_SIZE}px;
     margin: 0;
     padding: 0;
   }

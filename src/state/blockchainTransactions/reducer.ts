@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { SafeMultisigTransactionResponse } from '@gnosis.pm/safe-service-client'
+import { devError, devWarn } from 'utils/logging'
 
 type WithChainId = { chainId: number }
 type WithData = { data?: any }
@@ -80,7 +81,7 @@ const transactionsSlice = createSlice({
       }: PayloadAction<AddTransactionParams>
     ) {
       if (transactions[chainId]?.[hash]) {
-        console.warn('[state::enhancedTransactions] Attempted to add existing transaction', hash)
+        devWarn('[state::enhancedTransactions] Attempted to add existing transaction', hash)
         // Unknown transaction. Do nothing!
         return
       }
@@ -138,7 +139,7 @@ const transactionsSlice = createSlice({
       }: PayloadAction<WithChainId & { oldHash: string; newHash: string; type: ReplacementType }>
     ) {
       if (!transactions[chainId]?.[oldHash]) {
-        console.error('Attempted to replace an unknown transaction.')
+        devError('Attempted to replace an unknown transaction.')
         return
       }
       const allTxs = transactions[chainId] ?? {}
@@ -161,7 +162,7 @@ const transactionsSlice = createSlice({
       const { safeTxHash, transactionHash } = safeTransaction
       const tx = transactions[chainId]?.[safeTxHash]
       if (!tx) {
-        console.warn('[updateSafeTransaction] Unknown safe transaction', safeTxHash)
+        devWarn('[updateSafeTransaction] Unknown safe transaction', safeTxHash)
         return
       }
 

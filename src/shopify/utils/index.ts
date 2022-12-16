@@ -1,5 +1,5 @@
 import { GenericImageSrcSet } from 'shopify/graphql/types'
-import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
+import { BaseProductPageProps } from 'pages/common/types'
 import {
   FragmentProductImageFragment,
   FragmentProductVideoFragment,
@@ -30,7 +30,11 @@ export function getMetafields<T>(query: any) {
   }
 }
 
-export const mapShopifyProductToProps = (data: ProductsList = []): ProductPageProps[] => {
+export function isProductVideo(data: any): data is FragmentProductVideoFragment {
+  return '__typename' in data && data.__typename === 'Video'
+}
+
+export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPageProps[] => {
   return data.map(datum => {
     const productImages = datum.images.nodes.slice(0, 2)
 
@@ -60,7 +64,7 @@ export const mapShopifyProductToProps = (data: ProductsList = []): ProductPagePr
       // TODO: fix
       images: productImages,
       // @ts-ignore - type
-      videos: datum.media.nodes.filter(media => media?.__typename === 'Video') as FragmentProductVideoFragment[],
+      videos: datum.media.nodes.filter(isProductVideo) as FragmentProductVideoFragment[],
       sizes: getMetafields<ProductSizes[]>(datum.sizes[0].values),
       shortDescription: getMetafields<string>(datum.shortDescription)
     }

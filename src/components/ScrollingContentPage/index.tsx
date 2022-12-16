@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import { FixedAnimatedLoader } from 'components/Loader'
-import { ScrollerContainer, AnimatedDivContainer } from './styleds'
+import { ScrollerContainer, AnimatedDivContainer, TouchAction } from './styleds'
 
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 import { useInfiniteVerticalScroll } from 'hooks/useScrollAnimation'
@@ -18,6 +18,7 @@ interface ScrollingContentPageParams<D> {
   hideHeight?: number
   showIndicator?: boolean
   withBoxShadow?: boolean
+  touchAction: TouchAction
   onContentClick?: (handle?: string) => void // React.MouseEventHandler<HTMLDivElement>
   IterableComponent: (props: D & ScrollableContentComponentBaseProps) => JSX.Element
 }
@@ -34,6 +35,7 @@ type Params<P> = ScrollingContentPageParams<P>
 export function ScrollingContentPage<D>({
   data,
   dataItem,
+  touchAction,
   fixedItemHeight,
   withBoxShadow = false,
   onContentClick,
@@ -43,26 +45,19 @@ export function ScrollingContentPage<D>({
   const {
     bind,
     springs,
-    itemSize: itemHeight,
-    currentIndex,
-    firstPaintOver,
-    setItemSizeRef: setHeightRef,
-    setScrollingZoneRef
-  } = useInfiniteVerticalScroll(
-    data,
-    {
-      visible: 2,
-
-      snapOnScroll: false,
-      // defaults to 0.8 scale on scroll and 1 scale default
-      scaleOptions: {
-        initialScale: isMobileWidth || isMobile ? 0.97 : 0.92
-      },
-      scrollSpeed: isMobile ? 0.4 : undefined,
-      config: STIFF_SPRINGS
+    state: { itemSize: itemHeight, currentIndex, firstAnimationOver: firstPaintOver },
+    refCallbacks: { setItemSizeRef: setHeightRef, setScrollingZoneRef }
+  } = useInfiniteVerticalScroll(data, {
+    visible: 2,
+    snapOnScroll: false,
+    // defaults to 0.8 scale on scroll and 1 scale default
+    scaleOptions: {
+      initialScale: isMobileWidth || isMobile ? 0.97 : 0.92
     },
-    { fixedSize: fixedItemHeight, minSize: MINIMUM_COLLECTION_ITEM_HEIGHT }
-  )
+    scrollSpeed: isMobile ? 0.4 : undefined,
+    config: STIFF_SPRINGS,
+    sizeOptions: { fixedSize: fixedItemHeight, minSize: MINIMUM_COLLECTION_ITEM_HEIGHT }
+  })
 
   /**
    * Reference ELEM for which we:
@@ -93,28 +88,37 @@ export function ScrollingContentPage<D>({
         left="50%"
         width="40vw"
       />
-      <ScrollerContainer $isVerticalScroll {...bind()}>
-        {springs.map(({ y, scale }, i) => {
+      <ScrollerContainer $touchAction={touchAction} $isVerticalScroll {...bind()}>
+        {springs.map(({ y, scale }, i, { length }) => {
+          const product = data[i] as Product
+          const isActive = currentIndex === i
+
           return (
             <AnimatedDivContainer
               {...bind(i)}
-              key={i}
-              $touchAction="none"
-              style={{ scale, height: itemHeight, y }}
+              key={product.id}
+              $touchAction={touchAction}
+              // z-index here is to set the next card under the stack
+              style={{ scale, height: itemHeight, y, zIndex: length * 2 - i }}
               $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
               $withBoxShadow={withBoxShadow}
               onClick={() => handleItemSelect(i)}
               $isVerticalScroll
             >
               <IterableComponent
+                fixedSizes={{
+                  fixedHeight: fixedItemHeight,
+                  fixedWidth: fixedItemHeight
+                }}
                 loadInViewOptions={{
                   container: HEIGHT_AND_VIEW_TARGET || document,
                   conditionalCheck: firstPaintOver
                 }}
-                firstPaintOver={firstPaintOver}
-                isActive={currentIndex === i}
-                itemIndex={currentIndex}
-                key={i}
+                // undefined = paint is over
+                firstPaintOver={firstPaintOver !== false}
+                isActive={isActive}
+                itemIndex={i}
+                key={product.id}
                 {...data[i]}
               />
             </AnimatedDivContainer>

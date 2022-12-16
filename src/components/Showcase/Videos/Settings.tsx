@@ -1,5 +1,5 @@
 import { Row } from 'components/Layout'
-import { ItemSubHeader } from 'pages/SingleItem/styleds'
+import { ItemSubHeader } from 'pages/common/styleds'
 import { PauseCircle, PlayCircle, ToggleLeft, ToggleRight } from 'react-feather'
 import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
 import styled from 'styled-components/macro'

@@ -1,8 +1,8 @@
 import { Menu, X } from 'react-feather'
 import { useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ItemSubHeader } from 'pages/SingleItem/styleds'
-import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
+import { ItemSubHeader } from 'pages/common/styleds'
+import { BaseProductPageProps } from 'pages/common/types'
 import LoadingRows from 'components/Loader/LoadingRows'
 import { useCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
 import { buildItemUrl } from 'utils/navigation'
@@ -12,7 +12,6 @@ import { WHITE } from 'theme/utils'
 import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Row } from 'components/Layout'
 import ThemeToggleBar from 'components/ThemeToggler'
-import useStateRef from 'hooks/useStateRef'
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string }
 
@@ -39,11 +38,15 @@ export default function Navigation({
   }, [isNavOpen])
 
   const NavToggleButton = useMemo(() => {
-    return <div>{isNavOpen ? <X size={20} /> : <Menu size={navOrbProps?.menuSize || 20} />}</div>
+    return (
+      <Row alignItems={'center'} gap="1rem">
+        {isNavOpen ? <X size={20} /> : <Menu size={navOrbProps?.menuSize || 20} />}
+      </Row>
+    )
   }, [isNavOpen, navOrbProps?.menuSize])
 
   const handleNavMove = useCallback(
-    (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, product: ProductPageProps) => {
+    (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, product: BaseProductPageProps) => {
       e.preventDefault()
       isNavOpen && toggleNav()
 
@@ -51,8 +54,6 @@ export default function Navigation({
     },
     [navigate, isNavOpen, toggleNav]
   )
-
-  const [, /* parentNode */ setNodeRef] = useStateRef<HTMLDivElement | null>(null, node => node)
 
   // close open nav on resize
   useOnResize(() => setIsNavOpen(false), isNavOpen)
@@ -67,7 +68,7 @@ export default function Navigation({
         minWidth="9vw"
         width="16.5rem"
         currentMedia={{ navLogoSet: currentProduct?.navLogo, color: currentProduct?.color }}
-        ref={setNodeRef}
+        // ref={setNodeRef}
       >
         {/* <NavLogo parentNode={parentNode} logoSrcSet={currentProduct?.navLogo} /> */}
         <InnerNavWrapper>
@@ -98,7 +99,9 @@ export default function Navigation({
           )}
         </InnerNavWrapper>
         <InnerNavWrapper margin="auto auto 1rem auto" padding="1.5rem 1rem" alignItems={'center'} bgColor="transparent">
-          <ThemeToggleBar themeToggleProps={{ width: '90%' }} />
+          <div>
+            <ThemeToggleBar themeToggleProps={{ width: '90%' }} />
+          </div>
         </InnerNavWrapper>
       </NavigationStepsWrapper>
     </>

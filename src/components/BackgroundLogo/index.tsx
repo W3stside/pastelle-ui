@@ -1,9 +1,10 @@
 import SmartImg from 'components/SmartImg'
-import { SingleItemPageProps } from 'pages/SingleItem/AsideWithVideo'
 import { LogoContainer } from './styleds'
+import useStateRef from 'hooks/useStateRef'
+import { GenericImageSrcSet } from 'shopify/graphql/types'
 
 export interface LogoProps {
-  logoSrcSet: SingleItemPageProps['headerLogo']
+  logoSrcSet: GenericImageSrcSet
   parentNode: HTMLElement | null
   isHeader: boolean
 }
@@ -26,3 +27,15 @@ export function Logo({ logoSrcSet, parentNode, isHeader }: LogoProps) {
 
 export const HeaderLogo = (props: Omit<LogoProps, 'isHeader'>) => <Logo {...props} isHeader />
 export const NavLogo = (props: Omit<LogoProps, 'isHeader'>) => <Logo {...props} isHeader={false} />
+
+export default function useLogo(props: Omit<LogoProps, 'parentNode'>) {
+  const [node, setNodeRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+
+  return {
+    Logo: () => (props.logoSrcSet ? <Logo parentNode={node} {...props} /> : null),
+    ref: {
+      setRef: setNodeRef,
+      ref: node
+    }
+  }
+}

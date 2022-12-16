@@ -1,9 +1,12 @@
 import { useRef } from 'react'
 import { useGesture } from '@use-gesture/react'
 import { useSprings } from 'react-spring'
-import { InfiniteScrollHookOptions, SizeOptions } from './types'
+import { InfiniteScrollOptions } from './types'
 import useInfiniteScrollSetup from './utils/useScrollSetup'
-import { getNearestAxisPoint, runInfiniteScrollSprings } from './utils/utils'
+import utils, { runInfiniteScrollSprings } from './utils/utils'
+import { isMobile } from 'utils'
+import { STIFF_SPRINGS } from 'constants/springs'
+import { SpringAnimationHookReturn } from './useLimitedSwipe'
 
 const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 3.2,
@@ -14,33 +17,31 @@ const CONFIG = {
 
 export default function useInfiniteVerticalScroll(
   items: any[],
-  options: InfiniteScrollHookOptions,
-  sizeOptions: SizeOptions
-) {
+  options: InfiniteScrollOptions
+): SpringAnimationHookReturn {
   const {
     gestureParams,
     currentIndex,
-    firstPaintOver,
-    // scrollingZoneTarget,
+    firstAnimationOver,
     callbacks: { setFirstPaintOver, ...restCbs }
-  } = useInfiniteScrollSetup('y', sizeOptions, options)
+  } = useInfiniteScrollSetup('y', options)
 
-  const [springs, api] = useSprings(
+  const lastIndex = items.length - 1
+
+  const gestureApi = useSprings(
     items.length,
     i => ({
+      ...options?.styleMixin,
       scale: options.scaleOptions.initialScale || 0.92,
-      y: (i < items.length - 1 ? i : -1) * gestureParams.itemSize,
+      y: (i < lastIndex ? i : -1) * gestureParams.itemSize,
       onRest: () => {
         // useful in knowing when the FIRST animation has ended
         // like for setup
-        if (!firstPaintOver) {
+        if (!firstAnimationOver) {
           setFirstPaintOver(true)
         }
       },
-      from: {
-        scale: options.scaleOptions.initialScale || 0.92,
-        y: i * gestureParams.itemSize
-      }
+      config: STIFF_SPRINGS
     }),
     [gestureParams.itemSize]
   )
@@ -48,29 +49,20 @@ export default function useInfiniteVerticalScroll(
   const wheelOffset = useRef(0)
   const dragOffset = useRef(0)
 
+  const dragIndexRef = useRef(0)
+
   const bind = useGesture(
     {
-      onDrag: ({ active, last, offset: [, y], movement: [, my], direction: [, dy] }) => {
-        if (dy) {
-          const aY = getNearestAxisPoint(y, gestureParams.itemSize)
-          dragOffset.current = -aY ?? -y
-          const computedY = wheelOffset.current + -y / CONFIG.DRAG_SPEED_COEFFICIENT
-          runInfiniteScrollSprings(api, 'y', {
-            ...gestureParams,
-            dataLength: items.length,
-            active,
-            axis: computedY,
-            dAxis: -dy,
-            mAxis: -my,
-            last
-          })
-        }
-      },
+      onDrag: utils.drag.limited(gestureApi, {
+        axis: 'y',
+        itemSize: gestureParams.itemSize,
+        indexOptions: { current: dragIndexRef, setIndex: undefined, last: lastIndex }
+      }),
       onWheel: ({ active, last, offset: [, y], movement: [, my], direction: [, dy] }) => {
         if (dy) {
           wheelOffset.current = y
           const computedY = dragOffset.current + y / CONFIG.SCROLL_SPEED_COEFFICIENT
-          runInfiniteScrollSprings(api, 'y', {
+          runInfiniteScrollSprings(gestureApi[1], 'y', {
             ...gestureParams,
             dataLength: items.length,
             active,
@@ -83,17 +75,22 @@ export default function useInfiniteVerticalScroll(
       }
     },
     {
-      eventOptions: { passive: false, once: true, capture: false }
+      drag: {
+        axis: 'y',
+        preventScrollAxis: 'x'
+      }
     }
   )
 
   return {
     bind,
-    springs,
-    api,
-    itemSize: gestureParams.itemSize,
-    currentIndex,
-    firstPaintOver,
-    ...restCbs
+    springs: gestureApi[0],
+    state: {
+      // TODO: check we want this
+      currentIndex: isMobile ? 0 : currentIndex,
+      itemSize: gestureParams.itemSize,
+      firstAnimationOver
+    },
+    refCallbacks: restCbs
   }
 }

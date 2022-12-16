@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useGetWindowSize } from 'state/window/hooks'
 import { BaseCarouselProps } from './types'
 
-export function useCarouselSetup({ fixedHeight }: Pick<BaseCarouselProps, 'fixedHeight' | 'startIndex'>) {
+export function useCarouselSetup({ fixedSizes }: Pick<BaseCarouselProps, 'fixedSizes'>) {
   const [parentWidth, setParentWidth] = useState<number | undefined>()
 
   // ref to carousel container
@@ -27,18 +27,29 @@ export function useCarouselSetup({ fixedHeight }: Pick<BaseCarouselProps, 'fixed
   const imageTransformations = useMemo(
     () => [
       {
-        width: carouselContainer?.clientWidth || 0,
-        height: fixedHeight ? carouselContainer?.clientWidth || 0 : carouselContainer?.clientHeight || 0,
+        width: _getTransformationsFromValue(fixedSizes?.fixedWidth, carouselContainer?.clientWidth || 0),
+        height: _getTransformationsFromValue(
+          fixedSizes?.fixedHeight,
+          carouselContainer?.clientHeight || carouselContainer?.clientWidth || 0
+        ),
         pr: true
       }
     ],
-    [fixedHeight, carouselContainer?.clientWidth, carouselContainer?.clientHeight]
+    [fixedSizes, carouselContainer?.clientWidth, carouselContainer?.clientHeight]
   )
 
   return {
-    parentWidth,
+    parentWidth: fixedSizes?.fixedWidth || parentWidth,
     carouselContainer,
     imageTransformations,
     setCarouselContainerRef
   }
+}
+
+function _getTransformationsFromValue(val?: string | number, fallback?: number) {
+  if (!val || typeof val === 'string') {
+    return undefined
+  }
+
+  return fallback || val
 }

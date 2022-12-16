@@ -11,7 +11,7 @@ import { useBlockNumber } from 'state/blockchain/hooks'
 import { AppState } from '../index'
 import { errorFetchingMulticallResults, fetchingMulticallResults, updateMulticallResults } from './actions'
 import { Call, parseCallKey, toCallKey } from './utils'
-import { devDebug } from 'utils/logging'
+import { devDebug, devError, devWarn } from 'utils/logging'
 
 const DEFAULT_CALL_GAS_REQUIRED = 1_000_000
 
@@ -47,7 +47,7 @@ export async function fetchChunk(
           returnData.length === 2 &&
           gasUsed.gte(Math.floor((chunk[i].gasRequired ?? DEFAULT_CALL_GAS_REQUIRED) * 0.95))
         ) {
-          console.warn(
+          devWarn(
             `A call failed due to requiring ${gasUsed.toString()} vs. allowed ${chunk[i].gasRequired ??
               DEFAULT_CALL_GAS_REQUIRED}`,
             chunk[i]
@@ -73,7 +73,7 @@ export async function fetchChunk(
         return c0.concat(c1)
       }
     }
-    console.error('Failed to fetch chunk', error)
+    devError('Failed to fetch chunk', error)
     throw error
   }
 }
@@ -250,7 +250,7 @@ export default function Updater(): null {
               devDebug('Cancelled fetch for blockNumber', latestBlockNumber, chunk, chainId)
               return
             }
-            console.error('Failed to fetch blockchainMulticall chunk', chunk, chainId, error)
+            devError('Failed to fetch blockchainMulticall chunk', chunk, chainId, error)
             dispatch(
               errorFetchingMulticallResults({
                 calls: chunk,

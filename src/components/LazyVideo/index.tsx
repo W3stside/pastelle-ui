@@ -5,12 +5,12 @@ import { Row } from 'components/Layout'
 
 import useDetectScrollIntoView from 'hooks/useDetectScrollIntoView'
 
-import { ItemHeader, ItemSubHeader, VideoPlayCTAOverlay } from 'pages/SingleItem/styleds'
+import { ItemHeader, ItemSubHeader, VideoPlayCTAOverlay } from 'pages/common/styleds'
 
 import { BoxProps } from 'rebass'
 import { getThemeColours, OFF_WHITE } from 'theme/utils'
 import { Play } from 'react-feather'
-import { getMobileShowcaseVideoWidth } from 'pages/SingleItem/utils'
+import { getMobileShowcaseVideoWidth } from 'pages/common/utils'
 import { useCurrentProductMedia } from 'state/collection/hooks'
 
 import PastelleCirclePinkYellow from 'assets/svg/pastelle-circle-pink-yellow.svg'

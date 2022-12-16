@@ -27,6 +27,7 @@ import {
   MULTICALL_ADDRESS,
   WETH9_EXTENDED
 } from 'blockchain/constants'
+import { devError } from 'utils/logging'
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(
@@ -45,7 +46,7 @@ export function useContract<T extends Contract = Contract>(
     try {
       return getContract(address, ABI, provider, withSignerIfPossible && account ? account : undefined)
     } catch (error) {
-      console.error('Failed to get contract', error)
+      devError('Failed to get contract', error)
       return null
     }
   }, [addressOrAddressMap, ABI, provider, chainId, withSignerIfPossible, account]) as T

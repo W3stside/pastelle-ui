@@ -3,7 +3,7 @@ import Button from 'components/Button'
 import { MobileNavProps } from '.'
 import { Z_INDEXES } from 'constants/config'
 import { Column, Row } from 'components/Layout'
-import { BLACK, setBackgroundWithDPI, setBestTextColour, upToExtraSmall, upToMedium } from 'theme/utils'
+import { BLACK, setBackgroundWithDPI, setBestTextColour, upToMedium } from 'theme/utils'
 import { setFlickerAnimation } from 'theme/styles/animations'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
 
@@ -21,9 +21,7 @@ export const NavigationStepsWrapper = styled.nav<{
   flex-flow: column nowrap;
   justify-content: start;
   align-items: start;
-
   text-align: left;
-
   gap: 0px;
 
   ${({ theme, currentMedia: { navLogoSet, color = BLACK } }) =>
@@ -49,21 +47,26 @@ export const NavigationStepsWrapper = styled.nav<{
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding-bottom: 7rem;
     width: 100%;
     
     // theme toggler
     // TODO: change when you don't want CSS BGs for logos (e.g use component)
-    > ${InnerNavWrapper}:nth-child(2) {
-      display: none;
+    > ${InnerNavWrapper} {
+      margin-top: auto;
+      > div:last-child {
+        width: 100%;
+        padding: 2rem;
+        background: linear-gradient(267deg, #000000c2 33%, transparent);
+        border-radius: 0 1rem 1rem 0;
+        > div {
+          width: 13rem;
+          margin: auto 0 0 auto;
+        } 
+      }
     }
     
     width: ${isOpen ? '100%' : '0px'};
     opacity: ${isOpen ? '1' : '0'};
-  `}
-
-  ${upToExtraSmall`
-    bottom: 6rem;
   `}
 `
 
@@ -74,6 +77,9 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   cursor: pointer;
   z-index: ${Z_INDEXES.NAV_MENU + 1};
   gap: 5px;
+
+  padding-right: 0;
+  // margin-right: -1rem;
 
   > div {
     display: flex;
@@ -125,4 +131,8 @@ export const InnerNavWrapper = styled(Column)<{ bgColor?: string }>`
   width: 100%;
   background-color: ${({ theme, bgColor = theme.blackOpaque2 }) => bgColor};
   padding: 1rem;
+
+  > div {
+    width: 90%;
+  }
 `

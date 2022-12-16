@@ -38,9 +38,9 @@ const StyledDialogContent = styled(({ minHeight, maxHeight, mobile, isOpen, isLa
   'aria-label': 'dialog'
 })`
   border: none;
-  height: ${({ mobile }) => (mobile ? '80%' : '100%')};
+  height: ${({ mobile }) => (mobile ? '100%' : '100%')};
   ${upToExtraSmall`
-    height: 80%;
+    height: 100%;
   `}
 
   &[data-reach-dialog-content] {

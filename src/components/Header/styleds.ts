@@ -102,9 +102,7 @@ export const Title = styled(NavLink)`
   pointer-events: auto;
   justify-self: flex-start;
   margin-right: 12px;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    justify-self: center;
-  `};
+
   :hover {
     cursor: pointer;
   }
@@ -131,7 +129,6 @@ export const HeaderRow = styled(RowFixed)`
 
   > ${ShoppingCartFullWrapper} {
     margin-left: auto;
-    margin-right: 2rem;
   }
 
   ${upToExtraSmall`
@@ -229,8 +226,8 @@ export const Pastellecon = styled.div`
   width: 100%;
   transition: transform 0.3s ease;
 
-  background: url(${PastelleLogoSharpShort}) center/contain no-repeat;
-  ${fromExtraSmall`background: url(${PastelleLogoCursiveLong}) center/contain no-repeat;`}
+  background: url(${PastelleLogoSharpShort}) left/contain no-repeat;
+  ${fromExtraSmall`background: url(${PastelleLogoCursiveLong}) left/contain no-repeat;`}
 
   &:hover {
     transform: rotate(-5deg);

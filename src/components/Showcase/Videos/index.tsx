@@ -1,36 +1,41 @@
-import { useMemo } from 'react'
-import { ItemVideoContent, ItemVideoContentProps } from 'pages/SingleItem/ItemVideoContent'
-import { SingleItemPageProps } from 'pages/SingleItem/AsideWithVideo'
-import { useGetShowcaseSettings } from 'state/user/hooks'
-import { reduceShopifyMediaToShowcaseVideos } from 'shopify/utils'
+import { ItemVideoContent, ItemVideoContentProps } from 'pages/SingleProduct/ItemVideoContent'
+import { CollectionPageProps } from 'pages/common/types'
 import { ShowcaseAlertMessages } from 'components/Common'
 import { IS_PRE_PROD } from 'constants/env'
+import { FragmentProductVideoFragment } from 'shopify/graphql/types'
+import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
 
-type ShowcaseVideosProps = Pick<SingleItemPageProps, 'firstPaintOver' | 'videos'> &
+export type ShowcaseVideosProps = Pick<CollectionPageProps, 'firstPaintOver' | 'videos'> &
   ItemVideoContentProps & {
     hideVideo: boolean
+    fallback?: React.ReactNode
   }
+export type SelectedShowcaseVideoProps = Omit<ShowcaseVideosProps, 'videos'> & {
+  selectedVideo: FragmentProductVideoFragment
+}
+export function SelectedShowcaseVideo({
+  selectedVideo,
+  fallback,
+  hideVideo,
+  ...restProps
+}: SelectedShowcaseVideoProps) {
+  if (hideVideo) return null
+  return (
+    <>
+      <ShowcaseAlertMessages>
+        {IS_PRE_PROD && <div>PLACEHOLDER VIDEO CONTENT - REAL CONTENT COMING SOON</div>}
+      </ShowcaseAlertMessages>
+      {selectedVideo ? (
+        <ItemVideoContent {...restProps} videos={[selectedVideo]} currentCarouselIndex={null} />
+      ) : (
+        fallback
+      )}
+    </>
+  )
+}
 
-export default function ShowcaseVideos({ hideVideo, videos, ...restProps }: ShowcaseVideosProps) {
-  const { gender, height, size: selectedSize } = useGetShowcaseSettings()
+export default function ShowcaseVideos({ videos, ...restProps }: ShowcaseVideosProps) {
+  const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
 
-  const showcaseVideosMap = useMemo(() => videos.reduce(reduceShopifyMediaToShowcaseVideos, {}), [videos])
-  const showcaseVideoKey = useMemo(() => `${gender}-${height}-${selectedSize}`, [gender, height, selectedSize])
-
-  return useMemo(() => {
-    const hasVideoForSize = !!showcaseVideosMap[showcaseVideoKey]
-
-    return hideVideo ? null : (
-      <>
-        <ShowcaseAlertMessages>
-          {IS_PRE_PROD && <div>PLACEHOLDER VIDEO CONTENT - REAL CONTENT COMING SOON</div>}
-        </ShowcaseAlertMessages>
-        <ItemVideoContent
-          {...restProps}
-          videos={hasVideoForSize ? [showcaseVideosMap[showcaseVideoKey]] : videos}
-          currentCarouselIndex={null}
-        />
-      </>
-    )
-  }, [hideVideo, restProps, showcaseVideoKey, showcaseVideosMap, videos])
+  return <SelectedShowcaseVideo selectedVideo={selectedVideo} {...restProps} />
 }
