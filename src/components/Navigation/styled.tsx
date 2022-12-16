@@ -21,9 +21,7 @@ export const NavigationStepsWrapper = styled.nav<{
   flex-flow: column nowrap;
   justify-content: start;
   align-items: start;
-
   text-align: left;
-
   gap: 0px;
 
   ${({ theme, currentMedia: { navLogoSet, color = BLACK } }) =>
@@ -133,4 +131,8 @@ export const InnerNavWrapper = styled(Column)<{ bgColor?: string }>`
   width: 100%;
   background-color: ${({ theme, bgColor = theme.blackOpaque2 }) => bgColor};
   padding: 1rem;
+
+  > div {
+    width: 90%;
+  }
 `
