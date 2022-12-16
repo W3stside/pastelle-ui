@@ -1,5 +1,5 @@
 import { Row } from 'components/Layout'
-import { ItemBreadcrumb } from 'pages/SingleItem/styleds'
+import { ItemBreadcrumb } from 'pages/common/styleds'
 import { BoxProps } from 'rebass'
 
 export function Breadcrumbs({

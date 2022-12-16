@@ -4,7 +4,7 @@ import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 import { Column, Row } from 'components/Layout'
 import LoadingRows from 'components/Loader/LoadingRows'
 import SmartImg from 'components/SmartImg'
-import { ItemSubHeader } from 'pages/SingleItem/styleds'
+import { ItemSubHeader } from 'pages/common/styleds'
 import { useQueryCart } from 'shopify/graphql/hooks'
 import { FragmentCartCostFragment, FragmentCartLineFragment, GetCartQuery, ProductSizes } from 'shopify/graphql/types'
 import {

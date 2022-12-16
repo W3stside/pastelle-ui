@@ -9,7 +9,7 @@ import {
   GetCartQueryVariables,
   GetCartQuery
 } from 'shopify/graphql/types'
-import { ProductPageProps, CollectionMap } from 'pages/SingleItem/AsideWithVideo'
+import { BaseProductPageProps, CollectionMap } from 'pages/common/types'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
 import { QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
 import { GET_CART } from '../queries/cart'
@@ -64,7 +64,7 @@ export function useQueryCurrentCollection(
   // products from collection mapped = collection
   const collectionProductList = mapShopifyProductToProps(collection?.products.nodes)
   // { [PRODUCT_HANDLE]: PRODUCT }
-  const collectionProductMap = collectionProductList.reduce((acc, product: ProductPageProps) => {
+  const collectionProductMap = collectionProductList.reduce((acc, product: BaseProductPageProps) => {
     acc[product.handle] = product
 
     return acc

@@ -1,6 +1,6 @@
 import Button, { ButtonVariations, ButtonSizeVariations, ButtonProps } from 'components/Button'
 import ErrorMessage from 'components/ErrorMessage'
-import { ItemDescription } from 'pages/SingleItem/styleds'
+import { ItemDescription } from 'pages/common/styleds'
 import { useCallback, useEffect, useState } from 'react'
 import { useAddLineToCartAndUpdateReduxCallback } from 'state/cart/hooks'
 

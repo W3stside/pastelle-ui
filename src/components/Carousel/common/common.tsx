@@ -6,7 +6,9 @@ import {
   StaticCarouselStep,
   CarouselIndicator,
   CarouselIndicatorWrapper
-} from './styleds'
+} from './components/styleds'
+import { SelectedShowcaseVideoProps, SelectedShowcaseVideo } from 'components/Showcase/Videos'
+import { Z_INDEXES } from 'constants/config'
 
 export type CarouselStepsProps = Pick<BaseCarouselProps, 'accentColor' | 'onCarouselItemClick'> & {
   children: React.ReactNode
@@ -75,5 +77,29 @@ export const CarouselIndicators = ({
         <CarouselIndicator key={index} isCurrent={currentIndex === index} color={color} />
       ))}
     </CarouselIndicatorWrapper>
+  )
+}
+
+export function CarouselShowcaseVideo({
+  selectedVideo,
+  videoProps,
+  ...restProps
+}: Omit<SelectedShowcaseVideoProps, 'isMobileWidth'>) {
+  return (
+    <SelectedShowcaseVideo
+      {...restProps}
+      selectedVideo={selectedVideo}
+      videoProps={{
+        ...videoProps,
+        style: {
+          cursor: 'pointer'
+        }
+      }}
+      zIndex={Z_INDEXES.PRODUCT_VIDEOS}
+      height={'100%'}
+      margin="0 0 2rem"
+      title="Tap to play/pause"
+      isMobileWidth
+    />
   )
 }

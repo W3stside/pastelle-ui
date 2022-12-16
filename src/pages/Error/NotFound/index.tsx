@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import ButtonPrimary, { ButtonVariations } from 'components/Button'
-import { ItemHeader, ItemSubHeader } from 'pages/SingleItem/styleds'
+import { ItemHeader, ItemSubHeader } from 'pages/common/styleds'
 import SmartImg from 'components/SmartImg'
 import { Z_INDEXES } from 'constants/config'
 import { transparentize } from 'polished'

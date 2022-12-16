@@ -1,7 +1,7 @@
 import { useState, useCallback, ReactNode } from 'react'
 import { isMobile } from 'react-device-detect'
 import { Z_INDEXES } from 'constants/config'
-import { SubItemDescription } from 'pages/SingleItem/styleds'
+import { SubItemDescription } from 'pages/common/styleds'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 import { TinyHelperText } from 'components/Common'
 import { TYPE } from 'theme'

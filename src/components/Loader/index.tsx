@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { ItemSubHeader } from 'pages/SingleItem/styleds'
+import { ItemSubHeader } from 'pages/common/styleds'
 import styled from 'styled-components/macro'
 import { rotateKeyframe } from 'theme/styles/animations'
 import { setBackgroundWithDPI } from 'theme/utils'

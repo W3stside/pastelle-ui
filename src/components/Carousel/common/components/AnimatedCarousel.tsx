@@ -1,8 +1,8 @@
 import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
-import { CarouselIndicators, CarouselStep } from './common'
-import { useCarouselSetup } from './hooks'
+import { CarouselIndicators, CarouselStep } from '../common'
+import { useCarouselSetup } from '../hooks'
 import { CarouselContainer } from './styleds'
-import { BaseAnimatedCarouselProps } from './types'
+import { BaseAnimatedCarouselProps } from '../types'
 
 export default function AnimatedCarousel({
   data,

@@ -8,9 +8,9 @@ export interface BaseCarouselProps {
   startIndex: number
   accentColor: string
   fixedSizes: { fixedWidth: number; fixedHeight: number } | undefined
-  collectionView?: boolean
   transformation?: SmartImageProps['transformation']
   fullSizeContent?: boolean
+  parentNode?: HTMLElement
   onCarouselItemClick?: () => void
   children: ({ index, imageTransformations, isLast }: CarouselChildrenProps) => React.ReactNode
 }

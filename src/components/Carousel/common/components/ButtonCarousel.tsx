@@ -1,9 +1,9 @@
 import { ForwardedRef, forwardRef, useMemo, useState } from 'react'
 import { setForwardedRef } from 'utils'
-import { CarouselStep } from './common'
-import { useCarouselSetup } from './hooks'
+import { CarouselStep } from '../common'
+import { useCarouselSetup } from '../hooks'
 import { CarouselContainer } from './styleds'
-import { BaseCarouselProps } from './types'
+import { BaseCarouselProps } from '../types'
 
 export interface ButtonCarouselProps extends BaseCarouselProps {
   showButtons?: boolean
@@ -15,11 +15,10 @@ export default function ButtonCarousel({
   data,
   startIndex,
   fixedSizes,
-  accentColor,
   forwardedRef,
   onCarouselChange,
   children,
-  onCarouselItemClick
+  ...rest
 }: ButtonCarouselProps) {
   const [selectedStep, setSelectedStep] = useState(startIndex)
   const { parentWidth, imageTransformations, setCarouselContainerRef } = useCarouselSetup({
@@ -82,16 +81,14 @@ export default function ButtonCarousel({
 
         return (
           <CarouselStep
+            {...rest}
             key={index}
             index={index}
-            accentColor={accentColor}
             transformAmount={calculatedWidth}
             parentWidth={parentWidth}
             isMultipleCarousel={!!data.length}
-            showButtons
             onPrev={onPrevious}
             onNext={onNext}
-            onCarouselItemClick={onCarouselItemClick}
           >
             {children({ index, imageTransformations, isLast: index === length - 1 })}
           </CarouselStep>

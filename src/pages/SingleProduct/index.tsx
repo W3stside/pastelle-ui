@@ -1,6 +1,7 @@
 import { ArticleFadeInContainer } from 'components/Layout/Article'
+import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useCurrentCollection } from 'state/collection/hooks'
+import { useCurrentCollection, useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
 import AsideWithVideo from './AsideWithVideo'
 
 export default function SingleItem() {
@@ -9,7 +10,11 @@ export default function SingleItem() {
 
   const { collection } = useCurrentCollection()
 
-  const product = handle ? collection?.[handle] : null
+  const product = useMemo(() => (handle ? collection?.[handle] : null), [collection, handle])
+
+  // update state store with current browsing SINGLE product
+  useUpdateCurrentlyViewingProduct(true, product)
+
   // redirect if no product
   if (!product) {
     navigate('/404')
@@ -18,7 +23,7 @@ export default function SingleItem() {
 
   return (
     <ArticleFadeInContainer id="COLLECTION-ARTICLE">
-      <AsideWithVideo {...product} firstPaintOver isActive itemIndex={0} showBreadCrumbs />
+      <AsideWithVideo {...product} />
     </ArticleFadeInContainer>
   )
 }

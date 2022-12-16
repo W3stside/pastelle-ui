@@ -1,0 +1,1 @@
+export const DEFAULT_MEDIA_START_INDEX = 0

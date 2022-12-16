@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom'
 
 import { useCurrentCollection } from 'state/collection/hooks'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
-import AsideWithVideo, { SingleItemPageProps } from 'pages/SingleItem/AsideWithVideo'
+import AsideWithVideo from 'pages/Collection/AsideWithVideo'
+import { CollectionPageProps } from 'pages/common/types'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
-import { isMobile } from 'utils'
 import { buildItemUrl } from 'utils/navigation'
 import useStateRef from 'hooks/useStateRef'
 import { BASE_FONT_SIZE, HEADER_HEIGHT_REM } from 'constants/sizes'
+import { isMobile } from 'utils'
 
 const PRODUCT_LABEL_HEIGHT_REM = 7
 export default function Collection() {
@@ -35,17 +36,8 @@ export default function Collection() {
   )
 
   const AsideWithVideoAux = useCallback(
-    (
-      props: { onClick?: () => void } & Omit<SingleItemPageProps, 'collectionView' | 'showBreadCrumbs' | 'loadInView'>
-    ) => (
-      <AsideWithVideo
-        {...props}
-        // collection mode
-        collectionView
-        showBreadCrumbs={false}
-        loadInViewOptions={{ container: document, conditionalCheck: true }}
-        showProductLabel
-      />
+    (props: { onClick?: () => void } & Omit<CollectionPageProps, 'loadInView'>) => (
+      <AsideWithVideo {...props} firstPaintOver loadInViewOptions={{ container: document, conditionalCheck: true }} />
     ),
     []
   )
@@ -67,8 +59,8 @@ export default function Collection() {
       ) : (
         <AsideWithVideoAux
           {...collectionProductList[0]}
-          itemIndex={0}
           isActive
+          itemIndex={0}
           firstPaintOver
           onClick={onContentClick}
         />

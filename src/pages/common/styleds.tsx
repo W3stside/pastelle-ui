@@ -3,13 +3,13 @@ import styled, { css } from 'styled-components/macro'
 import { darken, transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
-import { ProductPageProps } from './AsideWithVideo'
+import { BaseProductPageProps } from 'pages/common/types'
 import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
 import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
-import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/styleds'
+import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
 import {
   betweenSmallAndLarge,
   BLACK,
@@ -681,7 +681,7 @@ function _showSocialUrl(type: string | SocialType) {
   }
 }
 
-export const ItemArtistInfo = (props: (ProductPageProps['artistInfo'] & { bgColor: string }) | undefined) => {
+export const ItemArtistInfo = (props: (BaseProductPageProps['artistInfo'] & { bgColor: string }) | undefined) => {
   if (!props) return null
 
   const { name, type, url, display, bgColor } = props

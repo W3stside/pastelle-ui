@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { ItemSubHeader, VideoContentWrapper, VideoControlButton as VideoControlButtonStyled } from './styleds'
+import { ItemSubHeader, VideoContentWrapper, VideoControlButton as VideoControlButtonStyled } from '../common/styleds'
 import LazyVideo, { LazyVideoProps } from 'components/LazyVideo'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { ButtonVariations } from 'components/Button'

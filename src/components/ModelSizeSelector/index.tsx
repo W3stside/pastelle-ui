@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback } from 'react'
 import styled from 'styled-components/macro'
 import { Row } from 'components/Layout'
-import { ItemSubHeader } from 'pages/SingleItem/styleds'
+import { ItemSubHeader } from 'pages/common/styleds'
 import { ChevronDown } from 'react-feather'
 import { useGetShowcaseSettings, useUpdateShowcaseSettings } from 'state/user/hooks'
 import { ShowcaseGender, ShowcaseHeight, UserState } from 'state/user/reducer'

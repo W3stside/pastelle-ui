@@ -35,9 +35,9 @@ type Params<P> = ScrollingContentPageParams<P>
 export function ScrollingContentPage<D>({
   data,
   dataItem,
+  touchAction,
   fixedItemHeight,
   withBoxShadow = false,
-  touchAction,
   onContentClick,
   IterableComponent
 }: Params<D>) {
@@ -90,10 +90,13 @@ export function ScrollingContentPage<D>({
       />
       <ScrollerContainer $touchAction={touchAction} $isVerticalScroll {...bind()}>
         {springs.map(({ y, scale }, i, { length }) => {
+          const product = data[i] as Product
+          const isActive = currentIndex === i
+
           return (
             <AnimatedDivContainer
               {...bind(i)}
-              key={i}
+              key={product.id}
               $touchAction={touchAction}
               // z-index here is to set the next card under the stack
               style={{ scale, height: itemHeight, y, zIndex: length * 2 - i }}
@@ -103,15 +106,19 @@ export function ScrollingContentPage<D>({
               $isVerticalScroll
             >
               <IterableComponent
+                fixedSizes={{
+                  fixedHeight: fixedItemHeight,
+                  fixedWidth: fixedItemHeight
+                }}
                 loadInViewOptions={{
                   container: HEIGHT_AND_VIEW_TARGET || document,
                   conditionalCheck: firstPaintOver
                 }}
                 // undefined = paint is over
                 firstPaintOver={firstPaintOver !== false}
-                isActive={currentIndex === i}
+                isActive={isActive}
                 itemIndex={i}
-                key={i}
+                key={product.id}
                 {...data[i]}
               />
             </AnimatedDivContainer>

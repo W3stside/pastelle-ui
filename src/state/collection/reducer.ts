@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ProductPageProps } from 'pages/SingleItem/AsideWithVideo'
+import { BaseProductPageProps } from 'pages/common/types'
 import { Product } from 'shopify/graphql/types'
 
 export interface ProductCurrentlyViewing {
   handle: Product['handle']
   id: Product['id']
 }
-export type ProductPageMap = Record<string, ProductPageProps>
+export type ProductPageMap = Record<string, BaseProductPageProps>
 export type CollectionState = {
   [drop: string]: ProductPageMap | null
 } & {

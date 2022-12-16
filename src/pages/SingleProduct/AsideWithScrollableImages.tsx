@@ -4,7 +4,7 @@ import { AutoColumn, Row } from 'components/Layout'
 import { MarkdownRenderer } from 'components/Markdown'
 import { TYPE } from 'theme'
 import { getThemeColours } from 'theme/utils'
-import { ItemContainer, ItemAsidePanel, ItemHeader } from './styleds'
+import { ItemContainer, ItemAsidePanel, ItemHeader } from '../common/styleds'
 import SmartImg, { ImageKitTransformation } from 'components/SmartImg'
 import { ThemeModes } from 'theme/styled'
 

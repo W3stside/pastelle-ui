@@ -1,7 +1,7 @@
 import { nanoid } from '@reduxjs/toolkit'
 
 import { BASE_MARKDOWN_PATH } from 'components/Markdown/constants'
-import { AsideWithScrollableImages } from 'pages/SingleItem/AsideWithScrollableImages'
+import { AsideWithScrollableImages } from 'pages/SingleProduct/AsideWithScrollableImages'
 
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 

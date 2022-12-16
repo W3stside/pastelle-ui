@@ -1,15 +1,11 @@
-import AnimatedCarousel from 'components/Carousel/AnimatedCarousel'
-import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/styleds'
-import { BaseCarouselProps } from 'components/Carousel/types'
-import { Row } from 'components/Layout'
 import Modal from 'components/Modal'
-import { usePinchZoomAndDrag } from 'hooks/useScrollAnimation/usePinchDragAndZoom'
-import { ForwardedRef, forwardRef, SyntheticEvent } from 'react'
-import { ZoomIn, ZoomOut } from 'react-feather'
 import styled from 'styled-components/macro'
-import { CloseIcon } from 'theme'
+import AnimatedCarousel from 'components/Carousel/common/components/AnimatedCarousel'
+import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
+import { BaseCarouselProps } from 'components/Carousel/common/types'
+import { usePinchZoomAndDrag } from 'hooks/useScrollAnimation/usePinchDragAndZoom'
+import { ForwardedRef, forwardRef } from 'react'
 import { upToSmall } from 'theme/utils'
-import { isMobile } from 'utils'
 
 const LargeImageModal = styled(Modal)<{ zoomLevel: number }>`
   padding-bottom: 5rem;
@@ -53,45 +49,6 @@ const LargeImageModal = styled(Modal)<{ zoomLevel: number }>`
     }
   }
 `
-
-interface ModalBottomControlsProps {
-  zoomLevel: number
-  closeCb: () => void
-  zoomOutCb: (e: SyntheticEvent) => false | void
-  zoomInCb: (e: SyntheticEvent) => false | void
-}
-export const ModalBottomControls = ({ zoomLevel, closeCb, zoomOutCb, zoomInCb }: ModalBottomControlsProps) => (
-  <Row
-    justifyContent="space-between"
-    backgroundColor="#ab92e1a6"
-    width={isMobile ? '40%' : '15vw'}
-    minWidth="8rem"
-    margin={10}
-    padding="1rem 1.5rem"
-    textAlign={'center'}
-    borderRadius="1rem"
-    style={{
-      position: 'absolute',
-      bottom: 0,
-      right: 0,
-      gap: '0.5rem'
-    }}
-  >
-    <ZoomIn
-      stroke={zoomLevel < 3 ? 'ghostwhite' : 'grey'}
-      size={isMobile ? 30 : '2.2vw'}
-      onClick={zoomInCb}
-      style={{ cursor: 'pointer' }}
-    />
-    <ZoomOut
-      stroke={zoomLevel > 1 ? 'ghostwhite' : 'grey'}
-      size={isMobile ? 30 : '2.2vw'}
-      onClick={zoomOutCb}
-      style={{ cursor: 'pointer' }}
-    />
-    <CloseIcon size={isMobile ? 30 : '2.2vw'} onClick={closeCb} />
-  </Row>
-)
 
 interface LargeImageCarouselModalProps extends BaseCarouselProps {
   isOpen: boolean

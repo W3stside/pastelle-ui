@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { TextProps } from 'rebass'
 import styled from 'styled-components/macro'
 import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
-import { ItemHeader, ItemHeaderProps } from 'pages/SingleItem/styleds'
+import { ItemHeader, ItemHeaderProps } from 'pages/common/styleds'
 import { useGetWindowSize } from 'state/window/hooks'
 
 const LogoHeader = styled(ItemHeader)`
