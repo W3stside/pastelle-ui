@@ -21,7 +21,7 @@ export default function ButtonCarousel({
   ...rest
 }: ButtonCarouselProps) {
   const [selectedStep, setSelectedStep] = useState(startIndex)
-  const { parentWidth, imageTransformations, setCarouselContainerRef } = useCarouselSetup({
+  const { parentWidth, imageTransformations: defaultImageTransforms, setCarouselContainerRef } = useCarouselSetup({
     fixedSizes
   })
 
@@ -41,7 +41,7 @@ export default function ButtonCarousel({
         setCarouselContainerRef(node)
         node && forwardedRef && setForwardedRef(node, forwardedRef)
       }}
-      $fixedHeight={(fixedSizes?.fixedHeight || parentWidth) + 'px'}
+      $fixedHeight={(fixedSizes?.height || parentWidth) + 'px'}
     >
       {/* CAROUSEL CONTENT */}
       {data.map((_, index) => {
@@ -90,7 +90,7 @@ export default function ButtonCarousel({
             onPrev={onPrevious}
             onNext={onNext}
           >
-            {children({ index, imageTransformations, isLast: index === length - 1 })}
+            {children({ index, defaultImageTransforms, isLast: index === length - 1 })}
           </CarouselStep>
         )
       })}

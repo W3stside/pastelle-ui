@@ -1,6 +1,6 @@
-import { setWidthLqTransforms } from 'pages/common/utils'
+// import { setHeightLqTransforms, setWidthLqTransforms } from 'pages/common/utils'
 
-import ButtonCarousel from 'components/Carousel/common/components/ButtonCarousel'
+import ButtonCarousel, { ButtonCarouselProps } from 'components/Carousel/common/components/ButtonCarousel'
 import SmartImg, { SmartImageProps } from 'components/SmartImg'
 import { BaseCarouselProps, CarouselChildrenProps, WithTouchAction } from './common/types'
 import { FragmentProductVideoFragment, GenericImageSrcSet } from 'shopify/graphql/types'
@@ -12,16 +12,12 @@ import { LazyVideoProps } from 'components/LazyVideo'
 
 interface ProductCarousel extends Omit<BaseCarouselProps, 'children'> {
   data: (GenericImageSrcSet | FragmentProductVideoFragment | undefined)[]
-  imageProps?: Omit<SmartImageProps, 'path' | 'pathSrcSet' | 'transformation' | 'onClick'>
+  imageProps?: Omit<SmartImageProps, 'path' | 'pathSrcSet' | 'onClick'>
   videoProps?: LazyVideoProps['videoProps']
 }
-export type ProductClickCarousel = ProductCarousel & { showButtons: boolean }
-export function ClickCarousel({ data, parentNode, imageProps, ...rest }: ProductClickCarousel) {
-  const memoedCurriedFn = useCallback(() => curriedCarouselRenderFn({ data, imageProps, parentNode }), [
-    data,
-    imageProps,
-    parentNode
-  ])
+export type ProductClickCarousel = ProductCarousel & Omit<ButtonCarouselProps, 'children'>
+export function ClickCarousel({ data, imageProps, ...rest }: ProductClickCarousel) {
+  const memoedCurriedFn = useCallback(() => curriedCarouselRenderFn({ data, imageProps }), [data, imageProps])
   return (
     <ButtonCarousel {...rest} data={data}>
       {memoedCurriedFn()}
@@ -29,11 +25,10 @@ export function ClickCarousel({ data, parentNode, imageProps, ...rest }: Product
   )
 }
 export type ProductSwipeCarousel = ProductCarousel & WithTouchAction
-export function SwipeCarousel({ data, parentNode, imageProps, videoProps, ...rest }: ProductSwipeCarousel) {
-  const memoedCurriedFn = useCallback(() => curriedCarouselRenderFn({ data, imageProps, videoProps, parentNode }), [
+export function SwipeCarousel({ data, imageProps, videoProps, ...rest }: ProductSwipeCarousel) {
+  const memoedCurriedFn = useCallback(() => curriedCarouselRenderFn({ data, imageProps, videoProps }), [
     data,
     imageProps,
-    parentNode,
     videoProps
   ])
   return (
@@ -45,11 +40,12 @@ export function SwipeCarousel({ data, parentNode, imageProps, videoProps, ...res
 
 const curriedCarouselRenderFn = ({
   data,
-  parentNode,
   imageProps,
   videoProps
-}: Pick<ProductCarousel, 'data' | 'parentNode' | 'imageProps' | 'videoProps'>) =>
-  function CarouselRenderFn({ index, imageTransformations }: CarouselChildrenProps) {
+}: Pick<ProductCarousel, 'data' | 'imageProps' | 'videoProps'> & {
+  fillWidth?: boolean
+}) =>
+  function CarouselRenderFn({ index, defaultImageTransforms }: CarouselChildrenProps) {
     const item = data[index]
 
     if (item) {
@@ -67,10 +63,10 @@ const curriedCarouselRenderFn = ({
           {...imageProps}
           path={{ defaultPath: item.defaultUrl }}
           pathSrcSet={item}
-          transformation={imageTransformations}
+          transformation={[defaultImageTransforms, ...(imageProps?.transformation || [])]}
           lqImageOptions={{
-            ...imageTransformations?.[0],
-            ...setWidthLqTransforms(parentNode, { showLoading: true })
+            ...defaultImageTransforms,
+            showLoadingIndicator: true
           }}
         />
       )

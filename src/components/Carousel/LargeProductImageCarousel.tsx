@@ -7,7 +7,7 @@ interface LargeImageCarouselProps {
   images: GenericImageSrcSet[]
   accentColor: string
   isOpen: boolean
-  imageProps: Omit<SmartImageProps, 'path' | 'pathSrcSet' | 'transformation' | 'onClick'>
+  imageProps?: Omit<SmartImageProps, 'path' | 'pathSrcSet' | 'onClick'>
 
   toggleModal: () => void
   dismissModal: () => void
@@ -38,15 +38,16 @@ export function LargeImageCarousel({
       fixedSizes={undefined}
       startIndex={0}
     >
-      {({ index, imageTransformations }) => {
+      {({ index, defaultImageTransforms }) => {
         const { defaultUrl, ...urlRest } = images[index]
 
         return (
           <SmartImg
             path={{ defaultPath: defaultUrl }}
             pathSrcSet={urlRest}
-            transformation={imageTransformations}
+            transformation={[defaultImageTransforms, ...(imageProps?.transformation || [])]}
             onClick={toggleModal}
+            lqImageOptions={{ ...defaultImageTransforms, showLoadingIndicator: true, ...imageProps?.lqImageOptions }}
             {...imageProps}
           />
         )

@@ -83,8 +83,8 @@ export default function CollectionProductPage({
                 accentColor={color}
                 videoProps={{ autoPlay }}
                 fixedSizes={{
-                  fixedHeight: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
-                  fixedWidth: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT
+                  height: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
+                  width: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT
                 }}
                 touchAction="none"
               />

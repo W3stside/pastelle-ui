@@ -2,17 +2,18 @@ import { TouchAction } from 'components/ScrollingContentPage/styleds'
 import { SmartImageProps } from 'components/SmartImg'
 import { SpringAnimationHookReturn } from 'hooks/useScrollAnimation/useLimitedSwipe'
 import { ForwardedRef } from 'react'
+import { CarouselSetup } from './hooks'
 
 export interface BaseCarouselProps {
   data: any[]
   startIndex: number
   accentColor: string
-  fixedSizes: { fixedWidth: number; fixedHeight: number } | undefined
+  fixedSizes: { width: number; height: number } | undefined
   transformation?: SmartImageProps['transformation']
   fullSizeContent?: boolean
-  parentNode?: HTMLElement
+  parentNode?: HTMLElement | null
   onCarouselItemClick?: () => void
-  children: ({ index, imageTransformations, isLast }: CarouselChildrenProps) => React.ReactNode
+  children: ({ index, defaultImageTransforms, isLast }: CarouselChildrenProps) => React.ReactNode
 }
 
 export interface BaseAnimatedCarouselProps extends BaseCarouselProps {
@@ -26,7 +27,7 @@ export type WithTouchAction = {
 
 export type CarouselChildrenProps = {
   index: number
-  imageTransformations: SmartImageProps['transformation']
   isLast: boolean
   forwardedRef?: ForwardedRef<unknown>
+  defaultImageTransforms: CarouselSetup['imageTransformations']
 }

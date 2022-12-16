@@ -1,9 +1,15 @@
+import { LqImageOptions } from 'components/SmartImg'
 import useStateRef from 'hooks/useStateRef'
 import { useState, useEffect, useMemo } from 'react'
 import { useGetWindowSize } from 'state/window/hooks'
 import { BaseCarouselProps } from './types'
-
-export function useCarouselSetup({ fixedSizes }: Pick<BaseCarouselProps, 'fixedSizes'>) {
+export interface CarouselSetup {
+  parentWidth: number | undefined
+  carouselContainer: HTMLElement | null
+  imageTransformations: Omit<LqImageOptions, 'showLoadingIndicator'> & { pr: boolean }
+  setCarouselContainerRef: (newNode: HTMLElement | null) => void
+}
+export function useCarouselSetup({ fixedSizes }: Pick<BaseCarouselProps, 'fixedSizes'>): CarouselSetup {
   const [parentWidth, setParentWidth] = useState<number | undefined>()
 
   // ref to carousel container
@@ -25,31 +31,29 @@ export function useCarouselSetup({ fixedSizes }: Pick<BaseCarouselProps, 'fixedS
   }, [carouselContainer?.parentElement?.offsetWidth, carouselContainer?.parentElement?.clientHeight, sizes])
 
   const imageTransformations = useMemo(
-    () => [
-      {
-        width: _getTransformationsFromValue(fixedSizes?.fixedWidth, carouselContainer?.clientWidth || 0),
-        height: _getTransformationsFromValue(
-          fixedSizes?.fixedHeight,
-          carouselContainer?.clientHeight || carouselContainer?.clientWidth || 0
-        ),
-        pr: true
-      }
-    ],
+    () => ({
+      width: _getTransformationsFromValue(fixedSizes?.width, carouselContainer?.clientWidth || 0),
+      height: _getTransformationsFromValue(
+        fixedSizes?.height,
+        carouselContainer?.clientHeight || carouselContainer?.clientWidth || 0
+      ),
+      pr: true
+    }),
     [fixedSizes, carouselContainer?.clientWidth, carouselContainer?.clientHeight]
   )
 
   return {
-    parentWidth: fixedSizes?.fixedWidth || parentWidth,
+    parentWidth: fixedSizes?.width || parentWidth,
     carouselContainer,
     imageTransformations,
     setCarouselContainerRef
   }
 }
 
-function _getTransformationsFromValue(val?: string | number, fallback?: number) {
+function _getTransformationsFromValue(val: string | number | undefined, fallback: number) {
   if (!val || typeof val === 'string') {
-    return undefined
+    return fallback
   }
 
-  return fallback || val
+  return val
 }

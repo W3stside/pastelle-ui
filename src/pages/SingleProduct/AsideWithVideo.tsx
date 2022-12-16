@@ -46,6 +46,8 @@ import { isMobile } from 'utils'
 import { getImageSizeMap } from 'shopify/utils'
 import { FREE_SHIPPING_THRESHOLD, Z_INDEXES } from 'constants/config'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
+import { ProductSwipeCarousel } from 'components/Carousel/ProductCarousels'
+import { BASE_FONT_SIZE, FOOTER_HEIGHT_REM } from 'constants/sizes'
 
 export default function SingleProductPage({
   id,
@@ -76,9 +78,9 @@ export default function SingleProductPage({
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
   const Carousel = useCallback(
-    (props: any) =>
+    (props: Omit<ProductSwipeCarousel, 'touchAction'>) =>
       isMobile ? (
-        <Carousels.SwipeCarousel {...props} />
+        <Carousels.SwipeCarousel {...props} touchAction="pan-y" />
       ) : (
         <Carousels.ClickCarousel
           {...props}
@@ -114,13 +116,6 @@ export default function SingleProductPage({
         images={[imageUrls[currentCarouselIndex]]}
         accentColor={color}
         isOpen={showLargeImage}
-        imageProps={{
-          lqImageOptions: {
-            width: innerContainerRef?.clientWidth || 0,
-            height: innerContainerRef?.clientWidth || 0,
-            showLoadingIndicator: true
-          }
-        }}
         toggleModal={toggleLargeImageModal}
         dismissModal={closeModals}
       />
@@ -143,8 +138,8 @@ export default function SingleProductPage({
                   isMobile && viewRef?.clientHeight
                     ? // TODO: check and fix
                       {
-                        fixedHeight: (viewRef.clientHeight - 80) * 0.74,
-                        fixedWidth: (viewRef.clientHeight - 80) * 0.74
+                        height: (viewRef.clientHeight - FOOTER_HEIGHT_REM * BASE_FONT_SIZE) * 0.74,
+                        width: (viewRef.clientHeight - FOOTER_HEIGHT_REM * BASE_FONT_SIZE) * 0.74
                       }
                     : undefined
                 }

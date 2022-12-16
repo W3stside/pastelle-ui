@@ -12,7 +12,7 @@ export default function AnimatedCarousel({
   touchAction,
   children
 }: BaseAnimatedCarouselProps) {
-  const { parentWidth, imageTransformations, setCarouselContainerRef } = useCarouselSetup({
+  const { parentWidth, imageTransformations: defaultImageTransforms, setCarouselContainerRef } = useCarouselSetup({
     fixedSizes
   })
 
@@ -30,7 +30,7 @@ export default function AnimatedCarousel({
         setCarouselContainerRef(node)
         setItemSizeRef(node)
       }}
-      $fixedHeight={(fixedSizes?.fixedHeight || parentWidth) + 'px'}
+      $fixedHeight={(fixedSizes?.height || parentWidth) + 'px'}
       $touchAction={touchAction}
     >
       <CarouselIndicators size={data.length} currentIndex={currentIndex} color={accentColor} />
@@ -56,7 +56,7 @@ export default function AnimatedCarousel({
               transformAmount={0}
               showButtons={false}
             >
-              {children({ index, imageTransformations, isLast: index === length - 1 })}
+              {children({ index, defaultImageTransforms, isLast: index === length - 1 })}
             </CarouselStep>
           </AnimatedDivContainer>
         )
