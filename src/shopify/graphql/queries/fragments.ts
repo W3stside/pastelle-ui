@@ -19,6 +19,7 @@ export const FRAGMENT_PRODUCT = gql`
     id
     title
     handle
+    productType
     updatedAt
     description
     descriptionHtml

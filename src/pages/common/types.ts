@@ -13,6 +13,7 @@ export interface BaseProductPageProps {
   color: string
   title: string
   handle: string
+  productType: string
   logo?: GenericImageSrcSet
   headerLogo?: GenericImageSrcSet
   navLogo?: GenericImageSrcSet

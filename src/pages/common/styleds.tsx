@@ -253,15 +253,16 @@ export const ProductScreen = styled(Column)`
   position: relative;
   overflow: hidden;
 
-  height: calc(100vh - ${HEADER_HEIGHT_REM}rem);
-
   > ${Column} {
     padding: 0 2rem;
-
-    ${upToSmall`
-      padding: 0 1rem;
-    `}
   }
+
+  ${upToSmall`
+    height: calc(100vh - ${HEADER_HEIGHT_REM}rem);
+    > ${Column} {
+      padding: 0 1rem;
+    }
+  `}
 `
 
 export const ProductAsidePanel = styled(Column)`

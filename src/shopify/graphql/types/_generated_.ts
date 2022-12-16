@@ -1210,6 +1210,8 @@ export enum CheckoutErrorCode {
   CustomerAlreadyUsedOncePerCustomerDiscountNotice = 'CUSTOMER_ALREADY_USED_ONCE_PER_CUSTOMER_DISCOUNT_NOTICE',
   /** Discount already applied. */
   DiscountAlreadyApplied = 'DISCOUNT_ALREADY_APPLIED',
+  /** Discount code isn't working right now. Please contact us for help. */
+  DiscountCodeApplicationFailed = 'DISCOUNT_CODE_APPLICATION_FAILED',
   /** Discount disabled. */
   DiscountDisabled = 'DISCOUNT_DISABLED',
   /** Discount expired. */
@@ -6670,6 +6672,7 @@ export type GetCartQuery = {
             id: string
             title: string
             handle: string
+            productType: string
             updatedAt: any
             description: string
             descriptionHtml: any
@@ -6754,6 +6757,7 @@ export type GetCollectionQuery = {
           id: string
           title: string
           handle: string
+          productType: string
           updatedAt: any
           description: string
           descriptionHtml: any
@@ -6840,6 +6844,7 @@ export type FragmentProductFragment = {
   id: string
   title: string
   handle: string
+  productType: string
   updatedAt: any
   description: string
   descriptionHtml: any
@@ -6947,6 +6952,7 @@ export type FragmentCartLineFragment = {
       id: string
       title: string
       handle: string
+      productType: string
       updatedAt: any
       description: string
       descriptionHtml: any
@@ -7035,6 +7041,7 @@ export type FragmentCartFragment = {
           id: string
           title: string
           handle: string
+          productType: string
           updatedAt: any
           description: string
           descriptionHtml: any
@@ -7164,6 +7171,7 @@ export type ProductQuery = {
       id: string
       title: string
       handle: string
+      productType: string
       updatedAt: any
       description: string
       descriptionHtml: any

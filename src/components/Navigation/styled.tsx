@@ -49,20 +49,21 @@ export const NavigationStepsWrapper = styled.nav<{
     overflow: hidden;
     width: 100%;
     
+    > div:last-child {
+      width: 100%;
+      padding: 2rem;
+      background: linear-gradient(267deg, #000000c2 33%, transparent);
+      border-radius: 0 1rem 1rem 0;
+      > div {
+        width: 13rem;
+        margin: auto 0 0 auto;
+      } 
+    }
+
     // theme toggler
     // TODO: change when you don't want CSS BGs for logos (e.g use component)
     > ${InnerNavWrapper} {
       margin-top: auto;
-      > div:last-child {
-        width: 100%;
-        padding: 2rem;
-        background: linear-gradient(267deg, #000000c2 33%, transparent);
-        border-radius: 0 1rem 1rem 0;
-        > div {
-          width: 13rem;
-          margin: auto 0 0 auto;
-        } 
-      }
     }
     
     width: ${isOpen ? '100%' : '0px'};
@@ -105,7 +106,7 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   `};
 `
 
-export const CollectionLabel = styled(Row)<{ active: boolean; bgColor?: string }>`
+export const CollectionLabel = styled(Row)<{ isNavOpen: boolean; active: boolean; bgColor?: string }>`
   font-weight: ${({ active }) => (active ? 700 : 300)};
   padding: 0 1rem;
   gap: 1rem;
@@ -117,9 +118,15 @@ export const CollectionLabel = styled(Row)<{ active: boolean; bgColor?: string }
       background-color: ${bgColor};
       text-decoration: line-through;
       text-decoration-thickness: from-font;
-      font-size: larger;
       width: 100%;
     `}
+
+  ${({ isNavOpen, bgColor }) =>
+    isNavOpen &&
+    `
+    color: ${setBestTextColour(bgColor)};
+    background: linear-gradient(267deg,${bgColor} 33%,transparent);
+  `}
 `
 
 export const SideEffectNavLink = styled.span`
@@ -133,6 +140,7 @@ export const InnerNavWrapper = styled(Column)<{ bgColor?: string }>`
   padding: 1rem;
 
   > div {
-    width: 90%;
+    width: 100%;
+    padding: 0;
   }
 `

@@ -52,6 +52,7 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
       id: datum.id,
       title: datum.title,
       handle: datum.handle,
+      productType: datum.productType,
       // TODO: fix
       logo: metaAssetMap?.logo,
       headerLogo: metaAssetMap?.header,

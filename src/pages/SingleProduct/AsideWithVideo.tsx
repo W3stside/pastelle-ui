@@ -138,7 +138,7 @@ export default function SingleProductPage({
                 accentColor={color}
                 videoProps={{ autoPlay }}
                 fixedSizes={
-                  viewRef?.clientHeight
+                  isMobile && viewRef?.clientHeight
                     ? // TODO: check and fix
                       {
                         height: screenHeight,
@@ -253,6 +253,5 @@ function _getScreenContentOffsetHeight(screenNode: HTMLElement, ratio: [number, 
   const headerAndPriceLabelHeights = HEADER_HEIGHT_REM + PRICE_LABEL_HEIGHT * BASE_FONT_SIZE
 
   const offsetHeight = screenNode.clientHeight - (logoHeight + headerAndPriceLabelHeights)
-  console.debug('HEIGHTS', offsetHeight)
   return offsetHeight
 }
