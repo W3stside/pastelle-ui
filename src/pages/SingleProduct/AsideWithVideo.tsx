@@ -130,7 +130,7 @@ export default function SingleProductPage({
               <Breadcrumbs {...breadcrumbs} marginTop="0.5rem" marginLeft="0.5rem" marginBottom={-25} color={bgColor} />
               {/* Product carousel */}
               <Carousel
-                data={isMobile ? [...imageUrls, selectedVideo] : imageUrls}
+                data={isMobile ? [...imageUrls /* , selectedVideo */] : imageUrls}
                 startIndex={currentCarouselIndex}
                 accentColor={color}
                 videoProps={{ autoPlay }}
