@@ -6,7 +6,7 @@ import { Package, Truck } from 'react-feather'
 import { useAppSelector } from 'state'
 import useStateRef from 'hooks/useStateRef'
 import { useCloseModals, useModalOpen, useToggleModal } from 'state/modalsAndPopups/hooks'
-import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
+// import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 import { ApplicationModal } from 'state/modalsAndPopups/reducer'
 
@@ -98,7 +98,7 @@ export default function SingleProductPage({
   // IMAGES
   const imageUrls = getImageSizeMap(images)
   // SELECTED SHOWCASE VIDEO
-  const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
+  // const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
 
   // CONTENT CONTAINER REF FOR DYNAMIC SIZE UPDATING AND CAROUSELS
   const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)
