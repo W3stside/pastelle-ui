@@ -4,7 +4,7 @@ import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 import { Column, Row } from 'components/Layout'
 import LoadingRows from 'components/Loader/LoadingRows'
 import SmartImg from 'components/SmartImg'
-import { ItemSubHeader } from 'pages/common/styleds'
+import { ProductSubHeader } from 'pages/common/styleds'
 import { useQueryCart } from 'shopify/graphql/hooks'
 import { FragmentCartCostFragment, FragmentCartLineFragment, GetCartQuery, ProductSizes } from 'shopify/graphql/types'
 import {
@@ -97,14 +97,14 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
         {loading ? (
           <LoadingRows rows={3} $height="11rem" $padding="1rem" $margin="1rem 0" $borderRadius="1rem" />
         ) : isEmptyCart ? (
-          <ItemSubHeader color={WHITE} fontSize="2.5rem" fontWeight={400} padding={0} margin="2rem 0">
+          <ProductSubHeader color={WHITE} fontSize="2.5rem" fontWeight={400} padding={0} margin="2rem 0">
             <span id="lenny-face">Your cart is</span> <strong>empty</strong> <span id="lenny-face">ʕ ͡° ʖ̯ ͡°ʔ</span>
             {!isCollectionPage && (
               <p onClick={handleNavClick} style={{ cursor: 'pointer' }}>
                 <u>Check out the full {COLLECTION_PARAM_NAME}</u>!
               </p>
             )}
-          </ItemSubHeader>
+          </ProductSubHeader>
         ) : (
           cartLines?.map(line => <CartLine key={line.id} line={line} />)
         )}
@@ -251,16 +251,16 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
         {/* 3 */}
         <CartLineContent onClick={handleClick}>
           <Row>
-            <ItemSubHeader color={WHITE} fontSize="3rem" fontWeight={1000} padding={0} margin={0}>
+            <ProductSubHeader color={WHITE} fontSize="3rem" fontWeight={1000} padding={0} margin={0}>
               {line?.merchandise.product.title}
-            </ItemSubHeader>
-            <ItemSubHeader color={WHITE} fontSize="1.5rem" fontWeight={300} padding={0} margin={0}>
+            </ProductSubHeader>
+            <ProductSubHeader color={WHITE} fontSize="1.5rem" fontWeight={300} padding={0} margin={0}>
               {sizeFull} {sizeFull && `(${line?.merchandise.size})`}
-            </ItemSubHeader>
+            </ProductSubHeader>
             {collectionCurrentProduct?.handle !== handle && (
-              <ItemSubHeader color={WHITE} fontSize="1.5rem" fontWeight={300} padding={0} margin={0}>
+              <ProductSubHeader color={WHITE} fontSize="1.5rem" fontWeight={300} padding={0} margin={0}>
                 tap or click to view item
-              </ItemSubHeader>
+              </ProductSubHeader>
             )}
           </Row>
           <QuantitySelector isDisabled={removeLineLoading} />

@@ -3,7 +3,7 @@ import { transparentize } from 'polished'
 
 import { Column, Row } from 'components/Layout'
 import { Z_INDEXES } from 'constants/config'
-import { ItemHeader, ItemSubHeader } from 'pages/common/styleds'
+import { ItemHeader, ProductSubHeader } from 'pages/common/styleds'
 import { fromExtraLarge, OFF_WHITE, upToExtraSmall, upToMedium, upToSmall } from 'theme/utils'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
 import { setFadeInAnimation } from 'theme/styles/animations'
@@ -26,7 +26,7 @@ export const CartLineContent = styled(Row)`
     text-align: left;
     padding: 0 2rem;
 
-    > ${ItemSubHeader} {
+    > ${ProductSubHeader} {
       flex: 0 1 max-content;
 
       // view item

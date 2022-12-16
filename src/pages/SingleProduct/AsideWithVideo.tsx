@@ -12,19 +12,20 @@ import { ApplicationModal } from 'state/modalsAndPopups/reducer'
 
 import { Column, Row } from 'components/Layout'
 import {
-  ItemContainer as ProductContainer,
-  ItemAsidePanel as ProductAsidePanel,
-  ItemDescription,
-  ItemCredits,
-  ItemArtistInfo,
+  ProductContainer,
+  ProductAsidePanel,
+  ProductDescription,
+  ProductCredits,
+  ProductArtistInfo,
   PASTELLE_CREDIT,
-  ItemSubHeader,
-  InnerContainer as ProductScreensContainer,
+  ProductSubHeader,
   HighlightedText,
-  ItemContentContainer as ProductScreen,
+  ProductScreen,
   FreeShippingBanner,
-  ItemBackendDescription
+  ProductBackendDescription
 } from 'pages/common/styleds'
+
+import * as StyledElems from 'pages/SingleProduct/styled'
 
 import { useBreadcrumb } from 'components/Breadcrumb'
 import useSizeSelector from 'components/SizeSelector'
@@ -47,7 +48,7 @@ import { getImageSizeMap } from 'shopify/utils'
 import { FREE_SHIPPING_THRESHOLD, Z_INDEXES } from 'constants/config'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { ProductSwipeCarousel } from 'components/Carousel/ProductCarousels'
-import { BASE_FONT_SIZE, FOOTER_HEIGHT_REM } from 'constants/sizes'
+import { BASE_FONT_SIZE, HEADER_HEIGHT_REM, PRICE_LABEL_HEIGHT } from 'constants/sizes'
 
 export default function SingleProductPage({
   id,
@@ -110,6 +111,8 @@ export default function SingleProductPage({
 
   const isMobileWidth = useIsMobileWindowWidthSize()
 
+  const screenHeight = viewRef ? _getScreenContentOffsetHeight(viewRef, [73, 20]) : 0
+
   return (
     <>
       <LargeImageCarousel
@@ -120,10 +123,10 @@ export default function SingleProductPage({
         dismissModal={closeModals}
       />
       {/* Item content */}
-      <ProductContainer id="#item-container" collectionView={false} bgColor={color} navLogo={navLogo} logo={logo}>
+      <ProductContainer id="#item-container">
         <ProductAsidePanel id="#item-aside-panel">
           {/* WRAPS ALL THE CONTENT SCREENS (CAROUSEL || SHOWCASE || INFO) */}
-          <ProductScreensContainer ref={setRef}>
+          <StyledElems.SingleProductScreensContainer ref={setRef} bgColor={color} navLogo={navLogo} logo={logo}>
             {/* SCREEN 1 - CAROUSEL & LOGO */}
             <ProductScreen ref={setViewRef}>
               {/* Breadcrumbs */}
@@ -135,11 +138,11 @@ export default function SingleProductPage({
                 accentColor={color}
                 videoProps={{ autoPlay }}
                 fixedSizes={
-                  isMobile && viewRef?.clientHeight
+                  viewRef?.clientHeight
                     ? // TODO: check and fix
                       {
-                        height: (viewRef.clientHeight - FOOTER_HEIGHT_REM * BASE_FONT_SIZE) * 0.74,
-                        width: (viewRef.clientHeight - FOOTER_HEIGHT_REM * BASE_FONT_SIZE) * 0.74
+                        height: screenHeight,
+                        width: screenHeight
                       }
                     : undefined
                 }
@@ -156,7 +159,7 @@ export default function SingleProductPage({
             {/* SCREEN 2 - SHOWCASE */}
             <ProductScreen padding="0 0 3rem">
               {/* Size selector */}
-              <ItemSubHeader
+              <ProductSubHeader
                 useGradient
                 bgColor={color}
                 label="SIZE & SHOWCASE"
@@ -164,11 +167,11 @@ export default function SingleProductPage({
               />
               <Column margin="0" padding={'0 2rem'}>
                 {/* SHOWCASE MODEL SHOWCASE SETTINGS */}
-                <ItemDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
+                <ProductDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
                   <Row gap="1rem">
                     <FontAwesomeIcon icon={faLightbulb} /> SHOWCASE SETTINGS{' '}
                   </Row>
-                </ItemDescription>
+                </ProductDescription>
                 <ShowcaseSettings>
                   <ShowcaseVideoControls isMobile={isMobileWidth || isMobile} />
                   {/* MOBILE SHOWCASE */}
@@ -195,10 +198,10 @@ export default function SingleProductPage({
             {/* SCREEN 3 - ITEM INFO */}
             <ProductScreen>
               {/* Item description */}
-              <ItemSubHeader useGradient bgColor={color} label="INFO & CARE INSTRUCTIONS" />
+              <ProductSubHeader useGradient bgColor={color} label="INFO & CARE INSTRUCTIONS" />
               <Column padding="0 1.5rem">
                 {/* From shopify backened console */}
-                <ItemBackendDescription
+                <ProductBackendDescription
                   dangerouslySetInnerHTML={{ __html: description }}
                   padding="0rem 4rem 1rem"
                   fontWeight={300}
@@ -206,18 +209,18 @@ export default function SingleProductPage({
                 />
               </Column>
               {/* Credits */}
-              <ItemSubHeader useGradient bgColor={color} label="CREDIT WHERE CREDIT IS DUE" margin="2rem 0" />
+              <ProductSubHeader useGradient bgColor={color} label="CREDIT WHERE CREDIT IS DUE" margin="2rem 0" />
               <Column padding={'0 3rem'}>
-                <ItemCredits>
+                <ProductCredits>
                   {artistInfo ? (
-                    <ItemArtistInfo {...artistInfo} bgColor={color} />
+                    <ProductArtistInfo {...artistInfo} bgColor={color} />
                   ) : (
                     <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
                   )}
-                </ItemCredits>
+                </ProductCredits>
               </Column>
             </ProductScreen>
-          </ProductScreensContainer>
+          </StyledElems.SingleProductScreensContainer>
         </ProductAsidePanel>
 
         <ShowcaseVideos
@@ -234,7 +237,7 @@ export default function SingleProductPage({
           // }}
           hideVideo={isMobileWidth || noVideo}
           showPoster={false}
-          height="calc(100vh - 10rem)"
+          height={`calc(100vh - 10rem)`}
           zIndex={Z_INDEXES.BEHIND}
           firstPaintOver
           currentCarouselIndex={currentCarouselIndex}
@@ -243,4 +246,13 @@ export default function SingleProductPage({
       </ProductContainer>
     </>
   )
+}
+
+function _getScreenContentOffsetHeight(screenNode: HTMLElement, ratio: [number, number]) {
+  const logoHeight = (screenNode.clientWidth * ratio[1]) / ratio[0]
+  const headerAndPriceLabelHeights = HEADER_HEIGHT_REM + PRICE_LABEL_HEIGHT * BASE_FONT_SIZE
+
+  const offsetHeight = screenNode.clientHeight - (logoHeight + headerAndPriceLabelHeights)
+  console.debug('HEIGHTS', offsetHeight)
+  return offsetHeight
 }

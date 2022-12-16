@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import ButtonPrimary, { ButtonVariations } from 'components/Button'
-import { ItemHeader, ItemSubHeader } from 'pages/common/styleds'
+import { ItemHeader, ProductSubHeader } from 'pages/common/styleds'
 import SmartImg from 'components/SmartImg'
 import { Z_INDEXES } from 'constants/config'
 import { transparentize } from 'polished'
@@ -55,7 +55,7 @@ export default function NotFound() {
           <span style={{ fontSize: '3rem', fontStyle: 'normal' }}>ʕ ͡° ʖ̯ ͡°ʔ</span>
         </ItemHeader>
         <ButtonPrimary onClick={() => navigate('/')} variant={ButtonVariations.WARNING}>
-          <ItemSubHeader>Back to the collection</ItemSubHeader>
+          <ProductSubHeader>Back to the collection</ProductSubHeader>
         </ButtonPrimary>
       </ContainerDiv>
     </article>

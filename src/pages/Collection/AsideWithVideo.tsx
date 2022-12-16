@@ -4,17 +4,13 @@ import { useAppSelector } from 'state'
 import useStateRef from 'hooks/useStateRef'
 import { useGetSelectedProductShowcaseVideo, useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
 
-import {
-  ItemContainer,
-  ItemAsidePanel,
-  InnerCollectionContainer as DynamicInnerContainer,
-  ItemContentContainer,
-  ScrollingProductLabel
-} from 'pages/common/styleds'
+import { Row } from 'components/Layout'
+import { ProductContainer, ProductAsidePanel, ProductScreen, ScrollingProductLabel } from 'pages/common/styleds'
+import { CollectionScreensContainer } from './styled'
+
 import Logo from 'pages/common/components/Logo'
 import { CollectionPageProps } from 'pages/common/types'
 import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
-import { Row } from 'components/Layout'
 import { SwipeCarousel, ClickCarousel, ProductClickCarousel } from 'components/Carousel/ProductCarousels'
 
 import { getImageSizeMap } from 'shopify/utils'
@@ -72,10 +68,10 @@ export default function CollectionProductPage({
       </ScrollingProductLabel>
 
       {/* Item content */}
-      <ItemContainer id="#item-container" collectionView bgColor={color} navLogo={navLogo} logo={logo}>
-        <ItemAsidePanel id="#item-aside-panel">
-          <DynamicInnerContainer ref={setRef}>
-            <ItemContentContainer>
+      <ProductContainer id="#item-container" bgColor={color} navLogo={navLogo} logo={logo}>
+        <ProductAsidePanel id="#item-aside-panel">
+          <CollectionScreensContainer ref={setRef}>
+            <ProductScreen>
               {/* Product carousel */}
               <Carousel
                 data={isMobile ? [...imageUrls, selectedVideo] : imageUrls}
@@ -94,10 +90,10 @@ export default function CollectionProductPage({
                 isCollectionView
                 logos={{ header: headerLogo, nav: navLogo, main: logo }}
               />
-            </ItemContentContainer>
-          </DynamicInnerContainer>
-        </ItemAsidePanel>
-      </ItemContainer>
+            </ProductScreen>
+          </CollectionScreensContainer>
+        </ProductAsidePanel>
+      </ProductContainer>
     </>
   )
 }

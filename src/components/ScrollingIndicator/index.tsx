@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro'
-import { ItemSubHeader } from 'pages/common/styleds'
+import { ProductSubHeader } from 'pages/common/styleds'
 
 export type ScrollingIndicatorParams = ScrollingIndicatorStyleProps & {
   baseContentMessage: string
@@ -44,12 +44,12 @@ export function ScrollingContentIndicator({
     <>
       {onlyOne !== 'BOTTOM' && (
         <Wrapper {...styleProps} top={'0px'}>
-          <ItemSubHeader>{baseContentMessage}</ItemSubHeader>
+          <ProductSubHeader>{baseContentMessage}</ProductSubHeader>
         </Wrapper>
       )}
       {onlyOne !== 'TOP' && (
         <Wrapper {...styleProps} bottom={'0px'}>
-          <ItemSubHeader>{baseContentMessage}</ItemSubHeader>
+          <ProductSubHeader>{baseContentMessage}</ProductSubHeader>
         </Wrapper>
       )}
     </>

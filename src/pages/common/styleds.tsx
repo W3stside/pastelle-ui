@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
-import { darken, transparentize } from 'polished'
+import { darken } from 'polished'
 
 import { Column, Row } from 'components/Layout'
 import { BaseProductPageProps } from 'pages/common/types'
@@ -8,25 +8,12 @@ import { ExternalLink, TYPE } from 'theme'
 import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
-import { FIXED_IMAGE_SIZE_CONSTRAINTS, STORE_IMAGE_SIZES, Z_INDEXES } from 'constants/config'
-import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
-import {
-  betweenSmallAndLarge,
-  BLACK,
-  CHARCOAL_BLACK,
-  fromExtraLarge,
-  fromLarge,
-  fromMedium,
-  fromSmall,
-  setBackgroundWithDPI,
-  setBestTextColour,
-  upToLarge,
-  upToSmall
-} from 'theme/utils'
+import { Z_INDEXES } from 'constants/config'
+import { BLACK, setBackgroundWithDPI, setBestTextColour, upToSmall } from 'theme/utils'
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
-import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
+import { HEADER_HEIGHT_REM } from 'constants/sizes'
 
 export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; labelColor?: string }>`
   position: absolute;
@@ -97,7 +84,7 @@ export const ItemHeader = styled(TYPE.header)<ItemHeaderProps>`
     )}
 `
 
-export const ItemLogo = styled.div<{
+export const ProductLogo = styled.div<{
   $bgColor?: string
   collectionView?: boolean
   $maxWidth?: string
@@ -116,7 +103,11 @@ export const ItemLogo = styled.div<{
     margin-top: ${$marginTop};  
   `}
 `
-export const ItemLogoCssImport = styled(ItemLogo)<{ position?: string; height?: number; logoUri: GenericImageSrcSet }>`
+export const ProductLogoCssImport = styled(ProductLogo)<{
+  position?: string
+  height?: number
+  logoUri: GenericImageSrcSet
+}>`
   position: ${({ position = 'fixed' }) => position};
   ${({ theme, logoUri }) =>
     setBackgroundWithDPI(theme, [logoUri, logoUri], {
@@ -130,7 +121,7 @@ export const ItemLogoCssImport = styled(ItemLogo)<{ position?: string; height?: 
   height: ${({ height = 160 }) => height}px;
 `
 
-export const ItemLogoCollectionView = styled(ItemLogoCssImport)<{ $bgColor: string }>`
+export const ProductLogoCollectionView = styled(ProductLogoCssImport)<{ $bgColor: string }>`
   position: absolute;
   margin: auto;
   left: 0;
@@ -161,7 +152,7 @@ export const ItemLogoCollectionView = styled(ItemLogoCssImport)<{ $bgColor: stri
   `}
 `
 
-export const ItemSubHeader = styled(TYPE.subHeader)<{
+export const ProductSubHeader = styled(TYPE.subHeader)<{
   color?: string
   bgColor?: string
   useGradient?: boolean
@@ -204,7 +195,7 @@ export const ItemBreadcrumb = styled(NavLink)<{ color: string }>`
     margin: 0 5px;
   }
 `
-export const ItemDescription = styled(TYPE.black).attrs(props => ({
+export const ProductDescription = styled(TYPE.black).attrs(props => ({
   fontSize: props.fontSize || '1.8rem',
   padding: props.padding || 0,
   fontWeight: props.fontWeight || 500,
@@ -223,7 +214,7 @@ export const ItemDescription = styled(TYPE.black).attrs(props => ({
   border-radius: ${({ theme: { buttons } }) => buttons.borderRadius};
 `
 
-export const ItemBackendDescription = styled(ItemDescription)<{ accentColor: string }>`
+export const ProductBackendDescription = styled(ProductDescription)<{ accentColor: string }>`
   blockquote {
     margin: 0;
   }
@@ -244,7 +235,7 @@ export const ItemBackendDescription = styled(ItemDescription)<{ accentColor: str
   }
 `
 
-export const SubItemDescription = styled(ItemDescription).attrs(props => ({
+export const SubItemDescription = styled(ProductDescription).attrs(props => ({
   ...props,
   padding: props.padding || '1.8rem',
   margin: props.margin || '2rem 0',
@@ -258,13 +249,11 @@ export const SubItemDescription = styled(ItemDescription).attrs(props => ({
   gap: 1rem;
 `
 
-export const ItemContentContainer = styled(Column)`
+export const ProductScreen = styled(Column)`
   position: relative;
   overflow: hidden;
 
-  ${upToSmall`
-    height: 100vh;
-  `}
+  height: calc(100vh - ${HEADER_HEIGHT_REM}rem);
 
   > ${Column} {
     padding: 0 2rem;
@@ -275,23 +264,19 @@ export const ItemContentContainer = styled(Column)`
   }
 `
 
-// COLLECTION NON-CAROUSEL VIEW vs NON-COLLECTION CAROUSEL ACTIVE VIEW
-// w/carousel
-export const InnerContainer = styled(Column)<{ bgColor?: string }>``
-// w.o carousel (collection)
-export const InnerCollectionContainer = styled(Column)<{ bgColor?: string }>`
-  height: 100%;
-`
-
-export const ItemAsidePanel = styled(Column)`
+export const ProductAsidePanel = styled(Column)`
   display: flex;
   flex-flow: column nowrap;
   align-items: flex-start;
 `
 
-export const ItemContainer = styled(Row)<{
+export const ProductScreensContainer = styled(Column)`
+  position: relative;
+  width: 100%;
+`
+
+export const ProductContainer = styled(Row)<{
   side?: 'LEFT' | 'RIGHT'
-  collectionView?: boolean
   bgColor?: string
   navLogo?: GenericImageSrcSet
   logo?: GenericImageSrcSet
@@ -308,7 +293,14 @@ export const ItemContainer = styled(Row)<{
     justify-content: stretch;
   `}
 
-  > ${ItemAsidePanel} {
+  > ${VideoContentWrapper} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  > ${ProductAsidePanel} {
     overflow-y: auto;
     position: relative;
     justify-content: ${({ side = 'LEFT' }) => (side === 'LEFT' ? 'flex-start' : 'flex-end')};
@@ -320,7 +312,7 @@ export const ItemContainer = styled(Row)<{
 
     // MEDIA QUERIES --> SMALL and below
     ${({ theme }) => theme.mediaWidth.upToSmall`
-    // corresponds with > InnerC0ntainer below
+    // corresponds with > CollectionScreensContainer
     // ios does NOT support overflow-x: clip; so we need this
       @supports not (overflow:clip) {
         position: fixed;
@@ -332,291 +324,7 @@ export const ItemContainer = styled(Row)<{
       border: none;
       margin: 0;
     `}
-
-    //  *
-    //  * BOTH INNER CONTAINERS
-    //  *
-    > ${InnerCollectionContainer}, > ${InnerContainer} {
-      position: relative;
-      
-      width: 100%;
-    }
-
-    //  *
-    //  * COLLECTION INNER CONTAINER WITHOUT CAROUSEL
-    //  * 
-    > ${InnerCollectionContainer} {
-      // MEDIA QUERY --> SMALL and below
-      ${upToSmall`
-      padding: 0;
-      `}
-      // MEDIA QUERY --> LARGE and below
-      ${upToLarge`
-      height: 100%;
-      max-width: 100%;
-      `}
-      // MEDIA QUERY --> LARGE and up
-      ${fromLarge`
-      overflow: hidden;
-      width: 100%;
-      max-width: unset;
-      `}
-      
-      > ${ItemContentContainer} {
-        // ----------------------- //
-        // COLLECTION ITEM LOGO
-        // ----------------------- //
-        > ${ItemLogo} {
-          margin-top: 0px;
-        }
-
-        // ----------------------- //
-        // COLLECTION CAROUSEL CONTAINER 
-        // ----------------------- //
-        > ${CarouselContainer} {
-          // MEDIA QUERY --> SMALL and below
-          ${upToSmall`
-            margin: 7rem 0 0;
-            > ${AnimatedDivContainer} {
-              picture {
-                margin-top: -3.5rem;
-              }
-            }
-          `}
-          // MEDIA QUERY --> LARGE and up
-          ${fromMedium`  
-            margin-top: 2rem;
-          `}
-          // MEDIA QUERY --> LARGE and up
-          ${fromLarge`  
-            justify-content: space-between;
-            overflow: visible;
-          `}
-
-          > ${StaticCarouselStep} {
-            position: relative;
-            height: 100%;
-
-            > picture {
-                overflow: hidden; 
-
-                img {
-                  max-width: unset;
-                  height: 100%;
-                }
-              }
-
-            &:first-child {
-              box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
-
-              > picture {
-                border-radius: 1rem 0 0 1rem;
-
-                ${upToSmall`
-                  border-radius: 0rem;
-                `}
-
-                ${fromExtraLarge`
-                  margin-right: auto;
-                `}
-              }
-            }
-
-            &:last-child {
-              box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
-
-              > picture {
-                border-radius: 0 1rem 1rem 0;
-                
-                ${upToSmall`
-                  border-radius: 0rem;
-                  display: none;
-                `}
-
-                ${fromExtraLarge`
-                  margin-left: auto;
-                `}
-              }
-
-              
-            }
-
-            // MEDIA QUERY --> SMALL and below
-            ${upToSmall`
-              width: auto;
-              justify-content: center;            
-              :not(:first-child) {
-                position: absolute;
-                visibility: hidden;
-                transform: none;
-                z-index: ${Z_INDEXES.ZERO};
-              }
-            `}
-            // MEDIA QUERY --> SMALL and above
-            ${({ theme }) => betweenSmallAndLarge`
-              position: absolute;
-              max-width: 100%;
-              z-index: 1;
-            
-              transform: none;
-              overflow: visible;
-
-              > picture {
-                overflow: visible;
-              }
-
-              &:first-child {
-                > picture {
-                  position: absolute;
-                  width: 60%;
-                  top: 0;
-                  left: 0;
-                }
-              }
-
-              &:not(:first-child) {
-                > picture {
-                  > img {
-                    border-radius: 1rem;
-                    box-shadow: 1rem 0px 5rem 0.5rem ${transparentize(0.5, theme.black)};
-                  }
-                  position: absolute;
-                  width: 65%;
-                  height: 80%;
-                  top: 40%;
-                  left: 50%;
-                }
-              }
-            `}
-            
-            // MEDIA QUERY --> LARGE and above
-            ${fromLarge`
-              position: relative;
-              justify-content: center;
-              width: 40%;
-              transform: none;
-              z-index: 5;
-              :not(:first-child) {
-                visibility: visible;
-              }       
-            `}
-
-          }
-        }
-
-        // ----------------------- //
-        // ITEM COLLECTION LOGO
-        // ----------------------- //
-        > ${ItemLogoCollectionView} {
-          filter: ${({ theme }) => theme.darkModeFilter};
-          // MEDIA QUERY --> SMALL and below
-          ${upToSmall`
-            max-width: 100%;
-          `}
-          // MEDIA QUERY --> SMALL and above
-          ${fromSmall`
-            max-width: 50%;
-          `}
-          // MEDIA QUERY --> LARGE and above
-          ${fromLarge`
-            max-width: 35%;
-          `}
-        }
-      }
-    }
-
-    //  *
-    //  * INNER CONTAINER WITH CAROUSEL
-    //  *
-    > ${InnerContainer} {
-      max-width: ${STORE_IMAGE_SIZES.SMALL}px;
-      box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
-
-      ${upToLarge`
-        max-width: 40vw; 
-        min-width: 36rem;
-      `}
-
-      // MEDIA QUERIES --> SMALL and below
-      ${upToSmall`
-        max-width: 100%;
-        min-width: unset;
-        // corresponds with @supports not above in itemAsidePanel
-        @supports (overflow:clip) {
-          overflow-x: clip;
-        }
-        
-        > ${ItemContentContainer} {
-          padding-left: 0;
-          padding-right: 0;
-        }
-      `}
-      // MEDIA QUERIES --> LARGE and up
-      ${fromLarge`
-        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge}; 
-      `}
-      // MEDIA QUERIES --> X-LARGE and up
-      ${fromExtraLarge`
-        max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
-      `}
-
-      ${ItemLogo} {
-        width: 100%;
-        margin-top: -18.5%;
-        
-        // for mobile logos in single
-        &${ItemLogoCssImport} {
-          margin-top: -15.1%;
-        }
-        
-        padding-top: 2rem;
-
-        filter: ${({ theme }) => theme.darkModeLogoFilter};
-
-        ${fromLarge`
-          width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
-        `}
-        ${fromExtraLarge`
-          width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
-        `}
-
-        > img {
-          margin: 0;
-        }
-      }
-
-      > ${ItemContentContainer} {
-        ${({ theme, bgColor = BLACK, navLogo }) =>
-          navLogo
-            ? setBackgroundWithDPI(theme, navLogo, {
-                ignoreQueriesWithFixedWidth: 960,
-                backgroundAttributes: ['center / cover no-repeat', '36px / cover repeat'],
-                backgroundBlendMode: 'difference',
-                modeColours: [bgColor, CHARCOAL_BLACK]
-              })
-            : `background: linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%);`}
-      }
-
-      > ${CarouselContainer} {
-        > ${StaticCarouselStep} {
-          height: 100%;
-
-          img {
-            max-width: unset;
-            height: 100%;
-          }
-        }
-      }
-    }
-  }
-
-  > ${VideoContentWrapper} {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-
+  
   select {
     text-align: center;
     min-width: 50px;
@@ -629,7 +337,6 @@ export const ItemContainer = styled(Row)<{
     cursor: pointer;
     line-height: 1.1;
     background-color: ${({ theme }) => theme.products.aside.itemContainer};
-    // background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 
     display: grid;
     grid-template-areas: 'select';
@@ -656,7 +363,7 @@ export const ItalicStrikethrough = styled.i`
   text-decoration: line-through;
 `
 
-export const ItemCredits = styled(TYPE.black).attrs(props => ({
+export const ProductCredits = styled(TYPE.black).attrs(props => ({
   ...props,
   fontSize: '1.4rem',
   padding: '1.3rem 0.8rem',
@@ -681,7 +388,7 @@ function _showSocialUrl(type: string | SocialType) {
   }
 }
 
-export const ItemArtistInfo = (props: (BaseProductPageProps['artistInfo'] & { bgColor: string }) | undefined) => {
+export const ProductArtistInfo = (props: (BaseProductPageProps['artistInfo'] & { bgColor: string }) | undefined) => {
   if (!props) return null
 
   const { name, type, url, display, bgColor } = props
@@ -703,30 +410,6 @@ export const ItemArtistInfo = (props: (BaseProductPageProps['artistInfo'] & { bg
     </TYPE.black>
   )
 }
-type FloatingColoredBlock = {
-  width?: number
-  height?: number
-  top?: number
-  left?: number
-  gradientBase?: string
-  gradientEnd?: string
-  rotation?: number
-}
-
-export const FloatingBlockContainer = styled.div<FloatingColoredBlock>`
-  position: absolute;
-  background-image: ${({ gradientBase = 'rgba(33, 114, 229, 0.1)', gradientEnd = 'rgba(33, 36, 41, 1)' }) =>
-    `radial-gradient(50% 50% at 50% 50%, ${gradientBase} 0%, ${gradientEnd} 100%)`};
-
-  transform: rotate(${({ rotation = 45 }) => rotation}deg);
-
-  width: ${({ width = 755 }) => width}px;
-  height: ${({ height = 292 }) => height}px;
-  top: ${({ top = 57 }) => top}px;
-  left: ${({ left = -106 }) => left}px;
-
-  z-index: ${Z_INDEXES.BEHIND};
-`
 
 export const PASTELLE_CREDIT = (
   <>
@@ -772,7 +455,7 @@ export const VideoControlButton = styled(Button)`
   border-radius: 0 0 0 1rem;
   z-index: ${Z_INDEXES.SCROLLER_DIV + 50};
 
-  > ${ItemSubHeader} {
+  > ${ProductSubHeader} {
     margin: 0;
     display: flex;
     flex-flow: row nowrap;
@@ -818,7 +501,7 @@ export const HighlightedText = styled.span<{ color?: string; bgColor: string }>`
   line-height: 1.8;
 `
 
-export const FreeShippingBanner = styled(ItemDescription).attrs(props => ({ ...props, padding: '1.8rem' }))`
+export const FreeShippingBanner = styled(ProductDescription).attrs(props => ({ ...props, padding: '1.8rem' }))`
   display: flex;
   align-items: center;
   gap: 0.8rem;

@@ -4,7 +4,7 @@ import { AutoColumn, Row } from 'components/Layout'
 import { MarkdownRenderer } from 'components/Markdown'
 import { TYPE } from 'theme'
 import { getThemeColours } from 'theme/utils'
-import { ItemContainer, ItemAsidePanel, ItemHeader } from '../common/styleds'
+import { ProductContainer, ProductAsidePanel, ItemHeader } from '../common/styleds'
 import SmartImg, { ImageKitTransformation } from 'components/SmartImg'
 import { ThemeModes } from 'theme/styled'
 
@@ -20,13 +20,13 @@ const ImageContainer = styled(AutoColumn)`
   `}
 `
 
-const AsideWithScrollableImagesContainer = styled(ItemContainer)`
-  > ${ItemAsidePanel}, > ${ImageContainer} {
+const AsideWithScrollableImagesContainer = styled(ProductContainer)`
+  > ${ProductAsidePanel}, > ${ImageContainer} {
     width: 700px;
     max-width: 100%;
   }
 
-  > ${ItemAsidePanel} {
+  > ${ProductAsidePanel} {
     padding: 30px 0;
   }
 `
@@ -54,7 +54,7 @@ interface Params {
 export function AsideWithScrollableImages({ header, markdown, image }: Params) {
   return (
     <AsideWithScrollableImagesContainer id="#item-container" /* isViewingItem={isViewingItem} */>
-      <ItemAsidePanel>
+      <ProductAsidePanel>
         <AboutUsHeader fontWeight={100} itemColor={getThemeColours(ThemeModes.DARK).bg2} animation>
           {header}
         </AboutUsHeader>
@@ -63,7 +63,7 @@ export function AsideWithScrollableImages({ header, markdown, image }: Params) {
             <MarkdownRenderer filePath={markdown} />
           </TYPE.black>
         </AboutUsTextContainer>
-      </ItemAsidePanel>
+      </ProductAsidePanel>
       <ImageContainer>
         <SmartImg path={{ defaultPath: image.path }} transformation={image.transformation} />
       </ImageContainer>

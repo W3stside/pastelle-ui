@@ -1,5 +1,5 @@
 import { Row } from 'components/Layout'
-import { ItemSubHeader } from 'pages/common/styleds'
+import { ProductSubHeader } from 'pages/common/styleds'
 import { PauseCircle, PlayCircle, ToggleLeft, ToggleRight } from 'react-feather'
 import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
 import styled from 'styled-components/macro'
@@ -22,9 +22,15 @@ export default function ShowcaseVideoControls({ isMobile }: { isMobile: boolean 
           flex: 1;
         `}
       >
-        <ItemSubHeader margin="0" paddingLeft="0" backgroundColor={'transparent'} fontSize={'1.2rem'} fontWeight={300}>
+        <ProductSubHeader
+          margin="0"
+          paddingLeft="0"
+          backgroundColor={'transparent'}
+          fontSize={'1.2rem'}
+          fontWeight={300}
+        >
           VIDEO SETTINGS
-        </ItemSubHeader>
+        </ProductSubHeader>
       </Row>
       <Row
         alignItems={'center'}

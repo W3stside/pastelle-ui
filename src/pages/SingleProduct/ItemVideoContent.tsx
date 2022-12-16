@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { ItemSubHeader, VideoContentWrapper, VideoControlButton as VideoControlButtonStyled } from '../common/styleds'
+import {
+  ProductSubHeader,
+  VideoContentWrapper,
+  VideoControlButton as VideoControlButtonStyled
+} from '../common/styleds'
 import LazyVideo, { LazyVideoProps } from 'components/LazyVideo'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { ButtonVariations } from 'components/Button'
@@ -153,7 +157,7 @@ type VideoControlButtonParams = {
 function VideoControlButton({ callback, isPlaying }: VideoControlButtonParams) {
   return (
     <VideoControlButtonStyled variant={ButtonVariations.SECONDARY} onClick={callback}>
-      <ItemSubHeader>
+      <ProductSubHeader>
         {isPlaying ? (
           <>
             <Pause color="ghostwhite" fill="ghostwhite" size={CONTROL_BUTTON_SIZE} /> PAUSE
@@ -163,7 +167,7 @@ function VideoControlButton({ callback, isPlaying }: VideoControlButtonParams) {
             <Play color="ghostwhite" fill="ghostwhite" size={CONTROL_BUTTON_SIZE} /> PLAY{' '}
           </>
         )}
-      </ItemSubHeader>
+      </ProductSubHeader>
     </VideoControlButtonStyled>
   )
 }

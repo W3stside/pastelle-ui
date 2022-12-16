@@ -1,7 +1,7 @@
 import { Menu, X } from 'react-feather'
 import { useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ItemSubHeader } from 'pages/common/styleds'
+import { ProductSubHeader } from 'pages/common/styleds'
 import { BaseProductPageProps } from 'pages/common/types'
 import LoadingRows from 'components/Loader/LoadingRows'
 import { useCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
@@ -72,16 +72,16 @@ export default function Navigation({
       >
         {/* <NavLogo parentNode={parentNode} logoSrcSet={currentProduct?.navLogo} /> */}
         <InnerNavWrapper>
-          <ItemSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
+          <ProductSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
             <Row flexDirection={'row-reverse'} flexWrap={'wrap'} justifyContent="center" style={{ gap: '0.5rem' }}>
               <div style={{ fontWeight: 300, fontSize: '1.2rem' }}>{COLLECTION_PARAM_NAME}</div>
               <div>{title}</div>
             </Row>
-          </ItemSubHeader>
+          </ProductSubHeader>
           {collection ? (
             Object.values(collection).map(product => (
               <SideEffectNavLink key={product.id} onClick={e => handleNavMove(e, product)}>
-                <ItemSubHeader
+                <ProductSubHeader
                   width={'100%'}
                   padding="2px"
                   margin="0"
@@ -91,7 +91,7 @@ export default function Navigation({
                   <CollectionLabel active={product.id === currentProduct?.id} bgColor={currentProduct?.bgColor}>
                     {product.title}
                   </CollectionLabel>
-                </ItemSubHeader>
+                </ProductSubHeader>
               </SideEffectNavLink>
             ))
           ) : (

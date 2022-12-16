@@ -1,6 +1,6 @@
 import Button, { ButtonVariations, ButtonSizeVariations, ButtonProps } from 'components/Button'
 import ErrorMessage from 'components/ErrorMessage'
-import { ItemDescription } from 'pages/common/styleds'
+import { ProductDescription } from 'pages/common/styleds'
 import { useCallback, useEffect, useState } from 'react'
 import { useAddLineToCartAndUpdateReduxCallback } from 'state/cart/hooks'
 
@@ -37,9 +37,9 @@ export default function AddToCartButton({
         {...buttonProps}
       >
         {!error && (
-          <ItemDescription color="inherit" backgroundColor="transparent" padding="1rem">
+          <ProductDescription color="inherit" backgroundColor="transparent" padding="1rem">
             {loading ? 'Adding...' : shouldShow ? disappearingMessage : label}
-          </ItemDescription>
+          </ProductDescription>
         )}
       </Button>
       {error && <ErrorMessage error={error} />}
@@ -47,7 +47,7 @@ export default function AddToCartButton({
   )
 }
 
-const DisappearingMessageWrapper = styled(ItemDescription)`
+const DisappearingMessageWrapper = styled(ProductDescription)`
   background-color: ${({ theme }) => theme.offWhiteOpaque1};
   color: ${({ theme }) => theme.text1};
 `

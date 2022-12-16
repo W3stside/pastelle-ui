@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { ItemSubHeader } from 'pages/common/styleds'
+import { ProductSubHeader } from 'pages/common/styleds'
 import styled from 'styled-components/macro'
 import { rotateKeyframe } from 'theme/styles/animations'
 import { setBackgroundWithDPI } from 'theme/utils'
@@ -82,10 +82,10 @@ export const FixedAnimatedLoader = ({
   ...styleParams
 }: LoadingParams & StyleParams) => (
   <FixedContainer {...styleParams}>
-    <ItemSubHeader>
+    <ProductSubHeader>
       {loadingComponent}
       <strong>{loadingLabel}</strong>
-    </ItemSubHeader>
+    </ProductSubHeader>
   </FixedContainer>
 )
 

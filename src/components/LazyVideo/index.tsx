@@ -5,7 +5,7 @@ import { Row } from 'components/Layout'
 
 import useDetectScrollIntoView from 'hooks/useDetectScrollIntoView'
 
-import { ItemHeader, ItemSubHeader, VideoPlayCTAOverlay } from 'pages/common/styleds'
+import { ItemHeader, ProductSubHeader, VideoPlayCTAOverlay } from 'pages/common/styleds'
 
 import { BoxProps } from 'rebass'
 import { getThemeColours, OFF_WHITE } from 'theme/utils'
@@ -161,9 +161,9 @@ export default forwardRef(function LazyVideo(
           $height="100%"
           textAlign="center"
         >
-          <ItemSubHeader color={OFF_WHITE} display="flex" alignItems="center" justifyContent="center">
+          <ProductSubHeader color={OFF_WHITE} display="flex" alignItems="center" justifyContent="center">
             <Play size="1.8rem" style={{ marginRight: '0.5rem' }} /> TAP TO PLAY
-          </ItemSubHeader>
+          </ProductSubHeader>
         </VideoPlayCTAOverlay>
       )}
       <video {...combinedVideoProps} ref={setVideoElement}>
