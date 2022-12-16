@@ -135,10 +135,6 @@ export const HeaderRow = styled(RowFixed)`
     > ${MobileNavOrb} {
       margin-left: auto;
     }
-    // shop cart is only in footer
-    > ${ShoppingCartFullWrapper} {
-      display: none;      
-    }
   `}
 
   ${fromMedium`

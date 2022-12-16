@@ -8,12 +8,10 @@ import {
   HeaderControls,
   HeaderElement,
   HeaderFrame,
-  HeaderLinks,
   HeaderRow,
   HideSmall,
   NetworkCard,
   Pastellecon,
-  StyledNavLink,
   StyledThemeToggleBar,
   Title
 } from './styleds'
@@ -23,15 +21,12 @@ import Web3Status from 'components/blockchain/Web3Status'
 
 import { useNativeCurrencyBalances } from 'blockchain/hooks/useCurrencyBalance'
 
-import { DEFAULT_COLLECTION_URL } from 'constants/config'
-import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { NETWORK_LABELS } from 'blockchain/constants'
 
 import { checkIsCollectionPage } from 'utils/navigation'
 import { isWeb3Enabled } from 'blockchain/connectors'
 import { useIsMediumWindowWidthSize } from 'state/window/hooks'
 import { useCurrentProductMedia, useGetAllProductLogos } from 'state/collection/hooks'
-import { SkipBack } from 'react-feather'
 import { isMobile } from 'utils'
 
 export default function Header() {
@@ -62,14 +57,7 @@ export default function Header() {
         <Title to="/#">
           <Pastellecon />
         </Title>
-        {/* NAV */}
-        {!isCollectionPage && (
-          <HeaderLinks id="header-links-container" color={color}>
-            <StyledNavLink to={DEFAULT_COLLECTION_URL} style={{ alignItems: 'center', gap: '0.5rem' }}>
-              <SkipBack size={12} /> {COLLECTION_PARAM_NAME.toLocaleUpperCase()}
-            </StyledNavLink>
-          </HeaderLinks>
-        )}
+
         {/* WEB3 */}
         {isEnabled && <Web3StatusHeader />}
         {/* THEME TOGGLE - ONLY MEDIUM */}
