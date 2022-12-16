@@ -114,7 +114,7 @@ export const HeaderRow = styled(RowFixed)`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: minmax(7.5rem, 16rem) auto min-content;
+  grid-template-columns: minmax(7.5rem, 16rem) auto min-content min-content;
   grid-gap: 1rem;
   z-index: 1;
 
@@ -129,7 +129,6 @@ export const HeaderRow = styled(RowFixed)`
 
   > ${ShoppingCartFullWrapper} {
     margin-left: auto;
-    margin-right: 2rem;
   }
 
   ${upToExtraSmall`

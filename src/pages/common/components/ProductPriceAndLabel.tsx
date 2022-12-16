@@ -25,7 +25,7 @@ export default function ProductPriceAndLabel({
       <Price
         price={variant?.variantBySelectedOptions?.priceV2}
         fontWeight={300}
-        fontSize={'2rem'}
+        fontSize={'3rem'}
         margin={'auto 0 0 auto'}
         padding={'0.5rem'}
         flex="0 1 auto"

@@ -99,7 +99,9 @@ export default function Navigation({
           )}
         </InnerNavWrapper>
         <InnerNavWrapper margin="auto auto 1rem auto" padding="1.5rem 1rem" alignItems={'center'} bgColor="transparent">
-          <ThemeToggleBar themeToggleProps={{ width: '90%' }} />
+          <div>
+            <ThemeToggleBar themeToggleProps={{ width: '90%' }} />
+          </div>
         </InnerNavWrapper>
       </NavigationStepsWrapper>
     </>
