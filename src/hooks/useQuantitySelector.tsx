@@ -15,7 +15,7 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
 
   > button {
     &:disabled {
-      background: lightgrey;
+      background: dimgrey;
       cursor: not-allowed;
       color: #000;
     }
@@ -44,6 +44,10 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
     font-weight: 400;
     background-color: ${({ theme }) => theme.products.aside.itemContainer};
     color: ${({ theme }) => theme.products.aside.textColor};
+  }
+
+  > svg {
+    align-self: center;
   }
 
   > *:not(input[type='number']):not(button:disabled) {
