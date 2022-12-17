@@ -5,7 +5,7 @@ import { useCreateCart } from 'shopify/graphql/hooks'
 import { GET_CART } from 'shopify/graphql/queries/cart'
 import { GetCartQuery, GetCartQueryVariables } from 'shopify/graphql/types'
 import { useUpdateCartInfoDispatch, useGetCartIdState, useToggleCartAndState } from 'state/cart/hooks'
-import { devError } from 'utils/logging'
+import { devDebug, devError } from 'utils/logging'
 import { UpdateCartInfoParams } from './reducer'
 
 interface CartCreationCbs {
@@ -30,7 +30,7 @@ export default function CartUpdater() {
           : _createAndSaveCart({ createCart, updateCartInfo, toggleCartOptions }))
       } catch (error) {
         if (error?.type === 'EMPTY_CART') {
-          console.debug('[CART UPDATER] --> EMPTY_CART - INITIATING NEW CART!')
+          devDebug('[CART UPDATER] --> EMPTY_CART - INITIATING NEW CART!')
           _createAndSaveCart({ createCart, updateCartInfo, toggleCartOptions })
         } else {
           throw error
@@ -59,7 +59,7 @@ function _queryAndUpdateCart({ cartId, query, updateCartInfo }: QueryCartParams)
       if (error) throw { type: 'QUERY_ERROR', error }
       else if (!data?.cart || data?.cart === null) throw { type: 'EMPTY_CART' }
 
-      console.debug('[CART UPDATER::PREVIOUS CART SUB-UPDATER] --> Previous cart found! Setting.')
+      devDebug('[CART UPDATER::PREVIOUS CART SUB-UPDATER] --> Previous cart found! Setting.')
       updateCartInfo({
         cartId: data.cart.id,
         totalQuantity: data.cart.totalQuantity,
@@ -78,7 +78,7 @@ async function _createAndSaveCart({ updateCartInfo, createCart, toggleCartOption
       const cart = cartResponse?.cartCreate?.cart
 
       if (cart) {
-        console.debug('[CART UPDATER::NEW CART SUB-UPDATER] --> New cart initialised!')
+        devDebug('[CART UPDATER::NEW CART SUB-UPDATER] --> New cart initialised!')
         updateCartInfo({ cartId: cart.id })
       }
     })

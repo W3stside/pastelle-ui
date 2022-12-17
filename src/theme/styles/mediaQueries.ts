@@ -1,7 +1,15 @@
 import { ThemedCssFunction, DefaultTheme, CSSObject, FlattenSimpleInterpolation, css } from 'styled-components/macro'
 
-export type MediaWidths = 500 | 720 | 960 | 1280 | 1440
+export type MediaHeights = 375 | 500 | 768 | 1080 | 2160
+export const MEDIA_HEIGHTS: { [key in keyof DefaultTheme['mediaHeight']]: MediaHeights } = {
+  upToExtraSmallHeight: 375,
+  upToSmallHeight: 500,
+  upToMediumHeight: 768,
+  upToLargeHeight: 1080,
+  upToExtraLargeHeight: 2160
+}
 
+export type MediaWidths = 500 | 720 | 960 | 1280 | 1440
 export const MEDIA_WIDTHS: { [key in keyof DefaultTheme['mediaWidth']]: MediaWidths } = {
   upToExtraSmall: 500,
   upToSmall: 720,
@@ -27,10 +35,14 @@ export const BETWEEN_MEDIA_WIDTHS = {
   betweenSmallAndLarge: [MEDIA_WIDTHS.upToSmall, MEDIA_WIDTHS.upToLarge]
 }
 
+type MediaHeightKeys = keyof typeof MEDIA_HEIGHTS
 type MediaWidthKeys = keyof typeof MEDIA_WIDTHS
 type FromMediaWidthKeys = keyof typeof FROM_MEDIA_WIDTHS
 type BetweenMediaWidthKeys = keyof typeof BETWEEN_MEDIA_WIDTHS
 
+type MediaHeight = {
+  [key in MediaHeightKeys]: ThemedCssFunction<DefaultTheme>
+}
 type MediaWidth = {
   [key in MediaWidthKeys]: ThemedCssFunction<DefaultTheme>
 }
@@ -40,6 +52,20 @@ type FromMediaWidth = {
 type BetweenMediaWidth = {
   [key in BetweenMediaWidthKeys]: ThemedCssFunction<DefaultTheme>
 }
+
+// height
+export const mediaHeightTemplates = Object.keys(MEDIA_HEIGHTS).reduce<MediaHeight>((accumulator, size: unknown) => {
+  ;(accumulator[size as MediaHeightKeys] as unknown) = (
+    a: CSSObject,
+    b: CSSObject,
+    c: CSSObject
+  ): ThemedCssFunction<DefaultTheme> | FlattenSimpleInterpolation => css`
+    @media (max-height: ${MEDIA_HEIGHTS[size as MediaHeightKeys]}px) {
+      ${css(a, b, c)}
+    }
+  `
+  return accumulator
+}, {} as MediaHeight)
 
 export const mediaWidthTemplates = Object.keys(MEDIA_WIDTHS).reduce<MediaWidth>((accumulator, size: unknown) => {
   ;(accumulator[size as MediaWidthKeys] as unknown) = (

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useWeb3React } from '@web3-react/core'
 
@@ -13,7 +13,8 @@ import {
   NetworkCard,
   Pastellecon,
   StyledThemeToggleBar,
-  Title
+  Title,
+  HeaderDrawerButton
 } from './styleds'
 import Navigation from 'components/Navigation'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
@@ -28,6 +29,7 @@ import { isWeb3Enabled } from 'blockchain/connectors'
 import { useIsMediumWindowWidthSize } from 'state/window/hooks'
 import { useCurrentProductMedia, useGetAllProductLogos } from 'state/collection/hooks'
 import { isMobile } from 'utils'
+import { ProductSubHeader } from 'pages/common/styleds'
 
 export default function Header() {
   const location = useLocation()
@@ -46,12 +48,21 @@ export default function Header() {
     [isCollectionPage]
   )
 
+  // only applicable for certain view sizes..
+  const [open, setOpen] = useState(false)
+
   return (
     <HeaderFrame
       as="header"
       color={color}
       logoSet={isMobile && isCollectionPage ? staticRandomLogoSet : dynamicHeaderLogoSet}
+      open={open}
     >
+      <HeaderDrawerButton onClick={() => setOpen(state => !state)}>
+        <ProductSubHeader padding="0" margin="0">
+          TAP TO {open ? 'HIDE' : 'VIEW CART + MENU'}
+        </ProductSubHeader>
+      </HeaderDrawerButton>
       <HeaderRow>
         {/* ICON and HOME BUTTON */}
         <Title to="/#">

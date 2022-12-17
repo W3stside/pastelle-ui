@@ -6,6 +6,7 @@ import { useAppColourTheme } from 'state/user/hooks'
 import { Colors } from './styled'
 import { getThemeColours } from './utils'
 import {
+  mediaHeightTemplates as mediaHeight,
   mediaWidthTemplates as mediaWidth,
   fromMediaWidthTemplates as fromMediaWidth,
   betweenMediaWidthTemplates as betweenMediaWidth
@@ -94,6 +95,9 @@ const DEFAULT_THEME: Partial<DefaultTheme> = {
     background-image: linear-gradient(to top, ghostwhite, #fff 53%);
   `,
   // media queries
+  // height
+  mediaHeight,
+  // width
   mediaWidth,
   // from size queries
   fromMediaWidth,

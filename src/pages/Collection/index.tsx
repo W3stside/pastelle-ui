@@ -8,10 +8,9 @@ import { CollectionPageProps } from 'pages/common/types'
 import { ArticleFadeInContainer } from 'components/Layout/Article'
 import { buildItemUrl } from 'utils/navigation'
 import useStateRef from 'hooks/useStateRef'
-import { BASE_FONT_SIZE, HEADER_HEIGHT_REM } from 'constants/sizes'
+import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import { isMobile } from 'utils'
 
-const PRODUCT_LABEL_HEIGHT_REM = 7
 export default function Collection() {
   const navigate = useNavigate()
   const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, node => node)
@@ -23,7 +22,7 @@ export default function Collection() {
     () =>
       isMobile && container?.clientHeight
         ? // container height - the header and 70px to fit the next product label
-          container.clientHeight - (HEADER_HEIGHT_REM + PRODUCT_LABEL_HEIGHT_REM) * BASE_FONT_SIZE
+          container.clientHeight - (LAYOUT_REM_HEIGHT_MAP.HEADER + LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL) * BASE_FONT_SIZE
         : undefined,
     [container?.clientHeight]
   )

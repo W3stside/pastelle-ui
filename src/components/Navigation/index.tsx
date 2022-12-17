@@ -50,6 +50,7 @@ export default function Navigation({
   const handleNavMove = useCallback(
     (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, product: Pick<BaseProductPageProps, 'handle'>) => {
       e.preventDefault()
+
       isNavOpen && toggleNav()
 
       navigate(buildItemUrl(product.handle))

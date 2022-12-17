@@ -2,6 +2,7 @@ import useSWR from 'swr'
 import { useState, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import useIsArgentWallet from 'blockchain/hooks/useIsArgentWallet'
+import { devDebug } from 'utils/logging'
 
 function useCheckIsSmartContract(): boolean | undefined {
   const { account, provider } = useWeb3React()
@@ -15,7 +16,7 @@ function useCheckIsSmartContract(): boolean | undefined {
       const code = await provider.getCode(account)
       return code !== '0x'
     } catch (e) {
-      console.debug(`checkIsSmartContractWallet: failed to check address ${account}`, e.message)
+      devDebug(`checkIsSmartContractWallet: failed to check address ${account}`, e.message)
       return false
     }
   })

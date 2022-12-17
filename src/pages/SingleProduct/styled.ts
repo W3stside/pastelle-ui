@@ -1,7 +1,13 @@
 import styled from 'styled-components/macro'
 import { transparentize } from 'polished'
 import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
-import { ProductScreen, ProductLogo, ProductLogoCssImport, ProductScreensContainer } from 'pages/common/styleds'
+import {
+  ProductScreen,
+  ProductLogo,
+  ProductLogoCssImport,
+  ProductScreensContainer,
+  ProductContainer
+} from 'pages/common/styleds'
 
 import {
   upToLarge,
@@ -10,10 +16,23 @@ import {
   fromExtraLarge,
   BLACK,
   setBackgroundWithDPI,
-  CHARCOAL_BLACK
+  CHARCOAL_BLACK,
+  betweenSmallAndLarge
 } from 'theme/utils'
 import { STORE_IMAGE_SIZES, FIXED_IMAGE_SIZE_CONSTRAINTS } from 'constants/config'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { SIZE_RATIOS } from 'constants/sizes'
+
+export const SingleProductContainer = styled(ProductContainer)<{ parentAspectRatio?: number }>`
+  ${({ parentAspectRatio }) =>
+    parentAspectRatio &&
+    parentAspectRatio < SIZE_RATIOS[169].landscape * 0.85 &&
+    betweenSmallAndLarge`
+      // 16:9 (HORIZONTAL LANDSCAPE) size
+      height: calc(100% * 9 / 16 * 1.35);
+      margin: auto;
+    `}
+`
 
 // wraps all the single product page "screens" e.g carousel + label // showcase // descriptions
 export const SingleProductScreensContainer = styled(ProductScreensContainer)<{

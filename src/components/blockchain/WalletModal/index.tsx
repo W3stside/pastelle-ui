@@ -20,6 +20,7 @@ import { ApplicationModal } from 'state/modalsAndPopups/reducer'
 import { isMobile } from 'react-device-detect'
 import Modal from 'components/Modal'
 import { updateConnectionError } from 'state/blockchainConnection/reducer'
+import { devDebug } from 'utils/logging'
 
 const CloseIcon = styled.div`
   position: absolute;
@@ -157,7 +158,7 @@ export default function WalletModal({
 
         dispatch(updateSelectedWallet({ wallet: connectionType }))
       } catch (error) {
-        console.debug(`web3-react connection error: ${error}`)
+        devDebug(`web3-react connection error: ${error}`)
         dispatch(updateConnectionError({ connectionType, error: error.message }))
       }
     },

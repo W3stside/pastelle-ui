@@ -13,7 +13,7 @@ import { BLACK, setBackgroundWithDPI, setBestTextColour, upToSmall } from 'theme
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
-import { HEADER_HEIGHT_REM } from 'constants/sizes'
+import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 
 export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; labelColor?: string }>`
   position: absolute;
@@ -49,6 +49,8 @@ export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number
     // lock the video to 16:9 ratio
     height: ${({ height = '100%' }) => height};
     ${({ width }) => width && `width: ${width};`}
+
+    height: 100%;
   }
 `
 export const Strikethrough = styled.div`
@@ -258,7 +260,7 @@ export const ProductScreen = styled(Column)`
   }
 
   ${upToSmall`
-    height: calc(100vh - ${HEADER_HEIGHT_REM}rem);
+    height: calc(100vh - ${LAYOUT_REM_HEIGHT_MAP.HEADER}rem);
     > ${Column} {
       padding: 0 1rem;
     }
@@ -284,6 +286,7 @@ export const ProductContainer = styled(Row)<{
 }>`
   width: 100%;
   height: 100%;
+
   justify-content: center;
   align-items: stretch;
 

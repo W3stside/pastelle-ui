@@ -4,6 +4,7 @@ import { getConnection } from 'blockchain/connectors/utils'
 import { useEffect } from 'react'
 import { BACKFILLABLE_WALLETS } from 'blockchain/connectors/constants'
 import { useAppSelector } from 'state'
+import { devDebug } from 'utils/logging'
 
 async function connect(connector: Connector) {
   try {
@@ -13,7 +14,7 @@ async function connect(connector: Connector) {
       await connector.activate()
     }
   } catch (error) {
-    console.debug(`EAGER CONNECTION ERROR: ${error}`)
+    devDebug(`EAGER CONNECTION ERROR: ${error}`)
   }
 }
 

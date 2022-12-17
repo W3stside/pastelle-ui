@@ -12,7 +12,6 @@ import { ApplicationModal } from 'state/modalsAndPopups/reducer'
 
 import { Column, Row } from 'components/Layout'
 import {
-  ProductContainer,
   ProductAsidePanel,
   ProductDescription,
   ProductCredits,
@@ -38,7 +37,7 @@ import { Breadcrumbs } from 'components/Breadcrumbs'
 import { LargeImageCarousel } from 'components/Carousel/LargeProductImageCarousel'
 import * as Carousels from 'components/Carousel/ProductCarousels'
 
-import { SingleProductPageProps } from 'pages/common/types'
+import { SingleProductPageProps, WithParentAspectRatio } from 'pages/common/types'
 import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
 import ProductPriceAndLabel from 'pages/common/components/ProductPriceAndLabel'
 import Logo from 'pages/common/components/Logo'
@@ -48,7 +47,7 @@ import { getImageSizeMap } from 'shopify/utils'
 import { FREE_SHIPPING_THRESHOLD, Z_INDEXES } from 'constants/config'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { ProductSwipeCarousel } from 'components/Carousel/ProductCarousels'
-import { BASE_FONT_SIZE, HEADER_HEIGHT_REM, PRICE_LABEL_HEIGHT } from 'constants/sizes'
+import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 
 export default function SingleProductPage({
   id,
@@ -65,8 +64,9 @@ export default function SingleProductPage({
   videos = [],
   description,
   noVideo = false,
-  shortDescription
-}: SingleProductPageProps) {
+  shortDescription,
+  parentAspectRatio
+}: SingleProductPageProps & WithParentAspectRatio) {
   // MODALS
   const toggleLargeImageModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
   const closeModals = useCloseModals()
@@ -123,7 +123,7 @@ export default function SingleProductPage({
         dismissModal={closeModals}
       />
       {/* Item content */}
-      <ProductContainer id="#item-container">
+      <StyledElems.SingleProductContainer id="#item-container" parentAspectRatio={parentAspectRatio}>
         <ProductAsidePanel id="#item-aside-panel">
           {/* WRAPS ALL THE CONTENT SCREENS (CAROUSEL || SHOWCASE || INFO) */}
           <StyledElems.SingleProductScreensContainer ref={setRef} bgColor={color} navLogo={navLogo} logo={logo}>
@@ -237,20 +237,20 @@ export default function SingleProductPage({
           // }}
           hideVideo={isMobileWidth || noVideo}
           showPoster={false}
-          height={`calc(100vh - 10rem)`}
+          height={'100%'}
           zIndex={Z_INDEXES.BEHIND}
           firstPaintOver
           currentCarouselIndex={currentCarouselIndex}
           isMobileWidth={false}
         />
-      </ProductContainer>
+      </StyledElems.SingleProductContainer>
     </>
   )
 }
 
 function _getScreenContentOffsetHeight(screenNode: HTMLElement, ratio: [number, number]) {
   const logoHeight = (screenNode.clientWidth * ratio[1]) / ratio[0]
-  const headerAndPriceLabelHeights = HEADER_HEIGHT_REM + PRICE_LABEL_HEIGHT * BASE_FONT_SIZE
+  const headerAndPriceLabelHeights = LAYOUT_REM_HEIGHT_MAP.HEADER + LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL * BASE_FONT_SIZE
 
   const offsetHeight = screenNode.clientHeight - (logoHeight + headerAndPriceLabelHeights)
   return offsetHeight

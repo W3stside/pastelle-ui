@@ -44,6 +44,13 @@ export const upToMedium = whenMediaSmallerThan('upToMedium')
 export const upToLarge = whenMediaSmallerThan('upToLarge')
 export const upToExtraLarge = whenMediaSmallerThan('upToExtraLarge')
 
+const whenMediaHeightSmallerThan = (size: keyof DefaultTheme['mediaHeight']) => (
+  first: CSSObject | TemplateStringsArray,
+  ...interpolations: SimpleInterpolation[]
+) => ({ theme }: { theme: DefaultTheme }) => theme.mediaHeight[size]`${css(first, ...interpolations)}`
+// height checks
+export const upToSmallHeight = whenMediaHeightSmallerThan('upToSmallHeight')
+
 const whenMediaLargerThan = (size: keyof DefaultTheme['fromMediaWidth']) => (
   first: CSSObject | TemplateStringsArray,
   ...interpolations: SimpleInterpolation[]

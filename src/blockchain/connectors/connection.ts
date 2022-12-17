@@ -5,10 +5,11 @@ import { Network } from '@web3-react/network'
 import { WalletConnect } from '@web3-react/walletconnect'
 
 import { RPC_URLS } from 'blockchain/connectors/constants'
+import { devDebug } from 'utils/logging'
 import { Connection, ConnectionType } from './types'
 
 function onError(error: Error) {
-  console.debug(`web3-react error: ${error}`)
+  devDebug(`web3-react error: ${error}`)
 }
 
 const [web3Network, web3NetworkHooks] = initializeConnector<Network>(

@@ -38,3 +38,4 @@ export type ItemPageDesignsProps = {
 
 export type SingleProductPageProps = BaseProductPageProps
 export type CollectionPageProps = BaseProductPageProps & ScrollableContentComponentBaseProps & { itemIndex: number }
+export type WithParentAspectRatio = { parentAspectRatio?: number }

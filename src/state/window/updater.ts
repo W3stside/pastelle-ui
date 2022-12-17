@@ -20,7 +20,11 @@ const isClient = typeof window === 'object'
 function getSize() {
   return {
     width: isClient ? window.innerWidth : undefined,
-    height: isClient ? window.innerHeight : undefined
+    height: isClient ? window.innerHeight : undefined,
+    get ar() {
+      if (!isClient || !this.width || !this.height) return undefined
+      return this.width / this.height
+    }
   }
 }
 // https://usehooks.com/useWindowSize/

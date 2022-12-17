@@ -16,7 +16,8 @@ import {
   getThemeColours,
   setBestTextColour,
   setBackgroundWithDPI,
-  BLACK
+  BLACK,
+  upToSmallHeight
 } from 'theme/utils'
 
 import PASTELLE_LOGO_SMALL from 'assets/svg/PSTL-sharp.svg'
@@ -27,6 +28,7 @@ import ThemeToggleBar from 'components/ThemeToggler'
 import { ThemeModes } from 'theme/styled'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
 import { Z_INDEXES } from 'constants/config'
+import { ProductSubHeader } from 'pages/common/styleds'
 
 const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
 
@@ -62,24 +64,6 @@ export const BalanceText = styled(Text)`
   ${({ theme }) => theme.mediaWidth.upToSmall`
     display: none;
   `};
-`
-
-export const HeaderFrame = styled(SectionFrame)<{ color?: string; logoSet?: GenericImageSrcSet }>`
-  top: 0;
-  padding: 1rem;
-
-  z-index: ${Z_INDEXES.HEADER};
-
-  ${({ theme, color = BLACK, logoSet }) =>
-    logoSet &&
-    setBackgroundWithDPI(theme, logoSet, {
-      preset: 'header',
-      modeColours: [color, BLACK]
-    })}
-
-  ${fromExtraSmall`
-    height: 10rem;
-  `}
 `
 
 export const HeaderControls = styled.div`
@@ -154,6 +138,58 @@ export const HeaderRow = styled(RowFixed)`
         max-width: 11rem;
       }
   `}
+`
+
+export const HeaderDrawerButton = styled.div`
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(267deg, ${({ theme }) => theme.blackOpaque2} 13%, transparent);
+  padding: 0 2rem;
+  font-size: 2vw;
+  cursor: pointer;
+
+  > ${ProductSubHeader} {
+    color: white;
+  }
+`
+export const HeaderFrame = styled(SectionFrame)<{ open: boolean; color?: string; logoSet?: GenericImageSrcSet }>`
+  top: 0;
+  padding: 1rem;
+
+  z-index: ${Z_INDEXES.HEADER};
+
+  ${({ theme, color = BLACK, logoSet }) =>
+    logoSet &&
+    setBackgroundWithDPI(theme, logoSet, {
+      preset: 'header',
+      modeColours: [color, BLACK]
+    })}
+
+  ${fromExtraSmall`
+    height: 10rem;
+  `}
+
+  // HIDE HEADER ON SMALL HEIGHT LANDSCAPE BOIS
+  ${({ open }) => upToSmallHeight`
+    height: ${open ? '10rem' : '2.4rem'};
+    overflow: ${open ? 'unset' : 'hidden'};
+
+    > ${HeaderDrawerButton} {
+      display: flex;
+      height: ${!open ? '100%' : 'unset'};
+      align-items: center;
+      text-align: right;
+    }
+    
+    > ${HeaderRow} {
+      display: ${open ? 'grid' : 'none'};
+    }
+  `}
+
+  transition: left,height 0.2s ease-in-out;
 `
 
 export const HeaderLinks = styled(Row)<{ color?: string }>`

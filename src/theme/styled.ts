@@ -140,6 +140,15 @@ declare module 'styled-components' {
       betweenSmallAndLarge: ThemedCssFunction<DefaultTheme>
     }
 
+    // height
+    mediaHeight: {
+      upToExtraSmallHeight: ThemedCssFunction<DefaultTheme>
+      upToSmallHeight: ThemedCssFunction<DefaultTheme>
+      upToMediumHeight: ThemedCssFunction<DefaultTheme>
+      upToLargeHeight: ThemedCssFunction<DefaultTheme>
+      upToExtraLargeHeight: ThemedCssFunction<DefaultTheme>
+    }
+
     // css snippets
     flexColumnNoWrap: FlattenSimpleInterpolation
     flexRowNoWrap: FlattenSimpleInterpolation

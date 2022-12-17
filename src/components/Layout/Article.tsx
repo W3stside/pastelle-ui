@@ -3,6 +3,7 @@ import { setBackgroundWithDPI } from 'theme/utils'
 import { setFadeInAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { BoxProps } from 'rebass'
 
 export const portugalBg = `https://ik.imagekit.io/portugal-bg_Rqj8jTKhFmds.jpg`
 
@@ -12,7 +13,8 @@ const LOGO_SET = [
   { defaultUrl: portugalBg } as GenericImageSrcSet
 ]
 
-export const ArticleFadeInContainer = styled.article`
+export const ArticleFadeInContainer = styled.article<{ display?: BoxProps['display'] }>`
+  ${({ display }) => display && `display: ${display};`}
   position: relative;
   overflow: hidden;
 
