@@ -42,7 +42,7 @@ import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
 import ProductPriceAndLabel from 'pages/common/components/ProductPriceAndLabel'
 import Logo from 'pages/common/components/Logo'
 
-import { isMobile } from 'utils'
+import { isMobile as isMobileDevice } from 'utils'
 import { getImageSizeMap } from 'shopify/utils'
 import { FREE_SHIPPING_THRESHOLD, Z_INDEXES } from 'constants/config'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
@@ -76,12 +76,15 @@ export default function SingleProductPage({
   const [viewRef, setViewRef] = useStateRef<HTMLDivElement | null>(null, node => node)
   const { autoplay: autoPlay } = useAppSelector(state => state.user.showcase.videoSettings)
 
+  const isMobileWidth = useIsMobileWindowWidthSize()
+  const isMobile = isMobileDevice || isMobileWidth
+
   // MOBILE/WEB CAROUSEL
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
   const Carousel = useCallback(
     (props: Omit<ProductSwipeCarousel, 'touchAction'>) =>
-      isMobile ? (
+      isMobileDevice ? (
         <Carousels.SwipeCarousel {...props} touchAction="pan-y" />
       ) : (
         <Carousels.ClickCarousel
@@ -109,8 +112,6 @@ export default function SingleProductPage({
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
   const { ModelSizeSelector } = useModelSizeSelector()
   const variant = useQueryProductVariantByKeyValue({ productId: id, key: 'Size', value: selectedSize })
-
-  const isMobileWidth = useIsMobileWindowWidthSize()
 
   const dynamicScreenHeight = useMemo(() => {
     const viewRefHeight = viewRef?.clientHeight || 0
@@ -169,7 +170,7 @@ export default function SingleProductPage({
                 useGradient
                 bgColor={color}
                 label="SIZE & SHOWCASE"
-                margin={isMobileWidth ? '1rem 0' : '0 0 2rem 0'}
+                margin={isMobile ? '1rem 0' : '0 0 2rem 0'}
               />
               <Column margin="0" padding={'0 2rem'}>
                 {/* SHOWCASE MODEL SHOWCASE SETTINGS */}
@@ -179,7 +180,7 @@ export default function SingleProductPage({
                   </Row>
                 </ProductDescription>
                 <ShowcaseSettings>
-                  <ShowcaseVideoControls isMobile={isMobileWidth || isMobile} />
+                  <ShowcaseVideoControls isMobile={isMobile} />
                   {/* MOBILE SHOWCASE */}
                   <ModelSizeSelector />
                   {/* PRODUCT SIZE SELECTOR */}
@@ -241,7 +242,7 @@ export default function SingleProductPage({
           // autoPlayOptions={{
           //   stopTime: 4
           // }}
-          hideVideo={isMobileWidth || noVideo}
+          hideVideo={isMobile || noVideo}
           showPoster={false}
           height={'100%'}
           zIndex={Z_INDEXES.BEHIND}

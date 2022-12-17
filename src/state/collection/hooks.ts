@@ -8,6 +8,7 @@ import { reduceShopifyMediaToShowcaseVideos } from 'shopify/utils'
 import { useGetShowcaseSettings } from 'state/user/hooks'
 import { ShowcaseVideosProps } from 'components/Showcase/Videos'
 import { Product } from 'shopify/graphql/types'
+import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 export function useUpdateCurrentlyViewing() {
   const dispatch = useAppDispatch()
@@ -109,6 +110,12 @@ export function useGetProductShowcaseVideos({ videos }: Pick<ShowcaseVideosProps
 
 export function useGetSelectedProductShowcaseVideo(props: Pick<ShowcaseVideosProps, 'videos'>) {
   const { videoMap, mobileKey, webKey } = useGetProductShowcaseVideos(props)
+  const isMobileWidth = useIsMobileWindowWidthSize()
 
-  return useMemo(() => videoMap[isMobile ? mobileKey : webKey] || videoMap[webKey], [mobileKey, videoMap, webKey])
+  return useMemo(() => videoMap[isMobileWidth || isMobile ? mobileKey : webKey] || videoMap[webKey], [
+    mobileKey,
+    videoMap,
+    webKey,
+    isMobileWidth
+  ])
 }

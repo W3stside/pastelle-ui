@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useCurrentCollection } from 'state/collection/hooks'
+import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
 import AsideWithVideo from 'pages/Collection/AsideWithVideo'
 import { CollectionPageProps } from 'pages/common/types'
@@ -16,16 +17,17 @@ export default function Collection() {
   const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, node => node)
   // get latest collection and the current on screen item handle
   const { collection } = useCurrentCollection()
+  const isMobileWidth = useIsMobileWindowWidthSize()
 
   const cHeight = container?.clientHeight || 0
   // on mobile sizes we set a fixed height
   const fixedItemHeight = useMemo(
     () =>
-      isMobile && cHeight
+      (isMobile || isMobileWidth) && cHeight
         ? // container height - the header and 70px to fit the next product label
           cHeight - LAYOUT_REM_HEIGHT_MAP.HEADER * BASE_FONT_SIZE
         : undefined,
-    [cHeight]
+    [cHeight, isMobileWidth]
   )
 
   const onContentClick = useCallback(

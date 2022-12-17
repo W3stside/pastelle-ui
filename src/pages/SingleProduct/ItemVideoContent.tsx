@@ -115,7 +115,7 @@ export const ItemVideoContent = ({
             height={styleProps.height}
             width={styleProps.width}
             videoDelay={!isMobileWidth && videoDelay}
-            showTapToPlay={(isMobileWidth || isMobile) && (!isPlaying || videoProps?.autoPlay === false)}
+            showTapToPlay={isMobile && (!isPlaying || videoProps?.autoPlay === false)}
             autoPlayOptions={autoPlayOptions}
           />
         )
