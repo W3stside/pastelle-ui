@@ -9,7 +9,7 @@ import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
 import { Z_INDEXES } from 'constants/config'
-import { BLACK, setBackgroundWithDPI, setBestTextColour, upToSmall } from 'theme/utils'
+import { BLACK, setBackgroundWithDPI, setBestTextColour, upToSmall, upToSmallHeight } from 'theme/utils'
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
@@ -264,6 +264,10 @@ export const ProductScreen = styled(Column)`
     > ${Column} {
       padding: 0 1rem;
     }
+  `}
+
+  ${upToSmallHeight`
+    height: 100%;
   `}
 `
 
