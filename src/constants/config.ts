@@ -53,7 +53,8 @@ export const enum Z_INDEXES {
   HEADER = 201,
   SHOPPING_CART = 300,
   SCROLLER_DIV = 900,
-  MODALS = 9999
+  MODALS = 9999,
+  COOKIE_BANNER = 10000
 }
 export const DEFAULT_CART_LINES_AMOUNT = 30
 export const FREE_SHIPPING_THRESHOLD: number | undefined = 200

@@ -8,6 +8,7 @@ const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Err
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
 const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleProduct'))
 
+import CookieBanner from 'components/Cookies/Banner'
 import { FallbackLoader } from 'components/Loader'
 import { useQuery } from '@apollo/client'
 import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
@@ -41,6 +42,8 @@ export default function App() {
         <Route path="/404" element={<NotFound />} />
         <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} />
       </Routes>
+
+      <CookieBanner message={'PASTELLE COOKIE SETTINGS'} />
     </Suspense>
   )
 }

@@ -24,8 +24,7 @@ export const AnimatedDivContainer = styled(a.div)<{
   $borderRadius?: string
   $touchAction: TouchAction
 }>`
-  touch-action: ${({ $touchAction }) =>
-    typeof $touchAction === 'string' ? $touchAction : $touchAction?.join(' ') || 'none'};
+  touch-action: ${({ $touchAction }) => (typeof $touchAction === 'string' ? $touchAction : $touchAction?.join(' '))};
   will-change: transform;
   position: absolute;
   cursor: pointer;
