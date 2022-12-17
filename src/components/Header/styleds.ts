@@ -19,8 +19,10 @@ import {
   BLACK
 } from 'theme/utils'
 
-import PastelleLogoSharpShort from 'assets/svg/PSTL-sharp.svg'
-import PastelleLogoCursiveLong from 'assets/svg/pastelle-cursive-logo.svg'
+import PASTELLE_LOGO_SMALL from 'assets/svg/PSTL-sharp.svg'
+// import PASTELLE_LOGO_BIG from 'assets/svg/pastelle-cursive-logo.svg'
+import PASTELLE_LOGO_BIG from 'assets/svg/pastelle-ivory.svg'
+
 import ThemeToggleBar from 'components/ThemeToggler'
 import { ThemeModes } from 'theme/styled'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
@@ -222,8 +224,8 @@ export const Pastellecon = styled.div`
   width: 100%;
   transition: transform 0.3s ease;
 
-  background: url(${PastelleLogoSharpShort}) left/contain no-repeat;
-  ${fromExtraSmall`background: url(${PastelleLogoCursiveLong}) left/contain no-repeat;`}
+  background: url(${PASTELLE_LOGO_SMALL}) left/contain no-repeat;
+  ${fromExtraSmall`background: url(${PASTELLE_LOGO_BIG}) left/contain no-repeat;`}
 
   &:hover {
     transform: rotate(-5deg);
