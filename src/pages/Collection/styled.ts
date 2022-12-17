@@ -11,7 +11,8 @@ import {
   fromMedium,
   fromExtraLarge,
   betweenSmallAndLarge,
-  fromSmall
+  fromSmall,
+  upToExtraSmallHeight
 } from 'theme/utils'
 
 export const CollectionScreensContainer = styled(ProductScreensContainer)`
@@ -48,6 +49,11 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
       ${fromLarge`  
         justify-content: space-between;
         overflow: visible;
+      `}
+
+      ${upToExtraSmallHeight`
+        margin-top: 2rem;
+        justify-content: space-between;
       `}
 
       > ${StaticCarouselStep} {

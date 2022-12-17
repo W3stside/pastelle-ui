@@ -9,11 +9,10 @@ import { Dribbble, Instagram } from 'react-feather'
 import Button from 'components/Button'
 import { SocialType } from 'mock/types'
 import { Z_INDEXES } from 'constants/config'
-import { BLACK, setBackgroundWithDPI, setBestTextColour, upToSmall, upToSmallHeight } from 'theme/utils'
+import { BLACK, setBackgroundWithDPI, setBestTextColour, upToSmallHeight } from 'theme/utils'
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
-import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 
 export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; labelColor?: string }>`
   position: absolute;
@@ -36,6 +35,12 @@ export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; la
         transforms: ['pr-true,q-30', 'pr-true,q-10,bl-12']
       }
     })}
+
+  ${upToSmallHeight`
+      > ${Row}:nth-child(2) {
+        display: none;
+      }
+    `}
 `
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
@@ -258,17 +263,6 @@ export const ProductScreen = styled(Column)`
   > ${Column} {
     padding: 0 2rem;
   }
-
-  ${upToSmall`
-    height: calc(100vh - ${LAYOUT_REM_HEIGHT_MAP.HEADER}rem);
-    > ${Column} {
-      padding: 0 1rem;
-    }
-  `}
-
-  ${upToSmallHeight`
-    height: 100%;
-  `}
 `
 
 export const ProductAsidePanel = styled(Column)`

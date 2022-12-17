@@ -48,8 +48,11 @@ const whenMediaHeightSmallerThan = (size: keyof DefaultTheme['mediaHeight']) => 
   first: CSSObject | TemplateStringsArray,
   ...interpolations: SimpleInterpolation[]
 ) => ({ theme }: { theme: DefaultTheme }) => theme.mediaHeight[size]`${css(first, ...interpolations)}`
+
 // height checks
+export const upToExtraSmallHeight = whenMediaHeightSmallerThan('upToExtraSmallHeight')
 export const upToSmallHeight = whenMediaHeightSmallerThan('upToSmallHeight')
+export const upToMediumHeight = whenMediaHeightSmallerThan('upToMediumHeight')
 
 const whenMediaLargerThan = (size: keyof DefaultTheme['fromMediaWidth']) => (
   first: CSSObject | TemplateStringsArray,

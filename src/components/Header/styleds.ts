@@ -186,6 +186,10 @@ export const HeaderFrame = styled(SectionFrame)<{ open: boolean; color?: string;
     
     > ${HeaderRow} {
       display: ${open ? 'grid' : 'none'};
+
+      > ${ShoppingCartFullWrapper}, > ${MobileNavOrb} {
+        margin-bottom: 2rem;
+      }
     }
   `}
 

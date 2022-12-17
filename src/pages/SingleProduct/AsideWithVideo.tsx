@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import { Package, Truck } from 'react-feather'
@@ -48,6 +48,7 @@ import { FREE_SHIPPING_THRESHOLD, Z_INDEXES } from 'constants/config'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { ProductSwipeCarousel } from 'components/Carousel/ProductCarousels'
 import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
+import { MEDIA_HEIGHTS } from 'theme/styles/mediaQueries'
 
 export default function SingleProductPage({
   id,
@@ -111,7 +112,20 @@ export default function SingleProductPage({
 
   const isMobileWidth = useIsMobileWindowWidthSize()
 
-  const screenHeight = viewRef ? _getScreenContentOffsetHeight(viewRef, [73, 20]) : 0
+  const dynamicScreenHeight = useMemo(() => {
+    const viewRefHeight = viewRef?.clientHeight || 0
+    const screenHeight = viewRef ? _getScreenContentOffsetHeight(viewRef, [73, 20]) : 0
+    const shouldUse =
+      screenHeight && (viewRefHeight > MEDIA_HEIGHTS.upToMediumHeight || viewRefHeight < (viewRef?.clientWidth || 0))
+
+    return shouldUse
+      ? // TODO: check and fix
+        {
+          height: screenHeight,
+          width: screenHeight
+        }
+      : undefined
+  }, [viewRef])
 
   return (
     <>
@@ -137,15 +151,7 @@ export default function SingleProductPage({
                 startIndex={currentCarouselIndex}
                 accentColor={color}
                 videoProps={{ autoPlay }}
-                fixedSizes={
-                  isMobile && viewRef?.clientHeight
-                    ? // TODO: check and fix
-                      {
-                        height: screenHeight,
-                        width: screenHeight
-                      }
-                    : undefined
-                }
+                fixedSizes={dynamicScreenHeight}
               />
               {/* DYNAMIC LOGO */}
               <Logo
@@ -253,5 +259,5 @@ function _getScreenContentOffsetHeight(screenNode: HTMLElement, ratio: [number, 
   const headerAndPriceLabelHeights = LAYOUT_REM_HEIGHT_MAP.HEADER + LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL * BASE_FONT_SIZE
 
   const offsetHeight = screenNode.clientHeight - (logoHeight + headerAndPriceLabelHeights)
-  return offsetHeight
+  return offsetHeight < 0 ? undefined : offsetHeight
 }

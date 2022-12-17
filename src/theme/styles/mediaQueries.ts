@@ -1,9 +1,9 @@
 import { ThemedCssFunction, DefaultTheme, CSSObject, FlattenSimpleInterpolation, css } from 'styled-components/macro'
 
-export type MediaHeights = 375 | 500 | 768 | 1080 | 2160
+export type MediaHeights = 400 | 600 | 768 | 1080 | 2160
 export const MEDIA_HEIGHTS: { [key in keyof DefaultTheme['mediaHeight']]: MediaHeights } = {
-  upToExtraSmallHeight: 375,
-  upToSmallHeight: 500,
+  upToExtraSmallHeight: 400,
+  upToSmallHeight: 600,
   upToMediumHeight: 768,
   upToLargeHeight: 1080,
   upToExtraLargeHeight: 2160

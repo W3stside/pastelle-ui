@@ -17,14 +17,15 @@ export default function Collection() {
   // get latest collection and the current on screen item handle
   const { collection } = useCurrentCollection()
 
+  const cHeight = container?.clientHeight || 0
   // on mobile sizes we set a fixed height
   const fixedItemHeight = useMemo(
     () =>
-      isMobile && container?.clientHeight
+      isMobile && cHeight
         ? // container height - the header and 70px to fit the next product label
-          container.clientHeight - (LAYOUT_REM_HEIGHT_MAP.HEADER + LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL) * BASE_FONT_SIZE
+          cHeight - LAYOUT_REM_HEIGHT_MAP.HEADER * BASE_FONT_SIZE
         : undefined,
-    [container?.clientHeight]
+    [cHeight]
   )
 
   const onContentClick = useCallback(
