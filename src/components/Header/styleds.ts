@@ -168,10 +168,6 @@ export const HeaderFrame = styled(SectionFrame)<{ open: boolean; color?: string;
       modeColours: [color, BLACK]
     })}
 
-  ${fromExtraSmall`
-    height: 10rem;
-  `}
-
   // HIDE HEADER ON SMALL HEIGHT LANDSCAPE BOIS
   ${({ open }) => upToSmallHeight`
     height: ${open ? '10rem' : '2.4rem'};
