@@ -1,7 +1,7 @@
 import { useState, useCallback, ReactNode } from 'react'
 import { isMobile } from 'react-device-detect'
 import { Z_INDEXES } from 'constants/config'
-import { SubItemDescription } from 'pages/common/styleds'
+import { ProductSubDescription } from 'pages/common/styleds'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 import { TinyHelperText } from 'components/Common'
 import { TYPE } from 'theme'
@@ -13,7 +13,7 @@ export default function useShowShowcase() {
 
   const ShowcaseSettings = useCallback(
     ({ children }: { children?: ReactNode }) => (
-      <SubItemDescription
+      <ProductSubDescription
         padding="5rem 1.3rem 0.3rem"
         margin="-4rem auto 2rem"
         width="100%"
@@ -59,7 +59,7 @@ export default function useShowShowcase() {
             </p>
           </TYPE.black>
         )}
-      </SubItemDescription>
+      </ProductSubDescription>
     ),
     [isMobileWidth, showShowcase]
   )

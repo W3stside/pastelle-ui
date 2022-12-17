@@ -45,16 +45,16 @@ const BUTTON_VARIATION_LIST = Object.entries(ButtonVariations)
 const DEFAULT_DARKEN_AMOUNT = 0.2
 
 const PRIMARY_BUTTON_STYLES = css`
-  color: ${({ theme }): string => theme.text1};
-  background: ${({ theme }): string => theme.offWhite};
+  color: ${({ theme }): string => theme.products.aside.textColor};
+  background: ${({ theme }): string => theme.products.aside.itemContainer};
 
   &:hover {
-    background: ${({ theme }): string => darken(DEFAULT_DARKEN_AMOUNT, theme.bg1)};
+    background: ${({ theme }): string => darken(DEFAULT_DARKEN_AMOUNT, theme.products.aside.itemContainer)};
   }
 `
 
 const SECONDARY_BUTTON_STYLES = css`
-  color: ${({ theme }): string => theme.text1};
+  color: ${({ theme }): string => theme.offWhite};
   background: ${({ theme }): string => theme.purple3};
 
   &:hover {

@@ -235,7 +235,7 @@ export const ProductBackendDescription = styled(ProductDescription)<{ accentColo
   }
 `
 
-export const SubItemDescription = styled(ProductDescription).attrs(props => ({
+export const ProductSubDescription = styled(ProductDescription).attrs(props => ({
   ...props,
   padding: props.padding || '1.8rem',
   margin: props.margin || '2rem 0',
