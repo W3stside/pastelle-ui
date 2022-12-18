@@ -75,7 +75,7 @@ export const SingleProductScreen = styled(ProductScreen)`
   `}
 
   > ${CarouselContainer} {
-    // min-height: 443px;
+    min-height: 443px;
 
     ${StaticCarouselStep} {
       height: 100%;

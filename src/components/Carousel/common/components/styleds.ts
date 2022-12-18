@@ -3,7 +3,7 @@ import { transparentize } from 'polished'
 import { Row } from 'components/Layout'
 import { ScrollerContainer } from 'components/ScrollingContentPage/styleds'
 import { Z_INDEXES } from 'constants/config'
-import { BLACK, OFF_WHITE } from 'theme/utils'
+import { BLACK, BLACK_TRANSPARENT, OFF_WHITE } from 'theme/utils'
 
 const BaseCarouselStep = styled(Row)<{
   $width: number
@@ -97,22 +97,24 @@ export const CarouselIndicator = styled.div<{ isCurrent: boolean; color?: string
   color: ${({ isCurrent }) => (isCurrent ? BLACK : OFF_WHITE)};
   border: 1px solid ${({ isCurrent, theme, color = theme.blackOpaque2 }) => (isCurrent ? 'transparent' : color)};
   border-radius: 1rem;
-  flex: 1;
+  flex: 0 1 12%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
-  // filter: hue-rotate(124deg) invert(0);
+  font-size: 1.4rem;
+  font-weight: 400;
+  padding: 0.25rem 0;
 `
 export const CarouselIndicatorWrapper = styled(Row)`
   position: absolute;
   top: 0;
   right: 0;
-  margin: 0.9rem;
+  margin: 0;
+  padding: 1rem;
   gap: 0.5rem;
-  width: 18%;
-  height: 2rem;
-  justify-content: center;
+  width: 100%;
+  justify-content: flex-end;
   align-items: stretch;
-  z-index: ${Z_INDEXES.SCROLLER_DIV + 200};
+  z-index: ${Z_INDEXES.SCROLLER_DIV};
+  background: ${`linear-gradient(275deg, ${BLACK_TRANSPARENT} 33%, transparent)`};
 `
