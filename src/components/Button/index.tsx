@@ -129,7 +129,7 @@ const THEME_BUTTON_STYLES = css`
   color: ${({ theme }): string => theme.offWhite};
   border-color: ${({ theme }): string => theme.offWhite};
 
-  filter: ${({ theme: { mode } }) => 'contrast(1.5) saturate(10)'};
+  filter: contrast(1.5) saturate(10);
 
   border-color: ${({ theme }): string => theme.text1};
   text-shadow: 0px 0px 12px #fff;
