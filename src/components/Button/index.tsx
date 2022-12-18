@@ -129,14 +129,14 @@ const THEME_BUTTON_STYLES = css`
   color: ${({ theme }): string => theme.offWhite};
   border-color: ${({ theme }): string => theme.offWhite};
 
-  filter: ${({ theme: { mode } }) =>
-    mode === ThemeModes.DARK ? 'contrast(2) saturate(3)' : 'contrast(1.5) saturate(10)'};
+  filter: ${({ theme: { mode } }) => 'contrast(1.5) saturate(10)'};
 
   border-color: ${({ theme }): string => theme.text1};
   text-shadow: 0px 0px 12px #fff;
 
   > div {
-    filter: ${({ theme: { mode } }) => `invert(${mode === ThemeModes.DARK ? 0 : 1})`};
+    filter: ${({ theme: { mode } }) => `invert(${mode === ThemeModes.DARK ? 1 : 1})`};
+
     border-radius: 0.1rem;
 
     background-color: black;
@@ -152,7 +152,7 @@ const THEME_BUTTON_STYLES = css`
     border-color: ${({ theme }): string => theme.text1};
 
     > div {
-      filter: ${({ theme: { mode } }) => `invert(${mode === ThemeModes.DARK ? 1 : 0})`};
+      filter: ${({ theme: { mode } }) => `invert(${mode === ThemeModes.DARK ? 0 : 1})`};
     }
   }
 
