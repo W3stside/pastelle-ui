@@ -75,7 +75,7 @@ export const SingleProductScreen = styled(ProductScreen)`
   `}
 
   > ${CarouselContainer} {
-    min-height: 443px;
+    // min-height: 443px;
 
     ${StaticCarouselStep} {
       height: 100%;
@@ -140,6 +140,8 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
   }
 
   ${CarouselContainer} {
+    min-height: ${({ $calculatedSizes: { width: asideContainerWidth } }) =>
+      asideContainerWidth ? asideContainerWidth * (1 + SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET) : asideContainerWidth}px;
     height: ${({ $calculatedSizes: { height: asideContainerHeight, width: asideContainerWidth } }) =>
       asideContainerHeight && asideContainerWidth && _getOffsetHeight(asideContainerHeight, asideContainerWidth)}px;
   }
