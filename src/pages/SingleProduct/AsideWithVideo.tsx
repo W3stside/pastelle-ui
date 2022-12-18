@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import { Package, Truck } from 'react-feather'
@@ -12,7 +12,6 @@ import { ApplicationModal } from 'state/modalsAndPopups/reducer'
 
 import { Column, Row } from 'components/Layout'
 import {
-  ProductAsidePanel,
   ProductDescription,
   ProductCredits,
   ProductArtistInfo,
@@ -46,6 +45,8 @@ import { getImageSizeMap } from 'shopify/utils'
 import { FREE_SHIPPING_THRESHOLD, Z_INDEXES } from 'constants/config'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { ProductSwipeCarousel } from 'components/Carousel/ProductCarousels'
+import useDetectScrollIntoView from 'hooks/useDetectScrollIntoView'
+import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 
 export default function SingleProductPage({
   id,
@@ -102,12 +103,21 @@ export default function SingleProductPage({
   // const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
 
   // CONTENT CONTAINER REF FOR DYNAMIC SIZE UPDATING AND CAROUSELS
-  const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+  const asideContainerRef = useRef<HTMLElement>()
+  const { current: asideContainer } = asideContainerRef
+  const [screensContainer, setScreensContainerRef] = useStateRef<HTMLDivElement | null>(null, node => node)
 
   const { ShowcaseSettings } = useShowShowcase()
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
   const { ModelSizeSelector } = useModelSizeSelector()
   const variant = useQueryProductVariantByKeyValue({ productId: id, key: 'Size', value: selectedSize })
+
+  const addToCartButtonRef = useRef<HTMLButtonElement | null>(null)
+  const addToCartButtonInView = useDetectScrollIntoView(
+    addToCartButtonRef.current,
+    { root: asideContainer, continuous: true },
+    !!asideContainer
+  )
 
   return (
     <>
@@ -120,13 +130,19 @@ export default function SingleProductPage({
       />
       {/* Item content */}
       <StyledElems.SingleProductContainer id="#item-container" parentAspectRatio={parentAspectRatio}>
-        <ProductAsidePanel id="#item-aside-panel">
+        <StyledElems.SingleProductAsidePanel id="#item-aside-panel" ref={asideContainerRef}>
           {/* WRAPS ALL THE CONTENT SCREENS (CAROUSEL || SHOWCASE || INFO) */}
-          <StyledElems.SingleProductScreensContainer ref={setRef} bgColor={color} navLogo={navLogo} logo={logo}>
+          <StyledElems.SingleProductScreensContainer
+            ref={setScreensContainerRef}
+            bgColor={color}
+            navLogo={navLogo}
+            logo={logo}
+            $calculatedSizes={{ height: asideContainer?.clientHeight, width: screensContainer?.clientWidth }}
+          >
             {/* SCREEN 1 - CAROUSEL & LOGO */}
             <StyledElems.SingleProductScreen>
               {/* Breadcrumbs */}
-              <Breadcrumbs {...breadcrumbs} marginTop="0.5rem" marginLeft="0.5rem" marginBottom={-25} color={bgColor} />
+              <Breadcrumbs {...breadcrumbs} color={bgColor} />
               {/* Product carousel */}
               <Carousel
                 data={isMobile ? [...imageUrls /* , selectedVideo */] : imageUrls}
@@ -137,7 +153,7 @@ export default function SingleProductPage({
               />
               {/* DYNAMIC LOGO */}
               <Logo
-                parentNode={innerContainerRef}
+                parentNode={screensContainer}
                 isCollectionView={false}
                 logos={{ header: headerLogo, nav: navLogo, main: logo }}
               />
@@ -167,12 +183,26 @@ export default function SingleProductPage({
                   {/* PRODUCT SIZE SELECTOR */}
                   <SizeSelector color={color} margin="0" />
                 </ShowcaseSettings>
-                {/* ADD TO CART */}
+
                 <AddToCartButton
+                  ref={addToCartButtonRef}
                   merchandiseId={variant?.variantBySelectedOptions?.id}
                   quantity={1}
                   buttonProps={{ bgImage: navLogo, backgroundColor: color || '#000' }}
                 />
+
+                {/* FIXED ADD TO CART BUTTON */}
+                <StyledElems.AddToCartButtonWrapper
+                  isInView={addToCartButtonInView}
+                  width={screensContainer?.clientWidth + 'px'}
+                >
+                  <AddToCartButton
+                    merchandiseId={variant?.variantBySelectedOptions?.id}
+                    quantity={1}
+                    buttonProps={{ bgImage: navLogo, backgroundColor: color || '#000' }}
+                  />
+                </StyledElems.AddToCartButtonWrapper>
+
                 {/* FREE SHIPPING LABEL */}
                 {FREE_SHIPPING_THRESHOLD && (
                   <FreeShippingBanner fontWeight={300} flex="auto" minWidth={'21rem'} marginTop="2rem">
@@ -184,7 +214,7 @@ export default function SingleProductPage({
             </StyledElems.SingleProductScreen>
 
             {/* SCREEN 3 - ITEM INFO */}
-            <StyledElems.SingleProductScreen>
+            <StyledElems.SingleProductScreen paddingBottom={LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON + 'rem'}>
               {/* Item description */}
               <ProductSubHeader useGradient bgColor={color} label="INFO & CARE INSTRUCTIONS" />
               <Column padding="0 1.5rem">
@@ -209,7 +239,7 @@ export default function SingleProductPage({
               </Column>
             </StyledElems.SingleProductScreen>
           </StyledElems.SingleProductScreensContainer>
-        </ProductAsidePanel>
+        </StyledElems.SingleProductAsidePanel>
 
         <ShowcaseVideos
           videos={videos}

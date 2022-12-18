@@ -1,5 +1,6 @@
 import { Row, Column } from 'components/Layout'
 import { Price } from 'components/Price'
+import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import { darken, transparentize } from 'polished'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { TYPE } from 'theme'
@@ -14,7 +15,12 @@ export default function ProductPriceAndLabel({
   variant: ReturnType<typeof useQueryProductVariantByKeyValue>
 }) {
   return (
-    <Row alignItems={'center'} justifyContent="space-evenly" padding="1rem">
+    <Row
+      alignItems={'center'}
+      justifyContent="space-evenly"
+      padding="1rem"
+      maxHeight={LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL + 'rem'}
+    >
       <Column maxWidth={'60%'}>
         <TYPE.productText fontSize="3rem" fontWeight={200}>
           {title}

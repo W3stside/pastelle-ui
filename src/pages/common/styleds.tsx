@@ -193,7 +193,7 @@ export const ProductSubHeader = styled(TYPE.subHeader)<{
 
 export const ItemBreadcrumb = styled(NavLink)<{ color: string }>`
   color: ${({ color }) => setBestTextColour(color)};
-  font-size: 1rem;
+  font-size: 1.4rem;
   font-weight: 300;
   text-decoration: none;
   text-transform: uppercase;

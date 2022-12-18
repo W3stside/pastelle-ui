@@ -170,7 +170,7 @@ export const HeaderFrame = styled(SectionFrame)<{ open: boolean; color?: string;
 
   // HIDE HEADER ON SMALL HEIGHT LANDSCAPE BOIS
   ${({ open }) => upToSmallHeight`
-    height: ${open ? '10rem' : '2.4rem'};
+    height: ${open ? 'initial' : '2.4rem'};
     overflow: ${open ? 'unset' : 'hidden'};
 
     > ${HeaderDrawerButton} {

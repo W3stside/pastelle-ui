@@ -3,7 +3,7 @@ import { transparentize } from 'polished'
 
 import { setTextColour, setBgColour, fromExtraLarge, BLUE } from '../utils'
 import FontStyles from './fonts'
-import { BASE_FONT_SIZE } from 'constants/sizes'
+import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 
 export { FontStyles }
 
@@ -73,6 +73,7 @@ export const TopGlobalStyle = createGlobalStyle`
   }
 
   header {
+    height: ${LAYOUT_REM_HEIGHT_MAP.HEADER}rem;
     grid-area: header;
   }
 

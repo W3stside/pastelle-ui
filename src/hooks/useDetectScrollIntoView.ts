@@ -1,34 +1,43 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 export type LoadInViewOptions = {
   container: Document | Element
   conditionalCheck?: boolean
 }
+export type DetectScrollIntoViewOptions = IntersectionObserverInit & { continuous?: boolean }
 export default function useDetectScrollIntoView(
   elem: HTMLElement | null | undefined,
-  options: IntersectionObserverInit | undefined,
+  options: DetectScrollIntoViewOptions | undefined,
   defaultView: boolean
 ) {
   const [isInView, setIsInView] = useState(defaultView)
+  const observerRef = useRef<IntersectionObserver>()
 
   useEffect(() => {
-    if (!elem || isInView) return
+    const continuousCheck = !!options?.continuous
+    if (!elem || (!continuousCheck && isInView)) return
 
     const observerCb: IntersectionObserverCallback = ([entry]: IntersectionObserverEntry[], observer) => {
       if ((entry as any)?.isVisible || entry.isIntersecting) {
         setIsInView(true)
-        observer.unobserve(elem)
+        !continuousCheck && observer.unobserve(elem)
+      } else {
+        setIsInView(false)
+        !continuousCheck && observer.unobserve(elem)
       }
     }
-    const observer = new IntersectionObserver(observerCb, options)
+
+    !observerRef.current && (observerRef.current = new IntersectionObserver(observerCb, options))
+    const observer = observerRef.current
 
     // start observation of elem
-    observer.observe(elem)
+    observer?.observe(elem)
 
     // disconnect observer and close
     return () => {
-      observer.disconnect()
+      observer?.disconnect()
     }
-  }, [elem, options, isInView])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [elem])
 
   return isInView
 }

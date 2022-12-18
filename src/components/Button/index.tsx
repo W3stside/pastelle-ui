@@ -7,6 +7,7 @@ import { THEME_LIST, ThemeModes } from 'theme/styled'
 import { BoxProps } from 'rebass'
 import { setBackgroundWithDPI } from 'theme/utils'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { ForwardedRef, forwardRef } from 'react'
 
 export type Writable<T> = {
   -readonly [K in keyof T]: T[K]
@@ -300,10 +301,16 @@ const ColouredAndSizedButtonBase = styled(ColouredButtonBase)`
 
 // Wrap ColouredAndSizedButtonsBase in it's own ThemeProvider which takes the toplevel app theme
 // ThemeProvider and interpolate over it's props
-const ThemeWrappedButtonBase: React.FC<React.ButtonHTMLAttributes<Element>> = ({ children, ...restProps }) => (
-  <ThemeProvider themeExtension={{ component: BUTTON_THEME_KEY }}>
-    <ColouredAndSizedButtonBase {...restProps}>{children}</ColouredAndSizedButtonBase>
-  </ThemeProvider>
+const ThemeWrappedButtonBase: React.FC<React.ButtonHTMLAttributes<Element>> = forwardRef(
+  function ThemeWrappedButtonBase({ children, ...restProps }, forwardedRef: ForwardedRef<HTMLButtonElement>) {
+    return (
+      <ThemeProvider themeExtension={{ component: BUTTON_THEME_KEY }}>
+        <ColouredAndSizedButtonBase ref={forwardedRef} {...restProps}>
+          {children}
+        </ColouredAndSizedButtonBase>
+      </ThemeProvider>
+    )
+  }
 )
 
 export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps & ButtonStyleProps>(
@@ -316,6 +323,8 @@ export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps & ButtonStyl
   ${({ color }) => color && `color: ${color};`}
   ${({ margin }) => margin && `margin: ${margin};`}
   ${({ padding }) => padding && `padding: ${padding};`}
+  ${({ width }) => width && `width: ${width};`}
+  ${({ height }) => height && `height: ${height};`}
   ${({ filter }) => filter && `filter: ${filter};`}
   ${({
     theme,

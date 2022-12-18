@@ -6,12 +6,12 @@ import {
   ProductLogo,
   ProductLogoCssImport,
   ProductScreensContainer,
-  ProductContainer
+  ProductContainer,
+  ProductAsidePanel
 } from 'pages/common/styleds'
-import { Column } from 'components/Layout'
+import { Column, Row } from 'components/Layout'
 
 import {
-  upToLarge,
   upToSmall,
   fromLarge,
   fromExtraLarge,
@@ -19,15 +19,52 @@ import {
   setBackgroundWithDPI,
   CHARCOAL_BLACK,
   betweenSmallAndLarge,
-  upToSmallHeight
+  upToSmallHeight,
+  fromSmall
 } from 'theme/utils'
-import { STORE_IMAGE_SIZES, FIXED_IMAGE_SIZE_CONSTRAINTS } from 'constants/config'
-import { LAYOUT_REM_HEIGHT_MAP, SIZE_RATIOS } from 'constants/sizes'
+import { STORE_IMAGE_SIZES, FIXED_IMAGE_SIZE_CONSTRAINTS, SINGLE_ITEM_LOGO_RATIO } from 'constants/config'
+import {
+  BASE_FONT_SIZE,
+  LAYOUT_REM_HEIGHT_MAP,
+  SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET,
+  SIZE_RATIOS
+} from 'constants/sizes'
 import { GenericImageSrcSet } from 'shopify/graphql/types'
+
+const PRICE_LABEL_PX =
+  (LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL + LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON) * BASE_FONT_SIZE
+
+export const SingleProductAsidePanel = styled(ProductAsidePanel)``
+
+export const AddToCartButtonWrapper = styled(Row)<{ isInView?: boolean; width?: string }>`
+  position: fixed;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  width: ${({ width = '90%' }) => `calc(${width} - 1rem)`};
+  margin: 0 auto;
+  > button {
+    width: 100%;
+    height: 100%;
+  }
+  align-items: stretch;
+  justify-content: stretch;
+  height: ${LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON}rem;
+
+  z-index: 999;
+
+  opacity: ${({ isInView }) => (isInView ? 0 : 1)};
+
+  // &:hover {
+  //   opacity: 1;
+  // }
+
+  transition: height, opacity 0.3s ease-out;
+`
 
 export const SingleProductScreen = styled(ProductScreen)`
   ${upToSmall`
-    height: calc(100vh - ${LAYOUT_REM_HEIGHT_MAP.HEADER}rem);
+    // height: 100%;
+
     > ${Column} {
       padding: 0 1rem;
     }
@@ -39,11 +76,7 @@ export const SingleProductScreen = styled(ProductScreen)`
 
   > ${CarouselContainer} {
     min-height: 443px;
-    ${upToSmall`
-      min-height: 100vw;
-      height: 100%;
-      height: calc(100vh - (calc(75% * 20 / 73) + 70px));
-    `}
+
     ${StaticCarouselStep} {
       height: 100%;
 
@@ -76,59 +109,94 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
   bgColor?: string
   navLogo?: GenericImageSrcSet
   logo?: GenericImageSrcSet
+  $calculatedSizes: { width?: number; height?: number }
 }>`
   max-width: ${STORE_IMAGE_SIZES.SMALL}px;
   box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
+  
+  // corresponds with @supports not above in itemAsidePanel
+  @supports (overflow:clip) {
+    overflow-x: clip;
+  }
 
-  ${upToLarge`
-    max-width: 40vw; 
-    min-width: 36rem;
-  `}
+  // MOBILE SIZE
+  max-width: 100%;
+  min-width: unset;
+
+  ${ProductLogo} {
+    width: 100%;
+    margin-top: -${SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET * 100}%;
+    
+    // for mobile logos in single
+    &${ProductLogoCssImport} {
+      margin-top: -15.1%;
+    }
+    // padding-top: 2rem;
+    filter: ${({ theme }) => theme.darkModeLogoFilter};
+
+    > img {
+      margin: 0;
+    }
+  }
+
+  ${CarouselContainer} {
+    height: ${({ $calculatedSizes: { height: asideContainerHeight, width: asideContainerWidth } }) =>
+      asideContainerHeight && asideContainerWidth && _getOffsetHeight(asideContainerHeight, asideContainerWidth)}px;
+  }
 
   ${upToSmall`
-    max-width: 100%;
-    min-width: unset;
-    // corresponds with @supports not above in itemAsidePanel
-    @supports (overflow:clip) {
-      overflow-x: clip;
-    }
-    
     > ${SingleProductScreen} {
       padding-left: 0;
       padding-right: 0;
     }
   `}
 
+  ${fromSmall`
+    width: 40vw; 
+  `}
+
+  ${({ $calculatedSizes: { height: asideContainerHeight, width: asideContainerWidth } }) => betweenSmallAndLarge`
+    // 16 9 view
+    ${CarouselContainer} {
+      height: ${asideContainerHeight &&
+        asideContainerWidth &&
+        _getOffsetHeight(
+          asideContainerHeight,
+          asideContainerWidth,
+          LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL * BASE_FONT_SIZE
+        )}px;
+    }
+  `}
+
   ${fromLarge`
-    max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge}; 
+    width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge}; 
+
+    ${SingleProductScreen}:first-child {
+      height: calc(100vh - ${LAYOUT_REM_HEIGHT_MAP.HEADER}rem);
+    }
+
+    ${ProductLogo} {
+      width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
+    }
   `}
 
   ${fromExtraLarge`
     max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
+    ${SingleProductScreen}:first-child {
+      height: calc(100vh - ${LAYOUT_REM_HEIGHT_MAP.HEADER}rem);
+    }
+
+    ${ProductLogo} {
+      width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
+    }
   `}
 
-  ${ProductLogo} {
-    width: 100%;
-    margin-top: -18.5%;
-    
-    // for mobile logos in single
-    &${ProductLogoCssImport} {
-      margin-top: -15.1%;
+  ${upToSmallHeight`
+    // height: 100%;
+    > ${SingleProductScreen}:first-child {
+      height: 100%;
     }
-    padding-top: 2rem;
-    filter: ${({ theme }) => theme.darkModeLogoFilter};
-
-    ${fromLarge`
-      width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
-    `}
-    ${fromExtraLarge`
-      width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
-    `}
-
-    > img {
-      margin: 0;
-    }
-  }
+  `}
       
   ${({ theme, bgColor = BLACK, navLogo }) =>
     navLogo
@@ -140,3 +208,12 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
         })
       : `background: linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%);`}
 `
+
+function _getOffsetHeight(asideContainerHeight: number, containerWidth: number, optionalHeight = PRICE_LABEL_PX) {
+  const marginOffset = containerWidth * SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET
+  const logoHeight = (containerWidth * SINGLE_ITEM_LOGO_RATIO[0]) / SINGLE_ITEM_LOGO_RATIO[1] - marginOffset
+
+  const amount = asideContainerHeight - logoHeight - optionalHeight
+
+  return amount
+}
