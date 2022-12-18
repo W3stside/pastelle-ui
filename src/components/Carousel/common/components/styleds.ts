@@ -106,6 +106,7 @@ export const CarouselIndicator = styled.div<{ isCurrent: boolean; color?: string
   padding: 0.25rem 0;
 `
 export const CarouselIndicatorWrapper = styled(Row)`
+  opacity: 0.5;
   position: absolute;
   top: 0;
   right: 0;
@@ -117,4 +118,10 @@ export const CarouselIndicatorWrapper = styled(Row)`
   align-items: stretch;
   z-index: ${Z_INDEXES.SCROLLER_DIV};
   background: ${`linear-gradient(275deg, ${BLACK_TRANSPARENT} 33%, transparent)`};
+
+  &:hover {
+    opacity: 1;
+  }
+
+  transition: opacity, background 0.3 ease-in-out;
 `

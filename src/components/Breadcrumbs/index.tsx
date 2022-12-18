@@ -14,6 +14,8 @@ const BreadcrumbContainer = styled(Row)`
   background: ${!isMobile && `linear-gradient(75deg, ${BLACK_TRANSPARENT} 33%, transparent)`};
   margin: 0;
   padding: 1.5rem;
+
+  opacity: 0.5;
 `
 
 export function Breadcrumbs({

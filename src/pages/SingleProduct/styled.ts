@@ -87,6 +87,7 @@ export const SingleProductScreen = styled(ProductScreen)`
           // height: 100%;
           // max-width: unset;
           max-width: 100%;
+          box-shadow: 0px -20px 20px 20px #00000094, 0px 20px 20px 6px #00000099
         }
       }
     }
