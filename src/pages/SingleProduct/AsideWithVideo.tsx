@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import { Package, Truck } from 'react-feather'
@@ -19,7 +19,6 @@ import {
   PASTELLE_CREDIT,
   ProductSubHeader,
   HighlightedText,
-  ProductScreen,
   FreeShippingBanner,
   ProductBackendDescription
 } from 'pages/common/styleds'
@@ -47,8 +46,6 @@ import { getImageSizeMap } from 'shopify/utils'
 import { FREE_SHIPPING_THRESHOLD, Z_INDEXES } from 'constants/config'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { ProductSwipeCarousel } from 'components/Carousel/ProductCarousels'
-import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
-import { MEDIA_HEIGHTS } from 'theme/styles/mediaQueries'
 
 export default function SingleProductPage({
   id,
@@ -73,7 +70,6 @@ export default function SingleProductPage({
   const closeModals = useCloseModals()
   const showLargeImage = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
 
-  const [viewRef, setViewRef] = useStateRef<HTMLDivElement | null>(null, node => node)
   const { autoplay: autoPlay } = useAppSelector(state => state.user.showcase.videoSettings)
 
   const isMobileWidth = useIsMobileWindowWidthSize()
@@ -113,21 +109,6 @@ export default function SingleProductPage({
   const { ModelSizeSelector } = useModelSizeSelector()
   const variant = useQueryProductVariantByKeyValue({ productId: id, key: 'Size', value: selectedSize })
 
-  const dynamicScreenHeight = useMemo(() => {
-    const viewRefHeight = viewRef?.clientHeight || 0
-    const screenHeight = viewRef ? _getScreenContentOffsetHeight(viewRef, [73, 20]) : 0
-    const shouldUse =
-      screenHeight && (viewRefHeight > MEDIA_HEIGHTS.upToMediumHeight || viewRefHeight < (viewRef?.clientWidth || 0))
-
-    return shouldUse
-      ? // TODO: check and fix
-        {
-          height: screenHeight,
-          width: screenHeight
-        }
-      : undefined
-  }, [viewRef])
-
   return (
     <>
       <LargeImageCarousel
@@ -143,7 +124,7 @@ export default function SingleProductPage({
           {/* WRAPS ALL THE CONTENT SCREENS (CAROUSEL || SHOWCASE || INFO) */}
           <StyledElems.SingleProductScreensContainer ref={setRef} bgColor={color} navLogo={navLogo} logo={logo}>
             {/* SCREEN 1 - CAROUSEL & LOGO */}
-            <ProductScreen ref={setViewRef}>
+            <StyledElems.SingleProductScreen>
               {/* Breadcrumbs */}
               <Breadcrumbs {...breadcrumbs} marginTop="0.5rem" marginLeft="0.5rem" marginBottom={-25} color={bgColor} />
               {/* Product carousel */}
@@ -152,7 +133,7 @@ export default function SingleProductPage({
                 startIndex={currentCarouselIndex}
                 accentColor={color}
                 videoProps={{ autoPlay }}
-                fixedSizes={dynamicScreenHeight}
+                fixedSizes={undefined}
               />
               {/* DYNAMIC LOGO */}
               <Logo
@@ -161,10 +142,10 @@ export default function SingleProductPage({
                 logos={{ header: headerLogo, nav: navLogo, main: logo }}
               />
               <ProductPriceAndLabel variant={variant} color={color} title={title} shortDescription={shortDescription} />
-            </ProductScreen>
+            </StyledElems.SingleProductScreen>
 
             {/* SCREEN 2 - SHOWCASE */}
-            <ProductScreen padding="0 0 3rem">
+            <StyledElems.SingleProductScreen padding="0 0 3rem">
               {/* Size selector */}
               <ProductSubHeader
                 useGradient
@@ -200,10 +181,10 @@ export default function SingleProductPage({
                   </FreeShippingBanner>
                 )}
               </Column>
-            </ProductScreen>
+            </StyledElems.SingleProductScreen>
 
             {/* SCREEN 3 - ITEM INFO */}
-            <ProductScreen>
+            <StyledElems.SingleProductScreen>
               {/* Item description */}
               <ProductSubHeader useGradient bgColor={color} label="INFO & CARE INSTRUCTIONS" />
               <Column padding="0 1.5rem">
@@ -226,7 +207,7 @@ export default function SingleProductPage({
                   )}
                 </ProductCredits>
               </Column>
-            </ProductScreen>
+            </StyledElems.SingleProductScreen>
           </StyledElems.SingleProductScreensContainer>
         </ProductAsidePanel>
 
@@ -255,10 +236,11 @@ export default function SingleProductPage({
   )
 }
 
-function _getScreenContentOffsetHeight(screenNode: HTMLElement, ratio: [number, number]) {
+/* function _getScreenContentOffsetHeight(screenNode: HTMLElement, ratio: [number, number]) {
   const logoHeight = (screenNode.clientWidth * ratio[1]) / ratio[0]
   const headerAndPriceLabelHeights = LAYOUT_REM_HEIGHT_MAP.HEADER + LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL * BASE_FONT_SIZE
 
   const offsetHeight = screenNode.clientHeight - (logoHeight + headerAndPriceLabelHeights)
   return offsetHeight < 0 ? undefined : offsetHeight
 }
+ */

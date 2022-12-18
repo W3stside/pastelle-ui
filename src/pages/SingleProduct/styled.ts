@@ -36,6 +36,28 @@ export const SingleProductScreen = styled(ProductScreen)`
   ${upToSmallHeight`
     height: 100%;
   `}
+
+  > ${CarouselContainer} {
+    min-height: 443px;
+    ${upToSmall`
+      min-height: 100vw;
+      height: 100%;
+      height: calc(100vh - (calc(75% * 20 / 73) + 70px));
+    `}
+    ${StaticCarouselStep} {
+      height: 100%;
+
+      // TODO: TESTING THIS STYLE
+      picture {
+        height: 100%;
+        img {
+          // height: 100%;
+          // max-width: unset;
+          max-width: 100%;
+        }
+      }
+    }
+  }
 `
 
 export const SingleProductContainer = styled(ProductContainer)<{ parentAspectRatio?: number }>`
@@ -117,15 +139,4 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
           modeColours: [bgColor, CHARCOAL_BLACK]
         })
       : `background: linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%);`}
-
-  > ${CarouselContainer} {
-    > ${StaticCarouselStep} {
-      height: 100%;
-
-      img {
-        max-width: unset;
-        height: 100%;
-      }
-    }
-  }
 `
