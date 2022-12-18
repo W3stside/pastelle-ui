@@ -4,13 +4,14 @@ import { Row } from 'components/Layout'
 import { ItemBreadcrumb } from 'pages/common/styleds'
 import { BLACK_TRANSPARENT, OFF_WHITE } from 'theme/utils'
 import { NavLinkProps } from 'react-router-dom'
+import { isMobile } from 'utils'
 
 const BreadcrumbContainer = styled(Row)`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 100;
-  background: linear-gradient(75deg, ${BLACK_TRANSPARENT} 33%, transparent);
+  z-index: 1;
+  background: ${isMobile ? BLACK_TRANSPARENT : `linear-gradient(75deg, ${BLACK_TRANSPARENT} 33%, transparent)`};
   margin: 0;
   padding: 1rem;
 `

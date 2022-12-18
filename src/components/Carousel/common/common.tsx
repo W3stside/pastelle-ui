@@ -9,6 +9,7 @@ import {
 } from './components/styleds'
 import { SelectedShowcaseVideoProps, SelectedShowcaseVideo } from 'components/Showcase/Videos'
 import { Z_INDEXES } from 'constants/config'
+import { OFF_WHITE } from 'theme/utils'
 
 export type CarouselStepsProps = Pick<BaseCarouselProps, 'accentColor' | 'onCarouselItemClick'> & {
   children: React.ReactNode
@@ -74,7 +75,9 @@ export const CarouselIndicators = ({
   return (
     <CarouselIndicatorWrapper>
       {Array.from({ length: size }).map((_, index) => (
-        <CarouselIndicator key={index} isCurrent={currentIndex === index} color={color} />
+        <CarouselIndicator key={index} isCurrent={currentIndex === index} color={OFF_WHITE || color}>
+          {index + 1}
+        </CarouselIndicator>
       ))}
     </CarouselIndicatorWrapper>
   )
