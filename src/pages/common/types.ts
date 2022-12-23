@@ -1,12 +1,12 @@
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import {
-  GenericImageSrcSet,
   FragmentProductImageFragment,
   FragmentProductVideoFragment,
   ProductOptionsSize,
   ProductArtistInfo,
   Product
 } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 
 export interface BaseProductPageProps {
   bgColor: string

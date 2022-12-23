@@ -3,12 +3,13 @@
 import ButtonCarousel, { ButtonCarouselProps } from 'components/Carousel/common/components/ButtonCarousel'
 import SmartImg, { SmartImageProps } from 'components/SmartImg'
 import { BaseCarouselProps, CarouselChildrenProps, WithTouchAction } from './common/types'
-import { FragmentProductVideoFragment, GenericImageSrcSet } from 'shopify/graphql/types'
+import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { isProductVideo } from 'shopify/utils'
 import { CarouselShowcaseVideo } from './common/common'
 import HorizontalSwipeCarousel from './HorizontalSwipeCarousel'
 import { useCallback } from 'react'
 import { LazyVideoProps } from 'components/LazyVideo'
+import { GenericImageSrcSet } from 'utils/types'
 
 interface ProductCarousel extends Omit<BaseCarouselProps, 'children'> {
   data: (GenericImageSrcSet | FragmentProductVideoFragment | undefined)[]

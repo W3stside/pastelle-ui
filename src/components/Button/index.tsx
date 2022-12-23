@@ -4,7 +4,7 @@ import ThemeProvider from 'theme'
 
 import { darken, transparentize } from 'polished'
 import { THEME_LIST, ThemeModes } from 'theme/styled'
-import { BoxProps } from 'rebass'
+import { BoxProps, Button, ButtonProps as RebassButtonProps } from 'rebass'
 import { setBackgroundWithDPI } from 'theme/utils'
 import { GenericImageSrcSet } from 'utils/types'
 import { ForwardedRef, forwardRef } from 'react'
@@ -13,7 +13,7 @@ export type Writable<T> = {
   -readonly [K in keyof T]: T[K]
 }
 
-export interface ButtonBaseProps extends React.ButtonHTMLAttributes<Element> {
+export interface ButtonBaseProps extends RebassButtonProps {
   variant?: ButtonVariations
   size?: ButtonSizeVariations
 }
@@ -247,12 +247,9 @@ const ButtonSizes = variants('component', 'size', {
   }
 })
 
-type ButtonStyleProps = BoxProps & {
+type CustomButtonStyleProps = BoxProps & {
   borderRadius?: string
-  backgroundColor?: string
   gradientColours?: string[]
-  margin?: string
-  padding?: string
   bgBlendMode?:
     | 'lighten'
     | 'difference'
@@ -265,12 +262,13 @@ type ButtonStyleProps = BoxProps & {
     | 'screen'
     | 'multiply'
   bgAttributes?: [string, string]
+  backgroundColor?: string
   filter?: string
 }
 
-export type ButtonProps = ButtonBaseProps & ButtonStyleProps & { bgImage?: GenericImageSrcSet }
+export type ButtonProps = ButtonBaseProps & CustomButtonStyleProps & { bgImage?: GenericImageSrcSet }
 
-const ButtonBase = styled.button.attrs(props => props)<ButtonStyleProps>`
+const ButtonBase = styled(Button)`
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -313,19 +311,11 @@ const ThemeWrappedButtonBase: React.FC<React.ButtonHTMLAttributes<Element>> = fo
   }
 )
 
-export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps & ButtonStyleProps>(
-  ({ size = BSV.DEFAULT, ...restProps }) => ({
-    ...restProps,
-    size
-  })
-)<ButtonProps>`
+export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps>(({ size = BSV.DEFAULT, ...restProps }) => ({
+  ...restProps,
+  size
+}))<ButtonProps>`
   ${({ backgroundColor, bgImage }) => !bgImage && backgroundColor && `background-color: ${backgroundColor};`}
-  ${({ color }) => color && `color: ${color};`}
-  ${({ margin }) => margin && `margin: ${margin};`}
-  ${({ padding }) => padding && `padding: ${padding};`}
-  ${({ width }) => width && `width: ${width};`}
-  ${({ height }) => height && `height: ${height};`}
-  ${({ filter }) => filter && `filter: ${filter};`}
   ${({
     theme,
     bgImage,
