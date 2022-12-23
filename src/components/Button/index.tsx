@@ -6,7 +6,7 @@ import { darken, transparentize } from 'polished'
 import { THEME_LIST, ThemeModes } from 'theme/styled'
 import { BoxProps } from 'rebass'
 import { setBackgroundWithDPI } from 'theme/utils'
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 import { ForwardedRef, forwardRef } from 'react'
 
 export type Writable<T> = {

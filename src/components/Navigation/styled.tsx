@@ -5,7 +5,7 @@ import { Z_INDEXES } from 'constants/config'
 import { Column, Row } from 'components/Layout'
 import { BLACK, setBackgroundWithDPI, setBestTextColour, upToMedium } from 'theme/utils'
 import { setFlickerAnimation } from 'theme/styles/animations'
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 
 export const NavigationStepsWrapper = styled.nav<{
   isOpen?: boolean

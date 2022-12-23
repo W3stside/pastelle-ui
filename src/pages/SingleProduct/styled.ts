@@ -29,7 +29,7 @@ import {
   SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET,
   SIZE_RATIOS
 } from 'constants/sizes'
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 
 const PRICE_LABEL_PX =
   (LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL + LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON) * BASE_FONT_SIZE

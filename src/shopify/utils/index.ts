@@ -1,4 +1,4 @@
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 import { BaseProductPageProps } from 'pages/common/types'
 import {
   FragmentProductImageFragment,

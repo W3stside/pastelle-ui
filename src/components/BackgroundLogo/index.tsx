@@ -1,7 +1,7 @@
 import SmartImg from 'components/SmartImg'
 import { LogoContainer } from './styleds'
 import useStateRef from 'hooks/useStateRef'
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 
 export interface LogoProps {
   logoSrcSet: GenericImageSrcSet

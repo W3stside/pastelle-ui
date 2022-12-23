@@ -12,7 +12,7 @@ import { Z_INDEXES } from 'constants/config'
 import { BLACK, setBackgroundWithDPI, setBestTextColour, upToSmallHeight } from 'theme/utils'
 import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 
 export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; labelColor?: string }>`
   position: absolute;

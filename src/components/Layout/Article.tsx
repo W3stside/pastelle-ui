@@ -2,7 +2,7 @@ import styled from 'styled-components/macro'
 import { setBackgroundWithDPI } from 'theme/utils'
 import { setFadeInAnimation } from 'theme/styles/animations'
 import { ThemeModes } from 'theme/styled'
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 import { BoxProps } from 'rebass'
 
 export const portugalBg = `https://ik.imagekit.io/portugal-bg_Rqj8jTKhFmds.jpg`

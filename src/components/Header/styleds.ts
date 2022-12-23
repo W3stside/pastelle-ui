@@ -26,7 +26,7 @@ import PASTELLE_LOGO_BIG from 'assets/svg/pastelle-ivory.svg'
 
 import ThemeToggleBar from 'components/ThemeToggler'
 import { ThemeModes } from 'theme/styled'
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 import { Z_INDEXES } from 'constants/config'
 import { ProductSubHeader } from 'pages/common/styleds'
 

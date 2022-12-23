@@ -1,7 +1,7 @@
 import LargeImageCarouselModal from 'components/Carousel/common/components/LargeImageModalCarousel'
 import SmartImg, { SmartImageProps } from 'components/SmartImg'
 import { STORE_IMAGE_SIZES } from 'constants/config'
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 
 interface LargeImageCarouselProps {
   images: GenericImageSrcSet[]

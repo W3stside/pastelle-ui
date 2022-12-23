@@ -1,7 +1,7 @@
 import SmartImg from 'components/SmartImg'
 import { SINGLE_ITEM_LOGO_RATIO } from 'constants/config'
 import { isMobile } from 'utils'
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 import { ProductLogoCollectionView, ProductLogo, ProductLogoCssImport } from '../styleds'
 
 type LogoParams = {

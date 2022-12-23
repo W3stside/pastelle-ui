@@ -3,7 +3,7 @@ import { ProductSubHeader } from 'pages/common/styleds'
 import styled from 'styled-components/macro'
 import { rotateKeyframe } from 'theme/styles/animations'
 import { setBackgroundWithDPI } from 'theme/utils'
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 import { ColumnCenter } from 'components/Layout'
 import PastelleCursiveLoader from './PastelleCursiveLoader'
 

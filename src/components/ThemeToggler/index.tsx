@@ -6,7 +6,7 @@ import { BSV, ButtonProps, BV } from '../Button'
 import { useThemeManager } from 'state/user/hooks'
 import pstlLogo from 'assets/svg/pastelle-circle-pink-yellow.svg'
 import { Row } from 'components/Layout'
-import { GenericImageSrcSet } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 
 export const getBaseButtonProps = (isDarkMode: boolean, toggleDarkMode: () => void): ButtonProps => ({
   size: BSV.DEFAULT,

@@ -10,7 +10,7 @@ import useImageLoadingEvent from 'hooks/useImageLoadingEvent'
 import { ThemeModes } from 'theme/styled'
 import { getLqIkUrl } from 'theme/utils'
 import { ColumnCenter } from 'components/Layout'
-import { DDPXImageUrlMap } from 'shopify/graphql/types'
+import { DDPXImageUrlMap } from 'utils/types'
 import { setForwardedRef } from 'utils'
 
 export type ImageKitTransformation = { [x: string]: undefined | number | string | boolean }[]
