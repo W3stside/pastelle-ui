@@ -71,7 +71,9 @@ export const NavigationStepsWrapper = styled.nav<{
   `}
 `
 
-export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boolean }>`
+export const MobileNavOrb = styled(Button).attrs<MobileNavProps & { mobileHide?: boolean }>(props => ({
+  display: props.mobileHide ? 'none' : 'initial'
+}))<MobileNavProps & { mobileHide?: boolean }>`
   display: none;
   background: ${({ theme, bgColor = theme.red2 }) => bgColor};
   color: ${({ theme }) => theme.white};
@@ -80,7 +82,6 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
   gap: 5px;
 
   padding-right: 0;
-  // margin-right: -1rem;
 
   > div {
     display: flex;
@@ -97,8 +98,7 @@ export const MobileNavOrb = styled(Button)<MobileNavProps & { mobileHide?: boole
     }
   }
 
-  ${({ theme, mobileHide }) => theme.mediaWidth.upToMedium`
-    display: ${mobileHide ? 'none' : 'flex'};
+  ${({ theme }) => theme.mediaWidth.upToMedium`
     position: relative;
     bottom: 0; right: 0;
     justify-content: center;

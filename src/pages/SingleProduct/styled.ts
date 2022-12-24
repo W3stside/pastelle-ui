@@ -30,9 +30,18 @@ import {
   SIZE_RATIOS
 } from 'constants/sizes'
 import { GenericImageSrcSet } from 'utils/types'
+import { ArticleFadeInContainer } from 'components/Layout/Article'
 
 const PRICE_LABEL_PX =
   (LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL + LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON) * BASE_FONT_SIZE
+
+export const SingleProductArticle = styled(ArticleFadeInContainer)`
+  ${upToSmall`
+    position: fixed;
+    height: calc(100% - 8rem);
+    bottom: 0;
+  `}
+`
 
 export const SingleProductAsidePanel = styled(ProductAsidePanel)``
 

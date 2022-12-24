@@ -1,9 +1,9 @@
-import { ArticleFadeInContainer } from 'components/Layout/Article'
 import useStateRef from 'hooks/useStateRef'
 import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useCurrentCollection, useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
 import AsideWithVideo from './AsideWithVideo'
+import { SingleProductArticle } from './styled'
 
 export default function SingleItem() {
   const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, node => node)
@@ -24,9 +24,9 @@ export default function SingleItem() {
   }
 
   return (
-    <ArticleFadeInContainer id="COLLECTION-ARTICLE" display="flex" ref={setContainerRef}>
+    <SingleProductArticle id="COLLECTION-ARTICLE" display="flex" ref={setContainerRef}>
       <AsideWithVideo {...product} parentAspectRatio={parentAspectRatio} />
-    </ArticleFadeInContainer>
+    </SingleProductArticle>
   )
 }
 function getNodeAspectRatio(node: HTMLElement | undefined | null) {

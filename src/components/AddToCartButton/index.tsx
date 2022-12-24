@@ -67,7 +67,7 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
         }}
         disabled={isDisabled}
         variant={ButtonVariations.THEME}
-        size={ButtonSizeVariations.SMALL}
+        $size={ButtonSizeVariations.SMALL}
         height={LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON + 'rem'}
         // override w/ button props if necessary
         {...buttonProps}

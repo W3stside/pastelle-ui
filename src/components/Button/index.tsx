@@ -15,7 +15,7 @@ export type Writable<T> = {
 
 export interface ButtonBaseProps extends RebassButtonProps {
   variant?: ButtonVariations
-  size?: ButtonSizeVariations
+  $size?: ButtonSizeVariations
 }
 
 export enum ButtonVariations {
@@ -226,7 +226,7 @@ export const ButtonTheme = variants('mode', 'variant', ButtonThemeMap)
 // used to target buttons
 const BUTTON_THEME_KEY = 'button'
 // Created a 'size' prop on buttons, default | small | big
-const ButtonSizes = variants('component', 'size', {
+const ButtonSizes = variants('component', '$size', {
   DEFAULT: {
     [BUTTON_THEME_KEY]: css`
       font-size: ${({ theme }) => theme.buttons.font.size.normal};
@@ -311,9 +311,9 @@ const ThemeWrappedButtonBase: React.FC<React.ButtonHTMLAttributes<Element>> = fo
   }
 )
 
-export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps>(({ size = BSV.DEFAULT, ...restProps }) => ({
+export default styled(ThemeWrappedButtonBase).attrs<ButtonBaseProps>(({ $size = BSV.DEFAULT, ...restProps }) => ({
   ...restProps,
-  size
+  $size
 }))<ButtonProps>`
   ${({ backgroundColor, bgImage }) => !bgImage && backgroundColor && `background-color: ${backgroundColor};`}
   ${({
