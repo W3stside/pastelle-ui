@@ -9,6 +9,6 @@ export const Text = {
   ProductText(props: TextProps): ReactElement {
     const theme = useTheme()
     const color = theme.products.aside.textColor
-    return <TextWrapper {...props} color={color} fontWeight={500} />
+    return <TextWrapper colour={color} fontWeight={500} {...props} />
   }
 }

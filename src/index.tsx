@@ -1,4 +1,4 @@
-import { StaticGlobalCssProvider, ThemeProvider, ThemedGlobalCssProvider } from '@past3lle/theme'
+import { FontCssProvider, StaticGlobalCssProvider, ThemeProvider, ThemedGlobalCssProvider } from '@past3lle/theme'
 import { nodeRemoveChildFix } from '@past3lle/utils'
 import { isWeb3Enabled } from 'blockchain/connectors'
 // PROVIDERS
@@ -18,7 +18,7 @@ import TransactionUpdater from 'state/blockchainTransactions/updater'
 import CartUpdater from 'state/cart/updater'
 import CollectionUpdater from 'state/collection/updater'
 import WindowSizeUpdater from 'state/window/updater'
-import { FontStyles } from 'theme'
+import { CustomStaticGlobalCSSProvider, CustomThemedGlobalCSSProvider } from 'theme/global'
 
 import './i18n'
 import App from './pages/App'
@@ -55,14 +55,32 @@ function BlockchainUpdaters() {
   )
 }
 
+function StaticCSSProviders() {
+  return (
+    <>
+      <FontCssProvider />
+      <StaticGlobalCssProvider />
+      <CustomStaticGlobalCSSProvider />
+    </>
+  )
+}
+
+function ThemedCSSProviders() {
+  return (
+    <>
+      <ThemedGlobalCssProvider />
+      <CustomThemedGlobalCSSProvider />
+    </>
+  )
+}
+
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const container = document.getElementById('root')!
 const root = createRoot(container)
 root.render(
   <StrictMode>
     {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
-    <FontStyles />
-    <StaticGlobalCssProvider />
+    <StaticCSSProviders />
     <ApolloProvider>
       <Provider store={store}>
         <HashRouter>
@@ -71,7 +89,7 @@ root.render(
             <BlockchainUpdaters />
             <ThemeProvider themeExtension={{}}>
               {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-              <ThemedGlobalCssProvider />
+              <ThemedCSSProviders />
               <App />
             </ThemeProvider>
           </Web3ReactProvider>

@@ -1,4 +1,4 @@
-import { LogoFull, LogoShort } from '@past3lle/assets'
+import { PNG } from '@past3lle/assets'
 import { Header, Row, RowFixed } from '@past3lle/components'
 import {
   BLACK,
@@ -255,8 +255,8 @@ export const Pastellecon = styled.div`
   width: 100%;
   transition: transform 0.3s ease;
 
-  background: url(${LogoShort}) left/contain no-repeat;
-  ${fromExtraSmall`background: url(${LogoFull}) left/contain no-repeat;`}
+  background: url(${PNG.LogoShort_2x}) left/contain no-repeat;
+  ${fromExtraSmall`background: url(${PNG.LogoFull_2x}) left/contain no-repeat;`}
 
   &:hover {
     transform: rotate(-5deg);
