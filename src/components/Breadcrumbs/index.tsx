@@ -1,10 +1,10 @@
+import { Row } from '@past3lle/components'
+import { BLACK_TRANSPARENT, OFF_WHITE } from '@past3lle/theme'
+import { isMobile } from '@past3lle/utils'
+import { ItemBreadcrumb } from 'pages/common/styleds'
+import { NavLinkProps } from 'react-router-dom'
 import { BoxProps } from 'rebass'
 import styled from 'styled-components/macro'
-import { Row } from 'components/Layout'
-import { ItemBreadcrumb } from 'pages/common/styleds'
-import { BLACK_TRANSPARENT, OFF_WHITE } from 'theme/utils'
-import { NavLinkProps } from 'react-router-dom'
-import { isMobile } from 'utils'
 
 const BreadcrumbContainer = styled(Row)`
   position: absolute;

@@ -1,4 +1,4 @@
-import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice, nanoid } from '@reduxjs/toolkit'
 
 const POPUP_REMOVE_TIME = 15000
 
@@ -47,7 +47,7 @@ const modalsAndPopupsSlice = createSlice({
         payload: { content, key, removeAfterMs = POPUP_REMOVE_TIME }
       }: PayloadAction<{ content: PopupContent; key?: string; removeAfterMs?: number }>
     ) {
-      state.popupList = (key ? state.popupList.filter(popup => popup.key !== key) : state.popupList).concat([
+      state.popupList = (key ? state.popupList.filter((popup) => popup.key !== key) : state.popupList).concat([
         {
           key: key || nanoid(),
           show: true,
@@ -62,7 +62,7 @@ const modalsAndPopupsSlice = createSlice({
         payload: { content, key, removeAfterMs = POPUP_REMOVE_TIME }
       }: PayloadAction<{ content: TxPopupContent; key?: string; removeAfterMs?: number }>
     ) {
-      state.popupList = (key ? state.popupList.filter(popup => popup.key !== key) : state.popupList).concat([
+      state.popupList = (key ? state.popupList.filter((popup) => popup.key !== key) : state.popupList).concat([
         {
           key: key || nanoid(),
           show: true,
@@ -72,7 +72,7 @@ const modalsAndPopupsSlice = createSlice({
       ])
     },
     removePopup(state, { payload: key }: PayloadAction<string>) {
-      state.popupList.forEach(p => {
+      state.popupList.forEach((p) => {
         if (p.key === key) {
           p.show = false
         }

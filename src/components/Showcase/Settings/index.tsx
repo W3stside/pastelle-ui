@@ -1,15 +1,15 @@
-import { useState, useCallback, ReactNode } from 'react'
-import { isMobile } from 'react-device-detect'
+import { TinyHelperText } from 'components/Common'
+import { Text as TYPE } from 'components/Text'
 import { Z_INDEXES } from 'constants/config'
 import { ProductSubDescription } from 'pages/common/styleds'
+import { ReactNode, useCallback, useState } from 'react'
+import { isMobile } from 'react-device-detect'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
-import { TinyHelperText } from 'components/Common'
-import { TYPE } from 'theme'
 
 export default function useShowShowcase() {
   const isMobileWidth = useIsMobileWindowWidthSize()
   const [showShowcase, setShowShowcase] = useState(false)
-  const toggleShowcase = () => setShowShowcase(state => !state)
+  const toggleShowcase = () => setShowShowcase((state) => !state)
 
   const ShowcaseSettings = useCallback(
     ({ children }: { children?: ReactNode }) => (
@@ -34,7 +34,7 @@ export default function useShowShowcase() {
           `}
         />
         {showShowcase && (
-          <TYPE.black
+          <TYPE.Black
             style={{
               backgroundColor: 'lightgoldenrodyellow',
               borderRadius: '1rem',
@@ -57,7 +57,7 @@ export default function useShowShowcase() {
                 : 'Click the gray button in the upper right hand corner'}{' '}
               to play/pause
             </p>
-          </TYPE.black>
+          </TYPE.Black>
         )}
       </ProductSubDescription>
     ),

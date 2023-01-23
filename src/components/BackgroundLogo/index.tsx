@@ -1,7 +1,8 @@
-import SmartImg from 'components/SmartImg'
+import { SmartImg } from '@past3lle/components'
+import { useStateRef } from '@past3lle/hooks'
+import { GenericImageSrcSet } from '@past3lle/types'
+
 import { LogoContainer } from './styleds'
-import useStateRef from 'hooks/useStateRef'
-import { GenericImageSrcSet } from 'utils/types'
 
 export interface LogoProps {
   logoSrcSet: GenericImageSrcSet
@@ -29,7 +30,7 @@ export const HeaderLogo = (props: Omit<LogoProps, 'isHeader'>) => <Logo {...prop
 export const NavLogo = (props: Omit<LogoProps, 'isHeader'>) => <Logo {...props} isHeader={false} />
 
 export default function useLogo(props: Omit<LogoProps, 'parentNode'>) {
-  const [node, setNodeRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+  const [node, setNodeRef] = useStateRef<HTMLDivElement | null>(null, (node) => node)
 
   return {
     Logo: () => (props.logoSrcSet ? <Logo parentNode={node} {...props} /> : null),

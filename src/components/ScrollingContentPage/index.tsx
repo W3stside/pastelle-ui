@@ -1,15 +1,15 @@
-import { useCallback, useEffect } from 'react'
-import { FixedAnimatedLoader } from 'components/Loader'
-import { ScrollerContainer, AnimatedDivContainer, TouchAction } from './styleds'
-
+import { LoadInViewOptions } from '@past3lle/hooks'
+import { isMobile } from '@past3lle/utils'
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
-import { useInfiniteVerticalScroll } from 'hooks/useScrollAnimation'
-import { LoadInViewOptions } from 'hooks/useDetectScrollIntoView'
+import { FixedAnimatedLoader } from 'components/Loader'
 import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
-import { isMobile } from 'utils'
-import { Product } from 'shopify/graphql/types'
 import { STIFF_SPRINGS } from 'constants/springs'
+import { useInfiniteVerticalScroll } from 'hooks/useScrollAnimation'
+import { useCallback, useEffect } from 'react'
+import { Product } from 'shopify/graphql/types'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
+
+import { AnimatedDivContainer, ScrollerContainer, TouchAction } from './styleds'
 
 interface ScrollingContentPageParams<D> {
   data: D[]

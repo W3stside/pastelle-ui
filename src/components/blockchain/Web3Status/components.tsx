@@ -1,13 +1,11 @@
 // eslint-disable-next-line no-restricted-imports
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { darken, lighten } from 'polished'
-import styled, { css } from 'styled-components/macro'
-
 import { shortenAddress } from 'blockchain/utils'
-
-import { Button } from 'theme/components'
+import { darken, lighten } from 'polished'
 import { useWalletModalToggle } from 'state/modalsAndPopups/hooks'
+import styled, { css } from 'styled-components/macro'
+import { Button } from 'theme/components'
 
 export const Web3StatusGeneric = styled(Button)`
   ${({ theme }) => theme.flexRowNoWrap}

@@ -1,9 +1,7 @@
+import { ArticleFadeIn } from '@past3lle/components'
+import { ThemeModes, setBackgroundWithDPI } from '@past3lle/theme'
+import { GenericImageSrcSet } from '@past3lle/types'
 import styled from 'styled-components/macro'
-import { setBackgroundWithDPI } from 'theme/utils'
-import { setFadeInAnimation } from 'theme/styles/animations'
-import { ThemeModes } from 'theme/styled'
-import { GenericImageSrcSet } from 'utils/types'
-import { BoxProps } from 'rebass'
 
 export const portugalBg = `https://ik.imagekit.io/portugal-bg_Rqj8jTKhFmds.jpg`
 
@@ -13,11 +11,7 @@ const LOGO_SET = [
   { defaultUrl: portugalBg } as GenericImageSrcSet
 ]
 
-export const ArticleFadeInContainer = styled.article<{ display?: BoxProps['display'] }>`
-  ${({ display }) => display && `display: ${display};`}
-  position: relative;
-  overflow: hidden;
-
+export const ArticleFadeInContainer = styled(ArticleFadeIn)`
   ${({ theme }) =>
     setBackgroundWithDPI(theme, LOGO_SET, {
       dpiLevel: '1x',
@@ -31,20 +25,4 @@ export const ArticleFadeInContainer = styled.article<{ display?: BoxProps['displ
       backgroundAttributes: ['center/contain no-repeat', '-1px -1px/contain repeat', 'center/cover no-repeat'],
       backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'difference' : 'unset'
     })}
-
-  // required for fade in animation
-  filter: contrast(1) blur(0px);
-  ${setFadeInAnimation()}
 `
-/* 
-setCssBackground(theme, {
-      imageUrls: [
-        { defaultUrl: portugalBg + 'q-40' } as GenericImageSrcSet,
-        { defaultUrl: portugalBg + 'q-40' } as GenericImageSrcSet,
-        { defaultUrl: portugalBg + 'q-20,w-10,h-10' } as GenericImageSrcSet
-      ],
-      backgroundAttributes: ['center/contain no-repeat', '-1px -1px/contain repeat', 'center/cover no-repeat'],
-      backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'difference' : 'unset',
-      skipIk: true
-    })}}
-*/

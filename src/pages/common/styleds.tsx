@@ -1,17 +1,24 @@
+import { Column, Row } from '@past3lle/components'
+import { ExternalLink } from '@past3lle/components'
+import { Button } from '@past3lle/components'
+import {
+  BLACK,
+  rotateKeyframe,
+  setAnimation,
+  setBackgroundWithDPI,
+  setBestTextColour,
+  textShadowAnimation,
+  upToSmallHeight
+} from '@past3lle/theme'
+import { ThemeModes } from '@past3lle/theme'
+import { Text } from 'components/Text'
+import { Z_INDEXES } from 'constants/config'
+import { SocialType } from 'mock/types'
+import { BaseProductPageProps } from 'pages/common/types'
+import { darken } from 'polished'
+import { Dribbble, Instagram } from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
-import { darken } from 'polished'
-
-import { Column, Row } from 'components/Layout'
-import { BaseProductPageProps } from 'pages/common/types'
-import { ExternalLink, TYPE } from 'theme'
-import { Dribbble, Instagram } from 'react-feather'
-import Button from 'components/Button'
-import { SocialType } from 'mock/types'
-import { Z_INDEXES } from 'constants/config'
-import { BLACK, setBackgroundWithDPI, setBestTextColour, upToSmallHeight } from 'theme/utils'
-import { rotateKeyframe, setAnimation, textShadowAnimation } from 'theme/styles/animations'
-import { ThemeModes } from 'theme/styled'
 import { GenericImageSrcSet } from 'utils/types'
 
 export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; labelColor?: string }>`
@@ -64,7 +71,7 @@ export const Strikethrough = styled.div`
   height: 5px;
 `
 export type ItemHeaderProps = { animation?: boolean; animationDelay?: boolean; itemColor: string; maxWidth?: string }
-export const ItemHeader = styled(TYPE.header)<ItemHeaderProps>`
+export const ItemHeader = styled(Text.Header)<ItemHeaderProps>`
   z-index: ${Z_INDEXES.PRODUCT_CONTENT};
   // logo
   > img {
@@ -124,7 +131,7 @@ export const ProductLogoCssImport = styled(ProductLogo)<{
         transforms: [null, 'pr-true,q-60,bl-12']
       }
     })}
-    
+
   height: ${({ height = 160 }) => height}px;
 `
 
@@ -135,11 +142,11 @@ export const ProductLogoCollectionView = styled(ProductLogoCssImport)<{ $bgColor
   right: 0;
   bottom: 0;
   top: 0;
-  
+
   background-size: contain;
   background-blend-mode: difference;
   background-color: ${({ $bgColor }) => $bgColor};
-  
+
   height: auto;
   max-width: 30%;
   z-index: ${Z_INDEXES.ZERO};
@@ -159,7 +166,7 @@ export const ProductLogoCollectionView = styled(ProductLogoCssImport)<{ $bgColor
   `}
 `
 
-export const ProductSubHeader = styled(TYPE.subHeader)<{
+export const ProductSubHeader = styled(Text.SubHeader)<{
   color?: string
   bgColor?: string
   useGradient?: boolean
@@ -202,7 +209,7 @@ export const ItemBreadcrumb = styled(NavLink)<{ color: string }>`
     margin: 0 5px;
   }
 `
-export const ProductDescription = styled(TYPE.black).attrs(props => ({
+export const ProductDescription = styled(Text.Black).attrs((props) => ({
   fontSize: props.fontSize || '1.8rem',
   padding: props.padding || 0,
   fontWeight: props.fontWeight || 500,
@@ -242,7 +249,7 @@ export const ProductBackendDescription = styled(ProductDescription)<{ accentColo
   }
 `
 
-export const ProductSubDescription = styled(ProductDescription).attrs(props => ({
+export const ProductSubDescription = styled(ProductDescription).attrs((props) => ({
   ...props,
   padding: props.padding || '1.8rem',
   margin: props.margin || '2rem 0',
@@ -365,7 +372,7 @@ export const ItalicStrikethrough = styled.i`
   text-decoration: line-through;
 `
 
-export const ProductCredits = styled(TYPE.black).attrs(props => ({
+export const ProductCredits = styled(Text.Black).attrs((props) => ({
   ...props,
   fontSize: '1.4rem',
   padding: '1.3rem 0.8rem',
@@ -396,7 +403,7 @@ export const ProductArtistInfo = (props: (BaseProductPageProps['artistInfo'] & {
   const { name, type, url, display, bgColor } = props
 
   return (
-    <TYPE.black fontSize={'1.8rem'} padding={2} fontWeight={300}>
+    <Text.Black fontSize={'1.8rem'} padding={2} fontWeight={300}>
       <HighlightedText bgColor={bgColor}>
         <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> x {name}
       </HighlightedText>
@@ -409,7 +416,7 @@ export const ProductArtistInfo = (props: (BaseProductPageProps['artistInfo'] & {
       >
         {_showSocialUrl(type)} {display}
       </ExternalLink>
-    </TYPE.black>
+    </Text.Black>
   )
 }
 
@@ -420,7 +427,7 @@ export const PASTELLE_CREDIT = (
 )
 // radial-gradient(76.02% 105.41% at 31.84% 0%,#7b649f 0%,#000000 100%)
 // background: ${({ bgColor }) => `radial-gradient(76.02% 75.41% at 1.84% 0%, ${bgColor} 0%, #000000 100%)`};
-export const VideoPlayCTAOverlay = styled(Row).attrs(props => ({
+export const VideoPlayCTAOverlay = styled(Row).attrs((props) => ({
   top: 0,
   bottom: 0,
   left: 0,
@@ -503,7 +510,7 @@ export const HighlightedText = styled.span<{ color?: string; bgColor: string }>`
   line-height: 1.8;
 `
 
-export const FreeShippingBanner = styled(ProductDescription).attrs(props => ({ ...props, padding: '1.8rem' }))`
+export const FreeShippingBanner = styled(ProductDescription).attrs((props) => ({ ...props, padding: '1.8rem' }))`
   display: flex;
   align-items: center;
   gap: 0.8rem;

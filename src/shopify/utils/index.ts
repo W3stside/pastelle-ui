@@ -1,4 +1,3 @@
-import { GenericImageSrcSet } from 'utils/types'
 import { BaseProductPageProps } from 'pages/common/types'
 import {
   FragmentProductImageFragment,
@@ -7,6 +6,7 @@ import {
   ProductSizes,
   ProductsList
 } from 'shopify/graphql/types'
+import { GenericImageSrcSet } from 'utils/types'
 
 export function isJson(str: any) {
   if (typeof str === undefined || typeof str !== 'string') {
@@ -35,7 +35,7 @@ export function isProductVideo(data: any): data is FragmentProductVideoFragment 
 }
 
 export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPageProps[] => {
-  return data.map(datum => {
+  return data.map((datum) => {
     const productImages = datum.images.nodes.slice(0, 2)
 
     const metaAssets = datum.images.nodes.slice(2)

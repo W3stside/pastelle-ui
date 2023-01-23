@@ -1,18 +1,19 @@
 import { useCallback, useMemo } from 'react'
-import { AppState, useAppSelector, useAppDispatch } from 'state'
+import { AppState, useAppDispatch, useAppSelector } from 'state'
+
 import { checkedTransaction, finalizeTransaction } from '../blockchainTransactions/reducer'
 import {
-  addTxPopup,
-  addAnyPopup,
   ApplicationModal,
   PopupContent,
+  TxPopupContent,
+  addAnyPopup,
+  addTxPopup,
   removePopup,
-  setOpenModal,
-  TxPopupContent
+  setOpenModal
 } from './reducer'
 
 export function useModalOpen(modal: ApplicationModal): boolean {
-  const openModal = useAppSelector(state => state.modalsAndPopups.openModal)
+  const openModal = useAppSelector((state) => state.modalsAndPopups.openModal)
   return openModal === modal
 }
 
@@ -97,6 +98,6 @@ export function useCheckedTransaction() {
 
 // get the list of active popups
 export function useActivePopups(): AppState['modalsAndPopups']['popupList'] {
-  const list = useAppSelector(state => state.modalsAndPopups.popupList)
-  return useMemo(() => list.filter(item => item.show), [list])
+  const list = useAppSelector((state) => state.modalsAndPopups.popupList)
+  return useMemo(() => list.filter((item) => item.show), [list])
 }

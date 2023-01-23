@@ -1,5 +1,5 @@
+import { useDebounce } from '@past3lle/hooks'
 import { useEffect, useState } from 'react'
-import useDebounce from 'hooks/useDebounce'
 import { useUpdateWindowSize } from 'state/window/hooks'
 import { WindowSize } from 'state/window/reducer'
 

@@ -14,7 +14,7 @@ export default function UnsupportedNetworkMessage() {
     <Styled>
       <Trans>
         Please connect your wallet to one of our supported networks:{' '}
-        {ALL_SUPPORTED_CHAIN_IDS.map(chainId => getChainInfo(chainId)?.label)
+        {ALL_SUPPORTED_CHAIN_IDS.map((chainId) => getChainInfo(chainId)?.label)
           .filter(Boolean)
           .join(', ')}
       </Trans>

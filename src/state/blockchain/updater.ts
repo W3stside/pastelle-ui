@@ -1,12 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { CHAIN_INFO } from 'blockchain/constants/chains'
-import useDebounce from 'hooks/useDebounce'
-import useIsWindowVisible from 'hooks/useIsWindowVisible'
+import { useDebounce, useIsWindowVisible } from '@past3lle/hooks'
+import { devError } from '@past3lle/utils'
 import { useWeb3React } from '@web3-react/core'
-import ms from 'ms.macro'
+import { CHAIN_INFO } from 'blockchain/constants/chains'
 import { supportedChainId } from 'blockchain/utils/supportedChainId'
 import { switchToNetwork } from 'blockchain/utils/switchToNetwork'
-
+import ms from 'ms.macro'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   useBlockNumber,
   useChainConnectivityWarning,
@@ -15,7 +14,6 @@ import {
   useUpdateBlockNumber,
   useUpdateChainId
 } from 'state/blockchain/hooks'
-import { devError } from 'utils/logging'
 
 const NETWORK_HEALTH_CHECK_MS = ms`15s`
 const DEFAULT_MS_BEFORE_WARNING = ms`10m`
@@ -82,7 +80,7 @@ export default function Updater(): null {
 
   const blockNumberCallback = useCallback(
     (blockNumber: number) => {
-      setState(state => {
+      setState((state) => {
         if (chainId === state.chainId) {
           if (typeof state.blockNumber !== 'number') return { chainId, blockNumber }
           return { chainId, blockNumber: Math.max(blockNumber, state.blockNumber) }
@@ -102,7 +100,7 @@ export default function Updater(): null {
     provider
       .getBlockNumber()
       .then(blockNumberCallback)
-      .catch(error => devError(`Failed to get block number for chainId: ${chainId}`, error))
+      .catch((error) => devError(`Failed to get block number for chainId: ${chainId}`, error))
 
     provider.on('block', blockNumberCallback)
     return () => {
@@ -126,7 +124,7 @@ export default function Updater(): null {
       return
     }
     switchToNetwork({ library: provider })
-      .then(x => x ?? setImplements3085(true))
+      .then((x) => x ?? setImplements3085(true))
       .catch(() => setImplements3085(false))
   }, [account, chainId, provider, setImplements3085])
 

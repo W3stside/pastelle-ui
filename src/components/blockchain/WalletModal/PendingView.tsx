@@ -1,10 +1,8 @@
 import { Trans } from '@lingui/macro'
+import { Button, Text as ThemedText } from '@past3lle/components'
 import { Connector } from '@web3-react/types'
-import Button from 'components/Button'
-import styled from 'styled-components/macro'
-import { TYPE as ThemedText } from 'theme'
-
 import Loader from 'components/Loader'
+import styled from 'styled-components/macro'
 
 const PendingSection = styled.div`
   ${({ theme }) => theme.flexColumnNoWrap};
@@ -63,14 +61,14 @@ export default function PendingView({
         <LoadingWrapper>
           {error ? (
             <ErrorGroup>
-              <ThemedText.mediumHeader marginBottom={12}>
+              <ThemedText.MediumHeader marginBottom={12}>
                 <Trans>Error connecting</Trans>
-              </ThemedText.mediumHeader>
-              <ThemedText.body fontSize={14} marginBottom={36} textAlign="center">
+              </ThemedText.MediumHeader>
+              <ThemedText.Body fontSize={14} marginBottom={36} textAlign="center">
                 <Trans>
                   The connection attempt failed. Please click try again and follow the steps to connect in your wallet.
                 </Trans>
-              </ThemedText.body>
+              </ThemedText.Body>
               <Button
                 borderRadius="12px"
                 padding="12px"
@@ -81,19 +79,19 @@ export default function PendingView({
                 <Trans>Try Again</Trans>
               </Button>
               <Button padding="0" marginTop={20}>
-                <ThemedText.link fontSize={12} onClick={openOptions}>
+                <ThemedText.Link fontSize={12} onClick={openOptions}>
                   <Trans>Back to wallet selection</Trans>
-                </ThemedText.link>
+                </ThemedText.Link>
               </Button>
             </ErrorGroup>
           ) : (
             <>
-              <ThemedText.black fontSize={20} marginY={16}>
+              <ThemedText.Black fontSize={20} marginY={16}>
                 <LoaderContainer>
                   <Loader stroke="currentColor" size="32px" />
                 </LoaderContainer>
                 <Trans>Connecting...</Trans>
-              </ThemedText.black>
+              </ThemedText.Black>
             </>
           )}
         </LoadingWrapper>

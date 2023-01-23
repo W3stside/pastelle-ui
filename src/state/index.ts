@@ -1,21 +1,20 @@
+import { ThemeModes } from '@past3lle/theme'
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { save, load } from 'redux-localstorage-simple'
-// MISC
-import { user } from 'state/user/reducer'
-import { modalsAndPopups } from 'state/modalsAndPopups/reducer'
-import { window } from 'state/window/reducer'
-// APPAREL
-import { cart } from 'state/cart/reducer'
-import { collection } from 'state/collection/reducer'
+import { load, save } from 'redux-localstorage-simple'
+import { ProductSizes } from 'shopify/graphql/types'
 // BLOCKCHAIN
 import { blockchain } from 'state/blockchain/reducer'
 import { blockchainMulticall } from 'state/blockchainMulticall/reducer'
 import { blockchainTransactions } from 'state/blockchainTransactions/reducer'
+// APPAREL
+import { cart } from 'state/cart/reducer'
+import { collection } from 'state/collection/reducer'
 import { updateVersion } from 'state/global/actions'
-
-import { ProductSizes } from 'shopify/graphql/types'
-import { ThemeModes } from 'theme/styled'
+import { modalsAndPopups } from 'state/modalsAndPopups/reducer'
+// MISC
+import { user } from 'state/user/reducer'
+import { window } from 'state/window/reducer'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
@@ -36,7 +35,7 @@ const store = configureStore({
     blockchainMulticall,
     blockchainTransactions
   },
-  middleware: defaultMiddleware =>
+  middleware: (defaultMiddleware) =>
     defaultMiddleware({
       thunk: true
     }).concat(save({ states: PERSISTED_KEYS })),

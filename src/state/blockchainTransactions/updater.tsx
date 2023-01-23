@@ -1,10 +1,9 @@
-import { useEffect } from 'react'
+import { devError } from '@past3lle/utils'
 import { useWeb3React } from '@web3-react/core'
-import { useBlockNumber } from 'state/blockchain/hooks'
-
-import { useAddTxPopup, useFinalizeTransaction, useCheckedTransaction } from 'state/modalsAndPopups/hooks'
+import { useEffect } from 'react'
 import { useAppSelector } from 'state'
-import { devError } from 'utils/logging'
+import { useBlockNumber } from 'state/blockchain/hooks'
+import { useAddTxPopup, useCheckedTransaction, useFinalizeTransaction } from 'state/modalsAndPopups/hooks'
 
 export function shouldCheck(
   lastBlockNumber: number,
@@ -31,7 +30,7 @@ export default function Updater(): null {
   const { chainId, provider } = useWeb3React()
 
   const lastBlockNumber = useBlockNumber()
-  const state = useAppSelector(state => state.blockchainTransactions)
+  const state = useAppSelector((state) => state.blockchainTransactions)
 
   // show popup on confirm
   const addTxPopup = useAddTxPopup()
@@ -44,11 +43,11 @@ export default function Updater(): null {
     const transactions = state[chainId] ?? {}
 
     Object.keys(transactions)
-      .filter(hash => shouldCheck(lastBlockNumber, transactions[hash]))
-      .forEach(hash => {
+      .filter((hash) => shouldCheck(lastBlockNumber, transactions[hash]))
+      .forEach((hash) => {
         provider
           .getTransactionReceipt(hash)
-          .then(receipt => {
+          .then((receipt) => {
             if (receipt) {
               finalizeTransaction({
                 chainId,
@@ -79,7 +78,7 @@ export default function Updater(): null {
               checkedTransaction({ chainId, hash, blockNumber: lastBlockNumber })
             }
           })
-          .catch(error => {
+          .catch((error) => {
             devError(`failed to check transaction hash: ${hash}`, error)
           })
       })

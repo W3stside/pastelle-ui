@@ -2,8 +2,9 @@ import { useDrag } from '@use-gesture/react'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { DOMAttributes, useRef, useState } from 'react'
 import { useSprings } from 'react-spring'
-import useScrollZoneRefs from './utils/useScrollZoneRef'
+
 import { AxisDirection, OverwritingOptions } from './types'
+import useScrollZoneRefs from './utils/useScrollZoneRef'
 import utils from './utils/utils'
 
 export interface SpringAnimationHookReturn {
@@ -36,7 +37,7 @@ export function useLimitedSwipe(
 
   const [springs, api] = useSprings(
     data.length,
-    i => ({
+    (i) => ({
       ...options?.styleMixin,
       [axis]: i * itemSize,
       display: 'block'

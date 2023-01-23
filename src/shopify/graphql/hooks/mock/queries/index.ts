@@ -1,11 +1,11 @@
 // VIRGIL media
-import virgilFrontFS from '../assets/virgil-front.jpg'
 import virgilBackFS from '../assets/virgil-back.jpg'
-import virgilNav from '../assets/virgil-nav.png'
-import virgilLogo from '../assets/virgil-logo.png'
+import virgilFrontFS from '../assets/virgil-front.jpg'
 import virgilHeader from '../assets/virgil-header.png'
-import virgilShowcaseFront from '../assets/virgil-showcase-front.mp4'
+import virgilLogo from '../assets/virgil-logo.png'
+import virgilNav from '../assets/virgil-nav.png'
 import virgilShowcaseBack from '../assets/virgil-showcase-back.mp4'
+import virgilShowcaseFront from '../assets/virgil-showcase-front.mp4'
 
 export const MOCK_COLLECTION_DATA = {
   __typename: 'QueryRoot',

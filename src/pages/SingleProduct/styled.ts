@@ -1,36 +1,35 @@
-import styled from 'styled-components/macro'
-import { transparentize } from 'polished'
-import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
+import { Column, Row } from '@past3lle/components'
 import {
-  ProductScreen,
-  ProductLogo,
-  ProductLogoCssImport,
-  ProductScreensContainer,
-  ProductContainer,
-  ProductAsidePanel
-} from 'pages/common/styleds'
-import { Column, Row } from 'components/Layout'
-
-import {
-  upToSmall,
-  fromLarge,
-  fromExtraLarge,
   BLACK,
-  setBackgroundWithDPI,
   CHARCOAL_BLACK,
   betweenSmallAndLarge,
-  upToSmallHeight,
-  fromSmall
-} from 'theme/utils'
-import { STORE_IMAGE_SIZES, FIXED_IMAGE_SIZE_CONSTRAINTS, SINGLE_ITEM_LOGO_RATIO } from 'constants/config'
+  fromExtraLarge,
+  fromLarge,
+  fromSmall,
+  setBackgroundWithDPI,
+  upToSmall,
+  upToSmallHeight
+} from '@past3lle/theme'
+import { GenericImageSrcSet } from '@past3lle/types'
+import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
+import { ArticleFadeInContainer } from 'components/Layout'
+import { FIXED_IMAGE_SIZE_CONSTRAINTS, SINGLE_ITEM_LOGO_RATIO, STORE_IMAGE_SIZES } from 'constants/config'
 import {
   BASE_FONT_SIZE,
   LAYOUT_REM_HEIGHT_MAP,
   SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET,
   SIZE_RATIOS
 } from 'constants/sizes'
-import { GenericImageSrcSet } from 'utils/types'
-import { ArticleFadeInContainer } from 'components/Layout/Article'
+import {
+  ProductAsidePanel,
+  ProductContainer,
+  ProductLogo,
+  ProductLogoCssImport,
+  ProductScreen,
+  ProductScreensContainer
+} from 'pages/common/styleds'
+import { transparentize } from 'polished'
+import styled from 'styled-components/macro'
 
 const PRICE_LABEL_PX =
   (LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL + LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON) * BASE_FONT_SIZE
@@ -96,7 +95,7 @@ export const SingleProductScreen = styled(ProductScreen)`
           // height: 100%;
           // max-width: unset;
           max-width: 100%;
-          box-shadow: 0px -20px 20px 20px #00000094, 0px 20px 20px 6px #00000099
+          box-shadow: 0px -20px 20px 20px #00000094, 0px 20px 20px 6px #00000099;
         }
       }
     }
@@ -123,9 +122,9 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
 }>`
   max-width: ${STORE_IMAGE_SIZES.SMALL}px;
   box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
-  
+
   // corresponds with @supports not above in itemAsidePanel
-  @supports (overflow:clip) {
+  @supports (overflow: clip) {
     overflow-x: clip;
   }
 
@@ -136,7 +135,7 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
   ${ProductLogo} {
     width: 100%;
     margin-top: -${SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET * 100}%;
-    
+
     // for mobile logos in single
     &${ProductLogoCssImport} {
       margin-top: -15.1%;
@@ -168,13 +167,11 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
   ${({ $calculatedSizes: { height: asideContainerHeight, width: asideContainerWidth } }) => betweenSmallAndLarge`
     // 16 9 view
     ${CarouselContainer} {
-      height: ${asideContainerHeight &&
+      height: ${
+        asideContainerHeight &&
         asideContainerWidth &&
-        _getOffsetHeight(
-          asideContainerHeight,
-          asideContainerWidth,
-          LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL * BASE_FONT_SIZE
-        )}px;
+        _getOffsetHeight(asideContainerHeight, asideContainerWidth, LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL * BASE_FONT_SIZE)
+      }px;
     }
   `}
 

@@ -1,17 +1,18 @@
 import { DocumentNode, OperationVariables, useMutation } from '@apollo/client'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
-import { UPDATE_CART_LINE, CREATE_CART, ADD_NEW_CART_LINE, REMOVE_CART_LINE } from 'shopify/graphql/mutations/cart'
-import { useGetCartState, useGetCartIdState } from 'state/cart/hooks'
+import { ADD_NEW_CART_LINE, CREATE_CART, REMOVE_CART_LINE, UPDATE_CART_LINE } from 'shopify/graphql/mutations/cart'
+import { useGetCartIdState, useGetCartState } from 'state/cart/hooks'
+
 import { GET_CART } from '../queries/cart'
 import {
   AddNewCartLineMutation,
   AddNewCartLineMutationVariables,
   CreateCartMutation,
   CreateCartMutationVariables,
-  UpdateCartLineMutation,
-  UpdateCartLineMutationVariables,
   RemoveCartLineMutation,
-  RemoveCartLineMutationVariables
+  RemoveCartLineMutationVariables,
+  UpdateCartLineMutation,
+  UpdateCartLineMutationVariables
 } from '../types'
 
 export function useCreateCart() {

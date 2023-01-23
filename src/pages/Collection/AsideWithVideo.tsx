@@ -1,21 +1,21 @@
-import { useState } from 'react'
-
-import { useAppSelector } from 'state'
-import useStateRef from 'hooks/useStateRef'
-import { /* useGetSelectedProductShowcaseVideo, */ useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
-
-import { Row } from 'components/Layout'
-import { ProductContainer, ProductAsidePanel, ProductScreen, ScrollingProductLabel } from 'pages/common/styleds'
-import { CollectionScreensContainer } from './styled'
-
-import Logo from 'pages/common/components/Logo'
-import { CollectionPageProps } from 'pages/common/types'
-import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
-import { SwipeCarousel, ClickCarousel, ProductClickCarousel } from 'components/Carousel/ProductCarousels'
-
-import { getImageSizeMap } from 'shopify/utils'
-import { isMobile } from 'utils'
+import { Row } from '@past3lle/components'
+import { useStateRef } from '@past3lle/hooks'
+import { isMobile } from '@past3lle/utils'
+import { ClickCarousel, ProductClickCarousel, SwipeCarousel } from 'components/Carousel/ProductCarousels'
 import { MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
+import Logo from 'pages/common/components/Logo'
+import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
+import { ProductAsidePanel, ProductContainer, ProductScreen, ScrollingProductLabel } from 'pages/common/styleds'
+import { CollectionPageProps } from 'pages/common/types'
+import { useState } from 'react'
+import { getImageSizeMap } from 'shopify/utils'
+import { useAppSelector } from 'state'
+import {
+  /* useGetSelectedProductShowcaseVideo, */
+  useUpdateCurrentlyViewingProduct
+} from 'state/collection/hooks'
+
+import { CollectionScreensContainer } from './styled'
 
 function WebCarousel(props: Omit<ProductClickCarousel, 'showButtons'>) {
   if (isMobile) return null
@@ -49,9 +49,9 @@ export default function CollectionProductPage({
   // SELECTED SHOWCASE VIDEO
   // const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
   // CONTENT CONTAINER REF FOR DYNAMIC SIZE UPDATING AND CAROUSELS
-  const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+  const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, (node) => node)
   // USER VIDEO AUTOPLAY SETTINGS
-  const { autoplay: autoPlay } = useAppSelector(state => state.user.showcase.videoSettings)
+  const { autoplay: autoPlay } = useAppSelector((state) => state.user.showcase.videoSettings)
 
   return (
     <>

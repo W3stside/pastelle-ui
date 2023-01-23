@@ -1,8 +1,8 @@
+import { Theme, ThemeModes } from '@past3lle/theme'
 import { useCallback } from 'react'
-
 import { useAppDispatch, useAppSelector } from 'state'
-import { Theme, ThemeModes } from 'theme/styled'
-import { updateShowcaseSettings, updateThemeAutoDetect, updateThemeMode, UserState } from './reducer'
+
+import { UserState, updateShowcaseSettings, updateThemeAutoDetect, updateThemeMode } from './reducer'
 import { initialState } from './reducer'
 
 export const useAppColourTheme = () => useAppSelector(({ user }) => user.theme || initialState.theme)
@@ -41,14 +41,14 @@ export function useUpdateShowcaseSettings() {
 }
 
 export function useGetShowcaseSettings() {
-  return useAppSelector(state => state.user.showcase)
+  return useAppSelector((state) => state.user.showcase)
 }
 
 export function useUpdateShowcaseVideoSettings(): [
   UserState['showcase']['videoSettings'],
   (settings: UserState['showcase']['videoSettings']) => void
 ] {
-  const { videoSettings } = useAppSelector(state => state.user.showcase)
+  const { videoSettings } = useAppSelector((state) => state.user.showcase)
   const updateShowcase = useUpdateShowcaseSettings()
 
   return [

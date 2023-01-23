@@ -1,3 +1,2 @@
-export * from './Row'
-export * from './Column'
+export * from './Article'
 export * from './Card'

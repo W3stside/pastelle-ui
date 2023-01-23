@@ -1,8 +1,9 @@
 import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
+
 import { CarouselIndicators, CarouselStep } from '../common'
 import { useCarouselSetup } from '../hooks'
-import { CarouselContainer } from './styleds'
 import { BaseAnimatedCarouselProps } from '../types'
+import { CarouselContainer } from './styleds'
 
 export default function AnimatedCarousel({
   data,
@@ -12,7 +13,11 @@ export default function AnimatedCarousel({
   touchAction,
   children
 }: BaseAnimatedCarouselProps) {
-  const { parentWidth, imageTransformations: defaultImageTransforms, setCarouselContainerRef } = useCarouselSetup({
+  const {
+    parentWidth,
+    imageTransformations: defaultImageTransforms,
+    setCarouselContainerRef
+  } = useCarouselSetup({
     fixedSizes
   })
 
@@ -26,7 +31,7 @@ export default function AnimatedCarousel({
   return (
     <CarouselContainer
       id="#carousel-container"
-      ref={node => {
+      ref={(node) => {
         setCarouselContainerRef(node)
         setItemSizeRef(node)
       }}

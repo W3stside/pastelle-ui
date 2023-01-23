@@ -1,52 +1,45 @@
-import { useCallback, useRef, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
-import { Package, Truck } from 'react-feather'
-
-import { useAppSelector } from 'state'
-import useStateRef from 'hooks/useStateRef'
-import { useCloseModals, useModalOpen, useToggleModal } from 'state/modalsAndPopups/hooks'
-// import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
-import { useIsMobileWindowWidthSize } from 'state/window/hooks'
-import { ApplicationModal } from 'state/modalsAndPopups/reducer'
-
-import { Column, Row } from 'components/Layout'
-import {
-  ProductDescription,
-  ProductCredits,
-  ProductArtistInfo,
-  PASTELLE_CREDIT,
-  ProductSubHeader,
-  HighlightedText,
-  FreeShippingBanner,
-  ProductBackendDescription
-} from 'pages/common/styleds'
-
-import * as StyledElems from 'pages/SingleProduct/styled'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Column, Row } from '@past3lle/components'
+import { useDetectScrollIntoView, useStateRef } from '@past3lle/hooks'
+import { isMobile as isMobileDevice } from '@past3lle/utils'
+import AddToCartButton from 'components/AddToCartButton'
 import { useBreadcrumb } from 'components/Breadcrumb'
-import useSizeSelector from 'components/SizeSelector'
+import { Breadcrumbs } from 'components/Breadcrumbs'
+import { LargeImageCarousel } from 'components/Carousel/LargeProductImageCarousel'
+import * as Carousels from 'components/Carousel/ProductCarousels'
+import { ProductSwipeCarousel } from 'components/Carousel/ProductCarousels'
 import useModelSizeSelector from 'components/ModelSizeSelector'
 import useShowShowcase from 'components/Showcase/Settings'
 import ShowcaseVideos from 'components/Showcase/Videos'
 import ShowcaseVideoControls from 'components/Showcase/Videos/Settings'
-import AddToCartButton from 'components/AddToCartButton'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import { LargeImageCarousel } from 'components/Carousel/LargeProductImageCarousel'
-import * as Carousels from 'components/Carousel/ProductCarousels'
-
-import { SingleProductPageProps, WithParentAspectRatio } from 'pages/common/types'
-import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
-import ProductPriceAndLabel from 'pages/common/components/ProductPriceAndLabel'
-import Logo from 'pages/common/components/Logo'
-
-import { isMobile as isMobileDevice } from 'utils'
-import { getImageSizeMap } from 'shopify/utils'
+import useSizeSelector from 'components/SizeSelector'
 import { FREE_SHIPPING_THRESHOLD, Z_INDEXES } from 'constants/config'
-import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
-import { ProductSwipeCarousel } from 'components/Carousel/ProductCarousels'
-import useDetectScrollIntoView from 'hooks/useDetectScrollIntoView'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
+import * as StyledElems from 'pages/SingleProduct/styled'
+import Logo from 'pages/common/components/Logo'
+import ProductPriceAndLabel from 'pages/common/components/ProductPriceAndLabel'
+import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
+import {
+  FreeShippingBanner,
+  HighlightedText,
+  PASTELLE_CREDIT,
+  ProductArtistInfo,
+  ProductBackendDescription,
+  ProductCredits,
+  ProductDescription,
+  ProductSubHeader
+} from 'pages/common/styleds'
+import { SingleProductPageProps, WithParentAspectRatio } from 'pages/common/types'
+import { useCallback, useRef, useState } from 'react'
+import { Package, Truck } from 'react-feather'
+import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
+import { getImageSizeMap } from 'shopify/utils'
+import { useAppSelector } from 'state'
+import { useCloseModals, useModalOpen, useToggleModal } from 'state/modalsAndPopups/hooks'
+import { ApplicationModal } from 'state/modalsAndPopups/reducer'
+// import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
+import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 export default function SingleProductPage({
   id,
@@ -71,7 +64,7 @@ export default function SingleProductPage({
   const closeModals = useCloseModals()
   const showLargeImage = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
 
-  const { autoplay: autoPlay } = useAppSelector(state => state.user.showcase.videoSettings)
+  const { autoplay: autoPlay } = useAppSelector((state) => state.user.showcase.videoSettings)
 
   const isMobileWidth = useIsMobileWindowWidthSize()
   const isMobile = isMobileDevice || isMobileWidth
@@ -105,7 +98,7 @@ export default function SingleProductPage({
   // CONTENT CONTAINER REF FOR DYNAMIC SIZE UPDATING AND CAROUSELS
   const asideContainerRef = useRef<HTMLElement>()
   const { current: asideContainer } = asideContainerRef
-  const [screensContainer, setScreensContainerRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+  const [screensContainer, setScreensContainerRef] = useStateRef<HTMLDivElement | null>(null, (node) => node)
 
   const { ShowcaseSettings } = useShowShowcase()
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })

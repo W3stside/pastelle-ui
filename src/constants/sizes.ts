@@ -1,7 +1,9 @@
-import { isMobile } from 'utils'
+import { LAYOUT_REM_SIZE_MAP } from '@past3lle/constants'
+import { isMobile } from '@past3lle/utils'
 
 export const BASE_FONT_SIZE = 10
 export const LAYOUT_REM_HEIGHT_MAP = {
+  ...LAYOUT_REM_SIZE_MAP,
   HEADER: 8,
   FOOTER: 10,
   PRICE_LABEL: 7.3,

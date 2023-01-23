@@ -1,13 +1,13 @@
 import { ConnectionType } from 'blockchain/connectors'
+import { BACKFILLABLE_WALLETS } from 'blockchain/connectors/constants'
 import { getConnection } from 'blockchain/connectors/utils'
 import { useMemo } from 'react'
-import { BACKFILLABLE_WALLETS } from 'blockchain/connectors/constants'
 import { useAppSelector } from 'state'
 
 const SELECTABLE_WALLETS = [...BACKFILLABLE_WALLETS]
 
 export default function useOrderedConnections() {
-  const selectedWallet = useAppSelector(state => state.blockchain.selectedWallet)
+  const selectedWallet = useAppSelector((state) => state.blockchain.selectedWallet)
   return useMemo(() => {
     const orderedConnectionTypes: ConnectionType[] = []
 
@@ -18,7 +18,7 @@ export default function useOrderedConnections() {
     if (selectedWallet) {
       orderedConnectionTypes.push(selectedWallet)
     }
-    orderedConnectionTypes.push(...SELECTABLE_WALLETS.filter(wallet => wallet !== selectedWallet))
+    orderedConnectionTypes.push(...SELECTABLE_WALLETS.filter((wallet) => wallet !== selectedWallet))
 
     // Add network connection last as it should be the fallback.
     orderedConnectionTypes.push(ConnectionType.NETWORK)

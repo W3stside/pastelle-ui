@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { SafeMultisigTransactionResponse } from '@gnosis.pm/safe-service-client'
-import { devError, devWarn } from 'utils/logging'
+import { devError, devWarn } from '@past3lle/utils'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 type WithChainId = { chainId: number }
 type WithData = { data?: any }

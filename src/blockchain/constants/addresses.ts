@@ -1,5 +1,6 @@
-import { SupportedChainId } from '.'
 import { constructSameAddressMap } from 'blockchain/utils/constructSameAddressMap'
+
+import { SupportedChainId } from '.'
 
 export type AddressMap = { [chainId: number]: string }
 

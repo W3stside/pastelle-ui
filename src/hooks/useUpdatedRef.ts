@@ -1,4 +1,4 @@
-import { useRef, useState, MutableRefObject, useEffect } from 'react'
+import { MutableRefObject, useEffect, useRef, useState } from 'react'
 
 export default function useUpdatedRef<R>({ refDefault }: { refDefault: R }) {
   const ref = useRef<R>(refDefault)

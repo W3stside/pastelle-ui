@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client'
+
 import { FRAGMENT_CART } from '../fragments'
 
 export const GET_CART = gql`

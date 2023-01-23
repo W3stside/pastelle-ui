@@ -1,8 +1,9 @@
-import SmartImg from 'components/SmartImg'
+import { SmartImg } from '@past3lle/components'
+import { GenericImageSrcSet } from '@past3lle/types'
+import { isMobile } from '@past3lle/utils'
 import { SINGLE_ITEM_LOGO_RATIO } from 'constants/config'
-import { isMobile } from 'utils'
-import { GenericImageSrcSet } from 'utils/types'
-import { ProductLogoCollectionView, ProductLogo, ProductLogoCssImport } from '../styleds'
+
+import { ProductLogo, ProductLogoCollectionView, ProductLogoCssImport } from '../styleds'
 
 type LogoParams = {
   parentNode: HTMLElement | null

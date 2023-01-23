@@ -2,9 +2,9 @@ import { ScrollableContentComponentBaseProps } from 'components/ScrollingContent
 import {
   FragmentProductImageFragment,
   FragmentProductVideoFragment,
-  ProductOptionsSize,
+  Product,
   ProductArtistInfo,
-  Product
+  ProductOptionsSize
 } from 'shopify/graphql/types'
 import { GenericImageSrcSet } from 'utils/types'
 

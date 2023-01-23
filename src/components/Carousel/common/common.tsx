@@ -1,15 +1,16 @@
-import { ChevronLeft, ChevronRight } from 'react-feather'
-import { BaseCarouselProps } from './types'
-import {
-  CarouselButtonContainer,
-  CarouselButton,
-  StaticCarouselStep,
-  CarouselIndicator,
-  CarouselIndicatorWrapper
-} from './components/styleds'
-import { SelectedShowcaseVideoProps, SelectedShowcaseVideo } from 'components/Showcase/Videos'
+import { OFF_WHITE } from '@past3lle/theme'
+import { SelectedShowcaseVideo, SelectedShowcaseVideoProps } from 'components/Showcase/Videos'
 import { Z_INDEXES } from 'constants/config'
-import { OFF_WHITE } from 'theme/utils'
+import { ChevronLeft, ChevronRight } from 'react-feather'
+
+import {
+  CarouselButton,
+  CarouselButtonContainer,
+  CarouselIndicator,
+  CarouselIndicatorWrapper,
+  StaticCarouselStep
+} from './components/styleds'
+import { BaseCarouselProps } from './types'
 
 export type CarouselStepsProps = Pick<BaseCarouselProps, 'accentColor' | 'onCarouselItemClick'> & {
   children: React.ReactNode

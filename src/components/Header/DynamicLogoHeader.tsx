@@ -1,9 +1,9 @@
+import { ItemHeader, ItemHeaderProps } from 'pages/common/styleds'
 import { useMemo } from 'react'
 import { TextProps } from 'rebass'
+import { useGetWindowSize } from 'state/window/hooks'
 import styled from 'styled-components/macro'
 import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
-import { ItemHeader, ItemHeaderProps } from 'pages/common/styleds'
-import { useGetWindowSize } from 'state/window/hooks'
 
 const LogoHeader = styled(ItemHeader)`
   flex: 1 0 auto;

@@ -2,10 +2,13 @@
 // import arbitrumLogoUrl from 'assets/svg/arbitrum_logo.svg'
 // import optimismLogoUrl from 'assets/svg/optimistic_ethereum.svg'
 // import ms from 'ms.macro'
+// mod
+import GnosisChainLogo from 'assets/chains/network-gnosis-chain-logo.svg'
+import EthereumLogo from 'assets/chains/network-mainnet-logo.svg'
+// mod
+import RinkebyLogo from 'assets/chains/network-rinkeby-logo.svg'
 
-import EthereumLogo from 'assets/chains/network-mainnet-logo.svg' // mod
-import RinkebyLogo from 'assets/chains/network-rinkeby-logo.svg' // mod
-import GnosisChainLogo from 'assets/chains/network-gnosis-chain-logo.svg' // mod
+// mod
 
 export enum SupportedChainId {
   MAINNET = 1,
@@ -43,7 +46,7 @@ export const L1_CHAIN_IDS = [
   // SupportedChainId.KOVAN,
 ] as const
 
-export type SupportedL1ChainId = typeof L1_CHAIN_IDS[number]
+export type SupportedL1ChainId = (typeof L1_CHAIN_IDS)[number]
 
 export const L2_CHAIN_IDS = [
   // SupportedChainId.ARBITRUM_ONE,
@@ -52,7 +55,7 @@ export const L2_CHAIN_IDS = [
   // SupportedChainId.OPTIMISTIC_KOVAN,
 ] as const
 
-export type SupportedL2ChainId = typeof L2_CHAIN_IDS[number]
+export type SupportedL2ChainId = (typeof L2_CHAIN_IDS)[number]
 
 export interface L1ChainInfo {
   readonly blockWaitMsBeforeWarning?: number
@@ -76,8 +79,7 @@ export interface L2ChainInfo extends L1ChainInfo {
 
 export type ChainInfo = { readonly [chainId: number]: (L1ChainInfo & { logoUrl: string }) | L2ChainInfo } & {
   readonly [chainId in SupportedL2ChainId]: L2ChainInfo
-} &
-  { readonly [chainId in SupportedL1ChainId]: L1ChainInfo }
+} & { readonly [chainId in SupportedL1ChainId]: L1ChainInfo }
 
 export const CHAIN_INFO: ChainInfo = {
   /* [SupportedChainId.ARBITRUM_ONE]: {

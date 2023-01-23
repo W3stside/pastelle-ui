@@ -5,6 +5,7 @@ import {
   networkConnection,
   walletConnectConnection
 } from 'blockchain/connectors'
+
 import { Connection, ConnectionType } from './types'
 
 export function getIsInjected(): boolean {
@@ -18,7 +19,7 @@ export function getIsMetaMask(): boolean {
 const CONNECTIONS: Connection[] = [gnosisSafeConnection, injectedConnection, walletConnectConnection, networkConnection]
 export function getConnection(c: Connector | ConnectionType): Connection {
   if (c instanceof Connector) {
-    const connection = CONNECTIONS.find(connection => connection.connector === c)
+    const connection = CONNECTIONS.find((connection) => connection.connector === c)
     if (!connection) {
       throw Error('unsupported connector')
     }

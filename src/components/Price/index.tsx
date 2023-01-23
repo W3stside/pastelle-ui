@@ -1,11 +1,11 @@
-import { TYPE } from 'theme'
-import { formatCurrency } from 'utils/formatting'
+import { formatCurrency } from '@past3lle/utils'
+import { Text as TYPE } from 'components/Text'
 
 export function Price({ price, bgColor, ...boxProps }: any) {
   if (!price) return null
   const { amount, currencyCode } = price
   return (
-    <TYPE.productText
+    <TYPE.ProductText
       display="flex"
       alignItems={'center'}
       backgroundColor={bgColor}
@@ -13,6 +13,6 @@ export function Price({ price, bgColor, ...boxProps }: any) {
       {...boxProps}
     >
       {formatCurrency(amount, currencyCode)}
-    </TYPE.productText>
+    </TYPE.ProductText>
   )
 }

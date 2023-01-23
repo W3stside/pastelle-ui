@@ -3,9 +3,13 @@ build
 .git
 .github
 src/**/*.d.ts
-src/abis
 src/**/*.md
-
+src/assets
+src/blockchain/abis
+src/shopify/graphql/types
+src/**/*.json
+src/**/*.svg
+src/**/*.ttf
 # public
 public/index.html
 

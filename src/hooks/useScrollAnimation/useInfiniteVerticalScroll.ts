@@ -1,12 +1,13 @@
-import { useRef } from 'react'
+import { isMobile } from '@past3lle/utils'
 import { useGesture } from '@use-gesture/react'
+import { STIFF_SPRINGS } from 'constants/springs'
+import { useRef } from 'react'
 import { useSprings } from 'react-spring'
+
 import { InfiniteScrollOptions } from './types'
+import { SpringAnimationHookReturn } from './useLimitedSwipe'
 import useInfiniteScrollSetup from './utils/useScrollSetup'
 import utils, { runInfiniteScrollSprings } from './utils/utils'
-import { isMobile } from 'utils'
-import { STIFF_SPRINGS } from 'constants/springs'
-import { SpringAnimationHookReturn } from './useLimitedSwipe'
 
 const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 3.2,
@@ -30,7 +31,7 @@ export default function useInfiniteVerticalScroll(
 
   const gestureApi = useSprings(
     items.length,
-    i => ({
+    (i) => ({
       ...options?.styleMixin,
       scale: options.scaleOptions.initialScale || 0.92,
       y: (i < lastIndex ? i : -1) * gestureParams.itemSize,

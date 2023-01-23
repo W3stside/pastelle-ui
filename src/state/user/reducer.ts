@@ -1,6 +1,6 @@
-import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
+import { Theme, ThemeModes } from '@past3lle/theme'
+import { PayloadAction, createSlice, current } from '@reduxjs/toolkit'
 import { ProductSizes } from 'shopify/graphql/types'
-import { Theme, ThemeModes } from 'theme/styled'
 
 const currentTimestamp = () => new Date().getTime()
 

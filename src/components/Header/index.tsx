@@ -1,11 +1,23 @@
+import { isMobile } from '@past3lle/utils'
+import { useWeb3React } from '@web3-react/core'
+import { isWeb3Enabled } from 'blockchain/connectors'
+import { NETWORK_LABELS } from 'blockchain/constants'
+import { useNativeCurrencyBalances } from 'blockchain/hooks/useCurrencyBalance'
+import Navigation from 'components/Navigation'
+import { ShoppingCartHeader } from 'components/ShoppingCart'
+import Web3Status from 'components/blockchain/Web3Status'
+import { ProductSubHeader } from 'pages/common/styleds'
 import { useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useWeb3React } from '@web3-react/core'
+import { useCurrentProductMedia, useGetAllProductLogos } from 'state/collection/hooks'
+import { useIsMediumWindowWidthSize } from 'state/window/hooks'
+import { checkIsCollectionPage } from 'utils/navigation'
 
 import {
   AccountElement,
   BalanceText,
   HeaderControls,
+  HeaderDrawerButton,
   HeaderElement,
   HeaderFrame,
   HeaderRow,
@@ -13,23 +25,8 @@ import {
   NetworkCard,
   Pastellecon,
   StyledThemeToggleBar,
-  Title,
-  HeaderDrawerButton
+  Title
 } from './styleds'
-import Navigation from 'components/Navigation'
-import { ShoppingCartHeader } from 'components/ShoppingCart'
-import Web3Status from 'components/blockchain/Web3Status'
-
-import { useNativeCurrencyBalances } from 'blockchain/hooks/useCurrencyBalance'
-
-import { NETWORK_LABELS } from 'blockchain/constants'
-
-import { checkIsCollectionPage } from 'utils/navigation'
-import { isWeb3Enabled } from 'blockchain/connectors'
-import { useIsMediumWindowWidthSize } from 'state/window/hooks'
-import { useCurrentProductMedia, useGetAllProductLogos } from 'state/collection/hooks'
-import { isMobile } from 'utils'
-import { ProductSubHeader } from 'pages/common/styleds'
 
 export default function Header() {
   const location = useLocation()
@@ -58,7 +55,7 @@ export default function Header() {
       logoSet={isMobile && isCollectionPage ? staticRandomLogoSet : dynamicHeaderLogoSet}
       open={open}
     >
-      <HeaderDrawerButton onClick={() => setOpen(state => !state)}>
+      <HeaderDrawerButton onClick={() => setOpen((state) => !state)}>
         <ProductSubHeader padding="0" margin="0">
           TAP TO {open ? 'HIDE' : 'VIEW CART + MENU'}
         </ProductSubHeader>

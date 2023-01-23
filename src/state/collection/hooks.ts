@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useMemo } from 'react'
-import { useAppDispatch, useAppSelector } from 'state'
-import { ProductPageMap, updateCollection, ProductCurrentlyViewing, updateCurrentlyViewing } from './reducer'
-import { BaseProductPageProps } from 'pages/common/types'
-import { useParams } from 'react-router-dom'
-import { isMobile } from 'utils'
-import { reduceShopifyMediaToShowcaseVideos } from 'shopify/utils'
-import { useGetShowcaseSettings } from 'state/user/hooks'
+import { isMobile } from '@past3lle/utils'
 import { ShowcaseVideosProps } from 'components/Showcase/Videos'
+import { BaseProductPageProps } from 'pages/common/types'
+import { useCallback, useEffect, useMemo } from 'react'
+import { useParams } from 'react-router-dom'
 import { Product } from 'shopify/graphql/types'
+import { reduceShopifyMediaToShowcaseVideos } from 'shopify/utils'
+import { useAppDispatch, useAppSelector } from 'state'
+import { useGetShowcaseSettings } from 'state/user/hooks'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
+
+import { ProductCurrentlyViewing, ProductPageMap, updateCollection, updateCurrentlyViewing } from './reducer'
 
 export function useUpdateCurrentlyViewing() {
   const dispatch = useAppDispatch()
@@ -31,7 +32,7 @@ export function useUpdateCurrentlyViewingProduct(
 }
 
 export function useCollection() {
-  return useAppSelector(state => state.collection)
+  return useAppSelector((state) => state.collection)
 }
 
 export function useCurrentCollection() {
@@ -42,9 +43,10 @@ export function useCurrentCollection() {
 
 export function useUpdateCollection() {
   const dispatch = useAppDispatch()
-  return useCallback((title: string, collection: ProductPageMap) => dispatch(updateCollection({ title, collection })), [
-    dispatch
-  ])
+  return useCallback(
+    (title: string, collection: ProductPageMap) => dispatch(updateCollection({ title, collection })),
+    [dispatch]
+  )
 }
 
 export function useGetCurrentCollectionProductsFromUrl() {
@@ -112,10 +114,8 @@ export function useGetSelectedProductShowcaseVideo(props: Pick<ShowcaseVideosPro
   const { videoMap, mobileKey, webKey } = useGetProductShowcaseVideos(props)
   const isMobileWidth = useIsMobileWindowWidthSize()
 
-  return useMemo(() => videoMap[isMobileWidth || isMobile ? mobileKey : webKey] || videoMap[webKey], [
-    mobileKey,
-    videoMap,
-    webKey,
-    isMobileWidth
-  ])
+  return useMemo(
+    () => videoMap[isMobileWidth || isMobile ? mobileKey : webKey] || videoMap[webKey],
+    [mobileKey, videoMap, webKey, isMobileWidth]
+  )
 }

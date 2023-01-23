@@ -1,11 +1,11 @@
 import { MutationHookOptions, MutationTuple } from '@apollo/client'
 import {
   AddNewCartLineMutation,
-  UpdateCartLineMutation,
-  RemoveCartLineMutation,
   AddNewCartLineMutationVariables,
-  UpdateCartLineMutationVariables,
-  RemoveCartLineMutationVariables
+  RemoveCartLineMutation,
+  RemoveCartLineMutationVariables,
+  UpdateCartLineMutation,
+  UpdateCartLineMutationVariables
 } from 'shopify/graphql/types'
 import { UpdateCartInfoParams } from 'state/cart/reducer'
 
@@ -13,9 +13,7 @@ type BaseParams = {
   cartId: string | undefined
   quantity: number
   options?: MutationHookOptions
-  updateCartInfo: (
-    params: UpdateCartInfoParams
-  ) => {
+  updateCartInfo: (params: UpdateCartInfoParams) => {
     payload: UpdateCartInfoParams
     type: string
   }

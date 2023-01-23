@@ -1,10 +1,10 @@
+import { BLACK, OFF_WHITE } from '@past3lle/theme'
+import { Text as TYPE } from 'components/Text'
 import { Z_INDEXES } from 'constants/config'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
-import { TYPE } from 'theme'
-import { BLACK, OFF_WHITE } from 'theme/utils'
 
-export const TinyHelperTextStyled = styled(TYPE.productText)`
+export const TinyHelperTextStyled = styled(TYPE.ProductText)`
   font-size: 1rem;
   text-decoration: underline;
   cursor: pointer;

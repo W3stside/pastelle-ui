@@ -1,6 +1,7 @@
 import { useWeb3React } from '@web3-react/core'
 import { useCallback } from 'react'
 import { AppState, useAppDispatch, useAppSelector } from 'state'
+
 import { setChainConnectivityWarning, setImplements3085, updateBlockNumber, updateChainId } from './reducer'
 
 // GETTERS
@@ -30,9 +31,10 @@ export function useSetImplements3085() {
 }
 export function useUpdateBlockNumber() {
   const dispatch = useAppDispatch()
-  return useCallback((payload: { chainId: number; blockNumber: number }) => dispatch(updateBlockNumber(payload)), [
-    dispatch
-  ])
+  return useCallback(
+    (payload: { chainId: number; blockNumber: number }) => dispatch(updateBlockNumber(payload)),
+    [dispatch]
+  )
 }
 export function useUpdateChainId() {
   const dispatch = useAppDispatch()

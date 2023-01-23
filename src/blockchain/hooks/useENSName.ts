@@ -1,11 +1,10 @@
 import { namehash } from '@ethersproject/hash'
-import { useMemo } from 'react'
-
-import { useSingleCallResult } from 'state/blockchainMulticall/hooks'
-import { isAddress } from 'blockchain/utils'
-import { isZero } from 'utils'
+import { useDebounce } from '@past3lle/hooks'
+import { isZero } from '@past3lle/utils'
 import { useENSRegistrarContract, useENSResolverContract } from 'blockchain/hooks/useContract'
-import useDebounce from 'hooks/useDebounce'
+import { isAddress } from 'blockchain/utils'
+import { useMemo } from 'react'
+import { useSingleCallResult } from 'state/blockchainMulticall/hooks'
 
 /**
  * Does a reverse lookup for an address to find its ENS name.

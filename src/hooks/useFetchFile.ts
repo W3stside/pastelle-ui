@@ -5,9 +5,13 @@ function getErrorMessage(filePath: string, res: Response): string {
 }
 
 export default function useFetchFile(filePath: string) {
-  const { data: file, isValidating, error } = useSWR(filePath, () =>
+  const {
+    data: file,
+    isValidating,
+    error
+  } = useSWR(filePath, () =>
     fetch(filePath)
-      .then(async res => {
+      .then(async (res) => {
         if (res.ok) {
           const fileContent = await res.text()
           return fileContent
@@ -15,7 +19,7 @@ export default function useFetchFile(filePath: string) {
           throw getErrorMessage(filePath, res)
         }
       })
-      .catch(error => {
+      .catch((error) => {
         throw error
       })
   )

@@ -1,14 +1,12 @@
+import { AutoColumn, ColumnCenter, RowBetween, Text } from '@past3lle/components'
+import { ExternalLink } from '@past3lle/components'
 import { useWeb3React } from '@web3-react/core'
-
-import styled, { useTheme } from 'styled-components/macro'
-import { AutoColumn, ColumnCenter, RowBetween } from 'components/Layout'
-import { TYPE, CloseIcon, CustomLightSpinner } from 'theme'
-import { ArrowUpCircle } from 'react-feather'
-
 import Circle from 'assets/images/blue-loader.svg'
 import { getEtherscanLink } from 'blockchain/utils'
-import { ExternalLink } from 'theme'
 import { ReactNode } from 'react'
+import { ArrowUpCircle } from 'react-feather'
+import styled, { useTheme } from 'styled-components/macro'
+import { CloseIcon, CustomLightSpinner } from 'theme'
 
 const ConfirmOrLoadingWrapper = styled.div`
   width: 100%;
@@ -32,7 +30,7 @@ export function LoadingView({ children, onDismiss }: { children: ReactNode; onDi
       <AutoColumn gap="100px" justify={'center'}>
         <>
           {children}
-          <TYPE.subHeader>Confirm this transaction in your wallet</TYPE.subHeader>
+          <Text.SubHeader>Confirm this transaction in your wallet</Text.SubHeader>
         </>
       </AutoColumn>
     </ConfirmOrLoadingWrapper>
@@ -61,7 +59,7 @@ export const SubmittedView: React.FC<{
           {children}
           {chainId && hash && (
             <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')} style={{ marginLeft: '4px' }}>
-              <TYPE.subHeader>View transaction on Etherscan</TYPE.subHeader>
+              <Text.SubHeader>View transaction on Etherscan</Text.SubHeader>
             </ExternalLink>
           )}
         </>

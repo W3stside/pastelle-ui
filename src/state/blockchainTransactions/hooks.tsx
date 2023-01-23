@@ -1,9 +1,9 @@
-import { useCallback, useMemo } from 'react'
-
 import { useWeb3React } from '@web3-react/core'
-import { useAppDispatch, useAppSelector } from 'state'
-import { addTransaction, AddTransactionParams, clearAllTransactions, HashType, TransactionDetails } from './reducer'
 import { useWalletInfo } from 'blockchain/hooks/useWalletInfo'
+import { useCallback, useMemo } from 'react'
+import { useAppDispatch, useAppSelector } from 'state'
+
+import { AddTransactionParams, HashType, TransactionDetails, addTransaction, clearAllTransactions } from './reducer'
 
 export type AddTransactionHookParams = Omit<AddTransactionParams, 'chainId' | 'from' | 'hashType'> // The hook requires less params for convenience
 export type TransactionAdder = (params: AddTransactionHookParams) => void
@@ -17,9 +17,10 @@ export function useAddTransaction() {
 export function useClearAllTransactions() {
   const dispatch = useAppDispatch()
 
-  return useCallback((payload: Parameters<typeof clearAllTransactions>[0]) => dispatch(clearAllTransactions(payload)), [
-    dispatch
-  ])
+  return useCallback(
+    (payload: Parameters<typeof clearAllTransactions>[0]) => dispatch(clearAllTransactions(payload)),
+    [dispatch]
+  )
 }
 
 // helper that can take a ethers library transaction response and add it to the list of transactions
@@ -59,7 +60,7 @@ export function useTransactionAdder(): TransactionAdder {
 export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
   const { chainId } = useWeb3React()
 
-  const state = useAppSelector(state => state.blockchainTransactions)
+  const state = useAppSelector((state) => state.blockchainTransactions)
 
   return chainId ? state[chainId] ?? {} : {}
 }
@@ -87,7 +88,7 @@ export function useHasPendingApproval(tokenAddress: string | undefined, spender:
     () =>
       typeof tokenAddress === 'string' &&
       typeof spender === 'string' &&
-      Object.keys(allTransactions).some(hash => {
+      Object.keys(allTransactions).some((hash) => {
         const tx = allTransactions[hash]
         if (!tx) return false
         if (tx.receipt) {

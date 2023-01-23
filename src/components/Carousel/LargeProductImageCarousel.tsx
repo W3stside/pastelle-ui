@@ -1,7 +1,7 @@
+import { SmartImageProps, SmartImg } from '@past3lle/components'
+import { GenericImageSrcSet } from '@past3lle/types'
 import LargeImageCarouselModal from 'components/Carousel/common/components/LargeImageModalCarousel'
-import SmartImg, { SmartImageProps } from 'components/SmartImg'
 import { STORE_IMAGE_SIZES } from 'constants/config'
-import { GenericImageSrcSet } from 'utils/types'
 
 interface LargeImageCarouselProps {
   images: GenericImageSrcSet[]

@@ -1,23 +1,19 @@
-import { useMemo } from 'react'
 import { Interface } from '@ethersproject/abi'
 import { Currency, CurrencyAmount, Token } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
-import JSBI from 'jsbi'
-
 import ERC20ABI from 'blockchain/abis/erc20.json'
 import { Erc20Interface } from 'blockchain/abis/types/Erc20'
-
-import { useSingleContractMultipleData, useMultipleContractSingleData } from 'state/blockchainMulticall/hooks'
-import { isAddress } from 'blockchain/utils'
 import { nativeOnChain } from 'blockchain/constants'
 import { useInterfaceMulticall } from 'blockchain/hooks/useContract'
+import { isAddress } from 'blockchain/utils'
+import JSBI from 'jsbi'
+import { useMemo } from 'react'
+import { useMultipleContractSingleData, useSingleContractMultipleData } from 'state/blockchainMulticall/hooks'
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.
  */
-export function useNativeCurrencyBalances(
-  uncheckedAddresses?: (string | undefined)[]
-): {
+export function useNativeCurrencyBalances(uncheckedAddresses?: (string | undefined)[]): {
   [address: string]: CurrencyAmount<Currency> | undefined
 } {
   const { chainId } = useWeb3React()
@@ -30,7 +26,7 @@ export function useNativeCurrencyBalances(
             .map(isAddress)
             .filter((a): a is string => a !== false)
             .sort()
-            .map(addr => [addr])
+            .map((addr) => [addr])
         : [],
     [uncheckedAddresses]
   )
@@ -63,7 +59,7 @@ export function useTokenBalancesWithLoadingIndicator(
     () => tokens?.filter((t?: Token): t is Token => isAddress(t?.address) !== false) ?? [],
     [tokens]
   )
-  const validatedTokenAddresses = useMemo(() => validatedTokens.map(vt => vt.address), [validatedTokens])
+  const validatedTokenAddresses = useMemo(() => validatedTokens.map((vt) => vt.address), [validatedTokens])
 
   const balances = useMultipleContractSingleData(
     validatedTokenAddresses,
@@ -73,7 +69,7 @@ export function useTokenBalancesWithLoadingIndicator(
     tokenBalancesGasRequirement
   )
 
-  const anyLoading: boolean = useMemo(() => balances.some(callState => callState.loading), [balances])
+  const anyLoading: boolean = useMemo(() => balances.some((callState) => callState.loading), [balances])
 
   return useMemo(
     () => [
@@ -114,17 +110,18 @@ export function useCurrencyBalances(
   account?: string,
   currencies?: (Currency | undefined | null)[]
 ): (CurrencyAmount<Currency> | undefined)[] {
-  const tokens = useMemo(() => currencies?.filter((currency): currency is Token => currency?.isToken ?? false) ?? [], [
-    currencies
-  ])
+  const tokens = useMemo(
+    () => currencies?.filter((currency): currency is Token => currency?.isToken ?? false) ?? [],
+    [currencies]
+  )
 
   const tokenBalances = useTokenBalances(account, tokens)
-  const containsETH: boolean = useMemo(() => currencies?.some(currency => currency?.isNative) ?? false, [currencies])
+  const containsETH: boolean = useMemo(() => currencies?.some((currency) => currency?.isNative) ?? false, [currencies])
   const ethBalance = useNativeCurrencyBalances(useMemo(() => (containsETH ? [account] : []), [containsETH, account]))
 
   return useMemo(
     () =>
-      currencies?.map(currency => {
+      currencies?.map((currency) => {
         if (!account || !currency) return undefined
         if (currency.isToken) return tokenBalances[currency.address]
         if (currency.isNative) return ethBalance[account]

@@ -1,12 +1,13 @@
-import useStateRef from 'hooks/useStateRef'
+import { useStateRef } from '@past3lle/hooks'
 import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useCurrentCollection, useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
+
 import AsideWithVideo from './AsideWithVideo'
 import { SingleProductArticle } from './styled'
 
 export default function SingleItem() {
-  const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, node => node)
+  const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, (node) => node)
   const parentAspectRatio = getNodeAspectRatio(container)
 
   const { handle } = useParams()

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export type WindowSize = { width?: number; height?: number; ar?: number } | null
 export interface WindowState {

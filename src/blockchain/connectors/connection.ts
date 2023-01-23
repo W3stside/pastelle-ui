@@ -1,11 +1,11 @@
+import { devDebug } from '@past3lle/utils'
 import { initializeConnector } from '@web3-react/core'
 import { GnosisSafe } from '@web3-react/gnosis-safe'
 import { MetaMask } from '@web3-react/metamask'
 import { Network } from '@web3-react/network'
 import { WalletConnect } from '@web3-react/walletconnect'
-
 import { RPC_URLS } from 'blockchain/connectors/constants'
-import { devDebug } from 'utils/logging'
+
 import { Connection, ConnectionType } from './types'
 
 function onError(error: Error) {
@@ -13,7 +13,7 @@ function onError(error: Error) {
 }
 
 const [web3Network, web3NetworkHooks] = initializeConnector<Network>(
-  actions => new Network({ actions, urlMap: RPC_URLS, defaultChainId: 1 })
+  (actions) => new Network({ actions, urlMap: RPC_URLS, defaultChainId: 1 })
 )
 export const networkConnection: Connection = {
   connector: web3Network,
@@ -21,14 +21,14 @@ export const networkConnection: Connection = {
   type: ConnectionType.NETWORK
 }
 
-const [web3Injected, web3InjectedHooks] = initializeConnector<MetaMask>(actions => new MetaMask({ actions, onError }))
+const [web3Injected, web3InjectedHooks] = initializeConnector<MetaMask>((actions) => new MetaMask({ actions, onError }))
 export const injectedConnection: Connection = {
   connector: web3Injected,
   hooks: web3InjectedHooks,
   type: ConnectionType.INJECTED
 }
 
-const [web3GnosisSafe, web3GnosisSafeHooks] = initializeConnector<GnosisSafe>(actions => new GnosisSafe({ actions }))
+const [web3GnosisSafe, web3GnosisSafeHooks] = initializeConnector<GnosisSafe>((actions) => new GnosisSafe({ actions }))
 export const gnosisSafeConnection: Connection = {
   connector: web3GnosisSafe,
   hooks: web3GnosisSafeHooks,
@@ -36,7 +36,7 @@ export const gnosisSafeConnection: Connection = {
 }
 
 const [web3WalletConnect, web3WalletConnectHooks] = initializeConnector<WalletConnect>(
-  actions =>
+  (actions) =>
     new WalletConnect({
       actions,
       options: {

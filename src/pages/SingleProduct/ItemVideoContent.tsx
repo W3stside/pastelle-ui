@@ -1,20 +1,18 @@
+import { ButtonVariations, RowProps, SmartVideo, SmartVideoProps } from '@past3lle/components'
+import { usePrevious } from '@past3lle/hooks'
+import { isMobile, wait } from '@past3lle/utils'
+import { Z_INDEXES } from 'constants/config'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Pause, Play } from 'react-feather'
+import { FragmentProductVideoFragment } from 'shopify/graphql/types'
+import { useOnScreenProductHandle } from 'state/collection/hooks'
+import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
 
 import {
   ProductSubHeader,
   VideoContentWrapper,
   VideoControlButton as VideoControlButtonStyled
 } from '../common/styleds'
-import LazyVideo, { LazyVideoProps } from 'components/LazyVideo'
-import { FragmentProductVideoFragment } from 'shopify/graphql/types'
-import { ButtonVariations } from 'components/Button'
-import { Play, Pause } from 'react-feather'
-import { RowProps } from 'components/Layout'
-import { wait } from 'utils/async'
-import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
-import { isMobile } from 'utils'
-import usePrevious from 'hooks/usePrevious'
-import { useOnScreenProductHandle } from 'state/collection/hooks'
 
 export interface ItemVideoContentProps extends RowProps {
   videos: FragmentProductVideoFragment[]
@@ -24,8 +22,8 @@ export interface ItemVideoContentProps extends RowProps {
   showPoster?: boolean
   zIndex?: number
   isMobileWidth: boolean
-  videoProps?: LazyVideoProps['videoProps']
-  autoPlayOptions?: LazyVideoProps['autoPlayOptions']
+  videoProps?: SmartVideoProps['videoProps']
+  autoPlayOptions?: SmartVideoProps['autoPlayOptions']
   showError?: boolean
 }
 const CONTROL_BUTTON_SIZE = '16px'
@@ -86,11 +84,10 @@ export const ItemVideoContent = ({
     }
   }, [autoplay, prevAutoplay, prevVideoStatus, updateVideoSettings, videoElement, videoStatus, currentHandle?.id])
 
-  const toggleVideo = useCallback(() => updateVideoSettings({ autoplay, status: isPlaying ? 'pause' : 'play' }), [
-    autoplay,
-    isPlaying,
-    updateVideoSettings
-  ])
+  const toggleVideo = useCallback(
+    () => updateVideoSettings({ autoplay, status: isPlaying ? 'pause' : 'play' }),
+    [autoplay, isPlaying, updateVideoSettings]
+  )
 
   const videosContent = useMemo(
     () =>
@@ -99,7 +96,7 @@ export const ItemVideoContent = ({
         if (!isSelected) return null
 
         return (
-          <LazyVideo
+          <SmartVideo
             key={id}
             showError={showError}
             onClick={toggleVideo}
@@ -117,6 +114,11 @@ export const ItemVideoContent = ({
             videoDelay={!isMobileWidth && videoDelay}
             showTapToPlay={isMobile && (!isPlaying || videoProps?.autoPlay === false)}
             autoPlayOptions={autoPlayOptions}
+            ctaOverlayProps={{
+              $zIndex: Z_INDEXES.PRODUCT_VIDEOS
+            }}
+            onResize={console.debug}
+            onResizeCapture={console.debug}
           />
         )
       }),

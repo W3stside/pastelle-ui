@@ -1,10 +1,11 @@
-import { ReactNode } from 'react'
+import { ColumnCenter } from '@past3lle/components'
+import { rotateKeyframe } from '@past3lle/theme'
+import { setBackgroundWithDPI } from '@past3lle/theme'
 import { ProductSubHeader } from 'pages/common/styleds'
+import { ReactNode } from 'react'
 import styled from 'styled-components/macro'
-import { rotateKeyframe } from 'theme/styles/animations'
-import { setBackgroundWithDPI } from 'theme/utils'
 import { GenericImageSrcSet } from 'utils/types'
-import { ColumnCenter } from 'components/Layout'
+
 import PastelleCursiveLoader from './PastelleCursiveLoader'
 
 export const StyledSVG = styled.svg<{ size: string; stroke?: string }>`
@@ -31,7 +32,7 @@ const MODDED_PT_URL_LIST = [
   { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
   { defaultUrl: moddedPtBgUrl + 'w-10,h-10' } as GenericImageSrcSet
 ]
-export const AnimatedContainer = styled(ColumnCenter).attrs(props => ({
+export const AnimatedContainer = styled(ColumnCenter).attrs((props) => ({
   ...props,
   height: '100%',
   justifyContent: 'center'

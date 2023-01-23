@@ -1,14 +1,12 @@
-import styled, { css, keyframes } from 'styled-components/macro'
+import { Button, RowFixed } from '@past3lle/components'
+import { YellowCard } from 'components/Layout'
+import { StyledSVG } from 'components/Loader'
+import Logo from 'components/Logo'
+import { CopyIcon } from 'components/blockchain/AccountDetails/Copy'
 import { transparentize } from 'polished'
 import { X } from 'react-feather'
-
-import { CopyIcon } from 'components/blockchain/AccountDetails/Copy'
+import styled, { css, keyframes } from 'styled-components/macro'
 import { ExternalLink, LinkStyledButton } from 'theme'
-import { StyledSVG } from 'components/Loader'
-
-import { RowFixed, YellowCard } from 'components/Layout'
-import Logo from 'components/Logo'
-import Button from 'components/Button'
 
 const StyledLogo = styled(Logo)<{ size: string }>`
   width: ${({ size }) => size};
@@ -521,7 +519,7 @@ export const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
   padding: 1rem 1rem;
   font-weight: 500;
-  color: ${props => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};
+  color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};
   ${({ theme }) => theme.mediaWidth.upToMedium`
   padding: 1rem;
 `};
@@ -717,8 +715,6 @@ export const AccountDetailsWrapper = styled.div`
     margin: 0;
     font-size: 1.2rem;
   }
-
-  
 
   ${AccountControl} {
     ${({ theme }) => theme.mediaWidth.upToSmall`

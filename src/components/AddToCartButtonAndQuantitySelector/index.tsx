@@ -1,8 +1,8 @@
-import styled from 'styled-components/macro'
-import { Row } from 'components/Layout'
-import useQuantitySelector, { QuantitySelectorParams, QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
+import { Row } from '@past3lle/components'
 import AddToCartButton, { AddToCartButtonParams } from 'components/AddToCartButton'
+import useQuantitySelector, { QuantitySelectorParams, QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
 import { useCurrentProductMedia } from 'state/collection/hooks'
+import styled from 'styled-components/macro'
 
 const Wrapper = styled(Row)`
   width: 100%;

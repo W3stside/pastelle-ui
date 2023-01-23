@@ -1,8 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { hexStripZeros } from '@ethersproject/bytes'
 import { Web3Provider } from '@ethersproject/providers'
+import { devError } from '@past3lle/utils'
 import { L1ChainInfo, L2ChainInfo, SupportedChainId } from 'blockchain/constants/chains'
-import { devError } from 'utils/logging'
 
 interface AddNetworkArguments {
   library: Web3Provider

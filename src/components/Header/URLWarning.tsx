@@ -1,8 +1,7 @@
-import styled from 'styled-components/macro'
-
-import { AlertTriangle, X } from 'react-feather'
+import { devLog } from '@past3lle/utils'
 import { isMobile } from 'react-device-detect'
-import { devLog } from 'utils/logging'
+import { AlertTriangle, X } from 'react-feather'
+import styled from 'styled-components/macro'
 
 const PhishAlert = styled.div<{ isActive: boolean }>`
   width: 100%;

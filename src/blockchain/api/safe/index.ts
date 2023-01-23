@@ -1,7 +1,6 @@
 import SafeServiceClient, { SafeInfoResponse, SafeMultisigTransactionResponse } from '@gnosis.pm/safe-service-client'
-import { registerOnWindow } from 'utils'
+import { devLog, registerOnWindow } from '@past3lle/utils'
 import { SupportedChainId } from 'blockchain/constants/chains'
-import { devLog } from 'utils/logging'
 
 const SAFE_TRANSACTION_SERVICE_URL: Partial<Record<number, string>> = {
   [SupportedChainId.MAINNET]: 'https://safe-transaction.gnosis.io',

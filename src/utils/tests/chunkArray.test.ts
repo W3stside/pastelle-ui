@@ -1,4 +1,4 @@
-import chunkArray, { DEFAULT_GAS_REQUIRED } from '../chunkArray'
+import { DEFAULT_GAS_REQUIRED, chunkArray } from '@past3lle/utils'
 
 describe('#chunkArray', () => {
   it('size 1', () => {

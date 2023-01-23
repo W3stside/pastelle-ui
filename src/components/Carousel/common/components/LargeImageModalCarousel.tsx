@@ -1,11 +1,11 @@
-import Modal from 'components/Modal'
-import styled from 'styled-components/macro'
+import { Modal } from '@past3lle/components'
+import { upToSmall } from '@past3lle/theme'
 import AnimatedCarousel from 'components/Carousel/common/components/AnimatedCarousel'
 import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
 import { BaseCarouselProps } from 'components/Carousel/common/types'
 import { usePinchZoomAndDrag } from 'hooks/useScrollAnimation/usePinchDragAndZoom'
 import { ForwardedRef, forwardRef } from 'react'
-import { upToSmall } from 'theme/utils'
+import styled from 'styled-components/macro'
 
 const LargeImageModal = styled(Modal)<{ zoomLevel: number }>`
   padding-bottom: 5rem;

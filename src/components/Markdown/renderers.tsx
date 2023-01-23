@@ -10,7 +10,7 @@ const getTextFromMarkdownNode = (node: MarkdownNode): string => {
   // for heading, most of the time there will be only one child text node
   // but can be `## heading text <span>span text</span> **bold text**`
   // =4 nodes (space is a text node)
-  visit(node, 'text', textNode => {
+  visit(node, 'text', (textNode) => {
     // TODO: fix this properly
     text += (textNode as any).value || ''
   })
