@@ -1,14 +1,14 @@
 import { ArticleFadeIn } from '@past3lle/components'
 import { ThemeModes, setBackgroundWithDPI } from '@past3lle/theme'
-import { GenericImageSrcSet } from '@past3lle/types'
 import styled from 'styled-components/macro'
+import { ShopImageSrcSet } from 'types'
 
 export const portugalBg = `https://ik.imagekit.io/portugal-bg_Rqj8jTKhFmds.jpg`
 
 const LOGO_SET = [
-  { defaultUrl: portugalBg } as GenericImageSrcSet,
-  { defaultUrl: portugalBg } as GenericImageSrcSet,
-  { defaultUrl: portugalBg } as GenericImageSrcSet
+  { defaultUrl: portugalBg } as ShopImageSrcSet,
+  { defaultUrl: portugalBg } as ShopImageSrcSet,
+  { defaultUrl: portugalBg } as ShopImageSrcSet
 ]
 
 export const ArticleFadeInContainer = styled(ArticleFadeIn)`

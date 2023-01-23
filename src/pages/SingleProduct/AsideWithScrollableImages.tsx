@@ -1,4 +1,4 @@
-import { AutoColumn, ImageKitTransformation, Row, SmartImg } from '@past3lle/components'
+import { AutoColumn, ImageKitTransformation, Row, SmartImg, Text } from '@past3lle/components'
 import { ThemeModes, getThemeColours } from '@past3lle/theme'
 import { MarkdownRenderer } from 'components/Markdown'
 import { ReactNode } from 'react'
@@ -57,9 +57,9 @@ export function AsideWithScrollableImages({ header, markdown, image }: Params) {
           {header}
         </AboutUsHeader>
         <AboutUsTextContainer>
-          <TYPE.black fontSize={18} padding={2} fontWeight={300}>
+          <Text.Black fontSize={18} padding={2} fontWeight={300}>
             <MarkdownRenderer filePath={markdown} />
-          </TYPE.black>
+          </Text.Black>
         </AboutUsTextContainer>
       </ProductAsidePanel>
       <ImageContainer>

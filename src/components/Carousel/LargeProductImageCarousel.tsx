@@ -1,10 +1,10 @@
 import { SmartImageProps, SmartImg } from '@past3lle/components'
-import { GenericImageSrcSet } from '@past3lle/types'
 import LargeImageCarouselModal from 'components/Carousel/common/components/LargeImageModalCarousel'
 import { STORE_IMAGE_SIZES } from 'constants/config'
+import { ShopImageSrcSet } from 'types'
 
 interface LargeImageCarouselProps {
-  images: GenericImageSrcSet[]
+  images: ShopImageSrcSet[]
   accentColor: string
   isOpen: boolean
   imageProps?: Omit<SmartImageProps, 'path' | 'pathSrcSet' | 'onClick'>

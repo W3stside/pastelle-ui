@@ -6,7 +6,7 @@ import {
   ProductSizes,
   ProductsList
 } from 'shopify/graphql/types'
-import { GenericImageSrcSet } from 'utils/types'
+import { ShopImageSrcSet } from 'types'
 
 export function isJson(str: any) {
   if (typeof str === undefined || typeof str !== 'string') {
@@ -46,7 +46,7 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
       }
 
       return acc
-    }, {} as { logo: GenericImageSrcSet; navbar: GenericImageSrcSet; header: GenericImageSrcSet })
+    }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
 
     return {
       id: datum.id,
@@ -73,7 +73,7 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
 }
 
 export function getImageSizeMap(images: FragmentProductImageFragment[]) {
-  return images.map<GenericImageSrcSet>(({ url, ...urls }) => ({
+  return images.map<ShopImageSrcSet>(({ url, ...urls }) => ({
     defaultUrl: url,
     '500': { '1x': urls.url500, '2x': urls.url500_2x, '3x': urls.url500_3x },
     '720': { '1x': urls.url720, '2x': urls.url720_2x, '3x': urls.url720_3x },

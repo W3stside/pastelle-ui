@@ -4,7 +4,7 @@ import { setBackgroundWithDPI } from '@past3lle/theme'
 import { ProductSubHeader } from 'pages/common/styleds'
 import { ReactNode } from 'react'
 import styled from 'styled-components/macro'
-import { GenericImageSrcSet } from 'utils/types'
+import { ShopImageSrcSet } from 'types'
 
 import PastelleCursiveLoader from './PastelleCursiveLoader'
 
@@ -28,9 +28,9 @@ type StyleParams = {
 
 const moddedPtBgUrl = 'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=q-40,w-100,h-100,bl-6,'
 const MODDED_PT_URL_LIST = [
-  { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
-  { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
-  { defaultUrl: moddedPtBgUrl + 'w-10,h-10' } as GenericImageSrcSet
+  { defaultUrl: moddedPtBgUrl } as ShopImageSrcSet,
+  { defaultUrl: moddedPtBgUrl } as ShopImageSrcSet,
+  { defaultUrl: moddedPtBgUrl + 'w-10,h-10' } as ShopImageSrcSet
 ]
 export const AnimatedContainer = styled(ColumnCenter).attrs((props) => ({
   ...props,

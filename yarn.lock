@@ -3223,16 +3223,16 @@
   resolved "https://registry.yarnpkg.com/@past3lle/assets/-/assets-0.0.4-alpha.0.tgz#9c933f295831bc67124b376b8f2fcb0fcbb77162"
   integrity sha512-+kf8VrntvkDJrguslrRANbElGFRJZgZxHmrn6XatuMA6EUDAevvgOEw3detoBQM3pwSr5HMWvPnn06vIHjv07Q==
 
-"@past3lle/components@^0.0.4-alpha.2":
-  version "0.0.4-alpha.2"
-  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.4-alpha.2.tgz#d8d83406460228f8342f6a050a71079f01454b01"
-  integrity sha512-aztiG6HSMRcQK9nm0Ceeuq8NJxHwGIvPwZUhG7QIQgj2n0PHxmmwJxaw0AExM8mee5mzjdDfKXrh3dpuWFkhqA==
+"@past3lle/components@^0.0.4-alpha.3.0":
+  version "0.0.4-alpha.3.0"
+  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.4-alpha.3.0.tgz#48c7fab3f071357a428f714266b0e33ff60dd4de"
+  integrity sha512-pFC5qxJvlPyW7NR8PtB8xs8WXmKKLaShV/pcYyd3giVcxrXn7EEmMqGeL3GGRsKyWHlOkC4jCtIv2IjTdb5DRQ==
   dependencies:
     "@past3lle/assets" "^0.0.4-alpha.0"
     "@past3lle/constants" "^0.0.4-alpha.0"
     "@past3lle/hooks" "^0.0.4-alpha.0"
-    "@past3lle/theme" "^0.0.4-alpha.0"
-    "@past3lle/types" "^0.0.4-alpha.0"
+    "@past3lle/theme" "^0.0.4-alpha.3.0"
+    "@past3lle/types" "^0.0.4-alpha.3.0"
     "@past3lle/utils" "^0.0.4-alpha.0"
     "@popperjs/core" "^2.11.6"
     "@reach/dialog" "^0.18.0"
@@ -3262,22 +3262,22 @@
     lodash.debounce "^4.0.8"
     lodash.throttle "^4.1.1"
 
-"@past3lle/theme@^0.0.4-alpha.0":
-  version "0.0.4-alpha.0"
-  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.0.4-alpha.0.tgz#52f7a4a7a75b8c33edff68532ba4ac9b30c19fbe"
-  integrity sha512-Km9SNPL6FWceWmLSJUtsLwhCHtA9t1rvA5+MBCyy2ExLYOcufG428wB0hcs/UZJjxh7eog4dExC93+6SuCX5AA==
+"@past3lle/theme@^0.0.4-alpha.3.0":
+  version "0.0.4-alpha.3.0"
+  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.0.4-alpha.3.0.tgz#fcbbd487d489e48eade5d57922d1da8ea9bb509b"
+  integrity sha512-H27HMt3s5AZCyjwwFxxGR/GgRDxeyezeLzIidSpOZ8ivyDVSX5xXmtUsUQrLDfz+Los7ZBYhhi9DGOPAGbSCEQ==
   dependencies:
     "@past3lle/constants" "^0.0.4-alpha.0"
-    "@past3lle/types" "^0.0.4-alpha.0"
+    "@past3lle/types" "^0.0.4-alpha.3.0"
     polished "^4.2.2"
     rebass "^4.0.7"
     styled-theming "^2.2.0"
     wcag-contrast "^3.0.0"
 
-"@past3lle/types@^0.0.4-alpha.0":
-  version "0.0.4-alpha.0"
-  resolved "https://registry.yarnpkg.com/@past3lle/types/-/types-0.0.4-alpha.0.tgz#4fb064831312ba1fbb516c5adbec33c757d1e5f3"
-  integrity sha512-scKxl+kyKnr0LudBhHpIIpjbvPHBCg/klrSD4S8pPLBeHvjLw3Jm0Ybse0rFQfS50MvbdIImbjc07+hT3Gy6Kw==
+"@past3lle/types@^0.0.4-alpha.3.0":
+  version "0.0.4-alpha.3.0"
+  resolved "https://registry.yarnpkg.com/@past3lle/types/-/types-0.0.4-alpha.3.0.tgz#51499d7ff5f54ee431765070261bbb9b06534fbe"
+  integrity sha512-Y7IJ519cYi1FQ2tIRA2ZlAp5m1AjEzes4qz/dsJtYErgAdGcTVqOrT9Ot5vH7hcJPAMFOfFRkqk0jYn9yYv/Vw==
 
 "@past3lle/utils@^0.0.4-alpha.0":
   version "0.0.4-alpha.0"

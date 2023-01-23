@@ -19,9 +19,9 @@ import { darken } from 'polished'
 import { Dribbble, Instagram } from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
-import { GenericImageSrcSet } from 'utils/types'
+import { ShopImageSrcSet } from 'types'
 
-export const ScrollingProductLabel = styled(Row)<{ logo?: GenericImageSrcSet; labelColor?: string }>`
+export const ScrollingProductLabel = styled(Row)<{ logo?: ShopImageSrcSet; labelColor?: string }>`
   position: absolute;
   top: 0;
   width: 100%;
@@ -120,7 +120,7 @@ export const ProductLogo = styled.div<{
 export const ProductLogoCssImport = styled(ProductLogo)<{
   position?: string
   height?: number
-  logoUri: GenericImageSrcSet
+  logoUri: ShopImageSrcSet
 }>`
   position: ${({ position = 'fixed' }) => position};
   ${({ theme, logoUri }) =>
@@ -286,8 +286,8 @@ export const ProductScreensContainer = styled(Column)`
 export const ProductContainer = styled(Row)<{
   side?: 'LEFT' | 'RIGHT'
   bgColor?: string
-  navLogo?: GenericImageSrcSet
-  logo?: GenericImageSrcSet
+  navLogo?: ShopImageSrcSet
+  logo?: ShopImageSrcSet
 }>`
   width: 100%;
   height: 100%;

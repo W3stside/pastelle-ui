@@ -1,11 +1,11 @@
 import { SmartImg } from '@past3lle/components'
 import { useStateRef } from '@past3lle/hooks'
-import { GenericImageSrcSet } from '@past3lle/types'
+import { ShopImageSrcSet } from 'types'
 
 import { LogoContainer } from './styleds'
 
 export interface LogoProps {
-  logoSrcSet: GenericImageSrcSet
+  logoSrcSet: ShopImageSrcSet
   parentNode: HTMLElement | null
   isHeader: boolean
 }

@@ -1,16 +1,16 @@
 import { SmartVideoProps as LazyVideoProps, SmartImageProps, SmartImg } from '@past3lle/components'
-import { GenericImageSrcSet } from '@past3lle/types'
 import ButtonCarousel, { ButtonCarouselProps } from 'components/Carousel/common/components/ButtonCarousel'
 import { useCallback } from 'react'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { isProductVideo } from 'shopify/utils'
+import { ShopImageSrcSet } from 'types'
 
 import HorizontalSwipeCarousel from './HorizontalSwipeCarousel'
 import { CarouselShowcaseVideo } from './common/common'
 import { BaseCarouselProps, CarouselChildrenProps, WithTouchAction } from './common/types'
 
 interface ProductCarousel extends Omit<BaseCarouselProps, 'children'> {
-  data: (GenericImageSrcSet | FragmentProductVideoFragment | undefined)[]
+  data: (ShopImageSrcSet | FragmentProductVideoFragment | undefined)[]
   imageProps?: Omit<SmartImageProps, 'path' | 'pathSrcSet' | 'onClick'>
   videoProps?: LazyVideoProps['videoProps']
 }

@@ -6,7 +6,7 @@ import {
   ProductArtistInfo,
   ProductOptionsSize
 } from 'shopify/graphql/types'
-import { GenericImageSrcSet } from 'utils/types'
+import { ShopImageSrcSet } from 'types'
 
 export interface BaseProductPageProps {
   bgColor: string
@@ -14,9 +14,9 @@ export interface BaseProductPageProps {
   title: string
   handle: string
   productType: string
-  logo?: GenericImageSrcSet
-  headerLogo?: GenericImageSrcSet
-  navLogo?: GenericImageSrcSet
+  logo?: ShopImageSrcSet
+  headerLogo?: ShopImageSrcSet
+  navLogo?: ShopImageSrcSet
   images: FragmentProductImageFragment[]
   videos: FragmentProductVideoFragment[]
   // media: (FragmentProductExternalVideoFragment | FragmentProductVideoFragment)[]

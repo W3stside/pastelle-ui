@@ -1,3 +1,4 @@
+import { LogoFull, LogoShort } from '@past3lle/assets'
 import { Header, Row, RowFixed } from '@past3lle/components'
 import {
   BLACK,
@@ -12,10 +13,6 @@ import {
   upToExtraSmall,
   upToSmallHeight
 } from '@past3lle/theme'
-import { GenericImageSrcSet } from '@past3lle/types'
-import PASTELLE_LOGO_SMALL from 'assets/svg/PSTL-sharp.svg'
-// import PASTELLE_LOGO_BIG from 'assets/svg/pastelle-cursive-logo.svg'
-import PASTELLE_LOGO_BIG from 'assets/svg/pastelle-ivory.svg'
 import { YellowCard } from 'components/Layout'
 import { MobileNavOrb } from 'components/Navigation/styled'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
@@ -26,6 +23,7 @@ import { darken, transparentize } from 'polished'
 import { NavLink } from 'react-router-dom'
 import { Text } from 'rebass'
 import styled from 'styled-components/macro'
+import { ShopImageSrcSet } from 'types'
 
 const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
 
@@ -152,7 +150,7 @@ export const HeaderDrawerButton = styled.div`
     color: white;
   }
 `
-export const HeaderFrame = styled(Header)<{ open: boolean; color?: string; logoSet?: GenericImageSrcSet }>`
+export const HeaderFrame = styled(Header)<{ open: boolean; color?: string; logoSet?: ShopImageSrcSet }>`
   top: 0;
   padding: 1rem;
 
@@ -257,8 +255,8 @@ export const Pastellecon = styled.div`
   width: 100%;
   transition: transform 0.3s ease;
 
-  background: url(${PASTELLE_LOGO_SMALL}) left/contain no-repeat;
-  ${fromExtraSmall`background: url(${PASTELLE_LOGO_BIG}) left/contain no-repeat;`}
+  background: url(${LogoShort}) left/contain no-repeat;
+  ${fromExtraSmall`background: url(${LogoFull}) left/contain no-repeat;`}
 
   &:hover {
     transform: rotate(-5deg);

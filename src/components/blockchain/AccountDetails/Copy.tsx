@@ -1,11 +1,11 @@
 import { Trans } from '@lingui/macro'
+import { ButtonLink } from '@past3lle/components'
 import { useCopyClipboard } from '@past3lle/hooks'
 import { useCallback } from 'react'
 import { CheckCircle, Copy } from 'react-feather'
 import styled from 'styled-components/macro'
-import { LinkStyledButton } from 'theme/components'
 
-export const CopyIcon = styled(LinkStyledButton)`
+export const CopyIcon = styled(ButtonLink)`
   color: ${({ color, theme }) => color || theme.text3};
   flex-shrink: 0;
   display: flex;

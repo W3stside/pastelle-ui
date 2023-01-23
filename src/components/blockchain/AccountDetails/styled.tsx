@@ -1,4 +1,5 @@
 import { Button, RowFixed } from '@past3lle/components'
+import { ExternalLink, ButtonLink as LinkStyledButton } from '@past3lle/components'
 import { YellowCard } from 'components/Layout'
 import { StyledSVG } from 'components/Loader'
 import Logo from 'components/Logo'
@@ -6,7 +7,6 @@ import { CopyIcon } from 'components/blockchain/AccountDetails/Copy'
 import { transparentize } from 'polished'
 import { X } from 'react-feather'
 import styled, { css, keyframes } from 'styled-components/macro'
-import { ExternalLink, LinkStyledButton } from 'theme'
 
 const StyledLogo = styled(Logo)<{ size: string }>`
   width: ${({ size }) => size};
