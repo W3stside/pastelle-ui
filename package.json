@@ -115,8 +115,7 @@
     "web-vitals": "^3.1.0",
     "@react-spring/web": "^9.4.3"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "resolutions": {
     "@walletconnect/ethereum-provider": "1.7.1"
   },
