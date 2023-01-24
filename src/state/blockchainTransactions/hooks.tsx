@@ -49,7 +49,7 @@ export function useTransactionAdder(): TransactionAdder {
         summary,
         data,
         presign,
-        safeTransaction
+        safeTransaction,
       })
     },
     [account, chainId, isGnosisSafeWallet, addTransaction]

@@ -93,6 +93,6 @@ export default function useSizeSelector({ sizes }: Pick<SizeSelectorProps, 'size
 
   return {
     selectedSize,
-    SizeSelector: SizeSelectorMemoed
+    SizeSelector: SizeSelectorMemoed,
   }
 }

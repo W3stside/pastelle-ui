@@ -30,12 +30,12 @@ const moddedPtBgUrl = 'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.
 const MODDED_PT_URL_LIST = [
   { defaultUrl: moddedPtBgUrl } as ShopImageSrcSet,
   { defaultUrl: moddedPtBgUrl } as ShopImageSrcSet,
-  { defaultUrl: moddedPtBgUrl + 'w-10,h-10' } as ShopImageSrcSet
+  { defaultUrl: moddedPtBgUrl + 'w-10,h-10' } as ShopImageSrcSet,
 ]
 export const AnimatedContainer = styled(ColumnCenter).attrs((props) => ({
   ...props,
   height: '100%',
-  justifyContent: 'center'
+  justifyContent: 'center',
 }))<{ showBg?: boolean }>`
   ${({ theme, showBg = true }) =>
     showBg &&
@@ -45,7 +45,7 @@ export const AnimatedContainer = styled(ColumnCenter).attrs((props) => ({
       backgroundColor: '#4242421c',
       backgroundAttributes: ['center/contain repeat', '-1px -1px/contain repeat'],
       backgroundBlendMode: 'color-burn',
-      skipIk: true
+      skipIk: true,
     })}
 
   filter: contrast(1.5);
@@ -94,7 +94,7 @@ const topLevelLoaderProps = {
   top: '0',
   left: '0',
   right: '0',
-  bottom: '0'
+  bottom: '0',
 }
 export const FallbackLoader = () => (
   <FixedAnimatedLoader loadingComponent={<PastelleCursiveLoader />} {...topLevelLoaderProps} />

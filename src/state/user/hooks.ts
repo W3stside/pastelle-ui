@@ -45,6 +45,6 @@ export function useUpdateShowcaseVideoSettings(): [
 
   return [
     videoSettings,
-    (settingsUpdate: UserState['showcase']['videoSettings']) => updateShowcase({ videoSettings: settingsUpdate })
+    (settingsUpdate: UserState['showcase']['videoSettings']) => updateShowcase({ videoSettings: settingsUpdate }),
   ]
 }

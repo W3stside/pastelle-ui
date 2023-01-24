@@ -15,7 +15,7 @@ export default function useGetProductShowcaseVideos({ videos }: { videos: Fragme
       webKey: `${gender}-${height}-${selectedSize}`,
       get mobileKey() {
         return this.webKey + '-MOBILE'
-      }
+      },
     }),
     [gender, height, selectedSize, videos]
   )

@@ -4,7 +4,7 @@ import {
   FragmentProductVideoFragment,
   ProductArtistInfo,
   ProductSizes,
-  ProductsList
+  ProductsList,
 } from 'shopify/graphql/types'
 import { ShopImageSrcSet } from 'types'
 
@@ -67,7 +67,7 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
       // @ts-ignore - type
       videos: datum.media.nodes.filter(isProductVideo) as FragmentProductVideoFragment[],
       sizes: getMetafields<ProductSizes[]>(datum.sizes[0].values),
-      shortDescription: getMetafields<string>(datum.shortDescription)
+      shortDescription: getMetafields<string>(datum.shortDescription),
     }
   })
 }
@@ -79,7 +79,7 @@ export function getImageSizeMap(images: FragmentProductImageFragment[]) {
     '720': { '1x': urls.url720, '2x': urls.url720_2x, '3x': urls.url720_3x },
     '960': { '1x': urls.url960, '2x': urls.url960_2x, '3x': urls.url960_3x },
     '1280': { '1x': urls.url1280, '2x': urls.url1280_2x, '3x': urls.url1280_3x },
-    '1440': { '1x': urls.url1440, '2x': urls.url1440_2x, '3x': urls.url1440_3x }
+    '1440': { '1x': urls.url1440, '2x': urls.url1440_2x, '3x': urls.url1440_3x },
   }))
 }
 

@@ -33,7 +33,7 @@ const Wrapper = styled(Row)`
 export default function AddToCartButtonAndQuantitySelector({
   merchandiseId,
   children,
-  quantitySelectorProps
+  quantitySelectorProps,
 }: Pick<AddToCartButtonParams, 'merchandiseId'> & {
   children?: React.ReactNode
   quantitySelectorProps: QuantitySelectorParams

@@ -8,7 +8,7 @@ import {
   CarouselButtonContainer,
   CarouselIndicator,
   CarouselIndicatorWrapper,
-  StaticCarouselStep
+  StaticCarouselStep,
 } from './components/styleds'
 import { BaseCarouselProps } from './types'
 
@@ -37,7 +37,7 @@ export function CarouselStep(props: CarouselStepsProps) {
     isMultipleCarousel,
     onCarouselItemClick,
     onNext,
-    onPrev
+    onPrev,
   } = props
 
   return (
@@ -65,7 +65,7 @@ export function CarouselStep(props: CarouselStepsProps) {
 export const CarouselIndicators = ({
   color,
   currentIndex,
-  size
+  size,
 }: {
   color?: string
   currentIndex: number
@@ -96,8 +96,8 @@ export function CarouselShowcaseVideo({
       videoProps={{
         ...videoProps,
         style: {
-          cursor: 'pointer'
-        }
+          cursor: 'pointer',
+        },
       }}
       zIndex={Z_INDEXES.PRODUCT_VIDEOS}
       height={'100%'}

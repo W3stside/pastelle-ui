@@ -54,7 +54,7 @@ interface QueryCartParams {
 function _queryAndUpdateCart({ cartId, query, updateCartInfo }: QueryCartParams) {
   return query<GetCartQuery, GetCartQueryVariables>({
     query: GET_CART,
-    variables: { cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT }
+    variables: { cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT },
   })
     .then(({ data, error }) => {
       if (error) throw { type: 'QUERY_ERROR', error }
@@ -64,7 +64,7 @@ function _queryAndUpdateCart({ cartId, query, updateCartInfo }: QueryCartParams)
       updateCartInfo({
         cartId: data.cart.id,
         totalQuantity: data.cart.totalQuantity,
-        costs: data.cart.cost
+        costs: data.cart.cost,
       })
     })
     .catch((error) => {

@@ -53,7 +53,7 @@ export const calculateInfiniteScrollApiLogic = (
     config,
     dataLength,
     itemSize,
-    setCurrentIndex
+    setCurrentIndex,
   }: Omit<InfiniteScrollHookOptions, 'visible'> & Omit<WheelGestureParams, 'cancel'> & InifniteScrollDataParams
 ) => {
   const position = getPos(i, firstVis, firstVisIdx, dataLength)
@@ -83,7 +83,7 @@ export const calculateInfiniteScrollApiLogic = (
     [axisDirection]: !active && snapOnScroll ? anchorPoint : axisPos,
     scale,
     immediate,
-    config: typeof config === 'function' ? config({ configPos, length: dataLength }) : config
+    config: typeof config === 'function' ? config({ configPos, length: dataLength }) : config,
   }
 }
 type RunSpringsParams<T> = Omit<T, 'firstVis' | 'firstVisIdx'> & InfiniteScrollHookOptions & InifniteScrollDataParams
@@ -105,7 +105,7 @@ export function runInfiniteScrollSprings<T extends Record<any, any>>(
       itemSize,
       dataLength,
       prevRef,
-      ...rest
+      ...rest,
     })
   )
 
@@ -134,7 +134,7 @@ const runLimitedSwipe =
 
       const bounds: [number, number] = [
         current.current - 1 > 0 ? current.current - 1 : 0,
-        current.current + 1 < lastIndx ? current.current + 1 : lastIndx
+        current.current + 1 < lastIndx ? current.current + 1 : lastIndx,
       ]
 
       if (active && Math.abs(mAxis) > itemSize / 10) {
@@ -179,13 +179,13 @@ const runPinchZoom =
 
 export default {
   wheel: {
-    infinite: runInfiniteScrollSprings
+    infinite: runInfiniteScrollSprings,
   },
   drag: {
     infinite: runInfiniteScrollSprings,
-    limited: runLimitedSwipe
+    limited: runLimitedSwipe,
   },
   pinch: {
-    zoom: runPinchZoom
-  }
+    zoom: runPinchZoom,
+  },
 }

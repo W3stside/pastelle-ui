@@ -11,7 +11,7 @@ export default function useInfiniteScrollSetup(axisDirection: AxisDirection, opt
 
   const {
     refs: { itemSize, scrollingZoneTarget },
-    refCallbacks: { setItemSizeRef, setScrollingZoneRef }
+    refCallbacks: { setItemSizeRef, setScrollingZoneRef },
   } = useScrollZoneRefs(axisDirection, options.sizeOptions)
 
   const gestureParams = useMemo(() => ({ ...options, prevRef, itemSize, setCurrentIndex }), [itemSize, options])
@@ -24,7 +24,7 @@ export default function useInfiniteScrollSetup(axisDirection: AxisDirection, opt
     callbacks: {
       setFirstPaintOver,
       setScrollingZoneRef,
-      setItemSizeRef
-    }
+      setItemSizeRef,
+    },
   }
 }

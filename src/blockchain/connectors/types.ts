@@ -5,7 +5,7 @@ export enum ConnectionType {
   INJECTED = 'INJECTED',
   WALLET_CONNECT = 'WALLET_CONNECT',
   NETWORK = 'NETWORK',
-  GNOSIS_SAFE = 'GNOSIS_SAFE'
+  GNOSIS_SAFE = 'GNOSIS_SAFE',
 }
 
 export interface Connection {

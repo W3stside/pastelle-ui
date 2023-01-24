@@ -8,7 +8,7 @@ export default function useFetchFile(filePath: string) {
   const {
     data: file,
     isValidating,
-    error
+    error,
   } = useSWR(filePath, () =>
     fetch(filePath)
       .then(async (res) => {

@@ -11,7 +11,7 @@ const StyledLoadingRows = styled.div<LoadingRowsStyleProps>`
       name: 'bgPositionAnimation',
       duration: 1.5,
       count: 'infinite',
-      fillMode: 'both'
+      fillMode: 'both',
     })}
     background: linear-gradient(
       to left,

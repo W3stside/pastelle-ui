@@ -3,14 +3,14 @@ import { SupportedChainId } from '../constants/chains'
 const BLOCK_EXPLORER_PREFIXES: { [chainId: number]: string } = {
   [SupportedChainId.MAINNET]: 'https://etherscan.io',
   [SupportedChainId.RINKEBY]: 'https://rinkeby.etherscan.io',
-  [SupportedChainId.GNOSIS]: 'https://gnosisscan.io/'
+  [SupportedChainId.GNOSIS]: 'https://gnosisscan.io/',
 }
 
 export enum ExplorerDataType {
   TRANSACTION = 'transaction',
   TOKEN = 'token',
   ADDRESS = 'address',
-  BLOCK = 'block'
+  BLOCK = 'block',
 }
 
 /**

@@ -17,7 +17,7 @@ const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages
 
 export default function App() {
   const { loading } = useQuery(QUERY_PRODUCT, {
-    variables: { amount: PRODUCT_AMOUNT, imageAmt: PRODUCT_IMAGES_AMOUNT, videoAmt: PRODUCT_VIDEOS_AMOUNT }
+    variables: { amount: PRODUCT_AMOUNT, imageAmt: PRODUCT_IMAGES_AMOUNT, videoAmt: PRODUCT_VIDEOS_AMOUNT },
   })
 
   const isMobileWidthOrBelow = useIsMobileWindowWidthSize()

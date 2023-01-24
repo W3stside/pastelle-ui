@@ -60,7 +60,7 @@ function getWcPeerMetadata(provider: WalletConnectProvider): WalletMetaData {
   if (meta) {
     return {
       walletName: meta.name,
-      icon: meta.icons?.length > 0 ? meta.icons[0] : undefined
+      icon: meta.icons?.length > 0 ? meta.icons[0] : undefined,
     }
   }
 
@@ -83,7 +83,7 @@ export function useWalletMetaData(): WalletMetaData {
     if (connectionType === ConnectionType.GNOSIS_SAFE) {
       return {
         walletName: GNOSIS_SAFE_APP_NAME,
-        icon: SAFE_ICON_URL
+        icon: SAFE_ICON_URL,
       }
     }
 
@@ -113,7 +113,7 @@ export function useWalletInfo(): ConnectedWalletInfo {
     // TODO: For now, all SC wallets use pre-sign instead of offchain signing
     // In the future, once the API adds EIP-1271 support, we can allow some SC wallets to use offchain signing
     allowsOffchainSigning: !isSmartContractWallet,
-    gnosisSafeInfo
+    gnosisSafeInfo,
   }
 }
 

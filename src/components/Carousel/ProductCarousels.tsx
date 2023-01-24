@@ -39,7 +39,7 @@ export function SwipeCarousel({ data, imageProps, videoProps, ...rest }: Product
 const curriedCarouselRenderFn = ({
   data,
   imageProps,
-  videoProps
+  videoProps,
 }: Pick<ProductCarousel, 'data' | 'imageProps' | 'videoProps'> & {
   fillWidth?: boolean
 }) =>
@@ -64,7 +64,7 @@ const curriedCarouselRenderFn = ({
           transformation={[defaultImageTransforms, ...(imageProps?.transformation || [])]}
           lqImageOptions={{
             ...defaultImageTransforms,
-            showLoadingIndicator: true
+            showLoadingIndicator: true,
           }}
         />
       )

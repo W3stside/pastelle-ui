@@ -33,11 +33,11 @@ const store = configureStore({
     // BLOCKCHAIN
     blockchain,
     blockchainMulticall,
-    blockchainTransactions
+    blockchainTransactions,
   },
   middleware: (defaultMiddleware) =>
     defaultMiddleware({
-      thunk: true
+      thunk: true,
     }).concat(save({ states: PERSISTED_KEYS })),
   preloadedState: load({
     states: PERSISTED_KEYS,
@@ -47,7 +47,7 @@ const store = configureStore({
       user: {
         theme: {
           mode: ThemeModes.DARK,
-          autoDetect: false
+          autoDetect: false,
         },
         showcase: {
           gender: 'MALE',
@@ -55,13 +55,13 @@ const store = configureStore({
           size: ProductSizes.L,
           videoSettings: {
             autoplay: true,
-            status: 'play'
-          }
-        }
-      }
+            status: 'play',
+          },
+        },
+      },
     },
-    disableWarnings: process.env.NODE_ENV === 'test'
-  })
+    disableWarnings: process.env.NODE_ENV === 'test',
+  }),
 })
 
 store.dispatch(updateVersion())

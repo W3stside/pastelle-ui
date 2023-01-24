@@ -12,7 +12,7 @@ import {
   useSetChainConnectivityWarning,
   useSetImplements3085,
   useUpdateBlockNumber,
-  useUpdateChainId
+  useUpdateChainId,
 } from 'state/blockchain/hooks'
 
 const NETWORK_HEALTH_CHECK_MS = ms`15s`
@@ -58,7 +58,7 @@ function useBlockWarningTimer() {
     isWindowVisible,
     msSinceLastBlock,
     setMsSinceLastBlock,
-    setChainConnectivityWarning
+    setChainConnectivityWarning,
   ])
 }
 
@@ -71,7 +71,7 @@ export default function Updater(): null {
 
   const [state, setState] = useState<{ chainId: number | undefined; blockNumber: number | null }>({
     chainId,
-    blockNumber: null
+    blockNumber: null,
   })
 
   const windowVisible = useIsWindowVisible()

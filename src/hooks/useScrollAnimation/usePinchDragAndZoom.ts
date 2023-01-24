@@ -10,7 +10,7 @@ import utils from './utils/utils'
 export function usePinchZoomAndDrag(data: any[], options?: OverwritingOptions): SpringAnimationHookReturn {
   const {
     refs: { itemSize, scrollingZoneTarget: ref },
-    refCallbacks
+    refCallbacks,
   } = useScrollZoneRefs('x', options?.sizeOptions || { minSize: STORE_IMAGE_SIZES.SMALL })
 
   const [springs, api] = useSprings(
@@ -20,7 +20,7 @@ export function usePinchZoomAndDrag(data: any[], options?: OverwritingOptions): 
       x: i * itemSize,
       y: 0,
       scale: 1,
-      display: 'block'
+      display: 'block',
     }),
     [data.length]
   )
@@ -31,11 +31,11 @@ export function usePinchZoomAndDrag(data: any[], options?: OverwritingOptions): 
         if (pinching) return cancel()
         api.start({ x, y })
       },
-      onPinch: utils.pinch.zoom([springs, api], { ref })
+      onPinch: utils.pinch.zoom([springs, api], { ref }),
     },
     {
       drag: { from: () => [springs[0].x.get(), springs[0].y.get()], bound: ref?.getBoundingClientRect() },
-      pinch: { scaleBounds: { min: 0.8, max: 3 }, rubberband: true }
+      pinch: { scaleBounds: { min: 0.8, max: 3 }, rubberband: true },
     }
   )
 
@@ -43,6 +43,6 @@ export function usePinchZoomAndDrag(data: any[], options?: OverwritingOptions): 
     bind,
     springs,
     state: { currentIndex: 0, itemSize },
-    refCallbacks
+    refCallbacks,
   }
 }

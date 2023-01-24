@@ -27,7 +27,7 @@ export default function Logo({ isCollectionView, logos, parentNode }: LogoParams
             get height() {
               return (this.width * SINGLE_ITEM_LOGO_RATIO[0]) / SINGLE_ITEM_LOGO_RATIO[1]
             },
-            showLoadingIndicator: false
+            showLoadingIndicator: false,
           }}
         />
       </ProductLogo>

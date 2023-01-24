@@ -5,14 +5,14 @@ import { SupportedChainId } from 'blockchain/constants/chains'
 const SAFE_TRANSACTION_SERVICE_URL: Partial<Record<number, string>> = {
   [SupportedChainId.MAINNET]: 'https://safe-transaction.gnosis.io',
   [SupportedChainId.RINKEBY]: 'https://safe-transaction.rinkeby.gnosis.io',
-  [SupportedChainId.GNOSIS]: 'https://safe-transaction.xdai.gnosis.io'
+  [SupportedChainId.GNOSIS]: 'https://safe-transaction.xdai.gnosis.io',
 }
 
 const SAFE_BASE_URL = 'https://gnosis-safe.io'
 const CHAIN_SHORT_NAME: Partial<Record<number, string>> = {
   [SupportedChainId.MAINNET]: 'eth', // https://github.com/ethereum-lists/chains/blob/master/_data/chains/eip155-1.json
   [SupportedChainId.RINKEBY]: 'rin', // https://github.com/ethereum-lists/chains/blob/master/_data/chains/eip155-4.json
-  [SupportedChainId.GNOSIS]: 'xdai' // https://github.com/ethereum-lists/chains/blob/master/_data/chains/eip155-100.json
+  [SupportedChainId.GNOSIS]: 'xdai', // https://github.com/ethereum-lists/chains/blob/master/_data/chains/eip155-100.json
 }
 
 const SAFE_TRANSACTION_SERVICE_CACHE: Partial<Record<number, SafeServiceClient | null>> = {}

@@ -48,7 +48,7 @@ export default function PendingView({
   connector,
   error = false,
   tryActivation,
-  openOptions
+  openOptions,
 }: {
   connector: Connector
   error?: boolean

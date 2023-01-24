@@ -8,7 +8,7 @@ import {
   setBackgroundWithDPI,
   setBestTextColour,
   textShadowAnimation,
-  upToSmallHeight
+  upToSmallHeight,
 } from '@past3lle/theme'
 import { ThemeModes } from '@past3lle/theme'
 import { Text } from 'components/Text'
@@ -39,8 +39,8 @@ export const ScrollingProductLabel = styled(Row)<{ logo?: ShopImageSrcSet; label
       backgroundAttributes: ['center / cover no-repeat', '-8px / cover repeat'],
       backgroundBlendMode: 'difference',
       lqIkUrlOptions: {
-        transforms: ['pr-true,q-30', 'pr-true,q-10,bl-12']
-      }
+        transforms: ['pr-true,q-30', 'pr-true,q-10,bl-12'],
+      },
     })}
 
   ${upToSmallHeight`
@@ -90,7 +90,7 @@ export const ItemHeader = styled(Text.Header)<ItemHeaderProps>`
         name: 'textShadowAnimation',
         delay: animationDelay ? 1 : undefined,
         count: 3,
-        duration: 10
+        duration: 10,
       },
       css`
         text-shadow: 1rem 0.2rem 0.2rem ${itemColor};
@@ -128,8 +128,8 @@ export const ProductLogoCssImport = styled(ProductLogo)<{
       preset: 'logo',
       backgroundAttributes: ['center/cover no-repeat', 'center/cover repeat'],
       lqIkUrlOptions: {
-        transforms: [null, 'pr-true,q-60,bl-12']
-      }
+        transforms: [null, 'pr-true,q-60,bl-12'],
+      },
     })}
 
   height: ${({ height = 160 }) => height}px;
@@ -216,7 +216,7 @@ export const ProductDescription = styled(Text.Black).attrs((props) => ({
   lineHeight: props.lineHeight || 1.2,
   backgroundColor: props.theme.products.aside.itemContainer,
   color: props.theme.products.aside.textColor,
-  ...props
+  ...props,
 }))`
   text-transform: uppercase;
   font-style: italic;
@@ -255,7 +255,7 @@ export const ProductSubDescription = styled(ProductDescription).attrs((props) =>
   margin: props.margin || '2rem 0',
   color: props.theme.products.aside.textColor,
   backgroundColor: props.theme.products.aside.subItemDescription,
-  fontWeight: props.fontWeight || 400
+  fontWeight: props.fontWeight || 400,
 }))`
   display: flex;
   justify-content: flex-start;
@@ -377,7 +377,7 @@ export const ProductCredits = styled(Text.Black).attrs((props) => ({
   fontSize: '1.4rem',
   padding: '1.3rem 0.8rem',
   fontWeight: 300,
-  width: '100%'
+  width: '100%',
 }))``
 
 function _showSocialUrl(type: string | SocialType) {
@@ -432,7 +432,7 @@ export const VideoPlayCTAOverlay = styled(Row).attrs((props) => ({
   bottom: 0,
   left: 0,
   right: 0,
-  ...props
+  ...props,
 }))<{
   bgColor?: string
   $width?: string | number

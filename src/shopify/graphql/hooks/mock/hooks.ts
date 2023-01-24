@@ -4,7 +4,7 @@ import { DocumentNode, OperationVariables, QueryHookOptions, TypedDocumentNode }
 const MOCK_DATA = {
   data: {},
   error: undefined,
-  loading: false
+  loading: false,
 }
 
 export function useMockQuery<TData = any, TVariables = OperationVariables>(

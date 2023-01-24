@@ -26,9 +26,9 @@ export async function addNetwork({ library, chainId, info }: AddNetworkArguments
           chainName: info.label,
           rpcUrls: info.rpcUrls,
           nativeCurrency: info.nativeCurrency,
-          blockExplorerUrls: [info.explorer]
-        }
-      ]
+          blockExplorerUrls: [info.explorer],
+        },
+      ],
     })
   } catch (error) {
     devError('error adding eth network: ', chainId, info, error)

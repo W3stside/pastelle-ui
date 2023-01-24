@@ -3,7 +3,7 @@ import {
   gnosisSafeConnection,
   injectedConnection,
   networkConnection,
-  walletConnectConnection
+  walletConnectConnection,
 } from 'blockchain/connectors'
 
 import { Connection, ConnectionType } from './types'

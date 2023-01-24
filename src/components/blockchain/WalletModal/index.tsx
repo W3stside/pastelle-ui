@@ -102,13 +102,13 @@ const HoverText = styled.div`
 const WALLET_VIEWS = {
   OPTIONS: 'options',
   ACCOUNT: 'account',
-  PENDING: 'pending'
+  PENDING: 'pending',
 }
 
 export default function WalletModal({
   pendingTransactions,
   confirmedTransactions,
-  ENSName
+  ENSName,
 }: {
   pendingTransactions: string[] // hashes of pending
   confirmedTransactions: string[] // hashes of confirmed

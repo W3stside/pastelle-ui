@@ -15,7 +15,7 @@ export const getBaseButtonProps = (isDarkMode: boolean, toggleDarkMode: () => vo
   filter: 'invert(' + isDarkMode ? '1' : '0' + ') contrast(2) saturate(2)',
   bgBlendMode: 'lighten',
   bgAttributes: ['0px / 10% repeat', '0px / 100% no-repeat'],
-  onClick: toggleDarkMode
+  onClick: toggleDarkMode,
 })
 
 export const ThemeToggleButton = ({
@@ -24,9 +24,9 @@ export const ThemeToggleButton = ({
   toggleDarkMode,
   themeToggleProps = {
     margin: 'auto',
-    width: '10rem'
+    width: '10rem',
   },
-  buttonProps = {}
+  buttonProps = {},
 }: {
   children?: ReactNode
   isDarkMode: boolean
@@ -47,7 +47,7 @@ export const ThemeToggleButton = ({
 const ThemeToggleBar = ({
   buttonProps = {},
   themeToggleProps = {},
-  className
+  className,
 }: {
   className?: string
   themeToggleProps?: ThemeToggleProps

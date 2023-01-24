@@ -124,7 +124,7 @@ export default function AccountDetails({
   // pendingTransactions,
   // confirmedTransactions,
   ENSName,
-  openOptions
+  openOptions,
 }: AccountDetailsProps) {
   const { chainId, account, connector } = useWeb3React()
   const connectionType = getConnection(connector).type

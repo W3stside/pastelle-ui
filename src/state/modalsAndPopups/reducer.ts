@@ -14,7 +14,7 @@ export enum ApplicationModal {
   WALLET,
   SETTINGS,
   MENU,
-  ITEM_LARGE_IMAGE
+  ITEM_LARGE_IMAGE,
 }
 
 type PopupList = Array<{
@@ -31,7 +31,7 @@ export interface ModalsAndPopupsState {
 
 const initialState: ModalsAndPopupsState = {
   popupList: [],
-  openModal: null
+  openModal: null,
 }
 
 const modalsAndPopupsSlice = createSlice({
@@ -44,7 +44,7 @@ const modalsAndPopupsSlice = createSlice({
     addAnyPopup(
       state,
       {
-        payload: { content, key, removeAfterMs = POPUP_REMOVE_TIME }
+        payload: { content, key, removeAfterMs = POPUP_REMOVE_TIME },
       }: PayloadAction<{ content: PopupContent; key?: string; removeAfterMs?: number }>
     ) {
       state.popupList = (key ? state.popupList.filter((popup) => popup.key !== key) : state.popupList).concat([
@@ -52,14 +52,14 @@ const modalsAndPopupsSlice = createSlice({
           key: key || nanoid(),
           show: true,
           content,
-          removeAfterMs
-        }
+          removeAfterMs,
+        },
       ])
     },
     addTxPopup(
       state,
       {
-        payload: { content, key, removeAfterMs = POPUP_REMOVE_TIME }
+        payload: { content, key, removeAfterMs = POPUP_REMOVE_TIME },
       }: PayloadAction<{ content: TxPopupContent; key?: string; removeAfterMs?: number }>
     ) {
       state.popupList = (key ? state.popupList.filter((popup) => popup.key !== key) : state.popupList).concat([
@@ -67,8 +67,8 @@ const modalsAndPopupsSlice = createSlice({
           key: key || nanoid(),
           show: true,
           content,
-          removeAfterMs
-        }
+          removeAfterMs,
+        },
       ])
     },
     removePopup(state, { payload: key }: PayloadAction<string>) {
@@ -77,8 +77,8 @@ const modalsAndPopupsSlice = createSlice({
           p.show = false
         }
       })
-    }
-  }
+    },
+  },
 })
 
 export const { setOpenModal, addAnyPopup, addTxPopup, removePopup } = modalsAndPopupsSlice.actions

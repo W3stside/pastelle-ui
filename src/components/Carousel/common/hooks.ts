@@ -39,7 +39,7 @@ export function useCarouselSetup({ fixedSizes }: Pick<BaseCarouselProps, 'fixedS
         fixedSizes?.height,
         carouselContainer?.clientHeight || carouselContainer?.clientWidth || 0
       ),
-      pr: true
+      pr: true,
     }),
     [fixedSizes, carouselContainer?.clientWidth, carouselContainer?.clientHeight]
   )
@@ -48,7 +48,7 @@ export function useCarouselSetup({ fixedSizes }: Pick<BaseCarouselProps, 'fixedS
     parentWidth: fixedSizes?.width || parentWidth,
     carouselContainer,
     imageTransformations,
-    setCarouselContainerRef
+    setCarouselContainerRef,
   }
 }
 

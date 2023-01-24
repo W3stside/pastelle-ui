@@ -8,7 +8,7 @@ import {
   fromSmall,
   setBackgroundWithDPI,
   upToSmall,
-  upToSmallHeight
+  upToSmallHeight,
 } from '@past3lle/theme'
 import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
 import { ArticleFadeInContainer } from 'components/Layout'
@@ -17,7 +17,7 @@ import {
   BASE_FONT_SIZE,
   LAYOUT_REM_HEIGHT_MAP,
   SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET,
-  SIZE_RATIOS
+  SIZE_RATIOS,
 } from 'constants/sizes'
 import {
   ProductAsidePanel,
@@ -25,7 +25,7 @@ import {
   ProductLogo,
   ProductLogoCssImport,
   ProductScreen,
-  ProductScreensContainer
+  ProductScreensContainer,
 } from 'pages/common/styleds'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
@@ -211,7 +211,7 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
           ignoreQueriesWithFixedWidth: 960,
           backgroundAttributes: ['center / cover no-repeat', '36px / cover repeat'],
           backgroundBlendMode: 'difference',
-          modeColours: [bgColor, CHARCOAL_BLACK]
+          modeColours: [bgColor, CHARCOAL_BLACK],
         })
       : `background: linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%);`}
 `

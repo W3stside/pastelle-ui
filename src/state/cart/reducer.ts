@@ -12,7 +12,7 @@ const initialState: CartState = {
   cartId: undefined,
   totalQuantity: 0,
   costs: undefined,
-  showCart: false
+  showCart: false,
 }
 
 export type CreateCartParams = string
@@ -39,8 +39,8 @@ const cartSlice = createSlice({
     },
     setShowCart(state, action: PayloadAction<boolean>) {
       state.showCart = action.payload
-    }
-  }
+    },
+  },
 })
 
 export const { createCart, updateCartInfo, setShowCart } = cartSlice.actions

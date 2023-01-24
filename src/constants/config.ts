@@ -31,7 +31,7 @@ export const PRODUCT_IMAGES_AMOUNT = 5
 
 export const STORE_IMAGE_SIZES = {
   LARGE: 2000,
-  SMALL: 600
+  SMALL: 600,
 }
 
 export const SINGLE_ITEM_LOGO_RATIO = [20, 73]
@@ -39,7 +39,7 @@ export const SINGLE_ITEM_LOGO_RATIO = [20, 73]
 export const COLLECTION_MAX_WIDTH = 2370
 export const FIXED_IMAGE_SIZE_CONSTRAINTS = {
   fromLarge: '38vw',
-  fromExtraLarge: '38vw'
+  fromExtraLarge: '38vw',
 }
 export const DEFAULT_SIZE_SELECTED: ProductSizes = ProductSizes.L
 
@@ -54,7 +54,7 @@ export const enum Z_INDEXES {
   SHOPPING_CART = 300,
   SCROLLER_DIV = 900,
   MODALS = 9999,
-  COOKIE_BANNER = 10000
+  COOKIE_BANNER = 10000,
 }
 export const DEFAULT_CART_LINES_AMOUNT = 30
 export const FREE_SHIPPING_THRESHOLD: number | undefined = 200
@@ -63,12 +63,12 @@ export const DEFAULT_IK_TRANSFORMS = {
   LQ_IMAGE: 'pr-true,q-10,w-1,h-1:',
   HQ_IMAGE: 'pr-true,',
   LQ_LOGO: 'pr-true,q-40,',
-  HQ_LOGO: 'pr-true,q-70,'
+  HQ_LOGO: 'pr-true,q-70,',
 }
 
 export const SINGLE_ITEM_ASIDE_CSS_LOGO_TRANSFORMS = [
   `pr-true,dpr-2,q-70,w-${STORE_IMAGE_SIZES.SMALL},h-2400`,
-  `pr-true,dpr-2,q-40,w-${STORE_IMAGE_SIZES.SMALL},h-2400`
+  `pr-true,dpr-2,q-40,w-${STORE_IMAGE_SIZES.SMALL},h-2400`,
 ]
 export const NAV_CSS_LOGO_TRANSFORMS = ['pr-true,dpr-2,q-70,w-183', 'pr-true,dpr-2,q-40,w-183']
 export const MINIMUM_COLLECTION_ITEM_HEIGHT = 773

@@ -8,6 +8,9 @@ src/assets
 src/blockchain/abis
 src/shopify/graphql/types
 src/**/*.json
+src/**/*.jpeg
+src/**/*.png
+src/**/*.webm
 src/**/*.svg
 src/**/*.ttf
 # public

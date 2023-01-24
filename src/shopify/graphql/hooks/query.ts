@@ -10,7 +10,7 @@ import {
   GetCollectionQuery,
   GetCollectionQueryVariables,
   ProductVariantQuery,
-  ProductVariantQueryVariables
+  ProductVariantQueryVariables,
 } from 'shopify/graphql/types'
 import { mapShopifyProductToProps } from 'shopify/utils'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
@@ -29,12 +29,12 @@ export const DEFAULT_CURRENT_COLLECTION_VARIABLES = {
   collectionAmount: 1,
   productAmt: PRODUCT_AMOUNT,
   imageAmt: PRODUCT_IMAGES_AMOUNT,
-  videoAmt: PRODUCT_VIDEOS_AMOUNT
+  videoAmt: PRODUCT_VIDEOS_AMOUNT,
 }
 
 function useRealQueryCollections(variables: GetCollectionQueryVariables) {
   return useQuery<GetCollectionQuery, GetCollectionQueryVariables>(QUERY_GET_COLLECTION, {
-    variables
+    variables,
   })
 }
 
@@ -42,7 +42,7 @@ function useMockQueryCollection(variables: GetCollectionQueryVariables, mockOpti
   return {
     data: MOCK_COLLECTION_DATA,
     error: mockOptions?.error,
-    loading: false
+    loading: false,
   }
 }
 
@@ -88,7 +88,7 @@ export function useQueryCurrentCollectionProductsFromUrl(
   return {
     collectionProductList,
     currentCollectionProduct,
-    handle
+    handle,
   }
 }
 

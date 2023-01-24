@@ -60,8 +60,8 @@ export default function Updater(): null {
                   status: receipt.status,
                   to: receipt.to,
                   transactionHash: receipt.transactionHash,
-                  transactionIndex: receipt.transactionIndex
-                }
+                  transactionIndex: receipt.transactionIndex,
+                },
               })
 
               addTxPopup(
@@ -69,8 +69,8 @@ export default function Updater(): null {
                   txn: {
                     hash,
                     success: receipt.status === 1,
-                    summary: transactions[hash]?.summary
-                  }
+                    summary: transactions[hash]?.summary,
+                  },
                 },
                 hash
               )

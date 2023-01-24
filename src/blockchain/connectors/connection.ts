@@ -18,21 +18,21 @@ const [web3Network, web3NetworkHooks] = initializeConnector<Network>(
 export const networkConnection: Connection = {
   connector: web3Network,
   hooks: web3NetworkHooks,
-  type: ConnectionType.NETWORK
+  type: ConnectionType.NETWORK,
 }
 
 const [web3Injected, web3InjectedHooks] = initializeConnector<MetaMask>((actions) => new MetaMask({ actions, onError }))
 export const injectedConnection: Connection = {
   connector: web3Injected,
   hooks: web3InjectedHooks,
-  type: ConnectionType.INJECTED
+  type: ConnectionType.INJECTED,
 }
 
 const [web3GnosisSafe, web3GnosisSafeHooks] = initializeConnector<GnosisSafe>((actions) => new GnosisSafe({ actions }))
 export const gnosisSafeConnection: Connection = {
   connector: web3GnosisSafe,
   hooks: web3GnosisSafeHooks,
-  type: ConnectionType.GNOSIS_SAFE
+  type: ConnectionType.GNOSIS_SAFE,
 }
 
 const [web3WalletConnect, web3WalletConnectHooks] = initializeConnector<WalletConnect>(
@@ -41,13 +41,13 @@ const [web3WalletConnect, web3WalletConnectHooks] = initializeConnector<WalletCo
       actions,
       options: {
         rpc: RPC_URLS,
-        qrcode: true
+        qrcode: true,
       },
-      onError
+      onError,
     })
 )
 export const walletConnectConnection: Connection = {
   connector: web3WalletConnect,
   hooks: web3WalletConnectHooks,
-  type: ConnectionType.WALLET_CONNECT
+  type: ConnectionType.WALLET_CONNECT,
 }

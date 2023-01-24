@@ -39,7 +39,7 @@ function Footer() {
       <ThemeToggleBar
         themeToggleProps={{
           margin: '0 auto 0 0',
-          width: '10rem'
+          width: '10rem',
         }}
       />
       <ShoppingCartHeader />

@@ -9,7 +9,7 @@ import {
   addAnyPopup,
   addTxPopup,
   removePopup,
-  setOpenModal
+  setOpenModal,
 } from './reducer'
 
 export function useModalOpen(modal: ApplicationModal): boolean {

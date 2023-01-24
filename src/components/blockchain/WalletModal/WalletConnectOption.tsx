@@ -7,7 +7,7 @@ import Option from 'components/blockchain/WalletModal/Option'
 const BASE_PROPS = {
   color: '#4196FC',
   icon: WALLET_CONNECT_ICON_URL,
-  id: 'wallet-connect'
+  id: 'wallet-connect',
 }
 
 export function WalletConnectOption({ tryActivation }: { tryActivation: (connector: Connector) => void }) {

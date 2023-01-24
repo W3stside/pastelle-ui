@@ -20,11 +20,11 @@ export const WXDAI = new Token(
 
 export const WETH9_EXTENDED: { [chainId: number]: Token } = {
   ...WETH9,
-  [SupportedChainId.GNOSIS]: WXDAI
+  [SupportedChainId.GNOSIS]: WXDAI,
 }
 
 export const WRAPPED_NATIVE_CURRENCY: { [chainId: number]: Token | undefined } = {
-  ...(WETH9 as Record<SupportedChainId, Token>)
+  ...(WETH9 as Record<SupportedChainId, Token>),
 }
 
 export class ExtendedEther extends Ether {

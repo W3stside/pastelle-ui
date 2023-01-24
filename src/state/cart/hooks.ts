@@ -7,7 +7,7 @@ import {
   UpdateLineParams,
   addCartLineAndUpdateStore,
   removeCartLineAndUpdateStore,
-  updateCartLineAndUpdateStore
+  updateCartLineAndUpdateStore,
 } from 'shopify/utils/cart'
 import { useAppDispatch, useAppSelector } from 'state'
 
@@ -43,7 +43,7 @@ export function useRemoveCartLineAndUpdateReduxCallback() {
       ({ lineIds }: Pick<RemoveLineParams, 'lineIds'>, options?: MutationHookOptions) =>
         removeCartLineAndUpdateStore({ cartId, lineIds, options, removeCartLine, updateCartInfo }),
       [removeCartLine, cartId, updateCartInfo]
-    )
+    ),
   }
 }
 
@@ -58,7 +58,7 @@ export function useUpdateCartLineAndUpdateReduxCallback() {
       ({ lineId, quantity }: Pick<UpdateLineParams, 'lineId' | 'quantity'>) =>
         updateCartLineAndUpdateStore({ cartId, quantity, lineId, updateCartLine, updateCartInfo }),
       [updateCartLine, cartId, updateCartInfo]
-    )
+    ),
   }
 }
 
@@ -73,7 +73,7 @@ export function useAddLineToCartAndUpdateReduxCallback() {
       ({ merchandiseId, quantity }: Omit<AddToCartButtonParams, 'label'>) =>
         addCartLineAndUpdateStore({ cartId, quantity, merchandiseId, addNewCartLine, updateCartInfo }),
       [addNewCartLine, cartId, updateCartInfo]
-    )
+    ),
   }
 }
 

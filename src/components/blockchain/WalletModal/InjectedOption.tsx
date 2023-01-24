@@ -10,13 +10,13 @@ import Option from './Option'
 const INJECTED_PROPS = {
   color: '#010101',
   icon: INJECTED_ICON_URL,
-  id: 'injected'
+  id: 'injected',
 }
 
 const METAMASK_PROPS = {
   color: '#E8831D',
   icon: METAMASK_ICON_URL,
-  id: 'metamask'
+  id: 'metamask',
 }
 
 export function InstallMetaMaskOption() {

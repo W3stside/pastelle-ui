@@ -19,7 +19,7 @@ export function Logo({ logoSrcSet, parentNode, isHeader }: LogoProps) {
         lqImageOptions={{
           width: parentNode?.clientWidth || 0,
           height: parentNode?.clientHeight || 0,
-          showLoadingIndicator: false
+          showLoadingIndicator: false,
         }}
       />
     </LogoContainer>
@@ -36,7 +36,7 @@ export default function useLogo(props: Omit<LogoProps, 'parentNode'>) {
     Logo: () => (props.logoSrcSet ? <Logo parentNode={node} {...props} /> : null),
     ref: {
       setRef: setNodeRef,
-      ref: node
-    }
+      ref: node,
+    },
   }
 }

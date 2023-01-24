@@ -53,7 +53,7 @@ export const MOCK_COLLECTION_DATA = {
                     url500: '',
                     url720: '',
                     url960: '',
-                    url1280: ''
+                    url1280: '',
                   },
                   {
                     __typename: 'Image',
@@ -67,9 +67,9 @@ export const MOCK_COLLECTION_DATA = {
                     url500: '',
                     url720: '',
                     url960: '',
-                    url1280: ''
-                  }
-                ]
+                    url1280: '',
+                  },
+                ],
               },
               media: {
                 __typename: 'MediaConnection',
@@ -82,9 +82,9 @@ export const MOCK_COLLECTION_DATA = {
                       __typename: 'Image',
                       url: virgilShowcaseFront,
                       width: 1600,
-                      height: 900
+                      height: 900,
                     },
-                    sources: [{ __typename: 'VideoSource', mimeType: 'video/mp4', url: virgilShowcaseFront }]
+                    sources: [{ __typename: 'VideoSource', mimeType: 'video/mp4', url: virgilShowcaseFront }],
                   },
                   {
                     __typename: 'Video',
@@ -94,18 +94,18 @@ export const MOCK_COLLECTION_DATA = {
                       __typename: 'Image',
                       url: virgilShowcaseBack,
                       width: 1600,
-                      height: 900
+                      height: 900,
                     },
-                    sources: [{ __typename: 'VideoSource', mimeType: 'video/mp4', url: virgilShowcaseBack }]
-                  }
-                ]
+                    sources: [{ __typename: 'VideoSource', mimeType: 'video/mp4', url: virgilShowcaseBack }],
+                  },
+                ],
               },
               sizes: [{ __typename: 'ProductOption', values: ['S', 'M', 'L', 'XL'] }],
               featuredImage: { __typename: 'Image', url: '', width: 2000, height: 2000 },
               options: [{ __typename: 'ProductOption', name: 'Sizes', values: ['S', 'M', 'L', 'XL'] }],
               brandingAssetMap: {
                 __typename: 'Metafield',
-                value: { logo: virgilLogo, navLogo: virgilNav, headerLogo: virgilHeader }
+                value: { logo: virgilLogo, navLogo: virgilNav, headerLogo: virgilHeader },
               },
               bgColor: { __typename: 'Metafield', value: '#1f605c' },
               color: { __typename: 'Metafield', value: '#551d27' },
@@ -113,13 +113,13 @@ export const MOCK_COLLECTION_DATA = {
                 __typename: 'Metafield',
                 value: JSON.stringify({
                   social: 'instagram',
-                  handle: '@mathieusato'
-                })
-              }
-            }
-          ]
-        }
-      }
-    ]
-  }
+                  handle: '@mathieusato',
+                }),
+              },
+            },
+          ],
+        },
+      },
+    ],
+  },
 }

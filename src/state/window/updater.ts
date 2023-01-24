@@ -24,7 +24,7 @@ function getSize() {
     get ar() {
       if (!isClient || !this.width || !this.height) return undefined
       return this.width / this.height
-    }
+    },
   }
 }
 // https://usehooks.com/useWindowSize/

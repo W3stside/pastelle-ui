@@ -11,7 +11,7 @@ import utils, { runInfiniteScrollSprings } from './utils/utils'
 
 const CONFIG = {
   SCROLL_SPEED_COEFFICIENT: 3.2,
-  DRAG_SPEED_COEFFICIENT: 0.5
+  DRAG_SPEED_COEFFICIENT: 0.5,
 }
 // const MAC_SPRING_CONFIG: SpringConfig = { friction: 90, tension: 280 }
 // const MOBILE_SPRING_CONFIG: SpringConfig = { friction: 20, tension: 50, mass: 1 }
@@ -24,7 +24,7 @@ export default function useInfiniteVerticalScroll(
     gestureParams,
     currentIndex,
     firstAnimationOver,
-    callbacks: { setFirstPaintOver, ...restCbs }
+    callbacks: { setFirstPaintOver, ...restCbs },
   } = useInfiniteScrollSetup('y', options)
 
   const lastIndex = items.length - 1
@@ -42,7 +42,7 @@ export default function useInfiniteVerticalScroll(
           setFirstPaintOver(true)
         }
       },
-      config: STIFF_SPRINGS
+      config: STIFF_SPRINGS,
     }),
     [gestureParams.itemSize]
   )
@@ -57,7 +57,7 @@ export default function useInfiniteVerticalScroll(
       onDrag: utils.drag.limited(gestureApi, {
         axis: 'y',
         itemSize: gestureParams.itemSize,
-        indexOptions: { current: dragIndexRef, setIndex: undefined, last: lastIndex }
+        indexOptions: { current: dragIndexRef, setIndex: undefined, last: lastIndex },
       }),
       onWheel: ({ active, last, offset: [, y], movement: [, my], direction: [, dy] }) => {
         if (dy) {
@@ -70,16 +70,16 @@ export default function useInfiniteVerticalScroll(
             axis: computedY,
             dAxis: dy,
             mAxis: my,
-            last
+            last,
           })
         }
-      }
+      },
     },
     {
       drag: {
         axis: 'y',
-        preventScrollAxis: 'x'
-      }
+        preventScrollAxis: 'x',
+      },
     }
   )
 
@@ -90,8 +90,8 @@ export default function useInfiniteVerticalScroll(
       // TODO: check we want this
       currentIndex: isMobile ? 0 : currentIndex,
       itemSize: gestureParams.itemSize,
-      firstAnimationOver
+      firstAnimationOver,
     },
-    refCallbacks: restCbs
+    refCallbacks: restCbs,
   }
 }

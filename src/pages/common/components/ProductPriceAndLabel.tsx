@@ -11,7 +11,7 @@ export default function ProductPriceAndLabel({
   color,
   title,
   shortDescription,
-  variant
+  variant,
 }: Pick<BaseProductPageProps, 'title' | 'shortDescription' | 'color'> & {
   variant: ReturnType<typeof useQueryProductVariantByKeyValue>
 }) {

@@ -21,13 +21,13 @@ export enum SupportedChainId {
   // OPTIMISM = 10,
   // OPTIMISTIC_KOVAN = 69,
 
-  GNOSIS = 100
+  GNOSIS = 100,
 }
 
 export const ALL_SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
   SupportedChainId.MAINNET,
   SupportedChainId.RINKEBY,
-  SupportedChainId.GNOSIS
+  SupportedChainId.GNOSIS,
   // SupportedChainId.ROPSTEN,
   // SupportedChainId.GOERLI,
   // SupportedChainId.KOVAN,
@@ -40,7 +40,7 @@ export const ALL_SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
 export const L1_CHAIN_IDS = [
   SupportedChainId.MAINNET,
   SupportedChainId.RINKEBY,
-  SupportedChainId.GNOSIS
+  SupportedChainId.GNOSIS,
   // SupportedChainId.ROPSTEN,
   // SupportedChainId.GOERLI,
   // SupportedChainId.KOVAN,
@@ -110,7 +110,7 @@ export const CHAIN_INFO: ChainInfo = {
     infoLink: '',
     label: 'Ethereum',
     logoUrl: EthereumLogo, // mod
-    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 }
+    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
   },
   [SupportedChainId.RINKEBY]: {
     docs: 'https://docs.uniswap.org/',
@@ -118,7 +118,7 @@ export const CHAIN_INFO: ChainInfo = {
     infoLink: '',
     label: 'Rinkeby',
     nativeCurrency: { name: 'Rinkeby ETH', symbol: 'rinkETH', decimals: 18 },
-    logoUrl: RinkebyLogo // mod
+    logoUrl: RinkebyLogo, // mod
   },
   /* [SupportedChainId.ROPSTEN]: {
     docs: 'https://docs.uniswap.org/',
@@ -171,14 +171,14 @@ export const CHAIN_INFO: ChainInfo = {
     infoLink: '',
     label: 'Gnosis Chain',
     logoUrl: GnosisChainLogo, // mod
-    nativeCurrency: { name: 'GNOSIS', symbol: 'GNO', decimals: 18 }
-  }
+    nativeCurrency: { name: 'GNOSIS', symbol: 'GNO', decimals: 18 },
+  },
 }
 
 export const NETWORK_LABELS: { [chainId in SupportedChainId | number]: string } = {
   [SupportedChainId.MAINNET]: 'Ethereum',
   [SupportedChainId.RINKEBY]: 'Rinkeby',
-  [SupportedChainId.GNOSIS]: 'Gnosis Chain' // mod
+  [SupportedChainId.GNOSIS]: 'Gnosis Chain', // mod
   // [SupportedChainId.ROPSTEN]: 'Ropsten',
   // [SupportedChainId.GOERLI]: 'Görli',
   // [SupportedChainId.KOVAN]: 'Kovan',

@@ -134,12 +134,12 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
       handleOnClickUp,
       onTrashClick,
       options?.numberInput,
-      quantity
+      quantity,
     ]
   )
 
   return {
     quantity,
-    QuantitySelector
+    QuantitySelector,
   }
 }

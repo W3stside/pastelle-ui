@@ -59,7 +59,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps & { mode: boolean; buttonPro
   width,
   disabled = false,
   buttonProps = { size: ButtonSizeVariations.SMALL, variant: ButtonVariations.THEME },
-  children
+  children,
 }) => {
   return (
     <ThemeButtonToggleWrapper

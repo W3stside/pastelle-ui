@@ -19,7 +19,7 @@ export function LargeImageCarousel({
   isOpen,
   imageProps,
   toggleModal,
-  dismissModal
+  dismissModal,
 }: LargeImageCarouselProps) {
   return (
     <LargeImageCarouselModal
@@ -32,8 +32,8 @@ export function LargeImageCarousel({
       transformation={[
         {
           width: STORE_IMAGE_SIZES.LARGE,
-          height: STORE_IMAGE_SIZES.LARGE
-        }
+          height: STORE_IMAGE_SIZES.LARGE,
+        },
       ]}
       fixedSizes={undefined}
       startIndex={0}

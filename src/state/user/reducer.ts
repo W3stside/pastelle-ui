@@ -21,14 +21,14 @@ export interface UserState {
 export const initialState: UserState = {
   theme: {
     mode: ThemeModes.LIGHT,
-    autoDetect: false
+    autoDetect: false,
   },
   showcase: {
     gender: 'MALE',
     height: 175,
     size: ProductSizes.L,
-    videoSettings: { autoplay: false, status: 'pause' }
-  }
+    videoSettings: { autoplay: false, status: 'pause' },
+  },
 }
 const userSlice = createSlice({
   name: 'user',
@@ -53,8 +53,8 @@ const userSlice = createSlice({
       } else {
         state.showcase = initialState.showcase
       }
-    }
-  }
+    },
+  },
 })
 export const { updateThemeAutoDetect, updateThemeMode, updateShowcaseSettings } = userSlice.actions
 export const user = userSlice.reducer

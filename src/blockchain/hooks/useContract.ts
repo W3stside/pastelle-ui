@@ -14,14 +14,14 @@ import {
   EnsRegistrar,
   Erc20,
   UniswapInterfaceMulticall,
-  Weth
+  Weth,
 } from 'blockchain/abis/types'
 import WETH_ABI from 'blockchain/abis/weth.json'
 import {
   ARGENT_WALLET_DETECTOR_ADDRESS,
   ENS_REGISTRAR_ADDRESSES,
   MULTICALL_ADDRESS,
-  WETH9_EXTENDED
+  WETH9_EXTENDED,
 } from 'blockchain/constants'
 import { getContract } from 'blockchain/utils'
 import { useMemo } from 'react'

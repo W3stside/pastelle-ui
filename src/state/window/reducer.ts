@@ -6,7 +6,7 @@ export interface WindowState {
 }
 
 export const initialState: WindowState = {
-  sizes: null
+  sizes: null,
 }
 const windowSlice = createSlice({
   name: 'window',
@@ -14,8 +14,8 @@ const windowSlice = createSlice({
   reducers: {
     updateWindowSize(state, action: PayloadAction<WindowSize>) {
       state.sizes = action.payload
-    }
-  }
+    },
+  },
 })
 export const { updateWindowSize } = windowSlice.actions
 export const window = windowSlice.reducer

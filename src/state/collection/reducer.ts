@@ -17,7 +17,7 @@ export type CollectionState = {
 
 const initialState: CollectionState = {
   current: null,
-  currentlyViewing: null
+  currentlyViewing: null,
 }
 
 type UpdateCollectionParams = { title: string; collection: ProductPageMap }
@@ -31,8 +31,8 @@ const collectionSlice = createSlice({
     },
     updateCurrentlyViewing(state, action: PayloadAction<ProductCurrentlyViewing | null>) {
       state.currentlyViewing = action.payload
-    }
-  }
+    },
+  },
 })
 
 export const { updateCollection, updateCurrentlyViewing } = collectionSlice.actions

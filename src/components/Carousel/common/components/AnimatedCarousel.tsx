@@ -11,21 +11,21 @@ export default function AnimatedCarousel({
   fixedSizes,
   accentColor,
   touchAction,
-  children
+  children,
 }: BaseAnimatedCarouselProps) {
   const {
     parentWidth,
     imageTransformations: defaultImageTransforms,
-    setCarouselContainerRef
+    setCarouselContainerRef,
   } = useCarouselSetup({
-    fixedSizes
+    fixedSizes,
   })
 
   const {
     bind,
     springs,
     state: { currentIndex, itemSize: width },
-    refCallbacks: { setItemSizeRef, setScrollingZoneRef }
+    refCallbacks: { setItemSizeRef, setScrollingZoneRef },
   } = animationProps
 
   return (

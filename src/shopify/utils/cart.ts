@@ -5,7 +5,7 @@ import {
   RemoveCartLineMutation,
   RemoveCartLineMutationVariables,
   UpdateCartLineMutation,
-  UpdateCartLineMutationVariables
+  UpdateCartLineMutationVariables,
 } from 'shopify/graphql/types'
 import { UpdateCartInfoParams } from 'state/cart/reducer'
 
@@ -40,7 +40,7 @@ export const addCartLineAndUpdateStore = async ({
   merchandiseId,
   options,
   addNewCartLine,
-  updateCartInfo
+  updateCartInfo,
 }: AddNewLineParams) => {
   if (!cartId || !merchandiseId) return
 
@@ -48,8 +48,8 @@ export const addCartLineAndUpdateStore = async ({
     ...options,
     variables: {
       cartId,
-      lines: [{ merchandiseId, quantity }]
-    }
+      lines: [{ merchandiseId, quantity }],
+    },
   })
 
   const totalQuantity = response?.data?.cartLinesAdd?.cart?.totalQuantity
@@ -63,7 +63,7 @@ export const removeCartLineAndUpdateStore = async ({
   lineIds,
   options,
   removeCartLine,
-  updateCartInfo
+  updateCartInfo,
 }: RemoveLineParams) => {
   if (!cartId || !lineIds) return
 
@@ -71,8 +71,8 @@ export const removeCartLineAndUpdateStore = async ({
     ...options,
     variables: {
       cartId,
-      lineIds
-    }
+      lineIds,
+    },
   })
 
   const totalQuantity = response.data?.cartLinesRemove?.cart?.totalQuantity
@@ -87,7 +87,7 @@ export const updateCartLineAndUpdateStore = async ({
   lineId,
   options,
   updateCartLine,
-  updateCartInfo
+  updateCartInfo,
 }: UpdateLineParams) => {
   if (!cartId || !lineId) return
 
@@ -96,8 +96,8 @@ export const updateCartLineAndUpdateStore = async ({
     variables: {
       cartId,
       lineId,
-      quantity
-    }
+      quantity,
+    },
   })
 
   const totalQuantity = response.data?.cartLinesUpdate?.cart?.totalQuantity

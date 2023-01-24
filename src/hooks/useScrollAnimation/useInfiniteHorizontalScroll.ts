@@ -17,7 +17,7 @@ export default function useInfiniteHorizontalScroll(
     currentIndex,
     firstAnimationOver,
     scrollingZoneTarget,
-    callbacks: { setFirstPaintOver, ...restCbs }
+    callbacks: { setFirstPaintOver, ...restCbs },
   } = useInfiniteScrollSetup('x', options)
 
   const [springs, api] = useSprings(items.length, (i) => ({
@@ -29,12 +29,12 @@ export default function useInfiniteHorizontalScroll(
       }
     },
     from: {
-      x: i * gestureParams.itemSize
+      x: i * gestureParams.itemSize,
     },
     config: {
       tension: 260,
-      friction: 50
-    }
+      friction: 50,
+    },
   }))
 
   const bind = useDrag(
@@ -45,7 +45,7 @@ export default function useInfiniteHorizontalScroll(
         axis: -x / (options.scrollSpeed || DRAG_SPEED_COEFFICIENT),
         dAxis: -dx,
         active: !!(active || dragging),
-        config: options.config
+        config: options.config,
       })
     },
     {
@@ -53,7 +53,7 @@ export default function useInfiniteHorizontalScroll(
       eventOptions: { passive: true, capture: false, once: true },
       preventDefault: true,
       axis: 'x',
-      filterTaps: true
+      filterTaps: true,
     }
   )
 
@@ -64,8 +64,8 @@ export default function useInfiniteHorizontalScroll(
     state: {
       currentIndex,
       itemSize: gestureParams.itemSize,
-      firstAnimationOver
+      firstAnimationOver,
     },
-    refCallbacks: restCbs
+    refCallbacks: restCbs,
   }
 }

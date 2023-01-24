@@ -25,15 +25,15 @@ export default function ButtonCarousel({
   const {
     parentWidth,
     imageTransformations: defaultImageTransforms,
-    setCarouselContainerRef
+    setCarouselContainerRef,
   } = useCarouselSetup({
-    fixedSizes
+    fixedSizes,
   })
 
   const { isMultipleCarousel, lastStepIndex } = useMemo(
     () => ({
       isMultipleCarousel: data.length > 1,
-      lastStepIndex: data.length - 1
+      lastStepIndex: data.length - 1,
     }),
     [data.length]
   )

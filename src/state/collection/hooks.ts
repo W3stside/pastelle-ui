@@ -62,7 +62,7 @@ export function useGetCurrentCollectionProductsFromUrl() {
   return {
     collectionProductList,
     currentCollectionProduct,
-    handle
+    handle,
   }
 }
 
@@ -82,7 +82,7 @@ export function useCurrentProductMedia() {
       color: currentItem?.color,
       headerLogoSet: currentItem?.headerLogo,
       logoSet: currentItem?.logo,
-      navLogoSet: currentItem?.navLogo
+      navLogoSet: currentItem?.navLogo,
     }),
     [currentItem]
   )
@@ -104,7 +104,7 @@ export function useGetProductShowcaseVideos({ videos }: Pick<ShowcaseVideosProps
       webKey: `${gender}-${height}-${selectedSize}`,
       get mobileKey() {
         return this.webKey + '-MOBILE'
-      }
+      },
     }),
     [gender, height, selectedSize, videos]
   )

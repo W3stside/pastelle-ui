@@ -4,7 +4,7 @@ import { X } from 'react-feather'
 import styled from 'styled-components/macro'
 
 export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColor: string }>(({ warning, theme }) => ({
-  backgroundColor: warning ? theme.red1 : theme.primary1
+  backgroundColor: warning ? theme.red1 : theme.primary1,
 }))`
   padding: 1rem 2rem 1rem 2rem;
   border-radius: ${({ theme }) => theme.buttons.borderRadius};

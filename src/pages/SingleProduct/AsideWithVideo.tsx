@@ -28,7 +28,7 @@ import {
   ProductBackendDescription,
   ProductCredits,
   ProductDescription,
-  ProductSubHeader
+  ProductSubHeader,
 } from 'pages/common/styleds'
 import { SingleProductPageProps, WithParentAspectRatio } from 'pages/common/types'
 import { useCallback, useRef, useState } from 'react'
@@ -57,7 +57,7 @@ export default function SingleProductPage({
   description,
   noVideo = false,
   shortDescription,
-  parentAspectRatio
+  parentAspectRatio,
 }: SingleProductPageProps & WithParentAspectRatio) {
   // MODALS
   const toggleLargeImageModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
@@ -239,8 +239,8 @@ export default function SingleProductPage({
           videoProps={{
             autoPlay: true,
             style: {
-              marginLeft: 'auto'
-            }
+              marginLeft: 'auto',
+            },
           }}
           // // starts autoplaying and stops on "stopTime" seconds
           // autoPlayOptions={{

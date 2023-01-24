@@ -4,7 +4,7 @@ import {
   FragmentProductVideoFragment,
   Product,
   ProductArtistInfo,
-  ProductOptionsSize
+  ProductOptionsSize,
 } from 'shopify/graphql/types'
 import { ShopImageSrcSet } from 'types'
 

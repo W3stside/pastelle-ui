@@ -40,7 +40,7 @@ export const INVALID_RESULT: CallResult = { valid: false, blockNumber: undefined
 
 // use this options object
 export const NEVER_RELOAD: ListenerOptions = {
-  blocksPerFetch: Infinity
+  blocksPerFetch: Infinity,
 }
 
 // the lowest level call for subscribing to contract data
@@ -72,7 +72,7 @@ export function useCallsData(
       addMulticallListeners({
         chainId,
         calls,
-        options: { blocksPerFetch }
+        options: { blocksPerFetch },
       })
     )
 
@@ -81,7 +81,7 @@ export function useCallsData(
         removeMulticallListeners({
           chainId,
           calls,
-          options: { blocksPerFetch }
+          options: { blocksPerFetch },
         })
       )
     }
@@ -143,7 +143,7 @@ export function toCallState(
         loading: false,
         error: true,
         syncing,
-        result
+        result,
       }
     }
   }
@@ -152,7 +152,7 @@ export function toCallState(
     loading: false,
     syncing,
     result,
-    error: !success
+    error: !success,
   }
 }
 
@@ -188,7 +188,7 @@ export function useSingleContractMultipleData(
               ? {
                   address: contract.address,
                   callData,
-                  gasRequired
+                  gasRequired,
                 }
               : undefined
           )
@@ -232,7 +232,7 @@ export function useMultipleContractSingleData(
               ? {
                   address,
                   callData,
-                  gasRequired
+                  gasRequired,
                 }
               : undefined
           })
@@ -276,7 +276,7 @@ export function useMultipleContractMultipleData(
               ? {
                   address,
                   callData,
-                  ...(gasRequired ? { gasRequired } : {})
+                  ...(gasRequired ? { gasRequired } : {}),
                 }
               : undefined
           })
@@ -332,7 +332,7 @@ export function useSingleContractWithCallData(
             return {
               address: contract.address,
               callData,
-              gasRequired
+              gasRequired,
             }
           })
         : [],

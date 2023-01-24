@@ -25,7 +25,7 @@ import {
   NetworkCard,
   Pastellecon,
   StyledThemeToggleBar,
-  Title
+  Title,
 } from './styleds'
 
 export default function Header() {

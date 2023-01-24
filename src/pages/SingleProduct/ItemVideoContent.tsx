@@ -11,7 +11,7 @@ import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
 import {
   ProductSubHeader,
   VideoContentWrapper,
-  VideoControlButton as VideoControlButtonStyled
+  VideoControlButton as VideoControlButtonStyled,
 } from '../common/styleds'
 
 export interface ItemVideoContentProps extends RowProps {
@@ -106,7 +106,7 @@ export const ItemVideoContent = ({
             forceLoad={forceLoad}
             videoProps={{
               ...videoProps,
-              poster: showPoster ? previewImage?.url : undefined
+              poster: showPoster ? previewImage?.url : undefined,
             }}
             sourcesProps={sources.map(({ url, mimeType }) => ({ src: url, type: mimeType }))}
             height={styleProps.height}
@@ -115,7 +115,7 @@ export const ItemVideoContent = ({
             showTapToPlay={isMobile && (!isPlaying || videoProps?.autoPlay === false)}
             autoPlayOptions={autoPlayOptions}
             ctaOverlayProps={{
-              $zIndex: Z_INDEXES.PRODUCT_VIDEOS
+              $zIndex: Z_INDEXES.PRODUCT_VIDEOS,
             }}
             onResize={console.debug}
             onResizeCapture={console.debug}
@@ -137,7 +137,7 @@ export const ItemVideoContent = ({
       isMobileWidth,
       videoDelay,
       isPlaying,
-      autoPlayOptions
+      autoPlayOptions,
     ]
   )
 
@@ -194,7 +194,7 @@ export function SmallScreenVideoContent(props: Props) {
 async function _delayedVideoUpdater({
   currentCarouselIndex,
   showVideoUIDelay,
-  setVideoIdx
+  setVideoIdx,
 }: {
   currentCarouselIndex: number
   showVideoUIDelay: (state: boolean) => void

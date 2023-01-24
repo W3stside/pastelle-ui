@@ -12,7 +12,7 @@ import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
 import {
   /* useGetSelectedProductShowcaseVideo, */
-  useUpdateCurrentlyViewingProduct
+  useUpdateCurrentlyViewingProduct,
 } from 'state/collection/hooks'
 
 import { CollectionScreensContainer } from './styled'
@@ -36,7 +36,7 @@ export default function CollectionProductPage({
   isActive,
   itemIndex,
   headerLogo,
-  shortDescription
+  shortDescription,
 }: CollectionPageProps) {
   // UPDATE VIEWING WITH WHATEVER ITEM IS CURRENT ON SCREEN
   useUpdateCurrentlyViewingProduct(isActive, { handle, id })
@@ -80,7 +80,7 @@ export default function CollectionProductPage({
                 videoProps={{ autoPlay }}
                 fixedSizes={{
                   height: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
-                  width: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT
+                  width: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
                 }}
                 touchAction="none"
               />

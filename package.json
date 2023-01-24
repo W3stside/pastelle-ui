@@ -122,7 +122,7 @@
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "lint": "npx prettier --write ./src/** --ignore-path ./.prettierignore",
+    "lint": "npx prettier --write src --ignore-path ./.prettierignore",
     "start:mock": "REACT_APP_IS_MOCK=true && yarn start",
     "start": "PORT=8080 GENERATE_SOURCEMAP=false craco start",
     "build": "craco build",

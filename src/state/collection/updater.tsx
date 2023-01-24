@@ -10,7 +10,7 @@ export default function Updater() {
     collectionAmount: 1,
     productAmt: PRODUCT_AMOUNT,
     imageAmt: PRODUCT_IMAGES_AMOUNT,
-    videoAmt: PRODUCT_VIDEOS_AMOUNT
+    videoAmt: PRODUCT_VIDEOS_AMOUNT,
   })
 
   useEffect(() => {

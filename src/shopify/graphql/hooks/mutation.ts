@@ -12,7 +12,7 @@ import {
   RemoveCartLineMutation,
   RemoveCartLineMutationVariables,
   UpdateCartLineMutation,
-  UpdateCartLineMutationVariables
+  UpdateCartLineMutationVariables,
 } from '../types'
 
 export function useCreateCart() {
@@ -22,21 +22,21 @@ export function useCreateCart() {
 export const useRemoveCartLine = () => {
   const cart = useGetCartState()
   return useMutation<RemoveCartLineMutation, RemoveCartLineMutationVariables>(REMOVE_CART_LINE, {
-    refetchQueries: _refetchQuery(GET_CART, { cartId: cart.cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
+    refetchQueries: _refetchQuery(GET_CART, { cartId: cart.cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT }),
   })
 }
 
 export const useUpdateCartLine = () => {
   const cart = useGetCartState()
   return useMutation<UpdateCartLineMutation, UpdateCartLineMutationVariables>(UPDATE_CART_LINE, {
-    refetchQueries: _refetchQuery(GET_CART, { cartId: cart.cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
+    refetchQueries: _refetchQuery(GET_CART, { cartId: cart.cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT }),
   })
 }
 
 export const useAddNewCartLine = () => {
   const cartId = useGetCartIdState()
   return useMutation<AddNewCartLineMutation, AddNewCartLineMutationVariables>(ADD_NEW_CART_LINE, {
-    refetchQueries: _refetchQuery(GET_CART, { cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
+    refetchQueries: _refetchQuery(GET_CART, { cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT }),
   })
 }
 

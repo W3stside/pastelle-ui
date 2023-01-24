@@ -6,7 +6,7 @@ import {
   fromSmall,
   upToExtraSmallHeight,
   upToLarge,
-  upToSmall
+  upToSmall,
 } from '@past3lle/theme'
 import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
 import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'

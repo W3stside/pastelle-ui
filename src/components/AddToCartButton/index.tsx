@@ -43,7 +43,7 @@ function useDisappearingMessage(params: { message: string; showAtStart?: boolean
     DisappearingMessage,
     setShow,
     shouldShow: showMessage,
-    message
+    message,
   }
 }
 

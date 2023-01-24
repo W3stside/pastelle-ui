@@ -22,7 +22,7 @@ export default function useShowShowcase() {
         style={{
           flexFlow: 'column nowrap',
           alignItems: 'flex-start',
-          zIndex: Z_INDEXES.ZERO
+          zIndex: Z_INDEXES.ZERO,
         }}
       >
         {children}
@@ -40,7 +40,7 @@ export default function useShowShowcase() {
               borderRadius: '1rem',
               padding: '1rem',
               margin: '-1rem 0 1rem',
-              width: '100%'
+              width: '100%',
             }}
           >
             Use the <strong>GENDER</strong> + <strong>HEIGHT</strong> filters above to view selected size worn on
@@ -67,6 +67,6 @@ export default function useShowShowcase() {
   return {
     ShowcaseSettings,
     toggleShowcase,
-    showShowcase
+    showShowcase,
   }
 }

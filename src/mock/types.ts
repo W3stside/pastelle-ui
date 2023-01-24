@@ -5,7 +5,7 @@ export enum SocialType {
   TIKTOK = 'TIKTOK',
   DEVIANTART = 'DEVIANTART',
   DRIBBBLE = 'DRIBBBLE',
-  BEHANCE = 'BEHANCE'
+  BEHANCE = 'BEHANCE',
 }
 
 export type ApparelItem = {

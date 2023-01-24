@@ -39,24 +39,24 @@ export function ScrollingContentPage<D>({
   fixedItemHeight,
   withBoxShadow = false,
   onContentClick,
-  IterableComponent
+  IterableComponent,
 }: Params<D>) {
   const isMobileWidth = useIsMobileWindowWidthSize()
   const {
     bind,
     springs,
     state: { itemSize: itemHeight, currentIndex, firstAnimationOver: firstPaintOver },
-    refCallbacks: { setItemSizeRef: setHeightRef, setScrollingZoneRef }
+    refCallbacks: { setItemSizeRef: setHeightRef, setScrollingZoneRef },
   } = useInfiniteVerticalScroll(data, {
     visible: 2,
     snapOnScroll: false,
     // defaults to 0.8 scale on scroll and 1 scale default
     scaleOptions: {
-      initialScale: isMobileWidth || isMobile ? 0.97 : 0.92
+      initialScale: isMobileWidth || isMobile ? 0.97 : 0.92,
     },
     scrollSpeed: isMobile ? 0.4 : undefined,
     config: STIFF_SPRINGS,
-    sizeOptions: { fixedSize: fixedItemHeight, minSize: MINIMUM_COLLECTION_ITEM_HEIGHT }
+    sizeOptions: { fixedSize: fixedItemHeight, minSize: MINIMUM_COLLECTION_ITEM_HEIGHT },
   })
 
   /**
@@ -108,11 +108,11 @@ export function ScrollingContentPage<D>({
               <IterableComponent
                 fixedSizes={{
                   fixedHeight: fixedItemHeight,
-                  fixedWidth: fixedItemHeight
+                  fixedWidth: fixedItemHeight,
                 }}
                 loadInViewOptions={{
                   container: HEIGHT_AND_VIEW_TARGET || document,
-                  conditionalCheck: firstPaintOver
+                  conditionalCheck: firstPaintOver,
                 }}
                 // undefined = paint is over
                 firstPaintOver={firstPaintOver !== false}

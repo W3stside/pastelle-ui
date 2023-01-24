@@ -20,11 +20,11 @@ export const VIRGIL: CustomItemMetaData = {
     `And he to me: "This miserable way is taken by the sorry souls of those who lived without disgrace and without
       praise. They now commingle with the coward angels, the company of those who were not rebels nor faithful to their
       God, but stood apart. The heavens, that their beauty not be lessened, have cast them out, nor will deep Hell
-      receive them — even the wicked cannot glory in them.”`
+      receive them — even the wicked cannot glory in them.”`,
   ],
   collaborator: 'Mathieu Sato',
   social: [{ type: SocialType.INSTAGRAM, url: 'https://instagram.com/mathieusato', display: '@mathieusato' }],
-  imageExtension: 'jpg'
+  imageExtension: 'jpg',
 }
 
 // ================================================================================
@@ -36,7 +36,7 @@ export const VOODOO: CustomItemMetaData = {
   season: 'FALL',
   year: 2022,
   description: [`1500uG +`, `Phasing in and out. Fractals.`, HOME_GROWN_MESSAGE],
-  reverseMediaOrder: true
+  reverseMediaOrder: true,
 }
 
 // ================================================================================
@@ -48,7 +48,7 @@ export const ELLEX: CustomItemMetaData = {
   season: 'FALL',
   year: 2022,
   description: [`LADY ESTRELA.`, HOME_GROWN_MESSAGE],
-  reverseMediaOrder: true
+  reverseMediaOrder: true,
 }
 
 // ================================================================================
@@ -59,7 +59,7 @@ export const REBIRTH: CustomItemMetaData = {
   color: '#2c2c2c',
   season: 'FALL',
   year: 2022,
-  description: [`REBIRTH.`, '...', HOME_GROWN_MESSAGE]
+  description: [`REBIRTH.`, '...', HOME_GROWN_MESSAGE],
 }
 
 // ================================================================================
@@ -73,10 +73,10 @@ export const DAYDREAMING: CustomItemMetaData = {
   description: [`DAYDREAM.`, 'I WAS ASLEEP UNDER THE FLOWERS.', `FOR A COUPLE OF HOURS...`],
   collaborator: 'EGON SCHIELE',
   social: [
-    { type: SocialType.INSTAGRAM, url: 'https://www.wikiart.org/en/egon-schiele', display: 'EGON SCHIELE WIKI' }
+    { type: SocialType.INSTAGRAM, url: 'https://www.wikiart.org/en/egon-schiele', display: 'EGON SCHIELE WIKI' },
   ],
   reverseMediaOrder: true,
-  imageExtension: 'jpg'
+  imageExtension: 'jpg',
 }
 
 // ================================================================================
@@ -89,5 +89,5 @@ export const ASCENDANCE: CustomItemMetaData = {
   year: 2022,
   description: [`DIE.`, 'ASCEND.', `BECOME.`],
   reverseMediaOrder: true,
-  imageExtension: 'jpg'
+  imageExtension: 'jpg',
 }

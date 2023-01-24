@@ -10,5 +10,5 @@ export const Text = {
     const theme = useTheme()
     const color = theme.products.aside.textColor
     return <TextWrapper colour={color} fontWeight={500} {...props} />
-  }
+  },
 }

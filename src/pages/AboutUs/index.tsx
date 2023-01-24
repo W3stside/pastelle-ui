@@ -19,8 +19,8 @@ const ABOUT_US_CONTENT = [
     header: 'ABOUT US',
     markdown: _buildMarkdownPath(SUB_FOLDER, 'AboutUs.md'),
     image: { path: '' },
-    key: nanoid()
-  }
+    key: nanoid(),
+  },
   // pillars
   // {
   //   header: 'PILLARS',

@@ -12,5 +12,5 @@ export {
   useLimitedVerticalSwipe,
   useInfiniteHorizontalScroll,
   useInfiniteVerticalScroll,
-  useScrollingAnimationSetup
+  useScrollingAnimationSetup,
 }

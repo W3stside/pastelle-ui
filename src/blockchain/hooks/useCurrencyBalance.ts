@@ -83,7 +83,7 @@ export function useTokenBalancesWithLoadingIndicator(
             return memo
           }, {})
         : {},
-      anyLoading
+      anyLoading,
     ],
     [address, validatedTokens, anyLoading, balances]
   )

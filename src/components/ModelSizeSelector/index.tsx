@@ -65,7 +65,7 @@ const MALE_HEIGHT_LIST: ShowcaseHeight[] = [175, 185]
 
 const GENDER_HEIGHT_MAP = {
   FEMALE: new Set(FEMALE_HEIGHT_LIST),
-  MALE: new Set(MALE_HEIGHT_LIST)
+  MALE: new Set(MALE_HEIGHT_LIST),
 }
 
 export default function useModelSizeSelector() {
@@ -139,6 +139,6 @@ export default function useModelSizeSelector() {
   return {
     ModelSizeSelector,
     modelSize: selectedHeight,
-    modelGender: selectedGender
+    modelGender: selectedGender,
   }
 }

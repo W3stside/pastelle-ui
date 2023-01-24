@@ -18,7 +18,7 @@ export function isAddress(value: any): string | false {
 const ETHERSCAN_PREFIXES: { [chainId in SupportedChainId]: string } = {
   1: '',
   4: 'rinkeby.',
-  100: 'gnosischain.'
+  100: 'gnosischain.',
 }
 
 export function getEtherscanLink(

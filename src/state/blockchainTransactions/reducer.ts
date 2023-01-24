@@ -24,7 +24,7 @@ export type AddTransactionParams = WithChainId &
 
 export enum HashType {
   ETHEREUM_TX = 'ETHEREUM_TX',
-  GNOSIS_SAFE_TX = 'GNOSIS_SAFE_TX'
+  GNOSIS_SAFE_TX = 'GNOSIS_SAFE_TX',
 }
 
 export interface TransactionDetails {
@@ -77,7 +77,7 @@ const transactionsSlice = createSlice({
     addTransaction(
       transactions,
       {
-        payload: { chainId, from, hash, hashType, approval, summary, presign, safeTransaction, data }
+        payload: { chainId, from, hash, hashType, approval, summary, presign, safeTransaction, data },
       }: PayloadAction<AddTransactionParams>
     ) {
       if (transactions[chainId]?.[hash]) {
@@ -98,7 +98,7 @@ const transactionsSlice = createSlice({
         // Operations
         approval,
         presign,
-        safeTransaction
+        safeTransaction,
       }
       transactions[chainId] = txs
     },
@@ -121,7 +121,7 @@ const transactionsSlice = createSlice({
     finalizeTransaction(
       transactions,
       {
-        payload: { hash, chainId, receipt }
+        payload: { hash, chainId, receipt },
       }: PayloadAction<WithChainIdAndHash & { receipt: SerializableTransactionReceipt }>
     ) {
       const tx = transactions[chainId]?.[hash]
@@ -135,7 +135,7 @@ const transactionsSlice = createSlice({
     replaceTransaction(
       transactions,
       {
-        payload: { chainId, oldHash, newHash, type }
+        payload: { chainId, oldHash, newHash, type },
       }: PayloadAction<WithChainId & { oldHash: string; newHash: string; type: ReplacementType }>
     ) {
       if (!transactions[chainId]?.[oldHash]) {
@@ -148,7 +148,7 @@ const transactionsSlice = createSlice({
         hash: newHash,
         transactionHash: newHash,
         addedTime: new Date().getTime(),
-        replacementType: type
+        replacementType: type,
       }
       delete allTxs[oldHash]
     },
@@ -156,7 +156,7 @@ const transactionsSlice = createSlice({
     updateSafeTransaction(
       transactions,
       {
-        payload: { chainId, safeTransaction, blockNumber }
+        payload: { chainId, safeTransaction, blockNumber },
       }: PayloadAction<WithChainId & { safeTransaction: SafeMultisigTransactionResponse; blockNumber: number }>
     ) {
       const { safeTxHash, transactionHash } = safeTransaction
@@ -174,8 +174,8 @@ const transactionsSlice = createSlice({
 
       // Update safe info
       tx.safeTransaction = safeTransaction
-    }
-  }
+    },
+  },
 })
 
 export const {
@@ -184,6 +184,6 @@ export const {
   checkedTransaction,
   finalizeTransaction,
   replaceTransaction,
-  updateSafeTransaction
+  updateSafeTransaction,
 } = transactionsSlice.actions
 export const blockchainTransactions = transactionsSlice.reducer

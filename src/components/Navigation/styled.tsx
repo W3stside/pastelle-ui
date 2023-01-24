@@ -26,7 +26,7 @@ export const NavigationStepsWrapper = styled.nav<{
   ${({ theme, currentMedia: { navLogoSet, color = BLACK } }) =>
     setBackgroundWithDPI(theme, navLogoSet, {
       preset: 'navbar',
-      modeColours: [color, BLACK]
+      modeColours: [color, BLACK],
     })}
 
   z-index: 1;
@@ -71,7 +71,7 @@ export const NavigationStepsWrapper = styled.nav<{
 `
 
 export const MobileNavOrb = styled(Button).attrs<MobileNavProps & { mobileHide?: boolean }>((props) => ({
-  display: props.mobileHide ? 'none' : 'initial'
+  display: props.mobileHide ? 'none' : 'initial',
 }))<MobileNavProps & { mobileHide?: boolean }>`
   display: none;
   background: ${({ theme, bgColor = theme.red2 }) => bgColor};

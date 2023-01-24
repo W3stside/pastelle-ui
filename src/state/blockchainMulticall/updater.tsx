@@ -30,11 +30,11 @@ export async function fetchChunk(
       chunk.map((obj) => ({
         target: obj.address,
         callData: obj.callData,
-        gasLimit: obj.gasRequired ?? DEFAULT_CALL_GAS_REQUIRED
+        gasLimit: obj.gasRequired ?? DEFAULT_CALL_GAS_REQUIRED,
       })),
       {
         // we aren't passing through the block gas limit we used to create the chunk, because it causes a problem with the integ tests
-        blockTag: blockNumber
+        blockTag: blockNumber,
       }
     )
 
@@ -67,7 +67,7 @@ export async function fetchChunk(
         const half = Math.floor(chunk.length / 2)
         const [c0, c1] = await Promise.all([
           fetchChunk(blockchainMulticall, chunk.slice(0, half), blockNumber),
-          fetchChunk(blockchainMulticall, chunk.slice(half, chunk.length), blockNumber)
+          fetchChunk(blockchainMulticall, chunk.slice(half, chunk.length), blockNumber),
         ])
         return c0.concat(c1)
       }
@@ -185,7 +185,7 @@ export default function Updater(): null {
       fetchingMulticallResults({
         calls,
         chainId,
-        fetchingBlockNumber: latestBlockNumber
+        fetchingBlockNumber: latestBlockNumber,
       })
     )
 
@@ -195,7 +195,7 @@ export default function Updater(): null {
         const { cancel, promise } = retry(() => fetchChunk(multicall2Contract, chunk, latestBlockNumber), {
           n: Infinity,
           minWait: 1000,
-          maxWait: 2500
+          maxWait: 2500,
         })
         promise
           .then((returnData) => {
@@ -221,7 +221,7 @@ export default function Updater(): null {
                 updateMulticallResults({
                   chainId,
                   results,
-                  blockNumber: latestBlockNumber
+                  blockNumber: latestBlockNumber,
                 })
               )
 
@@ -240,7 +240,7 @@ export default function Updater(): null {
                 errorFetchingMulticallResults({
                   calls: erroredCalls,
                   chainId,
-                  fetchingBlockNumber: latestBlockNumber
+                  fetchingBlockNumber: latestBlockNumber,
                 })
               )
             }
@@ -255,12 +255,12 @@ export default function Updater(): null {
               errorFetchingMulticallResults({
                 calls: chunk,
                 chainId,
-                fetchingBlockNumber: latestBlockNumber
+                fetchingBlockNumber: latestBlockNumber,
               })
             )
           })
         return cancel
-      })
+      }),
     }
   }, [chainId, multicall2Contract, dispatch, serializedOutdatedCallKeys, latestBlockNumber])
 

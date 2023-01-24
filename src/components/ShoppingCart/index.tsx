@@ -19,7 +19,7 @@ import {
   useGetCartState,
   useRemoveCartLineAndUpdateReduxCallback,
   useToggleCartAndState,
-  useUpdateCartLineAndUpdateReduxCallback
+  useUpdateCartLineAndUpdateReduxCallback,
 } from 'state/cart/hooks'
 import { CartState } from 'state/cart/reducer'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
@@ -35,7 +35,7 @@ import {
   ShoppingCartHeaderWrapper,
   ShoppingCartPanelContentWrapper,
   ShoppingCartPanelWrapper,
-  ShoppingCartQuantityWrapper
+  ShoppingCartQuantityWrapper,
 } from './styled'
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
@@ -156,7 +156,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
 
 function CartTableHeader({
   totalQuantity,
-  closeCartPanel
+  closeCartPanel,
 }: {
   data: GetCartQuery | undefined
   totalQuantity: number | undefined
@@ -199,11 +199,11 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
             {
               onCompleted: () => {
                 cleanTimeout(() => setRemoveOperationLoading(false), 1000)
-              }
+              },
             }
           )
         }
-      : undefined
+      : undefined,
   })
 
   const previousQuantity = usePrevious(line.quantity)
@@ -217,7 +217,7 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
       bgLogo: images.nodes?.find(
         (node) => node.altText === 'LOGO' || node.altText === 'HEADER' || node.altText === 'NAVBAR'
       )?.url500,
-      color: getMetafields<string>(color)
+      color: getMetafields<string>(color),
     }),
     [color, images.nodes]
   )

@@ -6,7 +6,7 @@ import {
   setFadeInAnimation,
   upToExtraSmall,
   upToMedium,
-  upToSmall
+  upToSmall,
 } from '@past3lle/theme'
 import { Z_INDEXES } from 'constants/config'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
@@ -144,7 +144,7 @@ export const CartHeader = styled(ItemHeader).attrs((props) => ({
   ...props,
   color: OFF_WHITE,
   itemColor: 'transparent',
-  animation: false
+  animation: false,
 }))`
   > a {
     text-decoration: none;

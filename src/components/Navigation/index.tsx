@@ -20,7 +20,7 @@ export type MobileNavProps = { menuSize?: number; bgColor?: string }
 
 export default function Navigation({
   navOrbProps,
-  mobileHide
+  mobileHide,
 }: {
   navOrbProps?: MobileNavProps
   mobileHide?: boolean
@@ -142,7 +142,7 @@ function useGroupCollectionByType(collection?: ProductPageMap): ProductTypeMap {
               const productTypeList = prev[product.productType]
               prev[product.productType] = [
                 ...(productTypeList || []),
-                { title: product.title, handle: product.handle, id: product.id }
+                { title: product.title, handle: product.handle, id: product.id },
               ]
             }
             return prev
@@ -154,7 +154,7 @@ const NavProductLine = ({
   product,
   currentProduct,
   handleNavMove,
-  isNavOpen
+  isNavOpen,
 }: {
   isNavOpen: boolean
   handleNavMove: any

@@ -21,7 +21,7 @@ const initialState: BlockchainState = {
   chainConnectivityWarning: false,
   implements3085: false,
   selectedWalletBackfilled: false,
-  selectedWallet: undefined
+  selectedWallet: undefined,
 }
 
 const blockchainSlice = createSlice({
@@ -47,8 +47,8 @@ const blockchainSlice = createSlice({
     },
     setChainConnectivityWarning(state, action: PayloadAction<boolean>) {
       state.chainConnectivityWarning = action.payload
-    }
-  }
+    },
+  },
 })
 
 export const {
@@ -56,6 +56,6 @@ export const {
   updateChainId,
   setChainConnectivityWarning,
   setImplements3085,
-  updateSelectedWallet
+  updateSelectedWallet,
 } = blockchainSlice.actions
 export const blockchain = blockchainSlice.reducer

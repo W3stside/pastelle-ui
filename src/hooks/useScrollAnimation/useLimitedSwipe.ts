@@ -29,7 +29,7 @@ export function useLimitedSwipe(
 ): SpringAnimationHookReturn {
   const {
     refs: { itemSize },
-    refCallbacks
+    refCallbacks,
   } = useScrollZoneRefs(axis, options?.sizeOptions || { minSize: STORE_IMAGE_SIZES.SMALL })
 
   const indexRef = useRef(0)
@@ -40,7 +40,7 @@ export function useLimitedSwipe(
     (i) => ({
       ...options?.styleMixin,
       [axis]: i * itemSize,
-      display: 'block'
+      display: 'block',
     }),
     [itemSize]
   )
@@ -49,7 +49,7 @@ export function useLimitedSwipe(
     utils.drag.limited([, api], {
       axis,
       indexOptions: { current: indexRef, setIndex: setIndexState, last: data.length - 1 },
-      itemSize
+      itemSize,
     }),
     { axis }
   )
@@ -58,7 +58,7 @@ export function useLimitedSwipe(
     bind,
     springs,
     state: { currentIndex: indexState, itemSize },
-    refCallbacks
+    refCallbacks,
   }
 }
 

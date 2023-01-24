@@ -11,7 +11,7 @@ import {
   setBackgroundWithDPI,
   setBestTextColour,
   upToExtraSmall,
-  upToSmallHeight
+  upToSmallHeight,
 } from '@past3lle/theme'
 import { YellowCard } from 'components/Layout'
 import { MobileNavOrb } from 'components/Navigation/styled'
@@ -160,7 +160,7 @@ export const HeaderFrame = styled(Header)<{ open: boolean; color?: string; logoS
     logoSet &&
     setBackgroundWithDPI(theme, logoSet, {
       preset: 'header',
-      modeColours: [color, BLACK]
+      modeColours: [color, BLACK],
     })}
 
   // HIDE HEADER ON SMALL HEIGHT LANDSCAPE BOIS
