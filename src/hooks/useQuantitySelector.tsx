@@ -1,9 +1,10 @@
-import { useState, useCallback, ChangeEventHandler } from 'react'
+import { Row } from '@past3lle/components'
+import { useDebouncedChangeHandler } from '@past3lle/hooks'
+import { BLACK, setBestTextColour } from '@past3lle/theme'
+import { ChangeEventHandler, useCallback, useState } from 'react'
 import { Trash2 } from 'react-feather'
 import styled from 'styled-components/macro'
-import { Row } from 'components/Layout'
-import useDebouncedChangeHandler from './useDebouncedChangeHandler'
-import { BLACK, RED, setBestTextColour } from 'theme/utils'
+import { RED } from 'theme'
 
 export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
   width: 100%;
@@ -77,7 +78,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
       e.stopPropagation()
 
       if (quantity === 0) return
-      return setQuantity(state => state - 1)
+      return setQuantity((state) => state - 1)
     },
     [quantity]
   )
@@ -86,12 +87,12 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
       e.stopPropagation()
 
       if (quantity === PURCHASE_LIMIT) return
-      return setQuantity(state => state + 1)
+      return setQuantity((state) => state + 1)
     },
     [quantity]
   )
   const handleInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    e => {
+    (e) => {
       e.stopPropagation()
 
       const value = Number(e.target.value)
@@ -114,7 +115,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
               disabled={isDisabled}
               type="number"
               onChange={handleInputChange}
-              onClick={e => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
               value={debouncedQuantity}
             />
           )}

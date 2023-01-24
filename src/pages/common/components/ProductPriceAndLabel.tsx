@@ -1,9 +1,10 @@
-import { Row, Column } from 'components/Layout'
+import { Column, Row } from '@past3lle/components'
 import { Price } from 'components/Price'
+import { Text as TYPE } from 'components/Text'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import { darken, transparentize } from 'polished'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
-import { TYPE } from 'theme'
+
 import { BaseProductPageProps } from '../types'
 
 export default function ProductPriceAndLabel({
@@ -22,10 +23,10 @@ export default function ProductPriceAndLabel({
       maxHeight={LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL + 'rem'}
     >
       <Column maxWidth={'60%'}>
-        <TYPE.productText fontSize="3rem" fontWeight={200}>
+        <TYPE.ProductText fontSize="3rem" fontWeight={200}>
           {title}
-        </TYPE.productText>
-        <TYPE.productText>{shortDescription}</TYPE.productText>
+        </TYPE.ProductText>
+        <TYPE.ProductText>{shortDescription}</TYPE.ProductText>
       </Column>
       {/* VARIANT PRICE */}
       <Price

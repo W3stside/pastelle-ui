@@ -1,17 +1,15 @@
+import { useDebounce } from '@past3lle/hooks'
+import { RetryableError, chunkArray, devDebug, devError, devWarn, retry } from '@past3lle/utils'
+import { useWeb3React } from '@web3-react/core'
+import { UniswapInterfaceMulticall } from 'blockchain/abis/types/UniswapInterfaceMulticall'
+import { useMulticall2Contract } from 'blockchain/hooks/useContract'
 import { useEffect, useMemo, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
-import { UniswapInterfaceMulticall } from 'blockchain/abis/types/UniswapInterfaceMulticall'
-
-import { useMulticall2Contract } from 'blockchain/hooks/useContract'
-import useDebounce from 'hooks/useDebounce'
-import { useWeb3React } from '@web3-react/core'
-import chunkArray from 'utils/chunkArray'
-import { retry, RetryableError } from 'utils/async'
 import { useBlockNumber } from 'state/blockchain/hooks'
+
 import { AppState } from '../index'
 import { errorFetchingMulticallResults, fetchingMulticallResults, updateMulticallResults } from './actions'
 import { Call, parseCallKey, toCallKey } from './utils'
-import { devDebug, devError, devWarn } from 'utils/logging'
 
 const DEFAULT_CALL_GAS_REQUIRED = 1_000_000
 
@@ -29,7 +27,7 @@ export async function fetchChunk(
   devDebug('Fetching chunk', chunk, blockNumber)
   try {
     const { returnData } = await blockchainMulticall.callStatic.multicall(
-      chunk.map(obj => ({
+      chunk.map((obj) => ({
         target: obj.address,
         callData: obj.callData,
         gasLimit: obj.gasRequired ?? DEFAULT_CALL_GAS_REQUIRED
@@ -48,8 +46,9 @@ export async function fetchChunk(
           gasUsed.gte(Math.floor((chunk[i].gasRequired ?? DEFAULT_CALL_GAS_REQUIRED) * 0.95))
         ) {
           devWarn(
-            `A call failed due to requiring ${gasUsed.toString()} vs. allowed ${chunk[i].gasRequired ??
-              DEFAULT_CALL_GAS_REQUIRED}`,
+            `A call failed due to requiring ${gasUsed.toString()} vs. allowed ${
+              chunk[i].gasRequired ?? DEFAULT_CALL_GAS_REQUIRED
+            }`,
             chunk[i]
           )
         }
@@ -96,7 +95,7 @@ export function activeListeningKeys(
     const keyListeners = listeners[callKey]
 
     memo[callKey] = Object.keys(keyListeners)
-      .filter(key => {
+      .filter((key) => {
         const blocksPerFetch = parseInt(key)
         if (blocksPerFetch <= 0) return false
         return keyListeners[blocksPerFetch] > 0
@@ -126,7 +125,7 @@ export function outdatedListeningKeys(
   // no results at all, load everything
   if (!results) return Object.keys(listeningKeys)
 
-  return Object.keys(listeningKeys).filter(callKey => {
+  return Object.keys(listeningKeys).filter((callKey) => {
     const blocksPerFetch = listeningKeys[callKey]
 
     const data = callResults[chainId][callKey]
@@ -145,7 +144,7 @@ export function outdatedListeningKeys(
 
 export default function Updater(): null {
   const dispatch = useAppDispatch()
-  const state = useAppSelector(state => state.blockchainMulticall)
+  const state = useAppSelector((state) => state.blockchainMulticall)
   // wait for listeners to settle before triggering updates
   const debouncedListeners = useDebounce(state.callListeners, 100)
   const latestBlockNumber = useBlockNumber()
@@ -161,9 +160,10 @@ export default function Updater(): null {
     return outdatedListeningKeys(state.callResults, listeningKeys, chainId, latestBlockNumber)
   }, [chainId, state.callResults, listeningKeys, latestBlockNumber])
 
-  const serializedOutdatedCallKeys = useMemo(() => JSON.stringify(unserializedOutdatedCallKeys.sort()), [
-    unserializedOutdatedCallKeys
-  ])
+  const serializedOutdatedCallKeys = useMemo(
+    () => JSON.stringify(unserializedOutdatedCallKeys.sort()),
+    [unserializedOutdatedCallKeys]
+  )
 
   // todo: consider getting this information from the node we are using, e.g. block.gaslimit
   const chunkGasLimit = 100_000_000
@@ -173,12 +173,12 @@ export default function Updater(): null {
 
     const outdatedCallKeys: string[] = JSON.parse(serializedOutdatedCallKeys)
     if (outdatedCallKeys.length === 0) return
-    const calls = outdatedCallKeys.map(key => parseCallKey(key))
+    const calls = outdatedCallKeys.map((key) => parseCallKey(key))
 
     const chunkedCalls = chunkArray(calls, chunkGasLimit)
 
     if (cancellations.current && cancellations.current.blockNumber !== latestBlockNumber) {
-      cancellations.current.cancellations.forEach(c => c())
+      cancellations.current.cancellations.forEach((c) => c())
     }
 
     dispatch(
@@ -191,14 +191,14 @@ export default function Updater(): null {
 
     cancellations.current = {
       blockNumber: latestBlockNumber,
-      cancellations: chunkedCalls.map(chunk => {
+      cancellations: chunkedCalls.map((chunk) => {
         const { cancel, promise } = retry(() => fetchChunk(multicall2Contract, chunk, latestBlockNumber), {
           n: Infinity,
           minWait: 1000,
           maxWait: 2500
         })
         promise
-          .then(returnData => {
+          .then((returnData) => {
             // split the returned slice into errors and results
             const { erroredCalls, results } = chunk.reduce<{
               erroredCalls: Call[]

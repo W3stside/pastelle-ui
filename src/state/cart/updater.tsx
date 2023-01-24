@@ -1,11 +1,12 @@
 import { useApolloClient } from '@apollo/client'
+import { devDebug, devError } from '@past3lle/utils'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import { useEffect } from 'react'
 import { useCreateCart } from 'shopify/graphql/hooks'
 import { GET_CART } from 'shopify/graphql/queries/cart'
 import { GetCartQuery, GetCartQueryVariables } from 'shopify/graphql/types'
-import { useUpdateCartInfoDispatch, useGetCartIdState, useToggleCartAndState } from 'state/cart/hooks'
-import { devDebug, devError } from 'utils/logging'
+import { useGetCartIdState, useToggleCartAndState, useUpdateCartInfoDispatch } from 'state/cart/hooks'
+
 import { UpdateCartInfoParams } from './reducer'
 
 interface CartCreationCbs {
@@ -66,7 +67,7 @@ function _queryAndUpdateCart({ cartId, query, updateCartInfo }: QueryCartParams)
         costs: data.cart.cost
       })
     })
-    .catch(error => {
+    .catch((error) => {
       throw error
     })
 }
@@ -82,7 +83,7 @@ async function _createAndSaveCart({ updateCartInfo, createCart, toggleCartOption
         updateCartInfo({ cartId: cart.id })
       }
     })
-    .catch(error => {
+    .catch((error) => {
       devError('[CART UPDATERS] Cart initialisation error!', error)
     })
 }

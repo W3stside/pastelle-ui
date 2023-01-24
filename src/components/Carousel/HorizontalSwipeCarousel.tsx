@@ -1,5 +1,6 @@
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { useLimitedHorizontalSwipe } from 'hooks/useScrollAnimation'
+
 import AnimatedCarousel from './common/components/AnimatedCarousel'
 import { BaseCarouselProps, WithTouchAction } from './common/types'
 

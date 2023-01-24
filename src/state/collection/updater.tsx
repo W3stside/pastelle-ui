@@ -1,6 +1,7 @@
 import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
 import { useEffect } from 'react'
 import { useQueryCurrentCollection } from 'shopify/graphql/hooks'
+
 import { useUpdateCollection } from './hooks'
 
 export default function Updater() {

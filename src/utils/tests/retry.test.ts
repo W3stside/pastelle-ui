@@ -1,4 +1,4 @@
-import { retry, RetryableError } from '../async'
+import { RetryableError, retry } from '@past3lle/utils'
 
 describe('retry', () => {
   function makeFn<T>(fails: number, result: T, retryable = true): () => Promise<T> {

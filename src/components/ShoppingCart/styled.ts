@@ -1,13 +1,18 @@
-import styled from 'styled-components/macro'
-import { transparentize } from 'polished'
-
-import { Column, Row } from 'components/Layout'
+import { Column, Row } from '@past3lle/components'
+import {
+  OFF_WHITE,
+  ThemeModes,
+  fromExtraLarge,
+  setFadeInAnimation,
+  upToExtraSmall,
+  upToMedium,
+  upToSmall
+} from '@past3lle/theme'
 import { Z_INDEXES } from 'constants/config'
-import { ItemHeader, ProductSubHeader } from 'pages/common/styleds'
-import { fromExtraLarge, OFF_WHITE, upToExtraSmall, upToMedium, upToSmall } from 'theme/utils'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
-import { setFadeInAnimation } from 'theme/styles/animations'
-import { ThemeModes } from 'theme/styled'
+import { ItemHeader, ProductSubHeader } from 'pages/common/styleds'
+import { transparentize } from 'polished'
+import styled from 'styled-components/macro'
 
 export const CartLineContent = styled(Row)`
   display: grid;
@@ -135,7 +140,7 @@ export const ShoppingCartHeaderWrapper = styled(Row)`
   }
 `
 
-export const CartHeader = styled(ItemHeader).attrs(props => ({
+export const CartHeader = styled(ItemHeader).attrs((props) => ({
   ...props,
   color: OFF_WHITE,
   itemColor: 'transparent',
@@ -217,7 +222,7 @@ export const ShoppingCartPanelWrapper = styled.div`
     margin-left: auto;
     width: 60%;
     padding: 1rem 2rem;
-    
+
     // HEADER
     &:first-child {
       padding: 1rem 3rem;
@@ -248,7 +253,7 @@ export const ShoppingCartPanelWrapper = styled.div`
       width: 50%;
     `}
   }
-  
+
   > ${ShoppingCartPanelContentWrapper} {
     padding: 0 3rem 18rem;
     height: 100%;

@@ -1,7 +1,7 @@
+import { MEDIA_WIDTHS } from '@past3lle/theme'
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 import { WindowSize, updateWindowSize } from 'state/window/reducer'
-import { MEDIA_WIDTHS } from 'theme/styles/mediaQueries'
 
 export function useUpdateWindowSize() {
   const dispatch = useAppDispatch()

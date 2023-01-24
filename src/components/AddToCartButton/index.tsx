@@ -1,10 +1,9 @@
-import Button, { ButtonVariations, ButtonSizeVariations, ButtonProps } from 'components/Button'
+import { Button, ButtonProps, ButtonSizeVariations, ButtonVariations } from '@past3lle/components'
 import ErrorMessage from 'components/ErrorMessage'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import { ProductDescription } from 'pages/common/styleds'
 import { ForwardedRef, forwardRef, useCallback, useEffect, useState } from 'react'
 import { useAddLineToCartAndUpdateReduxCallback } from 'state/cart/hooks'
-
 import styled from 'styled-components/macro'
 
 export type AddToCartButtonParams = {

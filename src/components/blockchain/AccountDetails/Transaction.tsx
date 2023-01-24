@@ -1,12 +1,11 @@
-import styled from 'styled-components/macro'
-import { CheckCircle, Triangle } from 'react-feather'
-
+import { ExternalLink } from '@past3lle/components'
+import { RowFixed } from '@past3lle/components'
 import { useWeb3React } from '@web3-react/core'
 import { getEtherscanLink } from 'blockchain/utils'
-import { ExternalLink } from 'theme'
-import { useAllTransactions } from 'state/blockchainTransactions/hooks'
-import { RowFixed } from 'components/Layout'
 import Loader from 'components/Loader'
+import { CheckCircle, Triangle } from 'react-feather'
+import { useAllTransactions } from 'state/blockchainTransactions/hooks'
+import styled from 'styled-components/macro'
 
 const TransactionWrapper = styled.div``
 

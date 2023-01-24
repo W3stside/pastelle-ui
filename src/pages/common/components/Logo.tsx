@@ -1,12 +1,13 @@
-import SmartImg from 'components/SmartImg'
+import { SmartImg } from '@past3lle/components'
+import { isMobile } from '@past3lle/utils'
 import { SINGLE_ITEM_LOGO_RATIO } from 'constants/config'
-import { isMobile } from 'utils'
-import { GenericImageSrcSet } from 'utils/types'
-import { ProductLogoCollectionView, ProductLogo, ProductLogoCssImport } from '../styleds'
+import { ShopImageSrcSet } from 'types'
+
+import { ProductLogo, ProductLogoCollectionView, ProductLogoCssImport } from '../styleds'
 
 type LogoParams = {
   parentNode: HTMLElement | null
-  logos: { header?: GenericImageSrcSet; nav?: GenericImageSrcSet; main?: GenericImageSrcSet }
+  logos: { header?: ShopImageSrcSet; nav?: ShopImageSrcSet; main?: ShopImageSrcSet }
   isCollectionView: boolean
 }
 export default function Logo({ isCollectionView, logos, parentNode }: LogoParams) {

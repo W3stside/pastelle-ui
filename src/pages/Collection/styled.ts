@@ -1,19 +1,19 @@
-import styled from 'styled-components/macro'
-import { transparentize } from 'polished'
-import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
-import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
-import { ProductScreen, ProductLogo, ProductLogoCollectionView, ProductScreensContainer } from 'pages/common/styleds'
-import { Z_INDEXES } from 'constants/config'
 import {
-  upToSmall,
-  upToLarge,
+  betweenSmallAndLarge,
+  fromExtraLarge,
   fromLarge,
   fromMedium,
-  fromExtraLarge,
-  betweenSmallAndLarge,
   fromSmall,
-  upToExtraSmallHeight
-} from 'theme/utils'
+  upToExtraSmallHeight,
+  upToLarge,
+  upToSmall
+} from '@past3lle/theme'
+import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
+import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
+import { Z_INDEXES } from 'constants/config'
+import { ProductLogo, ProductLogoCollectionView, ProductScreen, ProductScreensContainer } from 'pages/common/styleds'
+import { transparentize } from 'polished'
+import styled from 'styled-components/macro'
 
 export const CollectionScreensContainer = styled(ProductScreensContainer)`
   ${upToSmall`
@@ -61,13 +61,13 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
         height: 100%;
 
         > picture {
-            overflow: hidden; 
+          overflow: hidden;
 
-            img {
-              max-width: unset;
-              height: 100%;
-            }
+          img {
+            max-width: unset;
+            height: 100%;
           }
+        }
 
         &:first-child {
           box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
@@ -90,7 +90,7 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
 
           > picture {
             border-radius: 0 1rem 1rem 0;
-            
+
             ${upToSmall`
               border-radius: 0rem;
               display: none;
@@ -175,5 +175,4 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
       `}
     }
   }
-
 `

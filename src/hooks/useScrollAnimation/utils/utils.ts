@@ -2,7 +2,8 @@ import { DragState, PinchState } from '@use-gesture/react'
 import clamp from 'lodash.clamp'
 import { MutableRefObject, SetStateAction } from 'react'
 import { SpringRef } from 'react-spring'
-import { AxisDirection, InfiniteScrollHookOptions, WheelGestureParams, InifniteScrollDataParams } from '../types'
+
+import { AxisDirection, InfiniteScrollHookOptions, InifniteScrollDataParams, WheelGestureParams } from '../types'
 
 /**
  *
@@ -95,7 +96,7 @@ export function runInfiniteScrollSprings<T extends Record<any, any>>(
   const firstVis = getIndex(itemPosition, dataLength)
   const firstVisIdx = dAxis < 0 ? dataLength - visible - 1 : 1
 
-  api.start(i =>
+  api.start((i) =>
     calculateInfiniteScrollApiLogic(i, axisDirection, {
       axis,
       dAxis,
@@ -123,66 +124,58 @@ type DragLogicOptions = {
   axis: AxisDirection
 }
 
-const runLimitedSwipe = ([, api]: any[], { axis: axisDirection, indexOptions, itemSize }: DragLogicOptions) => ({
-  active,
-  movement,
-  direction,
-  cancel
-}: DragState) => {
-  const axis = axisDirection === 'x' ? 0 : 1
-  const [mAxis, gestDir] = [movement[axis], direction[axis]]
-  if (gestDir) {
-    const { current, last: lastIndx, setIndex } = indexOptions
+const runLimitedSwipe =
+  ([, api]: any[], { axis: axisDirection, indexOptions, itemSize }: DragLogicOptions) =>
+  ({ active, movement, direction, cancel }: DragState) => {
+    const axis = axisDirection === 'x' ? 0 : 1
+    const [mAxis, gestDir] = [movement[axis], direction[axis]]
+    if (gestDir) {
+      const { current, last: lastIndx, setIndex } = indexOptions
 
-    const bounds: [number, number] = [
-      current.current - 1 > 0 ? current.current - 1 : 0,
-      current.current + 1 < lastIndx ? current.current + 1 : lastIndx
-    ]
+      const bounds: [number, number] = [
+        current.current - 1 > 0 ? current.current - 1 : 0,
+        current.current + 1 < lastIndx ? current.current + 1 : lastIndx
+      ]
 
-    if (active && Math.abs(mAxis) > itemSize / 10) {
-      const clampedIdx = clamp(current.current + -gestDir, ...bounds)
-      current.current = clampedIdx
-      cancel()
-      setIndex?.(clampedIdx)
+      if (active && Math.abs(mAxis) > itemSize / 10) {
+        const clampedIdx = clamp(current.current + -gestDir, ...bounds)
+        current.current = clampedIdx
+        cancel()
+        setIndex?.(clampedIdx)
+      }
+
+      api.start((i: number) => {
+        if (i < current.current - 1 || i > current.current + 1) return { display: 'none' }
+        const axisPoint = (i - current.current) * itemSize + (active ? mAxis : 0)
+        return { [axisDirection]: axisPoint, display: 'block' }
+      })
     }
-
-    api.start((i: number) => {
-      if (i < current.current - 1 || i > current.current + 1) return { display: 'none' }
-      const axisPoint = (i - current.current) * itemSize + (active ? mAxis : 0)
-      return { [axisDirection]: axisPoint, display: 'block' }
-    })
   }
-}
 
 type PinchLogicOptions = {
   ref?: HTMLElement | null
 }
 
-const runPinchZoom = ([springs, api]: any[], { ref }: PinchLogicOptions) => ({
-  args: [index],
-  origin: [ox, oy],
-  first,
-  movement: [ms],
-  offset: [s],
-  memo
-}: PinchState) => {
-  if (first) {
-    memo = {}
-    const refSizes = ref?.getBoundingClientRect()
+const runPinchZoom =
+  ([springs, api]: any[], { ref }: PinchLogicOptions) =>
+  ({ args: [index], origin: [ox, oy], first, movement: [ms], offset: [s], memo }: PinchState) => {
+    if (first) {
+      memo = {}
+      const refSizes = ref?.getBoundingClientRect()
 
-    const tx = ox - (ox + (refSizes?.width || 0) / 2)
-    const ty = oy - (oy + (refSizes?.height || 0) / 2)
+      const tx = ox - (ox + (refSizes?.width || 0) / 2)
+      const ty = oy - (oy + (refSizes?.height || 0) / 2)
 
-    memo[index.toString()] = [springs[index].x.get(), springs[index].y.get(), tx, ty]
+      memo[index.toString()] = [springs[index].x.get(), springs[index].y.get(), tx, ty]
+    }
+
+    const x = memo[index.toString()][0] - (ms - 1) * memo[index.toString()][2]
+    const y = memo[index.toString()][1] - (ms - 1) * memo[index.toString()][3]
+
+    api.start(() => ({ scale: s, x, y }))
+
+    return memo
   }
-
-  const x = memo[index.toString()][0] - (ms - 1) * memo[index.toString()][2]
-  const y = memo[index.toString()][1] - (ms - 1) * memo[index.toString()][3]
-
-  api.start(() => ({ scale: s, x, y }))
-
-  return memo
-}
 
 export default {
   wheel: {

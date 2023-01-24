@@ -1,30 +1,28 @@
 // import { useCallback } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import { isMobile } from 'react-device-detect'
 import { Trans } from '@lingui/macro'
-
+import { isMobile } from '@past3lle/utils'
+import { useWeb3React } from '@web3-react/core'
+import { getConnection, getConnectionName, getIsMetaMask } from 'blockchain/connectors/utils'
 import { shortenAddress } from 'blockchain/utils'
-
+import { ExplorerDataType, getExplorerLink } from 'blockchain/utils/getExplorerLink'
+import StatusIcon from 'components/Identicon/StatusIcon'
+import { ExternalLink } from 'react-feather'
 import { useAppDispatch } from 'state'
 import { updateSelectedWallet } from 'state/blockchain/reducer'
-
-import { getConnection, getConnectionName, getIsMetaMask } from 'blockchain/connectors/utils'
-import { WalletName, AccountControl, WalletAction, AddressLink } from './styled'
-import { InfoCard, AccountGroupingRow } from './styled'
-// import Button from 'components/Button'
+// import { Button } from '@past3lle/components'
 // import Transaction from './Transaction'
 // import { clearAllTransactions } from 'state/blockchainTransactions/reducer'
 import styled from 'styled-components/macro'
-import StatusIcon from 'components/Identicon/StatusIcon'
+
 import CopyHelper from './Copy'
-import { ExternalLink } from 'react-feather'
-import { ExplorerDataType, getExplorerLink } from 'blockchain/utils/getExplorerLink'
+import { AccountControl, AddressLink, WalletAction, WalletName } from './styled'
+import { AccountGroupingRow, InfoCard } from './styled'
 
 const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
   padding: 1rem 1rem;
   font-weight: 500;
-  color: ${props => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};
+  color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 1rem;
   `};

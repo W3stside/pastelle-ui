@@ -1,5 +1,12 @@
-import { lazy, Suspense } from 'react'
+import { useQuery } from '@apollo/client'
+import { CookieBanner } from '@past3lle/components'
+import { FallbackLoader } from 'components/Loader'
+import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
+import { COLLECTION_PARAM_NAME } from 'constants/navigation'
+import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
+import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
@@ -7,14 +14,6 @@ const Collection = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName
 const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Error/NotFound'))
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
 const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleProduct'))
-
-import CookieBanner from 'components/Cookies/Banner'
-import { FallbackLoader } from 'components/Loader'
-import { useQuery } from '@apollo/client'
-import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
-import { COLLECTION_PARAM_NAME } from 'constants/navigation'
-import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
-import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 export default function App() {
   const { loading } = useQuery(QUERY_PRODUCT, {
@@ -43,7 +42,10 @@ export default function App() {
         <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} />
       </Routes>
 
-      <CookieBanner message={'PASTELLE COOKIE SETTINGS'} />
+      <CookieBanner
+        storageKey={process.env.REACT_APP_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_COOKIE_SETTINGS'}
+        message={'PASTELLE COOKIE SETTINGS'}
+      />
     </Suspense>
   )
 }

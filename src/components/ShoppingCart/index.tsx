@@ -1,45 +1,42 @@
+import { Button, ButtonVariations, Column, Row, SmartImg } from '@past3lle/components'
+import { useCleanTimeout, usePrevious } from '@past3lle/hooks'
+import { WHITE, getThemeColours } from '@past3lle/theme'
+import { ThemeModes } from '@past3lle/theme'
+import { formatCurrency } from '@past3lle/utils'
+import LoadingRows from 'components/Loader/LoadingRows'
+import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
+import { COLLECTION_PARAM_NAME, COLLECTION_PATHNAME } from 'constants/navigation'
+import useQuantitySelector from 'hooks/useQuantitySelector'
+import { ProductSubHeader } from 'pages/common/styleds'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
-
-import { Column, Row } from 'components/Layout'
-import LoadingRows from 'components/Loader/LoadingRows'
-import SmartImg from 'components/SmartImg'
-import { ProductSubHeader } from 'pages/common/styleds'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useQueryCart } from 'shopify/graphql/hooks'
 import { FragmentCartCostFragment, FragmentCartLineFragment, GetCartQuery, ProductSizes } from 'shopify/graphql/types'
+import { getMetafields, sizeToFullSize } from 'shopify/utils'
 import {
-  useGetCartState,
   useGetCartIdState,
+  useGetCartState,
   useRemoveCartLineAndUpdateReduxCallback,
-  useUpdateCartLineAndUpdateReduxCallback,
-  useToggleCartAndState
+  useToggleCartAndState,
+  useUpdateCartLineAndUpdateReduxCallback
 } from 'state/cart/hooks'
 import { CartState } from 'state/cart/reducer'
+import { useOnScreenProductHandle } from 'state/collection/hooks'
+import { buildItemUrl, checkIsCollectionPage } from 'utils/navigation'
+
 import {
+  CartHeader,
   CartLineContent,
   CartLineWrapper,
+  CartTableHeaderBaseWrapper,
   CartTableHeaderWrapper,
+  ShoppingCartFullWrapper,
+  ShoppingCartHeaderWrapper,
   ShoppingCartPanelContentWrapper,
   ShoppingCartPanelWrapper,
-  ShoppingCartQuantityWrapper,
-  ShoppingCartHeaderWrapper,
-  ShoppingCartFullWrapper,
-  CartHeader,
-  CartTableHeaderBaseWrapper
+  ShoppingCartQuantityWrapper
 } from './styled'
-import useQuantitySelector from 'hooks/useQuantitySelector'
-import { getMetafields, sizeToFullSize } from 'shopify/utils'
-import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
-import usePrevious from 'hooks/usePrevious'
-import useCleanTimeout from 'hooks/useCleanTimeout'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { buildItemUrl, checkIsCollectionPage } from 'utils/navigation'
-import { useOnScreenProductHandle } from 'state/collection/hooks'
-import { formatCurrency } from 'utils/formatting'
-import { getThemeColours, WHITE } from 'theme/utils'
-import { COLLECTION_PATHNAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
-import Button, { ButtonVariations } from 'components/Button'
-import { ThemeModes } from 'theme/styled'
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
   return <ShoppingCartQuantityWrapper>{totalQuantity}</ShoppingCartQuantityWrapper>
@@ -106,7 +103,7 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
             )}
           </ProductSubHeader>
         ) : (
-          cartLines?.map(line => <CartLine key={line.id} line={line} />)
+          cartLines?.map((line) => <CartLine key={line.id} line={line} />)
         )}
       </ShoppingCartPanelContentWrapper>
 
@@ -218,7 +215,7 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
   const { bgLogo, color: itemColor } = useMemo(
     () => ({
       bgLogo: images.nodes?.find(
-        node => node.altText === 'LOGO' || node.altText === 'HEADER' || node.altText === 'NAVBAR'
+        (node) => node.altText === 'LOGO' || node.altText === 'HEADER' || node.altText === 'NAVBAR'
       )?.url500,
       color: getMetafields<string>(color)
     }),

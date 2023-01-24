@@ -1,17 +1,16 @@
+import { PNG } from '@past3lle/assets'
+import { BSV, BV, ButtonProps, Row } from '@past3lle/components'
+import { ThemeModes } from '@past3lle/theme'
 import { ReactNode } from 'react'
-import { ThemeModes } from 'theme/styled'
+import { useThemeManager } from 'state/user/hooks'
+import { ShopImageSrcSet } from 'types'
 
 import { ThemeToggle, ThemeToggleProps } from './ThemeToggle'
-import { BSV, ButtonProps, BV } from '../Button'
-import { useThemeManager } from 'state/user/hooks'
-import pstlLogo from 'assets/svg/pastelle-circle-pink-yellow.svg'
-import { Row } from 'components/Layout'
-import { GenericImageSrcSet } from 'utils/types'
 
 export const getBaseButtonProps = (isDarkMode: boolean, toggleDarkMode: () => void): ButtonProps => ({
   size: BSV.DEFAULT,
   variant: BV.DARK_MODE_TOGGLE,
-  bgImage: { defaultUrl: pstlLogo } as GenericImageSrcSet,
+  bgImage: { defaultUrl: PNG.LogoCircle_2x } as ShopImageSrcSet,
   backgroundColor: isDarkMode ? 'darkslategrey' : 'blue',
   filter: 'invert(' + isDarkMode ? '1' : '0' + ') contrast(2) saturate(2)',
   bgBlendMode: 'lighten',
@@ -54,8 +53,8 @@ const ThemeToggleBar = ({
   themeToggleProps?: ThemeToggleProps
   buttonProps?: ButtonProps
 }) => {
-  const { theme, setMode } = useThemeManager()
-  const isDarkMode = theme.mode === ThemeModes.DARK
+  const { mode, setMode } = useThemeManager()
+  const isDarkMode = mode === ThemeModes.DARK
   const toggleDarkMode = () => setMode(isDarkMode ? ThemeModes.LIGHT : ThemeModes.DARK)
 
   return (

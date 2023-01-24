@@ -3,14 +3,15 @@ import { AddToCartButtonParams } from 'components/AddToCartButton'
 import { useCallback } from 'react'
 import { useAddNewCartLine, useRemoveCartLine, useUpdateCartLine } from 'shopify/graphql/hooks'
 import {
+  RemoveLineParams,
+  UpdateLineParams,
   addCartLineAndUpdateStore,
   removeCartLineAndUpdateStore,
-  RemoveLineParams,
-  updateCartLineAndUpdateStore,
-  UpdateLineParams
+  updateCartLineAndUpdateStore
 } from 'shopify/utils/cart'
 import { useAppDispatch, useAppSelector } from 'state'
-import { createCart, CreateCartParams, setShowCart, updateCartInfo, UpdateCartInfoParams } from './reducer'
+
+import { CreateCartParams, UpdateCartInfoParams, createCart, setShowCart, updateCartInfo } from './reducer'
 
 export function useCreateCartDispatch() {
   const dispatch = useAppDispatch()
@@ -18,7 +19,7 @@ export function useCreateCartDispatch() {
 }
 
 export function useGetCartState() {
-  return useAppSelector(state => state.cart)
+  return useAppSelector((state) => state.cart)
 }
 
 export function useGetCartIdState() {
@@ -87,13 +88,13 @@ export function useCloseCart(): () => void {
 }
 
 export function useToggleCart(): () => void {
-  const cartOpen = useAppSelector(state => state.cart.showCart)
+  const cartOpen = useAppSelector((state) => state.cart.showCart)
   const dispatch = useAppDispatch()
   return useCallback(() => dispatch(setShowCart(!cartOpen)), [dispatch, cartOpen])
 }
 
 export function useToggleCartAndState(): [boolean, (state: boolean) => void] {
-  const cartOpen = useAppSelector(state => state.cart.showCart)
+  const cartOpen = useAppSelector((state) => state.cart.showCart)
   const dispatch = useOpenOrCloseCart()
   return [cartOpen, dispatch]
 }

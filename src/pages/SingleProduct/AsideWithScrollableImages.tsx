@@ -1,12 +1,10 @@
+import { AutoColumn, ImageKitTransformation, Row, SmartImg, Text } from '@past3lle/components'
+import { ThemeModes, getThemeColours } from '@past3lle/theme'
+import { MarkdownRenderer } from 'components/Markdown'
 import { ReactNode } from 'react'
 import styled from 'styled-components/macro'
-import { AutoColumn, Row } from 'components/Layout'
-import { MarkdownRenderer } from 'components/Markdown'
-import { TYPE } from 'theme'
-import { getThemeColours } from 'theme/utils'
-import { ProductContainer, ProductAsidePanel, ItemHeader } from '../common/styleds'
-import SmartImg, { ImageKitTransformation } from 'components/SmartImg'
-import { ThemeModes } from 'theme/styled'
+
+import { ItemHeader, ProductAsidePanel, ProductContainer } from '../common/styleds'
 
 const ImageContainer = styled(AutoColumn)`
   overflow-y: auto;
@@ -59,9 +57,9 @@ export function AsideWithScrollableImages({ header, markdown, image }: Params) {
           {header}
         </AboutUsHeader>
         <AboutUsTextContainer>
-          <TYPE.black fontSize={18} padding={2} fontWeight={300}>
+          <Text.Black fontSize={18} padding={2} fontWeight={300}>
             <MarkdownRenderer filePath={markdown} />
-          </TYPE.black>
+          </Text.Black>
         </AboutUsTextContainer>
       </ProductAsidePanel>
       <ImageContainer>

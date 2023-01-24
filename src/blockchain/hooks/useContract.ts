@@ -1,15 +1,13 @@
-import { useMemo } from 'react'
 import { Contract } from '@ethersproject/contracts'
-
+import { devError } from '@past3lle/utils'
+import { useWeb3React } from '@web3-react/core'
+// TODO: update from uni (no package right now)
+import MulticallABI from 'blockchain/abis/UniswapInterfaceMulticall.json'
 import ARGENT_WALLET_DETECTOR_ABI from 'blockchain/abis/argent-wallet-detector.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'blockchain/abis/ens-public-resolver.json'
 import ENS_ABI from 'blockchain/abis/ens-registrar.json'
-import ERC20_BYTES32_ABI from 'blockchain/abis/erc20_bytes32.json'
 import ERC20_ABI from 'blockchain/abis/erc20.json'
-import WETH_ABI from 'blockchain/abis/weth.json'
-// TODO: update from uni (no package right now)
-import MulticallABI from 'blockchain/abis/UniswapInterfaceMulticall.json'
-
+import ERC20_BYTES32_ABI from 'blockchain/abis/erc20_bytes32.json'
 import {
   ArgentWalletDetector,
   EnsPublicResolver,
@@ -18,16 +16,15 @@ import {
   UniswapInterfaceMulticall,
   Weth
 } from 'blockchain/abis/types'
-
-import { useWeb3React } from '@web3-react/core'
-import { getContract } from 'blockchain/utils'
+import WETH_ABI from 'blockchain/abis/weth.json'
 import {
   ARGENT_WALLET_DETECTOR_ADDRESS,
   ENS_REGISTRAR_ADDRESSES,
   MULTICALL_ADDRESS,
   WETH9_EXTENDED
 } from 'blockchain/constants'
-import { devError } from 'utils/logging'
+import { getContract } from 'blockchain/utils'
+import { useMemo } from 'react'
 
 // returns null on errors
 export function useContract<T extends Contract = Contract>(

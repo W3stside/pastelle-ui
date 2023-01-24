@@ -1,11 +1,11 @@
-import { useCallback } from 'react'
-import styled from 'styled-components/macro'
+import { Row, RowProps } from '@past3lle/components'
+import { BLACK, upToExtraSmall } from '@past3lle/theme'
+import { Text as TYPE } from 'components/Text'
 import { transparentize } from 'polished'
+import { useCallback } from 'react'
 import { ProductOptionsSize, ProductSizes } from 'shopify/graphql/types'
-import { Row, RowProps } from 'components/Layout'
-import { TYPE } from 'theme'
-import { BLACK, upToExtraSmall } from 'theme/utils'
 import { useGetShowcaseSettings, useUpdateShowcaseSettings } from 'state/user/hooks'
+import styled from 'styled-components/macro'
 
 type SizeSelectorProps = Omit<RowProps, 'sizes'> & {
   sizes: ProductOptionsSize
@@ -14,7 +14,7 @@ type SizeSelectorProps = Omit<RowProps, 'sizes'> & {
   handleSizeSelect: (size: ProductSizes) => void
 }
 
-const SquareSelectDiv = styled(TYPE.black)<{ isSelected: boolean; bgColor?: string }>`
+const SquareSelectDiv = styled(TYPE.Black)<{ isSelected: boolean; bgColor?: string }>`
   ${({ isSelected, theme }) =>
     isSelected &&
     `

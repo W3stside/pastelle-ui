@@ -1,8 +1,10 @@
-import { LqImageOptions } from 'components/SmartImg'
-import useStateRef from 'hooks/useStateRef'
-import { useState, useEffect, useMemo } from 'react'
+import { LqImageOptions } from '@past3lle/components'
+import { useStateRef } from '@past3lle/hooks'
+import { useEffect, useMemo, useState } from 'react'
 import { useGetWindowSize } from 'state/window/hooks'
+
 import { BaseCarouselProps } from './types'
+
 export interface CarouselSetup {
   parentWidth: number | undefined
   carouselContainer: HTMLElement | null
@@ -13,7 +15,7 @@ export function useCarouselSetup({ fixedSizes }: Pick<BaseCarouselProps, 'fixedS
   const [parentWidth, setParentWidth] = useState<number | undefined>()
 
   // ref to carousel container
-  const [carouselContainer, setCarouselContainerRef] = useStateRef<HTMLDivElement | null>(null, node => node)
+  const [carouselContainer, setCarouselContainerRef] = useStateRef<HTMLDivElement | null>(null, (node) => node)
 
   // set carouselContainer states and focus carousel
   useEffect(() => {

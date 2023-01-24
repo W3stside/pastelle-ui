@@ -1,18 +1,16 @@
-// import { setHeightLqTransforms, setWidthLqTransforms } from 'pages/common/utils'
-
+import { SmartVideoProps as LazyVideoProps, SmartImageProps, SmartImg } from '@past3lle/components'
 import ButtonCarousel, { ButtonCarouselProps } from 'components/Carousel/common/components/ButtonCarousel'
-import SmartImg, { SmartImageProps } from 'components/SmartImg'
-import { BaseCarouselProps, CarouselChildrenProps, WithTouchAction } from './common/types'
+import { useCallback } from 'react'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { isProductVideo } from 'shopify/utils'
-import { CarouselShowcaseVideo } from './common/common'
+import { ShopImageSrcSet } from 'types'
+
 import HorizontalSwipeCarousel from './HorizontalSwipeCarousel'
-import { useCallback } from 'react'
-import { LazyVideoProps } from 'components/LazyVideo'
-import { GenericImageSrcSet } from 'utils/types'
+import { CarouselShowcaseVideo } from './common/common'
+import { BaseCarouselProps, CarouselChildrenProps, WithTouchAction } from './common/types'
 
 interface ProductCarousel extends Omit<BaseCarouselProps, 'children'> {
-  data: (GenericImageSrcSet | FragmentProductVideoFragment | undefined)[]
+  data: (ShopImageSrcSet | FragmentProductVideoFragment | undefined)[]
   imageProps?: Omit<SmartImageProps, 'path' | 'pathSrcSet' | 'onClick'>
   videoProps?: LazyVideoProps['videoProps']
 }
@@ -27,11 +25,10 @@ export function ClickCarousel({ data, imageProps, ...rest }: ProductClickCarouse
 }
 export type ProductSwipeCarousel = ProductCarousel & WithTouchAction
 export function SwipeCarousel({ data, imageProps, videoProps, ...rest }: ProductSwipeCarousel) {
-  const memoedCurriedFn = useCallback(() => curriedCarouselRenderFn({ data, imageProps, videoProps }), [
-    data,
-    imageProps,
-    videoProps
-  ])
+  const memoedCurriedFn = useCallback(
+    () => curriedCarouselRenderFn({ data, imageProps, videoProps }),
+    [data, imageProps, videoProps]
+  )
   return (
     <HorizontalSwipeCarousel {...rest} data={data}>
       {memoedCurriedFn()}

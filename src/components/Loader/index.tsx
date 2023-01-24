@@ -1,10 +1,11 @@
-import { ReactNode } from 'react'
+import { ColumnCenter } from '@past3lle/components'
+import { rotateKeyframe } from '@past3lle/theme'
+import { setBackgroundWithDPI } from '@past3lle/theme'
 import { ProductSubHeader } from 'pages/common/styleds'
+import { ReactNode } from 'react'
 import styled from 'styled-components/macro'
-import { rotateKeyframe } from 'theme/styles/animations'
-import { setBackgroundWithDPI } from 'theme/utils'
-import { GenericImageSrcSet } from 'utils/types'
-import { ColumnCenter } from 'components/Layout'
+import { ShopImageSrcSet } from 'types'
+
 import PastelleCursiveLoader from './PastelleCursiveLoader'
 
 export const StyledSVG = styled.svg<{ size: string; stroke?: string }>`
@@ -27,11 +28,11 @@ type StyleParams = {
 
 const moddedPtBgUrl = 'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=q-40,w-100,h-100,bl-6,'
 const MODDED_PT_URL_LIST = [
-  { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
-  { defaultUrl: moddedPtBgUrl } as GenericImageSrcSet,
-  { defaultUrl: moddedPtBgUrl + 'w-10,h-10' } as GenericImageSrcSet
+  { defaultUrl: moddedPtBgUrl } as ShopImageSrcSet,
+  { defaultUrl: moddedPtBgUrl } as ShopImageSrcSet,
+  { defaultUrl: moddedPtBgUrl + 'w-10,h-10' } as ShopImageSrcSet
 ]
-export const AnimatedContainer = styled(ColumnCenter).attrs(props => ({
+export const AnimatedContainer = styled(ColumnCenter).attrs((props) => ({
   ...props,
   height: '100%',
   justifyContent: 'center'

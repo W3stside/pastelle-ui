@@ -1,9 +1,10 @@
+import { setForwardedRef } from '@past3lle/utils'
 import { ForwardedRef, forwardRef, useMemo, useState } from 'react'
-import { setForwardedRef } from 'utils'
+
 import { CarouselStep } from '../common'
 import { useCarouselSetup } from '../hooks'
-import { CarouselContainer } from './styleds'
 import { BaseCarouselProps } from '../types'
+import { CarouselContainer } from './styleds'
 
 export interface ButtonCarouselProps extends BaseCarouselProps {
   showButtons?: boolean
@@ -21,7 +22,11 @@ export default function ButtonCarousel({
   ...rest
 }: ButtonCarouselProps) {
   const [selectedStep, setSelectedStep] = useState(startIndex)
-  const { parentWidth, imageTransformations: defaultImageTransforms, setCarouselContainerRef } = useCarouselSetup({
+  const {
+    parentWidth,
+    imageTransformations: defaultImageTransforms,
+    setCarouselContainerRef
+  } = useCarouselSetup({
     fixedSizes
   })
 
@@ -37,7 +42,7 @@ export default function ButtonCarousel({
     <CarouselContainer
       $touchAction={'auto'}
       id="#carousel-container"
-      ref={node => {
+      ref={(node) => {
         setCarouselContainerRef(node)
         node && forwardedRef && setForwardedRef(node, forwardedRef)
       }}

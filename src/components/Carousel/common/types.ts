@@ -1,7 +1,8 @@
+import { SmartImageProps } from '@past3lle/components'
 import { TouchAction } from 'components/ScrollingContentPage/styleds'
-import { SmartImageProps } from 'components/SmartImg'
 import { SpringAnimationHookReturn } from 'hooks/useScrollAnimation/useLimitedSwipe'
 import { ForwardedRef } from 'react'
+
 import { CarouselSetup } from './hooks'
 
 export interface BaseCarouselProps {

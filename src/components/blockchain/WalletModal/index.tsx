@@ -1,26 +1,25 @@
-import { useCallback, useEffect, useState } from 'react'
-import { ArrowLeft } from 'react-feather'
 import { Trans } from '@lingui/macro'
+import { AutoColumn, AutoRow, Modal, Text as ThemedText } from '@past3lle/components'
+import { ExternalLink } from '@past3lle/components'
+import { devDebug, isMobile } from '@past3lle/utils'
 import { useWeb3React } from '@web3-react/core'
 import { Connector } from '@web3-react/types'
-import { AutoColumn, AutoRow, LightCard } from 'components/Layout'
+import { ReactComponent as Close } from 'assets/images/x.svg'
 import { getConnection, getIsInjected, getIsMetaMask } from 'blockchain/connectors/utils'
+import { LightCard } from 'components/Layout'
+import AccountDetails from 'components/blockchain/AccountDetails'
+import { useCallback, useEffect, useState } from 'react'
+import { ArrowLeft } from 'react-feather'
 import { useAppDispatch } from 'state'
 import { updateSelectedWallet } from 'state/blockchain/reducer'
+import { updateConnectionError } from 'state/blockchainConnection/reducer'
+import { useModalOpen, useWalletModalToggle } from 'state/modalsAndPopups/hooks'
+import { ApplicationModal } from 'state/modalsAndPopups/reducer'
 import styled from 'styled-components/macro'
 
-import { ReactComponent as Close } from 'assets/images/x.svg'
-import { useModalOpen, useWalletModalToggle } from 'state/modalsAndPopups/hooks'
-import { ExternalLink, TYPE as ThemedText } from 'theme'
-import AccountDetails from 'components/blockchain/AccountDetails'
 import { InjectedOption, InstallMetaMaskOption, MetaMaskOption } from './InjectedOption'
 import PendingView from './PendingView'
 import { WalletConnectOption } from './WalletConnectOption'
-import { ApplicationModal } from 'state/modalsAndPopups/reducer'
-import { isMobile } from 'react-device-detect'
-import Modal from 'components/Modal'
-import { updateConnectionError } from 'state/blockchainConnection/reducer'
-import { devDebug } from 'utils/logging'
 
 const CloseIcon = styled.div`
   position: absolute;
@@ -49,7 +48,7 @@ const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
   padding: 1rem 1rem;
   font-weight: 500;
-  color: ${props => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};
+  color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 1rem;
   `};
@@ -250,7 +249,7 @@ export default function WalletModal({
             {!pendingError && (
               <LightCard>
                 <AutoRow style={{ flexWrap: 'nowrap' }}>
-                  <ThemedText.body fontSize={12}>
+                  <ThemedText.Body fontSize={12}>
                     <Trans>
                       By connecting a wallet, you agree to Uniswap Labs’{' '}
                       <ExternalLink
@@ -265,7 +264,7 @@ export default function WalletModal({
                       </ExternalLink>
                       .
                     </Trans>
-                  </ThemedText.body>
+                  </ThemedText.Body>
                 </AutoRow>
               </LightCard>
             )}

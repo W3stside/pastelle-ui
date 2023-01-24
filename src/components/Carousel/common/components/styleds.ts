@@ -1,9 +1,9 @@
-import styled from 'styled-components/macro'
-import { transparentize } from 'polished'
-import { Row } from 'components/Layout'
+import { Row } from '@past3lle/components'
+import { BLACK, BLACK_TRANSPARENT, OFF_WHITE } from '@past3lle/theme'
 import { ScrollerContainer } from 'components/ScrollingContentPage/styleds'
 import { Z_INDEXES } from 'constants/config'
-import { BLACK, BLACK_TRANSPARENT, OFF_WHITE } from 'theme/utils'
+import { transparentize } from 'polished'
+import styled from 'styled-components/macro'
 
 const BaseCarouselStep = styled(Row)<{
   $width: number

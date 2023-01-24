@@ -1,10 +1,9 @@
+import { Button as ButtonPrimary, ButtonVariations, SmartImg } from '@past3lle/components'
+import { Z_INDEXES } from 'constants/config'
+import { ItemHeader, ProductSubHeader } from 'pages/common/styleds'
+import { transparentize } from 'polished'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components/macro'
-import ButtonPrimary, { ButtonVariations } from 'components/Button'
-import { ItemHeader, ProductSubHeader } from 'pages/common/styleds'
-import SmartImg from 'components/SmartImg'
-import { Z_INDEXES } from 'constants/config'
-import { transparentize } from 'polished'
 
 const pastelle404IMG = 'https://ik.imagekit.io/pastelle/artists-mathieu_sgnA_QA83.jpeg'
 

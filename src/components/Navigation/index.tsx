@@ -1,19 +1,20 @@
-import { Menu, X } from 'react-feather'
-import { Fragment, memo, useCallback, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Column, Row } from '@past3lle/components'
+import { useOnResize } from '@past3lle/hooks'
+import { WHITE } from '@past3lle/theme'
+import LoadingRows from 'components/Loader/LoadingRows'
+import ThemeToggleBar from 'components/ThemeToggler'
+import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { ProductSubHeader } from 'pages/common/styleds'
 import { BaseProductPageProps } from 'pages/common/types'
-import LoadingRows from 'components/Loader/LoadingRows'
-import { useCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
-import { buildItemUrl } from 'utils/navigation'
-import useOnResize from 'hooks/useOnResize'
-import { MobileNavOrb, NavigationStepsWrapper, InnerNavWrapper, SideEffectNavLink, CollectionLabel } from './styled'
-import { WHITE } from 'theme/utils'
-import { COLLECTION_PARAM_NAME } from 'constants/navigation'
-import { Column, Row } from 'components/Layout'
-import ThemeToggleBar from 'components/ThemeToggler'
-import { ProductPageMap } from 'state/collection/reducer'
+import { Fragment, memo, useCallback, useMemo, useState } from 'react'
+import { Menu, X } from 'react-feather'
+import { useNavigate } from 'react-router-dom'
 import { Product } from 'shopify/graphql/types/_generated_'
+import { useCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
+import { ProductPageMap } from 'state/collection/reducer'
+import { buildItemUrl } from 'utils/navigation'
+
+import { CollectionLabel, InnerNavWrapper, MobileNavOrb, NavigationStepsWrapper, SideEffectNavLink } from './styled'
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string }
 
@@ -98,7 +99,7 @@ export default function Navigation({
                   >
                     {type.toLocaleUpperCase()}S
                   </ProductSubHeader>
-                  {productList.map(product => (
+                  {productList.map((product) => (
                     <NavItemMemoed
                       key={product.id}
                       product={product}
@@ -160,7 +161,7 @@ const NavProductLine = ({
   currentProduct: any
   product: Pick<BaseProductPageProps, 'id' | 'title' | 'handle'>
 }) => (
-  <SideEffectNavLink key={product.id} onClick={e => handleNavMove(e, product)}>
+  <SideEffectNavLink key={product.id} onClick={(e) => handleNavMove(e, product)}>
     <ProductSubHeader
       width={'100%'}
       padding="2px 0"

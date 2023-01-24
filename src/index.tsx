@@ -1,19 +1,15 @@
-import 'inter-ui'
-import './i18n'
-
-import { StrictMode } from 'react'
-
+import { FontCssProvider, StaticGlobalCssProvider, ThemeProvider, ThemedGlobalCssProvider } from '@past3lle/theme'
+import { nodeRemoveChildFix } from '@past3lle/utils'
+import { isWeb3Enabled } from 'blockchain/connectors'
 // PROVIDERS
 import Web3ReactProvider from 'blockchain/providers/Web3Provider'
-import { Provider } from 'react-redux'
-import ApolloProvider from 'shopify/graphql/ApolloProvider'
-import ThemeProvider from 'theme'
-
+import 'inter-ui'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
-
-import App from './pages/App'
-
+import reportWebVitals from 'reportWebVitals'
+import ApolloProvider from 'shopify/graphql/ApolloProvider'
 import store from 'state'
 // BC UPDATERS
 import BlockchainUpdater from 'state/blockchain/updater'
@@ -22,13 +18,11 @@ import TransactionUpdater from 'state/blockchainTransactions/updater'
 import CartUpdater from 'state/cart/updater'
 import CollectionUpdater from 'state/collection/updater'
 import WindowSizeUpdater from 'state/window/updater'
+import { CustomStaticGlobalCSSProvider, CustomThemedGlobalCSSProvider } from 'theme/global'
 
-import { TopGlobalStyle, ThemedGlobalStyle, FontStyles } from 'theme/styles/global'
-
+import './i18n'
+import App from './pages/App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
-import { nodeRemoveChildFix } from 'utils/node'
-import { isWeb3Enabled } from 'blockchain/connectors'
-import reportWebVitals from 'reportWebVitals'
 
 // Node removeChild hackaround
 // based on: https://github.com/facebook/react/issues/11538#issuecomment-417504600
@@ -61,23 +55,41 @@ function BlockchainUpdaters() {
   )
 }
 
+function StaticCSSProviders() {
+  return (
+    <>
+      <FontCssProvider />
+      <StaticGlobalCssProvider />
+      <CustomStaticGlobalCSSProvider />
+    </>
+  )
+}
+
+function ThemedCSSProviders() {
+  return (
+    <>
+      <ThemedGlobalCssProvider />
+      <CustomThemedGlobalCSSProvider />
+    </>
+  )
+}
+
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const container = document.getElementById('root')!
 const root = createRoot(container)
 root.render(
   <StrictMode>
     {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
-    <FontStyles />
-    <TopGlobalStyle />
+    <StaticCSSProviders />
     <ApolloProvider>
       <Provider store={store}>
         <HashRouter>
           <Web3ReactProvider>
             <PastelleStoreUpdaters />
             <BlockchainUpdaters />
-            <ThemeProvider>
+            <ThemeProvider themeExtension={{}}>
               {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-              <ThemedGlobalStyle />
+              <ThemedCSSProviders />
               <App />
             </ThemeProvider>
           </Web3ReactProvider>

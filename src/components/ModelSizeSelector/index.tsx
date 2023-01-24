@@ -1,10 +1,10 @@
-import { ChangeEvent, useCallback } from 'react'
-import styled from 'styled-components/macro'
-import { Row } from 'components/Layout'
+import { Row } from '@past3lle/components'
 import { ProductSubHeader } from 'pages/common/styleds'
+import { ChangeEvent, useCallback } from 'react'
 import { ChevronDown } from 'react-feather'
 import { useGetShowcaseSettings, useUpdateShowcaseSettings } from 'state/user/hooks'
 import { ShowcaseGender, ShowcaseHeight, UserState } from 'state/user/reducer'
+import styled from 'styled-components/macro'
 
 const ModelSizeSelectorWrapper = styled(Row)`
   position: relative;
@@ -106,7 +106,7 @@ export default function useModelSizeSelector() {
           </ProductSubHeader>
           <Row>
             <select onChange={handleSelectGender} value={selectedGender}>
-              {Object.keys(GENDER_HEIGHT_MAP).map(gender => (
+              {Object.keys(GENDER_HEIGHT_MAP).map((gender) => (
                 <option key={gender} value={gender}>
                   {gender}
                 </option>
@@ -122,7 +122,7 @@ export default function useModelSizeSelector() {
           </ProductSubHeader>
           <Row>
             <select onChange={handleSelectHeight} value={selectedHeight}>
-              {Array.from(GENDER_HEIGHT_MAP[selectedGender]).map(height => (
+              {Array.from(GENDER_HEIGHT_MAP[selectedGender]).map((height) => (
                 <option key={height} value={height}>
                   {height}cm
                 </option>

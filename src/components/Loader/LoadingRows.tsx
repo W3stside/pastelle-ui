@@ -1,11 +1,11 @@
+import { bgPositionAnimation, setAnimation } from '@past3lle/theme'
 import styled from 'styled-components/macro'
-import { bgPositionAnimation, setAnimation } from 'theme/styles/animations'
 
 type LoadingRowsStyleProps = { $height?: string; $margin?: string; $padding?: string; $borderRadius?: string }
 const StyledLoadingRows = styled.div<LoadingRowsStyleProps>`
   display: grid;
   gap: 0.6rem;
-  
+
   & > div {
     ${setAnimation(bgPositionAnimation, {
       name: 'bgPositionAnimation',

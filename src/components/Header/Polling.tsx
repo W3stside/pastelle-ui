@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
-import styled from 'styled-components/macro'
-import { TYPE, ExternalLink } from 'theme'
-
-import { useBlockNumber } from 'state/blockchain/hooks'
-import { getEtherscanLink } from 'blockchain/utils'
+import { ExternalLink } from '@past3lle/components'
+import { rotateKeyframe } from '@past3lle/theme'
 import { useWeb3React } from '@web3-react/core'
-import { rotateKeyframe } from 'theme/styles/animations'
+import { getEtherscanLink } from 'blockchain/utils'
+import { Text } from 'components/Text'
+import { useEffect, useState } from 'react'
+import { useBlockNumber } from 'state/blockchain/hooks'
+import styled from 'styled-components/macro'
 
 const StyledPolling = styled.div`
   position: fixed;
@@ -78,7 +78,7 @@ export default function Polling() {
   return (
     <ExternalLink href={chainId && blockNumber ? getEtherscanLink(chainId, blockNumber.toString(), 'block') : ''}>
       <StyledPolling>
-        <TYPE.small style={{ opacity: isMounted ? '0.2' : '0.6' }}>{blockNumber}</TYPE.small>
+        <Text.Small style={{ opacity: isMounted ? '0.2' : '0.6' }}>{blockNumber}</Text.Small>
         <StyledPollingDot>{!isMounted && <Spinner />}</StyledPollingDot>
       </StyledPolling>
     </ExternalLink>

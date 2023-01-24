@@ -1,4 +1,4 @@
-import { Row } from 'components/Layout'
+import { Row } from '@past3lle/components'
 import { ProductSubHeader } from 'pages/common/styleds'
 import { PauseCircle, PlayCircle, ToggleLeft, ToggleRight } from 'react-feather'
 import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'

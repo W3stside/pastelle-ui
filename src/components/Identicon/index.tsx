@@ -1,9 +1,7 @@
-import { useEffect, useRef } from 'react'
-
-import styled from 'styled-components/macro'
-
-import { useWeb3React } from '@web3-react/core'
 import Jazzicon from '@metamask/jazzicon'
+import { useWeb3React } from '@web3-react/core'
+import { useEffect, useRef } from 'react'
+import styled from 'styled-components/macro'
 
 const StyledIdenticonContainer = styled.div<{ size?: number }>`
   height: ${({ size = '1rem' }) => size};

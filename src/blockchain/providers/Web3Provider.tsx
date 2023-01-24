@@ -1,10 +1,10 @@
-import { ReactNode, useMemo } from 'react'
 import { Web3ReactHooks, Web3ReactProvider } from '@web3-react/core'
 import { Connector } from '@web3-react/types'
 import { Connection } from 'blockchain/connectors'
 import { getConnectionName, isWeb3Enabled } from 'blockchain/connectors/utils'
 import useEagerlyConnect from 'blockchain/hooks/useEagerlyConnect'
 import useOrderedConnections from 'blockchain/hooks/useOrderedConnections'
+import { ReactNode, useMemo } from 'react'
 
 export function Web3ProviderEnabled({ children }: { children: ReactNode }) {
   useEagerlyConnect()

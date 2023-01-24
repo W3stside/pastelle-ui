@@ -1,5 +1,5 @@
-import styled from 'styled-components/macro'
 import { ProductSubHeader } from 'pages/common/styleds'
+import styled from 'styled-components/macro'
 
 export type ScrollingIndicatorParams = ScrollingIndicatorStyleProps & {
   baseContentMessage: string
@@ -18,21 +18,21 @@ export interface ScrollingIndicatorStyleProps {
 }
 
 const Wrapper = styled.div<ScrollingIndicatorStyleProps>`
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: ${({ bgColor = '#fa9b6f' }) => bgColor};
-    color: ${({ color = '#000' }) => color};
-    right: 0;
-    ${({ left }) => left && `left: ${left};`}
-    ${({ top }) => top && `top: ${top};`}
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ bgColor = '#fa9b6f' }) => bgColor};
+  color: ${({ color = '#000' }) => color};
+  right: 0;
+  ${({ left }) => left && `left: ${left};`}
+  ${({ top }) => top && `top: ${top};`}
     ${({ bottom }) => bottom && `bottom: ${bottom};`}
     height: ${({ height = '5rem' }) => height};
-    width: ${({ width = '100%' }) => width};
-    padding: ${({ padding = '0 1rem' }) => padding};
-    z-index: ${({ zIndex = 1 }) => zIndex};
-  `
+  width: ${({ width = '100%' }) => width};
+  padding: ${({ padding = '0 1rem' }) => padding};
+  z-index: ${({ zIndex = 1 }) => zIndex};
+`
 
 export function ScrollingContentIndicator({
   baseContentMessage = 'MORE CONTENT',

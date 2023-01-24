@@ -1,16 +1,15 @@
+// import { useWeb3React } from 'hooks'
+import { Button } from '@past3lle/components'
+import { ExternalLink } from '@past3lle/components'
+import { useOnClickOutside } from '@past3lle/hooks'
+import { ReactComponent as MenuIcon } from 'assets/images/menu.svg'
+import { Z_INDEXES } from 'constants/config'
+import { darken } from 'polished'
 import { useRef } from 'react'
 import { BookOpen, Code, Info, MessageCircle, PieChart } from 'react-feather'
-import styled from 'styled-components/macro'
-import { ReactComponent as MenuIcon } from 'assets/images/menu.svg'
-// import { useWeb3React } from 'hooks'
-import { useOnClickOutside } from 'hooks/useOnClickOutside'
-import { ApplicationModal } from 'state/modalsAndPopups/reducer'
 import { useModalOpen, useToggleModal } from 'state/modalsAndPopups/hooks'
-
-import { ExternalLink } from 'theme'
-import Button from 'components/Button'
-import { darken } from 'polished'
-import { Z_INDEXES } from 'constants/config'
+import { ApplicationModal } from 'state/modalsAndPopups/reducer'
+import styled from 'styled-components/macro'
 
 const StyledMenuIcon = styled(MenuIcon)`
   path {

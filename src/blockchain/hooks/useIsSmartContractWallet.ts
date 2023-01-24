@@ -1,8 +1,8 @@
-import useSWR from 'swr'
-import { useState, useEffect } from 'react'
+import { devDebug } from '@past3lle/utils'
 import { useWeb3React } from '@web3-react/core'
 import useIsArgentWallet from 'blockchain/hooks/useIsArgentWallet'
-import { devDebug } from 'utils/logging'
+import { useEffect, useState } from 'react'
+import useSWR from 'swr'
 
 function useCheckIsSmartContract(): boolean | undefined {
   const { account, provider } = useWeb3React()

@@ -1,4 +1,5 @@
 import { SupportedChainId } from '@uniswap/sdk-core'
+
 import { ConnectionType } from './types'
 
 enum PastelleSupportedChainId {

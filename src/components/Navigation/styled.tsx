@@ -1,17 +1,16 @@
-import styled from 'styled-components/macro'
-import Button from 'components/Button'
-import { MobileNavProps } from '.'
+import { Button, Column, Row } from '@past3lle/components'
+import { BLACK, setBackgroundWithDPI, setBestTextColour, setFlickerAnimation, upToMedium } from '@past3lle/theme'
 import { Z_INDEXES } from 'constants/config'
-import { Column, Row } from 'components/Layout'
-import { BLACK, setBackgroundWithDPI, setBestTextColour, upToMedium } from 'theme/utils'
-import { setFlickerAnimation } from 'theme/styles/animations'
-import { GenericImageSrcSet } from 'utils/types'
+import styled from 'styled-components/macro'
+import { ShopImageSrcSet } from 'types'
+
+import { MobileNavProps } from '.'
 
 export const NavigationStepsWrapper = styled.nav<{
   isOpen?: boolean
   width?: string
   minWidth?: string
-  currentMedia: { navLogoSet?: GenericImageSrcSet; color?: string }
+  currentMedia: { navLogoSet?: ShopImageSrcSet; color?: string }
 }>`
   position: relative;
   overflow: hidden;
@@ -71,7 +70,7 @@ export const NavigationStepsWrapper = styled.nav<{
   `}
 `
 
-export const MobileNavOrb = styled(Button).attrs<MobileNavProps & { mobileHide?: boolean }>(props => ({
+export const MobileNavOrb = styled(Button).attrs<MobileNavProps & { mobileHide?: boolean }>((props) => ({
   display: props.mobileHide ? 'none' : 'initial'
 }))<MobileNavProps & { mobileHide?: boolean }>`
   display: none;

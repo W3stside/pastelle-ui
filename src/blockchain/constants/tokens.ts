@@ -1,4 +1,5 @@
 import { Ether, NativeCurrency, Token, WETH9 } from '@uniswap/sdk-core'
+
 import { SupportedChainId } from './chains'
 
 export const WETH_LOGO_URI =

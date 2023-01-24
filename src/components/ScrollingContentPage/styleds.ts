@@ -1,7 +1,8 @@
+import { ThemeModes } from '@past3lle/theme'
 import { a } from '@react-spring/web'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
-import { ThemeModes } from 'theme/styled'
+
 export type TouchActionChoices =
   | 'auto'
   | 'none'

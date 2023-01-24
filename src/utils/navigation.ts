@@ -1,4 +1,4 @@
-import { COLLECTION_PATHNAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
+import { COLLECTION_PARAM_NAME, COLLECTION_PATHNAME } from 'constants/navigation'
 import { Location } from 'history'
 
 export function buildItemUrl(handle: string) {

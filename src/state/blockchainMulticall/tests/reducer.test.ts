@@ -1,4 +1,4 @@
-import { createStore, Store } from '@reduxjs/toolkit'
+import { Store, createStore } from '@reduxjs/toolkit'
 
 import {
   addMulticallListeners,
@@ -7,7 +7,7 @@ import {
   removeMulticallListeners,
   updateMulticallResults
 } from '../actions'
-import { blockchainMulticall as reducer, MulticallState } from '../reducer'
+import { MulticallState, blockchainMulticall as reducer } from '../reducer'
 
 const DAI_ADDRESS = '0x6b175474e89094c44da98b954eedeac495271d0f'
 

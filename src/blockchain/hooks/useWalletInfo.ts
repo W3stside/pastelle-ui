@@ -1,12 +1,13 @@
-import { useMemo } from 'react'
-import { useWeb3React } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'
-import { useENSName } from 'blockchain/hooks/useENSName'
-import { getConnection } from 'blockchain/connectors/utils'
 import { SafeInfoResponse } from '@gnosis.pm/safe-service-client'
+import { useWeb3React } from '@web3-react/core'
 import { ConnectionType } from 'blockchain/connectors'
-import useIsSmartContractWallet from './useIsSmartContractWallet'
+import { getConnection } from 'blockchain/connectors/utils'
 import { UNSUPPORTED_WC_WALLETS } from 'blockchain/constants'
+import { useENSName } from 'blockchain/hooks/useENSName'
+import { useMemo } from 'react'
+
+import useIsSmartContractWallet from './useIsSmartContractWallet'
 
 const GNOSIS_SAFE_APP_NAME = 'Gnosis Safe App'
 const SAFE_ICON_URL = 'https://apps.gnosis-safe.io/wallet-connect/favicon.ico'

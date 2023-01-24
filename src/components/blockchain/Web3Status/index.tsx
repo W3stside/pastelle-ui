@@ -1,9 +1,9 @@
-import styled from 'styled-components/macro'
-import WalletModal from 'components/blockchain/WalletModal'
-import { Web3StatusInner, Web3StatusConnected, Text } from './components'
-
-import { useWalletInfo } from 'blockchain/hooks/useWalletInfo'
 import { STORAGE_KEY_LAST_PROVIDER } from 'blockchain/constants/index'
+import { useWalletInfo } from 'blockchain/hooks/useWalletInfo'
+import WalletModal from 'components/blockchain/WalletModal'
+import styled from 'styled-components/macro'
+
+import { Text, Web3StatusConnected, Web3StatusInner } from './components'
 
 export const Wrapper = styled.div`
   color: ${({ theme }) => theme.black};

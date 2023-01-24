@@ -1,4 +1,4 @@
-import { ItemMetadata, ItemMetaDataOptions, SocialType } from 'mock/types'
+import { ItemMetaDataOptions, ItemMetadata, SocialType } from 'mock/types'
 
 type CustomItemMetaData = ItemMetadata & ItemMetaDataOptions
 

@@ -1,34 +1,29 @@
-import styled from 'styled-components/macro'
-import { NavLink } from 'react-router-dom'
-import { darken, transparentize } from 'polished'
-import { Text } from 'rebass'
-
-import { RowFixed, Row, YellowCard } from 'components/Layout'
-import { SectionFrame } from 'components/Layout/Section'
+import { PNG } from '@past3lle/assets'
+import { Header, Row, RowFixed } from '@past3lle/components'
+import {
+  BLACK,
+  OFF_WHITE,
+  ThemeModes,
+  betweenSmallAndMedium,
+  fromExtraSmall,
+  fromMedium,
+  getThemeColours,
+  setBackgroundWithDPI,
+  setBestTextColour,
+  upToExtraSmall,
+  upToSmallHeight
+} from '@past3lle/theme'
+import { YellowCard } from 'components/Layout'
 import { MobileNavOrb } from 'components/Navigation/styled'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
-import {
-  upToExtraSmall,
-  fromMedium,
-  OFF_WHITE,
-  fromExtraSmall,
-  betweenSmallAndMedium,
-  getThemeColours,
-  setBestTextColour,
-  setBackgroundWithDPI,
-  BLACK,
-  upToSmallHeight
-} from 'theme/utils'
-
-import PASTELLE_LOGO_SMALL from 'assets/svg/PSTL-sharp.svg'
-// import PASTELLE_LOGO_BIG from 'assets/svg/pastelle-cursive-logo.svg'
-import PASTELLE_LOGO_BIG from 'assets/svg/pastelle-ivory.svg'
-
 import ThemeToggleBar from 'components/ThemeToggler'
-import { ThemeModes } from 'theme/styled'
-import { GenericImageSrcSet } from 'utils/types'
 import { Z_INDEXES } from 'constants/config'
 import { ProductSubHeader } from 'pages/common/styleds'
+import { darken, transparentize } from 'polished'
+import { NavLink } from 'react-router-dom'
+import { Text } from 'rebass'
+import styled from 'styled-components/macro'
+import { ShopImageSrcSet } from 'types'
 
 const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
 
@@ -155,7 +150,7 @@ export const HeaderDrawerButton = styled.div`
     color: white;
   }
 `
-export const HeaderFrame = styled(SectionFrame)<{ open: boolean; color?: string; logoSet?: GenericImageSrcSet }>`
+export const HeaderFrame = styled(Header)<{ open: boolean; color?: string; logoSet?: ShopImageSrcSet }>`
   top: 0;
   padding: 1rem;
 
@@ -222,7 +217,7 @@ export const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  
+
   border-radius: ${({ theme }) => theme.buttons.borderRadius};
   white-space: nowrap;
   width: 100%;
@@ -260,8 +255,8 @@ export const Pastellecon = styled.div`
   width: 100%;
   transition: transform 0.3s ease;
 
-  background: url(${PASTELLE_LOGO_SMALL}) left/contain no-repeat;
-  ${fromExtraSmall`background: url(${PASTELLE_LOGO_BIG}) left/contain no-repeat;`}
+  background: url(${PNG.LogoShort_2x}) left/contain no-repeat;
+  ${fromExtraSmall`background: url(${PNG.LogoFull_2x}) left/contain no-repeat;`}
 
   &:hover {
     transform: rotate(-5deg);

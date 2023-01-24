@@ -1,10 +1,10 @@
-import ReactMarkdownHtml from 'react-markdown/with-html'
+import { Link, ScrollableLink } from '@past3lle/components'
+import { FixedAnimatedLoader } from 'components/Loader'
+import useFetchFile from 'hooks/useFetchFile'
 import ReactMarkdown, { ReactMarkdownProps } from 'react-markdown'
+import ReactMarkdownHtml from 'react-markdown/with-html'
 
 import { HeadingRenderer } from './renderers'
-import useFetchFile from 'hooks/useFetchFile'
-import { LinkScrollable, Link } from 'components/Link'
-import { FixedAnimatedLoader } from 'components/Loader'
 
 interface MarkdownParams {
   filePath: string
@@ -18,7 +18,7 @@ export function Markdown(props: { children?: string }) {
 const MarkdownContent = (props: ReactMarkdownProps & { children: string }) => (
   <ReactMarkdownHtml
     {...props}
-    renderers={{ heading: HeadingRenderer, link: LinkScrollable }} /* allowDangerousHtml */
+    renderers={{ heading: HeadingRenderer, link: ScrollableLink }} /* allowDangerousHtml */
   />
 )
 

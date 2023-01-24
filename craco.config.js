@@ -13,7 +13,7 @@ module.exports = {
       '@src': path.resolve(__dirname, 'src')
     },
     // https://webpack.js.org/configuration
-    configure: webpackConfig => ({
+    configure: (webpackConfig) => ({
       ...webpackConfig,
       resolve: {
         ...webpackConfig.resolve,

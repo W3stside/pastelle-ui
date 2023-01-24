@@ -1,20 +1,19 @@
-import { useCallback, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
-
-import { useCurrentCollection } from 'state/collection/hooks'
-import { useIsMobileWindowWidthSize } from 'state/window/hooks'
+import { useStateRef } from '@past3lle/hooks'
+import { isMobile } from '@past3lle/utils'
+import { ArticleFadeInContainer } from 'components/Layout'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
+import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import AsideWithVideo from 'pages/Collection/AsideWithVideo'
 import { CollectionPageProps } from 'pages/common/types'
-import { ArticleFadeInContainer } from 'components/Layout/Article'
+import { useCallback, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useCurrentCollection } from 'state/collection/hooks'
+import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 import { buildItemUrl } from 'utils/navigation'
-import useStateRef from 'hooks/useStateRef'
-import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
-import { isMobile } from 'utils'
 
 export default function Collection() {
   const navigate = useNavigate()
-  const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, node => node)
+  const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, (node) => node)
   // get latest collection and the current on screen item handle
   const { collection } = useCurrentCollection()
   const isMobileWidth = useIsMobileWindowWidthSize()

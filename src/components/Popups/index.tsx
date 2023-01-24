@@ -1,6 +1,7 @@
-import styled from 'styled-components/macro'
+import { AutoColumn } from '@past3lle/components'
 import { useActivePopups } from 'state/modalsAndPopups/hooks'
-import { AutoColumn } from 'components/Layout'
+import styled from 'styled-components/macro'
+
 import PopupItem from './PopupItem'
 
 const MobilePopupWrapper = styled.div<{ height: string | number }>`
@@ -48,7 +49,7 @@ export default function Popups() {
   return (
     <>
       <FixedPopupColumn gap="20px" extraPadding>
-        {activePopups.map(item => (
+        {activePopups.map((item) => (
           <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
         ))}
       </FixedPopupColumn>
@@ -57,7 +58,7 @@ export default function Popups() {
           {activePopups // reverse so new items up front
             .slice(0)
             .reverse()
-            .map(item => (
+            .map((item) => (
               <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
             ))}
         </MobilePopupInner>

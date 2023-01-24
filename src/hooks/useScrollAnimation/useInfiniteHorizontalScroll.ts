@@ -1,9 +1,10 @@
 import { useDrag } from '@use-gesture/react'
 import { useSprings } from 'react-spring'
-import useInfiniteScrollSetup from './utils/useScrollSetup'
+
 import { InfiniteScrollOptions } from './types'
-import { runInfiniteScrollSprings } from './utils/utils'
 import { SpringAnimationHookReturn } from './useLimitedSwipe'
+import useInfiniteScrollSetup from './utils/useScrollSetup'
+import { runInfiniteScrollSprings } from './utils/utils'
 
 const DRAG_SPEED_COEFFICIENT = 0.5
 
@@ -19,7 +20,7 @@ export default function useInfiniteHorizontalScroll(
     callbacks: { setFirstPaintOver, ...restCbs }
   } = useInfiniteScrollSetup('x', options)
 
-  const [springs, api] = useSprings(items.length, i => ({
+  const [springs, api] = useSprings(items.length, (i) => ({
     ...options?.styleMixin,
     x: (i < items.length - 1 ? i : -1) * gestureParams.itemSize,
     onRest() {
