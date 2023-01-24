@@ -39,6 +39,7 @@
     "@past3lle/theme": "^0.0.5",
     "@past3lle/types": "^0.0.4-alpha.3.1",
     "@past3lle/utils": "^0.0.4-alpha.1",
+    "@react-spring/web": "^9.4.3",
     "@reduxjs/toolkit": "^1.5.0",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@typechain/ethers-v5": "^7.0.0",
@@ -107,19 +108,20 @@
     "rebass": "^4.0.7",
     "redux-localstorage-simple": "^2.3.1",
     "serve": "^11.3.2",
+    "source-map-explorer": "^2.5.3",
     "start-server-and-test": "^1.11.0",
     "styled-components": "^5.3.5",
     "swr": "^1.0.1",
     "typechain": "^5.0.0",
     "typescript": "^4.8.3",
-    "web-vitals": "^3.1.0",
-    "@react-spring/web": "^9.4.3"
+    "web-vitals": "^3.1.0"
   },
   "dependencies": {},
   "resolutions": {
     "@walletconnect/ethereum-provider": "1.7.1"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "lint": "npx prettier --write ./src/** --ignore-path ./.prettierignore",
     "start:mock": "REACT_APP_IS_MOCK=true && yarn start",
     "start": "PORT=8080 GENERATE_SOURCEMAP=false craco start",
