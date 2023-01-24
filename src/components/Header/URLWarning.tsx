@@ -1,5 +1,4 @@
-import { devLog } from '@past3lle/utils'
-import { isMobile } from 'react-device-detect'
+import { devLog, isMobile } from '@past3lle/utils'
 import { AlertTriangle, X } from 'react-feather'
 import styled from 'styled-components/macro'
 

@@ -1,28 +1,20 @@
-import { Theme, ThemeModes } from '@past3lle/theme'
+import { ThemeState } from '@past3lle/theme'
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
+import { useTheme } from 'styled-components/macro'
 
-import { UserState, updateShowcaseSettings, updateThemeAutoDetect, updateThemeMode } from './reducer'
+import { UserState, updateShowcaseSettings, updateThemeAutoDetect } from './reducer'
 import { initialState } from './reducer'
 
 export const useAppColourTheme = () => useAppSelector(({ user }) => user.theme || initialState.theme)
 
-interface ThemeManager {
-  theme: Theme
-  setMode: (mode: ThemeModes) => void
+interface ThemeManager extends ThemeState {
   setAutoDetect: (autoDetect: boolean) => void
 }
 
 export function useThemeManager(): ThemeManager {
   const dispatch = useAppDispatch()
-  const theme = useAppColourTheme()
-
-  const setMode = useCallback(
-    (mode: ThemeModes) => {
-      dispatch(updateThemeMode(mode))
-    },
-    [dispatch]
-  )
+  const theme = useTheme()
 
   const setAutoDetect = useCallback(
     (autoDetect: boolean) => {
@@ -31,7 +23,7 @@ export function useThemeManager(): ThemeManager {
     [dispatch]
   )
 
-  return { theme, setMode, setAutoDetect }
+  return { ...theme, setAutoDetect }
 }
 
 type UpdateShowcaseSettingsParams = Partial<UserState['showcase']>

@@ -53,8 +53,8 @@ const ThemeToggleBar = ({
   themeToggleProps?: ThemeToggleProps
   buttonProps?: ButtonProps
 }) => {
-  const { theme, setMode } = useThemeManager()
-  const isDarkMode = theme.mode === ThemeModes.DARK
+  const { mode, setMode } = useThemeManager()
+  const isDarkMode = mode === ThemeModes.DARK
   const toggleDarkMode = () => setMode(isDarkMode ? ThemeModes.LIGHT : ThemeModes.DARK)
 
   return (

@@ -1,9 +1,9 @@
+import { isMobile } from '@past3lle/utils'
 import { TinyHelperText } from 'components/Common'
 import { Text as TYPE } from 'components/Text'
 import { Z_INDEXES } from 'constants/config'
 import { ProductSubDescription } from 'pages/common/styleds'
 import { ReactNode, useCallback, useState } from 'react'
-import { isMobile } from 'react-device-detect'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 export default function useShowShowcase() {
