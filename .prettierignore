@@ -16,6 +16,9 @@ src/**/*.ttf
 # public
 public/index.html
 
+#configs
+*.config.js
+
 # readme
 README.md
 
