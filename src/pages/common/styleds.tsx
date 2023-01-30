@@ -21,13 +21,15 @@ import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
 import { ShopImageSrcSet } from 'types'
 
-export const ScrollingProductLabel = styled(Row)<{ logo?: ShopImageSrcSet; labelColor?: string }>`
+export const ScrollingProductLabel = styled(Row).attrs((props) => ({ padding: '1rem', ...props }))<{
+  logo?: ShopImageSrcSet
+  labelColor?: string
+}>`
   position: absolute;
   top: 0;
   width: 100%;
   margin: auto;
   z-index: ${Z_INDEXES.SCROLLER_DIV + 50};
-  padding: 1rem;
   gap: 1rem;
   font-size: 2rem;
   font-weight: 300;

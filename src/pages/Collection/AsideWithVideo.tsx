@@ -11,6 +11,7 @@ import { useState } from 'react'
 import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
 import {
+  useCurrentCollection,
   /* useGetSelectedProductShowcaseVideo, */
   useUpdateCurrentlyViewingProduct,
 } from 'state/collection/hooks'
@@ -53,13 +54,17 @@ export default function CollectionProductPage({
   // USER VIDEO AUTOPLAY SETTINGS
   const { autoplay: autoPlay } = useAppSelector((state) => state.user.showcase.videoSettings)
 
+  // COLLECTION SIZE (for scrolling product label)
+  const { collection } = useCurrentCollection()
+  const collectionSize = collection ? Object.keys(collection).length : 0
+
   return (
     <>
       <ScrollingProductLabel logo={headerLogo} labelColor={bgColor} flexWrap="wrap">
         <Row justifyContent="space-between" alignItems={'center'} width="100%">
           <strong>{title}</strong>
           <strong>
-            VIEWING {itemIndex + 1}/{6}
+            VIEWING {itemIndex + 1}/{collectionSize}
           </strong>
         </Row>
         <Row>

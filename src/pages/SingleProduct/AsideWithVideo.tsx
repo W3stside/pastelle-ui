@@ -29,6 +29,7 @@ import {
   ProductCredits,
   ProductDescription,
   ProductSubHeader,
+  ScrollingProductLabel,
 } from 'pages/common/styleds'
 import { SingleProductPageProps, WithParentAspectRatio } from 'pages/common/types'
 import { useCallback, useRef, useState } from 'react'
@@ -135,7 +136,9 @@ export default function SingleProductPage({
             {/* SCREEN 1 - CAROUSEL & LOGO */}
             <StyledElems.SingleProductScreen>
               {/* Breadcrumbs */}
-              <Breadcrumbs {...breadcrumbs} color={bgColor} />
+              <ScrollingProductLabel logo={headerLogo} padding={'0.25rem'}>
+                <Breadcrumbs {...breadcrumbs} color={bgColor} />
+              </ScrollingProductLabel>
               {/* Product carousel */}
               <Carousel
                 data={isMobile ? [...imageUrls /* , selectedVideo */] : imageUrls}
