@@ -6,6 +6,8 @@ import Web3ReactProvider from 'blockchain/providers/Web3Provider'
 import 'inter-ui'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import ReactGA from 'react-ga4'
+import TagManager from 'react-gtm-module'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import reportWebVitals from 'reportWebVitals'
@@ -27,6 +29,14 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 // Node removeChild hackaround
 // based on: https://github.com/facebook/react/issues/11538#issuecomment-417504600
 nodeRemoveChildFix()
+// React GA 4
+if (!process.env.REACT_APP_GOOGLE_GA_MEASUREMENT_ID || !process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID)
+  throw new Error('MISSING GOOGLE GA and/or GOOGLE TAG MANAGER ID KEY! CHECK ENV')
+
+TagManager.initialize({
+  gtmId: process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID,
+})
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_GA_MEASUREMENT_ID)
 
 if (!!window.ethereum) {
   window.ethereum.autoRefreshOnNetworkChange = false

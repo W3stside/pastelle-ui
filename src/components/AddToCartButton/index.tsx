@@ -1,4 +1,5 @@
 import { Button, ButtonProps, ButtonSizeVariations, ButtonVariations } from '@past3lle/components'
+import { addToCartAnalytics } from 'analytics/events/cartEvents'
 import ErrorMessage from 'components/ErrorMessage'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import { ProductDescription } from 'pages/common/styleds'
@@ -56,14 +57,17 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
 
   const isDisabled = loading || !quantity || shouldShow
 
+  const handleAddToCart = useCallback(() => {
+    addToCartAnalytics([merchandiseId, quantity].join('-'))
+    setShow(true)
+    addLineToCartCallback({ quantity, merchandiseId })
+  }, [addLineToCartCallback, merchandiseId, quantity, setShow])
+
   return (
     <>
       <Button
         ref={forwardedRef}
-        onClick={() => {
-          setShow(true)
-          addLineToCartCallback({ quantity, merchandiseId })
-        }}
+        onClick={handleAddToCart}
         disabled={isDisabled}
         variant={ButtonVariations.THEME}
         $size={ButtonSizeVariations.SMALL}
