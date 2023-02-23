@@ -59,6 +59,7 @@ export * from './events/walletEvents'
 export * from './events/otherEvents'
 
 export enum Category {
+  APPAREL = 'APPAREL',
   CART = 'CART',
   SHOWCASE_VIDEO = 'SHOWCASE VIDEO',
   WALLET = 'WALLET',

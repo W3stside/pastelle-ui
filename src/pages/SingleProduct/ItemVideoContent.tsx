@@ -1,6 +1,6 @@
 import { ButtonVariations, RowProps, SmartVideo, SmartVideoProps } from '@past3lle/components'
 import { usePrevious } from '@past3lle/hooks'
-import { isMobile, wait } from '@past3lle/utils'
+import { devDebug, isMobile, wait } from '@past3lle/utils'
 import { Z_INDEXES } from 'constants/config'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Pause, Play } from 'react-feather'
@@ -117,8 +117,8 @@ export const ItemVideoContent = ({
             ctaOverlayProps={{
               $zIndex: Z_INDEXES.PRODUCT_VIDEOS,
             }}
-            onResize={console.debug}
-            onResizeCapture={console.debug}
+            onResize={devDebug}
+            onResizeCapture={devDebug}
           />
         )
       }),

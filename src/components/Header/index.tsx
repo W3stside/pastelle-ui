@@ -6,6 +6,7 @@ import { useNativeCurrencyBalances } from 'blockchain/hooks/useCurrencyBalance'
 import Navigation from 'components/Navigation'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
 import Web3Status from 'components/blockchain/Web3Status'
+import { COLLECTION_PATHNAME } from 'constants/navigation'
 import { ProductSubHeader } from 'pages/common/styleds'
 import { useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -62,7 +63,7 @@ export default function Header() {
       </HeaderDrawerButton>
       <HeaderRow>
         {/* ICON and HOME BUTTON */}
-        <Title to="/#">
+        <Title to={COLLECTION_PATHNAME}>
           <Pastellecon />
         </Title>
 

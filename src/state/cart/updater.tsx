@@ -73,7 +73,7 @@ function _queryAndUpdateCart({ cartId, query, updateCartInfo }: QueryCartParams)
 }
 
 async function _createAndSaveCart({ updateCartInfo, createCart, toggleCartOptions: [state, setter] }: CartCreationCbs) {
-  state && setter(false)
+  state && setter(false, null)
   return createCart()
     .then(({ data: cartResponse }) => {
       const cart = cartResponse?.cartCreate?.cart

@@ -19,6 +19,7 @@ export const FRAGMENT_PRODUCT = gql`
     id
     title
     handle
+    tags
     productType
     updatedAt
     description
@@ -153,7 +154,12 @@ export const FRAGMENT_CART_LINE = gql`
     merchandise {
       ... on ProductVariant {
         id
+        sku
         size: title
+        priceV2 {
+          currencyCode
+          amount
+        }
         product {
           ...FragmentProduct
           images(first: 5) {

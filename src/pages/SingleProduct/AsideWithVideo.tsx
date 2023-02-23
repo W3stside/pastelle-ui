@@ -182,7 +182,7 @@ export default function SingleProductPage({
 
                 <AddToCartButton
                   ref={addToCartButtonRef}
-                  merchandiseId={variant?.variantBySelectedOptions?.id}
+                  product={variant}
                   quantity={1}
                   buttonProps={{ bgImage: navLogo, backgroundColor: color || '#000' }}
                 />
@@ -193,7 +193,7 @@ export default function SingleProductPage({
                   width={screensContainer?.clientWidth + 'px'}
                 >
                   <AddToCartButton
-                    merchandiseId={variant?.variantBySelectedOptions?.id}
+                    product={variant}
                     quantity={1}
                     buttonProps={{ bgImage: navLogo, backgroundColor: color || '#000' }}
                   />

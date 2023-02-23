@@ -31,10 +31,10 @@ const Wrapper = styled(Row)`
   }
 `
 export default function AddToCartButtonAndQuantitySelector({
-  merchandiseId,
+  product,
   children,
   quantitySelectorProps,
-}: Pick<AddToCartButtonParams, 'merchandiseId'> & {
+}: Pick<AddToCartButtonParams, 'product'> & {
   children?: React.ReactNode
   quantitySelectorProps: QuantitySelectorParams
 }) {
@@ -44,7 +44,7 @@ export default function AddToCartButtonAndQuantitySelector({
   return (
     <Wrapper>
       <AddToCartButton
-        merchandiseId={merchandiseId}
+        product={product}
         quantity={quantity}
         buttonProps={{ bgImage: navLogoSet, backgroundColor: color || '#000' }}
       />

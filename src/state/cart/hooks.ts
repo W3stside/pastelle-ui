@@ -1,5 +1,5 @@
 import { MutationHookOptions } from '@apollo/client'
-import { AddToCartButtonParams } from 'components/AddToCartButton'
+import { viewCartAnalytics } from 'analytics/events/cartEvents'
 import { useCallback } from 'react'
 import { useAddNewCartLine, useRemoveCartLine, useUpdateCartLine } from 'shopify/graphql/hooks'
 import {
@@ -11,7 +11,7 @@ import {
 } from 'shopify/utils/cart'
 import { useAppDispatch, useAppSelector } from 'state'
 
-import { CreateCartParams, UpdateCartInfoParams, createCart, setShowCart, updateCartInfo } from './reducer'
+import { CartState, CreateCartParams, UpdateCartInfoParams, createCart, setShowCart, updateCartInfo } from './reducer'
 
 export function useCreateCartDispatch() {
   const dispatch = useAppDispatch()
@@ -62,6 +62,10 @@ export function useUpdateCartLineAndUpdateReduxCallback() {
   }
 }
 
+type AddLineToCartProps = {
+  merchandiseId: string | undefined
+  quantity: number
+}
 export function useAddLineToCartAndUpdateReduxCallback() {
   const cartId = useGetCartIdState()
   const updateCartInfo = useUpdateCartInfoDispatch()
@@ -70,7 +74,7 @@ export function useAddLineToCartAndUpdateReduxCallback() {
   return {
     ...rest,
     addLineToCartCallback: useCallback(
-      ({ merchandiseId, quantity }: Omit<AddToCartButtonParams, 'label'>) =>
+      ({ merchandiseId, quantity }: AddLineToCartProps) =>
         addCartLineAndUpdateStore({ cartId, quantity, merchandiseId, addNewCartLine, updateCartInfo }),
       [addNewCartLine, cartId, updateCartInfo]
     ),
@@ -93,8 +97,16 @@ export function useToggleCart(): () => void {
   return useCallback(() => dispatch(setShowCart(!cartOpen)), [dispatch, cartOpen])
 }
 
-export function useToggleCartAndState(): [boolean, (state: boolean) => void] {
+export function useToggleCartAndState(): [boolean, (state: boolean, cart: CartState | null) => void] {
   const cartOpen = useAppSelector((state) => state.cart.showCart)
   const dispatch = useOpenOrCloseCart()
-  return [cartOpen, dispatch]
+
+  const viewCartCallback = useCallback(
+    (state: boolean, cart: CartState | null) => {
+      !!state && cart && viewCartAnalytics(cart)
+      dispatch(state)
+    },
+    [dispatch]
+  )
+  return [cartOpen, viewCartCallback]
 }

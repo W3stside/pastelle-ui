@@ -101,7 +101,9 @@ export function useQueryCurrentOnScreenCollectionProduct(
   return item ? collectionProductMap[item.handle] : undefined
 }
 
-export function useQueryProductVariantByKeyValue(variables: ProductVariantQueryVariables) {
+export function useQueryProductVariantByKeyValue(
+  variables: ProductVariantQueryVariables
+): ProductVariantQuery['product'] | null | undefined {
   const { data, error } = useQuery<ProductVariantQuery, ProductVariantQueryVariables>(
     QUERY_PRODUCT_VARIANT_BY_KEY_VALUE,
     { variables }

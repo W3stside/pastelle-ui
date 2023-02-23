@@ -27,11 +27,28 @@ export const QUERY_PRODUCT = gql`
 `
 
 export const QUERY_PRODUCT_VARIANT_BY_KEY_VALUE = gql`
+  ${FRAGMENT_PRODUCT}
   query ProductVariant($productId: ID!, $key: String!, $value: String!) {
     product(id: $productId) {
       variantBySelectedOptions(selectedOptions: { name: $key, value: $value }) {
         id
         title
+        barcode
+        sku
+        selectedOptions {
+          name
+          value
+        }
+        product {
+          ...FragmentProduct
+          collections(first: 50) {
+            nodes {
+              id
+              handle
+              title
+            }
+          }
+        }
         priceV2 {
           amount
           currencyCode

@@ -1,6 +1,7 @@
 import { useStateRef } from '@past3lle/hooks'
 import { isMobile } from '@past3lle/utils'
 import { ArticleFadeInContainer } from 'components/Layout'
+import SEO from 'components/SEO'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
 import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import AsideWithVideo from 'pages/Collection/AsideWithVideo'
@@ -47,25 +48,28 @@ export default function Collection() {
   const collectionProductList = Object.values(collection)
 
   return (
-    <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>
-      {collectionProductList.length > 1 ? (
-        <ScrollingContentPage
-          data={collectionProductList}
-          dataItem={collectionProductList[0]}
-          IterableComponent={AsideWithVideoAux}
-          fixedItemHeight={fixedItemHeight}
-          onContentClick={onContentClick}
-          touchAction="none"
-        />
-      ) : (
-        <AsideWithVideoAux
-          {...collectionProductList[0]}
-          isActive
-          itemIndex={0}
-          firstPaintOver
-          onClick={onContentClick}
-        />
-      )}
-    </ArticleFadeInContainer>
+    <>
+      <SEO title="COLLECTION" name="COLLECTION" description="View the latest PASTELLE collection" />
+      <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>
+        {collectionProductList.length > 1 ? (
+          <ScrollingContentPage
+            data={collectionProductList}
+            dataItem={collectionProductList[0]}
+            IterableComponent={AsideWithVideoAux}
+            fixedItemHeight={fixedItemHeight}
+            onContentClick={onContentClick}
+            touchAction="none"
+          />
+        ) : (
+          <AsideWithVideoAux
+            {...collectionProductList[0]}
+            isActive
+            itemIndex={0}
+            firstPaintOver
+            onClick={onContentClick}
+          />
+        )}
+      </ArticleFadeInContainer>
+    </>
   )
 }

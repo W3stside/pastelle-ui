@@ -4,12 +4,13 @@ import ErrorMessage from 'components/ErrorMessage'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import { ProductDescription } from 'pages/common/styleds'
 import { ForwardedRef, forwardRef, useCallback, useEffect, useState } from 'react'
+import { ProductVariantQuery } from 'shopify/graphql/types'
 import { useAddLineToCartAndUpdateReduxCallback } from 'state/cart/hooks'
 import styled from 'styled-components/macro'
 
 export type AddToCartButtonParams = {
   label?: string
-  merchandiseId: string | undefined
+  product: ProductVariantQuery['product']
   quantity: number
   buttonProps?: ButtonProps
 }
@@ -49,7 +50,7 @@ function useDisappearingMessage(params: { message: string; showAtStart?: boolean
 }
 
 const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
-  { label = 'Add to cart', merchandiseId, quantity, buttonProps = {} }: AddToCartButtonParams,
+  { label = 'Add to cart', product, quantity, buttonProps = {} }: AddToCartButtonParams,
   forwardedRef: ForwardedRef<HTMLButtonElement>
 ) {
   const { addLineToCartCallback, loading, error } = useAddLineToCartAndUpdateReduxCallback()
@@ -58,10 +59,10 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
   const isDisabled = loading || !quantity || shouldShow
 
   const handleAddToCart = useCallback(() => {
-    addToCartAnalytics([merchandiseId, quantity].join('-'))
+    addToCartAnalytics(product, quantity)
     setShow(true)
-    addLineToCartCallback({ quantity, merchandiseId })
-  }, [addLineToCartCallback, merchandiseId, quantity, setShow])
+    addLineToCartCallback({ quantity, merchandiseId: product?.variantBySelectedOptions?.id })
+  }, [addLineToCartCallback, product, quantity, setShow])
 
   return (
     <>

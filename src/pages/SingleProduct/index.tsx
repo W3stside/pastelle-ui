@@ -1,4 +1,5 @@
 import { useStateRef } from '@past3lle/hooks'
+import SEO from 'components/SEO'
 import { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useCurrentCollection, useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
@@ -25,9 +26,17 @@ export default function SingleItem() {
   }
 
   return (
-    <SingleProductArticle id="COLLECTION-ARTICLE" display="flex" ref={setContainerRef}>
-      <AsideWithVideo {...product} parentAspectRatio={parentAspectRatio} />
-    </SingleProductArticle>
+    <>
+      <SEO
+        title={product.handle.toUpperCase()}
+        name={product.handle.toUpperCase()}
+        description={`${product.handle.toUpperCase()}: ${product.shortDescription || 'STREET.APPAREL'}`}
+      />
+
+      <SingleProductArticle id="COLLECTION-ARTICLE" display="flex" ref={setContainerRef}>
+        <AsideWithVideo {...product} parentAspectRatio={parentAspectRatio} />
+      </SingleProductArticle>
+    </>
   )
 }
 function getNodeAspectRatio(node: HTMLElement | undefined | null) {

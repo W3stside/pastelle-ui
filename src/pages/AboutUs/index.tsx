@@ -1,6 +1,7 @@
 import { nanoid } from '@reduxjs/toolkit'
 import { ArticleFadeInContainer } from 'components/Layout'
 import { BASE_MARKDOWN_PATH } from 'components/Markdown/constants'
+import SEO from 'components/SEO'
 import { AsideWithScrollableImages } from 'pages/SingleProduct/AsideWithScrollableImages'
 
 // assets
@@ -39,13 +40,16 @@ const ABOUT_US_CONTENT = [
 
 export default function AboutUs() {
   return (
-    <ArticleFadeInContainer id="ABOUTUS-ARTICLE">
-      <AsideWithScrollableImages
-        markdown={ABOUT_US_CONTENT[0].markdown}
-        header="ABOUT US"
-        image={ABOUT_US_CONTENT[0].image}
-        key={ABOUT_US_CONTENT[0].key}
-      />
-    </ArticleFadeInContainer>
+    <>
+      <SEO title="ABOUT" name="ABOUT" description="About PASTELLE" />
+      <ArticleFadeInContainer id="ABOUTUS-ARTICLE">
+        <AsideWithScrollableImages
+          markdown={ABOUT_US_CONTENT[0].markdown}
+          header="ABOUT US"
+          image={ABOUT_US_CONTENT[0].image}
+          key={ABOUT_US_CONTENT[0].key}
+        />
+      </ArticleFadeInContainer>
+    </>
   )
 }

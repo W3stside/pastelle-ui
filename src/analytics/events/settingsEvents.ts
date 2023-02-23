@@ -3,7 +3,7 @@ import { Category, sendEvent } from '../index'
 export function toggleShowcaseAutoplayAnalytics(enable: boolean) {
   sendEvent({
     category: Category.SHOWCASE_VIDEO,
-    action: 'TOGGLE SHOWCASE AUTOPLAY',
+    action: 'Toggle showcase autoplay',
     label: enable ? 'ENABLED' : 'DISABLED',
   })
 }
@@ -11,13 +11,13 @@ export function toggleShowcaseAutoplayAnalytics(enable: boolean) {
 export function pauseShowcaseVideoAnalytics() {
   sendEvent({
     category: Category.SHOWCASE_VIDEO,
-    action: 'PAUSE SHOWCASE VIDEO',
+    action: 'Pause showcase video',
   })
 }
 
 export function playShowcaseVideoAnalytics() {
   sendEvent({
     category: Category.SHOWCASE_VIDEO,
-    action: 'PLAY SHOWCASE VIDEO',
+    action: 'Play showcase video',
   })
 }

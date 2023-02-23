@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { CookieBanner } from '@past3lle/components'
 import { FallbackLoader } from 'components/Loader'
 import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
-import { COLLECTION_PARAM_NAME } from 'constants/navigation'
+import { APPAREL_PARAM_NAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
@@ -36,7 +36,7 @@ export default function App() {
       {/* ARTICLE CONTENT */}
       <Routes>
         <Route path={`/${COLLECTION_PARAM_NAME}`} element={<Collection />} />
-        <Route path={`/${COLLECTION_PARAM_NAME}/:handle`} element={<SingleItem />} />
+        <Route path={`/${APPAREL_PARAM_NAME}/:handle`} element={<SingleItem />} />
 
         <Route path="/404" element={<NotFound />} />
         <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} />

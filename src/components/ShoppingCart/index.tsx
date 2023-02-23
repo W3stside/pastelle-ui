@@ -48,11 +48,11 @@ export function ShoppingCartHeader() {
   const cart = useGetCartState()
   return (
     <ShoppingCartFullWrapper>
-      <ShoppingCartHeaderWrapper onClick={() => openOrCloseCart(true)}>
+      <ShoppingCartHeaderWrapper onClick={() => openOrCloseCart(true, cart)}>
         <ShoppingCartIcon size={30} />
         <ShoppingCartQuantity totalQuantity={cart.totalQuantity} />
       </ShoppingCartHeaderWrapper>
-      {cartOpen && <ShoppingCart closeCartPanel={() => openOrCloseCart(false)} />}
+      {cartOpen && <ShoppingCart closeCartPanel={() => openOrCloseCart(false, cart)} />}
     </ShoppingCartFullWrapper>
   )
 }
