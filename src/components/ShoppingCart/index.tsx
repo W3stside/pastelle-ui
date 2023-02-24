@@ -2,7 +2,6 @@ import { Button, ButtonVariations, Column, Row, SmartImg } from '@past3lle/compo
 import { useCleanTimeout, usePrevious } from '@past3lle/hooks'
 import { WHITE, getThemeColours } from '@past3lle/theme'
 import { ThemeModes } from '@past3lle/theme'
-import { formatCurrency } from '@past3lle/utils'
 import LoadingRows from 'components/Loader/LoadingRows'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import { COLLECTION_PARAM_NAME, COLLECTION_PATHNAME } from 'constants/navigation'
@@ -23,6 +22,7 @@ import {
 } from 'state/cart/hooks'
 import { CartState } from 'state/cart/reducer'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
+import { formatShopifyCurrency } from 'utils/formatting'
 import { buildItemUrl, checkIsCollectionPage } from 'utils/navigation'
 
 import {
@@ -128,8 +128,12 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
           {subTotal && (
             <CartHeader fontSize="3.5rem" letterSpacing={0.2} justifyContent="center" textAlign="left">
               <div style={{ fontSize: 'small', marginLeft: '0.5rem' }}>total:</div>
-              {/* TODO: FIX THIS TYPE */}
-              <div>{formatCurrency(subTotal.amount, subTotal.currencyCode as any)}</div>
+              <div>
+                {formatShopifyCurrency(subTotal.amount, {
+                  locales: [navigator.language || 'pt-PT'],
+                  currency: subTotal.currencyCode,
+                })}
+              </div>
             </CartHeader>
           )}
           {/* TODO: remove disabled */}
