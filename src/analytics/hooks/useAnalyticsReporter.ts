@@ -135,7 +135,7 @@ export function useAnalyticsReporter() {
   // useBlockchainAnalyticsReporter()
 
   useEffect(() => {
-    googleAnalytics.pageview(`${pathname}${search}`, undefined, 'PAGE CHANGE')
+    googleAnalytics.pageview(`${pathname}${search}`)
   }, [pathname, search])
 
   useEffect(() => {
