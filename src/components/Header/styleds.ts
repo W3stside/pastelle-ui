@@ -28,7 +28,8 @@ import { ShopImageSrcSet } from 'types'
 const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
 
 export const StyledNavLink = styled(NavLink)`
-  ${({ theme }) => theme.flexRowNoWrap}
+  display: flex;
+  flex-flow: row nowrap;
   align-items: left;
   border-radius: ${({ theme }) => theme.buttons.borderRadius};
   outline: none;

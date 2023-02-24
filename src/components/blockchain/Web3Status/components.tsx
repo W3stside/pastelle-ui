@@ -8,7 +8,8 @@ import styled, { css } from 'styled-components/macro'
 import { Button } from 'theme/components'
 
 export const Web3StatusGeneric = styled(Button)`
-  ${({ theme }) => theme.flexRowNoWrap}
+  display: flex;
+  flex-flow: row nowrap;
   width: 100%;
   align-items: center;
   padding: 0.5rem;

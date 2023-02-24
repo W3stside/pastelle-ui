@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro'
-import { AutoColumn, AutoRow, Modal, Text as ThemedText } from '@past3lle/components'
+import { AutoColumn, AutoRow, Modal, Row, Text as ThemedText } from '@past3lle/components'
 import { ExternalLink } from '@past3lle/components'
 import { devDebug, isMobile } from '@past3lle/utils'
 import { useWeb3React } from '@web3-react/core'
@@ -37,15 +37,13 @@ const CloseColor = styled(Close)`
   }
 `
 
-const Wrapper = styled.div`
-  ${({ theme }) => theme.flexColumnNoWrap}
+const Wrapper = styled(Row)`
   margin: 0;
   padding: 0;
   width: 100%;
 `
 
-const HeaderRow = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap};
+const HeaderRow = styled(Row)`
   padding: 1rem 1rem;
   font-weight: 500;
   color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};

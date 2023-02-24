@@ -1,4 +1,4 @@
-import { Button, RowFixed } from '@past3lle/components'
+import { Button, Row, RowFixed } from '@past3lle/components'
 import { ExternalLink, ButtonLink as LinkStyledButton } from '@past3lle/components'
 import { YellowCard } from 'components/Layout'
 import { StyledSVG } from 'components/Loader'
@@ -515,8 +515,7 @@ export const ActivityVisual = styled.div`
   }
 `
 
-export const HeaderRow = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap};
+export const HeaderRow = styled(Row)`
   padding: 1rem 1rem;
   font-weight: 500;
   color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};
@@ -547,16 +546,16 @@ export const UpperSection = styled.div`
   width: 100%;
 `
 
-export const AccountGroupingRow = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap};
+export const AccountGroupingRow = styled(Row)`
   justify-content: space-between;
   align-items: center;
   font-weight: 400;
   color: ${({ theme }) => theme.text1};
 
   div {
-    ${({ theme }) => theme.flexRowNoWrap}
-    align-items: center;
+    display: inherit;
+    flex-flow: inherit;
+    align-items: inherit;
   }
 `
 
@@ -634,8 +633,7 @@ export const WalletName = styled.div`
   color: ${({ theme }) => theme.text3};
 `
 
-export const IconWrapper = styled.div<{ size?: number }>`
-  ${({ theme }) => theme.flexColumnNoWrap};
+export const IconWrapper = styled(Row)<{ size?: number }>`
   align-items: center;
   justify-content: center;
   margin-right: 0.8rem;

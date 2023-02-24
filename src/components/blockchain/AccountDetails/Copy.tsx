@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro'
-import { ButtonLink } from '@past3lle/components'
+import { ButtonLink, Row } from '@past3lle/components'
 import { useCopyClipboard } from '@past3lle/hooks'
 import { useCallback } from 'react'
 import { CheckCircle, Copy } from 'react-feather'
@@ -17,9 +17,8 @@ export const CopyIcon = styled(ButtonLink)`
     color: ${({ color, theme }) => color || theme.text2};
   }
 `
-const StyledText = styled.span`
+const StyledText = styled(Row)`
   margin-left: 0.25rem;
-  ${({ theme }) => theme.flexRowNoWrap};
   align-items: center;
 `
 
@@ -32,10 +31,9 @@ const Copied = ({ iconSize }: { iconSize?: number }) => (
   </StyledText>
 )
 
-export const TransactionStatusText = styled.span`
+export const TransactionStatusText = styled(Row)`
   margin-left: 0.25rem;
   font-size: 0.825rem;
-  ${({ theme }) => theme.flexRowNoWrap};
   align-items: center;
 `
 

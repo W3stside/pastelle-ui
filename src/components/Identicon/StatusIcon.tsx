@@ -1,13 +1,11 @@
+import { ColumnCenter } from '@past3lle/components'
 import { ConnectionType } from 'blockchain/connectors'
 import styled from 'styled-components/macro'
 
 import WalletConnectIcon from '../../assets/images/walletConnectIcon.svg'
 import Identicon from '../Identicon'
 
-const IconWrapper = styled.div<{ size?: number }>`
-  ${({ theme }) => theme.flexColumnNoWrap};
-  align-items: center;
-  justify-content: center;
+const IconWrapper = styled(ColumnCenter)<{ size?: number }>`
   margin-right: 8px;
   & > img,
   span {

@@ -1,4 +1,4 @@
-import { ExternalLink } from '@past3lle/components'
+import { ColumnCenter, ExternalLink, Row } from '@past3lle/components'
 import React from 'react'
 import styled from 'styled-components/macro'
 
@@ -24,9 +24,7 @@ const OptionCard = styled(InfoCard as any)`
   padding: 1rem;
 `
 
-const OptionCardLeft = styled.div`
-  ${({ theme }) => theme.flexColumnNoWrap};
-  justify-content: center;
+const OptionCardLeft = styled(ColumnCenter)`
   height: 100%;
 `
 
@@ -39,8 +37,7 @@ const OptionCardClickable = styled(OptionCard as any)<{ clickable?: boolean }>`
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
 `
 
-const GreenCircle = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap}
+const GreenCircle = styled(Row)`
   justify-content: center;
   align-items: center;
 
@@ -60,8 +57,7 @@ const CircleWrapper = styled.div`
   align-items: center;
 `
 
-export const HeaderText = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap};
+export const HeaderText = styled(Row)`
   color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.primary1 : ({ theme }) => theme.text1)};
   font-size: 1rem;
   font-weight: 500;
@@ -73,10 +69,7 @@ const SubHeader = styled.div`
   font-size: 1.2rem;
 `
 
-const IconWrapper = styled.div<{ size?: number | null }>`
-  ${({ theme }) => theme.flexColumnNoWrap};
-  align-items: center;
-  justify-content: center;
+const IconWrapper = styled(ColumnCenter)<{ size?: number | null }>`
   & > img,
   span {
     height: ${({ size }) => (size ? size + 'px' : '2.4rem')};

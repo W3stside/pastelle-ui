@@ -1,12 +1,16 @@
-import { useWeb3React } from '@web3-react/core'
-import { getConnection, getConnectionName, getIsMetaMask } from 'blockchain/connectors'
-import { useWalletInfo } from 'blockchain/hooks/useWalletInfo'
+// import { useWeb3React } from '@web3-react/core'
+// import { getConnection, getConnectionName, getIsMetaMask } from 'blockchain/connectors'
+// import { useWalletInfo } from 'blockchain/hooks/useWalletInfo'
+import { devDebug, isMobile } from '@past3lle/utils'
+import { Dimensions } from 'analytics/GoogleAnalytics4Provider'
 import { useEffect } from 'react'
-import { Location } from 'react-router-dom'
+import TagManager from 'react-gtm-module'
+import { useLocation } from 'react-router-dom'
 import { Metric, getCLS, getFCP, getFID, getLCP } from 'web-vitals'
 
-import { GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY, googleAnalytics } from '..'
-import { Dimensions } from '../GoogleAnalytics4Provider'
+import { GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY, GOOGLE_ANALYTICS_ID, googleAnalytics } from '..'
+
+// import { Dimensions } from '../GoogleAnalytics4Provider'
 
 export function sendTiming(timingCategory: any, timingVar: any, timingValue: any, timingLabel: any) {
   return googleAnalytics.gaCommandSendTiming(timingCategory, timingVar, timingValue, timingLabel)
@@ -22,8 +26,41 @@ export function reportWebVitals() {
   getLCP(sendWebVitals)
   getCLS(sendWebVitals)
 }
+interface CookiePreferences {
+  interacted: boolean
+  analytics: boolean
+  marketing?: boolean
+  advertising?: boolean
+}
 
-export function initGATracker() {
+export function initGTM() {
+  if (process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID) {
+    TagManager.initialize({
+      gtmId: process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID,
+    })
+  }
+}
+
+export function initGA4() {
+  if (typeof GOOGLE_ANALYTICS_ID === 'string') {
+    const storedClientId = window.localStorage.getItem(GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY)
+    googleAnalytics.initialize(GOOGLE_ANALYTICS_ID as string, {
+      gaOptions: {
+        anonymizeIp: true,
+        storage: 'none',
+        storeGac: false,
+        clientId: storedClientId ?? undefined,
+      },
+    })
+  } else {
+    googleAnalytics.initialize('test', { gtagOptions: { debug_mode: true } })
+  }
+
+  googleAnalytics.setDimension(
+    Dimensions.customBrowserType,
+    !isMobile ? 'desktop' : 'web3' in window || 'ethereum' in window ? 'mobileWeb3' : 'mobileRegular'
+  )
+
   // typed as 'any' in react-ga4 -.-
   googleAnalytics.ga((tracker: any) => {
     if (!tracker) return
@@ -33,37 +70,81 @@ export function initGATracker() {
   })
 }
 
-export function useBlockchainAnalyticsReporter() {
-  // Handle chain id custom dimension
-  const { chainId, connector, account } = useWeb3React()
-  useEffect(() => {
-    // custom dimension 1 - chainId
-    googleAnalytics.setDimension(Dimensions.chainId, chainId)
-  }, [chainId])
+export function initAnalytics({ interacted, analytics, marketing, advertising }: CookiePreferences) {
+  googleAnalytics.gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    marketing_storage: 'denied',
+  })
 
-  // Handle wallet name custom dimension
-  const walletInfo = useWalletInfo()
-  const connection = getConnection(connector)
-  const isMetaMask = getIsMetaMask()
+  if (interacted) {
+    initGTM()
+    initGA4()
 
-  const walletName = walletInfo?.walletName || getConnectionName(connection.type, isMetaMask)
+    const adStorageConsent = advertising ? 'granted' : 'denied'
+    const analyticsStorageConsent = analytics ? 'granted' : 'denied'
+    const marketingStorageConsent = marketing ? 'granted' : 'denied'
 
-  useEffect(() => {
-    // custom dimension 2 - walletname
-    googleAnalytics.setDimension(Dimensions.walletName, account ? walletName : 'Not connected')
-  }, [account, walletName])
+    devDebug('COOKIES INTERACTED WITH - SETTING GTAG CONSENT')
+    devDebug(`
+      ADVERTISING: ${adStorageConsent}
+      ANALYTICS: ${analyticsStorageConsent}
+      MARKETING: ${marketingStorageConsent}
+    `)
+
+    googleAnalytics.gtag('consent', 'update', {
+      ad_storage: adStorageConsent,
+      analytics_storage: analytics ? 'granted' : 'denied',
+      marketing_storage: marketing ? 'granted' : 'denied',
+    })
+  }
 }
 
+// TODO: re-enable when BC ready
+// export function useBlockchainAnalyticsReporter() {
+//   // Handle chain id custom dimension
+//   const { chainId, connector, account } = useWeb3React()
+//   useEffect(() => {
+//     // custom dimension 1 - chainId
+//     googleAnalytics.setDimension(Dimensions.chainId, chainId)
+//   }, [chainId])
+
+//   // Handle wallet name custom dimension
+//   const walletInfo = useWalletInfo()
+//   const connection = getConnection(connector)
+//   const isMetaMask = getIsMetaMask()
+
+//   const walletName = walletInfo?.walletName || getConnectionName(connection.type, isMetaMask)
+
+//   useEffect(() => {
+//     // custom dimension 2 - walletname
+//     googleAnalytics.setDimension(Dimensions.walletName, account ? walletName : 'Not connected')
+//   }, [account, walletName])
+// }
+
+const DEFAULT_COOKIE_CONSENT = { interacted: false, analytics: true, advertising: false, marketing: false }
+
 // tracks web vitals and pageviews
-export function useAnalyticsReporter({ pathname, search }: Location) {
-  useBlockchainAnalyticsReporter()
+export function useAnalyticsReporter() {
+  if (!process.env.REACT_APP_GOOGLE_GA_MEASUREMENT_ID || !process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID) {
+    console.error('MISSING GOOGLE GA and/or GOOGLE TAG MANAGER ID KEY! CHECK ENV')
+  }
+
+  const { pathname, search } = useLocation()
+
+  // useBlockchainAnalyticsReporter()
 
   useEffect(() => {
-    googleAnalytics.pageview(`${pathname}${search}`)
+    googleAnalytics.pageview(`${pathname}${search}`, undefined, 'PAGE CHANGE')
   }, [pathname, search])
 
   useEffect(() => {
+    const storageItem = localStorage.getItem(
+      process.env.REACT_APP_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_COOKIE_SETTINGS'
+    )
+    const consent: typeof DEFAULT_COOKIE_CONSENT = storageItem ? JSON.parse(storageItem) : DEFAULT_COOKIE_CONSENT
+
     reportWebVitals()
-    initGATracker()
+    initAnalytics(consent)
   }, [])
 }

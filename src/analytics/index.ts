@@ -1,15 +1,12 @@
-import { isMobile } from '@past3lle/utils'
 import { ErrorInfo } from 'react'
 import { UaEventOptions } from 'react-ga4/types/ga4'
 
-import GoogleAnalyticsProvider, { Dimensions } from './GoogleAnalytics4Provider'
+import GoogleAnalyticsProvider from './GoogleAnalytics4Provider'
 
 export { useAnalyticsReporter } from './hooks/useAnalyticsReporter'
 
-const GOOGLE_ANALYTICS_ID: string | undefined = process.env.REACT_APP_GOOGLE_GA_MEASUREMENT_ID
+export const GOOGLE_ANALYTICS_ID: string | undefined = process.env.REACT_APP_GOOGLE_GA_MEASUREMENT_ID
 export const GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY = 'ga_client_id'
-
-const storedClientId = window.localStorage.getItem(GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY)
 
 export const googleAnalytics = new GoogleAnalyticsProvider()
 
@@ -30,22 +27,6 @@ export function outboundLink(
   hitCallback: () => unknown
 ) {
   return googleAnalytics.outboundLink({ url }, hitCallback)
-}
-
-if (typeof GOOGLE_ANALYTICS_ID === 'string') {
-  googleAnalytics.initialize(GOOGLE_ANALYTICS_ID, {
-    gaOptions: {
-      storage: 'none',
-      storeGac: false,
-      clientId: storedClientId ?? undefined,
-    },
-  })
-  googleAnalytics.setDimension(
-    Dimensions.customBrowserType,
-    !isMobile ? 'desktop' : 'web3' in window || 'ethereum' in window ? 'mobileWeb3' : 'mobileRegular'
-  )
-} else {
-  googleAnalytics.initialize('test', { gtagOptions: { debug_mode: true } })
 }
 
 const installed = Boolean(window.navigator.serviceWorker?.controller)

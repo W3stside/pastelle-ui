@@ -1,5 +1,6 @@
 // import { useCallback } from 'react'
 import { Trans } from '@lingui/macro'
+import { Row } from '@past3lle/components'
 import { isMobile } from '@past3lle/utils'
 import { useWeb3React } from '@web3-react/core'
 import { getConnection, getConnectionName, getIsMetaMask } from 'blockchain/connectors/utils'
@@ -18,8 +19,7 @@ import CopyHelper from './Copy'
 import { AccountControl, AddressLink, WalletAction, WalletName } from './styled'
 import { AccountGroupingRow, InfoCard } from './styled'
 
-const HeaderRow = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap};
+const HeaderRow = styled(Row)`
   padding: 1rem 1rem;
   font-weight: 500;
   color: ${(props) => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};

@@ -57,7 +57,7 @@ export default class GoogleAnalyticsProvider {
       legacyDimensionMetric?: boolean
       nonce?: string
       testMode?: boolean
-      gaOptions?: GaOptions | any
+      gaOptions?: GaOptions & { storage?: string; storeGac?: boolean }
       gtagOptions?: any
     }
   ) {
@@ -102,5 +102,9 @@ export default class GoogleAnalyticsProvider {
 
   public setDimension(key: DimensionKey, value: any) {
     this.dimensions[key] = value
+  }
+
+  public gtag(...data: any[]) {
+    return ReactGA.gtag(...data)
   }
 }

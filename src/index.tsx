@@ -1,13 +1,12 @@
 import { FontCssProvider, StaticGlobalCssProvider, ThemeProvider, ThemedGlobalCssProvider } from '@past3lle/theme'
 import { nodeRemoveChildFix } from '@past3lle/utils'
-import { initGATracker } from 'analytics/hooks/useAnalyticsReporter'
+// TODO: re-enable when BC ready
+// import { Web3ReactProvider } from '@web3-react/core'
 import { isWeb3Enabled } from 'blockchain/connectors'
 // PROVIDERS
-import Web3ReactProvider from 'blockchain/providers/Web3Provider'
 import 'inter-ui'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import TagManager from 'react-gtm-module'
 import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
@@ -30,16 +29,6 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 // Node removeChild hackaround
 // based on: https://github.com/facebook/react/issues/11538#issuecomment-417504600
 nodeRemoveChildFix()
-
-// Analytics
-if (!process.env.REACT_APP_GOOGLE_GA_MEASUREMENT_ID || !process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID)
-  throw new Error('MISSING GOOGLE GA and/or GOOGLE TAG MANAGER ID KEY! CHECK ENV')
-// Tag manager
-TagManager.initialize({
-  gtmId: process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID,
-})
-// G-Analytics 4
-initGATracker()
 
 if (!!window.ethereum) {
   window.ethereum.autoRefreshOnNetworkChange = false
@@ -97,17 +86,17 @@ root.render(
     <ApolloProvider>
       <Provider store={store}>
         <HashRouter>
-          <Web3ReactProvider>
-            <PastelleStoreUpdaters />
-            <BlockchainUpdaters />
-            <ThemeProvider themeExtension={{}}>
-              {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-              <ThemedCSSProviders />
-              <HelmetProvider>
-                <App />
-              </HelmetProvider>
-            </ThemeProvider>
-          </Web3ReactProvider>
+          {/* <Web3ReactProvider connectors={CONNECTORS}> */}
+          <PastelleStoreUpdaters />
+          <BlockchainUpdaters />
+          <ThemeProvider themeExtension={{}}>
+            {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
+            <ThemedCSSProviders />
+            <HelmetProvider>
+              <App />
+            </HelmetProvider>
+          </ThemeProvider>
+          {/* </Web3ReactProvider> */}
         </HashRouter>
       </Provider>
     </ApolloProvider>

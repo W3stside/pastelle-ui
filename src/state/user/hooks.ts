@@ -1,4 +1,3 @@
-import { ThemeState } from '@past3lle/theme'
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 import { useTheme } from 'styled-components/macro'
@@ -8,11 +7,7 @@ import { initialState } from './reducer'
 
 export const useAppColourTheme = () => useAppSelector(({ user }) => user.theme || initialState.theme)
 
-interface ThemeManager extends ThemeState {
-  setAutoDetect: (autoDetect: boolean) => void
-}
-
-export function useThemeManager(): ThemeManager {
+export function useThemeManager() {
   const dispatch = useAppDispatch()
   const theme = useTheme()
 

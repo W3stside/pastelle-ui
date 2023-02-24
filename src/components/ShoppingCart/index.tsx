@@ -127,8 +127,9 @@ function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCa
         >
           {subTotal && (
             <CartHeader fontSize="3.5rem" letterSpacing={0.2} justifyContent="center" textAlign="left">
-              <div style={{ fontSize: 'small', marginLeft: '0.5rem' }}>total:</div>{' '}
-              <div>{formatCurrency(subTotal.amount, subTotal.currencyCode)}</div>
+              <div style={{ fontSize: 'small', marginLeft: '0.5rem' }}>total:</div>
+              {/* TODO: FIX THIS TYPE */}
+              <div>{formatCurrency(subTotal.amount, subTotal.currencyCode as any)}</div>
             </CartHeader>
           )}
           {/* TODO: remove disabled */}

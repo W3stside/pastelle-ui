@@ -1,30 +1,21 @@
 import { Trans } from '@lingui/macro'
-import { Button, Text as ThemedText } from '@past3lle/components'
+import { Button, Column, ColumnCenter, RowCenter, Text as ThemedText } from '@past3lle/components'
 import { Connector } from '@web3-react/types'
 import Loader from 'components/Loader'
 import styled from 'styled-components/macro'
 
-const PendingSection = styled.div`
-  ${({ theme }) => theme.flexColumnNoWrap};
-  align-items: center;
-  justify-content: center;
+const PendingSection = styled(ColumnCenter)`
   width: 100%;
   & > * {
     width: 100%;
   }
 `
 
-const LoaderContainer = styled.div`
+const LoaderContainer = styled(RowCenter)`
   margin: 16px 0;
-  ${({ theme }) => theme.flexRowNoWrap};
-  align-items: center;
-  justify-content: center;
 `
 
-const LoadingMessage = styled.div`
-  ${({ theme }) => theme.flexRowNoWrap};
-  align-items: center;
-  justify-content: center;
+const LoadingMessage = styled(RowCenter)`
   border-radius: ${({ theme }) => theme.buttons.borderRadius};
 
   & > * {
@@ -32,14 +23,12 @@ const LoadingMessage = styled.div`
   }
 `
 
-const ErrorGroup = styled.div`
-  ${({ theme }) => theme.flexColumnNoWrap};
+const ErrorGroup = styled(Column)`
   align-items: center;
   justify-content: flex-start;
 `
 
-const LoadingWrapper = styled.div`
-  ${({ theme }) => theme.flexColumnNoWrap};
+const LoadingWrapper = styled(Column)`
   align-items: center;
   justify-content: center;
 `

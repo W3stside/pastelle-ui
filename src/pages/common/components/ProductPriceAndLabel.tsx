@@ -31,13 +31,15 @@ export default function ProductPriceAndLabel({
       {/* VARIANT PRICE */}
       <Price
         price={variant?.variantBySelectedOptions?.priceV2}
-        fontWeight={300}
-        fontSize={'3rem'}
-        margin={'auto 0 0 auto'}
-        padding={'0.5rem'}
-        flex="0 1 auto"
-        maxWidth="40%"
-        bgColor={darken(0.13, transparentize(0.2, color))}
+        styleProps={{
+          fontWeight: 300,
+          fontSize: '3rem',
+          margin: 'auto 0 0 auto',
+          padding: '0.5rem',
+          flex: '0 1 auto',
+          maxWidth: '40%',
+          backgroundColor: darken(0.13, transparentize(0.2, color)),
+        }}
       />
     </Row>
   )
