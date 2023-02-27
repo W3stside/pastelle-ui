@@ -9,7 +9,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import reportWebVitals from 'reportWebVitals'
 import ApolloProvider from 'shopify/graphql/ApolloProvider'
 import store from 'state'
@@ -86,7 +86,7 @@ root.render(
       <StaticCSSProviders />
       <ApolloProvider>
         <Provider store={store}>
-          <BrowserRouter>
+          <HashRouter>
             {/* <Web3ReactProvider connectors={CONNECTORS}> */}
             <PastelleStoreUpdaters />
             <BlockchainUpdaters />
@@ -96,7 +96,7 @@ root.render(
               <App />
             </ThemeProvider>
             {/* </Web3ReactProvider> */}
-          </BrowserRouter>
+          </HashRouter>
         </Provider>
       </ApolloProvider>
     </HelmetProvider>
