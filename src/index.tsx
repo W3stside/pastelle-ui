@@ -81,25 +81,25 @@ const container = document.getElementById('root')!
 const root = createRoot(container)
 root.render(
   <StrictMode>
-    {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
-    <StaticCSSProviders />
-    <ApolloProvider>
-      <Provider store={store}>
-        <BrowserRouter>
-          {/* <Web3ReactProvider connectors={CONNECTORS}> */}
-          <PastelleStoreUpdaters />
-          <BlockchainUpdaters />
-          <ThemeProvider themeExtension={{}}>
-            {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-            <ThemedCSSProviders />
-            <HelmetProvider>
+    <HelmetProvider>
+      {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
+      <StaticCSSProviders />
+      <ApolloProvider>
+        <Provider store={store}>
+          <BrowserRouter>
+            {/* <Web3ReactProvider connectors={CONNECTORS}> */}
+            <PastelleStoreUpdaters />
+            <BlockchainUpdaters />
+            <ThemeProvider themeExtension={{}}>
+              {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
+              <ThemedCSSProviders />
               <App />
-            </HelmetProvider>
-          </ThemeProvider>
-          {/* </Web3ReactProvider> */}
-        </BrowserRouter>
-      </Provider>
-    </ApolloProvider>
+            </ThemeProvider>
+            {/* </Web3ReactProvider> */}
+          </BrowserRouter>
+        </Provider>
+      </ApolloProvider>
+    </HelmetProvider>
   </StrictMode>
 )
 
