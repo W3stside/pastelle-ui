@@ -1,6 +1,8 @@
 import { MutationHookOptions } from '@apollo/client'
 import { viewCartAnalytics } from 'analytics/events/cartEvents'
+import { SearchParamQuickViews } from 'constants/views'
 import { useCallback } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAddNewCartLine, useRemoveCartLine, useUpdateCartLine } from 'shopify/graphql/hooks'
 import {
   RemoveLineParams,
@@ -98,15 +100,19 @@ export function useToggleCart(): () => void {
 }
 
 export function useToggleCartAndState(): [boolean, (state: boolean, cart: CartState | null) => void] {
+  const navigate = useNavigate()
   const cartOpen = useAppSelector((state) => state.cart.showCart)
   const dispatch = useOpenOrCloseCart()
 
+  const [, setSearchParams] = useSearchParams()
+
   const viewCartCallback = useCallback(
-    (state: boolean, cart: CartState | null) => {
-      !!state && cart && viewCartAnalytics(cart)
-      dispatch(state)
+    (showOpen: boolean, cart: CartState | null) => {
+      !!showOpen && cart && viewCartAnalytics(cart)
+      showOpen ? setSearchParams({ peek: SearchParamQuickViews.CART }) : navigate(-1)
+      dispatch(showOpen)
     },
-    [dispatch]
+    [dispatch, navigate, setSearchParams]
   )
   return [cartOpen, viewCartCallback]
 }

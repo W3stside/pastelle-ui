@@ -115,3 +115,17 @@ export function reduceShopifyMediaToShowcaseVideos(
 
   return acc
 }
+export type ShopifyIdType = 'Product' | 'Collection' | 'Image' | 'Video'
+export type ShopifyId<T extends ShopifyIdType> = `gid://shopify/${T}/${number}`
+export function getShopifyId<T extends ShopifyIdType>(id: string | null, type: T): ShopifyId<T> | '' {
+  const idIsAlreadyFormed = !!id?.match(`gid://shopify/${type}/`)
+  const idAsNum = Number(id)
+
+  if (idIsAlreadyFormed) {
+    return id as ShopifyId<T>
+  } else if (!!id && !!idAsNum) {
+    return `gid://shopify/${type}/${idAsNum}`
+  } else {
+    return ''
+  }
+}

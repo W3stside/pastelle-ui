@@ -1,20 +1,18 @@
-import { useQuery } from '@apollo/client'
 import { CookieBanner } from '@past3lle/components'
 import { devDebug } from '@past3lle/utils'
 import { useAnalyticsReporter } from 'analytics'
 import { initAnalytics } from 'analytics/hooks/useAnalyticsReporter'
 import { FallbackLoader } from 'components/Loader'
-import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
 import { APPAREL_PARAM_NAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { QUERY_PRODUCT } from 'shopify/graphql/queries/products'
+import { useCollectionLoadingStatus } from 'state/collection/hooks'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
-const Collection = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "COLLECTION" */ 'pages/Collection'))
 const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Error/NotFound'))
+const Collection = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "COLLECTION" */ 'pages/Collection'))
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
 const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleProduct'))
 
@@ -22,12 +20,9 @@ export default function App() {
   // attempt to enable analytics, will do nothing if consent not set
   useAnalyticsReporter()
 
-  const { loading } = useQuery(QUERY_PRODUCT, {
-    variables: { amount: PRODUCT_AMOUNT, imageAmt: PRODUCT_IMAGES_AMOUNT, videoAmt: PRODUCT_VIDEOS_AMOUNT },
-  })
-
   const isMobileWidthOrBelow = useIsMobileWindowWidthSize()
 
+  const loading = useCollectionLoadingStatus()
   if (loading) return <FallbackLoader />
 
   return (

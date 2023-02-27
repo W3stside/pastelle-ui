@@ -109,7 +109,7 @@ export const SingleProductContainer = styled(ProductContainer)<{ parentAspectRat
     betweenSmallAndLarge`
       // 16:9 (HORIZONTAL LANDSCAPE) size
       height: calc(100% * 9 / 16 * 1.35);
-      margin: auto;
+      margin: auto !important;
     `}
 `
 

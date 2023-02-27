@@ -60,7 +60,7 @@ const store = configureStore({
         },
       },
     },
-    disableWarnings: process.env.NODE_ENV === 'test',
+    disableWarnings: process.env.NODE_ENV === 'production',
   }),
 })
 

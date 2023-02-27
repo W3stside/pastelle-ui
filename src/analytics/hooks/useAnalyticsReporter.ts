@@ -34,7 +34,7 @@ interface CookiePreferences {
 }
 
 export function initGTM() {
-  if (process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID) {
+  if (typeof process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID === 'string') {
     TagManager.initialize({
       gtmId: process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID,
     })
@@ -44,13 +44,18 @@ export function initGTM() {
 export function initGA4() {
   if (typeof GOOGLE_ANALYTICS_ID === 'string') {
     const storedClientId = window.localStorage.getItem(GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY)
-    googleAnalytics.initialize(GOOGLE_ANALYTICS_ID as string, {
+    const gtagOptions: Record<string, any> = {}
+    if (process.env.NODE_ENV !== 'production') {
+      gtagOptions.debug_mode = true
+      gtagOptions.debug = true
+    }
+    googleAnalytics.initialize(GOOGLE_ANALYTICS_ID, {
       gaOptions: {
         anonymizeIp: true,
-        storage: 'none',
-        storeGac: false,
         clientId: storedClientId ?? undefined,
+        siteSpeedSampleRate: 100,
       },
+      gtagOptions,
     })
   } else {
     googleAnalytics.initialize('test', { gtagOptions: { debug_mode: true } })

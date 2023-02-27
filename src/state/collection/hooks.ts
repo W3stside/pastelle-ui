@@ -9,7 +9,13 @@ import { useAppDispatch, useAppSelector } from 'state'
 import { useGetShowcaseSettings } from 'state/user/hooks'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
-import { ProductCurrentlyViewing, ProductPageMap, updateCollection, updateCurrentlyViewing } from './reducer'
+import {
+  ProductCurrentlyViewing,
+  ProductPageMap,
+  updateCollection,
+  updateCurrentlyViewing,
+  updateLoadingState,
+} from './reducer'
 
 export function useUpdateCurrentlyViewing() {
   const dispatch = useAppDispatch()
@@ -35,6 +41,10 @@ export function useCollection() {
   return useAppSelector((state) => state.collection)
 }
 
+export function useCollectionLoadingStatus() {
+  return useAppSelector((state) => state.collection.loading)
+}
+
 export function useCurrentCollection() {
   const collectionInfo = useCollection().current
 
@@ -44,9 +54,15 @@ export function useCurrentCollection() {
 export function useUpdateCollection() {
   const dispatch = useAppDispatch()
   return useCallback(
-    (title: string, collection: ProductPageMap) => dispatch(updateCollection({ title, collection })),
+    (title: string, collection: ProductPageMap, loading: boolean) =>
+      dispatch(updateCollection({ title, collection, loading })),
     [dispatch]
   )
+}
+
+export function useUpdateCollectionLoadingStatus() {
+  const dispatch = useAppDispatch()
+  return useCallback((loading: boolean) => dispatch(updateLoadingState(loading)), [dispatch])
 }
 
 export function useGetCurrentCollectionProductsFromUrl() {

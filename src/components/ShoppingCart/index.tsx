@@ -5,16 +5,17 @@ import { ThemeModes } from '@past3lle/theme'
 import LoadingRows from 'components/Loader/LoadingRows'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import { COLLECTION_PARAM_NAME, COLLECTION_PATHNAME } from 'constants/navigation'
+import { SearchParamQuickViews } from 'constants/views'
 import useQuantitySelector from 'hooks/useQuantitySelector'
+import ShoppingCart from 'pages/ShoppingCart'
 import { ProductSubHeader } from 'pages/common/styleds'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useQueryCart } from 'shopify/graphql/hooks'
 import { FragmentCartCostFragment, FragmentCartLineFragment, GetCartQuery, ProductSizes } from 'shopify/graphql/types'
 import { getMetafields, sizeToFullSize } from 'shopify/utils'
 import {
-  useGetCartIdState,
   useGetCartState,
   useRemoveCartLineAndUpdateReduxCallback,
   useToggleCartAndState,
@@ -44,27 +45,24 @@ function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'
 
 // Icon and count to show in header
 export function ShoppingCartHeader() {
-  const [cartOpen, openOrCloseCart] = useToggleCartAndState()
+  const [, openOrCloseCart] = useToggleCartAndState()
   const cart = useGetCartState()
+
+  const [searchParams] = useSearchParams()
+
   return (
     <ShoppingCartFullWrapper>
       <ShoppingCartHeaderWrapper onClick={() => openOrCloseCart(true, cart)}>
         <ShoppingCartIcon size={30} />
         <ShoppingCartQuantity totalQuantity={cart.totalQuantity} />
       </ShoppingCartHeaderWrapper>
-      {cartOpen && <ShoppingCart closeCartPanel={() => openOrCloseCart(false, cart)} />}
+      {/* SHOW CART IF PARAMS DETECT CART */}
+      {searchParams.get('peek') === SearchParamQuickViews.CART && <ShoppingCart />}
     </ShoppingCartFullWrapper>
   )
 }
 
-// Standalone shopping cart panel
-export function ShoppingCart({ closeCartPanel }: { closeCartPanel: () => void }) {
-  const cartId = useGetCartIdState()
-  if (!cartId) return null
-  return <ShoppingCartPanel cartId={cartId} closeCartPanel={closeCartPanel} />
-}
-
-function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCartPanel: () => void }) {
+export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; closeCartPanel: () => void }) {
   const { data, loading } = useQueryCart({ cartId, linesAmount: DEFAULT_CART_LINES_AMOUNT })
   const cartLines = data?.cart?.lines.nodes
   const totalQuantity = data?.cart?.totalQuantity

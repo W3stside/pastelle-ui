@@ -8,32 +8,35 @@ export interface ProductCurrentlyViewing {
 }
 export type ProductPageMap = Record<string, BaseProductPageProps>
 export type CollectionState = {
-  [drop: string]: ProductPageMap | null
-} & {
-  current: { title: string; collection: ProductPageMap } | null
+  current: { title: string; collection: ProductPageMap; loading: boolean } | null
   // handle name of current on screen product
   currentlyViewing: ProductCurrentlyViewing | null
+  loading: boolean
 }
 
 const initialState: CollectionState = {
   current: null,
   currentlyViewing: null,
+  loading: false,
 }
 
-type UpdateCollectionParams = { title: string; collection: ProductPageMap }
+type UpdateCollectionParams = { title: string; collection: ProductPageMap; loading: boolean }
 
 const collectionSlice = createSlice({
   name: 'collection',
   initialState,
   reducers: {
-    updateCollection(state, { payload: { title, collection } }: PayloadAction<UpdateCollectionParams>) {
-      state.current = { title, collection } || {}
+    updateCollection(state, { payload: { title, collection, loading } }: PayloadAction<UpdateCollectionParams>) {
+      state.current = { title, collection, loading } || {}
     },
     updateCurrentlyViewing(state, action: PayloadAction<ProductCurrentlyViewing | null>) {
       state.currentlyViewing = action.payload
     },
+    updateLoadingState(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload
+    },
   },
 })
 
-export const { updateCollection, updateCurrentlyViewing } = collectionSlice.actions
+export const { updateCollection, updateCurrentlyViewing, updateLoadingState } = collectionSlice.actions
 export const collection = collectionSlice.reducer

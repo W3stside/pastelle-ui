@@ -9,6 +9,8 @@ import {
   GetCartQueryVariables,
   GetCollectionQuery,
   GetCollectionQueryVariables,
+  ProductByIdQuery,
+  ProductByIdQueryVariables,
   ProductVariantQuery,
   ProductVariantQueryVariables,
 } from 'shopify/graphql/types'
@@ -16,7 +18,7 @@ import { mapShopifyProductToProps } from 'shopify/utils'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
 
 import { GET_CART } from '../queries/cart'
-import { QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
+import { QUERY_PRODUCT_BY_ID, QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
 // MOCKS
 import { useMockQuery } from './mock/hooks'
 import { MOCK_COLLECTION_DATA } from './mock/queries'
@@ -53,7 +55,7 @@ export const useQueryCollections: typeof useRealQueryCollections = isMock
 export function useQueryCurrentCollection(
   variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
 ) {
-  const { data, error } = useQueryCollections(variables)
+  const { data, error, loading } = useQueryCollections(variables)
 
   if (error) {
     devError('Error fetching current collection using variables:' + JSON.stringify(variables, null, 2), 'Error:', error)
@@ -72,7 +74,7 @@ export function useQueryCurrentCollection(
   }, {} as CollectionMap)
   const title = collection?.title || 'current'
 
-  return { title, collectionProductMap, collectionProductList }
+  return { title, collectionProductMap, collectionProductList, loading }
 }
 
 export function useQueryCurrentCollectionProductsFromUrl(
@@ -129,4 +131,20 @@ export function useQueryCart(variables: GetCartQueryVariables) {
 type ProductVariantIdParams = ProductVariantQueryVariables
 export function useQueryProductVariantId(params: ProductVariantIdParams) {
   return useQueryProductVariantByKeyValue(params)?.variantBySelectedOptions?.id
+}
+
+export function useQueryProductById(
+  variables: ProductByIdQueryVariables
+): ProductByIdQuery['product'] | null | undefined {
+  const { data, error } = useQuery<ProductByIdQuery, ProductByIdQueryVariables>(QUERY_PRODUCT_BY_ID, {
+    variables,
+    // don't query if we can't get the id from URL
+    skip: !variables.id,
+  })
+  if (error) {
+    devError(error)
+  }
+
+  // return first
+  return data?.product
 }

@@ -27,6 +27,10 @@ export default class GoogleAnalyticsProvider {
     this.dimensions = { chainId: '', walletName: '', customBrowserType: '' }
   }
 
+  public send(hitType: string, ...restArgs: any[]) {
+    ReactGA.send({ hitType, ...restArgs })
+  }
+
   public sendEvent(event: string | UaEventOptions, params?: any) {
     if (typeof event === 'object') {
       event = { ...event, ...this.parseDimensions() }
@@ -57,7 +61,7 @@ export default class GoogleAnalyticsProvider {
       legacyDimensionMetric?: boolean
       nonce?: string
       testMode?: boolean
-      gaOptions?: GaOptions & { storage?: string; storeGac?: boolean }
+      gaOptions?: GaOptions & { debug?: boolean; siteSpeedSampleRate?: number; storage?: string; storeGac?: boolean }
       gtagOptions?: any
     }
   ) {
