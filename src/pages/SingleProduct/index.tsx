@@ -15,7 +15,8 @@ export default function SingleItem() {
   const parentAspectRatio = getNodeAspectRatio(container)
 
   const [searchParams] = useSearchParams()
-  const queryProductById = useQueryProductById({
+  // TODO: use this properly
+  useQueryProductById({
     id: getShopifyId(searchParams.get('skillId'), 'Product'),
     imageAmt: DEFAULT_CURRENT_COLLECTION_VARIABLES.imageAmt,
     videoAmt: DEFAULT_CURRENT_COLLECTION_VARIABLES.videoAmt,
