@@ -1,4 +1,4 @@
-import { useQuery as useRealQuery } from '@apollo/client'
+import { ApolloError, useQuery as useRealQuery } from '@apollo/client'
 import { devError } from '@past3lle/utils'
 import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
 import { BaseProductPageProps, CollectionMap } from 'pages/common/types'
@@ -37,6 +37,7 @@ export const DEFAULT_CURRENT_COLLECTION_VARIABLES = {
 function useRealQueryCollections(variables: GetCollectionQueryVariables) {
   return useQuery<GetCollectionQuery, GetCollectionQueryVariables>(QUERY_GET_COLLECTION, {
     variables,
+    skip: !variables.productAmt,
   })
 }
 
@@ -52,9 +53,7 @@ export const useQueryCollections: typeof useRealQueryCollections = isMock
   ? (useMockQueryCollection as unknown as typeof useRealQueryCollections)
   : useRealQueryCollections
 
-export function useQueryCurrentCollection(
-  variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
-) {
+export function useQueryCurrentCollection(variables: GetCollectionQueryVariables) {
   const { data, error, loading } = useQueryCollections(variables)
 
   if (error) {
@@ -133,10 +132,12 @@ export function useQueryProductVariantId(params: ProductVariantIdParams) {
   return useQueryProductVariantByKeyValue(params)?.variantBySelectedOptions?.id
 }
 
-export function useQueryProductById(
-  variables: ProductByIdQueryVariables
-): ProductByIdQuery['product'] | null | undefined {
-  const { data, error } = useQuery<ProductByIdQuery, ProductByIdQueryVariables>(QUERY_PRODUCT_BY_ID, {
+export function useQueryProductById(variables: ProductByIdQueryVariables): {
+  data: ProductByIdQuery | undefined
+  error: ApolloError | undefined
+  loading: boolean
+} {
+  const { data, error, loading } = useQuery<ProductByIdQuery, ProductByIdQueryVariables>(QUERY_PRODUCT_BY_ID, {
     variables,
     // don't query if we can't get the id from URL
     skip: !variables.id,
@@ -146,5 +147,20 @@ export function useQueryProductById(
   }
 
   // return first
-  return data?.product
+  return { data, error, loading }
+}
+
+export function useQueryProductByIdAndMap(variables: ProductByIdQueryVariables) {
+  const { data: product, loading } = useQueryProductById(variables)
+
+  // products from collection mapped = collection
+  const data = product?.product ? mapShopifyProductToProps([product.product]) : null
+
+  if (!data) return null
+
+  // { [PRODUCT_HANDLE]: PRODUCT }
+  const formattedProduct = { [data[0].handle]: data[0] } as CollectionMap
+  const title = 'TRUNCATED'
+
+  return { title, product: formattedProduct, loading }
 }

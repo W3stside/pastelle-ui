@@ -15,6 +15,7 @@ import {
   updateCollection,
   updateCurrentlyViewing,
   updateLoadingState,
+  updateSingleProductInCollection,
 } from './reducer'
 
 export function useUpdateCurrentlyViewing() {
@@ -56,6 +57,15 @@ export function useUpdateCollection() {
   return useCallback(
     (title: string, collection: ProductPageMap, loading: boolean) =>
       dispatch(updateCollection({ title, collection, loading })),
+    [dispatch]
+  )
+}
+
+export function useUpdateSingleProductInCollection() {
+  const dispatch = useAppDispatch()
+  return useCallback(
+    (title: string, collection: ProductPageMap, loading: boolean) =>
+      dispatch(updateSingleProductInCollection({ title, collection, loading })),
     [dispatch]
   )
 }

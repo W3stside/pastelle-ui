@@ -2,6 +2,7 @@ import { BaseProductPageProps } from 'pages/common/types'
 import {
   FragmentProductImageFragment,
   FragmentProductVideoFragment,
+  Product,
   ProductArtistInfo,
   ProductSizes,
   ProductsList,
@@ -34,12 +35,44 @@ export function isProductVideo(data: any): data is FragmentProductVideoFragment 
   return '__typename' in data && data.__typename === 'Video'
 }
 
+interface MetaAssetMap {
+  logo: ShopImageSrcSet
+  navbar: ShopImageSrcSet
+  header: ShopImageSrcSet
+}
+
+export const mapSingleShopifyProductToProps = (
+  product: Product,
+  images: FragmentProductImageFragment[],
+  metaAssetMap: MetaAssetMap
+) => ({
+  id: product.id,
+  title: product.title,
+  handle: product.handle,
+  productType: product.productType,
+  // TODO: fix
+  logo: metaAssetMap?.logo,
+  headerLogo: metaAssetMap?.header,
+  navLogo: metaAssetMap?.navbar,
+  description: product.descriptionHtml,
+  // metafields
+  bgColor: getMetafields<string>(product.bgColor)?.toString(),
+  color: getMetafields<string>(product.color)?.toString(),
+  artistInfo: getMetafields<ProductArtistInfo>(product.artistInfo),
+  // TODO: fix
+  images,
+  // @ts-ignore - type
+  videos: product.media.nodes.filter(isProductVideo) as FragmentProductVideoFragment[],
+  sizes: getMetafields<ProductSizes[]>(product.sizes[0].values),
+  shortDescription: getMetafields<string>(product.shortDescription),
+})
+
 export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPageProps[] => {
   return data.map((datum) => {
     const productImages = datum.images.nodes.slice(0, 2)
 
     const metaAssets = datum.images.nodes.slice(2)
-    const metaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
+    const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
       const mappedAsset = metaAssets[i]
       if (mappedAsset?.altText) {
         acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
@@ -48,27 +81,7 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
       return acc
     }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
 
-    return {
-      id: datum.id,
-      title: datum.title,
-      handle: datum.handle,
-      productType: datum.productType,
-      // TODO: fix
-      logo: metaAssetMap?.logo,
-      headerLogo: metaAssetMap?.header,
-      navLogo: metaAssetMap?.navbar,
-      description: datum.descriptionHtml,
-      // metafields
-      bgColor: getMetafields<string>(datum.bgColor)?.toString(),
-      color: getMetafields<string>(datum.color)?.toString(),
-      artistInfo: getMetafields<ProductArtistInfo>(datum.artistInfo),
-      // TODO: fix
-      images: productImages,
-      // @ts-ignore - type
-      videos: datum.media.nodes.filter(isProductVideo) as FragmentProductVideoFragment[],
-      sizes: getMetafields<ProductSizes[]>(datum.sizes[0].values),
-      shortDescription: getMetafields<string>(datum.shortDescription),
-    }
+    return mapSingleShopifyProductToProps(datum, productImages, metaAssetMap)
   })
 }
 

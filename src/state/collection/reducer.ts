@@ -29,6 +29,16 @@ const collectionSlice = createSlice({
     updateCollection(state, { payload: { title, collection, loading } }: PayloadAction<UpdateCollectionParams>) {
       state.current = { title, collection, loading } || {}
     },
+    updateSingleProductInCollection(
+      state,
+      { payload: { title, collection: product, loading } }: PayloadAction<UpdateCollectionParams>
+    ) {
+      state.current = {
+        title,
+        loading,
+        collection: { ...state.current?.collection, ...product },
+      }
+    },
     updateCurrentlyViewing(state, action: PayloadAction<ProductCurrentlyViewing | null>) {
       state.currentlyViewing = action.payload
     },
@@ -38,5 +48,6 @@ const collectionSlice = createSlice({
   },
 })
 
-export const { updateCollection, updateCurrentlyViewing, updateLoadingState } = collectionSlice.actions
+export const { updateCollection, updateCurrentlyViewing, updateLoadingState, updateSingleProductInCollection } =
+  collectionSlice.actions
 export const collection = collectionSlice.reducer

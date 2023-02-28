@@ -1,35 +1,81 @@
-import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
-import { useEffect } from 'react'
+import { devDebug } from '@past3lle/utils'
+import { PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
+import { useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useQueryCurrentCollection } from 'shopify/graphql/hooks'
+import {
+  DEFAULT_CURRENT_COLLECTION_VARIABLES,
+  useQueryCurrentCollection,
+  useQueryProductByIdAndMap,
+} from 'shopify/graphql/hooks'
+import { getShopifyId } from 'shopify/utils'
 
-import { useUpdateCollection, useUpdateCollectionLoadingStatus } from './hooks'
+import { useUpdateCollection, useUpdateSingleProductInCollection } from './hooks'
 
 export default function Updater() {
-  const [searchParams] = useSearchParams()
-  const skillsToShow = Number(searchParams.get('skills'))
-
-  const updateCollectionLoadingStatus = useUpdateCollectionLoadingStatus()
   const updateCollection = useUpdateCollection()
+  const updateSingleItemInCollection = useUpdateSingleProductInCollection()
 
-  const { title, collectionProductMap, loading } = useQueryCurrentCollection({
+  const [searchParams] = useSearchParams()
+  const flowParams = useMemo(() => getFlowParams(searchParams), [searchParams])
+
+  // SINGLE SKILL, REFERRAL FLOW
+  // undefined id variable skips query
+  const singleSkill = useQueryProductByIdAndMap({
+    id: flowParams.params.id || '',
+    imageAmt: DEFAULT_CURRENT_COLLECTION_VARIABLES.imageAmt,
+    videoAmt: DEFAULT_CURRENT_COLLECTION_VARIABLES.videoAmt,
+  })
+
+  // COLLECTION FLOW (standard)
+  // undefined variable skips flow, e.g if above runs
+  const collection = useQueryCurrentCollection({
     // always show the latest collection
     collectionAmount: 1,
-    productAmt: !!skillsToShow ? skillsToShow : PRODUCT_AMOUNT,
+    productAmt: Number(flowParams.params.amount) || 0,
     imageAmt: PRODUCT_IMAGES_AMOUNT,
     videoAmt: PRODUCT_VIDEOS_AMOUNT,
   })
 
-  // loading state used across the app Suspense
   useEffect(() => {
-    updateCollectionLoadingStatus(loading)
-  }, [loading, updateCollectionLoadingStatus])
-
-  useEffect(() => {
-    if (collectionProductMap) {
+    if (singleSkill?.product) {
+      devDebug('SINGLE SKILL FLOW', flowParams)
+      const { title, product, loading } = singleSkill
+      updateSingleItemInCollection(title, product, loading)
+    } else if (collection?.collectionProductMap) {
+      devDebug('COLLECTION FLOW', flowParams)
+      const { title, collectionProductMap, loading } = collection
       updateCollection(title, collectionProductMap, loading)
     }
-  }, [title, collectionProductMap, loading, updateCollection])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [collection, singleSkill, updateCollection, updateSingleItemInCollection])
+
+  // loading state used across the app Suspense
+  // useEffect(() => {
+  //   updateCollectionLoadingStatus(loading)
+  // }, [loading, updateCollectionLoadingStatus])
 
   return null
+}
+
+export const enum URLFlowType {
+  SKILL = 'SKILL',
+  COLLECTION = 'COLLECTION',
+}
+
+const enum PastelleReferrals {
+  FORGE = 'FORGE',
+  OTHER = 'EXTERNAL',
+}
+
+export function getFlowParams(searchParams: URLSearchParams) {
+  const shopifyId = getShopifyId(searchParams.get('id'), 'Product')
+  if (shopifyId && searchParams.get('referral') === PastelleReferrals.FORGE) {
+    return { type: URLFlowType.SKILL, params: { id: shopifyId } }
+  } else {
+    // normal flow, e.g collection view
+    return {
+      type: URLFlowType.COLLECTION,
+      params: { amount: searchParams.get('skills') || DEFAULT_CURRENT_COLLECTION_VARIABLES.productAmt },
+    }
+  }
 }

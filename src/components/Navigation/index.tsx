@@ -8,10 +8,11 @@ import { ProductSubHeader } from 'pages/common/styleds'
 import { BaseProductPageProps } from 'pages/common/types'
 import { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import { Menu, X } from 'react-feather'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Product } from 'shopify/graphql/types/_generated_'
 import { useCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
 import { ProductPageMap } from 'state/collection/reducer'
+import { URLFlowType, getFlowParams } from 'state/collection/updater'
 import { buildItemUrl } from 'utils/navigation'
 
 import { CollectionLabel, InnerNavWrapper, MobileNavOrb, NavigationStepsWrapper, SideEffectNavLink } from './styled'
@@ -49,12 +50,15 @@ export default function Navigation({
   }, [isNavOpen, navOrbProps?.menuSize])
 
   const handleNavMove = useCallback(
-    (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, product: Pick<BaseProductPageProps, 'handle'>) => {
+    (
+      e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+      product: Pick<BaseProductPageProps, 'handle'> | 'collection'
+    ) => {
       e.preventDefault()
 
       isNavOpen && toggleNav()
 
-      navigate(buildItemUrl(product.handle))
+      navigate(product === 'collection' ? 'collection' : buildItemUrl(product.handle))
     },
     [navigate, isNavOpen, toggleNav]
   )
@@ -62,6 +66,10 @@ export default function Navigation({
   // groups products by their product type
   // e.g { LONGSLEEVE: [VOODOO, VIRGIL] ... }
   const productTypeMap = useGroupCollectionByType(collection)
+
+  // check search params to show different nav menu
+  const [searchParams] = useSearchParams()
+  const isDirectReferralView = getFlowParams(searchParams)
 
   // close open nav on resize
   useOnResize(() => setIsNavOpen(false), isNavOpen)
@@ -83,7 +91,7 @@ export default function Navigation({
           <ProductSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
             <Row flexDirection={'row-reverse'} flexWrap={'wrap'} justifyContent="center" style={{ gap: '0.5rem' }}>
               <div style={{ fontWeight: 300, fontSize: '1.2rem' }}>{COLLECTION_PARAM_NAME}</div>
-              <div>{title}</div>
+              <div>{title?.toUpperCase()}</div>
             </Row>
           </ProductSubHeader>
           <Column>
@@ -112,6 +120,19 @@ export default function Navigation({
               ))
             ) : (
               <LoadingRows rows={6} />
+            )}
+            {isDirectReferralView?.type === URLFlowType.SKILL && (
+              <ProductSubHeader
+                color={WHITE}
+                padding="0"
+                margin="1.2rem 0 0.2rem 0"
+                fontSize={isNavOpen ? '4rem' : '1.6rem'}
+                fontWeight={400}
+                style={{ cursor: 'pointer' }}
+                onClick={(e) => handleNavMove(e, 'collection')}
+              >
+                FULL COLLECTION
+              </ProductSubHeader>
             )}
           </Column>
         </InnerNavWrapper>
