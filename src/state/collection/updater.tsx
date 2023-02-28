@@ -9,11 +9,16 @@ import {
 } from 'shopify/graphql/hooks'
 import { getShopifyId } from 'shopify/utils'
 
-import { useUpdateCollection, useUpdateSingleProductInCollection } from './hooks'
+import {
+  useUpdateCollection,
+  /* useUpdateCollectionLoadingStatus, */
+  useUpdateSingleProductInCollection,
+} from './hooks'
 
 export default function Updater() {
   const updateCollection = useUpdateCollection()
   const updateSingleItemInCollection = useUpdateSingleProductInCollection()
+  // const updateCollectionLoadingStatus = useUpdateCollectionLoadingStatus()
 
   const [searchParams] = useSearchParams()
   const flowParams = useMemo(() => getFlowParams(searchParams), [searchParams])
@@ -31,7 +36,7 @@ export default function Updater() {
   const collection = useQueryCurrentCollection({
     // always show the latest collection
     collectionAmount: 1,
-    productAmt: Number(flowParams.params.amount) || 0,
+    productAmt: flowParams.params.id ? undefined : Number(flowParams.params.amount),
     imageAmt: PRODUCT_IMAGES_AMOUNT,
     videoAmt: PRODUCT_VIDEOS_AMOUNT,
   })
@@ -49,10 +54,10 @@ export default function Updater() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collection, singleSkill, updateCollection, updateSingleItemInCollection])
 
-  // loading state used across the app Suspense
+  // // loading state used across the app Suspense
   // useEffect(() => {
-  //   updateCollectionLoadingStatus(loading)
-  // }, [loading, updateCollectionLoadingStatus])
+  //   updateCollectionLoadingStatus(!!singleSkill?.loading || collection.loading)
+  // }, [singleSkill?.loading, collection.loading, updateCollectionLoadingStatus])
 
   return null
 }
