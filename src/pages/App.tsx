@@ -3,7 +3,11 @@ import { CookiesBanner as Cookies } from 'components/Cookies/Banner'
 import { FallbackLoader } from 'components/Loader'
 import { APPAREL_PARAM_NAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Suspense, lazy } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import {
+  /* Navigate, */
+  Route,
+  Routes,
+} from 'react-router-dom'
 import { useCollectionLoadingStatus } from 'state/collection/hooks'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
@@ -37,7 +41,7 @@ export default function App() {
         <Route path={`/${APPAREL_PARAM_NAME}/:handle`} element={<SingleItem />} />
 
         <Route path="/404" element={<NotFound />} />
-        <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} />
+        {/* <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} /> */}
       </Routes>
 
       {/* COOKIES */}

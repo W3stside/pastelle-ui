@@ -41,7 +41,7 @@ export default function Updater() {
       devDebug('SINGLE SKILL FLOW', flowParams)
       const { title, product, loading } = singleSkill
       updateSingleItemInCollection(title, product, loading)
-    } else if (collection?.collectionProductMap) {
+    } else if (!!collection?.collectionProductList.length) {
       devDebug('COLLECTION FLOW', flowParams)
       const { title, collectionProductMap, loading } = collection
       updateCollection(title, collectionProductMap, loading)
