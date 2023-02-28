@@ -3223,15 +3223,15 @@
   resolved "https://registry.yarnpkg.com/@past3lle/assets/-/assets-0.0.10.tgz#e866cf32bb03637bfbf90a677dba52bd1d8a56ee"
   integrity sha512-oTf6XMKnGQO5Y5S/4fw8CYQwgMVIq8PPVfZFLwcyHThX24UQS+oVHQwCOtSlYa8DlDe7O7wdJil7QBCaOZNfsg==
 
-"@past3lle/components@^0.0.32":
-  version "0.0.32"
-  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.32.tgz#f34a10aa2f4f1546222f00793eb4b0c2ae558e30"
-  integrity sha512-flbuvZ6PvllTQJVN68KkayvP4V9Mcojv6eKSk9cF1vnNa+HT5ZcgCBNX+DQHXpnHtaQhdkdbbV9zG0uGHbmpsA==
+"@past3lle/components@^0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.33.tgz#c4df6474842bbf2a4f8b75f54b033b37797eee47"
+  integrity sha512-wM49XC/tetUG3clU4nI0UWyD2n8cenENby9phndoGqN4z5g/WzZVFOZDzFvXSGY5GyioSd/1yhRhvYG497/5xg==
   dependencies:
     "@past3lle/assets" "^0.0.10"
     "@past3lle/constants" "^0.0.17"
     "@past3lle/hooks" "^0.0.12"
-    "@past3lle/theme" "^0.0.22"
+    "@past3lle/theme" "^0.0.23"
     "@past3lle/types" "^0.0.12"
     "@past3lle/utils" "^0.0.17"
     "@popperjs/core" "^2.11.6"
@@ -3263,10 +3263,10 @@
     lodash.debounce "^4.0.8"
     lodash.throttle "^4.1.1"
 
-"@past3lle/theme@^0.0.22":
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.0.22.tgz#f548911f7b6ad642b410f9810da27d3b4a9ef6a4"
-  integrity sha512-3Uid9ECeorHpkjoXHxejKqlRSjAMO6JpIwo69VD/JzKCSHuFCjHeX4aoxiyFs7Dubzz3E4DowLZRZtutPEk5uw==
+"@past3lle/theme@^0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.0.23.tgz#c08380924535335d807feb8fb704252b8772c6b3"
+  integrity sha512-hCcU0fjYgIBNL70LE6LVBCl1pzB6TYzdlM7tWAyavljAZVaPwplNnrSDJ37LGk67ZJ/jGpQKFwVLcjVA+E8CfA==
   dependencies:
     "@past3lle/assets" "^0.0.10"
     "@past3lle/constants" "^0.0.17"
