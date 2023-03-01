@@ -19,6 +19,7 @@ import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import * as StyledElems from 'pages/SingleProduct/styled'
 import Logo from 'pages/common/components/Logo'
 import ProductPriceAndLabel from 'pages/common/components/ProductPriceAndLabel'
+import ProductRarityAndLabel from 'pages/common/components/ProductRarityAndLabel'
 import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
 import {
   FreeShippingBanner,
@@ -154,6 +155,12 @@ export default function SingleProductPage({
                 logos={{ header: headerLogo, nav: navLogo, main: logo }}
               />
               <ProductPriceAndLabel variant={variant} color={color} title={title} shortDescription={shortDescription} />
+              <ProductRarityAndLabel
+                variant={variant}
+                color={'grey'}
+                title="RARITY: COMMON"
+                shortDescription={'SKILL INFO AVAILABLE IN THE FORGE'}
+              />
             </StyledElems.SingleProductScreen>
 
             {/* SCREEN 2 - SHOWCASE */}

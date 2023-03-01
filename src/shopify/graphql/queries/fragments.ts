@@ -54,6 +54,9 @@ export const FRAGMENT_PRODUCT = gql`
     shortDescription: metafield(namespace: "custom", key: "short_description") {
       value
     }
+    skillMetadata: metafield(namespace: "custom", key: "skill_metadata") {
+      value
+    }
   }
 `
 
