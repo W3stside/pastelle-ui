@@ -51,7 +51,7 @@ export const AddToCartButtonWrapper = styled(Row)<{ isInView?: boolean; width?: 
   width: ${({ width = '90%' }) => `calc(${width} - 1rem)`};
   margin: 0 auto;
   > button {
-    width: 100%;
+    width: 98.2%;
     height: 100%;
   }
   align-items: stretch;
