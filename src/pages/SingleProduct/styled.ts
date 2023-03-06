@@ -1,7 +1,7 @@
 import { Column, Row } from '@past3lle/components'
 import {
   BLACK,
-  CHARCOAL_BLACK,
+  OFF_BLACK as CHARCOAL_BLACK,
   betweenSmallAndLarge,
   fromExtraLarge,
   fromLarge,
@@ -50,7 +50,8 @@ export const AddToCartButtonWrapper = styled(Row)<{ isInView?: boolean; width?: 
   left: 0.5rem;
   width: ${({ width = '90%' }) => `calc(${width} - 1rem)`};
   margin: 0 auto;
-  > button {
+
+  button {
     width: 98.2%;
     height: 100%;
   }

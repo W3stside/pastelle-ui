@@ -1,6 +1,6 @@
 import { Button, ButtonProps, ButtonSizeVariations, ButtonVariations } from '@past3lle/components'
-import { ThemeModes } from '@past3lle/theme'
 import styled from 'styled-components/macro'
+import { ThemeModes } from 'theme'
 
 const ThemeButtonToggleWrapper = styled.div<{
   disabled: boolean
@@ -37,7 +37,7 @@ const ThemeButtonToggleWrapper = styled.div<{
 
     > #theme-toggle-label {
       position: absolute;
-      color: ${({ theme }) => theme.offWhite};
+      color: ${({ theme }) => theme.offwhite};
       font-weight: 300;
       font-size: 1rem;
       max-width: 22%;

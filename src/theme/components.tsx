@@ -7,7 +7,7 @@ export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColo
   backgroundColor: warning ? theme.red1 : theme.primary1,
 }))`
   padding: 1rem 2rem 1rem 2rem;
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border-radius: ${({ theme }) => theme.button.border.radius};
   cursor: pointer;
   user-select: none;
   font-size: 1rem;

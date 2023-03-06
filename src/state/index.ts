@@ -1,4 +1,3 @@
-import { ThemeModes } from '@past3lle/theme'
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { load, save } from 'redux-localstorage-simple'
@@ -15,6 +14,7 @@ import { modalsAndPopups } from 'state/modalsAndPopups/reducer'
 // MISC
 import { user } from 'state/user/reducer'
 import { window } from 'state/window/reducer'
+import { ThemeModes } from 'theme'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector

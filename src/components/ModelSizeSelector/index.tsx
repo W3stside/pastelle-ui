@@ -32,8 +32,8 @@ const ModelSizeSelectorWrapper = styled(Row)`
       height: 5rem;
 
       > select {
-        color: ${({ theme }) => theme.products.aside.textColor};
-        border: 1px solid ${({ theme }) => theme.products.aside.inputsBorderColor};
+        color: ${({ theme }) => theme.content.text};
+        border: 1px solid ${({ theme }) => theme.input.border.colour};
         border-radius: 1rem;
         font-size: 1.5rem;
         height: 100%;
@@ -46,7 +46,7 @@ const ModelSizeSelectorWrapper = styled(Row)`
         font-style: italic;
 
         &:hover {
-          background: ${({ theme }) => theme.inputHoverColor};
+          background: ${({ theme }) => theme.input.hoverColour};
         }
 
         transition: background 0.2s ease-in-out;

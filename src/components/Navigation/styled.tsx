@@ -1,5 +1,12 @@
 import { Button, Column, Row } from '@past3lle/components'
-import { BLACK, setBackgroundWithDPI, setBestTextColour, setFlickerAnimation, upToMedium } from '@past3lle/theme'
+import {
+  BLACK,
+  OFF_WHITE,
+  setBackgroundWithDPI,
+  setBestTextColour,
+  setFlickerAnimation,
+  upToMedium,
+} from '@past3lle/theme'
 import { Z_INDEXES } from 'constants/config'
 import styled from 'styled-components/macro'
 import { ShopImageSrcSet } from 'types'
@@ -87,7 +94,7 @@ export const MobileNavOrb = styled(Button).attrs<MobileNavProps & { mobileHide?:
     padding: 1rem;
     background: #000;
 
-    border-radius: ${({ theme }) => theme.buttons.borderRadius};
+    border-radius: ${({ theme }) => theme.button.border.radius};
 
     > svg {
       &:hover {
@@ -120,7 +127,7 @@ export const CollectionLabel = styled(Row)<{ isNavOpen: boolean; active: boolean
       width: 100%;
     `}
 
-  ${({ isNavOpen, bgColor }) =>
+  ${({ isNavOpen, bgColor = OFF_WHITE }) =>
     isNavOpen &&
     `
     color: ${setBestTextColour(bgColor)};
@@ -135,7 +142,7 @@ export const SideEffectNavLink = styled.span`
 // #1d1d1d
 export const InnerNavWrapper = styled(Column)<{ bgColor?: string; $width: string }>`
   width: ${({ $width }) => $width};
-  background-color: ${({ theme, bgColor = theme.blackOpaque2 }) => bgColor};
+  background-color: ${({ theme, bgColor = theme.blackOpaqueMore }) => bgColor};
   padding: 1rem;
 
   > div {

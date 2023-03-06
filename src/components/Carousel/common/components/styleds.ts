@@ -93,9 +93,9 @@ export const CarouselButtonContainer = styled.div`
 `
 
 export const CarouselIndicator = styled.div<{ isCurrent: boolean; color?: string }>`
-  background: ${({ isCurrent, theme, color = theme.blackOpaque2 }) => (isCurrent ? color : 'transparent')};
+  background: ${({ isCurrent, theme, color = theme.blackOpaqueMore }) => (isCurrent ? color : 'transparent')};
   color: ${({ isCurrent }) => (isCurrent ? BLACK : OFF_WHITE)};
-  border: 1px solid ${({ isCurrent, theme, color = theme.blackOpaque2 }) => (isCurrent ? 'transparent' : color)};
+  border: 1px solid ${({ isCurrent, theme, color = theme.blackOpaqueMore }) => (isCurrent ? 'transparent' : color)};
   border-radius: 1rem;
   flex: 0 1 12%;
   display: flex;

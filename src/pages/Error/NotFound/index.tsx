@@ -1,4 +1,4 @@
-import { ArticleFadeIn, Button as ButtonPrimary, ButtonVariations } from '@past3lle/components'
+import { ArticleFadeIn, Button as ButtonPrimaryUnstyled, ButtonVariations } from '@past3lle/components'
 import { setBackgroundWithDPI } from '@past3lle/theme'
 import SEO from 'components/SEO'
 import { Z_INDEXES } from 'constants/config'
@@ -7,6 +7,8 @@ import { transparentize } from 'polished'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import { ShopImageSrcSet } from 'types'
+
+const ButtonPrimary = styled(ButtonPrimaryUnstyled)``
 
 const pastelle404IMG = 'https://ik.imagekit.io/pastelle/artists-mathieu_sgnA_QA83.jpeg'
 const NOT_FOUND_SET = [

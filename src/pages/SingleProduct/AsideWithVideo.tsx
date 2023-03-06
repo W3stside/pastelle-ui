@@ -113,7 +113,6 @@ export default function SingleProductPage({
     { root: asideContainer, continuous: true },
     !!asideContainer
   )
-
   return (
     <>
       <LargeImageCarousel
@@ -191,7 +190,7 @@ export default function SingleProductPage({
                   ref={addToCartButtonRef}
                   product={variant}
                   quantity={1}
-                  buttonProps={{ bgImage: navLogo, backgroundColor: color || '#000' }}
+                  buttonProps={{ bgImage: navLogo, backgroundColor: color || '#000', width: '100%' }}
                 />
 
                 {/* FIXED ADD TO CART BUTTON */}

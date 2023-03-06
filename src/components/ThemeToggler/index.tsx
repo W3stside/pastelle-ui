@@ -1,8 +1,8 @@
 import { PNG } from '@past3lle/assets'
 import { BSV, BV, ButtonProps, Row } from '@past3lle/components'
-import { ThemeModes } from '@past3lle/theme'
 import { ReactNode } from 'react'
 import { useThemeManager } from 'state/user/hooks'
+import { ThemeModes } from 'theme'
 import { ShopImageSrcSet } from 'types'
 
 import { ThemeToggle, ThemeToggleProps } from './ThemeToggle'

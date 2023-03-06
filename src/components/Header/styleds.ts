@@ -3,11 +3,9 @@ import { Header, Row, RowFixed } from '@past3lle/components'
 import {
   BLACK,
   OFF_WHITE,
-  ThemeModes,
   betweenSmallAndMedium,
   fromExtraSmall,
   fromMedium,
-  getThemeColours,
   setBackgroundWithDPI,
   setBestTextColour,
   upToExtraSmall,
@@ -23,20 +21,22 @@ import { darken, transparentize } from 'polished'
 import { NavLink } from 'react-router-dom'
 import { Text } from 'rebass'
 import styled from 'styled-components/macro'
+import { getThemeColours } from 'theme'
+import { ThemeModes } from 'theme'
 import { ShopImageSrcSet } from 'types'
 
-const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1)
+const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1 || BLACK)
 
 export const StyledNavLink = styled(NavLink)`
   display: flex;
   flex-flow: row nowrap;
   align-items: left;
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border-radius: ${({ theme }) => theme.button.border.radius};
   outline: none;
   cursor: pointer;
   text-decoration: none;
   color: ${({ theme }) => theme.text3};
-  font-size: ${({ theme }) => theme.buttons.font.size.normal};
+  font-size: ${({ theme }) => theme.button.fontSize.normal};
   width: fit-content;
   margin: 0 12px;
   font-weight: 500;
@@ -72,7 +72,7 @@ export const HeaderControls = styled.div`
 export const HeaderElement = styled.div`
   background: ${OFF_WHITE};
   padding: 1rem;
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border-radius: ${({ theme }) => theme.button.border.radius};
   display: flex;
   align-items: center;
   gap: 8px;
@@ -142,7 +142,7 @@ export const HeaderDrawerButton = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(267deg, ${({ theme }) => theme.blackOpaque2} 13%, transparent);
+  background: linear-gradient(267deg, ${({ theme }) => theme.blackOpaqueMore} 13%, transparent);
   padding: 0 2rem;
   font-size: 2vw;
   cursor: pointer;
@@ -219,7 +219,7 @@ export const AccountElement = styled.div<{ active: boolean }>`
   flex-direction: row;
   align-items: center;
 
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border-radius: ${({ theme }) => theme.button.border.radius};
   white-space: nowrap;
   width: 100%;
   cursor: pointer;
@@ -239,7 +239,7 @@ export const HideSmall = styled.span`
 `
 
 export const NetworkCard = styled(YellowCard)`
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border-radius: ${({ theme }) => theme.button.border.radius};
   padding: 8px 12px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     margin: 0;

@@ -1,7 +1,7 @@
-import { ThemeModes } from '@past3lle/theme'
 import { a } from '@react-spring/web'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
+import { ThemeModes } from 'theme'
 
 export type TouchActionChoices =
   | 'auto'
@@ -41,7 +41,7 @@ export const AnimatedDivContainer = styled(a.div)<{
   &:hover {
     box-shadow: ${({ theme, $withBoxShadow = true }) =>
       $withBoxShadow &&
-      `0px 0px 3rem 1rem ${theme.mode === ThemeModes.DARK ? theme.blackOpaque2 : theme.offWhiteOpaque3}`};
+      `0px 0px 3rem 1rem ${theme.mode === ThemeModes.DARK ? theme.blackOpaqueMore : theme.offwhiteOpaqueMost}`};
   }
 
   transition: box-shadow 0.2s ease-in-out;

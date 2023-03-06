@@ -1,18 +1,11 @@
 import { Column, Row } from '@past3lle/components'
-import {
-  OFF_WHITE,
-  ThemeModes,
-  fromExtraLarge,
-  setFadeInAnimation,
-  upToExtraSmall,
-  upToMedium,
-  upToSmall,
-} from '@past3lle/theme'
+import { OFF_WHITE, fromExtraLarge, setFadeInAnimation, upToExtraSmall, upToMedium, upToSmall } from '@past3lle/theme'
 import { Z_INDEXES } from 'constants/config'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
 import { ItemHeader, ProductSubHeader } from 'pages/common/styleds'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
+import { ThemeModes } from 'theme'
 
 export const CartLineContent = styled(Row)`
   display: grid;
@@ -69,7 +62,7 @@ export const CartLineWrapper = styled(Row)<{
   bgLogo: string | undefined
   color?: string
 }>`
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border-radius: ${({ theme }) => theme.button.border.radius};
 
   > div {
     display: grid;
@@ -122,7 +115,7 @@ export const ShoppingCartFullWrapper = styled.div``
 export const ShoppingCartHeaderWrapper = styled(Row)`
   justify-content: space-evenly;
   gap: 1rem;
-  background: ${({ theme }) => theme.offWhite};
+  background: ${({ theme }) => theme.offwhite};
   filter: invert(${({ theme }) => (theme.mode === ThemeModes.DARK ? 1 : 0)});
   padding: 1rem 1.5rem;
   margin-left: auto;

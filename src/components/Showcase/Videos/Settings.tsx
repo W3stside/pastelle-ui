@@ -7,9 +7,9 @@ import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
 import styled from 'styled-components/macro'
 
 const ShowcaseVideoControlContainer = styled(Row)`
-  background: ${({ theme }) => theme.products.aside.itemContainer};
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
-  border: 1px solid ${({ theme }) => theme.products.aside.inputsBorderColor};
+  background: ${({ theme }) => theme.content.background};
+  border-radius: ${({ theme }) => theme.button.border.radius};
+  border: 1px solid ${({ theme }) => theme.input.border.colour};
 `
 
 export default function ShowcaseVideoControls({ isMobile }: { isMobile: boolean }) {
