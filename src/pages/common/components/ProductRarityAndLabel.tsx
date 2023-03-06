@@ -7,7 +7,6 @@ import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 
 import { BaseProductPageProps } from '../types'
 
-const SKILLS_URI = 'https://skills.pastelle.shop/#/'
 export default function ProductRarityAndLabel({
   color,
   title,
@@ -32,19 +31,21 @@ export default function ProductRarityAndLabel({
         </TYPE.ProductText>
         <TYPE.ProductText>{shortDescription}</TYPE.ProductText>
       </Column>
-      <RarityLabel
-        buttonLabel="VIEW SKILL"
-        href={`${SKILLS_URI}?skillId=${skillMetadata?.properties.id}`}
-        styleProps={{
-          fontWeight: 300,
-          fontSize: '2rem',
-          margin: 'auto 0 0 auto',
-          padding: '0.5rem',
-          flex: '0 1 auto',
-          maxWidth: '40%',
-          backgroundColor: darken(0.13, transparentize(0.2, color)),
-        }}
-      />
+      {skillMetadata && (
+        <RarityLabel
+          buttonLabel="VIEW SKILL"
+          metadata={skillMetadata}
+          styleProps={{
+            fontWeight: 300,
+            fontSize: '2rem',
+            margin: 'auto 0 0 auto',
+            padding: '0.5rem',
+            flex: '0 1 auto',
+            maxWidth: '40%',
+            backgroundColor: darken(0.13, transparentize(0.2, color)),
+          }}
+        />
+      )}
     </Row>
   )
 }

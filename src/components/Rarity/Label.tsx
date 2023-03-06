@@ -5,12 +5,15 @@ import { BoxProps } from 'rebass'
 interface RarityLabelProps {
   styleProps?: BoxProps
   buttonLabel: string
-  href: string
+  // TODO: fix
+  metadata: Record<string, any>
 }
-export function RarityLabel({ buttonLabel, href, styleProps }: RarityLabelProps) {
+const SKILLS_URI = 'https://skills.pastelle.shop/#/'
+export function RarityLabel({ buttonLabel, metadata, styleProps }: RarityLabelProps) {
+  const url = `${SKILLS_URI}?skillId=${metadata?.properties.id}`
   return (
     <TYPE.ProductText display="flex" alignItems={'center'} style={{ gap: '0.5rem', cursor: 'pointer' }} {...styleProps}>
-      <ExternalLink href={href} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <ExternalLink href={url} style={{ textDecoration: 'none', color: 'inherit' }}>
         {buttonLabel}
       </ExternalLink>
     </TYPE.ProductText>
