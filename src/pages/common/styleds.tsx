@@ -206,7 +206,7 @@ export const ItemBreadcrumb = styled(NavLink)<{ color: string }>`
   text-decoration: none;
   text-transform: uppercase;
 
-  > span:first-child {
+  > span:first-of-type {
     margin: 0 5px;
   }
 `
@@ -222,7 +222,7 @@ export const ProductDescription = styled(Text.Black).attrs((props) => ({
   text-transform: uppercase;
   font-style: italic;
 
-  .item-description-p:first-child {
+  .item-description-p:first-of-type {
     margin-top: 0;
   }
 
@@ -455,7 +455,7 @@ export const VideoPlayCTAOverlay = styled(Row).attrs((props) => ({
   }
 `
 
-export const VideoControlButton = styled(Button)`
+export const VideoControlButton = styled(Button).attrs({ borderRadius: '0' })`
   cursor: pointer;
   position: absolute;
   right: 0;

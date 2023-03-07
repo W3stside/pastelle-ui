@@ -83,6 +83,7 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
             justifyContent="center"
             alignItems="center"
             height="100%"
+            width="100%"
           >
             {loading ? 'Adding...' : shouldShow ? disappearingMessage : label}
           </ProductDescription>

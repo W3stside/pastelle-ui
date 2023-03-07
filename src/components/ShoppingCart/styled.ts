@@ -17,7 +17,7 @@ export const CartLineContent = styled(Row)`
   cursor: pointer;
 
   // content wrapper
-  > ${Row}:first-child {
+  > ${Row}:first-of-type {
     flex-flow: row wrap;
     gap: 0 0.8rem;
     justify-content: flex-start;
@@ -35,7 +35,7 @@ export const CartLineContent = styled(Row)`
       ${upToExtraSmall`
         font-size: 1.8rem;
 
-        &:not(&:first-child) {
+        &:not(&:first-of-type) {
           font-size: 1.2rem;
         }
       `}
@@ -217,7 +217,7 @@ export const ShoppingCartPanelWrapper = styled.div`
     padding: 1rem 2rem;
 
     // HEADER
-    &:first-child {
+    &:first-of-type {
       padding: 1rem 3rem;
     }
     // FOOTER
@@ -228,7 +228,7 @@ export const ShoppingCartPanelWrapper = styled.div`
 
     ${upToSmall`
       // HEADER
-      &:first-child {
+      &:first-of-type {
         padding: 1.5rem;
       }
       // FOOTER

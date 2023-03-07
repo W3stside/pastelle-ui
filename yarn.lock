@@ -3223,10 +3223,10 @@
   resolved "https://registry.yarnpkg.com/@past3lle/assets/-/assets-0.0.10.tgz#e866cf32bb03637bfbf90a677dba52bd1d8a56ee"
   integrity sha512-oTf6XMKnGQO5Y5S/4fw8CYQwgMVIq8PPVfZFLwcyHThX24UQS+oVHQwCOtSlYa8DlDe7O7wdJil7QBCaOZNfsg==
 
-"@past3lle/components@^0.0.36":
-  version "0.0.36"
-  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.36.tgz#c9ebdb43e7fcb09514955c1030387588de3cdd6d"
-  integrity sha512-+rMUPzlf6A65xtcn3orb2izmciagCSRRYl8ESeWMRJ4BtP4XAvK/SM4taOy0ByOvIgKKFM2K6Df8lU7p+qnYWA==
+"@past3lle/components@^0.0.37":
+  version "0.0.37"
+  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.37.tgz#e635a9da1882d6631aa753a75e14a2870fc861cd"
+  integrity sha512-ISaeEq+PUdy1vmGpo69Sl+tab9z5XP4skjxTKng1zlami6e19i1V9m8VwAXzpwvnp3LZ/RGjXUE4tEkVl/Wz5g==
   dependencies:
     "@past3lle/assets" "^0.0.10"
     "@past3lle/constants" "^0.0.17"

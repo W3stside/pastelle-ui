@@ -505,7 +505,7 @@ export const ActivityVisual = styled.div`
     border: 2px solid ${({ theme }) => theme.black};
   }
 
-  ${StyledLogo}:not (:first-child):last-child {
+  ${StyledLogo}:not (:first-of-type):last-child {
     margin: 0 0 0 -9px;
   }
 

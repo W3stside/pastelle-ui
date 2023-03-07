@@ -20,7 +20,7 @@ const ThemeButtonToggleWrapper = styled.div<{
 
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
-  > button {
+  > ${Button} {
     border-radius: 0.8rem;
     width: 60%;
     height: 110%;
@@ -35,7 +35,7 @@ const ThemeButtonToggleWrapper = styled.div<{
       max-height: 100%;
     }
 
-    > #theme-toggle-label {
+    #theme-toggle-label {
       position: absolute;
       color: ${({ theme }) => theme.offwhite};
       font-weight: 300;
@@ -69,7 +69,9 @@ export const ThemeToggle: React.FC<ThemeToggleProps & { mode: boolean; buttonPro
       $width={width}
       title={`Tap/click to enable ${mode ? 'light' : 'dark'} mode`}
     >
-      <Button {...buttonProps}>{children}</Button>
+      <Button height="100%" {...buttonProps}>
+        {children}
+      </Button>
     </ThemeButtonToggleWrapper>
   )
 }

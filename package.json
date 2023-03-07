@@ -33,7 +33,7 @@
     "@lingui/react": "^3.9.0",
     "@metamask/jazzicon": "^2.0.0",
     "@past3lle/assets": "^0.0.10",
-    "@past3lle/components": "^0.0.36",
+    "@past3lle/components": "^0.0.37",
     "@past3lle/constants": "^0.0.17",
     "@past3lle/hooks": "^0.0.12",
     "@past3lle/theme": "^0.0.25",

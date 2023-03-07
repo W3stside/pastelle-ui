@@ -69,7 +69,7 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
           }
         }
 
-        &:first-child {
+        &:first-of-type {
           box-shadow: 1rem 0px 5rem 0.5rem ${({ theme }) => transparentize(0.5, theme.black)};
 
           > picture {
@@ -105,7 +105,7 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
         ${upToSmall`
           width: auto;
           justify-content: center;            
-          :not(:first-child) {
+          :not(:first-of-type) {
             position: absolute;
             visibility: hidden;
             transform: none;
@@ -125,7 +125,7 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
             overflow: visible;
           }
 
-          &:first-child {
+          &:first-of-type {
             > picture {
               position: absolute;
               width: 60%;
@@ -134,7 +134,7 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
             }
           }
 
-          &:not(:first-child) {
+          &:not(:first-of-type) {
             > picture {
               > img {
                 border-radius: 1rem;
@@ -155,7 +155,7 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
           width: 40%;
           transform: none;
           z-index: 5;
-          :not(:first-child) {
+          :not(:first-of-type) {
             visibility: visible;
           }       
         `}

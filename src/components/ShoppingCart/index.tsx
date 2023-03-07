@@ -114,7 +114,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
             > * {
               flex: 1;
               min-width: 25rem;
-              &:first-child {
+              &:first-of-type {
                 min-width: 20rem;
               }
               &:last-child {

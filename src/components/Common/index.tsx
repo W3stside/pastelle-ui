@@ -40,7 +40,7 @@ export const ShowcaseAlertMessages = styled.div`
     text-align: center;
     margin: 0.5rem 0;
 
-    &:first-child {
+    &:first-of-type {
       margin-top: 0;
     }
   }
