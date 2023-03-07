@@ -3,7 +3,7 @@ import { BLACK } from '@past3lle/theme'
 import { MarkdownRenderer } from 'components/Markdown'
 import { ReactNode } from 'react'
 import styled from 'styled-components/macro'
-import { ThemeModes, getThemeColours } from 'theme'
+import { ThemeModes, getThemeColourByKey } from 'theme'
 
 import { ItemHeader, ProductAsidePanel, ProductContainer } from '../common/styleds'
 
@@ -54,7 +54,11 @@ export function AsideWithScrollableImages({ header, markdown, image }: Params) {
   return (
     <AsideWithScrollableImagesContainer id="#item-container" /* isViewingItem={isViewingItem} */>
       <ProductAsidePanel>
-        <AboutUsHeader fontWeight={100} itemColor={getThemeColours(ThemeModes.DARK).bg2 || BLACK} animation>
+        <AboutUsHeader
+          fontWeight={100}
+          itemColor={getThemeColourByKey(ThemeModes.DARK, 'bg2', BLACK) as string}
+          animation
+        >
           {header}
         </AboutUsHeader>
         <AboutUsTextContainer>

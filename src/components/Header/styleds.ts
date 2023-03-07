@@ -21,11 +21,11 @@ import { darken, transparentize } from 'polished'
 import { NavLink } from 'react-router-dom'
 import { Text } from 'rebass'
 import styled from 'styled-components/macro'
-import { getThemeColours } from 'theme'
+import { getThemeColourByKey } from 'theme'
 import { ThemeModes } from 'theme'
 import { ShopImageSrcSet } from 'types'
 
-const DEFAULT_BG = transparentize(0.3, getThemeColours(ThemeModes.DARK).bg1 || BLACK)
+const DEFAULT_BG = transparentize(0.3, getThemeColourByKey(ThemeModes.DARK, 'bg1', BLACK) as string)
 
 export const StyledNavLink = styled(NavLink)`
   display: flex;

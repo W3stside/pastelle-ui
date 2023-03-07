@@ -22,7 +22,7 @@ import {
 } from 'state/cart/hooks'
 import { CartState } from 'state/cart/reducer'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
-import { ThemeModes, getThemeColours } from 'theme'
+import { ThemeModes, getThemeColourByKey } from 'theme'
 import { formatShopifyCurrency } from 'utils/formatting'
 import { buildItemUrl, checkIsCollectionPage } from 'utils/navigation'
 
@@ -134,10 +134,9 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
               </div>
             </CartHeader>
           )}
-          {/* TODO: remove disabled */}
           <Button
-            backgroundColor={getThemeColours(ThemeModes.DARK).purple2}
-            variant={ButtonVariations.SUCCESS}
+            backgroundColor={getThemeColourByKey(ThemeModes.DARK, 'purple2', 'purple') as string}
+            buttonVariant={ButtonVariations.SUCCESS}
             disabled={checkoutClicked}
             padding="0"
           >

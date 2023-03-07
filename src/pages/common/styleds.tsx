@@ -1,6 +1,5 @@
-import { Column, Row } from '@past3lle/components'
+import { Button, Column, Row } from '@past3lle/components'
 import { ExternalLink } from '@past3lle/components'
-import { Button } from '@past3lle/components'
 import {
   BLACK,
   rotateKeyframe,

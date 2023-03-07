@@ -1,6 +1,6 @@
-import { createTemplateTheme } from '@past3lle/theme'
-
-import { ThemeModes } from './types'
+import { createTemplateTheme, getThemeColourByKeyCurried, getThemeColoursCurried } from '@past3lle/theme'
 
 export const pastelleTheme = createTemplateTheme('PASTELLE')
-export const getThemeColours = (mode: ThemeModes | 'DEFAULT') => pastelleTheme.modes[mode]
+
+export const getThemeColourByKey = getThemeColourByKeyCurried(pastelleTheme)
+export const getThemeColours = getThemeColoursCurried(pastelleTheme)

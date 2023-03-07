@@ -73,7 +73,7 @@ export default function NotFound() {
             The page you are looking for does not exist{' '}
             <span style={{ fontSize: '3rem', fontStyle: 'normal' }}>ʕ ͡° ʖ̯ ͡°ʔ</span>
           </ItemHeader>
-          <ButtonPrimary onClick={() => navigate('/')} variant={ButtonVariations.WARNING}>
+          <ButtonPrimary onClick={() => navigate('/')} buttonVariant={ButtonVariations.WARNING}>
             <ProductSubHeader>Back to the collection</ProductSubHeader>
           </ButtonPrimary>
         </ContainerDiv>
