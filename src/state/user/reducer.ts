@@ -1,13 +1,14 @@
-import { ThemeState as Theme, ThemeModes } from '@past3lle/theme'
+import { PastelleTheme as Theme } from '@past3lle/theme'
 import { PayloadAction, createSlice, current } from '@reduxjs/toolkit'
 import { ProductSizes } from 'shopify/graphql/types'
+import { ThemeModes } from 'theme'
 
 const currentTimestamp = () => new Date().getTime()
 
 export type ShowcaseGender = 'MALE' | 'FEMALE'
 export type ShowcaseHeight = 165 | 175 | 185 | 190
 export interface UserState {
-  theme: Omit<Theme, 'setMode' | 'setAutoDetect'>
+  theme: Pick<Theme, 'mode' | 'autoDetect'>
   // the timestamp of the last updateVersion action
   lastUpdateVersionTimestamp?: number
   showcase: {

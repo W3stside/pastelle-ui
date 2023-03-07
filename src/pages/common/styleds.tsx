@@ -1,6 +1,5 @@
-import { Column, Row } from '@past3lle/components'
+import { Button, Column, Row } from '@past3lle/components'
 import { ExternalLink } from '@past3lle/components'
-import { Button } from '@past3lle/components'
 import {
   BLACK,
   rotateKeyframe,
@@ -10,7 +9,6 @@ import {
   textShadowAnimation,
   upToSmallHeight,
 } from '@past3lle/theme'
-import { ThemeModes } from '@past3lle/theme'
 import { Text } from 'components/Text'
 import { Z_INDEXES } from 'constants/config'
 import { SocialType } from 'mock/types'
@@ -19,6 +17,7 @@ import { darken } from 'polished'
 import { Dribbble, Instagram } from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
+import { ThemeModes } from 'theme'
 import { ShopImageSrcSet } from 'types'
 
 export const ScrollingProductLabel = styled(Row).attrs((props) => ({ padding: '1rem', ...props }))<{
@@ -174,7 +173,7 @@ export const ProductSubHeader = styled(Text.SubHeader)<{
   useGradient?: boolean
   label?: string
 }>`
-  color: ${({ theme }) => theme.products.aside.textColor};
+  color: ${({ theme }) => theme.content.text};
   background: ${({ theme: { mode }, useGradient = false, bgColor = 'transparent' }) =>
     useGradient
       ? `linear-gradient(15deg, ${mode === ThemeModes.DARK ? darken(0.1, bgColor) : bgColor} 0%, ${
@@ -207,7 +206,7 @@ export const ItemBreadcrumb = styled(NavLink)<{ color: string }>`
   text-decoration: none;
   text-transform: uppercase;
 
-  > span:first-child {
+  > span:first-of-type {
     margin: 0 5px;
   }
 `
@@ -216,18 +215,18 @@ export const ProductDescription = styled(Text.Black).attrs((props) => ({
   padding: props.padding || 0,
   fontWeight: props.fontWeight || 500,
   lineHeight: props.lineHeight || 1.2,
-  backgroundColor: props.theme.products.aside.itemContainer,
-  color: props.theme.products.aside.textColor,
+  backgroundColor: props.theme.content.background,
+  color: props.theme.content.text,
   ...props,
 }))`
   text-transform: uppercase;
   font-style: italic;
 
-  .item-description-p:first-child {
+  .item-description-p:first-of-type {
     margin-top: 0;
   }
 
-  border-radius: ${({ theme: { buttons } }) => buttons.borderRadius};
+  border-radius: ${({ theme: { button } }) => button.border.radius};
 `
 
 export const ProductBackendDescription = styled(ProductDescription)<{ accentColor: string }>`
@@ -255,8 +254,8 @@ export const ProductSubDescription = styled(ProductDescription).attrs((props) =>
   ...props,
   padding: props.padding || '1.8rem',
   margin: props.margin || '2rem 0',
-  color: props.theme.products.aside.textColor,
-  backgroundColor: props.theme.products.aside.subItemDescription,
+  color: props.theme.content.text,
+  backgroundColor: props.theme.content.textAlt,
   fontWeight: props.fontWeight || 400,
 }))`
   display: flex;
@@ -347,7 +346,7 @@ export const ProductContainer = styled(Row)<{
     font-size: 1.25rem;
     cursor: pointer;
     line-height: 1.1;
-    background-color: ${({ theme }) => theme.products.aside.itemContainer};
+    background-color: ${({ theme }) => theme.content.background};
 
     display: grid;
     grid-template-areas: 'select';
@@ -443,7 +442,7 @@ export const VideoPlayCTAOverlay = styled(Row).attrs((props) => ({
   position: absolute;
   cursor: pointer;
   background: ${({ theme, bgColor }) =>
-    `radial-gradient(76.02% 105.41% at 31.84% 0%,${bgColor} 0%,${theme.blackOpaque1} 100%)`};
+    `radial-gradient(76.02% 105.41% at 31.84% 0%,${bgColor} 0%,${theme.blackOpaque} 100%)`};
   ${({ $width }) => $width && `width: ${$width};`}
   ${({ $height }) => $height && `height: ${$height};`}
   z-index: ${Z_INDEXES.PRODUCT_VIDEOS};
@@ -456,7 +455,7 @@ export const VideoPlayCTAOverlay = styled(Row).attrs((props) => ({
   }
 `
 
-export const VideoControlButton = styled(Button)`
+export const VideoControlButton = styled(Button).attrs({ borderRadius: '0' })`
   cursor: pointer;
   position: absolute;
   right: 0;
@@ -473,7 +472,7 @@ export const VideoControlButton = styled(Button)`
     justify-content: center;
     align-items: center;
     gap: 5px;
-    color: ${({ theme }) => theme.offWhite};
+    color: ${({ theme }) => theme.offwhite};
     margin: 0 2rem;
     width: auto;
   }
@@ -517,6 +516,6 @@ export const FreeShippingBanner = styled(ProductDescription).attrs((props) => ({
   align-items: center;
   gap: 0.8rem;
   > svg {
-    stroke: ${({ theme }) => theme.products.aside.textColor};
+    stroke: ${({ theme }) => theme.content.text};
   }
 `

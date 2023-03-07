@@ -4,7 +4,7 @@ import styled from 'styled-components/macro'
 
 const ErrorWrapper = styled(ProductSubHeader)`
   background-color: ${({ theme }) => theme.dangerLight};
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border-radius: ${({ theme }) => theme.button.border.radius};
 `
 
 export default function ErrorMessage({ error }: { error: ApolloError | Error }) {

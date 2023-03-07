@@ -41,7 +41,7 @@ const GreenCircle = styled(Row)`
   justify-content: center;
   align-items: center;
 
-  &:first-child {
+  &:first-of-type {
     height: 8px;
     width: 8px;
     margin-right: 8px;

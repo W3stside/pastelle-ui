@@ -1,6 +1,6 @@
 import { Button, ButtonProps, ButtonSizeVariations, ButtonVariations } from '@past3lle/components'
-import { ThemeModes } from '@past3lle/theme'
 import styled from 'styled-components/macro'
+import { ThemeModes } from 'theme'
 
 const ThemeButtonToggleWrapper = styled.div<{
   disabled: boolean
@@ -20,7 +20,7 @@ const ThemeButtonToggleWrapper = styled.div<{
 
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
-  > button {
+  > ${Button} {
     border-radius: 0.8rem;
     width: 60%;
     height: 110%;
@@ -35,9 +35,9 @@ const ThemeButtonToggleWrapper = styled.div<{
       max-height: 100%;
     }
 
-    > #theme-toggle-label {
+    #theme-toggle-label {
       position: absolute;
-      color: ${({ theme }) => theme.offWhite};
+      color: ${({ theme }) => theme.offwhite};
       font-weight: 300;
       font-size: 1rem;
       max-width: 22%;
@@ -69,7 +69,9 @@ export const ThemeToggle: React.FC<ThemeToggleProps & { mode: boolean; buttonPro
       $width={width}
       title={`Tap/click to enable ${mode ? 'light' : 'dark'} mode`}
     >
-      <Button {...buttonProps}>{children}</Button>
+      <Button height="100%" {...buttonProps}>
+        {children}
+      </Button>
     </ThemeButtonToggleWrapper>
   )
 }

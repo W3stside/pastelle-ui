@@ -21,7 +21,7 @@ export const Popup = styled.div`
   padding: 1em;
   background-color: ${({ theme }) => theme.bg1};
   position: relative;
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border-radius: ${({ theme }) => theme.button.border.radius};
   padding: 2rem;
   padding-right: 3.5rem;
   overflow: hidden;

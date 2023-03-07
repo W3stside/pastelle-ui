@@ -13,7 +13,7 @@ export const Web3StatusGeneric = styled(Button)`
   width: 100%;
   align-items: center;
   padding: 0.5rem;
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border-radius: ${({ theme }) => theme.button.border.radius};
   cursor: pointer;
   user-select: none;
   height: 36px;

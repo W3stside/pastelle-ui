@@ -19,8 +19,8 @@ const SquareSelectDiv = styled(TYPE.Black)<{ isSelected: boolean; bgColor?: stri
     isSelected &&
     `
       &&&&& {
-        background-color: ${theme.inputHoverColor};
-        color: ${theme.offWhite};
+        background-color: ${theme.input.hoverColour};
+        color: ${theme.offwhite};
         font-weight: 800;
         text-shadow: 0px 0px 3px ${transparentize(0.6, BLACK)};
       }
@@ -30,9 +30,9 @@ const GridSelect = styled(Row)<RowProps & Pick<SizeSelectorProps, 'color'>>`
   gap: 1px;
   flex-flow: row wrap;
 
-  background: ${({ theme }) => theme.products.aside.itemContainer};
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
-  border: 1px solid ${({ theme }) => theme.products.aside.inputsBorderColor};
+  background: ${({ theme }) => theme.content.background};
+  border-radius: ${({ theme }) => theme.button.border.radius};
+  border: 1px solid ${({ theme }) => theme.input.border.colour};
   overflow: hidden;
 
   width: 100%;
@@ -46,7 +46,7 @@ const GridSelect = styled(Row)<RowProps & Pick<SizeSelectorProps, 'color'>>`
     text-align: center;
     font-size: 2rem;
     font-weight: 400;
-    color: ${({ theme }) => theme.products.aside.textColor};
+    color: ${({ theme }) => theme.content.text};
     height: 5rem;
     flex: 1 1 24%;
 
@@ -55,7 +55,7 @@ const GridSelect = styled(Row)<RowProps & Pick<SizeSelectorProps, 'color'>>`
     `}
 
     &:hover {
-      background-color: ${({ theme }) => transparentize(0.3, theme.inputHoverColor)};
+      background-color: ${({ theme }) => transparentize(0.3, theme.input.hoverColour)};
     }
 
     transition: background-color 0.3s ease-out;

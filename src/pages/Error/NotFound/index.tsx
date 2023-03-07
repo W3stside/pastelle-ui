@@ -1,4 +1,4 @@
-import { ArticleFadeIn, Button as ButtonPrimary, ButtonVariations } from '@past3lle/components'
+import { ArticleFadeIn, Button as ButtonPrimaryUnstyled, ButtonVariations } from '@past3lle/components'
 import { setBackgroundWithDPI } from '@past3lle/theme'
 import SEO from 'components/SEO'
 import { Z_INDEXES } from 'constants/config'
@@ -7,6 +7,8 @@ import { transparentize } from 'polished'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import { ShopImageSrcSet } from 'types'
+
+const ButtonPrimary = styled(ButtonPrimaryUnstyled)``
 
 const pastelle404IMG = 'https://ik.imagekit.io/pastelle/artists-mathieu_sgnA_QA83.jpeg'
 const NOT_FOUND_SET = [
@@ -71,7 +73,7 @@ export default function NotFound() {
             The page you are looking for does not exist{' '}
             <span style={{ fontSize: '3rem', fontStyle: 'normal' }}>ʕ ͡° ʖ̯ ͡°ʔ</span>
           </ItemHeader>
-          <ButtonPrimary onClick={() => navigate('/')} variant={ButtonVariations.WARNING}>
+          <ButtonPrimary onClick={() => navigate('/')} buttonVariant={ButtonVariations.WARNING}>
             <ProductSubHeader>Back to the collection</ProductSubHeader>
           </ButtonPrimary>
         </ContainerDiv>

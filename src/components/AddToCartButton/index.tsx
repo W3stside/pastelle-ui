@@ -1,4 +1,4 @@
-import { Button, ButtonProps, ButtonSizeVariations, ButtonVariations } from '@past3lle/components'
+import { Button, ButtonProps, ButtonSizeVariations, ButtonVariations, Row } from '@past3lle/components'
 import { addToCartAnalytics } from 'analytics/events/cartEvents'
 import ErrorMessage from 'components/ErrorMessage'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
@@ -16,7 +16,7 @@ export type AddToCartButtonParams = {
 }
 
 const DisappearingMessageWrapper = styled(ProductDescription)`
-  background-color: ${({ theme }) => theme.offWhiteOpaque1};
+  background-color: ${({ theme }) => theme.offwhiteOpaque};
   color: ${({ theme }) => theme.text1};
 `
 function useDisappearingMessage(params: { message: string; showAtStart?: boolean }) {
@@ -65,13 +65,12 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
   }, [addLineToCartCallback, product, quantity, setShow])
 
   return (
-    <>
+    <Row ref={forwardedRef} width="100%">
       <Button
-        ref={forwardedRef}
         onClick={handleAddToCart}
         disabled={isDisabled}
-        variant={ButtonVariations.THEME}
-        $size={ButtonSizeVariations.SMALL}
+        buttonVariant={ButtonVariations.THEME}
+        buttonSize={ButtonSizeVariations.SMALL}
         height={LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON + 'rem'}
         // override w/ button props if necessary
         {...buttonProps}
@@ -84,13 +83,14 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
             justifyContent="center"
             alignItems="center"
             height="100%"
+            width="100%"
           >
             {loading ? 'Adding...' : shouldShow ? disappearingMessage : label}
           </ProductDescription>
         )}
       </Button>
       {error && <ErrorMessage error={error} />}
-    </>
+    </Row>
   )
 })
 

@@ -20,6 +20,7 @@ import TransactionUpdater from 'state/blockchainTransactions/updater'
 import CartUpdater from 'state/cart/updater'
 import CollectionUpdater from 'state/collection/updater'
 import WindowSizeUpdater from 'state/window/updater'
+import { pastelleTheme } from 'theme'
 import { CustomStaticGlobalCSSProvider, CustomThemedGlobalCSSProvider } from 'theme/global'
 
 import './i18n'
@@ -90,7 +91,7 @@ root.render(
             {/* <Web3ReactProvider connectors={CONNECTORS}> */}
             <PastelleStoreUpdaters />
             <BlockchainUpdaters />
-            <ThemeProvider themeExtension={{}}>
+            <ThemeProvider theme={pastelleTheme} defaultMode="DARK">
               {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
               <ThemedCSSProviders />
               <App />

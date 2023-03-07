@@ -27,7 +27,7 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
     color: ${({ color = BLACK }) => setBestTextColour(color)};
     min-width: 3rem;
 
-    &:first-child:not(:disabled) {
+    &:first-of-type:not(:disabled) {
       background: none;
       background-color: ${({ theme }) => theme.red3};
     }
@@ -43,8 +43,8 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
 
   > input {
     font-weight: 400;
-    background-color: ${({ theme }) => theme.products.aside.itemContainer};
-    color: ${({ theme }) => theme.products.aside.textColor};
+    background-color: ${({ theme }) => theme.content.background};
+    color: ${({ theme }) => theme.content.text};
   }
 
   > svg {
@@ -56,11 +56,11 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
   }
 
   #reset-button {
-    color: ${({ theme }) => theme.products.aside.textColor};
+    color: ${({ theme }) => theme.content.text};
     text-decoration: underline;
     cursor: pointer;
     padding: 0.1rem;
-    background-color: ${({ theme }) => theme.offWhiteOpaque3};
+    background-color: ${({ theme }) => theme.offwhiteOpaqueMost};
   }
 `
 export interface QuantitySelectorParams {

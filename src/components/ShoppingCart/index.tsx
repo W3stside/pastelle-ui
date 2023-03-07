@@ -1,7 +1,6 @@
 import { Button, ButtonVariations, Column, Row, SmartImg } from '@past3lle/components'
 import { useCleanTimeout, usePrevious } from '@past3lle/hooks'
-import { WHITE, getThemeColours } from '@past3lle/theme'
-import { ThemeModes } from '@past3lle/theme'
+import { WHITE } from '@past3lle/theme'
 import LoadingRows from 'components/Loader/LoadingRows'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import { COLLECTION_PARAM_NAME, COLLECTION_PATHNAME } from 'constants/navigation'
@@ -23,6 +22,7 @@ import {
 } from 'state/cart/hooks'
 import { CartState } from 'state/cart/reducer'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
+import { ThemeModes, getThemeColourByKey } from 'theme'
 import { formatShopifyCurrency } from 'utils/formatting'
 import { buildItemUrl, checkIsCollectionPage } from 'utils/navigation'
 
@@ -114,7 +114,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
             > * {
               flex: 1;
               min-width: 25rem;
-              &:first-child {
+              &:first-of-type {
                 min-width: 20rem;
               }
               &:last-child {
@@ -134,10 +134,9 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
               </div>
             </CartHeader>
           )}
-          {/* TODO: remove disabled */}
           <Button
-            backgroundColor={getThemeColours(ThemeModes.DARK).purple2}
-            variant={ButtonVariations.SUCCESS}
+            backgroundColor={getThemeColourByKey(ThemeModes.DARK, 'purple2', 'purple') as string}
+            buttonVariant={ButtonVariations.SUCCESS}
             disabled={checkoutClicked}
             padding="0"
           >

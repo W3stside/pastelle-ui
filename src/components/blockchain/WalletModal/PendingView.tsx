@@ -16,7 +16,7 @@ const LoaderContainer = styled(RowCenter)`
 `
 
 const LoadingMessage = styled(RowCenter)`
-  border-radius: ${({ theme }) => theme.buttons.borderRadius};
+  border-radius: ${({ theme }) => theme.button.border.radius};
 
   & > * {
     padding: 1rem;

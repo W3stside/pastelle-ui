@@ -1,7 +1,7 @@
-import { Column, Row } from '@past3lle/components'
+import { Button, Column, Row } from '@past3lle/components'
 import {
   BLACK,
-  CHARCOAL_BLACK,
+  OFF_BLACK as CHARCOAL_BLACK,
   betweenSmallAndLarge,
   fromExtraLarge,
   fromLarge,
@@ -50,7 +50,8 @@ export const AddToCartButtonWrapper = styled(Row)<{ isInView?: boolean; width?: 
   left: 0.5rem;
   width: ${({ width = '90%' }) => `calc(${width} - 1rem)`};
   margin: 0 auto;
-  > button {
+
+  ${Button} {
     width: 98.2%;
     height: 100%;
   }
@@ -178,7 +179,7 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
   ${fromLarge`
     width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge}; 
 
-    ${SingleProductScreen}:first-child {
+    ${SingleProductScreen}:first-of-type {
       height: calc(100vh - ${LAYOUT_REM_HEIGHT_MAP.HEADER}rem);
     }
 
@@ -189,7 +190,7 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
 
   ${fromExtraLarge`
     max-width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
-    ${SingleProductScreen}:first-child {
+    ${SingleProductScreen}:first-of-type {
       height: calc(100vh - ${LAYOUT_REM_HEIGHT_MAP.HEADER}rem);
     }
 
@@ -200,7 +201,7 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
 
   ${upToSmallHeight`
     // height: 100%;
-    > ${SingleProductScreen}:first-child {
+    > ${SingleProductScreen}:first-of-type {
       height: 100%;
     }
   `}

@@ -2,19 +2,19 @@ export default {
   catalogs: [
     {
       path: '<rootDir>/src/locales/{locale}',
-      include: ['<rootDir>/src']
-    }
+      include: ['<rootDir>/src'],
+    },
   ],
   compileNamespace: 'cjs',
   fallbackLocales: {
-    default: 'en-US'
+    default: 'en-US',
   },
   format: 'po',
   formatOptions: {
-    lineNumbers: false
+    lineNumbers: false,
   },
   locales: [
-    'en-US'
+    'en-US',
     /* 'af-ZA',
     'ar-SA',
     'ca-ES',
@@ -49,5 +49,5 @@ export default {
   orderBy: 'messageId',
   rootDir: '.',
   runtimeConfigModule: ['@lingui/core', 'i18n'],
-  sourceLocale: 'en-US'
+  sourceLocale: 'en-US',
 }

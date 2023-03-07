@@ -156,7 +156,7 @@ type VideoControlButtonParams = {
 }
 function VideoControlButton({ callback, isPlaying }: VideoControlButtonParams) {
   return (
-    <VideoControlButtonStyled variant={ButtonVariations.SECONDARY} onClick={callback}>
+    <VideoControlButtonStyled buttonVariant={ButtonVariations.SECONDARY} onClick={callback}>
       <ProductSubHeader>
         {isPlaying ? (
           <>
