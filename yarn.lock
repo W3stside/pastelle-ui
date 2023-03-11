@@ -3223,15 +3223,15 @@
   resolved "https://registry.yarnpkg.com/@past3lle/assets/-/assets-0.0.10.tgz#e866cf32bb03637bfbf90a677dba52bd1d8a56ee"
   integrity sha512-oTf6XMKnGQO5Y5S/4fw8CYQwgMVIq8PPVfZFLwcyHThX24UQS+oVHQwCOtSlYa8DlDe7O7wdJil7QBCaOZNfsg==
 
-"@past3lle/components@^0.0.37":
-  version "0.0.37"
-  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.37.tgz#e635a9da1882d6631aa753a75e14a2870fc861cd"
-  integrity sha512-ISaeEq+PUdy1vmGpo69Sl+tab9z5XP4skjxTKng1zlami6e19i1V9m8VwAXzpwvnp3LZ/RGjXUE4tEkVl/Wz5g==
+"@past3lle/components@^0.0.41":
+  version "0.0.41"
+  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.41.tgz#073f3615ee42cd038c0332c8c52c3e8df8bb4f66"
+  integrity sha512-y1l8dExRVzKgXJZ+KihUvXFChNNbac9JYuCmMm+vDUW/3nc7141lvlyxTV847RQ8dKej1FlVcsScbt9/qkmyIg==
   dependencies:
     "@past3lle/assets" "^0.0.10"
     "@past3lle/constants" "^0.0.17"
     "@past3lle/hooks" "^0.0.12"
-    "@past3lle/theme" "^0.0.25"
+    "@past3lle/theme" "^0.0.29"
     "@past3lle/types" "^0.0.12"
     "@past3lle/utils" "^0.0.17"
     "@popperjs/core" "^2.11.6"
@@ -3263,14 +3263,16 @@
     lodash.debounce "^4.0.8"
     lodash.throttle "^4.1.1"
 
-"@past3lle/theme@^0.0.25":
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.0.25.tgz#399ab9fdaad93a4a3c202cd6beaf0930fad2dd12"
-  integrity sha512-DQudMRfFlCJ3uY6kR+hIPpnrh3iSw+kCJNjLf7VhIhdKAlpYcSufk001HKKIGVvlhlCZNF0uR0cS/JFyKCuasw==
+"@past3lle/theme@^0.0.29":
+  version "0.0.29"
+  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.0.29.tgz#a1c8d1b4471756f48e8aaffc456e55de9f5f473c"
+  integrity sha512-0R8tBMoP+Mv50izDTaPh/O5KAVNacfpBbsUYgD93G7DS7mGSzntKFu0Ey4bDERSy19SqpDgUgLJGm0TZA51sVg==
   dependencies:
     "@past3lle/assets" "^0.0.10"
     "@past3lle/constants" "^0.0.17"
     "@past3lle/types" "^0.0.12"
+    "@types/lodash.merge" "^4.6.7"
+    lodash.merge "^4.6.2"
     polished "^4.2.2"
     rebass "^4.0.7"
     styled-theming "^2.2.0"
@@ -4161,6 +4163,13 @@
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/@types/lodash.debounce/-/lodash.debounce-4.0.7.tgz#0285879defb7cdb156ae633cecd62d5680eded9f"
   integrity sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash.merge@^4.6.7":
+  version "4.6.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.merge/-/lodash.merge-4.6.7.tgz#0af6555dd8bc6568ef73e5e0d820a027362946b1"
+  integrity sha512-OwxUJ9E50gw3LnAefSHJPHaBLGEKmQBQ7CZe/xflHkyy/wH2zVyEIAKReHvVrrn7zKdF58p16We9kMfh7v0RRQ==
   dependencies:
     "@types/lodash" "*"
 
