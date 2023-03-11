@@ -8,7 +8,7 @@ import { SearchParamQuickViews } from 'constants/views'
 import useQuantitySelector from 'hooks/useQuantitySelector'
 import ShoppingCart from 'pages/ShoppingCart'
 import { ProductSubHeader } from 'pages/common/styleds'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useQueryCart } from 'shopify/graphql/hooks'
@@ -22,7 +22,7 @@ import {
 } from 'state/cart/hooks'
 import { CartState } from 'state/cart/reducer'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
-import { ThemeModes, getThemeColourByKey } from 'theme'
+import { ThemeModes, getThemeColourByKey, pastelleTheme } from 'theme'
 import { formatShopifyCurrency } from 'utils/formatting'
 import { buildItemUrl, checkIsCollectionPage } from 'utils/navigation'
 
@@ -242,19 +242,16 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
 
   return (
     <CartLineWrapper bgLogo={bgLogo} color={itemColor}>
-      <div>
-        {/* 1 */}
-        {/* <SMART IMG SPAN />*/}
-        {/* 2 */}
+      <div style={{ position: 'relative' }}>
+        <QuantityBubble>{line?.quantity}</QuantityBubble>
         <SmartImg path={{ defaultPath: images.nodes[0].url125 }} onClick={handleClick} />
-        {/* 3 */}
         <CartLineContent onClick={handleClick}>
           <Row>
             <ProductSubHeader color={WHITE} fontSize="3rem" fontWeight={1000} padding={0} margin={0}>
               {line?.merchandise.product.title}
             </ProductSubHeader>
-            <ProductSubHeader color={WHITE} fontSize="1.5rem" fontWeight={300} padding={0} margin={0}>
-              {sizeFull} {sizeFull && `(${line?.merchandise.size})`}
+            <ProductSubHeader color={WHITE} fontSize="2.2rem" fontWeight={300} padding={0} margin={0}>
+              {sizeFull?.toLocaleUpperCase()} {sizeFull && `(${line?.merchandise.size})`}
             </ProductSubHeader>
             {collectionCurrentProduct?.handle !== handle && (
               <ProductSubHeader color={WHITE} fontSize="1.5rem" fontWeight={300} padding={0} margin={0}>
@@ -268,3 +265,20 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
     </CartLineWrapper>
   )
 }
+
+const QuantityBubble: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <ProductSubHeader
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
+    margin="0.5rem"
+    fontSize="1.5rem"
+    fontWeight={300}
+    width={30}
+    height={30}
+    backgroundColor={pastelleTheme.blackOpaqueMost}
+    style={{ position: 'absolute', bottom: 0, left: 0, borderRadius: 30 }}
+  >
+    {children}
+  </ProductSubHeader>
+)
