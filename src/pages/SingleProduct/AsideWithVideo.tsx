@@ -252,7 +252,7 @@ export default function SingleProductPage({
             },
           }}
           hideVideo={isMobile || noVideo}
-          showPoster={false}
+          showPoster
           height={'100%'}
           zIndex={Z_INDEXES.BEHIND}
           firstPaintOver
