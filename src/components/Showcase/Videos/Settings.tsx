@@ -4,7 +4,8 @@ import { ProductSubHeader } from 'pages/common/styleds'
 import { useCallback } from 'react'
 import { PauseCircle, PlayCircle, ToggleLeft, ToggleRight } from 'react-feather'
 import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
-import styled from 'styled-components/macro'
+import styled, { useTheme } from 'styled-components/macro'
+import { BLACK_TRANSPARENT } from 'theme/colours'
 
 const ShowcaseVideoControlContainer = styled(Row)`
   background: ${({ theme }) => theme.content.background};
@@ -30,6 +31,8 @@ export default function ShowcaseVideoControls({ isMobile }: { isMobile: boolean 
     updateSettings({ autoplay: !autoplay, status })
   }, [autoplay, status, updateSettings])
 
+  const { mode } = useTheme()
+
   if (isMobile) return null
 
   return (
@@ -46,7 +49,7 @@ export default function ShowcaseVideoControls({ isMobile }: { isMobile: boolean 
           paddingLeft="0"
           backgroundColor={'transparent'}
           fontSize={'1.2rem'}
-          fontWeight={300}
+          fontWeight={500}
         >
           VIDEO SETTINGS
         </ProductSubHeader>
@@ -74,28 +77,31 @@ export default function ShowcaseVideoControls({ isMobile }: { isMobile: boolean 
         >
           <Row
             width="auto"
-            css={`
-              gap: 0.5rem;
-            `}
-          >
-            {status === 'pause' ? (
-              <>
-                PLAY <PlayCircle size={30} onClick={handlePlayVideo} />
-              </>
-            ) : (
-              <>
-                PAUSE <PauseCircle size={30} onClick={handlePauseVideo} />
-              </>
-            )}
-          </Row>
-          <Row
-            width="auto"
+            fontWeight={500}
             css={`
               gap: 0.5rem;
             `}
             onClick={handleToggleAutoplay}
           >
-            AUTOPLAY {!autoplay ? <ToggleLeft size={40} fill="red" /> : <ToggleRight size={40} fill="green" />}
+            AUTOPLAY{' '}
+            {!autoplay ? (
+              <ToggleLeft size={40} fill="red" stroke={BLACK_TRANSPARENT} />
+            ) : (
+              <ToggleRight size={40} fill="green" stroke={BLACK_TRANSPARENT} />
+            )}
+          </Row>
+          <Row
+            width="auto"
+            fontWeight={500}
+            css={`
+              gap: 0.5rem;
+            `}
+          >
+            {status === 'pause' ? (
+              <PlayCircle size={30} onClick={handlePlayVideo} stroke={mode === 'DARK' ? 'grey' : BLACK_TRANSPARENT} />
+            ) : (
+              <PauseCircle size={30} onClick={handlePauseVideo} stroke={mode === 'DARK' ? 'grey' : BLACK_TRANSPARENT} />
+            )}
           </Row>
         </Row>
       </Row>

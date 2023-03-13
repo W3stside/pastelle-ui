@@ -1,7 +1,6 @@
 import { ItemVideoContent, ItemVideoContentProps } from 'pages/SingleProduct/ItemVideoContent'
 import { CollectionPageProps } from 'pages/common/types'
-// import { ShowcaseAlertMessages } from 'components/Common'
-// import { IS_PRE_PROD } from 'constants/env'
+import { memo } from 'react'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
 
@@ -22,7 +21,6 @@ export function SelectedShowcaseVideo({
   if (hideVideo) return null
   return (
     <>
-      {/* <ShowcaseAlertMessages></ShowcaseAlertMessages> */}
       {selectedVideo ? (
         <ItemVideoContent {...restProps} videos={[selectedVideo]} currentCarouselIndex={null} />
       ) : (
@@ -32,8 +30,8 @@ export function SelectedShowcaseVideo({
   )
 }
 
-export default function ShowcaseVideos({ videos, ...restProps }: ShowcaseVideosProps) {
+export default memo(function ShowcaseVideos({ videos, ...restProps }: ShowcaseVideosProps) {
   const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
 
   return <SelectedShowcaseVideo selectedVideo={selectedVideo} {...restProps} />
-}
+})

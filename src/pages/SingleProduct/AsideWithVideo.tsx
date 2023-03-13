@@ -251,10 +251,6 @@ export default function SingleProductPage({
               marginLeft: 'auto',
             },
           }}
-          // // starts autoplaying and stops on "stopTime" seconds
-          // autoPlayOptions={{
-          //   stopTime: 4
-          // }}
           hideVideo={isMobile || noVideo}
           showPoster={false}
           height={'100%'}

@@ -101,7 +101,7 @@ export default function useModelSizeSelector() {
       <ModelSizeSelectorWrapper>
         {/* GENDER SELECT */}
         <div>
-          <ProductSubHeader margin="0" fontSize="1.2rem" fontWeight={300}>
+          <ProductSubHeader margin="0" fontSize="1.2rem" fontWeight={500}>
             GENDER
           </ProductSubHeader>
           <Row>
@@ -117,7 +117,7 @@ export default function useModelSizeSelector() {
         </div>
 
         <div>
-          <ProductSubHeader margin="0" fontSize="1.2rem" fontWeight={300}>
+          <ProductSubHeader margin="0" fontSize="1.2rem" fontWeight={500}>
             HEIGHT
           </ProductSubHeader>
           <Row>

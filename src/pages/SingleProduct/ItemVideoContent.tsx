@@ -1,11 +1,10 @@
 import { ButtonVariations, RowProps, SmartVideo, SmartVideoProps } from '@past3lle/components'
-import { usePrevious } from '@past3lle/hooks'
 import { isMobile, wait } from '@past3lle/utils'
 import { Z_INDEXES } from 'constants/config'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Pause, Play } from 'react-feather'
+import { useLocation } from 'react-router-dom'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
-import { useOnScreenProductHandle } from 'state/collection/hooks'
 import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
 
 import {
@@ -43,8 +42,8 @@ export const ItemVideoContent = ({
   const [{ autoplay, status: videoStatus }, updateVideoSettings] = useUpdateShowcaseVideoSettings()
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
   const [videoDelay, showVideoUIDelay] = useState<boolean>(false)
-  const currentHandle = useOnScreenProductHandle()
 
+  // EFFECT: on video change inside showcase (e.g gender, height), show loader
   useEffect(() => {
     async function videoChange() {
       // if is web
@@ -58,31 +57,29 @@ export const ItemVideoContent = ({
   }, [currentCarouselIndex, isMobileWidth])
 
   const isPlaying = videoStatus === 'play'
-  const prevAutoplay = usePrevious(autoplay)
-  const prevVideoStatus = usePrevious(videoStatus)
+  const isPaused = videoStatus === 'pause'
+
+  // EFFECT: sync redux showcase video state w/actual video ref play state
   useEffect(() => {
     if (!videoElement) return
-    const isPaused = videoStatus === 'pause'
-    const isPlaying = !isPaused
 
-    if (prevAutoplay === false && autoplay && isPaused) {
-      updateVideoSettings({ autoplay: true, status: 'play' })
-    } else if (prevAutoplay === true && !autoplay && isPlaying) {
-      updateVideoSettings({ autoplay: false, status: 'pause' })
-    } else if (isPlaying) {
+    if (isPlaying) {
       videoElement.play()
     } else if (isPaused) {
       videoElement.pause()
     }
+  }, [isPaused, isPlaying, videoElement])
 
-    return () => {
-      if (autoplay && isPaused) {
-        updateVideoSettings({ autoplay, status: 'play' })
-      } else if (!autoplay && isPlaying) {
-        updateVideoSettings({ autoplay, status: 'pause' })
-      }
+  // EFFECT: sync video play status with AUTOPLAY and current PLAY/PAUSE status
+  const location = useLocation()
+  useEffect(() => {
+    if (autoplay && isPaused) {
+      updateVideoSettings({ autoplay, status: 'play' })
+    } else if (!autoplay && isPlaying) {
+      updateVideoSettings({ autoplay, status: 'pause' })
     }
-  }, [autoplay, prevAutoplay, prevVideoStatus, updateVideoSettings, videoElement, videoStatus, currentHandle?.id])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoplay, location.key])
 
   const toggleVideo = useCallback(
     () => updateVideoSettings({ autoplay, status: isPlaying ? 'pause' : 'play' }),
@@ -99,7 +96,7 @@ export const ItemVideoContent = ({
           <SmartVideo
             key={id}
             showError={showError}
-            onClick={toggleVideo}
+            handleClick={() => updateVideoSettings({ autoplay, status: isPlaying ? 'pause' : 'play' })}
             ref={setVideoElement}
             container={document.querySelector('#COLLECTION-ARTICLE') as HTMLElement}
             loadInView={firstPaintOver}
@@ -113,7 +110,7 @@ export const ItemVideoContent = ({
             width={styleProps.width}
             videoDelay={!isMobileWidth && videoDelay}
             showTapToPlay={isMobile && (!isPlaying || videoProps?.autoPlay === false)}
-            autoPlayOptions={autoPlayOptions}
+            autoPlayOptions={autoplay ? undefined : autoPlayOptions}
             ctaOverlayProps={{
               $zIndex: Z_INDEXES.PRODUCT_VIDEOS,
             }}
@@ -121,21 +118,22 @@ export const ItemVideoContent = ({
         )
       }),
     [
-      videos,
+      autoPlayOptions,
+      autoplay,
       currentCarouselIndex,
-      videoIdx,
-      showError,
-      toggleVideo,
       firstPaintOver,
       forceLoad,
-      videoProps,
+      isMobileWidth,
+      isPlaying,
+      showError,
       showPoster,
       styleProps.height,
       styleProps.width,
-      isMobileWidth,
+      updateVideoSettings,
       videoDelay,
-      isPlaying,
-      autoPlayOptions,
+      videoIdx,
+      videoProps,
+      videos,
     ]
   )
 
@@ -204,36 +202,3 @@ async function _delayedVideoUpdater({
   await wait(500)
   showVideoUIDelay(false)
 }
-
-/* 
-// VIDEO EVENT LISTNERS
-useEffect(() => {
-    if (!videoElement) return
-
-    function handleOnPlaying() {
-      console.debug('play')
-    }
-
-    function handleOnPaused() {
-      console.debug('pause')
-    }
-
-    const _handleTimeUpdate = (e?: any) => {
-      if (!autoplay && autoPlayOptions && (e?.target?.currentTime || 0) >= autoPlayOptions.stopTime) {
-        videoElement?.removeEventListener('timeupdate', _handleTimeUpdate)
-        console.debug('timeupdate event listener fired')
-        // videoElement?.pause()
-      }
-    }
-
-    videoElement.addEventListener('playing', handleOnPlaying)
-    videoElement.addEventListener('pause', handleOnPaused)
-    videoElement.addEventListener('timeupdate', _handleTimeUpdate)
-
-    return () => {
-      videoElement.removeEventListener('playing', handleOnPlaying)
-      videoElement.removeEventListener('pause', handleOnPaused)
-      videoElement?.removeEventListener('timeupdate', _handleTimeUpdate)
-    }
-  }, [videoElement, videoStatus, videoElement?.currentSrc, autoplay, autoPlayOptions])
-*/
