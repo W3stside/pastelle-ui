@@ -1,13 +1,14 @@
-import { BLACK, OFF_WHITE } from '@past3lle/theme'
+import { BLACK } from '@past3lle/theme'
 import { Text as TYPE } from 'components/Text'
 import { Z_INDEXES } from 'constants/config'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
 
-export const TinyHelperTextStyled = styled(TYPE.ProductText)`
+export const TinyHelperTextStyled = styled(TYPE.Black)`
   font-size: 1rem;
   text-decoration: underline;
   cursor: pointer;
+  color: ${({ theme }) => theme.offwhite};
 `
 
 type TinyHelperTextParams = { css?: string; label?: string; handleClick?: () => void }
@@ -36,7 +37,7 @@ export const ShowcaseAlertMessages = styled.div`
     width: inherit;
     font-size: 150%;
     font-weight: 600;
-    color: ${OFF_WHITE};
+    color: ${({ theme }) => theme.content.textAlt};
     text-align: center;
     margin: 0.5rem 0;
 

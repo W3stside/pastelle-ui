@@ -276,7 +276,7 @@ const QuantityBubble: React.FC<{ children: ReactNode }> = ({ children }) => (
     fontWeight={300}
     width={30}
     height={30}
-    backgroundColor={pastelleTheme.blackOpaqueMost}
+    backgroundColor={pastelleTheme.blackOpaqueMore}
     style={{ position: 'absolute', bottom: 0, left: 0, borderRadius: 30 }}
   >
     {children}
