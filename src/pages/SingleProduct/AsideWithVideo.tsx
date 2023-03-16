@@ -141,11 +141,11 @@ export default function SingleProductPage({
               </ScrollingProductLabel>
               {/* Product carousel */}
               <Carousel
+                axis="x"
                 data={isMobile ? [...imageUrls /* , selectedVideo */] : imageUrls}
                 startIndex={currentCarouselIndex}
-                accentColor={color}
+                colors={{ accent: color }}
                 videoProps={{ autoPlay }}
-                fixedSizes={undefined}
               />
               {/* DYNAMIC LOGO */}
               <Logo

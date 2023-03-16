@@ -97,13 +97,14 @@ export function ScrollingContentPage<D>({
             <AnimatedDivContainer
               {...bind(i)}
               key={product.id}
-              $touchAction={touchAction}
               // z-index here is to set the next card under the stack
               style={{ scale, height: itemHeight, y, zIndex: length * 2 - i }}
-              $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
-              $withBoxShadow={withBoxShadow}
               onClick={() => handleItemSelect(i)}
-              $isVerticalScroll
+              // custom styled props
+              $axis="y"
+              $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
+              $touchAction={touchAction}
+              $withBoxShadow={withBoxShadow}
             >
               <IterableComponent
                 fixedSizes={{

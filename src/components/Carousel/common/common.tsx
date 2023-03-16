@@ -1,6 +1,6 @@
 import { OFF_WHITE } from '@past3lle/theme'
 import { SelectedShowcaseVideo, SelectedShowcaseVideoProps } from 'components/Showcase/Videos'
-import { Z_INDEXES } from 'constants/config'
+import { DEFAULT_CAROUSEL_ACCENT_COLOR, Z_INDEXES } from 'constants/config'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 
 import {
@@ -12,7 +12,7 @@ import {
 } from './components/styleds'
 import { BaseCarouselProps } from './types'
 
-export type CarouselStepsProps = Pick<BaseCarouselProps, 'accentColor' | 'onCarouselItemClick'> & {
+export type CarouselStepsProps = Pick<BaseCarouselProps<any[]>, 'colors' | 'onCarouselItemClick'> & {
   children: React.ReactNode
   index: number
   parentWidth: number
@@ -30,7 +30,7 @@ export function CarouselStep(props: CarouselStepsProps) {
   const {
     children,
     index,
-    accentColor,
+    colors,
     transformAmount,
     parentWidth,
     showButtons,
@@ -44,16 +44,17 @@ export function CarouselStep(props: CarouselStepsProps) {
     <StaticCarouselStep
       id={'carousel-step-' + index}
       justifyContent="center"
+      backgroundColor={colors?.background || 'transparent'}
       $transformAmount={transformAmount}
       $width={parentWidth}
     >
       {children}
       {showButtons && isMultipleCarousel && (
         <CarouselButtonContainer onClick={onCarouselItemClick}>
-          <CarouselButton onClick={onPrev ?? undefined} buttonColor={accentColor}>
+          <CarouselButton onClick={onPrev ?? undefined} buttonColor={colors?.accent || DEFAULT_CAROUSEL_ACCENT_COLOR}>
             <ChevronLeft />
           </CarouselButton>
-          <CarouselButton onClick={onNext ?? undefined} buttonColor={accentColor}>
+          <CarouselButton onClick={onNext ?? undefined} buttonColor={colors?.accent || DEFAULT_CAROUSEL_ACCENT_COLOR}>
             <ChevronRight />
           </CarouselButton>
         </CarouselButtonContainer>

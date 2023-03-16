@@ -6,6 +6,7 @@ import { BaseCarouselProps } from 'components/Carousel/common/types'
 import { usePinchZoomAndDrag } from 'hooks/useScrollAnimation/usePinchDragAndZoom'
 import { ForwardedRef, forwardRef } from 'react'
 import styled from 'styled-components/macro'
+import { ShopImageSrcSet } from 'types'
 
 const LargeImageModal = styled(Modal)<{ zoomLevel: number }>`
   padding-bottom: 5rem;
@@ -50,7 +51,7 @@ const LargeImageModal = styled(Modal)<{ zoomLevel: number }>`
   }
 `
 
-interface LargeImageCarouselModalProps extends BaseCarouselProps {
+interface LargeImageCarouselModalProps extends BaseCarouselProps<ShopImageSrcSet[]> {
   isOpen: boolean
   forwardedRef?: ForwardedRef<unknown>
   dismissModal: () => void

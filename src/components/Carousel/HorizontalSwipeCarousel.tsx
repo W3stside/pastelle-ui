@@ -4,23 +4,23 @@ import { useLimitedHorizontalSwipe } from 'hooks/useScrollAnimation'
 import AnimatedCarousel from './common/components/AnimatedCarousel'
 import { BaseCarouselProps, WithTouchAction } from './common/types'
 
-export default function HorizontalSwipeCarousel({
+export default function HorizontalSwipeCarousel<D extends any[]>({
   data,
-  fixedSizes,
+  dimensions,
   touchAction,
   ...rest
-}: BaseCarouselProps & WithTouchAction) {
+}: BaseCarouselProps<D> & WithTouchAction) {
   const animationProps = useLimitedHorizontalSwipe(data, {
-    sizeOptions: { fixedSize: fixedSizes?.width, minSize: STORE_IMAGE_SIZES.SMALL },
+    sizeOptions: { fixedSize: dimensions?.fixedSizes?.width, minSize: STORE_IMAGE_SIZES.SMALL },
   })
 
   return (
     <AnimatedCarousel
       {...rest}
-      touchAction={touchAction}
-      fixedSizes={fixedSizes}
       data={data}
+      dimensions={dimensions}
       animationProps={animationProps}
+      touchAction={touchAction}
     />
   )
 }

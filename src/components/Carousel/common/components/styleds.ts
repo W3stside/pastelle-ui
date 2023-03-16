@@ -38,8 +38,8 @@ export const StaticCarouselStep = styled(BaseCarouselStep)<{
 `
 
 export const CarouselContainer = styled(ScrollerContainer).attrs({ $isVerticalScroll: false })<{
-  $fixedHeight?: string
-  $fixedWidth?: string
+  $fixedHeight?: number
+  $fixedWidth?: number
 }>`
   display: flex;
   flex-flow: row nowrap;
@@ -48,10 +48,11 @@ export const CarouselContainer = styled(ScrollerContainer).attrs({ $isVerticalSc
   // transform requirement
   position: relative;
   overflow: hidden;
+  height: 100%;
   width: 100%;
   z-index: 1;
-  ${({ $fixedHeight }) => `height: ${$fixedHeight};`}
-  ${({ $fixedWidth }) => `width: ${$fixedWidth};`}
+  ${({ $fixedHeight }) => $fixedHeight && `height: ${$fixedHeight}px;`}
+  ${({ $fixedWidth }) => $fixedWidth && `width: ${$fixedWidth}px;`}
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     > ${StaticCarouselStep} {

@@ -79,13 +79,16 @@ export default function CollectionProductPage({
             <ProductScreen>
               {/* Product carousel */}
               <Carousel
+                axis="x"
                 data={isMobile ? [...imageUrls /* , selectedVideo */] : imageUrls}
                 startIndex={currentCarouselIndex}
-                accentColor={color}
+                colors={{ accent: color }}
                 videoProps={{ autoPlay }}
-                fixedSizes={{
-                  height: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
-                  width: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
+                dimensions={{
+                  fixedSizes: {
+                    height: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
+                    width: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
+                  },
                 }}
                 touchAction="none"
               />

@@ -1,51 +1,66 @@
 import { LqImageOptions } from '@past3lle/components'
-import { useStateRef } from '@past3lle/hooks'
+import { useStateRef, useWindowSize } from '@past3lle/hooks'
 import { useEffect, useMemo, useState } from 'react'
-import { useGetWindowSize } from 'state/window/hooks'
 
 import { BaseCarouselProps } from './types'
 
 export interface CarouselSetup {
-  parentWidth: number | undefined
+  parentSizes: { width: number | undefined; height: number | undefined } | undefined
   carouselContainer: HTMLElement | null
   imageTransformations: Omit<LqImageOptions, 'showLoadingIndicator'> & { pr: boolean }
   setCarouselContainerRef: (newNode: HTMLElement | null) => void
 }
-export function useCarouselSetup({ fixedSizes }: Pick<BaseCarouselProps, 'fixedSizes'>): CarouselSetup {
-  const [parentWidth, setParentWidth] = useState<number | undefined>()
+export function useCarouselSetup(dimensions: BaseCarouselProps<any[]>['dimensions']): CarouselSetup {
+  const [parentSizes, setParentSizes] = useState<CarouselSetup['parentSizes']>()
 
   // ref to carousel container
   const [carouselContainer, setCarouselContainerRef] = useStateRef<HTMLDivElement | null>(null, (node) => node)
 
   // set carouselContainer states and focus carousel
   useEffect(() => {
-    setParentWidth(carouselContainer?.parentElement?.offsetWidth)
+    if (dimensions?.fixedSizes?.height && dimensions?.fixedSizes?.width) return
+
+    setParentSizes({
+      width: carouselContainer?.parentElement?.offsetWidth,
+      height: carouselContainer?.parentElement?.offsetHeight,
+    })
 
     carouselContainer?.focus()
-  }, [carouselContainer])
+  }, [dimensions?.fixedSizes, carouselContainer])
 
-  // get a carouselContainer to the carouselboi
-  // we need to hold and updated cache of the carousel parent's width in px
-  const sizes = useGetWindowSize()
+  const windowSizes = useWindowSize()
   // adjust refs on window size changes
   useEffect(() => {
-    setParentWidth(carouselContainer?.parentElement?.offsetWidth)
-  }, [carouselContainer?.parentElement?.offsetWidth, carouselContainer?.parentElement?.clientHeight, sizes])
+    if (dimensions?.fixedSizes?.height && dimensions?.fixedSizes?.width) return
+    setParentSizes({
+      width: carouselContainer?.parentElement?.offsetWidth,
+      height: carouselContainer?.parentElement?.offsetHeight,
+    })
+  }, [
+    dimensions?.fixedSizes,
+    carouselContainer?.parentElement?.offsetWidth,
+    carouselContainer?.parentElement?.offsetHeight,
+    carouselContainer?.parentElement?.clientHeight,
+    windowSizes,
+  ])
 
   const imageTransformations = useMemo(
     () => ({
-      width: _getTransformationsFromValue(fixedSizes?.width, carouselContainer?.clientWidth || 0),
+      width: _getTransformationsFromValue(dimensions?.fixedSizes?.width, carouselContainer?.clientWidth || 0),
       height: _getTransformationsFromValue(
-        fixedSizes?.height,
+        dimensions?.fixedSizes?.height,
         carouselContainer?.clientHeight || carouselContainer?.clientWidth || 0
       ),
       pr: true,
     }),
-    [fixedSizes, carouselContainer?.clientWidth, carouselContainer?.clientHeight]
+    [dimensions?.fixedSizes, carouselContainer?.clientWidth, carouselContainer?.clientHeight]
   )
 
   return {
-    parentWidth: fixedSizes?.width || parentWidth,
+    parentSizes: {
+      height: dimensions?.fixedSizes?.height || parentSizes?.height,
+      width: dimensions?.fixedSizes?.width || parentSizes?.width,
+    } as CarouselSetup['parentSizes'],
     carouselContainer,
     imageTransformations,
     setCarouselContainerRef,
