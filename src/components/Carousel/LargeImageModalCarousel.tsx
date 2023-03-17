@@ -1,9 +1,7 @@
+import { AnimatedCarousel, BaseCarouselProps } from '@past3lle/carousel'
+import { usePinchZoomAndDrag } from '@past3lle/carousel-hooks'
 import { Modal } from '@past3lle/components'
 import { upToSmall } from '@past3lle/theme'
-import AnimatedCarousel from 'components/Carousel/common/components/AnimatedCarousel'
-import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
-import { BaseCarouselProps } from 'components/Carousel/common/types'
-import { usePinchZoomAndDrag } from 'hooks/useScrollAnimation/usePinchDragAndZoom'
 import { ForwardedRef, forwardRef } from 'react'
 import styled from 'styled-components/macro'
 import { ShopImageSrcSet } from 'types'
@@ -15,7 +13,7 @@ const LargeImageModal = styled(Modal)<{ zoomLevel: number }>`
   -ms-user-select: none;
   user-select: none;
 
-  ${CarouselContainer} {
+  #carousel-container {
     height: 100%;
     width: 100%;
     overflow: auto;
@@ -34,7 +32,7 @@ const LargeImageModal = styled(Modal)<{ zoomLevel: number }>`
       width: 100%;
     `}
 
-    ${StaticCarouselStep} {
+    > div > div {
       margin: auto;
       justify-content: flex-start;
       overflow: auto;

@@ -1,3 +1,4 @@
+import { StyledCarouselContainer, StyledCarouselItemContainer } from '@past3lle/carousel'
 import {
   betweenSmallAndLarge,
   fromExtraLarge,
@@ -8,7 +9,6 @@ import {
   upToLarge,
   upToSmall,
 } from '@past3lle/theme'
-import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
 import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
 import { Z_INDEXES } from 'constants/config'
 import { ProductLogo, ProductLogoCollectionView, ProductScreen, ProductScreensContainer } from 'pages/common/styleds'
@@ -34,7 +34,7 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
       margin-top: 0px;
     }
 
-    > ${CarouselContainer} {
+    > ${StyledCarouselContainer} {
       ${upToSmall`
         margin: 7rem 0 0;
         > ${AnimatedDivContainer} {
@@ -56,7 +56,7 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
         justify-content: space-between;
       `}
 
-      > ${StaticCarouselStep} {
+      > ${StyledCarouselItemContainer} {
         position: relative;
         height: 100%;
 

@@ -1,5 +1,5 @@
+import { AxisDirection } from '@past3lle/carousel-hooks'
 import { a } from '@react-spring/web'
-import { AxisDirection } from 'hooks/useScrollAnimation'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
 

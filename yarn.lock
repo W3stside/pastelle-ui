@@ -3223,6 +3223,37 @@
   resolved "https://registry.yarnpkg.com/@past3lle/assets/-/assets-0.0.10.tgz#e866cf32bb03637bfbf90a677dba52bd1d8a56ee"
   integrity sha512-oTf6XMKnGQO5Y5S/4fw8CYQwgMVIq8PPVfZFLwcyHThX24UQS+oVHQwCOtSlYa8DlDe7O7wdJil7QBCaOZNfsg==
 
+"@past3lle/carousel-hooks@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@past3lle/carousel-hooks/-/carousel-hooks-0.0.4.tgz#b0231e8893fc55b7b44e99707be206021f59f81f"
+  integrity sha512-w6I9k1qbM4E+J98mmWZwlm/FaIfJS1L/BOx9TdpptmnFg6qwho+fZstVQ8cyhwdMNMAYBTPdZCGzou3VnN3bXg==
+  dependencies:
+    "@past3lle/hooks" "^0.0.13"
+    "@use-gesture/react" "^10.2.6"
+    lodash.debounce "^4.0.8"
+    lodash.throttle "^4.1.1"
+    react-spring "^9.4.3"
+
+"@past3lle/carousel@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@past3lle/carousel/-/carousel-0.0.6.tgz#84914a89f0b06df9a3eaea6ef93e8616fd9ddcf8"
+  integrity sha512-QfQMy+nDiZyCg2zrt9C/pdBneNJ22O39sUJvH5zOFxh4x26CNaYvJQ6P9BL/qJnUAYl6XFNze7nWw/DvkA0PNQ==
+  dependencies:
+    "@past3lle/carousel-hooks" "^0.0.4"
+    "@past3lle/components" "^0.0.45"
+    "@past3lle/hooks" "^0.0.13"
+    "@past3lle/theme" "^0.0.29"
+    "@past3lle/utils" "^0.0.17"
+    "@reach/dialog" "^0.18.0"
+    "@react-spring/web" "^9.4.3"
+    "@use-gesture/react" "^10.2.23"
+    lodash.clamp "^4.0.3"
+    polished "^4.2.2"
+    react-feather "^2.0.10"
+    react-popper "^2.3.0"
+    react-spring "^9.6.1"
+    rebass "^4.0.7"
+
 "@past3lle/components@^0.0.44":
   version "0.0.44"
   resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.44.tgz#fc98baeaa14646a16a897d41ccf2c6750ae66835"
@@ -3231,6 +3262,30 @@
     "@past3lle/assets" "^0.0.10"
     "@past3lle/constants" "^0.0.17"
     "@past3lle/hooks" "^0.0.12"
+    "@past3lle/theme" "^0.0.29"
+    "@past3lle/types" "^0.0.12"
+    "@past3lle/utils" "^0.0.17"
+    "@popperjs/core" "^2.11.6"
+    "@reach/dialog" "^0.18.0"
+    "@use-gesture/react" "^10.2.23"
+    imagekitio-react "^2.0.0"
+    lodash.clamp "^4.0.3"
+    polished "^4.2.2"
+    react-feather "^2.0.10"
+    react-ga "^3.3.1"
+    react-popper "^2.3.0"
+    react-router-hash-link "^2.4.3"
+    react-spring "^9.6.1"
+    rebass "^4.0.7"
+
+"@past3lle/components@^0.0.45":
+  version "0.0.45"
+  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.45.tgz#2168b8d34909bf840c0f2dc7a8c75ce5093d1623"
+  integrity sha512-9ud/zmRHDrg7d1H6eLXLsh10dfzVYonRF3tIfUWs7cPanmW5GDUdUQ7aT6TcxSik1x6hqD08FuSewB+C2c56LQ==
+  dependencies:
+    "@past3lle/assets" "^0.0.10"
+    "@past3lle/constants" "^0.0.17"
+    "@past3lle/hooks" "^0.0.13"
     "@past3lle/theme" "^0.0.29"
     "@past3lle/types" "^0.0.12"
     "@past3lle/utils" "^0.0.17"
@@ -3258,6 +3313,15 @@
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/@past3lle/hooks/-/hooks-0.0.12.tgz#f37ad0a6d6a459ef25013dc3769ce34fe9bb5094"
   integrity sha512-JYBRSf9mK9QG7QaQCxxJrAKSAuMTVa6q5576X0QDcwzJ/hZH9hDR6GQy8IEOxVO288IJv6XSwCGljxR8bz75xQ==
+  dependencies:
+    copy-to-clipboard "^3.3.3"
+    lodash.debounce "^4.0.8"
+    lodash.throttle "^4.1.1"
+
+"@past3lle/hooks@^0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@past3lle/hooks/-/hooks-0.0.13.tgz#9a9c0d84b02f7b52202b0db6654027f584db2335"
+  integrity sha512-AcYZ5mlIB5G27ikJm5Gw975Y5Sx4Rnjdi27PLSJAn29QbvehtsUC+ohboimfZaypFpxmx2IZxvj1/OnQZ9oOwQ==
   dependencies:
     copy-to-clipboard "^3.3.3"
     lodash.debounce "^4.0.8"
