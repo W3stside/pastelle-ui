@@ -3234,10 +3234,10 @@
     lodash.throttle "^4.1.1"
     react-spring "^9.4.3"
 
-"@past3lle/carousel@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@past3lle/carousel/-/carousel-0.0.6.tgz#84914a89f0b06df9a3eaea6ef93e8616fd9ddcf8"
-  integrity sha512-QfQMy+nDiZyCg2zrt9C/pdBneNJ22O39sUJvH5zOFxh4x26CNaYvJQ6P9BL/qJnUAYl6XFNze7nWw/DvkA0PNQ==
+"@past3lle/carousel@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@past3lle/carousel/-/carousel-0.0.7.tgz#708132c54028a1623a7dc5f6cee5feb4f6529337"
+  integrity sha512-a3XEdsEl69fCmY2B42zn9qGql9n7X84QIpebswPB4tSZASX8UPKIHUwQAiMHySi5HMsekGq6gqocL77OyLK1yQ==
   dependencies:
     "@past3lle/carousel-hooks" "^0.0.4"
     "@past3lle/components" "^0.0.45"

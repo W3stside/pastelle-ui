@@ -1,4 +1,4 @@
-import { StyledCarouselContainer, StyledCarouselItemContainer } from '@past3lle/carousel'
+import { StyledAnimatedDivContainer, StyledCarouselContainer, StyledCarouselItemContainer } from '@past3lle/carousel'
 import {
   betweenSmallAndLarge,
   fromExtraLarge,
@@ -9,7 +9,6 @@ import {
   upToLarge,
   upToSmall,
 } from '@past3lle/theme'
-import { AnimatedDivContainer } from 'components/ScrollingContentPage/styleds'
 import { Z_INDEXES } from 'constants/config'
 import { ProductLogo, ProductLogoCollectionView, ProductScreen, ProductScreensContainer } from 'pages/common/styleds'
 import { transparentize } from 'polished'
@@ -37,7 +36,7 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
     > ${StyledCarouselContainer} {
       ${upToSmall`
         margin: 7rem 0 0;
-        > ${AnimatedDivContainer} {
+        > ${StyledAnimatedDivContainer} {
           picture {
             margin-top: -3.5rem;
           }
