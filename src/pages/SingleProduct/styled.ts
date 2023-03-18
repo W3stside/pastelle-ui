@@ -1,3 +1,4 @@
+import { StyledCarouselContainer, StyledCarouselItemContainer } from '@past3lle/carousel'
 import { Button, Column, Row } from '@past3lle/components'
 import {
   BLACK,
@@ -10,7 +11,6 @@ import {
   upToSmall,
   upToSmallHeight,
 } from '@past3lle/theme'
-import { CarouselContainer, StaticCarouselStep } from 'components/Carousel/common/components/styleds'
 import { ArticleFadeInContainer } from 'components/Layout'
 import { FIXED_IMAGE_SIZE_CONSTRAINTS, SINGLE_ITEM_LOGO_RATIO, STORE_IMAGE_SIZES } from 'constants/config'
 import {
@@ -83,10 +83,10 @@ export const SingleProductScreen = styled(ProductScreen)`
     height: 100%;
   `}
 
-  > ${CarouselContainer} {
+  > ${StyledCarouselContainer} {
     min-height: 443px;
 
-    ${StaticCarouselStep} {
+    ${StyledCarouselItemContainer} {
       height: 100%;
 
       // TODO: TESTING THIS STYLE
@@ -95,8 +95,8 @@ export const SingleProductScreen = styled(ProductScreen)`
         img {
           // height: 100%;
           // max-width: unset;
+          // box-shadow: 0px -20px 20px 20px #00000094, 0px 20px 20px 6px #00000099;
           max-width: 100%;
-          box-shadow: 0px -20px 20px 20px #00000094, 0px 20px 20px 6px #00000099;
         }
       }
     }
@@ -149,7 +149,7 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
     }
   }
 
-  ${CarouselContainer} {
+  ${StyledCarouselContainer} {
     height: ${({ $calculatedSizes: { height: asideContainerHeight, width: asideContainerWidth } }) =>
       asideContainerHeight && asideContainerWidth && _getOffsetHeight(asideContainerHeight, asideContainerWidth)}px;
   }
@@ -167,7 +167,7 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
 
   ${({ $calculatedSizes: { height: asideContainerHeight, width: asideContainerWidth } }) => betweenSmallAndLarge`
     // 16 9 view
-    ${CarouselContainer} {
+    ${StyledCarouselContainer} {
       height: ${
         asideContainerHeight &&
         asideContainerWidth &&

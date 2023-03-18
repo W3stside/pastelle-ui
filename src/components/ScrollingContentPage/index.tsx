@@ -1,15 +1,14 @@
+import { StyledAnimatedDivContainer, StyledScrollerContainer, TouchAction } from '@past3lle/carousel'
+import { useInfiniteVerticalScroll } from '@past3lle/carousel-hooks'
 import { LoadInViewOptions } from '@past3lle/hooks'
 import { isMobile } from '@past3lle/utils'
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
 import { STIFF_SPRINGS } from 'constants/springs'
-import { useInfiniteVerticalScroll } from 'hooks/useScrollAnimation'
 import { useCallback, useEffect } from 'react'
 import { Product } from 'shopify/graphql/types'
 import { useIsMobileWindowWidthSize } from 'state/window/hooks'
-
-import { AnimatedDivContainer, ScrollerContainer, TouchAction } from './styleds'
 
 interface ScrollingContentPageParams<D> {
   data: D[]
@@ -88,22 +87,23 @@ export function ScrollingContentPage<D>({
         left="50%"
         width="40vw"
       />
-      <ScrollerContainer $touchAction={touchAction} $isVerticalScroll {...bind()}>
+      <StyledScrollerContainer $touchAction={touchAction} $isVerticalScroll {...bind()}>
         {springs.map(({ y, scale }, i, { length }) => {
           const product = data[i] as Product
           const isActive = currentIndex === i
 
           return (
-            <AnimatedDivContainer
+            <StyledAnimatedDivContainer
               {...bind(i)}
               key={product.id}
-              $touchAction={touchAction}
               // z-index here is to set the next card under the stack
               style={{ scale, height: itemHeight, y, zIndex: length * 2 - i }}
-              $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
-              $withBoxShadow={withBoxShadow}
               onClick={() => handleItemSelect(i)}
-              $isVerticalScroll
+              // custom styled props
+              $axis="y"
+              $maxWidth={COLLECTION_MAX_WIDTH + 'px'}
+              $touchAction={touchAction}
+              $withBoxShadow={withBoxShadow}
             >
               <IterableComponent
                 fixedSizes={{
@@ -121,10 +121,10 @@ export function ScrollingContentPage<D>({
                 key={product.id}
                 {...data[i]}
               />
-            </AnimatedDivContainer>
+            </StyledAnimatedDivContainer>
           )
         })}
-      </ScrollerContainer>
+      </StyledScrollerContainer>
     </>
   )
 }

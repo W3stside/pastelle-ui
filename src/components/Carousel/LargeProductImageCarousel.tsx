@@ -1,5 +1,5 @@
 import { SmartImageProps, SmartImg } from '@past3lle/components'
-import LargeImageCarouselModal from 'components/Carousel/common/components/LargeImageModalCarousel'
+import LargeImageCarouselModal from 'components/Carousel/LargeImageModalCarousel'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { ShopImageSrcSet } from 'types'
 
@@ -27,16 +27,23 @@ export function LargeImageCarousel({
       toggleModal={toggleModal}
       dismissModal={dismissModal}
       // Carousel props
-      accentColor={accentColor}
       data={images}
-      transformation={[
-        {
-          width: STORE_IMAGE_SIZES.LARGE,
-          height: STORE_IMAGE_SIZES.LARGE,
-        },
-      ]}
-      fixedSizes={undefined}
+      axis="x"
       startIndex={0}
+      colors={{
+        accent: accentColor,
+      }}
+      imageKit={{
+        transformation: [
+          {
+            width: STORE_IMAGE_SIZES.LARGE,
+            height: STORE_IMAGE_SIZES.LARGE,
+          },
+        ],
+      }}
+      dimensions={{
+        fillContainer: true,
+      }}
     >
       {({ index, defaultImageTransforms }) => {
         const { defaultUrl, ...urlRest } = images[index]

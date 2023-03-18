@@ -1,20 +1,26 @@
+import {
+  BaseCarouselProps,
+  ButtonCarousel,
+  ButtonCarouselProps,
+  CarouselChildrenProps,
+  HorizontalSwipeCarousel,
+  WithTouchAction,
+} from '@past3lle/carousel'
 import { SmartVideoProps as LazyVideoProps, SmartImageProps, SmartImg } from '@past3lle/components'
-import ButtonCarousel, { ButtonCarouselProps } from 'components/Carousel/common/components/ButtonCarousel'
 import { useCallback } from 'react'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { isProductVideo } from 'shopify/utils'
 import { ShopImageSrcSet } from 'types'
 
-import HorizontalSwipeCarousel from './HorizontalSwipeCarousel'
-import { CarouselShowcaseVideo } from './common/common'
-import { BaseCarouselProps, CarouselChildrenProps, WithTouchAction } from './common/types'
+import { CarouselShowcaseVideo } from './CarouselShowcaseVideo'
 
-interface ProductCarousel extends Omit<BaseCarouselProps, 'children'> {
-  data: (ShopImageSrcSet | FragmentProductVideoFragment | undefined)[]
+type CarouselData = ShopImageSrcSet | FragmentProductVideoFragment | undefined
+interface ProductCarousel extends Omit<BaseCarouselProps<CarouselData[]>, 'children'> {
+  data: CarouselData[]
   imageProps?: Omit<SmartImageProps, 'path' | 'pathSrcSet' | 'onClick'>
   videoProps?: LazyVideoProps['videoProps']
 }
-export type ProductClickCarousel = ProductCarousel & Omit<ButtonCarouselProps, 'children'>
+export type ProductClickCarousel = ProductCarousel & Omit<ButtonCarouselProps<CarouselData[]>, 'children'>
 export function ClickCarousel({ data, imageProps, ...rest }: ProductClickCarousel) {
   const memoedCurriedFn = useCallback(() => curriedCarouselRenderFn({ data, imageProps }), [data, imageProps])
   return (
