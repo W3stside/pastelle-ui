@@ -1,4 +1,3 @@
-import { Trans } from '@lingui/macro'
 import { Button, Column, ColumnCenter, RowCenter, Text as ThemedText } from '@past3lle/components'
 import { Connector } from '@web3-react/types'
 import Loader from 'components/Loader'
@@ -50,13 +49,9 @@ export default function PendingView({
         <LoadingWrapper>
           {error ? (
             <ErrorGroup>
-              <ThemedText.MediumHeader marginBottom={12}>
-                <Trans>Error connecting</Trans>
-              </ThemedText.MediumHeader>
+              <ThemedText.MediumHeader marginBottom={12}>Error connecting</ThemedText.MediumHeader>
               <ThemedText.Body fontSize={14} marginBottom={36} textAlign="center">
-                <Trans>
-                  The connection attempt failed. Please click try again and follow the steps to connect in your wallet.
-                </Trans>
+                The connection attempt failed. Please click try again and follow the steps to connect in your wallet.
               </ThemedText.Body>
               <Button
                 borderRadius="12px"
@@ -65,11 +60,11 @@ export default function PendingView({
                   tryActivation(connector)
                 }}
               >
-                <Trans>Try Again</Trans>
+                Try Again
               </Button>
               <Button padding="0" marginTop={20}>
                 <ThemedText.Link fontSize={12} onClick={openOptions}>
-                  <Trans>Back to wallet selection</Trans>
+                  Back to wallet selection
                 </ThemedText.Link>
               </Button>
             </ErrorGroup>
@@ -79,7 +74,7 @@ export default function PendingView({
                 <LoaderContainer>
                   <Loader stroke="currentColor" size="32px" />
                 </LoaderContainer>
-                <Trans>Connecting...</Trans>
+                Connecting...
               </ThemedText.Black>
             </>
           )}

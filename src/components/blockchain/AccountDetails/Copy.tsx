@@ -1,4 +1,3 @@
-import { Trans } from '@lingui/macro'
 import { ButtonLink, Row } from '@past3lle/components'
 import { useCopyClipboard } from '@past3lle/hooks'
 import { useCallback } from 'react'
@@ -25,9 +24,7 @@ const StyledText = styled(Row)`
 const Copied = ({ iconSize }: { iconSize?: number }) => (
   <StyledText>
     <CheckCircle size={iconSize ?? '16'} />
-    <StyledText>
-      <Trans>Copied</Trans>
-    </StyledText>
+    <StyledText>Copied</StyledText>
   </StyledText>
 )
 

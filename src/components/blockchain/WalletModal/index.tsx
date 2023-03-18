@@ -1,4 +1,3 @@
-import { Trans } from '@lingui/macro'
 import { AutoColumn, AutoRow, Modal, Row, Text as ThemedText } from '@past3lle/components'
 import { ExternalLink } from '@past3lle/components'
 import { devDebug, isMobile } from '@past3lle/utils'
@@ -220,9 +219,7 @@ export default function WalletModal({
     } else {
       headerRow = (
         <HeaderRow>
-          <HoverText>
-            <Trans>Connect a wallet</Trans>
-          </HoverText>
+          <HoverText>Connect a wallet</HoverText>
         </HeaderRow>
       )
     }
@@ -248,20 +245,15 @@ export default function WalletModal({
               <LightCard>
                 <AutoRow style={{ flexWrap: 'nowrap' }}>
                   <ThemedText.Body fontSize={12}>
-                    <Trans>
-                      By connecting a wallet, you agree to Uniswap Labs’{' '}
-                      <ExternalLink
-                        style={{ textDecoration: 'underline' }}
-                        href="https://uniswap.org/terms-of-service/"
-                      >
-                        Terms of Service
-                      </ExternalLink>{' '}
-                      and acknowledge that you have read and understand the Uniswap{' '}
-                      <ExternalLink style={{ textDecoration: 'underline' }} href="https://uniswap.org/disclaimer/">
-                        Protocol Disclaimer
-                      </ExternalLink>
-                      .
-                    </Trans>
+                    By connecting a wallet, you agree to Uniswap Labs’{' '}
+                    <ExternalLink style={{ textDecoration: 'underline' }} href="https://uniswap.org/terms-of-service/">
+                      Terms of Service
+                    </ExternalLink>{' '}
+                    and acknowledge that you have read and understand the Uniswap{' '}
+                    <ExternalLink style={{ textDecoration: 'underline' }} href="https://uniswap.org/disclaimer/">
+                      Protocol Disclaimer
+                    </ExternalLink>
+                    .
                   </ThemedText.Body>
                 </AutoRow>
               </LightCard>

@@ -4,7 +4,6 @@ import { nodeRemoveChildFix } from '@past3lle/utils'
 // import { Web3ReactProvider } from '@web3-react/core'
 import { isWeb3Enabled } from 'blockchain/connectors'
 // PROVIDERS
-import 'inter-ui'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
@@ -23,7 +22,6 @@ import WindowSizeUpdater from 'state/window/updater'
 import { pastelleTheme } from 'theme'
 import { CustomStaticGlobalCSSProvider, CustomThemedGlobalCSSProvider } from 'theme/global'
 
-import './i18n'
 import App from './pages/App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 

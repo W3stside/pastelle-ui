@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-restricted-imports
-import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { shortenAddress } from 'blockchain/utils'
 import { darken, lighten } from 'polished'
@@ -105,9 +103,7 @@ export function Web3StatusInner() {
   } else {
     return (
       <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
-        <Text>
-          <Trans>Connect to a wallet</Trans>
-        </Text>
+        <Text>Connect to a wallet</Text>
       </Web3StatusConnect>
     )
   }

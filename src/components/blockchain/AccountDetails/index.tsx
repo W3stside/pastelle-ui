@@ -1,5 +1,3 @@
-// import { useCallback } from 'react'
-import { Trans } from '@lingui/macro'
 import { Row } from '@past3lle/components'
 import { isMobile } from '@past3lle/utils'
 import { useWeb3React } from '@web3-react/core'
@@ -10,9 +8,6 @@ import StatusIcon from 'components/Identicon/StatusIcon'
 import { ExternalLink } from 'react-feather'
 import { useAppDispatch } from 'state'
 import { updateSelectedWallet } from 'state/blockchain/reducer'
-// import { Button } from '@past3lle/components'
-// import Transaction from './Transaction'
-// import { clearAllTransactions } from 'state/blockchainTransactions/reducer'
 import styled from 'styled-components/macro'
 
 import CopyHelper from './Copy'
@@ -136,11 +131,7 @@ export default function AccountDetails({
   const isInjectedMobileBrowser = isMetaMask && isMobile
 
   function formatConnectorName() {
-    return (
-      <WalletName>
-        <Trans>Connected with</Trans> {getConnectionName(connectionType, isMetaMask)}
-      </WalletName>
-    )
+    return <WalletName>Connected with {getConnectionName(connectionType, isMetaMask)}</WalletName>
   }
 
   /* const clearAllTransactionsCallback = useCallback(() => {
@@ -153,9 +144,7 @@ export default function AccountDetails({
         <CloseIcon onClick={toggleWalletModal}>
           <CloseColor />
         </CloseIcon>
-        <HeaderRow>
-          <Trans>Account</Trans>
-        </HeaderRow>
+        <HeaderRow>Account</HeaderRow>
         <AccountSection>
           <YourAccount>
             <InfoCard>
@@ -177,7 +166,7 @@ export default function AccountDetails({
                           openOptions()
                         }}
                       >
-                        <Trans>Disconnect</Trans>
+                        Disconnect
                       </WalletAction>
                       <WalletAction
                         style={{ fontSize: '.825rem', fontWeight: 400 }}
@@ -185,7 +174,7 @@ export default function AccountDetails({
                           openOptions()
                         }}
                       >
-                        <Trans>Change</Trans>
+                        Change
                       </WalletAction>
                     </>
                   )}
@@ -206,9 +195,7 @@ export default function AccountDetails({
                       <div>
                         {account && (
                           <CopyHelper toCopy={account} iconPosition="left">
-                            <span style={{ marginLeft: '4px' }}>
-                              <Trans>Copy Address</Trans>
-                            </span>
+                            <span style={{ marginLeft: '4px' }}>Copy Address</span>
                           </CopyHelper>
                         )}
                         {chainId && account && (
@@ -218,9 +205,7 @@ export default function AccountDetails({
                             href={getExplorerLink(chainId, ENSName, ExplorerDataType.ADDRESS)}
                           >
                             <ExternalLink size={16} />
-                            <span style={{ marginLeft: '4px' }}>
-                              <Trans>View on Explorer</Trans>
-                            </span>
+                            <span style={{ marginLeft: '4px' }}>View on Explorer</span>
                           </AddressLink>
                         )}
                       </div>
@@ -232,9 +217,7 @@ export default function AccountDetails({
                       <div>
                         {account && (
                           <CopyHelper toCopy={account} iconPosition="left">
-                            <span style={{ marginLeft: '4px' }}>
-                              <Trans>Copy Address</Trans>
-                            </span>
+                            <span style={{ marginLeft: '4px' }}>Copy Address</span>
                           </CopyHelper>
                         )}
                         {/* TODO: not active yet */}
@@ -246,7 +229,7 @@ export default function AccountDetails({
                           >
                             <ExternalLink size={16} />
                             <span style={{ marginLeft: '4px' }}>
-                              <Trans>View on Explorer</Trans>
+                              View on Explorer
                             </span>
                           </AddressLink>
                         )} */}
@@ -264,10 +247,10 @@ export default function AccountDetails({
         <LowerSection>
           <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
             <ThemedText.Body>
-              <Trans>Recent Transactions</Trans>
+              Recent Transactions
             </ThemedText.Body>
             <LinkStyledButton onClick={clearAllTransactionsCallback}>
-              <Trans>(clear all)</Trans>
+              (clear all)
             </LinkStyledButton>
           </AutoRow>
           {renderTransactions(pendingTransactions)}
@@ -276,7 +259,7 @@ export default function AccountDetails({
       ) : (
         <LowerSection>
           <ThemedText.Body color={theme.text1}>
-            <Trans>Your transactions will appear here...</Trans>
+            Your transactions will appear here...
           </ThemedText.Body>
         </LowerSection>
       )} */}
