@@ -68,7 +68,6 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "ethers": "^5.4.6",
-    "inter-ui": "^3.13.1",
     "jazzicon": "^1.5.0",
     "lodash.debounce": "^4.0.8",
     "ms.macro": "^2.0.0",
