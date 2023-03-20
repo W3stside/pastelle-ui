@@ -1,13 +1,12 @@
-import { isMobile } from '@past3lle/utils'
+import { useIsMobile } from '@past3lle/hooks'
 import { TinyHelperText } from 'components/Common'
 import { Text as TYPE } from 'components/Text'
 import { Z_INDEXES } from 'constants/config'
 import { ProductSubDescription } from 'pages/common/styleds'
 import { ReactNode, useCallback, useState } from 'react'
-import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 export default function useShowShowcase() {
-  const isMobileWidth = useIsMobileWindowWidthSize()
+  const isMobile = useIsMobile()
   const [showShowcase, setShowShowcase] = useState(false)
   const toggleShowcase = () => setShowShowcase((state) => !state)
 
@@ -52,16 +51,14 @@ export default function useShowShowcase() {
             b. <strong>MALE</strong> model, <strong>185cm</strong> tall, wearing size <strong>XL</strong>
             <p>Available filters below. Changes automatically update showcase videos.</p>
             <p>
-              {isMobile || isMobileWidth
-                ? 'Tap the video anywhere'
-                : 'Click the gray button in the upper right hand corner'}{' '}
-              to play/pause
+              {isMobile ? 'Tap the video anywhere' : 'Click the gray button in the upper right hand corner'} to
+              play/pause
             </p>
           </TYPE.Black>
         )}
       </ProductSubDescription>
     ),
-    [isMobileWidth, showShowcase]
+    [isMobile, showShowcase]
   )
 
   return {

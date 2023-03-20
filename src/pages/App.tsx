@@ -1,3 +1,4 @@
+import { useIsSmallMediaWidth } from '@past3lle/hooks'
 import { useAnalyticsReporter } from 'analytics'
 import { CookiesBanner as Cookies } from 'components/Cookies/Banner'
 import { FallbackLoader } from 'components/Loader'
@@ -5,7 +6,6 @@ import { APPAREL_PARAM_NAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useCollectionLoadingStatus } from 'state/collection/hooks'
-import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
@@ -18,7 +18,7 @@ export default function App() {
   // attempt to enable analytics, will do nothing if consent not set
   useAnalyticsReporter()
 
-  const isMobileWidthOrBelow = useIsMobileWindowWidthSize()
+  const isMobileWidthOrBelow = useIsSmallMediaWidth()
 
   const loading = useCollectionLoadingStatus()
   if (loading) return <FallbackLoader />

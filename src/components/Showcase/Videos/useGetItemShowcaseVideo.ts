@@ -1,13 +1,12 @@
-import { isMobile } from '@past3lle/utils'
+import { useIsMobile } from '@past3lle/hooks'
 import { useMemo } from 'react'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
 import { reduceShopifyMediaToShowcaseVideos } from 'shopify/utils'
 import { useGetShowcaseSettings } from 'state/user/hooks'
-import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 export default function useGetProductShowcaseVideos({ videos }: { videos: FragmentProductVideoFragment[] }) {
   const { gender, height, size: selectedSize } = useGetShowcaseSettings()
-  const isMobileWidth = useIsMobileWindowWidthSize()
+  const isMobileDeviceOrWidth = useIsMobile()
 
   const { videoMap, webKey, mobileKey } = useMemo(
     () => ({
@@ -21,7 +20,7 @@ export default function useGetProductShowcaseVideos({ videos }: { videos: Fragme
   )
 
   return useMemo(
-    () => videoMap[isMobile || isMobileWidth ? mobileKey : webKey] || videoMap[webKey],
-    [mobileKey, videoMap, webKey, isMobileWidth]
+    () => videoMap[isMobileDeviceOrWidth ? mobileKey : webKey] || videoMap[webKey],
+    [mobileKey, videoMap, webKey, isMobileDeviceOrWidth]
   )
 }

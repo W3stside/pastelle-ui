@@ -1,5 +1,4 @@
-import { useStateRef } from '@past3lle/hooks'
-import { isMobile } from '@past3lle/utils'
+import { useIsMobile, useStateRef } from '@past3lle/hooks'
 import { ArticleFadeInContainer } from 'components/Layout'
 import SEO from 'components/SEO'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
@@ -9,7 +8,6 @@ import { CollectionPageProps } from 'pages/common/types'
 import { useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCurrentCollection } from 'state/collection/hooks'
-import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 import { buildItemUrl } from 'utils/navigation'
 
 export default function Collection() {
@@ -17,17 +15,17 @@ export default function Collection() {
   const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, (node) => node)
   // get latest collection and the current on screen item handle
   const { collection } = useCurrentCollection()
-  const isMobileWidth = useIsMobileWindowWidthSize()
+  const isMobileDeviceOrWidth = useIsMobile()
 
   const cHeight = container?.clientHeight || 0
   // on mobile sizes we set a fixed height
   const fixedItemHeight = useMemo(
     () =>
-      (isMobile || isMobileWidth) && cHeight
+      isMobileDeviceOrWidth && cHeight
         ? // container height - the header and 70px to fit the next product label
           cHeight - LAYOUT_REM_HEIGHT_MAP.HEADER * BASE_FONT_SIZE
         : undefined,
-    [cHeight, isMobileWidth]
+    [cHeight, isMobileDeviceOrWidth]
   )
 
   const onContentClick = useCallback(

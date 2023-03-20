@@ -1,3 +1,4 @@
+import { useIsSmallMediaWidth } from '@past3lle/hooks'
 import { isMobile } from '@past3lle/utils'
 import { ShowcaseVideosProps } from 'components/Showcase/Videos'
 import { BaseProductPageProps } from 'pages/common/types'
@@ -7,7 +8,6 @@ import { Product } from 'shopify/graphql/types'
 import { reduceShopifyMediaToShowcaseVideos } from 'shopify/utils'
 import { useAppDispatch, useAppSelector } from 'state'
 import { useGetShowcaseSettings } from 'state/user/hooks'
-import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 import {
   ProductCurrentlyViewing,
@@ -138,7 +138,7 @@ export function useGetProductShowcaseVideos({ videos }: Pick<ShowcaseVideosProps
 
 export function useGetSelectedProductShowcaseVideo(props: Pick<ShowcaseVideosProps, 'videos'>) {
   const { videoMap, mobileKey, webKey } = useGetProductShowcaseVideos(props)
-  const isMobileWidth = useIsMobileWindowWidthSize()
+  const isMobileWidth = useIsSmallMediaWidth()
 
   return useMemo(
     () => videoMap[isMobileWidth || isMobile ? mobileKey : webKey] || videoMap[webKey],

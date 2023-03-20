@@ -1,3 +1,4 @@
+import { useIsMediumMediaWidth } from '@past3lle/hooks'
 import { isMobile } from '@past3lle/utils'
 import { useWeb3React } from '@web3-react/core'
 import { isWeb3Enabled } from 'blockchain/connectors'
@@ -11,7 +12,6 @@ import { ProductSubHeader } from 'pages/common/styleds'
 import { useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useCurrentProductMedia, useGetAllProductLogos } from 'state/collection/hooks'
-import { useIsMediumWindowWidthSize } from 'state/window/hooks'
 import { checkIsCollectionPage } from 'utils/navigation'
 
 import {
@@ -34,7 +34,7 @@ export default function Header() {
   const isCollectionPage = checkIsCollectionPage(location)
   const isEnabled = useMemo(() => isWeb3Enabled(), [])
 
-  const isMediumOrBelow = useIsMediumWindowWidthSize()
+  const isMediumOrBelow = useIsMediumMediaWidth()
 
   const productLogos = useGetAllProductLogos()
   const { headerLogoSet: dynamicHeaderLogoSet, color } = useCurrentProductMedia()

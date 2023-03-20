@@ -1,6 +1,6 @@
 import { StyledAnimatedDivContainer, StyledScrollerContainer, TouchAction } from '@past3lle/carousel'
 import { useInfiniteVerticalScroll } from '@past3lle/carousel-hooks'
-import { LoadInViewOptions } from '@past3lle/hooks'
+import { LoadInViewOptions, useIsSmallMediaWidth } from '@past3lle/hooks'
 import { isMobile } from '@past3lle/utils'
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 import { FixedAnimatedLoader } from 'components/Loader'
@@ -8,7 +8,6 @@ import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/
 import { STIFF_SPRINGS } from 'constants/springs'
 import { useCallback, useEffect } from 'react'
 import { Product } from 'shopify/graphql/types'
-import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 interface ScrollingContentPageParams<D> {
   data: D[]
@@ -40,7 +39,7 @@ export function ScrollingContentPage<D>({
   onContentClick,
   IterableComponent,
 }: Params<D>) {
-  const isMobileWidth = useIsMobileWindowWidthSize()
+  const isMobileWidth = useIsSmallMediaWidth()
   const {
     bind,
     springs,

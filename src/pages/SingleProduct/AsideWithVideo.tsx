@@ -1,7 +1,7 @@
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Column, Row } from '@past3lle/components'
-import { useDetectScrollIntoView, useStateRef } from '@past3lle/hooks'
+import { useDetectScrollIntoView, useIsMobile, useStateRef } from '@past3lle/hooks'
 import { isMobile as isMobileDevice } from '@past3lle/utils'
 import AddToCartButton from 'components/AddToCartButton'
 import { useBreadcrumb } from 'components/Breadcrumb'
@@ -40,8 +40,8 @@ import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
 import { useCloseModals, useModalOpen, useToggleModal } from 'state/modalsAndPopups/hooks'
 import { ApplicationModal } from 'state/modalsAndPopups/reducer'
+
 // import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
-import { useIsMobileWindowWidthSize } from 'state/window/hooks'
 
 export default function SingleProductPage({
   id,
@@ -68,8 +68,7 @@ export default function SingleProductPage({
 
   const { autoplay: autoPlay } = useAppSelector((state) => state.user.showcase.videoSettings)
 
-  const isMobileWidth = useIsMobileWindowWidthSize()
-  const isMobile = isMobileDevice || isMobileWidth
+  const isMobile = useIsMobile()
 
   // MOBILE/WEB CAROUSEL
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
