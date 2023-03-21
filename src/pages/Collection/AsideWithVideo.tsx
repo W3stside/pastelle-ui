@@ -2,7 +2,7 @@ import { Row } from '@past3lle/components'
 import { useStateRef } from '@past3lle/hooks'
 import { isMobile } from '@past3lle/utils'
 import { ClickCarousel, ProductClickCarousel, SwipeCarousel } from 'components/Carousel/ProductCarousels'
-import { MINIMUM_COLLECTION_ITEM_HEIGHT, STORE_IMAGE_SIZES } from 'constants/config'
+import { MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
 import Logo from 'pages/common/components/Logo'
 import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
 import { ProductAsidePanel, ProductContainer, ProductScreen, ScrollingProductLabel } from 'pages/common/styleds'
@@ -89,7 +89,6 @@ export default function CollectionProductPage({
                     height: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
                     width: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
                   },
-                  placeholderSize: STORE_IMAGE_SIZES.SMALL,
                 }}
                 touchAction="none"
               />
