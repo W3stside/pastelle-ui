@@ -1,3 +1,4 @@
+import { Past3lleHooksProvider } from '@past3lle/hooks'
 import { FontCssProvider, StaticGlobalCssProvider, ThemeProvider, ThemedGlobalCssProvider } from '@past3lle/theme'
 import { nodeRemoveChildFix } from '@past3lle/utils'
 // TODO: re-enable when BC ready
@@ -81,23 +82,26 @@ const root = createRoot(container)
 root.render(
   <StrictMode>
     <HelmetProvider>
-      {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
-      <StaticCSSProviders />
-      <ApolloProvider>
-        <Provider store={store}>
-          <HashRouter>
-            {/* <Web3ReactProvider connectors={CONNECTORS}> */}
-            <PastelleStoreUpdaters />
-            <BlockchainUpdaters />
-            <ThemeProvider theme={pastelleTheme} defaultMode="DARK">
-              {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-              <ThemedCSSProviders />
-              <App />
-            </ThemeProvider>
-            {/* </Web3ReactProvider> */}
-          </HashRouter>
-        </Provider>
-      </ApolloProvider>
+      {/* @past3lle hooks data provider */}
+      <Past3lleHooksProvider>
+        {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
+        <StaticCSSProviders />
+        <ApolloProvider>
+          <Provider store={store}>
+            <HashRouter>
+              {/* <Web3ReactProvider connectors={CONNECTORS}> */}
+              <PastelleStoreUpdaters />
+              <BlockchainUpdaters />
+              <ThemeProvider theme={pastelleTheme} defaultMode="DARK">
+                {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
+                <ThemedCSSProviders />
+                <App />
+              </ThemeProvider>
+              {/* </Web3ReactProvider> */}
+            </HashRouter>
+          </Provider>
+        </ApolloProvider>
+      </Past3lleHooksProvider>
     </HelmetProvider>
   </StrictMode>
 )

@@ -2894,26 +2894,26 @@
   resolved "https://registry.yarnpkg.com/@past3lle/assets/-/assets-0.0.10.tgz#e866cf32bb03637bfbf90a677dba52bd1d8a56ee"
   integrity sha512-oTf6XMKnGQO5Y5S/4fw8CYQwgMVIq8PPVfZFLwcyHThX24UQS+oVHQwCOtSlYa8DlDe7O7wdJil7QBCaOZNfsg==
 
-"@past3lle/carousel-hooks@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@past3lle/carousel-hooks/-/carousel-hooks-0.0.8.tgz#d5d0d0dbda86399de1bafaa73e57477eaf07e99e"
-  integrity sha512-o8EZTj4OlpVNrFkTj8YFC8bzPe2We5AZiJq/nhk44TgOQBKaI02IqtVLsA7m7ZoxPgnlbfe6d6UfZyNF/n4v1Q==
+"@past3lle/carousel-hooks@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@past3lle/carousel-hooks/-/carousel-hooks-0.0.10.tgz#b3df8dac01085432e3b95e8210fb5b5cad960dad"
+  integrity sha512-Ld7c820Ql/nIuOyU2P3ocCUJsk54DIFSabRRgD+wSnKTPUFxMBqY5s1YWY6n8p/Q3TT3cPqahCsSUC95HWuf3g==
   dependencies:
-    "@past3lle/hooks" "^0.0.16"
+    "@past3lle/hooks" "^0.0.18"
     "@use-gesture/react" "^10.2.6"
     lodash.debounce "^4.0.8"
     lodash.throttle "^4.1.1"
     react-spring "^9.4.3"
 
-"@past3lle/carousel@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@past3lle/carousel/-/carousel-0.0.11.tgz#6eacd1c5297d7de8be4996ec9bb3087a9a299fa1"
-  integrity sha512-nUuzoF1JM5tDvCoqVAmO79qTpF7Tv/t976IpfJ5B/+d7Wzoy8rIYIELvQsK6PTFFZuUgVib+uE370M5zPE+39w==
+"@past3lle/carousel@^0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@past3lle/carousel/-/carousel-0.0.13.tgz#4d314faa67a3122e4dea2528ae62d539fac54073"
+  integrity sha512-UOyuLzDMKsuvwG/ie1vTwK6+2mpbsuPs/lYl/mtHFY+pjWfyhWQJFc790cRDIu9a8j9PpOpFujacoBxgus6yWQ==
   dependencies:
-    "@past3lle/carousel-hooks" "^0.0.8"
-    "@past3lle/components" "^0.0.48"
-    "@past3lle/hooks" "^0.0.16"
-    "@past3lle/theme" "^0.0.29"
+    "@past3lle/carousel-hooks" "^0.0.10"
+    "@past3lle/components" "^0.0.50"
+    "@past3lle/hooks" "^0.0.18"
+    "@past3lle/theme" "^0.0.30"
     "@past3lle/utils" "^0.0.17"
     "@reach/dialog" "^0.18.0"
     "@react-spring/web" "^9.4.3"
@@ -2925,15 +2925,15 @@
     react-spring "^9.6.1"
     rebass "^4.0.7"
 
-"@past3lle/components@^0.0.48":
-  version "0.0.48"
-  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.48.tgz#475c8ad703b6a68a02f27a6c210e4c037ff92e29"
-  integrity sha512-bGkPy8OkGA2Plu4E+GUH2M2iMPrUzaP7rGKNEgPUDTt9mRTp1TGHhS9LYgeq31QsXLm4lJBiS9ddYeT0gHwkeg==
+"@past3lle/components@^0.0.50":
+  version "0.0.50"
+  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.50.tgz#5e699bbe16b6bf1ef0ab1315e2d984f510e041ed"
+  integrity sha512-uyBFGdm0Rp1Ny40h5w7G+4yRJqkJBG2o32/7KTPRUQNcJaaLbmjeQowmACXfRlUl2T5w0TKPJdsmQxxAuahayQ==
   dependencies:
     "@past3lle/assets" "^0.0.10"
     "@past3lle/constants" "^0.0.17"
-    "@past3lle/hooks" "^0.0.16"
-    "@past3lle/theme" "^0.0.29"
+    "@past3lle/hooks" "^0.0.18"
+    "@past3lle/theme" "^0.0.30"
     "@past3lle/types" "^0.0.12"
     "@past3lle/utils" "^0.0.17"
     "@popperjs/core" "^2.11.6"
@@ -2956,24 +2956,22 @@
   dependencies:
     "@past3lle/utils" "^0.0.17"
 
-"@past3lle/hooks@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@past3lle/hooks/-/hooks-0.0.16.tgz#5d60841da859df831bea3104b35a5bfd50a43eee"
-  integrity sha512-CE5HplI/wVDThhxiIChxaqNvMHBagIcuVkrcKywTsXugvmztH2o+eIjnWyosTEtYl1WEo7ztHwCHzF26cY2/LA==
+"@past3lle/hooks@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@past3lle/hooks/-/hooks-0.0.18.tgz#58f71c37fc58a201ead57627f9129848f4035475"
+  integrity sha512-F6Se3bSEU/g1EoPxYUf//yqACYNie/khDAS+sSv4jU51xv7lF3UN7Y3G9cIt2iYwjy4hT/klW2a/9XYSg3Zgdg==
   dependencies:
     copy-to-clipboard "^3.3.3"
     lodash.debounce "^4.0.8"
     lodash.throttle "^4.1.1"
 
-"@past3lle/theme@^0.0.29":
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.0.29.tgz#a1c8d1b4471756f48e8aaffc456e55de9f5f473c"
-  integrity sha512-0R8tBMoP+Mv50izDTaPh/O5KAVNacfpBbsUYgD93G7DS7mGSzntKFu0Ey4bDERSy19SqpDgUgLJGm0TZA51sVg==
+"@past3lle/theme@^0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.0.30.tgz#472c630d037af659fa957ae40de186fe46226b62"
+  integrity sha512-aVCLh2QD+5JAvbXVjVHUUo4IoG24vCjdW700njbtw8lxkWX/Ito2nN/WIUkAz++P2wYD8pMRSgKNtC0+M5jayw==
   dependencies:
     "@past3lle/assets" "^0.0.10"
     "@past3lle/constants" "^0.0.17"
-    "@past3lle/types" "^0.0.12"
-    "@types/lodash.merge" "^4.6.7"
     lodash.merge "^4.6.2"
     polished "^4.2.2"
     rebass "^4.0.7"
@@ -3727,13 +3725,6 @@
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/@types/lodash.debounce/-/lodash.debounce-4.0.7.tgz#0285879defb7cdb156ae633cecd62d5680eded9f"
   integrity sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==
-  dependencies:
-    "@types/lodash" "*"
-
-"@types/lodash.merge@^4.6.7":
-  version "4.6.7"
-  resolved "https://registry.yarnpkg.com/@types/lodash.merge/-/lodash.merge-4.6.7.tgz#0af6555dd8bc6568ef73e5e0d820a027362946b1"
-  integrity sha512-OwxUJ9E50gw3LnAefSHJPHaBLGEKmQBQ7CZe/xflHkyy/wH2zVyEIAKReHvVrrn7zKdF58p16We9kMfh7v0RRQ==
   dependencies:
     "@types/lodash" "*"
 
