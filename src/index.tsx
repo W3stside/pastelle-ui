@@ -1,5 +1,10 @@
-import { Past3lleHooksProvider } from '@past3lle/hooks'
-import { FontCssProvider, StaticGlobalCssProvider, ThemeProvider, ThemedGlobalCssProvider } from '@past3lle/theme'
+import { PstlHooksProvider } from '@past3lle/hooks'
+import {
+  RobotoVariableFontProvider,
+  StaticGlobalCssProvider,
+  ThemeProvider,
+  ThemedGlobalCssProvider,
+} from '@past3lle/theme'
 import { nodeRemoveChildFix } from '@past3lle/utils'
 // TODO: re-enable when BC ready
 // import { Web3ReactProvider } from '@web3-react/core'
@@ -60,7 +65,7 @@ function BlockchainUpdaters() {
 function StaticCSSProviders() {
   return (
     <>
-      <FontCssProvider />
+      <RobotoVariableFontProvider />
       <StaticGlobalCssProvider />
       <CustomStaticGlobalCSSProvider />
     </>
@@ -83,7 +88,7 @@ root.render(
   <StrictMode>
     <HelmetProvider>
       {/* @past3lle hooks data provider */}
-      <Past3lleHooksProvider>
+      <PstlHooksProvider>
         {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
         <StaticCSSProviders />
         <ApolloProvider>
@@ -101,7 +106,7 @@ root.render(
             </HashRouter>
           </Provider>
         </ApolloProvider>
-      </Past3lleHooksProvider>
+      </PstlHooksProvider>
     </HelmetProvider>
   </StrictMode>
 )

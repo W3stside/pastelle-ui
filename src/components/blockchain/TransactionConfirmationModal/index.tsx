@@ -172,7 +172,7 @@ export default function TransactionConfirmationModal({
 
   // confirmation screen
   return (
-    <Modal isOpen={isOpen} onDismiss={onDismiss} maxHeight={90}>
+    <Modal isOpen={isOpen} onDismiss={onDismiss} maxHeight="90vh" maxWidth="42rem">
       {attemptingTxn ? (
         <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
       ) : hash ? (

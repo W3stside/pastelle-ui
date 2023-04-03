@@ -1,14 +1,13 @@
-import { Text as PSTLText } from '@past3lle/components'
+import { Text as PSTLText, TextProps } from '@past3lle/components'
 import { ReactElement } from 'react'
-import { TextProps } from 'rebass/styled-components'
 import styled, { useTheme } from 'styled-components/macro'
 
 const TextWrapper = styled(PSTLText.Basic)``
 export const Text = {
   ...PSTLText,
-  ProductText(props: TextProps): ReactElement {
+  ProductText({ fontWeight = 500, ...props }: TextProps): ReactElement {
     const theme = useTheme()
     const color = theme.content.text
-    return <TextWrapper colour={color} fontWeight={500} {...props} />
+    return <TextWrapper colour={color} fvs={{ wght: fontWeight, ...props.fvs }} {...props} />
   },
 }

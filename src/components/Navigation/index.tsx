@@ -90,34 +90,36 @@ export default function Navigation({
         <InnerNavWrapper $width={isNavOpen ? '90%' : '100%'}>
           <ProductSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
             <Row flexDirection={'row-reverse'} flexWrap={'wrap'} justifyContent="center" style={{ gap: '0.5rem' }}>
-              <div style={{ fontWeight: 300, fontSize: '1.2rem' }}>{COLLECTION_PARAM_NAME}</div>
-              <div>{title?.toUpperCase()}</div>
+              <div style={{ fontVariationSettings: '"wght" 300', fontSize: '1.2rem' }}>{COLLECTION_PARAM_NAME}</div>
+              <div style={{ fontSize: '1.7rem' }}>{title?.toUpperCase()}</div>
             </Row>
           </ProductSubHeader>
           <Column>
             {collection ? (
-              Object.entries(productTypeMap).map(([type, productList], i) => (
-                <Fragment key={i}>
-                  <ProductSubHeader
-                    color={WHITE}
-                    padding="0"
-                    margin="0.5rem 0 0.2rem 0"
-                    fontSize={isNavOpen ? '4rem' : '1.6rem'}
-                    fontWeight={100}
-                  >
-                    {type.toLocaleUpperCase()}S
-                  </ProductSubHeader>
-                  {productList.map((product) => (
-                    <NavItemMemoed
-                      key={product.id}
-                      product={product}
-                      currentProduct={currentProduct}
-                      handleNavMove={handleNavMove}
-                      isNavOpen={isNavOpen}
-                    />
-                  ))}
-                </Fragment>
-              ))
+              Object.entries(productTypeMap)
+                .reverse()
+                .map(([type, productList], i) => (
+                  <Fragment key={i}>
+                    <ProductSubHeader
+                      color={WHITE}
+                      padding="0"
+                      margin="0.5rem 0 0.2rem 0"
+                      fontSize={isNavOpen ? '4rem' : '1.6rem'}
+                      fontWeight={800}
+                    >
+                      {type.toLocaleUpperCase()}S
+                    </ProductSubHeader>
+                    {productList.map((product) => (
+                      <NavItemMemoed
+                        key={product.id}
+                        product={product}
+                        currentProduct={currentProduct}
+                        handleNavMove={handleNavMove}
+                        isNavOpen={isNavOpen}
+                      />
+                    ))}
+                  </Fragment>
+                ))
             ) : (
               <LoadingRows rows={6} />
             )}
@@ -127,7 +129,7 @@ export default function Navigation({
                 padding="0"
                 margin="1.2rem 0 0.2rem 0"
                 fontSize={isNavOpen ? '4rem' : '1.6rem'}
-                fontWeight={400}
+                fontWeight={200}
                 style={{ cursor: 'pointer' }}
                 onClick={(e) => handleNavMove(e, 'collection')}
               >
@@ -188,7 +190,7 @@ const NavProductLine = ({
       padding="2px 0"
       margin="0"
       color={WHITE}
-      fontWeight={500}
+      fontWeight={100}
       fontSize={isNavOpen ? '3.5rem' : '1.6rem'}
     >
       <CollectionLabel

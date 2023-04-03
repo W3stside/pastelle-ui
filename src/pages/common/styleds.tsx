@@ -31,8 +31,20 @@ export const ScrollingProductLabel = styled(Row).attrs((props) => ({ padding: '1
   z-index: ${Z_INDEXES.SCROLLER_DIV + 50};
   gap: 1rem;
   font-size: 2rem;
-  font-weight: 300;
+  font-variation-settings: 'wght' 300;
   text-shadow: 0px 0 0.5rem ${({ labelColor }) => labelColor || BLACK};
+
+  > ${Row} {
+    > strong {
+      &:first-child {
+        font-variation-settings: 'wght' 600;
+      }
+      &:nth-child(2) {
+        font-variation-settings: 'wght' 400;
+      }
+    }
+  }
+
   ${({ theme, logo }) =>
     setBackgroundWithDPI(theme, logo, {
       dpiLevel: '1x',

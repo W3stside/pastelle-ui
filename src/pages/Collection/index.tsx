@@ -51,7 +51,7 @@ export default function Collection() {
       <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>
         {collectionProductList.length > 1 ? (
           <ScrollingContentPage
-            data={collectionProductList}
+            data={collectionProductList.reverse()}
             dataItem={collectionProductList[0]}
             IterableComponent={AsideWithVideoAux}
             fixedItemHeight={fixedItemHeight}
