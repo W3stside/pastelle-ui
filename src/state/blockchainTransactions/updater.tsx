@@ -1,9 +1,9 @@
 import { devError } from '@past3lle/utils'
-import { useWeb3React } from '@web3-react/core'
-import { useEffect } from 'react'
+import { usePstlConnection } from '@past3lle/web3-modal'
+import { useEffect, useState } from 'react'
 import { useAppSelector } from 'state'
-import { useBlockNumber } from 'state/blockchain/hooks'
 import { useAddTxPopup, useCheckedTransaction, useFinalizeTransaction } from 'state/modalsAndPopups/hooks'
+import { useBlockNumber } from 'wagmi'
 
 export function shouldCheck(
   lastBlockNumber: number,
@@ -27,15 +27,25 @@ export function shouldCheck(
 }
 
 export default function Updater(): null {
-  const { chainId, provider } = useWeb3React()
+  const [provider, setLocalProvider] = useState<any>()
+  const [, , { chainId, currentConnector }] = usePstlConnection()
 
-  const lastBlockNumber = useBlockNumber()
+  const { data: lastBlockNumber } = useBlockNumber()
   const state = useAppSelector((state) => state.blockchainTransactions)
 
   // show popup on confirm
   const addTxPopup = useAddTxPopup()
   const finalizeTransaction = useFinalizeTransaction()
   const checkedTransaction = useCheckedTransaction()
+
+  useEffect(() => {
+    currentConnector
+      ?.getProvider({ chainId })
+      .then((res) => setLocalProvider(res))
+      .catch((error) => {
+        devError('Error! BlockchainTransactionsUpdater', error)
+      })
+  }, [currentConnector, chainId])
 
   useEffect(() => {
     if (!chainId || !provider || !lastBlockNumber) return
@@ -46,8 +56,8 @@ export default function Updater(): null {
       .filter((hash) => shouldCheck(lastBlockNumber, transactions[hash]))
       .forEach((hash) => {
         provider
-          .getTransactionReceipt(hash)
-          .then((receipt) => {
+          ?.getTransactionReceipt(hash)
+          .then((receipt: any) => {
             if (receipt) {
               finalizeTransaction({
                 chainId,
@@ -78,7 +88,7 @@ export default function Updater(): null {
               checkedTransaction({ chainId, hash, blockNumber: lastBlockNumber })
             }
           })
-          .catch((error) => {
+          .catch((error: any) => {
             devError(`failed to check transaction hash: ${hash}`, error)
           })
       })
