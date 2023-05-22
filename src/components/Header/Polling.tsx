@@ -1,11 +1,11 @@
 import { ExternalLink } from '@past3lle/components'
 import { rotateKeyframe } from '@past3lle/theme'
-import { useWeb3React } from '@web3-react/core'
-import { getEtherscanLink } from 'blockchain/utils'
+import { usePstlConnection } from '@past3lle/web3-modal'
 import { Text } from 'components/Text'
 import { useEffect, useState } from 'react'
-import { useBlockNumber } from 'state/blockchain/hooks'
 import styled from 'styled-components/macro'
+import { getEtherscanLink } from 'utils/blockchain'
+import { useBlockNumber } from 'wagmi'
 
 const StyledPolling = styled.div`
   position: fixed;
@@ -55,9 +55,9 @@ const Spinner = styled.div`
 `
 
 export default function Polling() {
-  const { chainId } = useWeb3React()
+  const [, , { chainId }] = usePstlConnection()
 
-  const blockNumber = useBlockNumber()
+  const { data: blockNumber } = useBlockNumber()
 
   const [isMounted, setIsMounted] = useState(true)
 

@@ -1,5 +1,4 @@
-import { useWeb3React } from '@web3-react/core'
-import { useWalletInfo } from 'blockchain/hooks/useWalletInfo'
+import { usePstlConnection } from '@past3lle/web3-modal'
 import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 
@@ -25,17 +24,17 @@ export function useClearAllTransactions() {
 
 // helper that can take a ethers library transaction response and add it to the list of transactions
 export function useTransactionAdder(): TransactionAdder {
-  const { chainId, account, gnosisSafeInfo } = useWalletInfo()
+  const [, , { chainId, address: account }] = usePstlConnection()
   const addTransaction = useAddTransaction()
-
-  const isGnosisSafeWallet = !!gnosisSafeInfo
+  // TODO: fix this when we have safe app
+  // const isGnosisSafeWallet = false
 
   return useCallback(
     (addTransactionParams: AddTransactionHookParams) => {
       if (!account || !chainId) return
 
       const { hash, summary, data, approval, presign, safeTransaction } = addTransactionParams
-      const hashType = isGnosisSafeWallet ? HashType.GNOSIS_SAFE_TX : HashType.ETHEREUM_TX
+      const hashType = /* isGnosisSafeWallet ? HashType.GNOSIS_SAFE_TX : */ HashType.ETHEREUM_TX
       if (!hash) {
         throw Error('No transaction hash found')
       }
@@ -52,13 +51,13 @@ export function useTransactionAdder(): TransactionAdder {
         safeTransaction,
       })
     },
-    [account, chainId, isGnosisSafeWallet, addTransaction]
+    [account, chainId, addTransaction]
   )
 }
 
 // returns all the transactions for the current chain
 export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
-  const { chainId } = useWeb3React()
+  const [, , { chainId }] = usePstlConnection()
 
   const state = useAppSelector((state) => state.blockchainTransactions)
 

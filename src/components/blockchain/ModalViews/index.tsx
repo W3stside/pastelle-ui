@@ -1,12 +1,12 @@
 import { AutoColumn, ColumnCenter, RowBetween, Text } from '@past3lle/components'
 import { ExternalLink } from '@past3lle/components'
-import { useWeb3React } from '@web3-react/core'
+import { usePstlConnection } from '@past3lle/web3-modal'
 import Circle from 'assets/images/blue-loader.svg'
-import { getEtherscanLink } from 'blockchain/utils'
 import { ReactNode } from 'react'
 import { ArrowUpCircle } from 'react-feather'
 import styled, { useTheme } from 'styled-components/macro'
 import { CloseIcon, CustomLightSpinner } from 'theme'
+import { getEtherscanLink } from 'utils/blockchain'
 
 const ConfirmOrLoadingWrapper = styled.div`
   width: 100%;
@@ -43,7 +43,7 @@ export const SubmittedView: React.FC<{
   hash: string | undefined
 }> = ({ children, onDismiss, hash }) => {
   const theme = useTheme()
-  const { chainId } = useWeb3React()
+  const [, , { chainId }] = usePstlConnection()
 
   return (
     <ConfirmOrLoadingWrapper>

@@ -3,8 +3,6 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { load, save } from 'redux-localstorage-simple'
 import { ProductSizes } from 'shopify/graphql/types'
 // BLOCKCHAIN
-import { blockchain } from 'state/blockchain/reducer'
-import { blockchainMulticall } from 'state/blockchainMulticall/reducer'
 import { blockchainTransactions } from 'state/blockchainTransactions/reducer'
 // APPAREL
 import { cart } from 'state/cart/reducer'
@@ -31,8 +29,6 @@ const store = configureStore({
     user,
     window,
     // BLOCKCHAIN
-    blockchain,
-    blockchainMulticall,
     blockchainTransactions,
   },
   middleware: (defaultMiddleware) =>

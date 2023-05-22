@@ -1,6 +1,3 @@
-// import { useWeb3React } from '@web3-react/core'
-// import { getConnection, getConnectionName, getIsMetaMask } from 'blockchain/connectors'
-// import { useWalletInfo } from 'blockchain/hooks/useWalletInfo'
 import { devDebug, isMobile } from '@past3lle/utils'
 import { Dimensions } from 'analytics/GoogleAnalytics4Provider'
 import { useEffect } from 'react'
@@ -9,8 +6,6 @@ import { useLocation } from 'react-router-dom'
 import { Metric, getCLS, getFCP, getFID, getLCP } from 'web-vitals'
 
 import { GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY, GOOGLE_ANALYTICS_ID, googleAnalytics } from '..'
-
-// import { Dimensions } from '../GoogleAnalytics4Provider'
 
 export function sendTiming(timingCategory: any, timingVar: any, timingValue: any, timingLabel: any) {
   return googleAnalytics.gaCommandSendTiming(timingCategory, timingVar, timingValue, timingLabel)
@@ -108,7 +103,7 @@ export function initAnalytics({ interacted, analytics, marketing, advertising }:
 // TODO: re-enable when BC ready
 // export function useBlockchainAnalyticsReporter() {
 //   // Handle chain id custom dimension
-//   const { chainId, connector, account } = useWeb3React()
+//   const [, , { chainId, connector, address: account }] = usePstlConnection()
 //   useEffect(() => {
 //     // custom dimension 1 - chainId
 //     googleAnalytics.setDimension(Dimensions.chainId, chainId)

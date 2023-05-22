@@ -4,8 +4,6 @@ import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
 
-import { SupportedChainId } from '../constants'
-
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
   try {
@@ -15,14 +13,15 @@ export function isAddress(value: any): string | false {
   }
 }
 
-const ETHERSCAN_PREFIXES: { [chainId in SupportedChainId]: string } = {
+const ETHERSCAN_PREFIXES: { [chainId: number]: string } = {
   1: '',
-  4: 'rinkeby.',
+  5: 'goerli.',
   100: 'gnosischain.',
+  80001: 'mumbai.',
 }
 
 export function getEtherscanLink(
-  chainId: SupportedChainId,
+  chainId: number,
   data: string,
   type: 'transaction' | 'token' | 'address' | 'block'
 ): string {
@@ -76,4 +75,12 @@ export function getContract(address: string, ABI: any, library: Web3Provider, ac
   }
 
   return new Contract(address, ABI, getProviderOrSigner(library, account) as any)
+}
+
+const WEB3_ENABLED_LOCAL_STORAGE_KEY = 'PASTELLE_ENABLE_BLOCKCHAIN'
+export function isWeb3Enabled() {
+  const preParse = localStorage.getItem(WEB3_ENABLED_LOCAL_STORAGE_KEY)
+  const enableBc = Boolean(preParse && JSON.parse(preParse) === true)
+
+  return enableBc
 }
