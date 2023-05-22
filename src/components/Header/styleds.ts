@@ -9,12 +9,14 @@ import {
   setBackgroundWithDPI,
   setBestTextColour,
   upToExtraSmall,
+  upToSmall,
   upToSmallHeight,
 } from '@past3lle/theme'
 import { YellowCard } from 'components/Layout'
 import { MobileNavOrb } from 'components/Navigation/styled'
 import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
 import ThemeToggleBar from 'components/ThemeToggler'
+import { Web3Button } from 'components/Web3LoginButton'
 import { Z_INDEXES } from 'constants/config'
 import { ProductSubHeader } from 'pages/common/styleds'
 import { darken, transparentize } from 'polished'
@@ -91,12 +93,11 @@ export const Title = styled(NavLink)`
 `
 
 export const StyledThemeToggleBar = styled(ThemeToggleBar)``
-
 export const HeaderRow = styled(RowFixed)`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: minmax(7.5rem, 16rem) auto min-content min-content;
+  grid-template-columns: minmax(7.5rem, 16rem) 11rem auto min-content min-content;
   grid-gap: 1rem;
   z-index: 1;
 
@@ -109,8 +110,10 @@ export const HeaderRow = styled(RowFixed)`
     display: none;
   }
 
-  > ${ShoppingCartFullWrapper} {
-    margin-left: auto;
+  > ${Web3Button} {
+    width: min-content;
+    max-width: 13rem;
+    justify-self: flex-end;
   }
 
   ${upToExtraSmall`
@@ -119,18 +122,22 @@ export const HeaderRow = styled(RowFixed)`
     }
   `}
 
+  ${upToSmall`
+    grid-template-columns: minmax(10rem, 16rem) auto min-content min-content;
+  `}
+
   ${fromMedium`
+      grid-template-columns: minmax(10rem, 16rem) auto min-content;
       nav {
         display: none;
       }
   `};
 
   ${betweenSmallAndMedium`
-      grid-template-columns: minmax(10rem, 16rem) auto 11rem min-content min-content;
+      grid-template-columns: minmax(10rem, 16rem) 11rem auto min-content min-content;
       
       > ${StyledThemeToggleBar} {
         display: flex;
-        margin-left: auto;
         max-width: 11rem;
       }
   `}

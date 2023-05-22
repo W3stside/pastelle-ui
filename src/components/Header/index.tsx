@@ -54,18 +54,7 @@ export default function Header() {
         {/* THEME TOGGLE - ONLY MEDIUM */}
         <StyledThemeToggleBar themeToggleProps={{ width: '90%' }} />
         {/* WEB3 CONNECT BUTTON */}
-        <Web3LoginButton
-          buttonProps={{
-            height: '100%',
-            fontSize: '2rem',
-            fontWeight: 800,
-            backgroundColor: 'mediumpurple',
-            width: 'min-content',
-            marginLeft: 'auto',
-          }}
-        >
-          LOGIN
-        </Web3LoginButton>
+        <Web3LoginButton>LOGIN</Web3LoginButton>
         {/* SHOPPING CART */}
         <ShoppingCartHeader />
         {isMediumOrBelow && <Navigation navOrbProps={{ bgColor: 'transparent', menuSize: 30 }} />}

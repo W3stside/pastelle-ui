@@ -110,13 +110,18 @@ export const ShoppingCartQuantityWrapper = styled(Row)`
   font-size: 1.5rem;
 `
 
-export const ShoppingCartFullWrapper = styled.div``
+export const ShoppingCartFullWrapper = styled.div`
+  height: 70%;
+`
 
 export const ShoppingCartHeaderWrapper = styled(Row)`
+  height: 100%;
   justify-content: space-evenly;
   gap: 1rem;
-  background: ${({ theme }) => theme.offwhite};
-  filter: invert(${({ theme }) => (theme.mode === ThemeModes.DARK ? 1 : 0)});
+  background: ${({ theme }) => (theme.mode === ThemeModes.DARK ? '#2d0023' : theme.offwhite)};
+  > * {
+    filter: invert(${({ theme }) => (theme.mode === ThemeModes.DARK ? 1 : 0)});
+  }
   padding: 1rem 1.5rem;
   margin-left: auto;
   width: fit-content;
