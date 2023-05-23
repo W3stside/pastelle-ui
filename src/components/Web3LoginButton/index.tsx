@@ -1,9 +1,13 @@
-import { Button, ButtonProps, Row } from '@past3lle/components'
+import { Button, ButtonProps, Row, RowBetween } from '@past3lle/components'
 import { Address } from '@past3lle/types'
 import { truncateAddress } from '@past3lle/utils'
 import { usePstlConnection, usePstlWeb3Modal } from '@past3lle/web3-modal'
+import connectionIconDark from 'assets/images/connection-dark.png'
+import connectionIconLight from 'assets/images/connection-light.png'
+import disconnectionIconDark from 'assets/images/disconnection-dark.png'
+import disconnectionIconLight from 'assets/images/disconnection-light.png'
 import React, { useCallback } from 'react'
-import styled from 'styled-components/macro'
+import styled, { useTheme } from 'styled-components/macro'
 import { ThemeModes } from 'theme'
 
 interface Props {
@@ -20,11 +24,29 @@ export function Web3LoginButton({ logoUri, buttonProps, children }: Props) {
     address ? openW3Modal({ route: 'Account' }) : open()
   }, [address, open, openW3Modal])
 
+  const theme = useTheme()
+
   return (
     <Web3Button disabled={isOpen} onClick={handleClick} {...buttonProps}>
-      <Row height="inherit" justifyContent={'center'} alignItems="center">
+      <Row height="inherit" justifyContent="center" alignItems="center">
         {logoUri && <img src={logoUri} />}
-        {address ? truncateAddress(address as Address) : children}
+        {address ? (
+          <RowBetween>
+            <img
+              id="web3loginbutton-icon"
+              src={theme?.mode === ThemeModes.DARK ? connectionIconDark : connectionIconLight}
+            />
+            {truncateAddress(address as Address)}
+          </RowBetween>
+        ) : (
+          <>
+            <img
+              id="web3loginbutton-icon"
+              src={theme?.mode === ThemeModes.DARK ? disconnectionIconDark : disconnectionIconLight}
+            />
+            {children}
+          </>
+        )}
       </Row>
     </Web3Button>
   )
@@ -37,4 +59,9 @@ export const Web3Button = styled(Button)`
   font-size: 1.6rem;
   font-weight: 800;
   margin-left: auto;
+
+  #web3loginbutton-icon {
+    margin-right: 0.65rem;
+    max-width: 2rem;
+  }
 `

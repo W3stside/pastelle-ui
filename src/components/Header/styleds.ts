@@ -106,13 +106,17 @@ export const HeaderRow = styled(RowFixed)`
     width: 100%;
   }
 
+  > ${Web3Button}, > ${ShoppingCartFullWrapper} {
+    height: 80%;
+  }
+
   > ${StyledThemeToggleBar} {
     display: none;
   }
 
   > ${Web3Button} {
     width: min-content;
-    max-width: 13rem;
+    max-width: 19rem;
     justify-self: flex-end;
   }
 
@@ -141,6 +145,10 @@ export const HeaderRow = styled(RowFixed)`
   ${betweenSmallAndMedium`
       grid-template-columns: minmax(10rem, 16rem) 11rem auto min-content min-content;
       
+      > ${Web3Button}, > ${ShoppingCartFullWrapper} {
+        height: 70%;
+      }
+
       > ${StyledThemeToggleBar} {
         display: flex;
         max-width: 11rem;
