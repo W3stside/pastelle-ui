@@ -118,12 +118,17 @@ export const HeaderRow = styled(RowFixed)`
 
   ${upToExtraSmall`
     > ${MobileNavOrb} {
+      padding: 0;
       margin-left: auto;
     }
   `}
 
   ${upToSmall`
-    grid-template-columns: minmax(10rem, 16rem) auto min-content min-content;
+    grid-template-columns: 8rem auto min-content min-content;
+    gap: 0.5rem;
+    > ${Web3Button}, > ${ShoppingCartFullWrapper} {
+      height: 80%;
+    }
   `}
 
   ${fromMedium`
