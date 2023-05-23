@@ -1,10 +1,10 @@
 import { Button, ButtonProps, Row } from '@past3lle/components'
+import { Address } from '@past3lle/types'
 import { truncateAddress } from '@past3lle/utils'
-import { useWeb3Modal } from '@web3modal/react'
+import { usePstlConnection, usePstlWeb3Modal } from '@past3lle/web3-modal'
 import React, { useCallback } from 'react'
 import styled from 'styled-components/macro'
 import { ThemeModes } from 'theme'
-import { useAccount } from 'wagmi'
 
 interface Props {
   children?: React.ReactNode
@@ -13,18 +13,18 @@ interface Props {
 }
 
 export function Web3LoginButton({ logoUri, buttonProps, children }: Props) {
-  const { address } = useAccount()
-  const { open, isOpen } = useWeb3Modal()
+  const [, { openW3Modal }, { address, isW3mOpen: isOpen }] = usePstlConnection()
+  const { open } = usePstlWeb3Modal()
 
   const handleClick = useCallback(async () => {
-    open({ route: address ? 'Account' : 'ConnectWallet' })
-  }, [open, address])
+    address ? openW3Modal({ route: 'Account' }) : open()
+  }, [address, open, openW3Modal])
 
   return (
     <Web3Button disabled={isOpen} onClick={handleClick} {...buttonProps}>
       <Row height="inherit" justifyContent={'center'} alignItems="center">
         {logoUri && <img src={logoUri} />}
-        {address ? truncateAddress(address) : children}
+        {address ? truncateAddress(address as Address) : children}
       </Row>
     </Web3Button>
   )

@@ -10,7 +10,7 @@ export const WEB3_MODAL_PROPS: PstlWeb3ModalProps = {
   chains: [goerli],
   modals: {
     pstl: {
-      title: 'LOGIN PASTELLE SHOP',
+      title: 'LOGIN TO PASTELLE SHOP',
       closeModalOnConnect: true,
     },
     w3a: {

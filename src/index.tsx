@@ -7,7 +7,7 @@ import {
 } from '@past3lle/theme'
 import { nodeRemoveChildFix } from '@past3lle/utils'
 import { PstlW3Providers } from '@past3lle/web3-modal'
-import { WEB3_MODAL_PROPS } from 'config/w3m'
+import { WEB3_MODAL_PROPS } from 'config/pstlModal'
 // PROVIDERS
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
