@@ -3222,10 +3222,10 @@
     copy-to-clipboard "^3.3.3"
     lodash.debounce "^4.0.8"
 
-"@past3lle/skillforge-web3@^0.0.39":
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/@past3lle/skillforge-web3/-/skillforge-web3-0.0.39.tgz#218c92431942c634de7d6f61c496416c5d448c5d"
-  integrity sha512-tDf3xaNmuSCFkuip2kaiZvq+K5GaGPNCOnrLjiEbIbB8xZIL4Ca3z31sHaBWhGARIM2Dpg7Ag+b0h5T/iLo72w==
+"@past3lle/skillforge-web3@^0.0.42":
+  version "0.0.42"
+  resolved "https://registry.yarnpkg.com/@past3lle/skillforge-web3/-/skillforge-web3-0.0.42.tgz#270aa094935111d7b27492cbf328ff0101a01ea9"
+  integrity sha512-nwg/GRqah8hLV9JYfhaylLxL4/m8Rk7vx9S7DilkTAQuyKMJ0zFUo1BQcqWonvsdMBcG9+T58uGzqpPrNLc4qw==
   dependencies:
     "@ethersproject/bignumber" ">=5.7.0"
     "@past3lle/hooks" "^0.0.30"
