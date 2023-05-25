@@ -1,7 +1,7 @@
 import { Button, ButtonProps, Row, RowBetween } from '@past3lle/components'
+import { useW3Connection, useW3Modal } from '@past3lle/skillforge-web3'
 import { Address } from '@past3lle/types'
 import { truncateAddress } from '@past3lle/utils'
-import { usePstlConnection, usePstlWeb3Modal } from '@past3lle/web3-modal'
 import connectionIconDark from 'assets/images/connection-dark.png'
 import connectionIconLight from 'assets/images/connection-light.png'
 import disconnectionIconDark from 'assets/images/disconnection-dark.png'
@@ -17,8 +17,8 @@ interface Props {
 }
 
 export function Web3LoginButton({ logoUri, buttonProps, children }: Props) {
-  const [, { openW3Modal }, { address, isW3mOpen: isOpen }] = usePstlConnection()
-  const { open } = usePstlWeb3Modal()
+  const [, { openW3Modal }, { address, isW3mOpen: isOpen }] = useW3Connection()
+  const { open } = useW3Modal()
 
   const handleClick = useCallback(async () => {
     address ? openW3Modal({ route: 'Account' }) : open()
