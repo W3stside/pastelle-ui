@@ -1,4 +1,4 @@
-import { usePstlConnection } from '@past3lle/web3-modal'
+import { useW3Connection } from '@past3lle/skillforge-web3'
 import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 
@@ -24,14 +24,14 @@ export function useClearAllTransactions() {
 
 // helper that can take a ethers library transaction response and add it to the list of transactions
 export function useTransactionAdder(): TransactionAdder {
-  const [, , { chainId, address: account }] = usePstlConnection()
+  const [, , { chain, address: account }] = useW3Connection()
   const addTransaction = useAddTransaction()
   // TODO: fix this when we have safe app
   // const isGnosisSafeWallet = false
 
   return useCallback(
     (addTransactionParams: AddTransactionHookParams) => {
-      if (!account || !chainId) return
+      if (!account || !chain?.id) return
 
       const { hash, summary, data, approval, presign, safeTransaction } = addTransactionParams
       const hashType = /* isGnosisSafeWallet ? HashType.GNOSIS_SAFE_TX : */ HashType.ETHEREUM_TX
@@ -43,7 +43,7 @@ export function useTransactionAdder(): TransactionAdder {
         hash,
         hashType,
         from: account,
-        chainId,
+        chainId: chain.id,
         approval,
         summary,
         data,
@@ -51,17 +51,17 @@ export function useTransactionAdder(): TransactionAdder {
         safeTransaction,
       })
     },
-    [account, chainId, addTransaction]
+    [account, chain, addTransaction]
   )
 }
 
 // returns all the transactions for the current chain
 export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
-  const [, , { chainId }] = usePstlConnection()
+  const [, , { chain }] = useW3Connection()
 
   const state = useAppSelector((state) => state.blockchainTransactions)
 
-  return chainId ? state[chainId] ?? {} : {}
+  return chain?.id ? state[chain.id] ?? {} : {}
 }
 
 export function useIsTransactionPending(transactionHash?: string): boolean {

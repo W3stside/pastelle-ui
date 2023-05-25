@@ -7,7 +7,7 @@ const MOCK_DATA = {
   loading: false,
 }
 
-export function useMockQuery<TData = any, TVariables = OperationVariables>(
+export function useMockQuery<TData = any, TVariables extends OperationVariables = OperationVariables>(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: QueryHookOptions<TData, TVariables>
 ): { data: any; error?: Error; loading: boolean } {

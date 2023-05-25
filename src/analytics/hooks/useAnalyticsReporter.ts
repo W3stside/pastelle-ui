@@ -103,7 +103,7 @@ export function initAnalytics({ interacted, analytics, marketing, advertising }:
 // TODO: re-enable when BC ready
 // export function useBlockchainAnalyticsReporter() {
 //   // Handle chain id custom dimension
-//   const [, , { chainId, connector, address: account }] = usePstlConnection()
+//   const [, , { chainId, connector, address: account }] = useW3Connection()
 //   useEffect(() => {
 //     // custom dimension 1 - chainId
 //     googleAnalytics.setDimension(Dimensions.chainId, chainId)
