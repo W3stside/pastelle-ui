@@ -15,7 +15,6 @@ export function PastelleForgeW3Provider({ children }: { children: ReactNode }) {
         contractAddresses: CONTRACT_ADDRESSES_MAP,
         metadataUris: METADATA_URIS_MAP,
         skillOptions: {
-          idBase: 1000,
           metadataFetchOptions: {
             gatewayUris: GATEWAY_URIS,
           },

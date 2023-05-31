@@ -2,9 +2,9 @@ import { SkillForgeMetadataUriMap, SupportedChains } from '@past3lle/skillforge-
 
 export const METADATA_URIS_MAP: SkillForgeMetadataUriMap = {
   [SupportedChains.GOERLI]: {
-    collectionsManager: 'https://pstlcollections.s3.eu-south-2.amazonaws.com/collections/{id}.json',
+    collectionsManager: 'https://pstlcollections.s3.eu-south-2.amazonaws.com/collections/',
   },
   [SupportedChains.POLYGON_MUMBAI]: {
-    collectionsManager: 'https://pstlcollections.s3.eu-south-2.amazonaws.com/collections/{id}.json',
+    collectionsManager: 'https://pstlcollections.s3.eu-south-2.amazonaws.com/collections/',
   },
 }
