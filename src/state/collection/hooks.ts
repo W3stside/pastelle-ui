@@ -57,8 +57,8 @@ export function useCollection() {
   return useAppSelector((state) => state.collection)
 }
 
-export function useCollectionLoadingStatus() {
-  return useAppSelector((state) => state.collection.loading && !state.collection.current?.id)
+export function useIsCollectionLoading() {
+  return useAppSelector((state) => state.collection.loading)
 }
 
 export function useCurrentCollection() {

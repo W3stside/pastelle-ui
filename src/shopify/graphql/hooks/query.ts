@@ -61,7 +61,7 @@ function _formatCollectionsResponse(response: ReturnType<typeof useQueryRawColle
   }
 
   // collections
-  const collections = (data?.collections?.nodes || []).filter(Boolean)
+  const collections = data?.collections?.nodes || []
 
   return collections.map((collection) => {
     // products from collection mapped = collection

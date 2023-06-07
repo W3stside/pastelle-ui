@@ -48,6 +48,14 @@ const collectionSlice = createSlice({
       state.loading = loading
       state.collections = { ...state.collections, ...collectionMap } || {}
       state.latest = (collections?.[0]?.id as string) || null
+      // set the current collection to our first collection if it doesn't exist
+      if (!state.current) {
+        state.current = {
+          id: collections?.[1]?.id,
+          locked: collections?.[1]?.locked,
+          loading: false,
+        }
+      }
     },
     updateCurrentCollection(
       state,
