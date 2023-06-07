@@ -1,6 +1,10 @@
 import { ApolloClient, ApolloProvider as ApolloProviderBase, InMemoryCache, createHttpLink } from '@apollo/client'
 import React from 'react'
 
+if (!process.env.REACT_APP_SHOPIFY_STOREFRONT_TOKEN) {
+  throw new Error('[Pastelle Shop UI] Missing process env REACT_APP_SHOPIFY_STOREFRONT_TOKEN! Check env.')
+}
+
 const link = createHttpLink({
   uri: `https://${process.env.REACT_APP_SHOPIFY_STORE_DOMAIN}/api/${process.env.REACT_APP_SHOPIFY_API_VERSION}/graphql.json`,
   headers: {

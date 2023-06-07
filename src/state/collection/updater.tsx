@@ -4,21 +4,17 @@ import { useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import {
   DEFAULT_CURRENT_COLLECTION_VARIABLES,
-  useQueryCurrentCollection,
+  useQueryCollections,
   useQueryProductByIdAndMap,
 } from 'shopify/graphql/hooks'
-import { getShopifyId } from 'shopify/utils'
+import { ShopifyIdType, getShopifyId, shortenShopifyId } from 'shopify/utils'
 
-import {
-  useUpdateCollection,
-  /* useUpdateCollectionLoadingStatus, */
-  useUpdateSingleProductInCollection,
-} from './hooks'
+import { useUpdateCollections, useUpdateCurrentlyViewing, useUpdateSingleProductInCollection } from './hooks'
 
 export default function Updater() {
-  const updateCollection = useUpdateCollection()
+  const updateCollections = useUpdateCollections()
   const updateSingleItemInCollection = useUpdateSingleProductInCollection()
-  // const updateCollectionLoadingStatus = useUpdateCollectionLoadingStatus()
+  const updateCurrentlyViewing = useUpdateCurrentlyViewing()
 
   const [searchParams] = useSearchParams()
   const flowParams = useMemo(() => getFlowParams(searchParams), [searchParams])
@@ -33,26 +29,35 @@ export default function Updater() {
 
   // COLLECTION FLOW (standard)
   // undefined variable skips flow, e.g if above runs
-  const collection = useQueryCurrentCollection({
+  // Load the last 2 collections, index 0 being the latest
+  const collections = useQueryCollections({
+    collectionAmount: 2,
     // always show the latest collection
-    collectionAmount: 1,
     productAmt: flowParams.params.id ? undefined : Number(flowParams.params.amount),
     imageAmt: PRODUCT_IMAGES_AMOUNT,
     videoAmt: PRODUCT_VIDEOS_AMOUNT,
+    // reverse array to get first as latest
+    reverse: true,
   })
 
   useEffect(() => {
-    if (singleSkill?.product) {
+    if (singleSkill?.id) {
       devDebug('SINGLE SKILL FLOW', flowParams)
-      const { title, product, loading } = singleSkill
-      updateSingleItemInCollection(title, product, loading)
-    } else if (!!collection?.collectionProductList.length) {
+      const { handle = 'UNKNOWN', id, product } = singleSkill
+      updateCurrentlyViewing({ ...product, id, handle })
+    } else if (!!collections.length) {
       devDebug('COLLECTION FLOW', flowParams)
-      const { title, collectionProductMap, loading } = collection
-      updateCollection(title, collectionProductMap, loading)
+      updateCollections(
+        collections.map(({ collectionProductMap, locked, id, title }) => ({
+          products: collectionProductMap,
+          locked,
+          id: shortenShopifyId(id as ShopifyIdType, 'Collection'),
+          title,
+        })),
+        false
+      )
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collection, singleSkill, updateCollection, updateSingleItemInCollection])
+  }, [collections, flowParams, singleSkill, updateCollections, updateCurrentlyViewing, updateSingleItemInCollection])
 
   // // loading state used across the app Suspense
   // useEffect(() => {

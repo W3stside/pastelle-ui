@@ -50,7 +50,7 @@ export type AppliedGiftCard = Node & {
   balance: Scalars['Money'];
   /** The amount left on the gift card. */
   balanceV2: MoneyV2;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The last characters of the gift card. */
   lastCharacters: Scalars['String'];
@@ -85,7 +85,7 @@ export type Article = HasMetafields & Node & OnlineStorePublishable & {
    *
    */
   handle: Scalars['String'];
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The image associated with the article. */
   image?: Maybe<Image>;
@@ -215,7 +215,7 @@ export type Attribute = {
   value?: Maybe<Scalars['String']>;
 };
 
-/** Specifies the input fields required for an attribute. */
+/** The input fields for an attribute. */
 export type AttributeInput = {
   /** Key or name of the attribute. */
   key: Scalars['String'];
@@ -269,7 +269,7 @@ export type Blog = HasMetafields & Node & OnlineStorePublishable & {
    *
    */
   handle: Scalars['String'];
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** Returns a metafield found by namespace and key. */
   metafield?: Maybe<Metafield>;
@@ -414,7 +414,7 @@ export type Cart = Node & {
    * @deprecated Use `cost` instead.
    */
   estimatedCost: CartEstimatedCost;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** A list of lines containing information about the items the customer intends to purchase. */
   lines: CartLineConnection;
@@ -707,7 +707,7 @@ export type CartEstimatedCost = {
   totalTaxAmount?: Maybe<MoneyV2>;
 };
 
-/** Specifies the input fields to create a cart. */
+/** The input fields to create a cart. */
 export type CartInput = {
   /** An array of key-value pairs that contains additional information about the cart. */
   attributes?: InputMaybe<Array<AttributeInput>>;
@@ -745,7 +745,7 @@ export type CartLine = Node & {
    * @deprecated Use `cost` instead.
    */
   estimatedCost: CartLineEstimatedCost;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The merchandise that the buyer intends to purchase. */
   merchandise: Merchandise;
@@ -813,29 +813,29 @@ export type CartLineEstimatedCost = {
   totalAmount: MoneyV2;
 };
 
-/** Specifies the input fields to create a merchandise line on a cart. */
+/** The input fields to create a merchandise line on a cart. */
 export type CartLineInput = {
   /** An array of key-value pairs that contains additional information about the merchandise line. */
   attributes?: InputMaybe<Array<AttributeInput>>;
-  /** The identifier of the merchandise that the buyer intends to purchase. */
+  /** The ID of the merchandise that the buyer intends to purchase. */
   merchandiseId: Scalars['ID'];
   /** The quantity of the merchandise. */
   quantity?: InputMaybe<Scalars['Int']>;
-  /** The identifier of the selling plan that the merchandise is being purchased with. */
+  /** The ID of the selling plan that the merchandise is being purchased with. */
   sellingPlanId?: InputMaybe<Scalars['ID']>;
 };
 
-/** Specifies the input fields to update a line item on a cart. */
+/** The input fields to update a line item on a cart. */
 export type CartLineUpdateInput = {
   /** An array of key-value pairs that contains additional information about the merchandise line. */
   attributes?: InputMaybe<Array<AttributeInput>>;
-  /** The identifier of the merchandise line. */
+  /** The ID of the merchandise line. */
   id: Scalars['ID'];
-  /** The identifier of the merchandise for the line item. */
+  /** The ID of the merchandise for the line item. */
   merchandiseId?: InputMaybe<Scalars['ID']>;
   /** The quantity of the line item. */
   quantity?: InputMaybe<Scalars['Int']>;
-  /** The identifier of the selling plan that the merchandise is being purchased with. */
+  /** The ID of the selling plan that the merchandise is being purchased with. */
   sellingPlanId?: InputMaybe<Scalars['ID']>;
 };
 
@@ -912,7 +912,7 @@ export type Checkout = Node & {
   discountApplications: DiscountApplicationConnection;
   /** The email attached to this checkout. */
   email?: Maybe<Scalars['String']>;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** A list of line item objects, each one containing information about an item in the checkout. */
   lineItems: CheckoutLineItemConnection;
@@ -1003,7 +1003,7 @@ export type CheckoutLineItemsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']>;
 };
 
-/** Specifies the fields required to update a checkout's attributes. */
+/** The input fields required to update a checkout's attributes. */
 export type CheckoutAttributesUpdateV2Input = {
   /**
    * Allows setting partial addresses on a Checkout, skipping the full validation of attributes.
@@ -1040,7 +1040,7 @@ export type CheckoutBuyerIdentity = {
   countryCode?: Maybe<CountryCode>;
 };
 
-/** Specifies the identity of the customer associated with the checkout. */
+/** The input fields for the identity of the customer associated with the checkout. */
 export type CheckoutBuyerIdentityInput = {
   /**
    * The country code of one of the shop's
@@ -1097,7 +1097,7 @@ export type CheckoutCompleteWithTokenizedPaymentV3Payload = {
   userErrors: Array<UserError>;
 };
 
-/** Specifies the fields required to create a checkout. */
+/** The input fields required to create a checkout. */
 export type CheckoutCreateInput = {
   /**
    * Allows setting partial addresses on a Checkout, skipping the full validation of attributes.
@@ -1337,7 +1337,7 @@ export type CheckoutLineItem = Node & {
   customAttributes: Array<Attribute>;
   /** The discounts that have been allocated onto the checkout line item by discount applications. */
   discountAllocations: Array<DiscountAllocation>;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The quantity of the line item. */
   quantity: Scalars['Int'];
@@ -1375,25 +1375,25 @@ export type CheckoutLineItemEdge = {
   node: CheckoutLineItem;
 };
 
-/** Specifies the input fields to create a line item on a checkout. */
+/** The input fields to create a line item on a checkout. */
 export type CheckoutLineItemInput = {
   /** Extra information in the form of an array of Key-Value pairs about the line item. */
   customAttributes?: InputMaybe<Array<AttributeInput>>;
   /** The quantity of the line item. */
   quantity: Scalars['Int'];
-  /** The identifier of the product variant for the line item. */
+  /** The ID of the product variant for the line item. */
   variantId: Scalars['ID'];
 };
 
-/** Specifies the input fields to update a line item on the checkout. */
+/** The input fields to update a line item on the checkout. */
 export type CheckoutLineItemUpdateInput = {
   /** Extra information in the form of an array of Key-Value pairs about the line item. */
   customAttributes?: InputMaybe<Array<AttributeInput>>;
-  /** The identifier of the line item. */
+  /** The ID of the line item. */
   id?: InputMaybe<Scalars['ID']>;
   /** The quantity of the line item. */
   quantity?: InputMaybe<Scalars['Int']>;
-  /** The variant identifier of the line item. */
+  /** The variant ID of the line item. */
   variantId?: InputMaybe<Scalars['ID']>;
 };
 
@@ -1500,7 +1500,7 @@ export type Collection = HasMetafields & Node & OnlineStorePublishable & {
    *
    */
   handle: Scalars['String'];
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** Image associated with the collection. */
   image?: Maybe<Image>;
@@ -1605,7 +1605,7 @@ export type Comment = Node & {
   content: Scalars['String'];
   /** The content of the comment, complete with HTML formatting. */
   contentHtml: Scalars['HTML'];
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
 };
 
@@ -2585,7 +2585,7 @@ export type Customer = HasMetafields & {
   email?: Maybe<Scalars['String']>;
   /** The customer’s first name. */
   firstName?: Maybe<Scalars['String']>;
-  /** A unique identifier for the customer. */
+  /** A unique ID for the customer. */
   id: Scalars['ID'];
   /** The customer's most recently updated, incomplete checkout. */
   lastIncompleteCheckout?: Maybe<Checkout>;
@@ -2656,7 +2656,7 @@ export type CustomerAccessToken = {
   expiresAt: Scalars['DateTime'];
 };
 
-/** Specifies the input fields required to create a customer access token. */
+/** The input fields required to create a customer access token. */
 export type CustomerAccessTokenCreateInput = {
   /** The email associated to the customer. */
   email: Scalars['String'];
@@ -2718,7 +2718,7 @@ export type CustomerActivateByUrlPayload = {
   customerUserErrors: Array<CustomerUserError>;
 };
 
-/** Specifies the input fields required to activate a customer. */
+/** The input fields to activate a customer. */
 export type CustomerActivateInput = {
   /** The activation token required to activate the customer. */
   activationToken: Scalars['String'];
@@ -2784,7 +2784,7 @@ export type CustomerAddressUpdatePayload = {
   userErrors: Array<UserError>;
 };
 
-/** The fields required to create a new customer. */
+/** The input fields to create a new customer. */
 export type CustomerCreateInput = {
   /** Indicates whether the customer has consented to be sent marketing material via email. */
   acceptsMarketing?: InputMaybe<Scalars['Boolean']>;
@@ -2895,7 +2895,7 @@ export type CustomerResetByUrlPayload = {
   userErrors: Array<UserError>;
 };
 
-/** Specifies the fields required to reset a customer’s password. */
+/** The input fields to reset a customer's password. */
 export type CustomerResetInput = {
   /** New password that will be set as part of the reset password process. */
   password: Scalars['String'];
@@ -2919,7 +2919,7 @@ export type CustomerResetPayload = {
   userErrors: Array<UserError>;
 };
 
-/** Specifies the fields required to update the Customer information. */
+/** The input fields to update the Customer information. */
 export type CustomerUpdateInput = {
   /** Indicates whether the customer has consented to be sent marketing material via email. */
   acceptsMarketing?: InputMaybe<Scalars['Boolean']>;
@@ -3147,7 +3147,7 @@ export type ExternalVideo = Media & Node & {
   embeddedUrl: Scalars['URL'];
   /** The host of the external video. */
   host: MediaHost;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The media content type. */
   mediaContentType: MediaContentType;
@@ -3284,7 +3284,7 @@ export type GenericFile = Node & {
   __typename?: 'GenericFile';
   /** A word or phrase to indicate the contents of a file. */
   alt?: Maybe<Scalars['String']>;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The MIME type of the file. */
   mimeType?: Maybe<Scalars['String']>;
@@ -3296,7 +3296,7 @@ export type GenericFile = Node & {
   url?: Maybe<Scalars['URL']>;
 };
 
-/** Used to specify a geographical location. */
+/** The input fields used to specify a geographical location. */
 export type GeoCoordinateInput = {
   /** The coordinate's latitude value. */
   latitude: Scalars['Float'];
@@ -3328,7 +3328,7 @@ export type HasMetafieldsMetafieldsArgs = {
   identifiers: Array<HasMetafieldsIdentifier>;
 };
 
-/** Identifies a metafield on an owner resource by namespace and key. */
+/** The input fields to identify a metafield on an owner resource by namespace and key. */
 export type HasMetafieldsIdentifier = {
   /** The identifier for the metafield. */
   key: Scalars['String'];
@@ -3343,7 +3343,7 @@ export type Image = {
   altText?: Maybe<Scalars['String']>;
   /** The original height of the image in pixels. Returns `null` if the image is not hosted by Shopify. */
   height?: Maybe<Scalars['Int']>;
-  /** A unique identifier for the image. */
+  /** A unique ID for the image. */
   id?: Maybe<Scalars['ID']>;
   /**
    * The location of the original image as a URL.
@@ -3780,7 +3780,7 @@ export type Location = Node & {
   __typename?: 'Location';
   /** The address of the location. */
   address: LocationAddress;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The name of the location. */
   name: Scalars['String'];
@@ -3905,7 +3905,7 @@ export type MailingAddress = Node & {
   formatted: Array<Scalars['String']>;
   /** A comma-separated list of the values for city, province, and country. */
   formattedArea?: Maybe<Scalars['String']>;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The last name of the customer. */
   lastName?: Maybe<Scalars['String']>;
@@ -3971,7 +3971,7 @@ export type MailingAddressEdge = {
   node: MailingAddress;
 };
 
-/** Specifies the fields accepted to create or update a mailing address. */
+/** The input fields to create or update a mailing address. */
 export type MailingAddressInput = {
   /**
    * The first line of the address. Typically the street address or PO Box number.
@@ -4093,7 +4093,7 @@ export type MediaImage = Media & Node & {
   __typename?: 'MediaImage';
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The image for the media. */
   image?: Maybe<Image>;
@@ -4104,14 +4104,15 @@ export type MediaImage = Media & Node & {
 };
 
 /**
- * A menu used for navigation within a storefront.
+ * A [navigation menu](https://help.shopify.com/manual/online-store/menus-and-links) representing a hierarchy
+ * of hyperlinks (items).
  *
  */
 export type Menu = Node & {
   __typename?: 'Menu';
   /** The menu's handle. */
   handle: Scalars['String'];
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The menu's child items. */
   items: Array<MenuItem>;
@@ -4127,7 +4128,7 @@ export type Menu = Node & {
  */
 export type MenuItem = Node & {
   __typename?: 'MenuItem';
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The menu item's child items. */
   items: Array<MenuItem>;
@@ -4183,25 +4184,25 @@ export type Metafield = Node & {
   createdAt: Scalars['DateTime'];
   /** The description of a metafield. */
   description?: Maybe<Scalars['String']>;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
-  /** The key name for a metafield. */
+  /** The unique identifier for the metafield within its namespace. */
   key: Scalars['String'];
-  /** The namespace for a metafield. */
+  /** The container for a group of metafields that the metafield is associated with. */
   namespace: Scalars['String'];
-  /** The parent object that the metafield belongs to. */
+  /** The type of resource that the metafield is attached to. */
   parentResource: MetafieldParentResource;
-  /** Returns a reference object if the metafield definition's type is a resource reference. */
+  /** Returns a reference object if the metafield's type is a resource reference. */
   reference?: Maybe<MetafieldReference>;
   /**
    * The type name of the metafield.
-   * See the list of [supported types](https://shopify.dev/apps/metafields/definitions/types).
+   * Refer to the list of [supported types](https://shopify.dev/apps/metafields/definitions/types).
    *
    */
   type: Scalars['String'];
-  /** The date and time when the storefront metafield was updated. */
+  /** The date and time when the metafield was last updated. */
   updatedAt: Scalars['DateTime'];
-  /** The value of a metafield. */
+  /** The data stored in the metafield. Always stored as a string, regardless of the metafield's type. */
   value: Scalars['String'];
 };
 
@@ -4238,7 +4239,7 @@ export type Model3d = Media & Node & {
   __typename?: 'Model3d';
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The media content type. */
   mediaContentType: MediaContentType;
@@ -4261,7 +4262,7 @@ export type Model3dSource = {
   url: Scalars['String'];
 };
 
-/** Specifies the fields for a monetary value with currency. */
+/** The input fields for a monetary value with currency. */
 export type MoneyInput = {
   /** Decimal money amount. */
   amount: Scalars['Decimal'];
@@ -4695,7 +4696,7 @@ export type MutationCustomerUpdateArgs = {
  *
  */
 export type Node = {
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
 };
 
@@ -4736,7 +4737,7 @@ export type Order = HasMetafields & Node & {
   financialStatus?: Maybe<OrderFinancialStatus>;
   /** The fulfillment status for the order. */
   fulfillmentStatus: OrderFulfillmentStatus;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** List of the order’s line items. */
   lineItems: OrderLineItemConnection;
@@ -5009,7 +5010,7 @@ export type Page = HasMetafields & Node & OnlineStorePublishable & {
   createdAt: Scalars['DateTime'];
   /** A human-friendly unique string for the page automatically generated from its title. */
   handle: Scalars['String'];
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** Returns a metafield found by namespace and key. */
   metafield?: Maybe<Metafield>;
@@ -5119,7 +5120,7 @@ export type Payment = Node & {
   creditCard?: Maybe<CreditCard>;
   /** A message describing a processing error during asynchronous processing. */
   errorMessage?: Maybe<Scalars['String']>;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /**
    * A client-side generated token to identify a payment and perform idempotent operations.
@@ -5151,7 +5152,7 @@ export type PaymentSettings = {
   currencyCode: CurrencyCode;
   /** A list of enabled currencies (ISO 4217 format) that the shop accepts. Merchants can enable currencies from their Shopify Payments settings in the Shopify admin. */
   enabledPresentmentCurrencies: Array<CurrencyCode>;
-  /** The shop’s Shopify Payments account id. */
+  /** The shop’s Shopify Payments account ID. */
   shopifyPaymentsAccountId?: Maybe<Scalars['String']>;
   /** List of the digital wallets which the shop supports. */
   supportedDigitalWallets: Array<DigitalWallet>;
@@ -5171,7 +5172,10 @@ export enum PaymentTokenType {
   Vault = 'VAULT'
 }
 
-/** A filter used to view a subset of products in a collection matching a specific price range. */
+/**
+ * The input fields for a filter used to view a subset of products in a collection matching a specific price range.
+ *
+ */
 export type PriceRangeFilter = {
   /** The maximum price in the range. Empty indicates no max price. */
   max?: InputMaybe<Scalars['Float']>;
@@ -5220,7 +5224,7 @@ export type Product = HasMetafields & Node & OnlineStorePublishable & {
    *
    */
   handle: Scalars['String'];
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** List of images associated with the product. */
   images: ImageConnection;
@@ -5446,7 +5450,12 @@ export type ProductEdge = {
   node: Product;
 };
 
-/** A filter used to view a subset of products in a collection. */
+/**
+ * The input fields for a filter used to view a subset of products in a collection.
+ * By default, the `available` and `price` filters are enabled. Filters are customized with the Shopify Search & Discovery app.
+ * Learn more about [customizing storefront filtering](https://help.shopify.com/manual/online-store/themes/customizing-themes/storefront-filters).
+ *
+ */
 export type ProductFilter = {
   /** Filter on if the product is available for sale. */
   available?: InputMaybe<Scalars['Boolean']>;
@@ -5502,7 +5511,7 @@ export enum ProductMediaSortKeys {
  */
 export type ProductOption = Node & {
   __typename?: 'ProductOption';
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The product option’s name. */
   name: Scalars['String'];
@@ -5561,7 +5570,7 @@ export type ProductVariant = HasMetafields & Node & {
   compareAtPriceV2?: Maybe<MoneyV2>;
   /** Whether a product is out of stock but still available for purchase (used for backorders). */
   currentlyNotInStock: Scalars['Boolean'];
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /**
    * Image associated with the product variant. This field falls back to the product image if no image is available.
@@ -5714,7 +5723,11 @@ export type QueryRoot = {
   collectionByHandle?: Maybe<Collection>;
   /** List of the shop’s collections. */
   collections: CollectionConnection;
-  /** Find a customer by its access token. */
+  /**
+   * The customer associated with the given access token. Tokens are obtained by using the
+   * [`customerAccessTokenCreate` mutation](https://shopify.dev/docs/api/storefront/latest/mutations/customerAccessTokenCreate).
+   *
+   */
   customer?: Maybe<Customer>;
   /** Returns the localized experiences configured for the shop. */
   localization: Localization;
@@ -5725,7 +5738,10 @@ export type QueryRoot = {
    *
    */
   locations: LocationConnection;
-  /** A storefront menu. */
+  /**
+   * Retrieve a [navigation menu](https://help.shopify.com/manual/online-store/menus-and-links) by its handle.
+   *
+   */
   menu?: Maybe<Menu>;
   /** Returns a specific node by ID. */
   node?: Maybe<Node>;
@@ -5995,7 +6011,7 @@ export type SelectedOption = {
   value: Scalars['String'];
 };
 
-/** Specifies the input fields required for a selected option. */
+/** The input fields required for a selected option. */
 export type SelectedOptionInput = {
   /** The product option’s name. */
   name: Scalars['String'];
@@ -6010,7 +6026,7 @@ export type SellingPlan = {
   checkoutCharge: SellingPlanCheckoutCharge;
   /** The description of the selling plan. */
   description?: Maybe<Scalars['String']>;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The name of the selling plan. For example, '6 weeks of prepaid granola, delivered weekly'. */
   name: Scalars['String'];
@@ -6252,7 +6268,7 @@ export type Shop = HasMetafields & Node & {
   __typename?: 'Shop';
   /** A description of the shop. */
   description?: Maybe<Scalars['String']>;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** Returns a metafield found by namespace and key. */
   metafield?: Maybe<Metafield>;
@@ -6303,7 +6319,7 @@ export type ShopPolicy = Node & {
   body: Scalars['String'];
   /** Policy’s handle. */
   handle: Scalars['String'];
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** Policy’s title. */
   title: Scalars['String'];
@@ -6323,7 +6339,7 @@ export type ShopPolicyWithDefault = {
   body: Scalars['String'];
   /** The handle of the policy. */
   handle: Scalars['String'];
-  /** The unique identifier of the policy. A default policy doesn't have an ID. */
+  /** The unique ID of the policy. A default policy doesn't have an ID. */
   id?: Maybe<Scalars['ID']>;
   /** The title of the policy. */
   title: Scalars['String'];
@@ -6581,7 +6597,10 @@ export type UserError = DisplayableError & {
   message: Scalars['String'];
 };
 
-/** A filter used to view a subset of products in a collection matching a specific variant option. */
+/**
+ * The input fields for a filter used to view a subset of products in a collection matching a specific variant option.
+ *
+ */
 export type VariantOptionFilter = {
   /** The name of the variant option to filter on. */
   name: Scalars['String'];
@@ -6594,7 +6613,7 @@ export type Video = Media & Node & {
   __typename?: 'Video';
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>;
-  /** A globally-unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID'];
   /** The media content type. */
   mediaContentType: MediaContentType;
@@ -6674,10 +6693,11 @@ export type GetCollectionQueryVariables = Exact<{
   productAmt?: InputMaybe<Scalars['Int']>;
   imageAmt?: InputMaybe<Scalars['Int']>;
   videoAmt?: InputMaybe<Scalars['Int']>;
+  reverse?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
-export type GetCollectionQuery = { __typename?: 'QueryRoot', collections: { __typename?: 'CollectionConnection', nodes: Array<{ __typename?: 'Collection', id: string, title: string, handle: string, image?: { __typename?: 'Image', url: any } | null, products: { __typename?: 'ProductConnection', nodes: Array<{ __typename?: 'Product', id: string, title: string, handle: string, tags: Array<string>, productType: string, updatedAt: any, description: string, descriptionHtml: any, images: { __typename?: 'ImageConnection', nodes: Array<{ __typename?: 'Image', id?: string | null, altText?: string | null, width?: number | null, height?: number | null, url: any, url125: any, url250: any, url500: any, url720: any, url960: any, url1280: any, url1440: any, url125_2x: any, url250_2x: any, url500_2x: any, url720_2x: any, url960_2x: any, url1280_2x: any, url1440_2x: any, url125_3x: any, url250_3x: any, url500_3x: any, url720_3x: any, url960_3x: any, url1280_3x: any, url1440_3x: any }> }, media: { __typename?: 'MediaConnection', nodes: Array<{ __typename?: 'ExternalVideo' } | { __typename?: 'MediaImage' } | { __typename?: 'Model3d' } | { __typename?: 'Video', id: string, alt?: string | null, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', url: any, width?: number | null, height?: number | null } | null, sources: Array<{ __typename?: 'VideoSource', mimeType: string, url: string }> }> }, sizes: Array<{ __typename?: 'ProductOption', values: Array<string> }>, featuredImage?: { __typename?: 'Image', url: any, width?: number | null, height?: number | null } | null, options: Array<{ __typename?: 'ProductOption', name: string, values: Array<string> }>, showcaseVideos?: { __typename?: 'Metafield', value: string } | null, brandingAssetMap?: { __typename?: 'Metafield', value: string } | null, bgColor?: { __typename?: 'Metafield', value: string } | null, color?: { __typename?: 'Metafield', value: string } | null, artistInfo?: { __typename?: 'Metafield', value: string } | null, shortDescription?: { __typename?: 'Metafield', value: string } | null, skillMetadata?: { __typename?: 'Metafield', value: string } | null }> } }> } };
+export type GetCollectionQuery = { __typename?: 'QueryRoot', collections: { __typename?: 'CollectionConnection', nodes: Array<{ __typename?: 'Collection', id: string, title: string, handle: string, image?: { __typename?: 'Image', url: any } | null, lockStatus?: { __typename?: 'Metafield', value: string } | null, products: { __typename?: 'ProductConnection', nodes: Array<{ __typename?: 'Product', id: string, title: string, handle: string, tags: Array<string>, productType: string, updatedAt: any, description: string, descriptionHtml: any, images: { __typename?: 'ImageConnection', nodes: Array<{ __typename?: 'Image', id?: string | null, altText?: string | null, width?: number | null, height?: number | null, url: any, url125: any, url250: any, url500: any, url720: any, url960: any, url1280: any, url1440: any, url125_2x: any, url250_2x: any, url500_2x: any, url720_2x: any, url960_2x: any, url1280_2x: any, url1440_2x: any, url125_3x: any, url250_3x: any, url500_3x: any, url720_3x: any, url960_3x: any, url1280_3x: any, url1440_3x: any }> }, media: { __typename?: 'MediaConnection', nodes: Array<{ __typename?: 'ExternalVideo' } | { __typename?: 'MediaImage' } | { __typename?: 'Model3d' } | { __typename?: 'Video', id: string, alt?: string | null, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', url: any, width?: number | null, height?: number | null } | null, sources: Array<{ __typename?: 'VideoSource', mimeType: string, url: string }> }> }, sizes: Array<{ __typename?: 'ProductOption', values: Array<string> }>, featuredImage?: { __typename?: 'Image', url: any, width?: number | null, height?: number | null } | null, options: Array<{ __typename?: 'ProductOption', name: string, values: Array<string> }>, showcaseVideos?: { __typename?: 'Metafield', value: string } | null, brandingAssetMap?: { __typename?: 'Metafield', value: string } | null, bgColor?: { __typename?: 'Metafield', value: string } | null, color?: { __typename?: 'Metafield', value: string } | null, artistInfo?: { __typename?: 'Metafield', value: string } | null, shortDescription?: { __typename?: 'Metafield', value: string } | null, skillMetadata?: { __typename?: 'Metafield', value: string } | null }> } }> } };
 
 export type FragmentProductVariantFragment = { __typename?: 'ProductVariant', id: string, title: string, sku?: string | null, availableForSale: boolean, quantityAvailable?: number | null, unitPrice?: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null };
 

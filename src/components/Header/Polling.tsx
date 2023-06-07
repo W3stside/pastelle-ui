@@ -1,11 +1,11 @@
 import { ExternalLink } from '@past3lle/components'
+import { useW3Connection } from '@past3lle/forge-web3'
 import { rotateKeyframe } from '@past3lle/theme'
-import { useWeb3React } from '@web3-react/core'
-import { getEtherscanLink } from 'blockchain/utils'
 import { Text } from 'components/Text'
 import { useEffect, useState } from 'react'
-import { useBlockNumber } from 'state/blockchain/hooks'
 import styled from 'styled-components/macro'
+import { getEtherscanLink } from 'utils/blockchain'
+import { useBlockNumber } from 'wagmi'
 
 const StyledPolling = styled.div`
   position: fixed;
@@ -55,9 +55,9 @@ const Spinner = styled.div`
 `
 
 export default function Polling() {
-  const { chainId } = useWeb3React()
+  const [, , { chain }] = useW3Connection()
 
-  const blockNumber = useBlockNumber()
+  const { data: blockNumber } = useBlockNumber()
 
   const [isMounted, setIsMounted] = useState(true)
 
@@ -76,7 +76,7 @@ export default function Polling() {
   )
 
   return (
-    <ExternalLink href={chainId && blockNumber ? getEtherscanLink(chainId, blockNumber.toString(), 'block') : ''}>
+    <ExternalLink href={chain?.id && blockNumber ? getEtherscanLink(chain.id, blockNumber.toString(), 'block') : ''}>
       <StyledPolling>
         <Text.Small style={{ opacity: isMounted ? '0.2' : '0.6' }}>{blockNumber}</Text.Small>
         <StyledPollingDot>{!isMounted && <Spinner />}</StyledPollingDot>

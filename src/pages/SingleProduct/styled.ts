@@ -142,7 +142,7 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
       margin-top: -15.1%;
     }
     // padding-top: 2rem;
-    filter: ${({ theme }) => theme.darkModeLogoFilter};
+    filter: ${({ theme }) => theme.modeLogoFilter};
 
     > img {
       margin: 0;

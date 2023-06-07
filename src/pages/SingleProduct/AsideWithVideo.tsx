@@ -1,6 +1,7 @@
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Column, Row } from '@past3lle/components'
+import { SkillLockStatus, useDeriveSkillState } from '@past3lle/forge-web3'
 import { useDetectScrollIntoView, useIsMobile, useStateRef } from '@past3lle/hooks'
 import { isMobile as isMobileDevice } from '@past3lle/utils'
 import AddToCartButton from 'components/AddToCartButton'
@@ -33,7 +34,7 @@ import {
   ScrollingProductLabel,
 } from 'pages/common/styleds'
 import { SingleProductPageProps, WithParentAspectRatio } from 'pages/common/types'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { Package, Truck } from 'react-feather'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { getImageSizeMap } from 'shopify/utils'
@@ -55,12 +56,17 @@ export default function SingleProductPage({
   artistInfo,
   sizes = [],
   images = [],
+  lockedImages = [],
   videos = [],
   description,
   noVideo = false,
   shortDescription,
+  skillMetadata,
   parentAspectRatio,
 }: SingleProductPageProps & WithParentAspectRatio) {
+  // SKILL STATE FROM METADATA
+  const skillState = useDeriveSkillState(skillMetadata)
+
   // MODALS
   const toggleLargeImageModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
   const closeModals = useCloseModals()
@@ -92,7 +98,11 @@ export default function SingleProductPage({
   const breadcrumbs = useBreadcrumb()
 
   // IMAGES
-  const imageUrls = getImageSizeMap(images)
+  const imageUrls = useMemo(
+    () => getImageSizeMap(skillState === SkillLockStatus.LOCKED ? lockedImages : images),
+    [images, lockedImages, skillState]
+  )
+
   // SELECTED SHOWCASE VIDEO
   // const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
 
@@ -154,10 +164,12 @@ export default function SingleProductPage({
               />
               <ProductPriceAndLabel variant={variant} color={color} title={title} shortDescription={shortDescription} />
               <ProductRarityAndLabel
+                lockStatus={skillState}
                 variant={variant}
-                color={'grey'}
-                title="RARITY: COMMON"
-                shortDescription={'SKILL INFO AVAILABLE IN THE FORGE'}
+                title={`RARITY: ${skillMetadata?.properties.rarity.toUpperCase() || 'COMMON'}`}
+                shortDescription={
+                  skillState === SkillLockStatus.LOCKED ? 'ITEM LOCKED' : 'SKILL INFO AVAILABLE IN THE FORGE'
+                }
               />
             </StyledElems.SingleProductScreen>
 
@@ -167,27 +179,33 @@ export default function SingleProductPage({
               <ProductSubHeader
                 useGradient
                 bgColor={color}
-                label="SIZE & SHOWCASE"
+                label={skillState !== SkillLockStatus.LOCKED ? 'SIZE & SHOWCASE' : undefined}
                 margin={isMobile ? '1rem 0' : '0 0 2rem 0'}
               />
               <Column margin="0" padding={'0 2rem'}>
                 {/* SHOWCASE MODEL SHOWCASE SETTINGS */}
-                <ProductDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
-                  <Row gap="1rem">
-                    <FontAwesomeIcon icon={faLightbulb} /> SHOWCASE SETTINGS{' '}
-                  </Row>
-                </ProductDescription>
-                <ShowcaseSettings>
-                  <ShowcaseVideoControls isMobile={isMobile} />
-                  {/* MOBILE SHOWCASE */}
-                  <ModelSizeSelector />
-                  {/* PRODUCT SIZE SELECTOR */}
-                  <SizeSelector color={color} margin="0" />
-                </ShowcaseSettings>
+                {skillState !== SkillLockStatus.LOCKED && (
+                  <>
+                    <ProductDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
+                      <Row gap="1rem">
+                        <FontAwesomeIcon icon={faLightbulb} /> SHOWCASE SETTINGS{' '}
+                      </Row>
+                    </ProductDescription>
+
+                    <ShowcaseSettings>
+                      <ShowcaseVideoControls isMobile={isMobile} />
+                      {/* MOBILE SHOWCASE */}
+                      <ModelSizeSelector />
+                      {/* PRODUCT SIZE SELECTOR */}
+                      <SizeSelector color={color} margin="0" />
+                    </ShowcaseSettings>
+                  </>
+                )}
 
                 <AddToCartButton
                   ref={addToCartButtonRef}
                   product={variant}
+                  skillLocked={skillState === SkillLockStatus.LOCKED}
                   quantity={1}
                   buttonProps={{ bgImage: navLogo, backgroundColor: color || '#000', width: '100%' }}
                 />
@@ -199,13 +217,14 @@ export default function SingleProductPage({
                 >
                   <AddToCartButton
                     product={variant}
+                    skillLocked={skillState === SkillLockStatus.LOCKED}
                     quantity={1}
                     buttonProps={{ bgImage: navLogo, backgroundColor: color || '#000' }}
                   />
                 </StyledElems.AddToCartButtonWrapper>
 
                 {/* FREE SHIPPING LABEL */}
-                {FREE_SHIPPING_THRESHOLD && (
+                {FREE_SHIPPING_THRESHOLD && skillState !== SkillLockStatus.LOCKED && (
                   <FreeShippingBanner fontWeight={300} flex="auto" minWidth={'21rem'} marginTop="2rem">
                     <Truck />
                     <Package /> FREE SHIPPING OVER {FREE_SHIPPING_THRESHOLD}€
@@ -217,27 +236,46 @@ export default function SingleProductPage({
             {/* SCREEN 3 - ITEM INFO */}
             <StyledElems.SingleProductScreen paddingBottom={LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON + 'rem'}>
               {/* Item description */}
-              <ProductSubHeader useGradient bgColor={color} label="INFO & CARE INSTRUCTIONS" />
+              <ProductSubHeader
+                useGradient
+                bgColor={color}
+                label={
+                  skillState !== SkillLockStatus.LOCKED
+                    ? 'INFO & CARE INSTRUCTIONS'
+                    : 'DESCRIPTION: INFORMATION REDACTED'
+                }
+              />
               <Column padding="0 1.5rem">
                 {/* From shopify backened console */}
-                <ProductBackendDescription
-                  dangerouslySetInnerHTML={{ __html: description }}
-                  padding="0rem 4rem 1rem"
-                  fontWeight={300}
-                  accentColor={color}
-                />
+                {skillState !== SkillLockStatus.LOCKED ? (
+                  <ProductBackendDescription
+                    dangerouslySetInnerHTML={{ __html: description }}
+                    padding="0rem 4rem 1rem"
+                    fontWeight={300}
+                    accentColor={color}
+                  />
+                ) : (
+                  <RedactedInformationDescription />
+                )}
               </Column>
               {/* Credits */}
-              <ProductSubHeader useGradient bgColor={color} label="CREDIT WHERE CREDIT IS DUE" margin="2rem 0" />
-              <Column padding={'0 3rem'}>
-                <ProductCredits>
-                  {artistInfo ? (
-                    <ProductArtistInfo {...artistInfo} bgColor={color} />
-                  ) : (
-                    <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
-                  )}
-                </ProductCredits>
-              </Column>
+              <ProductSubHeader
+                useGradient
+                bgColor={color}
+                label={skillState !== SkillLockStatus.LOCKED ? 'CREDIT WHERE CREDIT IS DUE' : undefined}
+                margin="2rem 0"
+              />
+              {skillState !== SkillLockStatus.LOCKED && (
+                <Column padding={'0 3rem'}>
+                  <ProductCredits>
+                    {artistInfo ? (
+                      <ProductArtistInfo {...artistInfo} bgColor={color} />
+                    ) : (
+                      <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
+                    )}
+                  </ProductCredits>
+                </Column>
+              )}
             </StyledElems.SingleProductScreen>
           </StyledElems.SingleProductScreensContainer>
         </StyledElems.SingleProductAsidePanel>
@@ -271,3 +309,26 @@ export default function SingleProductPage({
   return offsetHeight < 0 ? undefined : offsetHeight
 }
  */
+
+// component that renders "redacted" information for locked skills
+const RedactedInformationDescription = (): JSX.Element => {
+  return (
+    <Column padding="0 1.5rem">
+      <ProductDescription
+        fontWeight={300}
+        padding="0rem 4rem 1rem"
+        color={'transparent'}
+        css={`
+          > * {
+            background-color: indianred;
+          }
+        `}
+      >
+        <h1>REDACTED PRODUCT</h1>
+        <p>This information is redacted until the skill is unlocked.</p>
+        <p>Haha, nice try trying to change the font colour. We knew you&apos;d try.</p>
+        <p>But there&apos;s no way to see the redacted product information until you unlock the skill!</p>
+      </ProductDescription>
+    </Column>
+  )
+}

@@ -12,7 +12,13 @@
   "private": true,
   "version": "0.0.1",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.20.0"
+  },
+  "resolutions": {
+    "@web3modal/ethereum": ">=2.2.0",
+    "@web3modal/react": ">=2.2.0",
+    "**/*/wagmi": "0.12.1",
+    "**/*/@wagmi/core": "0.10.1"
   },
   "devDependencies": {
     "@apollo/client": "^3.6.8",
@@ -25,15 +31,16 @@
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript-operations": "^2.4.2",
     "@metamask/jazzicon": "^2.0.0",
-    "@past3lle/assets": "^0.0.14",
-    "@past3lle/carousel": "^0.0.22",
-    "@past3lle/carousel-hooks": "^0.0.19",
-    "@past3lle/components": "^0.0.57",
-    "@past3lle/constants": "^0.0.19",
-    "@past3lle/hooks": "^0.0.25",
-    "@past3lle/theme": "^0.0.35",
-    "@past3lle/types": "^0.0.12",
-    "@past3lle/utils": "^0.0.19",
+    "@past3lle/assets": "^0.0.18",
+    "@past3lle/carousel": "^0.0.34",
+    "@past3lle/carousel-hooks": "^0.0.31",
+    "@past3lle/components": "^0.0.69",
+    "@past3lle/constants": "^0.0.25",
+    "@past3lle/forge-web3": "^0.0.71",
+    "@past3lle/hooks": "^0.0.37",
+    "@past3lle/theme": "^0.0.45",
+    "@past3lle/types": "^0.0.17",
+    "@past3lle/utils": "^0.0.25",
     "@reduxjs/toolkit": "^1.5.0",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@typechain/ethers-v5": "^7.0.0",
@@ -51,15 +58,10 @@
     "@types/styled-components": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
-    "@uniswap/sdk-core": "^3.0.1",
-    "@walletconnect/ethereum-provider": "1.7.1",
-    "@web3-react/core": "^8.0.35-beta.0",
-    "@web3-react/gnosis-safe": "^8.0.6-beta.0",
-    "@web3-react/metamask": "^8.0.28-beta.0",
-    "@web3-react/network": "8.0.27-beta.0",
-    "@web3-react/types": "8.0.20-beta.0",
-    "@web3-react/walletconnect": "^8.0.35-beta.0",
     "apollo": "^2.34.0",
+    "assert": "^2.0.0",
+    "browserify-zlib": "0.2.0",
+    "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "dotenv": "^16.0.1",
     "eslint": "^7.11.0",
@@ -68,9 +70,11 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "ethers": "^5.4.6",
+    "https-browserify": "^1.0.0",
     "jazzicon": "^1.5.0",
     "lodash.debounce": "^4.0.8",
     "ms.macro": "^2.0.0",
+    "os-browserify": "^0.3.0",
     "polished": "^3.3.2",
     "prettier": "^2.8.3",
     "react": "^18.2.0",
@@ -86,14 +90,16 @@
     "rebass": "^4.0.7",
     "redux-localstorage-simple": "^2.3.1",
     "source-map-explorer": "^2.5.3",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
     "styled-components": "^5.3.5",
     "swr": "^1.0.1",
     "typescript": "^4.8.3",
+    "url": "^0.11.0",
     "web-vitals": "^3.1.0"
   },
-  "dependencies": {},
-  "resolutions": {
-    "@walletconnect/ethereum-provider": "1.7.1"
+  "dependencies": {
+    "jotai-devtools": "0.1.0"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
@@ -112,9 +118,11 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "chrome >= 67",
+      "edge >= 79",
+      "firefox >= 68",
+      "opera >= 54",
+      "safari >= 14"
     ],
     "development": [
       "last 1 chrome version",

@@ -21,8 +21,9 @@ export default function ProductPriceAndLabel({
       justifyContent="space-evenly"
       padding="1rem"
       maxHeight={LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL + 'rem'}
+      backgroundColor={'#000000b8'}
     >
-      <Column maxWidth={'60%'}>
+      <Column maxWidth="60%" marginRight="auto">
         <TYPE.ProductText fontSize="3rem" fontWeight={200}>
           {title}
         </TYPE.ProductText>

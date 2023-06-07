@@ -1,12 +1,11 @@
-import { AutoColumn, ColumnCenter, RowBetween, Text } from '@past3lle/components'
-import { ExternalLink } from '@past3lle/components'
-import { useWeb3React } from '@web3-react/core'
+import { AutoColumn, ColumnCenter, ExternalLink, RowBetween, Text } from '@past3lle/components'
+import { useW3Connection } from '@past3lle/forge-web3'
 import Circle from 'assets/images/blue-loader.svg'
-import { getEtherscanLink } from 'blockchain/utils'
 import { ReactNode } from 'react'
 import { ArrowUpCircle } from 'react-feather'
 import styled, { useTheme } from 'styled-components/macro'
 import { CloseIcon, CustomLightSpinner } from 'theme'
+import { getEtherscanLink } from 'utils/blockchain'
 
 const ConfirmOrLoadingWrapper = styled.div`
   width: 100%;
@@ -43,7 +42,7 @@ export const SubmittedView: React.FC<{
   hash: string | undefined
 }> = ({ children, onDismiss, hash }) => {
   const theme = useTheme()
-  const { chainId } = useWeb3React()
+  const [, , { chain }] = useW3Connection()
 
   return (
     <ConfirmOrLoadingWrapper>
@@ -57,8 +56,8 @@ export const SubmittedView: React.FC<{
       <AutoColumn gap="100px" justify={'center'}>
         <>
           {children}
-          {chainId && hash && (
-            <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')} style={{ marginLeft: '4px' }}>
+          {chain?.id && hash && (
+            <ExternalLink href={getEtherscanLink(chain.id, hash, 'transaction')} style={{ marginLeft: '4px' }}>
               <Text.SubHeader>View transaction on Etherscan</Text.SubHeader>
             </ExternalLink>
           )}

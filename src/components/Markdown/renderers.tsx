@@ -23,12 +23,13 @@ interface HeadingProps {
   node: MarkdownNode & { type: 'heading' }
 }
 
-export function HeadingRenderer({ level, children, node }: HeadingProps): JSX.Element {
+export function HeadingRenderer({ level, children, node }: HeadingProps) {
   // traverse markdown syntax tree node
   // and get text
   const nodeText = getTextFromMarkdownNode(node)
   const id = constructId(nodeText)
 
   const HComp = ('h' + level) as keyof JSX.IntrinsicElements
-  return <HComp id={id}>{children}</HComp>
+
+  return <HComp id={id}>{children as any}</HComp>
 }

@@ -1,19 +1,17 @@
-import { constructSameAddressMap } from 'blockchain/utils/constructSameAddressMap'
+import { ForgeContractAddressMap } from '@past3lle/forge-web3'
+import { Address } from 'wagmi'
 
-import { SupportedChainId } from '.'
+import CONTRACTS_NETWORKS from '../forge/forge-networks.json'
 
-export type AddressMap = { [chainId: number]: string }
-
-export const ARGENT_WALLET_DETECTOR_ADDRESS: AddressMap = {
-  [SupportedChainId.MAINNET]: '0xeca4B0bDBf7c55E9b7925919d03CbF8Dc82537E8',
-}
-
-export const ENS_REGISTRAR_ADDRESSES: AddressMap = {
-  [SupportedChainId.MAINNET]: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
-  [SupportedChainId.RINKEBY]: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
-}
-
-export const MULTICALL_ADDRESS: AddressMap = {
-  ...constructSameAddressMap('0x1F98415757620B543A52E61c46B32eB19261F984'),
-  [SupportedChainId.GNOSIS]: '0x0f41c16b8ad27c11f181eca85f0941868c1297af',
+export type ContractAddresses = typeof CONTRACT_ADDRESSES_MAP
+export const CONTRACT_ADDRESSES_MAP: ForgeContractAddressMap = {
+  [5]: {
+    collectionsManager: CONTRACTS_NETWORKS[5].CollectionsManager.address as Address,
+    mergeManager: '' as Address,
+  },
+  // TODO: fix - use proper mumbai addreses
+  [80001]: {
+    collectionsManager: CONTRACTS_NETWORKS[5].CollectionsManager.address as Address,
+    mergeManager: '' as Address,
+  },
 }

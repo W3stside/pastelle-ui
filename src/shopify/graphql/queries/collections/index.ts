@@ -6,14 +6,17 @@ export const QUERY_GET_COLLECTION = gql`
   ${FRAGMENT_PRODUCT}
   ${FRAGMENT_PRODUCT_IMAGE}
   ${FRAGMENT_PRODUCT_VIDEO}
-  query getCollection($collectionAmount: Int, $productAmt: Int, $imageAmt: Int, $videoAmt: Int) {
-    collections(first: $collectionAmount) {
+  query getCollection($collectionAmount: Int, $productAmt: Int, $imageAmt: Int, $videoAmt: Int, $reverse: Boolean) {
+    collections(first: $collectionAmount, reverse: $reverse) {
       nodes {
         id
         title
         handle
         image {
           url
+        }
+        lockStatus: metafield(namespace: "custom", key: "lock_status") {
+          value
         }
         products(first: $productAmt) {
           nodes {

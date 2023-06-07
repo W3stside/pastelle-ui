@@ -1,12 +1,11 @@
 import { AutoColumn, Button, ColumnCenter, Modal, RowBetween, Text } from '@past3lle/components'
 import { ExternalLink } from '@past3lle/components'
-import { useWeb3React } from '@web3-react/core'
+import { useW3Connection } from '@past3lle/forge-web3'
 import Circle from 'assets/images/blue-loader.svg'
-import { SupportedChainId as ChainId } from 'blockchain/constants/chains'
-import { getEtherscanLink } from 'blockchain/utils'
 import { AlertTriangle, ArrowUpCircle } from 'react-feather'
 import styled, { useTheme } from 'styled-components/macro'
 import { CloseIcon, CustomLightSpinner } from 'theme'
+import { getEtherscanLink } from 'utils/blockchain'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -61,7 +60,7 @@ function TransactionSubmittedContent({
 }: {
   onDismiss: () => void
   hash: string | undefined
-  chainId: ChainId
+  chainId?: number
 }) {
   const theme = useTheme()
 
@@ -166,9 +165,9 @@ export default function TransactionConfirmationModal({
   pendingText,
   content,
 }: ConfirmationModalProps) {
-  const { chainId } = useWeb3React()
+  const [, , { chain }] = useW3Connection()
 
-  if (!chainId) return null
+  if (!chain?.id) return null
 
   // confirmation screen
   return (
@@ -176,7 +175,7 @@ export default function TransactionConfirmationModal({
       {attemptingTxn ? (
         <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
       ) : hash ? (
-        <TransactionSubmittedContent chainId={chainId} hash={hash} onDismiss={onDismiss} />
+        <TransactionSubmittedContent chainId={chain.id} hash={hash} onDismiss={onDismiss} />
       ) : (
         content()
       )}

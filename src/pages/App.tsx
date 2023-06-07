@@ -5,7 +5,8 @@ import { FallbackLoader } from 'components/Loader'
 import { APPAREL_PARAM_NAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { useCollectionLoadingStatus } from 'state/collection/hooks'
+import { useDeriveCurrentCollectionId, useIsCollectionLoading } from 'state/collection/hooks'
+import { CollectionID } from 'state/collection/reducer'
 
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
@@ -20,8 +21,10 @@ export default function App() {
 
   const isMobileWidthOrBelow = useIsSmallMediaWidth()
 
-  const loading = useCollectionLoadingStatus()
-  if (loading) return <FallbackLoader />
+  const currentId = useDeriveCurrentCollectionId()
+  const loadingCollectionsData = useIsCollectionLoading()
+
+  const appLoading = !currentId || loadingCollectionsData
 
   return (
     <Suspense fallback={<FallbackLoader />}>
@@ -31,14 +34,22 @@ export default function App() {
       <Header />
       {!isMobileWidthOrBelow && <Navigation mobileHide />}
 
-      {/* MAIN APP CONTENT */}
-      <Routes>
-        <Route path={`/${COLLECTION_PARAM_NAME}`} element={<Collection />} />
-        <Route path={`/${APPAREL_PARAM_NAME}/:handle`} element={<SingleItem />} />
+      {appLoading ? (
+        <FallbackLoader />
+      ) : (
+        <Suspense fallback={<FallbackLoader />}>
+          <Routes>
+            <Route path={`/${COLLECTION_PARAM_NAME}/:collection`} element={<Collection />} />
+            <Route path={`/${APPAREL_PARAM_NAME}/:handle`} element={<SingleItem />} />
 
-        <Route path="/404" element={<NotFound />} />
-        <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} />
-      </Routes>
+            <Route path="/404" element={<NotFound />} />
+            <Route
+              path="*"
+              element={<Navigate to={`/${COLLECTION_PARAM_NAME}/${currentId as CollectionID}`} replace />}
+            />
+          </Routes>
+        </Suspense>
+      )}
 
       {/* COOKIES */}
       <Cookies />

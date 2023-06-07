@@ -183,7 +183,7 @@ export const ProductSubHeader = styled(Text.SubHeader)<{
   color?: string
   bgColor?: string
   useGradient?: boolean
-  label?: string
+  label?: string | boolean
 }>`
   color: ${({ theme }) => theme.content.text};
   background: ${({ theme: { mode }, useGradient = false, bgColor = 'transparent' }) =>

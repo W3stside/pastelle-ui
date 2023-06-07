@@ -1,9 +1,9 @@
+import { useW3Connection } from '@past3lle/forge-web3'
 import { devError } from '@past3lle/utils'
-import { useWeb3React } from '@web3-react/core'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppSelector } from 'state'
-import { useBlockNumber } from 'state/blockchain/hooks'
 import { useAddTxPopup, useCheckedTransaction, useFinalizeTransaction } from 'state/modalsAndPopups/hooks'
+import { useBlockNumber } from 'wagmi'
 
 export function shouldCheck(
   lastBlockNumber: number,
@@ -27,9 +27,10 @@ export function shouldCheck(
 }
 
 export default function Updater(): null {
-  const { chainId, provider } = useWeb3React()
+  const [provider, setLocalProvider] = useState<any>()
+  const [, , { chain, currentConnector }] = useW3Connection()
 
-  const lastBlockNumber = useBlockNumber()
+  const { data: lastBlockNumber } = useBlockNumber()
   const state = useAppSelector((state) => state.blockchainTransactions)
 
   // show popup on confirm
@@ -38,19 +39,28 @@ export default function Updater(): null {
   const checkedTransaction = useCheckedTransaction()
 
   useEffect(() => {
-    if (!chainId || !provider || !lastBlockNumber) return
+    currentConnector
+      ?.getProvider({ chainId: chain?.id })
+      .then((res) => setLocalProvider(res))
+      .catch((error) => {
+        devError('Error! BlockchainTransactionsUpdater', error)
+      })
+  }, [currentConnector, chain])
 
-    const transactions = state[chainId] ?? {}
+  useEffect(() => {
+    if (!chain?.id || !provider || !lastBlockNumber) return
+
+    const transactions = state[chain.id] ?? {}
 
     Object.keys(transactions)
       .filter((hash) => shouldCheck(lastBlockNumber, transactions[hash]))
       .forEach((hash) => {
         provider
-          .getTransactionReceipt(hash)
-          .then((receipt) => {
+          ?.getTransactionReceipt(hash)
+          .then((receipt: any) => {
             if (receipt) {
               finalizeTransaction({
-                chainId,
+                chainId: chain.id,
                 hash,
                 receipt: {
                   blockHash: receipt.blockHash,
@@ -75,14 +85,14 @@ export default function Updater(): null {
                 hash
               )
             } else {
-              checkedTransaction({ chainId, hash, blockNumber: lastBlockNumber })
+              checkedTransaction({ chainId: chain.id, hash, blockNumber: lastBlockNumber })
             }
           })
-          .catch((error) => {
+          .catch((error: any) => {
             devError(`failed to check transaction hash: ${hash}`, error)
           })
       })
-  }, [chainId, provider, lastBlockNumber, addTxPopup, state, finalizeTransaction, checkedTransaction])
+  }, [chain, provider, lastBlockNumber, addTxPopup, state, finalizeTransaction, checkedTransaction])
 
   return null
 }
