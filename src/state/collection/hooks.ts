@@ -10,9 +10,11 @@ import { useAppDispatch, useAppSelector } from 'state'
 import { useGetShowcaseSettings } from 'state/user/hooks'
 
 import {
+  CollectionProductMap,
   ProductCurrentlyViewing,
   ProductPageMap,
-  updateCollection,
+  updateCollections,
+  updateCurrentCollection,
   updateCurrentlyViewing,
   updateLoadingState,
   updateSingleProductInCollection,
@@ -38,25 +40,60 @@ export function useUpdateCurrentlyViewingProduct(
   }, [isActive, product?.handle, product?.id, updateCurrentlyViewing])
 }
 
+export function useUpdateCurrentlyViewingCollection(
+  isActive: boolean | undefined,
+  collection?: Pick<CollectionProductMap, 'title' | 'id'> | null
+) {
+  const updateCurrentCollection = useUpdateCurrentCollection()
+  useEffect(() => {
+    if (isActive && collection) {
+      updateCurrentCollection(collection.id, true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isActive, collection?.id, updateCurrentCollection])
+}
+
 export function useCollection() {
   return useAppSelector((state) => state.collection)
 }
 
 export function useCollectionLoadingStatus() {
-  return useAppSelector((state) => state.collection.loading)
+  return useAppSelector((state) => state.collection.loading && !state.collection.current?.id)
 }
 
 export function useCurrentCollection() {
-  const collectionInfo = useCollection().current
+  const { collections, current } = useCollection()
 
-  return collectionInfo || { collection: undefined, title: undefined }
+  const currentCollection = current?.id ? collections?.[current.id] : null
+
+  return currentCollection
+    ? { collection: currentCollection, title: currentCollection.title }
+    : { collection: undefined, title: undefined }
 }
 
-export function useUpdateCollection() {
+export function useDeriveCurrentCollection() {
+  const collectionFromUrl = useGetCurrentCollectionFromUrl()
+  const { collection: currentCollection } = useCurrentCollection()
+  const { collections, latest } = useCollection()
+  return currentCollection || collectionFromUrl || (latest && collections[latest]) || null
+}
+
+export function useDeriveCurrentCollectionId() {
+  return useDeriveCurrentCollection()?.id
+}
+
+export function useUpdateCurrentCollection() {
   const dispatch = useAppDispatch()
   return useCallback(
-    (title: string, collection: ProductPageMap, loading: boolean) =>
-      dispatch(updateCollection({ title, collection, loading })),
+    (id: string | undefined, loading: boolean) => dispatch(updateCurrentCollection({ id, loading })),
+    [dispatch]
+  )
+}
+
+export function useUpdateCollections() {
+  const dispatch = useAppDispatch()
+  return useCallback(
+    (collections: CollectionProductMap[], loading: boolean) => dispatch(updateCollections({ collections, loading })),
     [dispatch]
   )
 }
@@ -64,8 +101,7 @@ export function useUpdateCollection() {
 export function useUpdateSingleProductInCollection() {
   const dispatch = useAppDispatch()
   return useCallback(
-    (title: string, collection: ProductPageMap, loading: boolean) =>
-      dispatch(updateSingleProductInCollection({ title, collection, loading })),
+    (product: ProductPageMap[string], id: string) => dispatch(updateSingleProductInCollection({ product, id })),
     [dispatch]
   )
 }
@@ -75,12 +111,18 @@ export function useUpdateCollectionLoadingStatus() {
   return useCallback((loading: boolean) => dispatch(updateLoadingState(loading)), [dispatch])
 }
 
+export function useGetCurrentCollectionFromUrl() {
+  // we need to use the URL to determine what item we're currently viewing
+  const { collection: id } = useParams()
+  return useAppSelector((state) => (id ? state.collection.collections[id] : undefined))
+}
+
 export function useGetCurrentCollectionProductsFromUrl() {
   // we need to use the URL to determine what item we're currently viewing
   const { handle } = useParams()
   const { collection } = useCurrentCollection()
 
-  const currentCollectionProduct = handle ? collection?.[handle] : undefined
+  const currentCollectionProduct = collection && handle ? collection.products[handle] : undefined
   if (!currentCollectionProduct) return null
 
   const collectionProductList: BaseProductPageProps[] = Object.values(currentCollectionProduct)
@@ -96,7 +138,7 @@ export function useGetCurrentOnScreenCollectionProduct() {
   const { collection } = useCurrentCollection()
   const item = useOnScreenProductHandle()
 
-  return item ? collection?.[item.handle] : undefined
+  return item ? collection?.products[item.handle] : undefined
 }
 
 export function useCurrentProductMedia() {
@@ -118,7 +160,7 @@ export function useGetAllProductLogos() {
   const { collection } = useCurrentCollection()
   if (!collection) return null
 
-  return Object.values(collection).map(({ headerLogo, navLogo, logo }) => ({ headerLogo, navLogo, logo }))
+  return Object.values(collection.products).map(({ headerLogo, navLogo, logo }) => ({ headerLogo, navLogo, logo }))
 }
 
 export function useGetProductShowcaseVideos({ videos }: Pick<ShowcaseVideosProps, 'videos'>) {

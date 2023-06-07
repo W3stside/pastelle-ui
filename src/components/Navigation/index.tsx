@@ -3,18 +3,18 @@ import { useOnResize } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
 import LoadingRows from 'components/Loader/LoadingRows'
 import ThemeToggleBar from 'components/ThemeToggler'
-import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { ProductSubHeader } from 'pages/common/styleds'
 import { BaseProductPageProps } from 'pages/common/types'
 import { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import { Menu, X } from 'react-feather'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Product } from 'shopify/graphql/types/_generated_'
-import { useCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
+import { useDeriveCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
 import { ProductPageMap } from 'state/collection/reducer'
 import { URLFlowType, getFlowParams } from 'state/collection/updater'
 import { buildItemUrl } from 'utils/navigation'
 
+import { CollectionSelector } from './CollectionSelector'
 import { CollectionLabel, InnerNavWrapper, MobileNavOrb, NavigationStepsWrapper, SideEffectNavLink } from './styled'
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string }
@@ -28,7 +28,7 @@ export default function Navigation({
 }) {
   const navigate = useNavigate()
   // state collection data
-  const { collection, title } = useCurrentCollection()
+  const currentCollection = useDeriveCurrentCollection()
   const currentProduct = useGetCurrentOnScreenCollectionProduct()
 
   const [isNavOpen, setIsNavOpen] = useState(false)
@@ -65,7 +65,7 @@ export default function Navigation({
 
   // groups products by their product type
   // e.g { LONGSLEEVE: [VOODOO, VIRGIL] ... }
-  const productTypeMap = useGroupCollectionByType(collection)
+  const productTypeMap = useGroupCollectionByType(currentCollection?.products)
 
   // check search params to show different nav menu
   const [searchParams] = useSearchParams()
@@ -88,14 +88,9 @@ export default function Navigation({
       >
         {/* <NavLogo parentNode={parentNode} logoSrcSet={currentProduct?.navLogo} /> */}
         <InnerNavWrapper $width={isNavOpen ? '90%' : '100%'}>
-          <ProductSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
-            <Row flexDirection={'row-reverse'} flexWrap={'wrap'} justifyContent="center" style={{ gap: '0.5rem' }}>
-              <div style={{ fontVariationSettings: '"wght" 300', fontSize: '1.2rem' }}>{COLLECTION_PARAM_NAME}</div>
-              <div style={{ fontSize: '1.7rem' }}>{title?.toUpperCase()}</div>
-            </Row>
-          </ProductSubHeader>
+          <CollectionSelector />
           <Column>
-            {collection ? (
+            {currentCollection ? (
               Object.entries(productTypeMap)
                 .reverse()
                 .map(([type, productList], i) => (

@@ -31,6 +31,7 @@ export default function CollectionProductPage({
   color = '#000',
   handle,
   images = [],
+  lockedImages = [],
   // videos = [],
   bgColor,
   navLogo,
@@ -38,6 +39,9 @@ export default function CollectionProductPage({
   itemIndex,
   headerLogo,
   shortDescription,
+
+  // Optional props passed from the ScrollableContentPage (carousel)
+  dimensions,
 }: CollectionPageProps) {
   // UPDATE VIEWING WITH WHATEVER ITEM IS CURRENT ON SCREEN
   useUpdateCurrentlyViewingProduct(isActive, { handle, id })
@@ -62,7 +66,10 @@ export default function CollectionProductPage({
     <>
       <ScrollingProductLabel logo={headerLogo} labelColor={bgColor} flexWrap="wrap">
         <Row justifyContent="space-between" alignItems={'center'} width="100%">
-          <strong>{title}</strong>
+          <strong>
+            {title}
+            {lockedImages?.[0]?.url && ' [LOCKED] - CLICK TO LEARN MORE'}
+          </strong>
           <strong>
             VIEWING {itemIndex + 1}/{collectionSize}
           </strong>
@@ -86,8 +93,14 @@ export default function CollectionProductPage({
                 videoProps={{ autoPlay }}
                 dimensions={{
                   fixedSizes: {
-                    height: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
-                    width: innerContainerRef?.clientHeight || MINIMUM_COLLECTION_ITEM_HEIGHT,
+                    height:
+                      dimensions?.fixedSizes?.fixedHeight ||
+                      innerContainerRef?.clientHeight ||
+                      MINIMUM_COLLECTION_ITEM_HEIGHT,
+                    width:
+                      dimensions?.fixedSizes?.fixedWidth ||
+                      innerContainerRef?.clientHeight ||
+                      MINIMUM_COLLECTION_ITEM_HEIGHT,
                   },
                 }}
                 touchAction="none"
@@ -95,6 +108,7 @@ export default function CollectionProductPage({
               {/* DYNAMIC LOGO */}
               <Logo
                 parentNode={innerContainerRef}
+                colour={bgColor}
                 isCollectionView
                 logos={{ header: headerLogo, nav: navLogo, main: logo }}
               />

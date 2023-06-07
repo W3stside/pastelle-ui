@@ -1,31 +1,47 @@
 import { Column, Row } from '@past3lle/components'
+import { SkillLockStatus, SkillMetadata } from '@past3lle/forge-web3'
 import { RarityLabel } from 'components/Rarity/Label'
 import { Text as TYPE } from 'components/Text'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
-import { darken, transparentize } from 'polished'
+// import { darken, transparentize } from 'polished'
+import { useMemo } from 'react'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
+import { useTheme } from 'styled-components/macro'
 
 import { BaseProductPageProps } from '../types'
 
 export default function ProductRarityAndLabel({
-  color,
+  // color,
   title,
   shortDescription,
+  lockStatus,
   variant,
-}: Pick<BaseProductPageProps, 'title' | 'shortDescription' | 'color'> & {
+}: Pick<BaseProductPageProps, 'title' | 'shortDescription'> & {
   variant: ReturnType<typeof useQueryProductVariantByKeyValue>
+  color?: string
+  lockStatus: SkillLockStatus
 }) {
-  const skillMetadata: Record<string, any> | null = JSON.parse(
+  const skillMetadata: SkillMetadata | null = JSON.parse(
     variant?.variantBySelectedOptions?.product.skillMetadata?.value || 'null'
   )
+
+  const skillProperties = useMemo(() => {
+    const props = _getSkillLockStatusProperties(skillMetadata, lockStatus)
+
+    return props
+  }, [skillMetadata, lockStatus])
+
+  const theme = useTheme()
+
   return (
     <Row
       alignItems={'center'}
       justifyContent="space-evenly"
       padding="1rem"
       maxHeight={LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL + 'rem'}
+      backgroundColor={skillProperties?.bgColor}
     >
-      <Column maxWidth={'60%'}>
+      <Column maxWidth="60%" marginRight="auto">
         <TYPE.ProductText fontSize="2rem" fontWeight={200}>
           {title}
         </TYPE.ProductText>
@@ -39,13 +55,22 @@ export default function ProductRarityAndLabel({
             fontWeight: 300,
             fontSize: '2rem',
             margin: 'auto 0 0 auto',
-            padding: '0.5rem',
+            padding: '0.5rem 1rem',
             flex: '0 1 auto',
             maxWidth: '40%',
-            backgroundColor: darken(0.13, transparentize(0.2, color)),
+            backgroundColor: theme.rarity[skillMetadata.properties.rarity].backgroundColor, // darken(0.13, transparentize(0.2, color || skillProperties?.color)),
           }}
         />
       )}
     </Row>
   )
+}
+
+function _getSkillLockStatusProperties(meta: SkillMetadata | null, lockStatus: SkillLockStatus) {
+  return lockStatus === SkillLockStatus.LOCKED
+    ? { bgColor: '#cd5c5c', color: '#a9a9a9' }
+    : SkillLockStatus.UNLOCKED
+    ? { bgColor: '#2e8b57', color: '#2e8b57' }
+    : // SkillLockStatus.OWNED
+      { bgColor: '#2e8b57', color: '#2e8b57' }
 }

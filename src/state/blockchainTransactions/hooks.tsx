@@ -1,4 +1,4 @@
-import { useW3Connection } from '@past3lle/skillforge-web3'
+import { useW3Connection } from '@past3lle/forge-web3'
 import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 

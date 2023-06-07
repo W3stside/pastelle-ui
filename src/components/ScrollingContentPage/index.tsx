@@ -6,7 +6,7 @@ import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
 import { STIFF_SPRINGS } from 'constants/springs'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { Product } from 'shopify/graphql/types'
 
 interface ScrollingContentPageParams<D> {
@@ -26,6 +26,12 @@ export interface ScrollableContentComponentBaseProps {
   isActive: boolean
   firstPaintOver: boolean
   loadInViewOptions?: LoadInViewOptions
+  dimensions?: {
+    fixedSizes?: {
+      fixedHeight?: number
+      fixedWidth?: number
+    }
+  }
 }
 
 type Params<P> = ScrollingContentPageParams<P>
@@ -40,21 +46,30 @@ export function ScrollingContentPage<D>({
   IterableComponent,
 }: Params<D>) {
   const isMobileWidth = useIsSmallMediaWidth()
+  const memoedSizeOptions = useMemo(
+    () => ({
+      // defaults to 0.8 scale on scroll and 1 scale default
+      scaleOptions: {
+        initialScale: isMobileWidth || isMobile ? 0.97 : 0.92,
+      },
+      scrollSpeed: isMobile ? 0.4 : undefined,
+      sizeOptions: {
+        fixedSize: fixedItemHeight,
+        minSize: MINIMUM_COLLECTION_ITEM_HEIGHT,
+      },
+    }),
+    [fixedItemHeight, isMobileWidth]
+  )
   const {
     bind,
     springs,
     state: { itemSize: itemHeight, currentIndex, firstAnimationOver: firstPaintOver },
     refCallbacks: { setItemSizeRef: setHeightRef, setScrollingZoneRef },
   } = useInfiniteVerticalScroll(data, {
-    visible: 2,
+    visible: data.length <= 3 ? 1 : 2,
     snapOnScroll: false,
-    // defaults to 0.8 scale on scroll and 1 scale default
-    scaleOptions: {
-      initialScale: isMobileWidth || isMobile ? 0.97 : 0.92,
-    },
-    scrollSpeed: isMobile ? 0.4 : undefined,
     config: STIFF_SPRINGS,
-    sizeOptions: { fixedSize: fixedItemHeight, minSize: MINIMUM_COLLECTION_ITEM_HEIGHT },
+    ...memoedSizeOptions,
   })
 
   /**
@@ -105,9 +120,11 @@ export function ScrollingContentPage<D>({
               $withBoxShadow={withBoxShadow}
             >
               <IterableComponent
-                fixedSizes={{
-                  fixedHeight: fixedItemHeight,
-                  fixedWidth: fixedItemHeight,
+                dimensions={{
+                  fixedSizes: {
+                    fixedHeight: fixedItemHeight,
+                    fixedWidth: fixedItemHeight,
+                  },
                 }}
                 loadInViewOptions={{
                   container: HEIGHT_AND_VIEW_TARGET || document,

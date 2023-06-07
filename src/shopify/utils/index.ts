@@ -1,3 +1,4 @@
+import { SkillMetadata } from '@past3lle/forge-web3'
 import { BaseProductPageProps } from 'pages/common/types'
 import {
   FragmentProductImageFragment,
@@ -44,6 +45,7 @@ interface MetaAssetMap {
 export const mapSingleShopifyProductToProps = (
   product: Product,
   images: FragmentProductImageFragment[],
+  lockedImages: FragmentProductImageFragment[],
   metaAssetMap: MetaAssetMap
 ) => ({
   id: product.id,
@@ -59,8 +61,10 @@ export const mapSingleShopifyProductToProps = (
   bgColor: getMetafields<string>(product.bgColor)?.toString(),
   color: getMetafields<string>(product.color)?.toString(),
   artistInfo: getMetafields<ProductArtistInfo>(product.artistInfo),
+  skillMetadata: getMetafields<SkillMetadata>(product.skillMetadata),
   // TODO: fix
   images,
+  lockedImages,
   // @ts-ignore - type
   videos: product.media.nodes.filter(isProductVideo) as FragmentProductVideoFragment[],
   sizes: getMetafields<ProductSizes[]>(product.sizes[0].values),
@@ -69,7 +73,12 @@ export const mapSingleShopifyProductToProps = (
 
 export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPageProps[] => {
   return data.map((datum) => {
-    const productImages = datum.images.nodes.slice(0, 2)
+    const productImages = datum.images.nodes.filter(
+      (image) => image.altText === 'PRODUCT-FRONT' || image.altText === 'PRODUCT-BACK'
+    )
+    const lockedProductImages = datum.images.nodes.filter(
+      (image) => image.altText === 'PRODUCT-FRONT-LOCKED' || image.altText === 'PRODUCT-BACK-LOCKED'
+    )
 
     const metaAssets = datum.images.nodes.slice(2)
     const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
@@ -81,7 +90,7 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
       return acc
     }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
 
-    return mapSingleShopifyProductToProps(datum, productImages, metaAssetMap)
+    return mapSingleShopifyProductToProps(datum, productImages, lockedProductImages, metaAssetMap)
   })
 }
 
@@ -129,7 +138,7 @@ export function reduceShopifyMediaToShowcaseVideos(
   return acc
 }
 export type ShopifyIdType = 'Product' | 'Collection' | 'Image' | 'Video'
-export type ShopifyId<T extends ShopifyIdType> = `gid://shopify/${T}/${number}`
+export type ShopifyId<T extends ShopifyIdType> = `gid://shopify/${T}/${string | number}`
 export function getShopifyId<T extends ShopifyIdType>(id: string | null, type: T): ShopifyId<T> | '' {
   const idIsAlreadyFormed = !!id?.match(`gid://shopify/${type}/`)
   const idAsNum = Number(id)
@@ -138,6 +147,20 @@ export function getShopifyId<T extends ShopifyIdType>(id: string | null, type: T
     return id as ShopifyId<T>
   } else if (!!id && !!idAsNum) {
     return `gid://shopify/${type}/${idAsNum}`
+  } else {
+    return ''
+  }
+}
+export function shortenShopifyId<T extends ShopifyIdType>(
+  longId: T | string | number | undefined | null,
+  type: T
+): string | '' {
+  const idIsAlreadyFormed = !!Number(longId)
+
+  if (!!longId && idIsAlreadyFormed) {
+    return longId.toString()
+  } else if (typeof longId === 'string') {
+    return longId.replace(`gid://shopify/${type}/`, '')
   } else {
     return ''
   }

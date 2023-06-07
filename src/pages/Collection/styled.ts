@@ -162,7 +162,7 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
     }
 
     > ${ProductLogoCollectionView} {
-      filter: ${({ theme }) => theme.darkModeFilter};
+      filter: ${({ theme }) => theme.modeFilter};
       ${upToSmall`
         max-width: 100%;
       `}

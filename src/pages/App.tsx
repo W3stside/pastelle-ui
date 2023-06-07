@@ -5,7 +5,8 @@ import { FallbackLoader } from 'components/Loader'
 import { APPAREL_PARAM_NAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { useCollectionLoadingStatus } from 'state/collection/hooks'
+import { useCollectionLoadingStatus, useDeriveCurrentCollectionId } from 'state/collection/hooks'
+import { CollectionID } from 'state/collection/reducer'
 
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
@@ -20,6 +21,7 @@ export default function App() {
 
   const isMobileWidthOrBelow = useIsSmallMediaWidth()
 
+  const currentId = useDeriveCurrentCollectionId()
   const loading = useCollectionLoadingStatus()
   if (loading) return <FallbackLoader />
 
@@ -33,11 +35,11 @@ export default function App() {
 
       {/* MAIN APP CONTENT */}
       <Routes>
-        <Route path={`/${COLLECTION_PARAM_NAME}`} element={<Collection />} />
+        <Route path={`/${COLLECTION_PARAM_NAME}/:collection`} element={<Collection />} />
         <Route path={`/${APPAREL_PARAM_NAME}/:handle`} element={<SingleItem />} />
 
         <Route path="/404" element={<NotFound />} />
-        <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}`} replace />} />
+        <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}/${currentId as CollectionID}`} replace />} />
       </Routes>
 
       {/* COOKIES */}

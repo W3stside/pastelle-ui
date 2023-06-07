@@ -1,10 +1,10 @@
-import { SkillForgeMetadataUriMap, SupportedChains } from '@past3lle/skillforge-web3'
+import { ForgeMetadataUriMap } from '@past3lle/forge-web3'
 
-export const METADATA_URIS_MAP: SkillForgeMetadataUriMap = {
-  [SupportedChains.GOERLI]: {
+export const METADATA_URIS_MAP: ForgeMetadataUriMap = {
+  [5]: {
     collectionsManager: 'https://pstlcollections.s3.eu-south-2.amazonaws.com/collections/',
   },
-  [SupportedChains.POLYGON_MUMBAI]: {
+  [80001]: {
     collectionsManager: 'https://pstlcollections.s3.eu-south-2.amazonaws.com/collections/',
   },
 }

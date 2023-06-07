@@ -7,8 +7,8 @@ import { COLLECTION_PATHNAME } from 'constants/navigation'
 import { ProductSubHeader } from 'pages/common/styleds'
 import { useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useCurrentProductMedia, useGetAllProductLogos } from 'state/collection/hooks'
-// import { isWeb3Enabled } from 'utils/blockchain'
+import { useCurrentCollection, useCurrentProductMedia, useGetAllProductLogos } from 'state/collection/hooks'
+import { CollectionID } from 'state/collection/reducer'
 import { checkIsCollectionPage } from 'utils/navigation'
 
 import { HeaderDrawerButton, HeaderFrame, HeaderRow, Pastellecon, StyledThemeToggleBar, Title } from './styleds'
@@ -30,6 +30,8 @@ export default function Header() {
     [isCollectionPage]
   )
 
+  const { collection: currentCollection } = useCurrentCollection()
+
   // only applicable for certain view sizes..
   const [open, setOpen] = useState(false)
 
@@ -47,7 +49,7 @@ export default function Header() {
       </HeaderDrawerButton>
       <HeaderRow>
         {/* ICON and HOME BUTTON */}
-        <Title to={COLLECTION_PATHNAME}>
+        <Title to={`${COLLECTION_PATHNAME}/${currentCollection?.id as CollectionID}`}>
           <Pastellecon />
         </Title>
 

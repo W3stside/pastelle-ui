@@ -1,6 +1,6 @@
 import { ExternalLink } from '@past3lle/components'
+import { useW3Connection } from '@past3lle/forge-web3'
 import { rotateKeyframe } from '@past3lle/theme'
-import { usePstlConnection } from '@past3lle/web3-modal'
 import { Text } from 'components/Text'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
@@ -55,7 +55,7 @@ const Spinner = styled.div`
 `
 
 export default function Polling() {
-  const [, , { chainId }] = usePstlConnection()
+  const [, , { chain }] = useW3Connection()
 
   const { data: blockNumber } = useBlockNumber()
 
@@ -76,7 +76,7 @@ export default function Polling() {
   )
 
   return (
-    <ExternalLink href={chainId && blockNumber ? getEtherscanLink(chainId, blockNumber.toString(), 'block') : ''}>
+    <ExternalLink href={chain?.id && blockNumber ? getEtherscanLink(chain.id, blockNumber.toString(), 'block') : ''}>
       <StyledPolling>
         <Text.Small style={{ opacity: isMounted ? '0.2' : '0.6' }}>{blockNumber}</Text.Small>
         <StyledPollingDot>{!isMounted && <Spinner />}</StyledPollingDot>

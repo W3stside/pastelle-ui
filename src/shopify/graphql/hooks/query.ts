@@ -14,7 +14,7 @@ import {
   ProductVariantQuery,
   ProductVariantQueryVariables,
 } from 'shopify/graphql/types'
-import { mapShopifyProductToProps } from 'shopify/utils'
+import { getMetafields, mapShopifyProductToProps } from 'shopify/utils'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
 
 import { GET_CART } from '../queries/cart'
@@ -49,31 +49,49 @@ function useMockQueryCollection(variables: GetCollectionQueryVariables, mockOpti
   }
 }
 
-export const useQueryCollections: typeof useRealQueryCollections = isMock
+export const useQueryRawCollections: typeof useRealQueryCollections = isMock
   ? (useMockQueryCollection as unknown as typeof useRealQueryCollections)
   : useRealQueryCollections
 
-export function useQueryCurrentCollection(variables: GetCollectionQueryVariables) {
-  const { data, error, loading } = useQueryCollections(variables)
+function _formatCollectionsResponse(response: ReturnType<typeof useQueryRawCollections>) {
+  const { data, error, loading, variables } = response
 
   if (error) {
     devError('Error fetching current collection using variables:' + JSON.stringify(variables, null, 2), 'Error:', error)
   }
 
-  // collection
-  const collection = data?.collections?.nodes[0]
+  // collections
+  const collections = (data?.collections?.nodes || []).filter(Boolean)
 
-  // products from collection mapped = collection
-  const collectionProductList = mapShopifyProductToProps(collection?.products.nodes)
-  // { [PRODUCT_HANDLE]: PRODUCT }
-  const collectionProductMap = collectionProductList.reduce((acc, product: BaseProductPageProps) => {
-    acc[product.handle] = product
+  return collections.map((collection) => {
+    // products from collection mapped = collection
+    const collectionProductList = mapShopifyProductToProps(collection?.products.nodes)
+    // { [PRODUCT_HANDLE]: PRODUCT }
+    const collectionProductMap = collectionProductList.reduce((acc, product: BaseProductPageProps) => {
+      acc[product.handle] = product
 
-    return acc
-  }, {} as CollectionMap)
-  const title = collection?.title || 'current'
+      return acc
+    }, {} as CollectionMap)
+    const title = collection?.title || 'current'
+    const id = collection?.id
+    const locked = !!getMetafields<boolean | null>(collection?.lockStatus)
 
-  return { title, collectionProductMap, collectionProductList, loading }
+    return { title, id, locked, collectionProductMap, collectionProductList, loading }
+  })
+}
+
+export function useQueryCollections(variables: GetCollectionQueryVariables) {
+  const response = useQueryRawCollections(variables)
+
+  return _formatCollectionsResponse(response)
+}
+
+export function useQueryCurrentCollection(
+  variables: Omit<GetCollectionQueryVariables, 'reverse' | 'collectionAmount'>
+) {
+  const response = useQueryRawCollections({ ...variables, collectionAmount: 1, reverse: true })
+
+  return _formatCollectionsResponse(response)?.[0]
 }
 
 export function useQueryCurrentCollectionProductsFromUrl(
@@ -162,5 +180,5 @@ export function useQueryProductByIdAndMap(variables: ProductByIdQueryVariables) 
   const formattedProduct = { [data[0].handle]: data[0] } as CollectionMap
   const title = 'TRUNCATED'
 
-  return { title, product: formattedProduct, loading }
+  return { title, id: product?.product?.id, handle: product?.product?.handle, product: formattedProduct, loading }
 }

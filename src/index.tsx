@@ -1,4 +1,3 @@
-import { PstlHooksProvider } from '@past3lle/hooks'
 import {
   RobotoVariableFontProvider,
   StaticGlobalCssProvider,
@@ -6,26 +5,24 @@ import {
   ThemedGlobalCssProvider,
 } from '@past3lle/theme'
 import { nodeRemoveChildFix } from '@past3lle/utils'
-import { PstlW3Providers } from '@past3lle/web3-modal'
-import { WEB3_MODAL_PROPS } from 'config/pstlModal'
+import { PastelleForgeW3Provider } from 'blockchain/provider/ForgeW3Provider'
 // PROVIDERS
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
+// WEB VITALS
 import reportWebVitals from 'reportWebVitals'
 import ApolloProvider from 'shopify/graphql/ApolloProvider'
+// STATE
 import store from 'state'
-// BC UPDATERS
-import TransactionUpdater from 'state/blockchainTransactions/updater'
 // PASTELLE STORE UPDATERS
 import CartUpdater from 'state/cart/updater'
 import CollectionUpdater from 'state/collection/updater'
-import WindowSizeUpdater from 'state/window/updater'
 import { pastelleTheme } from 'theme'
 import { CustomStaticGlobalCSSProvider, CustomThemedGlobalCSSProvider } from 'theme/global'
-import { isWeb3Enabled } from 'utils/blockchain'
+import { W3aStyles } from 'theme/w3aStyles'
 
 import App from './pages/App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
@@ -42,23 +39,15 @@ function PastelleStoreUpdaters() {
   return (
     <>
       <CartUpdater />
-      <WindowSizeUpdater />
       <CollectionUpdater />
     </>
   )
 }
 
-function BlockchainUpdaters() {
-  const isEnabled = isWeb3Enabled()
-
-  if (!isEnabled) return null
-
-  return <TransactionUpdater />
-}
-
 function StaticCSSProviders() {
   return (
     <>
+      <W3aStyles />
       <RobotoVariableFontProvider />
       <StaticGlobalCssProvider />
       <CustomStaticGlobalCSSProvider />
@@ -82,25 +71,22 @@ root.render(
   <StrictMode>
     <HelmetProvider>
       {/* @past3lle hooks data provider */}
-      <PstlHooksProvider>
-        <PstlW3Providers config={WEB3_MODAL_PROPS}>
-          {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
-          <StaticCSSProviders />
-          <ApolloProvider>
-            <Provider store={store}>
-              <HashRouter>
-                <PastelleStoreUpdaters />
-                <BlockchainUpdaters />
-                <ThemeProvider theme={pastelleTheme} defaultMode="DARK">
-                  {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-                  <ThemedCSSProviders />
-                  <App />
-                </ThemeProvider>
-              </HashRouter>
-            </Provider>
-          </ApolloProvider>
-        </PstlW3Providers>
-      </PstlHooksProvider>
+      <PastelleForgeW3Provider>
+        {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
+        <StaticCSSProviders />
+        <ApolloProvider>
+          <Provider store={store}>
+            <HashRouter>
+              <PastelleStoreUpdaters />
+              <ThemeProvider theme={pastelleTheme} defaultMode="DARK">
+                {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
+                <ThemedCSSProviders />
+                <App />
+              </ThemeProvider>
+            </HashRouter>
+          </Provider>
+        </ApolloProvider>
+      </PastelleForgeW3Provider>
     </HelmetProvider>
   </StrictMode>
 )

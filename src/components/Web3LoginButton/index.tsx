@@ -1,5 +1,5 @@
 import { Button, ButtonProps, Row, RowBetween } from '@past3lle/components'
-import { useW3Connection, useW3Modal } from '@past3lle/skillforge-web3'
+import { useW3Connection, useW3Modal } from '@past3lle/forge-web3'
 import { Address } from '@past3lle/types'
 import { truncateAddress } from '@past3lle/utils'
 import connectionIconDark from 'assets/images/connection-dark.png'

@@ -1,4 +1,4 @@
-import { ForgeW3Providers } from '@past3lle/skillforge-web3'
+import { ForgeW3Providers } from '@past3lle/forge-web3'
 import { ReactNode } from 'react'
 
 import { CONTRACT_ADDRESSES_MAP } from '../constants/addresses'

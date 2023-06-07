@@ -1,3 +1,4 @@
+import { SkillMetadata } from '@past3lle/forge-web3'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import {
   FragmentProductImageFragment,
@@ -18,6 +19,7 @@ export interface BaseProductPageProps {
   headerLogo?: ShopImageSrcSet
   navLogo?: ShopImageSrcSet
   images: FragmentProductImageFragment[]
+  lockedImages: FragmentProductImageFragment[]
   videos: FragmentProductVideoFragment[]
   // media: (FragmentProductExternalVideoFragment | FragmentProductVideoFragment)[]
   sizes: ProductOptionsSize
@@ -27,6 +29,7 @@ export interface BaseProductPageProps {
   id: string
   noVideo?: boolean
   noDescription?: boolean
+  skillMetadata?: SkillMetadata
 }
 
 export type CollectionMap = Record<Product['handle'], BaseProductPageProps>

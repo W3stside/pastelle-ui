@@ -16,7 +16,7 @@ export default function SingleItem() {
   // External referrer = shopfiy ID
   const { handle } = useParams()
   const { collection } = useCurrentCollection()
-  const product = useMemo(() => (handle ? collection?.[handle] : null), [collection, handle])
+  const product = useMemo(() => (handle ? collection?.products?.[handle] : null), [collection, handle])
 
   // update state store with current browsing SINGLE product
   useUpdateCurrentlyViewingProduct(true, product)

@@ -1,6 +1,6 @@
 import { AutoColumn, Button, ColumnCenter, Modal, RowBetween, Text } from '@past3lle/components'
 import { ExternalLink } from '@past3lle/components'
-import { useW3Connection } from '@past3lle/skillforge-web3'
+import { useW3Connection } from '@past3lle/forge-web3'
 import Circle from 'assets/images/blue-loader.svg'
 import { AlertTriangle, ArrowUpCircle } from 'react-feather'
 import styled, { useTheme } from 'styled-components/macro'

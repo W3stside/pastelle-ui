@@ -3,7 +3,7 @@ import { addToCartAnalytics } from 'analytics/events/cartEvents'
 import ErrorMessage from 'components/ErrorMessage'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import { ProductDescription } from 'pages/common/styleds'
-import { ForwardedRef, forwardRef, useCallback, useEffect, useState } from 'react'
+import { ForwardedRef, forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { ProductVariantQuery } from 'shopify/graphql/types'
 import { useAddLineToCartAndUpdateReduxCallback } from 'state/cart/hooks'
 import styled from 'styled-components/macro'
@@ -12,6 +12,7 @@ export type AddToCartButtonParams = {
   label?: string
   product: ProductVariantQuery['product']
   quantity: number
+  skillLocked: boolean
   buttonProps?: ButtonProps
 }
 
@@ -50,13 +51,19 @@ function useDisappearingMessage(params: { message: string; showAtStart?: boolean
 }
 
 const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
-  { label = 'Add to cart', product, quantity, buttonProps = {} }: AddToCartButtonParams,
+  { label = 'Add to cart', product, quantity, skillLocked, buttonProps = {} }: AddToCartButtonParams,
   forwardedRef: ForwardedRef<HTMLButtonElement>
 ) {
   const { addLineToCartCallback, loading, error } = useAddLineToCartAndUpdateReduxCallback()
   const { message: disappearingMessage, shouldShow, setShow } = useDisappearingMessage({ message: 'Added to cart!' })
 
-  const isDisabled = loading || !quantity || shouldShow
+  const { isDisabled } = useMemo(() => {
+    const isDisabled = loading || !quantity || shouldShow
+
+    return {
+      isDisabled,
+    }
+  }, [loading, quantity, shouldShow])
 
   const handleAddToCart = useCallback(() => {
     addToCartAnalytics(product, quantity)
@@ -64,10 +71,16 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
     addLineToCartCallback({ quantity, merchandiseId: product?.variantBySelectedOptions?.id })
   }, [addLineToCartCallback, product, quantity, setShow])
 
+  const handleLearnMore = useCallback(() => {
+    // TODO: analytics submit
+    // TODO: navigate to skilltree blog post
+    alert('Moving to learn more blog post')
+  }, [])
+
   return (
     <Row ref={forwardedRef} width="100%">
       <Button
-        onClick={handleAddToCart}
+        onClick={skillLocked ? handleLearnMore : handleAddToCart}
         disabled={isDisabled}
         buttonVariant={ButtonVariations.THEME}
         buttonSize={ButtonSizeVariations.SMALL}
@@ -85,7 +98,13 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
             height="100%"
             width="100%"
           >
-            {loading ? 'Adding...' : shouldShow ? disappearingMessage : label}
+            {skillLocked
+              ? 'LOCKED. CLICK TO LEARN MORE.'
+              : loading
+              ? 'Adding...'
+              : shouldShow
+              ? disappearingMessage
+              : label}
           </ProductDescription>
         )}
       </Button>

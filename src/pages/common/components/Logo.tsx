@@ -9,12 +9,13 @@ type LogoParams = {
   parentNode: HTMLElement | null
   logos: { header?: ShopImageSrcSet; nav?: ShopImageSrcSet; main?: ShopImageSrcSet }
   isCollectionView: boolean
+  colour?: string
 }
-export default function Logo({ isCollectionView, logos, parentNode }: LogoParams) {
+export default function Logo({ isCollectionView, logos, colour = '#8d7b90', parentNode }: LogoParams) {
   const collectionLogo = logos.nav || logos.header
 
   if (isCollectionView && collectionLogo) {
-    return <ProductLogoCollectionView collectionView logoUri={collectionLogo} $bgColor="ghostwhite" />
+    return <ProductLogoCollectionView collectionView logoUri={collectionLogo} $bgColor={colour} />
   } else if (parentNode?.clientWidth && logos.main) {
     return !isMobile ? (
       <ProductLogo>
