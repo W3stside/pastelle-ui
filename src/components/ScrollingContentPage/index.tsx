@@ -1,6 +1,6 @@
 import { StyledAnimatedDivContainer, StyledScrollerContainer, TouchAction } from '@past3lle/carousel'
 import { useInfiniteVerticalScroll } from '@past3lle/carousel-hooks'
-import { LoadInViewOptions, useIsSmallMediaWidth } from '@past3lle/hooks'
+import { LoadInViewOptions, useIsSmallMediaWidth, usePrevious } from '@past3lle/hooks'
 import { isMobile } from '@past3lle/utils'
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 import { FixedAnimatedLoader } from 'components/Loader'
@@ -91,6 +91,8 @@ export function ScrollingContentPage<D>({
     [data, onContentClick]
   )
 
+  const prevDataLength = usePrevious(data.length)
+
   if (!dataItem) return null
 
   return (
@@ -105,6 +107,9 @@ export function ScrollingContentPage<D>({
         {springs.map(({ y, scale }, i, { length }) => {
           const product = data[i] as Product
           const isActive = currentIndex === i
+
+          // e.g collections changed, we reset y position
+          if (prevDataLength && prevDataLength > data.length) y?.set(0)
 
           return (
             <StyledAnimatedDivContainer
