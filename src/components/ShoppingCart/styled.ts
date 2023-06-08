@@ -216,10 +216,10 @@ export const ShoppingCartPanelWrapper = styled.div`
 
   > ${ShoppingCartPanelContentWrapper}, > ${CartTableHeaderWrapper}, > ${CartTableHeaderBaseWrapper} {
     color: ${({ theme }) => theme.text1};
-    background-color: ${({ theme }) => transparentize(0.1, theme.black)};
+    background-color: ${({ theme }) => transparentize(0.3, theme.black)};
     margin-left: auto;
     width: 60%;
-    padding: 1rem 2rem;
+    padding: 1rem 2rem 2rem;
 
     // HEADER
     &:first-of-type {
