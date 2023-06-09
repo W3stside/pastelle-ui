@@ -53,8 +53,9 @@ export function Web3LoginButton({ logoUri, buttonProps, children }: Props) {
 }
 
 export const Web3Button = styled(Button)`
-  background: ${({ theme }) => (theme.mode === ThemeModes.DARK ? '#2d0023' : theme.offwhite)};
-  color: ${({ theme }) => (theme.mode === ThemeModes.DARK ? theme.offwhite : '#2d0023')};
+  background: ${({ theme }) => theme.offwhiteOpaqueMore};
+  color: ${({ theme }) => theme.offblack};
+  filter: ${({ theme }) => (theme.mode === ThemeModes.DARK ? 'invert(1)' : 'invert(0)')};
   height: 70%;
   font-size: 1.6rem;
   font-weight: 800;

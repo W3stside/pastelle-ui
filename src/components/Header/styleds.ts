@@ -14,7 +14,7 @@ import {
 } from '@past3lle/theme'
 import { YellowCard } from 'components/Layout'
 import { MobileNavOrb } from 'components/Navigation/styled'
-import { ShoppingCartFullWrapper } from 'components/ShoppingCart/styled'
+import { ShoppingCartFullWrapper, ShoppingCartHeaderWrapper } from 'components/ShoppingCart/styled'
 import ThemeToggleBar from 'components/ThemeToggler'
 import { Web3Button } from 'components/Web3LoginButton'
 import { Z_INDEXES } from 'constants/config'
@@ -107,7 +107,7 @@ export const HeaderRow = styled(RowFixed)`
   }
 
   > ${Web3Button}, > ${ShoppingCartFullWrapper} {
-    height: 80%;
+    height: 92%;
   }
 
   > ${StyledThemeToggleBar} {
@@ -136,7 +136,16 @@ export const HeaderRow = styled(RowFixed)`
   `}
 
   ${fromMedium`
-      grid-template-columns: minmax(10rem, 16rem) auto min-content;
+      grid-template-columns: minmax(10rem, 16rem) auto 12rem;
+      > ${ShoppingCartFullWrapper} {
+        > ${ShoppingCartHeaderWrapper} {
+          width: 100%;
+          padding: 0.5rem 2rem;
+          > svg {
+            max-width: 2.5rem;
+          }
+        }
+      }
       nav {
         display: none;
       }

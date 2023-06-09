@@ -36,6 +36,9 @@ export const ScrollingProductLabel = styled(Row).attrs((props) => ({ padding: '1
 
   > ${Row} {
     > strong {
+      > span#locked-skill-label {
+        text-shadow: none;
+      }
       &:first-child {
         font-variation-settings: 'wght' 600;
       }

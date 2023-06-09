@@ -3412,41 +3412,41 @@
   resolved "https://registry.yarnpkg.com/@past3lle/assets/-/assets-0.0.18.tgz#9258277f007865a629f394eb20b3de8fc4e1f92b"
   integrity sha512-f8/ZY9exq2v6PEgo4gHQrS7zYh9kNGFjKkLc1kj+9LYQkALOMkHzoeWlpAwEx+QBHTvI8Bojfw+G9WoNzbu6RQ==
 
-"@past3lle/carousel-hooks@^0.0.31":
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/@past3lle/carousel-hooks/-/carousel-hooks-0.0.31.tgz#ce709b7251d014d7c029f92c82af36f1191ac807"
-  integrity sha512-s1myEanxqbyGHSZEn4Zye+u/YCL7YCnM556p68qaQxP9wLwbEZAum3ktsqwn2H+wvy8R7uOWtwmomvHbcuxNyg==
+"@past3lle/carousel-hooks@^0.0.34":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@past3lle/carousel-hooks/-/carousel-hooks-0.0.34.tgz#a4d91e56a0fada2295e23398982af3b9e656378d"
+  integrity sha512-fSJnVKBaKAkt2FnYDVsR93VX8KzYe0SD5W2L4KzEs6nmInuvuFPBG5eNIWzdzZ/qqdw0JC+m5AcTP8zFbbecOg==
   dependencies:
-    "@past3lle/hooks" "^0.0.37"
+    "@past3lle/hooks" "^0.0.40"
     "@use-gesture/react" "^10.2.6"
     lodash.clamp "^4.0.3"
     react-spring "^9.4.3"
 
-"@past3lle/carousel@^0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@past3lle/carousel/-/carousel-0.0.34.tgz#6e9e00854dd8608ac430c42edb9057134282b1f3"
-  integrity sha512-GPT2f6nnZcm+UbRB8psFezUWf3UhiSIEZ/PJgnzR0QMzWBaBZZwxGFF9qm25rX0DSXVt1oPnSbtkd5sMb1DZJQ==
+"@past3lle/carousel@^0.0.37":
+  version "0.0.37"
+  resolved "https://registry.yarnpkg.com/@past3lle/carousel/-/carousel-0.0.37.tgz#c2a4e3512052c5bc36eb5b5da548cc038263751d"
+  integrity sha512-KH/3DsEN8Q5DWhUWC/fnFRJXCRnK1IisW4ADlMT/FUYQ0d631N1BFdU3hN6ku1eb/LxlCWuVyaoE6lpBUF5VWQ==
   dependencies:
-    "@past3lle/carousel-hooks" "^0.0.31"
-    "@past3lle/components" "^0.0.69"
-    "@past3lle/hooks" "^0.0.37"
-    "@past3lle/theme" "^0.0.45"
-    "@past3lle/utils" "^0.0.25"
+    "@past3lle/carousel-hooks" "^0.0.34"
+    "@past3lle/components" "^0.0.72"
+    "@past3lle/hooks" "^0.0.40"
+    "@past3lle/theme" "^0.0.48"
+    "@past3lle/utils" "^0.0.26"
     "@react-spring/web" "^9.4.3"
     polished "^4.2.2"
     react-feather "^2.0.10"
 
-"@past3lle/components@^0.0.69":
-  version "0.0.69"
-  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.69.tgz#b64af48e8deb154266294bd0671b96ec08c0710e"
-  integrity sha512-V8ccbdcs30JjWw0o1vDdmae5EEXq+bZN+wKlE37PIudIN2KNjfy9MRKemnA4bDDDrMqvoINTnXpq+FabNip+Yw==
+"@past3lle/components@^0.0.72":
+  version "0.0.72"
+  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-0.0.72.tgz#ba8323f52a54ff9d270de31e6d25e64cd8c0df3d"
+  integrity sha512-ulIrR5MZCsBun2fhqrc+wQJcD9O+1vwaKavV3/IQSqBjkXZLHjBkt620Mzo0aoGNUv15VQZ68lX5xoA8BPnPSA==
   dependencies:
     "@past3lle/assets" "^0.0.18"
-    "@past3lle/constants" "^0.0.25"
-    "@past3lle/hooks" "^0.0.37"
-    "@past3lle/theme" "^0.0.45"
-    "@past3lle/types" "^0.0.17"
-    "@past3lle/utils" "^0.0.25"
+    "@past3lle/constants" "^0.0.26"
+    "@past3lle/hooks" "^0.0.40"
+    "@past3lle/theme" "^0.0.48"
+    "@past3lle/types" "^0.0.18"
+    "@past3lle/utils" "^0.0.26"
     "@popperjs/core" "^2.11.6"
     "@reach/dialog" "^0.18.0"
     imagekitio-react "^2.0.0"
@@ -3459,29 +3459,37 @@
     react-spring "^9.6.1"
     rebass "^4.0.7"
 
-"@past3lle/constants@^0.0.25":
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/@past3lle/constants/-/constants-0.0.25.tgz#3cf8441d23dfff548dacb41659b8c7759be882d3"
-  integrity sha512-MlbHfZ5sxWjGWmY3aQO6ygDdER4ew6YsOEIE0Re3elbfS08W0IBiS8uHg5esw45ajJQcRm5Kksb9j222FehFag==
+"@past3lle/constants@^0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@past3lle/constants/-/constants-0.0.26.tgz#a325aafd10ce651446bdbf3f25974832b30b3389"
+  integrity sha512-7OSPkQEGK9NLp50p0B40FnmEtqKWTU47QfbeXkDXEbD1AvSolkfREBMbreFQ0HAJs1ATpze4rl/f2YSfOb1LrQ==
   dependencies:
-    "@past3lle/utils" "^0.0.25"
+    "@past3lle/utils" "^0.0.26"
 
-"@past3lle/forge-web3@^0.0.71":
-  version "0.0.71"
-  resolved "https://registry.yarnpkg.com/@past3lle/forge-web3/-/forge-web3-0.0.71.tgz#4f3f977ae546aaac810b07716b64cfc4f763fc0e"
-  integrity sha512-+/OjBxNKFEoQ0APqM2CfwTxjXR5xZlvABRrizwsrbhBcbDuEU+7gYjj5uEVD1HOIzoNSVGLMuQPWRy9PwSG/dQ==
+"@past3lle/forge-web3@^0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@past3lle/forge-web3/-/forge-web3-0.0.76.tgz#ba4759305be7910612f70061d439ffb748716262"
+  integrity sha512-+N192p/7RxxboI7bIY6QkA4gLQIywGaSDz9TJ3HUV4M8lgr2U85g0V0ZNkoRPaiaAdfXZ0zWohbzFiojbfznPQ==
   dependencies:
     "@ethersproject/bignumber" ">=5.7.0"
-    "@past3lle/hooks" "^0.0.37"
+    "@past3lle/hooks" "^0.0.40"
     "@past3lle/skilltree-contracts" "^0.0.1-rc.15"
-    "@past3lle/utils" "^0.0.25"
-    "@past3lle/web3-modal" "^0.0.26"
+    "@past3lle/utils" "^0.0.26"
+    "@past3lle/web3-modal" "^0.0.31"
     jotai "^1.13.0"
 
-"@past3lle/hooks@^0.0.37":
-  version "0.0.37"
-  resolved "https://registry.yarnpkg.com/@past3lle/hooks/-/hooks-0.0.37.tgz#a0f7e8739e8bd4cfb8123409b770259308c62f4b"
-  integrity sha512-5b53Mcx9Ff21mrJkKQE52VfmFPXWhmAb4Mknhs33zOgqxtubQNxyFoVg9d6XYH8OJFwNOwz9KgzCXli/qcHvVg==
+"@past3lle/hooks@^0.0.39":
+  version "0.0.39"
+  resolved "https://registry.yarnpkg.com/@past3lle/hooks/-/hooks-0.0.39.tgz#ee1df5edd77b9223338b16d3887a5c8b2f37ad20"
+  integrity sha512-74iCa0eE3BWbihpeKisD+XjIo/lYLWdeWlNwWNllPbxsAxf+3frUr7I0e6SFr3SdeWbLZSIxvMwx+s6Y/H+h/w==
+  dependencies:
+    copy-to-clipboard "^3.3.3"
+    lodash.debounce "^4.0.8"
+
+"@past3lle/hooks@^0.0.40":
+  version "0.0.40"
+  resolved "https://registry.yarnpkg.com/@past3lle/hooks/-/hooks-0.0.40.tgz#2beef64d1a16607c7ef1f5dd4ed5bc1cfc7b61dd"
+  integrity sha512-LJQ6YKZeqFz2pFeZPrqb1FYq049rgpG1uW2YP4RAxqS1BnBh0F3NuSbKX2qAu7RhzHFu0JPBDqCs5rSQhd1ZwQ==
   dependencies:
     copy-to-clipboard "^3.3.3"
     lodash.debounce "^4.0.8"
@@ -3496,41 +3504,41 @@
     hardhat-tracer "^2.3.2"
     inquirer "9.2.6"
 
-"@past3lle/theme@^0.0.45":
-  version "0.0.45"
-  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.0.45.tgz#17456a7746b457c2add2c64e2a1399749d5ad8e3"
-  integrity sha512-IckJ/d9kxMSrK0UOYC+R+Hq7kig64GUc3k4WNcFsrqHMDk9asIDnWmh8Mubnw8DBUo62/FwGlaq/kdn0sfDOSw==
+"@past3lle/theme@^0.0.48":
+  version "0.0.48"
+  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.0.48.tgz#41931cfe544e9fbd605a4a9195933f94bced0e73"
+  integrity sha512-TUtc9m/hcgsKX83BHpBgXkM2F2lwPI1w1B6t07yDZV15YCZ/wNM25204ckfZFUVze9M2gp2mHGylIBnoHzqAhw==
   dependencies:
     "@past3lle/assets" "^0.0.18"
-    "@past3lle/constants" "^0.0.25"
+    "@past3lle/constants" "^0.0.26"
     lodash.merge "^4.6.2"
     polished "^4.2.2"
     react-helmet "^6.1.0"
     wcag-contrast "^3.0.0"
 
-"@past3lle/types@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@past3lle/types/-/types-0.0.17.tgz#fd0d6edbd9e10fbf4dbacb001669f37c33530cf1"
-  integrity sha512-lfqS/HG58gN6Pc2ZSKnu/r+hDSBXT/kNKkBviK/7lCRBhbn+C+0j8zPz3kSDEFa7H5oYzN4irSF4qW/YR5l5dg==
+"@past3lle/types@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@past3lle/types/-/types-0.0.18.tgz#14c5787b137650954ef5a1a24774951988f48e09"
+  integrity sha512-wiACK2Nlt3tvGNbqE9ls8DLjmG62MJ6GYV7s2AlT4Ktfg1cvX1XrWicQhZHWV8cpj4eGI3hPTLeNX+WXUUGM+Q==
 
-"@past3lle/utils@^0.0.25":
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/@past3lle/utils/-/utils-0.0.25.tgz#066e0378063bccc8f0aabc8cadadaa31b1600d76"
-  integrity sha512-RJSdNzqPtb82ir27afYdS4HS96XIdDAkWVBPOcbh4zUC/iZoBUZdcsXoVy6fPIZ+E08aUKd7GV8K477IklI0/g==
+"@past3lle/utils@^0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@past3lle/utils/-/utils-0.0.26.tgz#30b6b44aeb65ee5aba3b8b953c65b7b38776e988"
+  integrity sha512-kIMTYhAjKfw/r2j4riE2pKffe8T+Sx18sopTZftHc0qWmuClMgsb25IMrT04ph25oJ2hhfAd8LodH5xa3VYy/Q==
   dependencies:
     ua-parser-js "^1.0.32"
 
-"@past3lle/web3-modal@^0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@past3lle/web3-modal/-/web3-modal-0.0.26.tgz#4f67128ddd39ce709aa6bf4d0125b8fcff5e80e8"
-  integrity sha512-OoCUC75TaM51wkBxt5iOfHmKmfCrJqEDqg8B+KEEIFNaH43gqeTO0Ca0VzBiOeeSbMy1hkuQMuZhGkDMeT24cA==
+"@past3lle/web3-modal@^0.0.31":
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@past3lle/web3-modal/-/web3-modal-0.0.31.tgz#9fcef5c10278ab8e62fe70c0598dc2614d7e65f3"
+  integrity sha512-hG+Hs/0wL4C5tPWsELWrxh6cddId1zmYj8spmbz1NKlLMrDB7W96iKw6HvruJpvCQALhuihfIU6c1ZO49N4GiQ==
   dependencies:
     "@ethersproject/bignumber" ">=5.7.0"
     "@gnosis.pm/safe-apps-wagmi" "2.1.0"
-    "@past3lle/components" "^0.0.69"
-    "@past3lle/hooks" "^0.0.37"
-    "@past3lle/theme" "^0.0.45"
-    "@past3lle/utils" "^0.0.25"
+    "@past3lle/components" "^0.0.72"
+    "@past3lle/hooks" "^0.0.40"
+    "@past3lle/theme" "^0.0.48"
+    "@past3lle/utils" "^0.0.26"
     "@walletconnect/client" "1.8.0"
     "@web3auth/modal" "5.1.0"
     "@web3auth/openlogin-adapter" "5.1.0"

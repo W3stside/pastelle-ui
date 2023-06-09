@@ -118,9 +118,9 @@ export const ShoppingCartHeaderWrapper = styled(Row)`
   height: 100%;
   justify-content: space-evenly;
   gap: 1rem;
-  background: ${({ theme }) => (theme.mode === ThemeModes.DARK ? '#2d0023' : theme.offwhite)};
+  background: ${({ theme }) => (theme.mode === ThemeModes.DARK ? '#4a3764d4' || '#2d0023' : '#e19bb5d9')};
   > * {
-    filter: invert(${({ theme }) => (theme.mode === ThemeModes.DARK ? 1 : 0)});
+    filter: invert(1);
   }
   padding: 1rem 1.5rem;
   margin-left: auto;

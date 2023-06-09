@@ -15,6 +15,7 @@ import {
   /* useGetSelectedProductShowcaseVideo, */
   useUpdateCurrentlyViewingProduct,
 } from 'state/collection/hooks'
+import { defaultThemeColours } from 'theme'
 
 import { CollectionScreensContainer } from './styled'
 
@@ -60,7 +61,7 @@ export default function CollectionProductPage({
 
   // COLLECTION SIZE (for scrolling product label)
   const { collection } = useCurrentCollection()
-  const collectionSize = collection ? Object.keys(collection).length : 0
+  const collectionSize = collection ? Object.keys(collection.products).length : 0
 
   return (
     <>
@@ -68,7 +69,11 @@ export default function CollectionProductPage({
         <Row justifyContent="space-between" alignItems={'center'} width="100%">
           <strong>
             {title}
-            {lockedImages?.[0]?.url && ' [LOCKED] - CLICK TO LEARN MORE'}
+            {lockedImages?.[0]?.url && (
+              <span id="locked-skill-label" style={{ color: defaultThemeColours.red1, marginLeft: '1rem' }}>
+                [SKILL LOCKED]
+              </span>
+            )}
           </strong>
           <strong>
             VIEWING {itemIndex + 1}/{collectionSize}

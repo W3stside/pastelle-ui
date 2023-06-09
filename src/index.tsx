@@ -70,23 +70,23 @@ const root = createRoot(container)
 root.render(
   <StrictMode>
     <HelmetProvider>
-      {/* @past3lle hooks data provider */}
-      <PastelleForgeW3Provider>
-        {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
-        <StaticCSSProviders />
-        <ApolloProvider>
-          <Provider store={store}>
-            <HashRouter>
-              <PastelleStoreUpdaters />
-              <ThemeProvider theme={pastelleTheme} defaultMode="DARK">
+      <ThemeProvider theme={pastelleTheme} defaultMode="DARK">
+        {/* @past3lle hooks data provider */}
+        <PastelleForgeW3Provider>
+          {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
+          <StaticCSSProviders />
+          <ApolloProvider>
+            <Provider store={store}>
+              <HashRouter>
+                <PastelleStoreUpdaters />
                 {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
                 <ThemedCSSProviders />
                 <App />
-              </ThemeProvider>
-            </HashRouter>
-          </Provider>
-        </ApolloProvider>
-      </PastelleForgeW3Provider>
+              </HashRouter>
+            </Provider>
+          </ApolloProvider>
+        </PastelleForgeW3Provider>
+      </ThemeProvider>
     </HelmetProvider>
   </StrictMode>
 )
