@@ -1,12 +1,12 @@
 import { Button, ButtonProps, Row, RowBetween } from '@past3lle/components'
-import { useW3Connection, useW3Modal } from '@past3lle/forge-web3'
+import { useW3Connection } from '@past3lle/forge-web3'
 import { Address } from '@past3lle/types'
 import { truncateAddress } from '@past3lle/utils'
 import connectionIconDark from 'assets/images/connection-dark.png'
 import connectionIconLight from 'assets/images/connection-light.png'
 import disconnectionIconDark from 'assets/images/disconnection-dark.png'
 import disconnectionIconLight from 'assets/images/disconnection-light.png'
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled, { useTheme } from 'styled-components/macro'
 import { ThemeModes } from 'theme'
 
@@ -17,17 +17,12 @@ interface Props {
 }
 
 export function Web3LoginButton({ logoUri, buttonProps, children }: Props) {
-  const [, { openW3Modal }, { address, isW3mOpen: isOpen }] = useW3Connection()
-  const { open } = useW3Modal()
-
-  const handleClick = useCallback(async () => {
-    address ? openW3Modal({ route: 'Account' }) : open()
-  }, [address, open, openW3Modal])
+  const [, { onAccountClick }, { address, isW3mOpen: isOpen }] = useW3Connection()
 
   const theme = useTheme()
 
   return (
-    <Web3Button disabled={isOpen} onClick={handleClick} {...buttonProps}>
+    <Web3Button disabled={isOpen} onClick={onAccountClick} {...buttonProps}>
       <Row height="inherit" justifyContent="center" alignItems="center">
         {logoUri && <img src={logoUri} />}
         {address ? (
@@ -60,6 +55,11 @@ export const Web3Button = styled(Button)`
   font-size: 1.6rem;
   font-weight: 800;
   margin-left: auto;
+
+  &:disabled,
+  &[disabled] {
+    background-color: ${({ theme }) => (theme.mode === ThemeModes.DARK ? '#c3c3c3a6' : '#c2c2c2ad')};
+  }
 
   #web3loginbutton-icon {
     margin-right: 0.65rem;
