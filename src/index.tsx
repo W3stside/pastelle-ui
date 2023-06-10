@@ -22,7 +22,6 @@ import CartUpdater from 'state/cart/updater'
 import CollectionUpdater from 'state/collection/updater'
 import { pastelleTheme } from 'theme'
 import { CustomStaticGlobalCSSProvider, CustomThemedGlobalCSSProvider } from 'theme/global'
-import { W3aStyles } from 'theme/w3aStyles'
 
 import App from './pages/App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
@@ -47,7 +46,6 @@ function PastelleStoreUpdaters() {
 function StaticCSSProviders() {
   return (
     <>
-      <W3aStyles />
       <RobotoVariableFontProvider />
       <StaticGlobalCssProvider />
       <CustomStaticGlobalCSSProvider />
