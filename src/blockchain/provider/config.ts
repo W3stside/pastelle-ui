@@ -34,7 +34,7 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
     },
     w3a: {
       appName: 'PASTELLE.SHOP',
-      network: process.env.NODE_ENV === 'production' ? 'mainnet' : 'testnet',
+      network: process.env.NODE_ENV === 'production' ? 'aqua' : 'testnet',
       projectId: process.env.REACT_APP_WEB3_AUTH_PROJECT_ID,
     },
     w3m: {
