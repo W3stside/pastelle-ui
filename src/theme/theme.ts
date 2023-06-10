@@ -57,6 +57,7 @@ export const pstlModalTheme = createTheme({
         baseFontSize: 20,
         helpers: { show: true, color: defaultThemeColours.red3 },
         closeIcon: {
+          color: 'black',
           size: '40px',
         },
         title: {
