@@ -3466,10 +3466,10 @@
   dependencies:
     "@past3lle/utils" "^0.0.26"
 
-"@past3lle/forge-web3@^0.0.79":
-  version "0.0.79"
-  resolved "https://registry.yarnpkg.com/@past3lle/forge-web3/-/forge-web3-0.0.79.tgz#547bd515964d528607322e381b883a65992025b8"
-  integrity sha512-SERwLP7eTZ8j/GGkEC6VEiLmu4yWZ2ePNBOCFfgUj8YckdbSEVD14uYZ6yWazCgwCpzJI/Xo3dSptISPAvsL3A==
+"@past3lle/forge-web3@^0.0.80":
+  version "0.0.80"
+  resolved "https://registry.yarnpkg.com/@past3lle/forge-web3/-/forge-web3-0.0.80.tgz#21bc8014f87834a7bb4bc2ff5d9cbdd6645435d6"
+  integrity sha512-iJJgcdyJ1vw5WQRimp5jrXE6jxMNdz6EOGHSe/sjOKeeDf7WINUp59URMltviQVoAsD3NCCaOnE8gxnlgu1+ow==
   dependencies:
     "@ethersproject/bignumber" ">=5.7.0"
     "@past3lle/hooks" "^0.0.40"
