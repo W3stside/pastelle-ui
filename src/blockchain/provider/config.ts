@@ -25,7 +25,7 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
       connectorDisplayOverrides: {
         web3auth: {
           isRecommended: true,
-          customName: 'Email / SMS / Social',
+          customName: 'Email / Mobile / Social',
         },
         walletConnect: {
           customName: 'Web3 Wallets',
@@ -34,7 +34,7 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
     },
     w3a: {
       appName: 'PASTELLE.SHOP',
-      network: process.env.NODE === 'production' ? 'mainnet' : 'testnet',
+      network: process.env.NODE_ENV === 'production' ? 'mainnet' : 'testnet',
       projectId: process.env.REACT_APP_WEB3_AUTH_PROJECT_ID,
     },
     w3m: {
