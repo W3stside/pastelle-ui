@@ -24,6 +24,7 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
       },
       connectorDisplayOverrides: {
         web3auth: {
+          isRecommended: true,
           customName: 'Email / SMS / Social',
         },
         walletConnect: {
