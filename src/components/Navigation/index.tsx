@@ -12,8 +12,10 @@ import { Product } from 'shopify/graphql/types/_generated_'
 import { useDeriveCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
 import { ProductPageMap } from 'state/collection/reducer'
 import { URLFlowType, getFlowParams } from 'state/collection/updater'
+import { getThemeColours } from 'theme'
 import { buildItemUrl } from 'utils/navigation'
 
+import packageJSON from '../../../package.json'
 import { CollectionSelector } from './CollectionSelector'
 import { CollectionLabel, InnerNavWrapper, MobileNavOrb, NavigationStepsWrapper, SideEffectNavLink } from './styled'
 
@@ -144,6 +146,11 @@ export default function Navigation({
             <ThemeToggleBar themeToggleProps={{ width: '90%' }} />
           </div>
         </InnerNavWrapper>
+        <Row width="100%">
+          <strong style={{ padding: '0.5rem', backgroundColor: getThemeColours('DEFAULT').blackLight, width: '100%' }}>
+            Version: {packageJSON.version}
+          </strong>
+        </Row>
       </NavigationStepsWrapper>
     </>
   )
