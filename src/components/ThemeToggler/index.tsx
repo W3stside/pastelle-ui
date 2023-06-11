@@ -25,6 +25,7 @@ export const ThemeToggleButton = ({
   themeToggleProps = {
     margin: 'auto',
     width: '10rem',
+    maxWidth: '120px',
   },
   buttonProps = {},
 }: {

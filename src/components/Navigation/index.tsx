@@ -143,7 +143,7 @@ export default function Navigation({
           $width={isNavOpen ? '90%' : '100%'}
         >
           <div>
-            <ThemeToggleBar themeToggleProps={{ width: '90%' }} />
+            <ThemeToggleBar themeToggleProps={{ width: '90%', maxWidth: '120px' }} />
           </div>
         </InnerNavWrapper>
         <Row width="100%">

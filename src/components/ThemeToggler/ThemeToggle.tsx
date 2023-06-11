@@ -7,12 +7,14 @@ const ThemeButtonToggleWrapper = styled.div<{
   $mode: boolean
   $margin?: string
   $width?: string
+  $maxWidth?: string
   $height?: string
 }>`
   position: relative;
   display: inline-flex;
   align-items: center;
   width: ${({ $width = '12rem' }): string => $width};
+  max-width: ${({ $maxWidth = '120px' }): string => $maxWidth};
   height: ${({ $height = '3.5rem' }): string => $height};
   background-color: ${({ theme }) => (theme.mode !== ThemeModes.DARK ? theme.purple3 : theme.purple)};
   border-radius: 0.8rem;
@@ -49,6 +51,7 @@ const ThemeButtonToggleWrapper = styled.div<{
 export interface ThemeToggleProps {
   margin?: string
   width?: string
+  maxWidth?: string
   disabled?: boolean
   children?: React.ReactNode
 }
@@ -57,6 +60,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps & { mode: boolean; buttonPro
   mode,
   margin,
   width,
+  maxWidth,
   disabled = false,
   buttonProps = { size: ButtonSizeVariations.SMALL, variant: ButtonVariations.THEME },
   children,
@@ -67,6 +71,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps & { mode: boolean; buttonPro
       $mode={mode}
       $margin={margin}
       $width={width}
+      $maxWidth={maxWidth}
       title={`Tap/click to enable ${mode ? 'light' : 'dark'} mode`}
     >
       <Button height="100%" {...buttonProps}>

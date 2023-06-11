@@ -48,15 +48,15 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
       themeMode: 'dark',
       themeVariables: {
         '--w3m-background-color': pastelleTheme.blackOpaque,
-        '--w3m-accent-color': pastelleTheme.modes.DEFAULT.purple || '#525291',
-        '--w3m-accent-fill-color': pastelleTheme.modes.DEFAULT.purple,
+        '--w3m-accent-color': '#9a7be5db',
+        '--w3m-accent-fill-color': pastelleTheme.black,
         // TODO: either host image on IK and call using params to set height/width
         // TODO: OR just save a formatted image W x H somewhere here
         '--w3m-background-image-url':
           'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=h-100,w-358,q-40,bl-5,e-grayscale',
         '--w3m-color-bg-1': pastelleTheme.blackOpaque,
         '--w3m-color-fg-1': pastelleTheme.offwhiteOpaqueMore,
-        '--w3m-color-bg-2': '#463866' || pastelleTheme.blackOpaque,
+        '--w3m-color-bg-2': '#463866',
       },
     },
   },
