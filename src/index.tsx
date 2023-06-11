@@ -20,6 +20,7 @@ import store from 'state'
 // PASTELLE STORE UPDATERS
 import CartUpdater from 'state/cart/updater'
 import CollectionUpdater from 'state/collection/updater'
+import { VersionUpdater } from 'state/version/updater'
 import { pastelleTheme } from 'theme'
 import { CustomStaticGlobalCSSProvider, CustomThemedGlobalCSSProvider } from 'theme/global'
 
@@ -76,6 +77,7 @@ root.render(
           <ApolloProvider>
             <Provider store={store}>
               <HashRouter>
+                <VersionUpdater />
                 <PastelleStoreUpdaters />
                 {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
                 <ThemedCSSProviders />

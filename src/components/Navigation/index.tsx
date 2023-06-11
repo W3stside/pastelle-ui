@@ -147,7 +147,7 @@ export default function Navigation({
           </div>
         </InnerNavWrapper>
         <Row width="100%">
-          <strong style={{ padding: '0.5rem', backgroundColor: getThemeColours('DEFAULT').blackLight, width: '100%' }}>
+          <strong style={{ padding: '0.75rem', backgroundColor: getThemeColours('DEFAULT').blackLight, width: '100%' }}>
             Version: {packageJSON.version}
           </strong>
         </Row>

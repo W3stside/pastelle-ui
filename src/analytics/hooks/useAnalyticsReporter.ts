@@ -139,9 +139,7 @@ export function useAnalyticsReporter() {
   }, [pathname, search])
 
   useEffect(() => {
-    const storageItem = localStorage.getItem(
-      process.env.REACT_APP_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_COOKIE_SETTINGS'
-    )
+    const storageItem = localStorage.getItem(process.env.REACT_APP_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies')
     const consent: typeof DEFAULT_COOKIE_CONSENT = storageItem ? JSON.parse(storageItem) : DEFAULT_COOKIE_CONSENT
 
     reportWebVitals()

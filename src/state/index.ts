@@ -34,9 +34,10 @@ const store = configureStore({
   middleware: (defaultMiddleware) =>
     defaultMiddleware({
       thunk: true,
-    }).concat(save({ states: PERSISTED_KEYS })),
+    }).concat(save({ states: PERSISTED_KEYS, namespace: 'PASTELLE_SHOP' })),
   preloadedState: load({
     states: PERSISTED_KEYS,
+    namespace: 'PASTELLE_SHOP',
     // because localstorage can sometimes contain stale data from testing...
     // TODO: remove this shit
     preloadedState: {

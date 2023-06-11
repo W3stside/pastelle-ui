@@ -5,7 +5,7 @@ import { initAnalytics } from 'analytics/hooks/useAnalyticsReporter'
 export function CookiesBanner() {
   return (
     <CookieBanner
-      storageKey={process.env.REACT_APP_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_COOKIE_SETTINGS'}
+      storageKey={process.env.REACT_APP_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies'}
       message={'COOKIES?'}
       fullText={
         <div>
