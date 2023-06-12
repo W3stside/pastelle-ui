@@ -1,27 +1,33 @@
 import { SmartImg } from '@past3lle/components'
 import { useStateRef } from '@past3lle/hooks'
+import { useCallback, useMemo } from 'react'
 import { ShopImageSrcSet } from 'types'
 
 import { LogoContainer } from './styleds'
 
 export interface LogoProps {
-  logoSrcSet: ShopImageSrcSet
+  logoSrcSet?: ShopImageSrcSet
+  src?: string
   parentNode: HTMLElement | null
   isHeader: boolean
 }
-export function Logo({ logoSrcSet, parentNode, isHeader }: LogoProps) {
-  if (!logoSrcSet?.defaultUrl) return null
+export function Logo({ logoSrcSet, src, parentNode, isHeader }: LogoProps) {
+  if (!logoSrcSet?.defaultUrl && !src) return null
   return (
     <LogoContainer isHeader={isHeader}>
-      <SmartImg
-        path={{ defaultPath: logoSrcSet.defaultUrl }}
-        pathSrcSet={logoSrcSet}
-        lqImageOptions={{
-          width: parentNode?.clientWidth || 0,
-          height: parentNode?.clientHeight || 0,
-          showLoadingIndicator: false,
-        }}
-      />
+      {logoSrcSet?.defaultUrl ? (
+        <SmartImg
+          path={{ defaultPath: logoSrcSet.defaultUrl }}
+          pathSrcSet={logoSrcSet}
+          lqImageOptions={{
+            width: parentNode?.clientWidth || 0,
+            height: parentNode?.clientHeight || 0,
+            showLoadingIndicator: false,
+          }}
+        />
+      ) : (
+        <img src={src} alt="logo" />
+      )}
     </LogoContainer>
   )
 }
@@ -33,10 +39,16 @@ export default function useLogo(props: Omit<LogoProps, 'parentNode'>) {
   const [node, setNodeRef] = useStateRef<HTMLDivElement | null>(null, (node) => node)
 
   return {
-    Logo: () => (props.logoSrcSet ? <Logo parentNode={node} {...props} /> : null),
-    ref: {
-      setRef: setNodeRef,
-      ref: node,
-    },
+    Logo: useCallback(
+      () => (props?.logoSrcSet || props?.src ? <Logo parentNode={node} {...props} /> : null),
+      [node, props]
+    ),
+    ref: useMemo(
+      () => ({
+        setRef: setNodeRef,
+        ref: node,
+      }),
+      [node, setNodeRef]
+    ),
   }
 }

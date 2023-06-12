@@ -7,6 +7,8 @@ export const LogoContainer = styled.div<{ isHeader: boolean }>`
   width: 100%;
 
   overflow: hidden;
+  text-align: center;
+  padding: 2rem;
 
   z-index: -1;
 

@@ -6,6 +6,8 @@ import {
 } from '@past3lle/theme'
 import { nodeRemoveChildFix } from '@past3lle/utils'
 import { PastelleForgeW3Provider } from 'blockchain/provider/ForgeW3Provider'
+import { ErrorBoundary } from 'components/Error/ErrorBoundary'
+import { AppErrorFallback } from 'components/Error/fallbacks/AppErrorFallback'
 // PROVIDERS
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -81,7 +83,9 @@ root.render(
                 <PastelleStoreUpdaters />
                 {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
                 <ThemedCSSProviders />
-                <App />
+                <ErrorBoundary fallback={<AppErrorFallback />}>
+                  <App />
+                </ErrorBoundary>
               </HashRouter>
             </Provider>
           </ApolloProvider>
