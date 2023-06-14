@@ -69,7 +69,7 @@ export default function ProductRarityAndLabel({
 function _getSkillLockStatusProperties(meta: SkillMetadata | null, lockStatus: SkillLockStatus) {
   return lockStatus === SkillLockStatus.LOCKED
     ? { bgColor: '#cd5c5c', color: '#a9a9a9' }
-    : SkillLockStatus.UNLOCKED
+    : SkillLockStatus.UNLOCKABLE_IN_STORE
     ? { bgColor: '#2e8b57', color: '#2e8b57' }
     : // SkillLockStatus.OWNED
       { bgColor: '#2e8b57', color: '#2e8b57' }
