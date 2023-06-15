@@ -3478,16 +3478,16 @@
   dependencies:
     "@past3lle/utils" "^0.0.27"
 
-"@past3lle/forge-web3@^0.0.86":
-  version "0.0.86"
-  resolved "https://registry.yarnpkg.com/@past3lle/forge-web3/-/forge-web3-0.0.86.tgz#71e73cfa808cc7d730c2270c6dd9af1d659a8716"
-  integrity sha512-/WpGLLEPpmrDFuDFJkdMVjExjVor5kQPWBqQBgGerBc5FKtVOfar0VA7qsJW3V1oiqksDKeCA3paiEC0AYi/7g==
+"@past3lle/forge-web3@^0.0.88":
+  version "0.0.88"
+  resolved "https://registry.yarnpkg.com/@past3lle/forge-web3/-/forge-web3-0.0.88.tgz#a30dcfd83e433b619c727efbb2f7d625dd486226"
+  integrity sha512-oVE5sp3tfr3E90aOoWllvbiCF9awbEGFYmhgQ0vXS9yHhKq3RBuUVKsMsNvuLFQ47+F1XSntwpfhE0Y/pPNN6w==
   dependencies:
     "@ethersproject/bignumber" ">=5.7.0"
     "@past3lle/hooks" "^0.0.41"
     "@past3lle/skilltree-contracts" "^0.0.1-rc.15"
     "@past3lle/utils" "^0.0.27"
-    "@past3lle/web3-modal" "^0.0.37"
+    "@past3lle/web3-modal" "^0.0.38"
     jotai "^1.13.0"
 
 "@past3lle/hooks@^0.0.39":
@@ -3564,10 +3564,10 @@
   dependencies:
     ua-parser-js "^1.0.32"
 
-"@past3lle/web3-modal@^0.0.37":
-  version "0.0.37"
-  resolved "https://registry.yarnpkg.com/@past3lle/web3-modal/-/web3-modal-0.0.37.tgz#f09c93ba3ee1cba2561973f8ddfdd485dfc5189f"
-  integrity sha512-xSJ7HS0LNJzyMxicgAYTjBQiFxy2F82mBsbsMzTuTwV3yqk66ATjcvgt12NHaPznF29Nit57CPTikt/fWiR/NA==
+"@past3lle/web3-modal@^0.0.38":
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/@past3lle/web3-modal/-/web3-modal-0.0.38.tgz#da235d0595d8236c7378765fa00a27d16fc45426"
+  integrity sha512-hDE9Iv/DVQ6K78MFa4ACxrh+sAEIM3OTaYOQWvy2/+rpcEyY64wjjTBvTavP8rir1fUfiA08s9s8mWQ+wa3XeQ==
   dependencies:
     "@ethersproject/bignumber" ">=5.7.0"
     "@gnosis.pm/safe-apps-wagmi" "2.1.0"

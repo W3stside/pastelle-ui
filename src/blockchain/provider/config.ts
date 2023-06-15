@@ -1,8 +1,12 @@
-import { ForgeWeb3ModalProps } from '@past3lle/forge-web3'
+import { ForgeWeb3ModalProps, Web3ModalConfigWeb3Props } from '@past3lle/forge-web3'
 import { pstlModalTheme as MODAL_THEME, pastelleTheme } from 'theme'
 import { goerli, polygon, polygonMumbai } from 'wagmi/chains'
 
-if (!process.env.REACT_APP_WEB3_MODAL_PROJECT_ID || !process.env.REACT_APP_WEB3_AUTH_PROJECT_ID) {
+if (
+  !process.env.REACT_APP_WEB3_MODAL_PROJECT_ID ||
+  !process.env.REACT_APP_WEB3_AUTH_PROJECT_ID ||
+  !process.env.REACT_APP_WEB3_AUTH_NETWORK
+) {
   throw new Error('Missing W3A and/or W3M projectID env variables!')
 }
 
@@ -39,7 +43,10 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
     },
     w3a: {
       appName: 'PASTELLE.SHOP',
-      network: process.env.NODE_ENV === 'production' ? 'aqua' : 'testnet',
+      network:
+        process.env.NODE_ENV === 'production'
+          ? (process.env.REACT_APP_WEB3_AUTH_NETWORK as Web3ModalConfigWeb3Props['modals']['w3a']['network'])
+          : 'testnet',
       projectId: process.env.REACT_APP_WEB3_AUTH_PROJECT_ID,
       preset: 'DISALLOW_EXTERNAL_WALLETS',
     },
