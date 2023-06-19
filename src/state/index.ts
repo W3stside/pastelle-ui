@@ -11,7 +11,6 @@ import { updateVersion } from 'state/global/actions'
 import { modalsAndPopups } from 'state/modalsAndPopups/reducer'
 // MISC
 import { user } from 'state/user/reducer'
-import { window } from 'state/window/reducer'
 import { ThemeModes } from 'theme'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
@@ -27,7 +26,6 @@ const store = configureStore({
     // MISC
     modalsAndPopups,
     user,
-    window,
     // BLOCKCHAIN
     blockchainTransactions,
   },
