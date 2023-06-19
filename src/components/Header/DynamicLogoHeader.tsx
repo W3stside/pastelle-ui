@@ -1,8 +1,8 @@
+import { useWindowSize } from '@past3lle/hooks'
 import { MEDIA_WIDTHS } from '@past3lle/theme'
 import { ItemHeader, ItemHeaderProps } from 'pages/common/styleds'
 import { useMemo } from 'react'
 import { TextProps } from 'rebass'
-import { useGetWindowSize } from 'state/window/hooks'
 import styled from 'styled-components/macro'
 
 const LogoHeader = styled(ItemHeader)`
@@ -12,7 +12,7 @@ const LogoHeader = styled(ItemHeader)`
 `
 type DynamicHeaderLogoProps = TextProps & ItemHeaderProps
 export default function DynamicHeaderLogo(props: DynamicHeaderLogoProps) {
-  const size = useGetWindowSize()
+  const size = useWindowSize()
 
   const constructedLogo = useMemo(() => {
     if (!size?.width) return null
