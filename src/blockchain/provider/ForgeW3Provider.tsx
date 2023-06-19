@@ -1,4 +1,4 @@
-import { ForgeW3Providers } from '@past3lle/forge-web3'
+import { ForgeW3Providers, overwriteWeb3PropsWithOuterTheme } from '@past3lle/forge-web3'
 import { ReactNode, useMemo } from 'react'
 import { useTheme } from 'styled-components/macro'
 
@@ -10,18 +10,16 @@ import { WEB3_MODAL_PROPS } from './config'
 export function PastelleForgeW3Provider({ children }: { children: ReactNode }) {
   const pastelleTheme = useTheme()
 
-  const mutatedWeb3Props = useMemo(() => {
-    if (!pastelleTheme?.mode || !WEB3_MODAL_PROPS.modals.pstl?.themeConfig) return WEB3_MODAL_PROPS
-
-    WEB3_MODAL_PROPS.modals.pstl.themeConfig.mode = pastelleTheme.mode
-    return WEB3_MODAL_PROPS
-  }, [pastelleTheme?.mode])
+  const web3 = useMemo(() => overwriteWeb3PropsWithOuterTheme(WEB3_MODAL_PROPS, pastelleTheme), [pastelleTheme])
 
   return (
     <ForgeW3Providers
       config={{
         name: 'PASTELLE.SHOP',
-        web3: mutatedWeb3Props,
+        contactInfo: {
+          email: 'shop@pastelle.shop',
+        },
+        web3,
         contractAddresses: CONTRACT_ADDRESSES_MAP,
         metadataUris: METADATA_URIS_MAP,
         skillOptions: {

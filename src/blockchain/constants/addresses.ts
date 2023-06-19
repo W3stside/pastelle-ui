@@ -9,9 +9,12 @@ export const CONTRACT_ADDRESSES_MAP: ForgeContractAddressMap = {
     collectionsManager: CONTRACTS_NETWORKS[5].CollectionsManager.address as Address,
     mergeManager: '' as Address,
   },
-  // TODO: fix - use proper mumbai addreses
+  [137]: {
+    collectionsManager: CONTRACTS_NETWORKS[137].CollectionsManager.address as Address,
+    mergeManager: '' as Address,
+  },
   [80001]: {
-    collectionsManager: CONTRACTS_NETWORKS[5].CollectionsManager.address as Address,
+    collectionsManager: CONTRACTS_NETWORKS[80001].CollectionsManager.address as Address,
     mergeManager: '' as Address,
   },
 }
