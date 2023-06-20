@@ -1,11 +1,6 @@
 import { Column, Row } from '@past3lle/components'
-import {
-  SkillLockStatus,
-  SkillMetadata,
-  SupportedForgeChains,
-  useForgeMetadataMapReadAtom,
-  useSupportedChain,
-} from '@past3lle/forge-web3'
+import { SkillLockStatus, SkillMetadata, useForgeMetadataMapReadAtom } from '@past3lle/forge-web3'
+import { SUPPORTED_CHAINS_BY_ENV } from 'blockchain/provider/config'
 import { RarityLabel } from 'components/Rarity/Label'
 import { Text as TYPE } from 'components/Text'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
@@ -28,8 +23,8 @@ export default function ProductRarityAndLabel({
   color?: string
   lockStatus: SkillLockStatus
 }) {
-  const chain = useSupportedChain()
-  const [metadataMap] = useForgeMetadataMapReadAtom(chain?.id as SupportedForgeChains)
+  const chain = SUPPORTED_CHAINS_BY_ENV[0]
+  const [metadataMap] = useForgeMetadataMapReadAtom(chain?.id)
   const skillMetadata: SkillMetadata | null = useMemo(() => {
     const metadataAsList = Object.values(metadataMap || {})
     const variantShopifyId = shortenShopifyId(variant?.id, 'Product')
@@ -65,8 +60,9 @@ export default function ProductRarityAndLabel({
           metadata={skillMetadata}
           chain={chain}
           styleProps={{
-            fontWeight: 300,
-            fontSize: '2rem',
+            fontWeight: 100,
+            letterSpacing: -1.75,
+            fontSize: '3rem',
             margin: 'auto 0 0 auto',
             padding: '0.5rem 1rem',
             flex: '0 1 auto',

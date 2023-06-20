@@ -1,6 +1,6 @@
 import { ForgeWeb3ModalProps, Web3ModalConfigWeb3Props } from '@past3lle/forge-web3'
 import { pstlModalTheme as MODAL_THEME, pastelleTheme } from 'theme'
-import { goerli, polygon, polygonMumbai } from 'wagmi/chains'
+import { polygon, polygonMumbai } from 'wagmi/chains'
 
 if (
   !process.env.REACT_APP_WEB3_MODAL_PROJECT_ID ||
@@ -9,10 +9,10 @@ if (
 ) {
   throw new Error('Missing W3A and/or W3M projectID env variables!')
 }
-
+export const SUPPORTED_CHAINS_BY_ENV = process.env.NODE_ENV === 'production' ? [polygon] : [polygonMumbai]
 export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
   appName: 'PASTELLE SHOP',
-  chains: [goerli, polygon, polygonMumbai],
+  chains: SUPPORTED_CHAINS_BY_ENV,
   wagmiClient: {
     options: {
       pollingInterval: 30_000,

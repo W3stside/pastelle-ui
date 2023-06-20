@@ -172,10 +172,10 @@ export default function SingleProductPage({
                 title={`RARITY: ${skillMetadata?.properties.rarity.toUpperCase() || 'COMMON'}`}
                 shortDescription={
                   skillState === SkillLockStatus.LOCKED
-                    ? 'ITEM LOCKED'
-                    : address
-                    ? 'SKILL INFO AVAILABLE IN THE FORGE'
-                    : 'LOGIN TO VIEW SKILL INFO IN THE FORGE'
+                    ? !address
+                      ? 'SKILL LOCKED - LOGIN TO VERIFY STATUS'
+                      : 'SKILL LOCKED - VIEW PREREQUISITES IN THE FORGE'
+                    : 'UNLOCKED! READ MORE IN THE FORGE SKILLBOOK'
                 }
               />
             </StyledElems.SingleProductScreen>
