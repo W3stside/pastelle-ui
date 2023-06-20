@@ -1,7 +1,7 @@
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Column, Row } from '@past3lle/components'
-import { SkillLockStatus, useDeriveSkillState } from '@past3lle/forge-web3'
+import { SkillLockStatus, useDeriveSkillState, useW3Connection } from '@past3lle/forge-web3'
 import { useDetectScrollIntoView, useIsMobile, useStateRef } from '@past3lle/hooks'
 import { isMobile as isMobileDevice } from '@past3lle/utils'
 import AddToCartButton from 'components/AddToCartButton'
@@ -66,6 +66,9 @@ export default function SingleProductPage({
 }: SingleProductPageProps & WithParentAspectRatio) {
   // SKILL STATE FROM METADATA
   const skillState = useDeriveSkillState(skillMetadata)
+
+  // USER BLOCKCHAIN INFO
+  const [, , { address }] = useW3Connection()
 
   // MODALS
   const toggleLargeImageModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
@@ -168,7 +171,11 @@ export default function SingleProductPage({
                 variant={variant}
                 title={`RARITY: ${skillMetadata?.properties.rarity.toUpperCase() || 'COMMON'}`}
                 shortDescription={
-                  skillState === SkillLockStatus.LOCKED ? 'ITEM LOCKED' : 'SKILL INFO AVAILABLE IN THE FORGE'
+                  skillState === SkillLockStatus.LOCKED
+                    ? 'ITEM LOCKED'
+                    : address
+                    ? 'SKILL INFO AVAILABLE IN THE FORGE'
+                    : 'LOGIN TO VIEW SKILL INFO IN THE FORGE'
                 }
               />
             </StyledElems.SingleProductScreen>

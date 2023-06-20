@@ -1,11 +1,18 @@
 import { Column, Row } from '@past3lle/components'
-import { SkillLockStatus, SkillMetadata } from '@past3lle/forge-web3'
+import {
+  SkillLockStatus,
+  SkillMetadata,
+  SupportedForgeChains,
+  useForgeMetadataMapReadAtom,
+  useSupportedChain,
+} from '@past3lle/forge-web3'
 import { RarityLabel } from 'components/Rarity/Label'
 import { Text as TYPE } from 'components/Text'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 // import { darken, transparentize } from 'polished'
 import { useMemo } from 'react'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
+import { shortenShopifyId } from 'shopify/utils'
 import { useTheme } from 'styled-components/macro'
 
 import { BaseProductPageProps } from '../types'
@@ -21,9 +28,14 @@ export default function ProductRarityAndLabel({
   color?: string
   lockStatus: SkillLockStatus
 }) {
-  const skillMetadata: SkillMetadata | null = JSON.parse(
-    variant?.variantBySelectedOptions?.product.skillMetadata?.value || 'null'
-  )
+  const chain = useSupportedChain()
+  const [metadataMap] = useForgeMetadataMapReadAtom(chain?.id as SupportedForgeChains)
+  const skillMetadata: SkillMetadata | null = useMemo(() => {
+    const metadataAsList = Object.values(metadataMap || {})
+    const variantShopifyId = shortenShopifyId(variant?.id, 'Product')
+
+    return metadataAsList.find((item) => item.properties.shopifyId === variantShopifyId) ?? null
+  }, [metadataMap, variant?.id])
 
   const skillProperties = useMemo(() => {
     const props = _getSkillLockStatusProperties(skillMetadata, lockStatus)
@@ -51,6 +63,7 @@ export default function ProductRarityAndLabel({
         <RarityLabel
           buttonLabel="VIEW SKILL"
           metadata={skillMetadata}
+          chain={chain}
           styleProps={{
             fontWeight: 300,
             fontSize: '2rem',
