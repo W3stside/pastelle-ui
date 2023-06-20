@@ -62,8 +62,8 @@ export default function ProductRarityAndLabel({
           styleProps={{
             fontWeight: 100,
             letterSpacing: -1.75,
-            fontSize: '3rem',
-            margin: 'auto 0 0 auto',
+            fontSize: '2rem',
+            margin: 'auto 0 auto auto',
             padding: '0.5rem 1rem',
             flex: '0 1 auto',
             maxWidth: '40%',
