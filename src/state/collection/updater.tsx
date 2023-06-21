@@ -33,7 +33,7 @@ export default function Updater() {
   const collections = useQueryCollections({
     collectionAmount: 2,
     // always show the latest collection
-    productAmt: flowParams.params.id ? undefined : Number(flowParams.params.amount),
+    productAmt: Number(flowParams.params.amount),
     imageAmt: PRODUCT_IMAGES_AMOUNT,
     videoAmt: PRODUCT_VIDEOS_AMOUNT,
     // reverse array to get first as latest
@@ -41,11 +41,7 @@ export default function Updater() {
   })
 
   useEffect(() => {
-    if (singleSkill?.id) {
-      devDebug('SINGLE SKILL FLOW', flowParams)
-      const { handle = 'UNKNOWN', id, product } = singleSkill
-      updateCurrentlyViewing({ ...product, id, handle })
-    } else if (!!collections.length) {
+    if (!!collections.length) {
       devDebug('COLLECTION FLOW', flowParams)
       updateCollections(
         collections.map(({ collectionProductMap, locked, id, title }) => ({
@@ -56,6 +52,12 @@ export default function Updater() {
         })),
         false
       )
+
+      if (singleSkill?.id) {
+        devDebug('SINGLE SKILL FLOW', flowParams)
+        const { handle = 'UNKNOWN', id, product } = singleSkill
+        updateCurrentlyViewing({ ...product, id, handle })
+      }
     }
   }, [collections, flowParams, singleSkill, updateCollections, updateCurrentlyViewing, updateSingleItemInCollection])
 
@@ -80,7 +82,10 @@ const enum PastelleReferrals {
 export function getFlowParams(searchParams: URLSearchParams) {
   const shopifyId = getShopifyId(searchParams.get('id'), 'Product')
   if (shopifyId && searchParams.get('referral') === PastelleReferrals.FORGE) {
-    return { type: URLFlowType.SKILL, params: { id: shopifyId } }
+    return {
+      type: URLFlowType.SKILL,
+      params: { id: shopifyId, amount: DEFAULT_CURRENT_COLLECTION_VARIABLES.productAmt },
+    }
   } else {
     // normal flow, e.g collection view
     return {

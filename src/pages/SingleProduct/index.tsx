@@ -1,9 +1,10 @@
 import { useStateRef } from '@past3lle/hooks'
 import { devDebug } from '@past3lle/utils'
 import SEO from 'components/SEO'
+import { BaseProductPageProps } from 'pages/common/types'
 import { useEffect, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useCurrentCollection, useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
+import { useCollection, useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
 
 import AsideWithVideo from './AsideWithVideo'
 import { SingleProductArticle } from './styled'
@@ -15,8 +16,23 @@ export default function SingleItem() {
   // Internal referrer = shopify handle
   // External referrer = shopfiy ID
   const { handle } = useParams()
-  const { collection } = useCurrentCollection()
-  const product = useMemo(() => (handle ? collection?.products?.[handle] : null), [collection, handle])
+  const { current, collections } = useCollection()
+  const product = useMemo(() => {
+    let product: BaseProductPageProps | undefined
+    if (handle) {
+      const productInCurrentCollection = current?.id && collections?.[current.id]?.products?.[handle]
+      if (productInCurrentCollection) {
+        product = productInCurrentCollection
+      } else {
+        const flattenedCollections = Object.values(collections).flatMap((collection) => [
+          ...Object.values(collection.products),
+        ])
+        return flattenedCollections.find((product) => handle === product.handle)
+      }
+    }
+
+    return product
+  }, [current?.id, collections, handle])
 
   // update state store with current browsing SINGLE product
   useUpdateCurrentlyViewingProduct(true, product)
