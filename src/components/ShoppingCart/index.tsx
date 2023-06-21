@@ -1,5 +1,5 @@
 import { Button, ButtonVariations, Column, Row, SmartImg } from '@past3lle/components'
-import { useCleanTimeout, usePrevious } from '@past3lle/hooks'
+import { useCleanTimeout, useIsExtraSmallMediaWidth, usePrevious } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
 import LoadingRows from 'components/Loader/LoadingRows'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
@@ -82,6 +82,8 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
     navigate(COLLECTION_PATHNAME)
   }, [closeCartPanel, navigate])
 
+  const isMobileWidth = useIsExtraSmallMediaWidth()
+
   return (
     <ShoppingCartPanelWrapper>
       {/* CART HEADER */}
@@ -140,7 +142,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
             disabled={checkoutClicked}
             padding="0"
           >
-            <CartHeader display="flex" margin="0" letterSpacing={-2} fontSize="2.8rem">
+            <CartHeader display="flex" margin="0" letterSpacing={-2} fontSize={isMobileWidth ? '2rem' : '2.8rem'}>
               <a
                 href={data.cart.checkoutUrl}
                 style={{ width: '100%', height: '100%', padding: '1rem' }}
