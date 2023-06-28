@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { AppState, useAppDispatch, useAppSelector } from 'state'
 
-import { checkedTransaction, finalizeTransaction } from '../blockchainTransactions/reducer'
 import {
   ApplicationModal,
   PopupContent,
@@ -71,26 +70,6 @@ export function useRemovePopup() {
   return useCallback(
     (payload: Parameters<typeof removePopup>[0]) => {
       dispatch(removePopup(payload))
-    },
-    [dispatch]
-  )
-}
-
-export function useFinalizeTransaction() {
-  const dispatch = useAppDispatch()
-  return useCallback(
-    (payload: Parameters<typeof finalizeTransaction>[0]) => {
-      dispatch(finalizeTransaction(payload))
-    },
-    [dispatch]
-  )
-}
-
-export function useCheckedTransaction() {
-  const dispatch = useAppDispatch()
-  return useCallback(
-    (payload: Parameters<typeof checkedTransaction>[0]) => {
-      dispatch(checkedTransaction(payload))
     },
     [dispatch]
   )
