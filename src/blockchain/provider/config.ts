@@ -21,6 +21,7 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
   modals: {
     pstl: {
       title: 'LOGIN    PASTELLE.SHOP',
+      hideInjectedFromRoot: true,
       closeModalOnConnect: true,
       themeConfig: {
         theme: MODAL_THEME,
@@ -28,10 +29,12 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
       },
       connectorDisplayOverrides: {
         web3auth: {
+          logo: 'https://www.getopensocial.com/wp-content/uploads/2020/12/social-login-COLOR_2.png',
           isRecommended: true,
           customName: 'Email / Mobile / Social',
         },
         walletConnect: {
+          logo: 'https://repository-images.githubusercontent.com/204001588/a5169900-c66c-11e9-8592-33c7334dfd6d',
           customName: 'Web3 Wallets',
         },
       },
