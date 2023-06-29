@@ -1,4 +1,5 @@
 import { ForgeWeb3ModalProps, Web3ModalConfigWeb3Props } from '@past3lle/forge-web3'
+import GOOGLE_APPLE_LOGO from 'assets/images/google-apple.png'
 import { pstlModalTheme as MODAL_THEME, pastelleTheme } from 'theme'
 import { polygon, polygonMumbai } from 'wagmi/chains'
 
@@ -29,12 +30,12 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
       },
       connectorDisplayOverrides: {
         web3auth: {
-          logo: 'https://www.getopensocial.com/wp-content/uploads/2020/12/social-login-COLOR_2.png',
+          logo: GOOGLE_APPLE_LOGO,
           isRecommended: true,
-          customName: 'Email / Mobile / Social',
+          customName: 'GOOGLE & MORE',
         },
         walletConnect: {
-          logo: 'https://repository-images.githubusercontent.com/204001588/a5169900-c66c-11e9-8592-33c7334dfd6d',
+          logo: 'https://raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Logo/Gradient/Logo.png',
           customName: 'Web3 Wallets',
         },
       },
