@@ -1749,7 +1749,7 @@
     "@ethersproject/bytes" "^5.7.0"
     "@ethersproject/properties" "^5.7.0"
 
-"@ethersproject/bignumber@5.7.0", "@ethersproject/bignumber@>=5.7.0", "@ethersproject/bignumber@^5.7.0":
+"@ethersproject/bignumber@5.7.0", "@ethersproject/bignumber@^5.7.0":
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/bignumber/-/bignumber-5.7.0.tgz#e2f03837f268ba655ffba03a57853e18a18dc9c2"
   integrity sha512-n1CAdIHRWjSucQO3MC1zPSVgV/6dy/fjL9pMrPP9peL+QxEg9wOsVqwD4+818B6LUEtaXzVHQiuivzRoxPxUGw==
@@ -3505,16 +3505,15 @@
   dependencies:
     "@past3lle/utils" "^0.0.27"
 
-"@past3lle/forge-web3@^0.0.108":
-  version "0.0.108"
-  resolved "https://registry.yarnpkg.com/@past3lle/forge-web3/-/forge-web3-0.0.108.tgz#15544ada64858ff0c8535f3df1867700fb220ef7"
-  integrity sha512-mM97tEkTn9UPxYIVeWA58y1a0LKHo8GRCKLAjTdReKqCAMVvY2Kfc1L8qK+UrQL+Z7m9hE+nPckvUAo/zzXh0g==
+"@past3lle/forge-web3@^0.0.109":
+  version "0.0.109"
+  resolved "https://registry.yarnpkg.com/@past3lle/forge-web3/-/forge-web3-0.0.109.tgz#b6919e6398b2a5c8b1bf0f2e81367fb1f4a44c5e"
+  integrity sha512-X8U8LRTmHPAwfwV2/WqVN1serQvQmhqHUVc3tpN8upFMFpuksCM7n7DkWIjrKNLTAcaTjhwZOz6b3V0AypvRZA==
   dependencies:
-    "@ethersproject/bignumber" ">=5.7.0"
     "@past3lle/hooks" "^0.0.41"
     "@past3lle/skilltree-contracts" "^0.0.1-rc.15"
     "@past3lle/utils" "^0.0.27"
-    "@past3lle/web3-modal" "^1.0.11"
+    "@past3lle/web3-modal" "^1.0.12"
     jotai "^1.13.0"
 
 "@past3lle/hooks@^0.0.41":
@@ -3559,12 +3558,11 @@
   dependencies:
     ua-parser-js "^1.0.32"
 
-"@past3lle/web3-modal@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@past3lle/web3-modal/-/web3-modal-1.0.11.tgz#509e5fbbb7e00c8d5cd87e53b22de36329d73f2d"
-  integrity sha512-uFeDC3OXd2sh+Sf8IbVdMp7FTDOP5mxIWtPVS5i/ZxCpLnMbToIFDJosAgzOvOpUNPtsKSxeC+NFjXbBDtoFPQ==
+"@past3lle/web3-modal@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@past3lle/web3-modal/-/web3-modal-1.0.12.tgz#6abb20d83389ecbc4dc30429e11cf822b909366c"
+  integrity sha512-OCJp2M4+lATUdrW1V0vjF4SoqiX0M2nzvA0SVT7OxdQyMvWFRc+oT1ZbzJ66Ue7hC8ADq28ARW/CoVgiWAjj4g==
   dependencies:
-    "@ethersproject/bignumber" ">=5.7.0"
     "@gnosis.pm/safe-apps-wagmi" "2.1.0"
     "@past3lle/components" "^0.0.77"
     "@past3lle/hooks" "^0.0.41"

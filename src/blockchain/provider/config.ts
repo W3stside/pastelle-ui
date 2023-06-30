@@ -54,7 +54,7 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
       storageKey: 'session',
       preset: 'DISALLOW_EXTERNAL_WALLETS',
       mfaLevel: 'none',
-      uxMode: 'redirect',
+      uxMode: 'popup',
       themeInfo: {
         mode: 'dark',
         primary: pastelleTheme.modes.DEFAULT.purple,
