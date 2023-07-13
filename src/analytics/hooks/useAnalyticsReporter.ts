@@ -1,4 +1,4 @@
-import { devDebug, isMobile } from '@past3lle/utils'
+import { devDebug, getIsMobile } from '@past3lle/utils'
 import { Dimensions } from 'analytics/GoogleAnalytics4Provider'
 import { useEffect } from 'react'
 import TagManager from 'react-gtm-module'
@@ -58,7 +58,7 @@ export function initGA4() {
 
   googleAnalytics.setDimension(
     Dimensions.customBrowserType,
-    !isMobile ? 'desktop' : 'web3' in window || 'ethereum' in window ? 'mobileWeb3' : 'mobileRegular'
+    !getIsMobile() ? 'desktop' : 'web3' in window || 'ethereum' in window ? 'mobileWeb3' : 'mobileRegular'
   )
 
   // typed as 'any' in react-ga4 -.-

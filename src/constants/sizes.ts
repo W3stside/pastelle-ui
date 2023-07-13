@@ -1,5 +1,5 @@
 import { LAYOUT_REM_SIZE_MAP } from '@past3lle/constants'
-import { isMobile } from '@past3lle/utils'
+import { getIsMobile } from '@past3lle/utils'
 
 export const BASE_FONT_SIZE = 10
 export const LAYOUT_REM_HEIGHT_MAP = {
@@ -16,4 +16,4 @@ export const SIZE_RATIOS = {
     vertical: 9 / 16,
   },
 }
-export const SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET = isMobile ? 0.151 : 0.185
+export const SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET = getIsMobile() ? 0.151 : 0.185

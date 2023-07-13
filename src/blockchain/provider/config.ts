@@ -15,11 +15,9 @@ export const SUPPORTED_CHAINS_BY_ENV = process.env.NODE_ENV === 'production' ? [
 export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
   appName: 'PASTELLE SHOP',
   chains: SUPPORTED_CHAINS_BY_ENV,
-  wagmiClient: {
-    options: {
-      autoConnect: true,
-      pollingInterval: 30_000,
-    },
+  options: {
+    autoConnect: true,
+    pollingInterval: 30_000,
   },
   modals: {
     root: {

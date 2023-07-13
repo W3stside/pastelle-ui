@@ -1,5 +1,5 @@
 import { Button, ButtonProps, Row, RowBetween } from '@past3lle/components'
-import { useW3Connection } from '@past3lle/forge-web3'
+import { useW3AccountNetworkActions, useW3Modal, useW3UserConnectionInfo } from '@past3lle/forge-web3'
 import { Address } from '@past3lle/types'
 import { truncateAddress } from '@past3lle/utils'
 import connectionIconDark from 'assets/images/connection-dark.png'
@@ -17,7 +17,9 @@ interface Props {
 }
 
 export function Web3LoginButton({ logoUri, buttonProps, children }: Props) {
-  const [, { onAccountClick }, { address, isW3mOpen: isOpen }] = useW3Connection()
+  const { onAccountClick } = useW3AccountNetworkActions()
+  const { isOpen } = useW3Modal()
+  const { address } = useW3UserConnectionInfo()
 
   const theme = useTheme()
 

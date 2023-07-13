@@ -1,5 +1,5 @@
 import { ButtonVariations, RowProps, SmartVideo, SmartVideoProps } from '@past3lle/components'
-import { isMobile, wait } from '@past3lle/utils'
+import { getIsMobile, wait } from '@past3lle/utils'
 import { Z_INDEXES } from 'constants/config'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Pause, Play } from 'react-feather'
@@ -110,7 +110,7 @@ export const ItemVideoContent = ({
             height={styleProps.height}
             width={styleProps.width}
             videoDelay={!isMobileWidth && videoDelay}
-            showTapToPlay={isMobile && (!isPlaying || videoProps?.autoPlay === false)}
+            showTapToPlay={getIsMobile() && (!isPlaying || videoProps?.autoPlay === false)}
             autoPlayOptions={autoplay ? undefined : autoPlayOptions}
             ctaOverlayProps={{
               $zIndex: Z_INDEXES.PRODUCT_VIDEOS,

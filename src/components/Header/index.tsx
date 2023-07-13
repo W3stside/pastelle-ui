@@ -1,5 +1,5 @@
 import { useIsMediumMediaWidth } from '@past3lle/hooks'
-import { isMobile } from '@past3lle/utils'
+import { getIsMobile } from '@past3lle/utils'
 import Navigation from 'components/Navigation'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
 import { Web3LoginButton } from 'components/Web3LoginButton'
@@ -39,7 +39,7 @@ export default function Header() {
     <HeaderFrame
       as="header"
       color={color}
-      logoSet={isMobile && isCollectionPage ? staticRandomLogoSet : dynamicHeaderLogoSet}
+      logoSet={getIsMobile() && isCollectionPage ? staticRandomLogoSet : dynamicHeaderLogoSet}
       open={open}
     >
       <HeaderDrawerButton onClick={() => setOpen((state) => !state)}>

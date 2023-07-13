@@ -1,9 +1,9 @@
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Column, Row } from '@past3lle/components'
-import { SkillLockStatus, useDeriveSkillState, useW3Connection } from '@past3lle/forge-web3'
+import { SkillLockStatus, useDeriveSkillState, useW3UserConnectionInfo } from '@past3lle/forge-web3'
 import { useDetectScrollIntoView, useIsMobile, useStateRef } from '@past3lle/hooks'
-import { isMobile as isMobileDevice } from '@past3lle/utils'
+import { getIsMobile as getIsMobileDevice } from '@past3lle/utils'
 import AddToCartButton from 'components/AddToCartButton'
 import { useBreadcrumb } from 'components/Breadcrumb'
 import { Breadcrumbs } from 'components/Breadcrumbs'
@@ -68,7 +68,7 @@ export default function SingleProductPage({
   const skillState = useDeriveSkillState(skillMetadata)
 
   // USER BLOCKCHAIN INFO
-  const [, , { address }] = useW3Connection()
+  const { address } = useW3UserConnectionInfo()
 
   // MODALS
   const toggleLargeImageModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
@@ -84,7 +84,7 @@ export default function SingleProductPage({
   const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
   const Carousel = useCallback(
     (props: Omit<ProductSwipeCarousel, 'touchAction'>) =>
-      isMobileDevice ? (
+      getIsMobileDevice() ? (
         <Carousels.SwipeCarousel {...props} touchAction="pan-y" />
       ) : (
         <Carousels.ClickCarousel

@@ -46,12 +46,19 @@ export const pstlModalTheme = createTheme({
           hoverAnimations: true,
         },
       },
+      // account: {
+      //   balanceAndAddressContainer: {
+      //     backgroundColor: 'black',
+      //   },
+      // },
     },
   },
   DARK: {
     modals: {
       connection: {
-        filter: 'invert(1) brightness(0.85) contrast(1.2) hue-rotate(145deg) saturate(2.5)',
+        filter:
+          'invert(1) brightness(0.85) contrast(1.4) hue-rotate(160deg) saturate(1.8)' ||
+          'invert(1) brightness(0.85) contrast(1.2) hue-rotate(115deg) saturate(2.5)',
         backgroundImg:
           'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=h-600,w-360,q-60,bl-5,e-grayscale',
         baseFontSize: 20,
@@ -77,6 +84,11 @@ export const pstlModalTheme = createTheme({
           textShadow: '2px 2px 3px #0000005c',
           textTransform: 'uppercase',
           hoverAnimations: true,
+        },
+      },
+      account: {
+        balanceAndAddressContainer: {
+          backgroundColor: '#ffffff6e',
         },
       },
     },

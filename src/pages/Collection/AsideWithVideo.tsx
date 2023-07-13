@@ -1,6 +1,6 @@
 import { Row } from '@past3lle/components'
 import { useStateRef } from '@past3lle/hooks'
-import { isMobile } from '@past3lle/utils'
+import { getIsMobile } from '@past3lle/utils'
 import { ClickCarousel, ProductClickCarousel, SwipeCarousel } from 'components/Carousel/ProductCarousels'
 import { MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
 import Logo from 'pages/common/components/Logo'
@@ -20,7 +20,7 @@ import { defaultThemeColours } from 'theme'
 import { CollectionScreensContainer } from './styled'
 
 function WebCarousel(props: Omit<ProductClickCarousel, 'showButtons'>) {
-  if (isMobile) return null
+  if (getIsMobile()) return null
 
   return <ClickCarousel showButtons={false} {...props} />
 }
@@ -49,7 +49,7 @@ export default function CollectionProductPage({
 
   // CAROUSEL STATE
   const [currentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
-  const Carousel = isMobile ? SwipeCarousel : WebCarousel
+  const Carousel = getIsMobile() ? SwipeCarousel : WebCarousel
   // IMAGES
   const imageUrls = getImageSizeMap(images)
   // SELECTED SHOWCASE VIDEO
@@ -92,7 +92,7 @@ export default function CollectionProductPage({
               {/* Product carousel */}
               <Carousel
                 axis="x"
-                data={isMobile ? [...imageUrls /* , selectedVideo */] : imageUrls}
+                data={getIsMobile() ? [...imageUrls /* , selectedVideo */] : imageUrls}
                 startIndex={currentCarouselIndex}
                 colors={{ accent: color }}
                 videoProps={{ autoPlay }}

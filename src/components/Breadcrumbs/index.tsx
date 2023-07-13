@@ -5,13 +5,6 @@ import { NavLinkProps } from 'react-router-dom'
 import { BoxProps } from 'rebass'
 import styled from 'styled-components/macro'
 
-// position: absolute;
-// top: 0;
-// left: 0;
-// z-index: 100;
-// background: ${!isMobile && `linear-gradient(75deg, ${BLACK_TRANSPARENT} 33%, transparent)`};
-// padding: 1.5rem;
-// opacity: 0.5;
 const BreadcrumbContainer = styled(Row)`
   margin: 0;
   padding: 1rem;

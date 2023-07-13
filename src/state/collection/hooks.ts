@@ -1,5 +1,5 @@
 import { useIsSmallMediaWidth } from '@past3lle/hooks'
-import { isMobile } from '@past3lle/utils'
+import { getIsMobile } from '@past3lle/utils'
 import { ShowcaseVideosProps } from 'components/Showcase/Videos'
 import { BaseProductPageProps } from 'pages/common/types'
 import { useCallback, useEffect, useMemo } from 'react'
@@ -183,7 +183,7 @@ export function useGetSelectedProductShowcaseVideo(props: Pick<ShowcaseVideosPro
   const isMobileWidth = useIsSmallMediaWidth()
 
   return useMemo(
-    () => videoMap[isMobileWidth || isMobile ? mobileKey : webKey] || videoMap[webKey],
+    () => videoMap[isMobileWidth || getIsMobile() ? mobileKey : webKey] || videoMap[webKey],
     [mobileKey, videoMap, webKey, isMobileWidth]
   )
 }

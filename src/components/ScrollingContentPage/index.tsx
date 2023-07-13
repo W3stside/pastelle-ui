@@ -1,7 +1,7 @@
 import { StyledAnimatedDivContainer, StyledScrollerContainer, TouchAction } from '@past3lle/carousel'
 import { useInfiniteVerticalScroll } from '@past3lle/carousel-hooks'
 import { LoadInViewOptions, useIsSmallMediaWidth, usePrevious } from '@past3lle/hooks'
-import { isMobile } from '@past3lle/utils'
+import { getIsMobile } from '@past3lle/utils'
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
 import { FixedAnimatedLoader } from 'components/Loader'
 import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
@@ -50,9 +50,9 @@ export function ScrollingContentPage<D>({
     () => ({
       // defaults to 0.8 scale on scroll and 1 scale default
       scaleOptions: {
-        initialScale: isMobileWidth || isMobile ? 0.97 : 0.92,
+        initialScale: isMobileWidth || getIsMobile() ? 0.97 : 0.92,
       },
-      scrollSpeed: isMobile ? 0.4 : undefined,
+      scrollSpeed: getIsMobile() ? 0.4 : undefined,
       sizeOptions: {
         fixedSize: fixedItemHeight,
         minSize: MINIMUM_COLLECTION_ITEM_HEIGHT,
@@ -83,7 +83,7 @@ export function ScrollingContentPage<D>({
   // set target ref node as collection article
   useEffect(() => {
     setHeightRef(HEIGHT_AND_VIEW_TARGET)
-    !isMobile && setScrollingZoneRef(HEIGHT_AND_VIEW_TARGET)
+    !getIsMobile() && setScrollingZoneRef(HEIGHT_AND_VIEW_TARGET)
   }, [HEIGHT_AND_VIEW_TARGET, setHeightRef, setScrollingZoneRef])
 
   const handleItemSelect = useCallback(

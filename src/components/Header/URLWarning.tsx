@@ -1,4 +1,4 @@
-import { devLog, isMobile } from '@past3lle/utils'
+import { devLog, getIsMobile } from '@past3lle/utils'
 import { AlertTriangle, X } from 'react-feather'
 import styled from 'styled-components/macro'
 
@@ -23,7 +23,7 @@ const APP_URL = 'this.app.org'
 const PHISH_ALERT_URL = 'this.app.org'
 
 export default function URLWarning(): JSX.Element | null {
-  return isMobile ? (
+  return getIsMobile() ? (
     <PhishAlert isActive>
       <div style={{ display: 'flex' }}>
         <AlertTriangle style={{ marginRight: 6 }} size={12} /> Make sure the URL is

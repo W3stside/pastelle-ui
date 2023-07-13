@@ -1,5 +1,5 @@
 import { SmartImg } from '@past3lle/components'
-import { isMobile } from '@past3lle/utils'
+import { getIsMobile } from '@past3lle/utils'
 import { SINGLE_ITEM_LOGO_RATIO } from 'constants/config'
 import { ShopImageSrcSet } from 'types'
 
@@ -17,7 +17,7 @@ export default function Logo({ isCollectionView, logos, colour = '#8d7b90', pare
   if (isCollectionView && collectionLogo) {
     return <ProductLogoCollectionView collectionView logoUri={collectionLogo} $bgColor={colour} />
   } else if (parentNode?.clientWidth && logos.main) {
-    return !isMobile ? (
+    return !getIsMobile() ? (
       <ProductLogo>
         <SmartImg
           path={{ defaultPath: logos.main.defaultUrl }}
