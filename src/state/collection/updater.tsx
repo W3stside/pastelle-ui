@@ -37,7 +37,7 @@ export default function Updater() {
     imageAmt: PRODUCT_IMAGES_AMOUNT,
     videoAmt: PRODUCT_VIDEOS_AMOUNT,
     // reverse array to get first as latest
-    reverse: true,
+    reverse: false,
   })
 
   useEffect(() => {

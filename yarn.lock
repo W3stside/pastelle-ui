@@ -3629,7 +3629,7 @@
     hardhat-tracer "^2.3.2"
     inquirer "9.2.6"
 
-"@past3lle/theme@^0.1.13", "@past3lle/theme@^0.1.3":
+"@past3lle/theme@^0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.1.3.tgz#3433359f05d19b19f051d8065b190b947d146ce2"
   integrity sha512-nZKF4uX/nq/P2erar5R7z8UN8ifdh1AlubNtEDnEo9EfgUSKP+gFIhRUinXx+0D9UiFu6t3asYHqOgFpIkicFA==
@@ -3646,7 +3646,7 @@
   resolved "https://registry.yarnpkg.com/@past3lle/types/-/types-0.0.20.tgz#2964804803764dca38bd5d4a967072f9d042c9b2"
   integrity sha512-fV7Q0pb0Sw3H2XGMplj/OqSJFGlADNgZVmUx7zma1HBS0wm5IhfpcoHTPXKl1JR0vma23fP6Ax4foto1WfVYvA==
 
-"@past3lle/utils@^0.1.13", "@past3lle/utils@^0.1.3":
+"@past3lle/utils@^0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@past3lle/utils/-/utils-0.1.3.tgz#8eee9556e109cfe2b15a34f45f621565c96499a1"
   integrity sha512-+lnOfTqb9UVRy7u3ROYjaGTmqQ440GWgQwmWet2NIKw9SoPx2dDifBa7yfjSSZQ5Lq4/skwiZZWuT1qpjshRZg==

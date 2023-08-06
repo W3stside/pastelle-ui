@@ -293,6 +293,7 @@ export default function SingleProductPage({
             autoPlay: true,
             style: {
               marginLeft: 'auto',
+              filter: 'saturate(1.8)',
             },
           }}
           hideVideo={isMobile || noVideo}

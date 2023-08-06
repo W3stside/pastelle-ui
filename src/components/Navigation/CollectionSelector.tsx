@@ -21,7 +21,7 @@ export const CollectionSelector = () => {
     [collections, navigate]
   )
 
-  if (!collections || !current) return null
+  if (!collections || !current?.id) return null
 
   return (
     <ProductSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
