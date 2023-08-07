@@ -1,6 +1,6 @@
-import { useIsSmallMediaWidth } from '@past3lle/hooks'
-import { getIsMobile } from '@past3lle/utils'
+import { useIsMobile } from '@past3lle/hooks'
 import { ShowcaseVideosProps } from 'components/Showcase/Videos'
+import { SHOWCASE_ENABLED } from 'constants/config'
 import { BaseProductPageProps } from 'pages/common/types'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
@@ -171,21 +171,20 @@ export function useGetProductShowcaseVideos({ videos }: Pick<ShowcaseVideosProps
 
 export function useGetSelectedProductShowcaseVideo(props: Pick<ShowcaseVideosProps, 'videos'>) {
   const { videoMap, mobileKey, webKey } = useGetProductShowcaseVideos(props)
-  const isMobileWidth = useIsSmallMediaWidth()
+  const isMobileDeviceOrWidth = useIsMobile()
 
   return useMemo(
-    () => videoMap[isMobileWidth || getIsMobile() ? mobileKey : webKey] || videoMap[webKey],
-    [mobileKey, videoMap, webKey, isMobileWidth]
+    () => videoMap[isMobileDeviceOrWidth ? mobileKey : webKey] || videoMap[webKey],
+    [mobileKey, videoMap, webKey, isMobileDeviceOrWidth]
   )
 }
 type ConstructShowcaseDataProps = Pick<ShowcaseVideosProps, 'videos'> &
   Pick<ReturnType<typeof useGetShowcaseSettings>, 'gender' | 'height' | 'size'>
 
 function _constructShowcaseData({ videos, gender, height, size }: ConstructShowcaseDataProps) {
-  const showShowcase = !!process.env.REACT_APP_USE_SHOWCASE
   const videoMap = videos.reduce(reduceShopifyMediaToShowcaseVideos, {})
 
-  if (showShowcase) {
+  if (SHOWCASE_ENABLED) {
     return {
       videoMap,
       webKey: `${gender}-${height}-${size}`,

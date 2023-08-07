@@ -15,7 +15,7 @@ import useShowShowcase from 'components/Showcase/Settings'
 import ShowcaseVideos from 'components/Showcase/Videos'
 import ShowcaseVideoControls from 'components/Showcase/Videos/Settings'
 import useSizeSelector from 'components/SizeSelector'
-import { FREE_SHIPPING_THRESHOLD, Z_INDEXES } from 'constants/config'
+import { FREE_SHIPPING_THRESHOLD, SHOWCASE_ENABLED, Z_INDEXES } from 'constants/config'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import * as StyledElems from 'pages/SingleProduct/styled'
 import Logo from 'pages/common/components/Logo'
@@ -186,7 +186,7 @@ export default function SingleProductPage({
               <ProductSubHeader
                 useGradient
                 bgColor={color}
-                label={skillState !== SkillLockStatus.LOCKED ? 'SIZE & SHOWCASE' : undefined}
+                label="SIZE & CONFIGURATION"
                 margin={isMobile ? '1rem 0' : '0 0 2rem 0'}
               />
               <Column margin="0" padding={'0 2rem'}>
@@ -195,14 +195,15 @@ export default function SingleProductPage({
                   <>
                     <ProductDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
                       <Row gap="1rem">
-                        <FontAwesomeIcon icon={faLightbulb} /> SHOWCASE SETTINGS{' '}
+                        <FontAwesomeIcon icon={faLightbulb} />{' '}
+                        {SHOWCASE_ENABLED ? 'SHOWCASE SETTINGS' : 'SIZE SELECTION'}{' '}
                       </Row>
                     </ProductDescription>
 
                     <ShowcaseSettings>
                       <ShowcaseVideoControls isMobile={isMobile} />
                       {/* MOBILE SHOWCASE */}
-                      <ModelSizeSelector />
+                      {SHOWCASE_ENABLED && <ModelSizeSelector />}
                       {/* PRODUCT SIZE SELECTOR */}
                       <SizeSelector color={color} margin="0" />
                     </ShowcaseSettings>

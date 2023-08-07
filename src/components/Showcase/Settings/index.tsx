@@ -1,7 +1,7 @@
 import { useIsMobile } from '@past3lle/hooks'
 import { TinyHelperText } from 'components/Common'
 import { Text as TYPE } from 'components/Text'
-import { Z_INDEXES } from 'constants/config'
+import { SHOWCASE_ENABLED, Z_INDEXES } from 'constants/config'
 import { ProductSubDescription } from 'pages/common/styleds'
 import { ReactNode, useCallback, useState } from 'react'
 
@@ -13,7 +13,7 @@ export default function useShowShowcase() {
   const ShowcaseSettings = useCallback(
     ({ children }: { children?: ReactNode }) => (
       <ProductSubDescription
-        padding="5rem 1.3rem 0.3rem"
+        padding={`5rem 1.3rem ${SHOWCASE_ENABLED ? '0.3rem' : '2rem'}`}
         margin="-4rem auto 2rem"
         width="100%"
         fontWeight={300}
@@ -25,13 +25,15 @@ export default function useShowShowcase() {
         }}
       >
         {children}
-        <TinyHelperText
-          handleClick={toggleShowcase}
-          label={showShowcase ? 'HIDE HOW-TO GUIDE' : 'SHOW HOW-TO GUIDE'}
-          css={`
-            padding: 0 1rem 1rem;
-          `}
-        />
+        {SHOWCASE_ENABLED && (
+          <TinyHelperText
+            handleClick={toggleShowcase}
+            label={showShowcase ? 'HIDE HOW-TO GUIDE' : 'SHOW HOW-TO GUIDE'}
+            css={`
+              padding: 0 1rem 1rem;
+            `}
+          />
+        )}
         {showShowcase && (
           <TYPE.Black
             style={{

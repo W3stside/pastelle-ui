@@ -74,3 +74,5 @@ export const SINGLE_ITEM_ASIDE_CSS_LOGO_TRANSFORMS = [
 export const NAV_CSS_LOGO_TRANSFORMS = ['pr-true,dpr-2,q-70,w-183', 'pr-true,dpr-2,q-40,w-183']
 export const MINIMUM_COLLECTION_ITEM_HEIGHT = 773
 export const DEFAULT_CAROUSEL_ACCENT_COLOR = pastelleTheme.modes.DARK.purple1 || '#000'
+
+export const SHOWCASE_ENABLED = process.env.REACT_APP_USE_SHOWCASE == 'true'
