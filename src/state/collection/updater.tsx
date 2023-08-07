@@ -1,4 +1,3 @@
-import { devDebug } from '@past3lle/utils'
 import { PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
 import { useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -31,18 +30,17 @@ export default function Updater() {
   // undefined variable skips flow, e.g if above runs
   // Load the last 2 collections, index 0 being the latest
   const collections = useQueryCollections({
-    collectionAmount: 2,
+    collectionAmount: 1,
     // always show the latest collection
     productAmt: Number(flowParams.params.amount),
     imageAmt: PRODUCT_IMAGES_AMOUNT,
     videoAmt: PRODUCT_VIDEOS_AMOUNT,
     // reverse array to get first as latest
-    reverse: false,
+    reverse: true,
   })
 
   useEffect(() => {
     if (!!collections.length) {
-      devDebug('COLLECTION FLOW', flowParams)
       updateCollections(
         collections.map(({ collectionProductMap, locked, id, title }) => ({
           products: collectionProductMap,
@@ -54,17 +52,11 @@ export default function Updater() {
       )
 
       if (singleSkill?.id) {
-        devDebug('SINGLE SKILL FLOW', flowParams)
         const { handle = 'UNKNOWN', id, product } = singleSkill
         updateCurrentlyViewing({ ...product, id, handle })
       }
     }
   }, [collections, flowParams, singleSkill, updateCollections, updateCurrentlyViewing, updateSingleItemInCollection])
-
-  // // loading state used across the app Suspense
-  // useEffect(() => {
-  //   updateCollectionLoadingStatus(!!singleSkill?.loading || collection.loading)
-  // }, [singleSkill?.loading, collection.loading, updateCollectionLoadingStatus])
 
   return null
 }
