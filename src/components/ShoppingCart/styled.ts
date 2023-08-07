@@ -5,7 +5,7 @@ import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
 import { ItemHeader, ProductSubHeader } from 'pages/common/styleds'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
-import { ThemeModes } from 'theme'
+import { BLACK_TRANSPARENT_MORE, ThemeModes } from 'theme'
 
 export const CartLineContent = styled(Row)`
   display: grid;
@@ -208,7 +208,7 @@ export const ShoppingCartPanelWrapper = styled.div`
   z-index: ${Z_INDEXES.SHOPPING_CART};
   cursor: initial;
 
-  background-color: #340303ba;
+  background-color: ${BLACK_TRANSPARENT_MORE};
 
   // animation
   filter: contrast(1) blur(0px);

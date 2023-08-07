@@ -142,13 +142,24 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
             disabled={checkoutClicked}
             padding="0"
           >
-            <CartHeader display="flex" margin="0" letterSpacing={-2} fontSize={isMobileWidth ? '2rem' : '2.8rem'}>
+            <CartHeader
+              display="flex"
+              margin="0"
+              letterSpacing={-1.3}
+              fontSize={isMobileWidth ? '2rem' : '2.6rem'}
+              fontWeight={100}
+            >
               <a
                 href={data.cart.checkoutUrl}
-                style={{ width: '100%', height: '100%', padding: '1rem' }}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  padding: '1rem',
+                  // fontSize: !checkoutClicked ? '2.4rem' : '2.6rem',
+                }}
                 onClick={() => setCheckoutClicked(true)}
               >
-                {checkoutClicked ? <small style={{ fontSize: '2rem' }}>redirecting to checkout...</small> : 'CHECKOUT'}
+                {checkoutClicked ? 'Redirecting to checkout...' : 'Checkout'}
               </a>
             </CartHeader>
           </Button>
