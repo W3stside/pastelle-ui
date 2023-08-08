@@ -49,7 +49,7 @@ export default function Header() {
       </HeaderDrawerButton>
       <HeaderRow>
         {/* ICON and HOME BUTTON */}
-        <Title to={`${COLLECTION_PATHNAME}/${currentCollection?.id as CollectionID}`}>
+        <Title to={`${COLLECTION_PATHNAME}/${(currentCollection?.id as CollectionID) || ''}`}>
           <Pastellecon />
         </Title>
 

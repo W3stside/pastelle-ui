@@ -134,8 +134,16 @@ export function useGetCurrentCollectionProductsFromUrl() {
   }
 }
 
+export function useCurrentOrFirstCollection() {
+  const { collection: currentCollection } = useCurrentCollection()
+  const collections = useCollection()
+
+  return currentCollection || Object.values(collections?.collections)?.[0]
+}
+
 export function useGetCurrentOnScreenCollectionProduct() {
-  const { collection } = useCurrentCollection()
+  const collection = useCurrentOrFirstCollection()
+
   const item = useOnScreenProductHandle()
 
   return item ? collection?.products[item.handle] : undefined
