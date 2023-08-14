@@ -9,6 +9,7 @@ import {
 } from '@past3lle/theme'
 import { Z_INDEXES } from 'constants/config'
 import styled from 'styled-components/macro'
+import { getThemeColours } from 'theme'
 import { ShopImageSrcSet } from 'types'
 
 import { MobileNavProps } from '.'
@@ -141,6 +142,7 @@ export const SideEffectNavLink = styled.span`
 
 // #1d1d1d
 export const InnerNavWrapper = styled(Column)<{ bgColor?: string; $width: string }>`
+  overflow-y: auto;
   width: ${({ $width }) => $width};
   background-color: ${({ theme, bgColor = theme.blackOpaqueMore }) => bgColor};
   padding: 1rem;
@@ -149,4 +151,15 @@ export const InnerNavWrapper = styled(Column)<{ bgColor?: string; $width: string
     width: 100%;
     padding: 0;
   }
+`
+
+export const NavRowItem = styled(Row).attrs({
+  backgroundColor: getThemeColours('DEFAULT').blackLight,
+  fontSize: '1rem',
+  fontWeight: 600,
+  justifyContent: 'space-between',
+  padding: '0.75rem',
+  width: '100%',
+})`
+  cursor: pointer;
 `

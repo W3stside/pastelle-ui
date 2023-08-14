@@ -7,17 +7,23 @@ import { ProductSubHeader } from 'pages/common/styleds'
 import { BaseProductPageProps } from 'pages/common/types'
 import { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import { Menu, X } from 'react-feather'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { Product } from 'shopify/graphql/types/_generated_'
 import { useDeriveCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
 import { ProductPageMap } from 'state/collection/reducer'
 import { URLFlowType, getFlowParams } from 'state/collection/updater'
-import { getThemeColours } from 'theme'
 import { buildItemUrl } from 'utils/navigation'
 
 import packageJSON from '../../../package.json'
 import { CollectionSelector } from './CollectionSelector'
-import { CollectionLabel, InnerNavWrapper, MobileNavOrb, NavigationStepsWrapper, SideEffectNavLink } from './styled'
+import {
+  CollectionLabel,
+  InnerNavWrapper,
+  MobileNavOrb,
+  NavRowItem,
+  NavigationStepsWrapper,
+  SideEffectNavLink,
+} from './styled'
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string }
 
@@ -75,6 +81,12 @@ export default function Navigation({
 
   // close open nav on resize
   useOnResize(() => setIsNavOpen(false), isNavOpen)
+
+  // Policies open/close nav
+  const [{ policies, company }, setLegalOpenStatus] = useState({
+    policies: false,
+    company: false,
+  })
 
   return (
     <>
@@ -135,6 +147,8 @@ export default function Navigation({
             )}
           </Column>
         </InnerNavWrapper>
+
+        {/* Theme toggle and version */}
         <InnerNavWrapper
           margin="auto auto 1rem auto"
           padding="1.5rem 1rem"
@@ -146,11 +160,34 @@ export default function Navigation({
             <ThemeToggleBar themeToggleProps={{ width: '90%', maxWidth: '120px' }} />
           </div>
         </InnerNavWrapper>
-        <Row width="100%">
-          <strong style={{ padding: '0.75rem', backgroundColor: getThemeColours('DEFAULT').blackLight, width: '100%' }}>
-            Version: {packageJSON.version}
-          </strong>
-        </Row>
+        <NavRowItem
+          onClick={() => setLegalOpenStatus((state) => ({ ...state, policies: !state.policies }))}
+          flexWrap={'wrap'}
+        >
+          <span>Policies</span>
+          <span>[{policies ? ' - ' : ' + '}]</span>
+          {policies && (
+            <Column width={'100%'} marginTop="1rem" gap="0.25rem">
+              <Link to="#">Shipping</Link>
+              <Link to="#">Privacy</Link>
+              <Link to="#">Terms</Link>
+            </Column>
+          )}
+        </NavRowItem>
+        <NavRowItem
+          onClick={() => setLegalOpenStatus((state) => ({ ...state, company: !state.company }))}
+          flexWrap={'wrap'}
+        >
+          <span>Company</span>
+          <span>[{company ? ' - ' : ' + '}]</span>
+          {company && (
+            <Column width={'100%'} marginTop="1rem" gap="0.25rem">
+              <Link to="#">Who is PASTELLE?</Link>
+              <Link to="#">Get in touch</Link>
+            </Column>
+          )}
+        </NavRowItem>
+        <NavRowItem>Version: {packageJSON.version}</NavRowItem>
       </NavigationStepsWrapper>
     </>
   )
