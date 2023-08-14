@@ -166,18 +166,20 @@ export default function SingleProductPage({
                 logos={{ header: headerLogo, nav: navLogo, main: logo }}
               />
               <ProductPriceAndLabel variant={variant} color={color} title={title} shortDescription={shortDescription} />
-              <ProductRarityAndLabel
-                lockStatus={skillState}
-                variant={variant}
-                title={`RARITY: ${skillMetadata?.properties.rarity.toUpperCase() || 'COMMON'}`}
-                shortDescription={
-                  skillState === SkillLockStatus.LOCKED
-                    ? !address
-                      ? 'SKILL LOCKED - LOGIN TO VERIFY STATUS'
-                      : 'SKILL LOCKED - VIEW PREREQUISITES IN THE FORGE'
-                    : 'UNLOCKED! READ MORE IN THE FORGE SKILLBOOK'
-                }
-              />
+              {process.env.REACT_APP_USE_FORGE == 'true' && (
+                <ProductRarityAndLabel
+                  lockStatus={skillState}
+                  variant={variant}
+                  title={`RARITY: ${skillMetadata?.properties.rarity.toUpperCase() || 'COMMON'}`}
+                  shortDescription={
+                    skillState === SkillLockStatus.LOCKED
+                      ? !address
+                        ? 'SKILL LOCKED - LOGIN TO VERIFY STATUS'
+                        : 'SKILL LOCKED - VIEW PREREQUISITES IN THE FORGE'
+                      : 'UNLOCKED! READ MORE IN THE FORGE SKILLBOOK'
+                  }
+                />
+              )}
             </StyledElems.SingleProductScreen>
 
             {/* SCREEN 2 - SHOWCASE */}
