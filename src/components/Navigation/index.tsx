@@ -150,6 +150,7 @@ export default function Navigation({
 
         {/* Theme toggle and version */}
         <InnerNavWrapper
+          className="theme-toggler"
           margin="auto auto 1rem auto"
           padding="1.5rem 1rem"
           alignItems={'center'}

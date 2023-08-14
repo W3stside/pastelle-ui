@@ -56,7 +56,7 @@ export const NavigationStepsWrapper = styled.nav<{
     overflow: hidden;
     width: 100%;
     
-    > div:last-child {
+    > div.theme-toggler {
       width: 90%;
       padding: 2rem;
       background: linear-gradient(267deg, #000000c2 33%, transparent);
