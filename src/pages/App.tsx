@@ -14,6 +14,7 @@ const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Err
 const Collection = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "COLLECTION" */ 'pages/Collection'))
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
 const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleProduct'))
+const Policy = lazy(() => import(/* webpackChunkName: "POLICY" */ 'pages/policies'))
 
 export default function App() {
   // attempt to enable analytics, will do nothing if consent not set
@@ -41,6 +42,8 @@ export default function App() {
           <Routes>
             <Route path={`/${COLLECTION_PARAM_NAME}/:collection`} element={<Collection />} />
             <Route path={`/${APPAREL_PARAM_NAME}/:handle`} element={<SingleItem />} />
+
+            <Route path={`/policies/:policy`} element={<Policy />} />
 
             <Route path="/404" element={<NotFound />} />
             <Route

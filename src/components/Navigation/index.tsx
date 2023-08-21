@@ -83,7 +83,7 @@ export default function Navigation({
   useOnResize(() => setIsNavOpen(false), isNavOpen)
 
   // Policies open/close nav
-  const [{ policies, company }, setLegalOpenStatus] = useState({
+  const [{ policies }, setLegalOpenStatus] = useState({
     policies: false,
     company: false,
   })
@@ -169,13 +169,13 @@ export default function Navigation({
           <span>[{policies ? ' - ' : ' + '}]</span>
           {policies && (
             <Column width={'100%'} marginTop="1rem" gap="0.25rem">
-              <Link to="#">Shipping</Link>
-              <Link to="#">Privacy</Link>
-              <Link to="#">Terms</Link>
+              <Link to="/policies/shipping">Shipping</Link>
+              <Link to="/policies/privacy">Privacy</Link>
+              <Link to="/policies/refunds">Refunds</Link>
             </Column>
           )}
         </NavRowItem>
-        <NavRowItem
+        {/* <NavRowItem
           onClick={() => setLegalOpenStatus((state) => ({ ...state, company: !state.company }))}
           flexWrap={'wrap'}
         >
@@ -187,7 +187,7 @@ export default function Navigation({
               <Link to="#">Get in touch</Link>
             </Column>
           )}
-        </NavRowItem>
+        </NavRowItem> */}
         <NavRowItem>Version: {packageJSON.version}</NavRowItem>
       </NavigationStepsWrapper>
     </>
