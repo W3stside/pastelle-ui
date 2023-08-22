@@ -1,5 +1,5 @@
 import { Column, Row } from '@past3lle/components'
-import { useOnResize } from '@past3lle/hooks'
+import { useIsSmallMediaWidth, useOnResize } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
 import LoadingRows from 'components/Loader/LoadingRows'
 import ThemeToggleBar from 'components/ThemeToggler'
@@ -7,11 +7,12 @@ import { ProductSubHeader } from 'pages/common/styleds'
 import { BaseProductPageProps } from 'pages/common/types'
 import { Fragment, memo, useCallback, useMemo, useState } from 'react'
 import { Menu, X } from 'react-feather'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Product } from 'shopify/graphql/types/_generated_'
 import { useDeriveCurrentCollection, useGetCurrentOnScreenCollectionProduct } from 'state/collection/hooks'
 import { ProductPageMap } from 'state/collection/reducer'
 import { URLFlowType, getFlowParams } from 'state/collection/updater'
+import { BLACK_TRANSPARENT_MOST } from 'theme'
 import { buildItemUrl } from 'utils/navigation'
 
 import packageJSON from '../../../package.json'
@@ -22,6 +23,7 @@ import {
   MobileNavOrb,
   NavRowItem,
   NavigationStepsWrapper,
+  PolicyColumnWrapper,
   SideEffectNavLink,
 } from './styled'
 
@@ -59,14 +61,14 @@ export default function Navigation({
 
   const handleNavMove = useCallback(
     (
-      e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-      product: Pick<BaseProductPageProps, 'handle'> | 'collection'
+      e: React.MouseEvent<HTMLElement, MouseEvent>,
+      path: { product?: Pick<BaseProductPageProps, 'handle'>; other?: string }
     ) => {
       e.preventDefault()
 
       isNavOpen && toggleNav()
 
-      navigate(product === 'collection' ? 'collection' : buildItemUrl(product.handle))
+      navigate(path?.product?.handle ? buildItemUrl(path.product.handle) : (path?.other as string))
     },
     [navigate, isNavOpen, toggleNav]
   )
@@ -83,10 +85,12 @@ export default function Navigation({
   useOnResize(() => setIsNavOpen(false), isNavOpen)
 
   // Policies open/close nav
-  const [{ policies }, setLegalOpenStatus] = useState({
+  const [{ policies }, setPoliciesOpenState] = useState({
     policies: false,
     company: false,
   })
+
+  const smallMedia = useIsSmallMediaWidth()
 
   return (
     <>
@@ -140,7 +144,7 @@ export default function Navigation({
                 fontSize={isNavOpen ? '4rem' : '1.6rem'}
                 fontWeight={200}
                 style={{ cursor: 'pointer' }}
-                onClick={(e) => handleNavMove(e, 'collection')}
+                onClick={(e) => handleNavMove(e, { other: 'collection' })}
               >
                 FULL COLLECTION
               </ProductSubHeader>
@@ -156,27 +160,50 @@ export default function Navigation({
           alignItems={'center'}
           bgColor="transparent"
           $width={isNavOpen ? '90%' : '100%'}
+          flexDirection={isNavOpen ? 'row' : 'column'}
         >
+          {smallMedia && (
+            <span style={{ fontSize: '2rem' }} className="nav-policy-title">
+              Theme
+            </span>
+          )}
           <div>
             <ThemeToggleBar themeToggleProps={{ width: '90%', maxWidth: '120px' }} />
           </div>
         </InnerNavWrapper>
+        {/* Policies */}
         <NavRowItem
-          onClick={() => setLegalOpenStatus((state) => ({ ...state, policies: !state.policies }))}
+          minHeight={smallMedia ? 60 : 0}
+          onClick={() => setPoliciesOpenState((state) => ({ ...state, policies: !state.policies }))}
           flexWrap={'wrap'}
         >
-          <span>Policies</span>
-          <span>[{policies ? ' - ' : ' + '}]</span>
+          <span className="nav-policy-title">Policies</span>
+          <span className="nav-policy-title">[{policies ? ' - ' : ' + '}]</span>
           {policies && (
-            <Column width={'100%'} marginTop="1rem" gap="0.25rem">
-              <Link to="/policies/shipping">Shipping</Link>
-              <Link to="/policies/privacy">Privacy</Link>
-              <Link to="/policies/refunds">Refunds</Link>
-            </Column>
+            <PolicyColumnWrapper>
+              <span
+                style={{ textDecoration: 'underline' }}
+                onClick={(e) => handleNavMove(e, { other: '/policies/shipping' })}
+              >
+                Shipping
+              </span>
+              <span
+                style={{ textDecoration: 'underline' }}
+                onClick={(e) => handleNavMove(e, { other: '/policies/privacy' })}
+              >
+                Privacy
+              </span>
+              <span
+                style={{ textDecoration: 'underline' }}
+                onClick={(e) => handleNavMove(e, { other: '/policies/refunds' })}
+              >
+                Refunds
+              </span>
+            </PolicyColumnWrapper>
           )}
         </NavRowItem>
         {/* <NavRowItem
-          onClick={() => setLegalOpenStatus((state) => ({ ...state, company: !state.company }))}
+          onClick={() => setPoliciesOpenState((state) => ({ ...state, company: !state.company }))}
           flexWrap={'wrap'}
         >
           <span>Company</span>
@@ -188,7 +215,13 @@ export default function Navigation({
             </Column>
           )}
         </NavRowItem> */}
-        <NavRowItem>Version: {packageJSON.version}</NavRowItem>
+        <NavRowItem
+          fontSize="0.75rem"
+          justifyContent={smallMedia ? 'end' : 'start'}
+          backgroundColor={BLACK_TRANSPARENT_MOST}
+        >
+          Version: {packageJSON.version}
+        </NavRowItem>
       </NavigationStepsWrapper>
     </>
   )
@@ -224,7 +257,7 @@ const NavProductLine = ({
   currentProduct: any
   product: Pick<BaseProductPageProps, 'id' | 'title' | 'handle'>
 }) => (
-  <SideEffectNavLink key={product.id} onClick={(e) => handleNavMove(e, product)}>
+  <SideEffectNavLink key={product.id} onClick={(e) => handleNavMove(e, { product })}>
     <ProductSubHeader
       width={'100%'}
       padding="2px 0"

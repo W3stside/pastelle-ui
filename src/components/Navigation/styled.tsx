@@ -6,6 +6,7 @@ import {
   setBestTextColour,
   setFlickerAnimation,
   upToMedium,
+  upToSmall,
 } from '@past3lle/theme'
 import { Z_INDEXES } from 'constants/config'
 import styled from 'styled-components/macro'
@@ -47,7 +48,7 @@ export const NavigationStepsWrapper = styled.nav<{
 
   ${setFlickerAnimation({ state: true, duration: 4, count: 2 })}
 
-  ${({ isOpen }) => upToMedium`
+  ${({ isOpen, theme }) => upToMedium`
     display: ${isOpen ? 'flex' : 'none'};
     position: fixed;
     top: 0; left: 0; bottom: 0;
@@ -57,13 +58,15 @@ export const NavigationStepsWrapper = styled.nav<{
     width: 100%;
     
     > div.theme-toggler {
-      width: 90%;
-      padding: 2rem;
-      background: linear-gradient(267deg, #000000c2 33%, transparent);
+      min-height: 60px;
+      width: 100%;
+      padding: 1.25rem 0.75rem 1.25rem 1.25rem;
+      // background: linear-gradient(267deg, #000000c2 33%, transparent);
+      background-color: ${theme.blackLight};
       border-radius: 0 1rem 1rem 0;
       > div {
         width: 13rem;
-        margin: auto 0 0 auto;
+        margin: auto 0 auto auto;
       } 
     }
 
@@ -153,13 +156,45 @@ export const InnerNavWrapper = styled(Column)<{ bgColor?: string; $width: string
   }
 `
 
-export const NavRowItem = styled(Row).attrs({
-  backgroundColor: getThemeColours('DEFAULT').blackLight,
-  fontSize: '1rem',
-  fontWeight: 600,
-  justifyContent: 'space-between',
-  padding: '0.75rem',
+export const NavRowItem = styled(Row).attrs((props) => ({
+  backgroundColor: props.backgroundColor || getThemeColours('DEFAULT').blackLight,
+  fontSize: props.fontSize || '1rem',
+  fontWeight: props.fontWeight || 600,
+  justifyContent: props.justifyContent || 'space-between',
+  padding: '1.25rem',
   width: '100%',
-})`
+}))`
   cursor: pointer;
+
+  ${upToSmall`
+    span.nav-policy-title {
+      font-size: 2rem;
+      font-weight: 100;
+    }
+  `}
+`
+
+export const PolicyColumnWrapper = styled(Column)`
+  text-transform: uppercase;
+  width: 100%;
+  margin-top: 1rem;
+  gap: 0.55rem;
+  font-size: 1.2rem;
+  padding: 1rem 0 0;
+
+  > span {
+    color: inherit;
+    background-color: ${(props) => props.theme.purple};
+    padding: 0.3rem 0.8rem 0.3rem 0.5rem;
+    color: black;
+    font-style: italic;
+    text-align: center;
+  }
+
+  ${upToSmall`
+    font-size: 2rem;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    padding: 2rem;
+  `}
 `

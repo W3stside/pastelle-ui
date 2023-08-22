@@ -215,7 +215,9 @@ export const ProductSubHeader = styled(Text.SubHeader)<{
 `
 
 export const ItemBreadcrumb = styled(NavLink)<{ color: string }>`
-  color: ${({ color }) => setBestTextColour(color)};
+  &&&&&&&&& {
+    color: ${({ color }) => setBestTextColour(color)};
+  }
   font-size: 1.4rem;
   font-weight: 300;
   text-decoration: none;
@@ -244,7 +246,19 @@ export const ProductDescription = styled(Text.Black).attrs((props) => ({
   border-radius: ${({ theme: { button } }) => button.border.radius};
 `
 
-export const ProductBackendDescription = styled(ProductDescription)<{ accentColor: string }>`
+export const ProductBackendDescription = styled(ProductDescription)<{
+  accentColor: string
+  color?: string
+  tableShadowColour?: string
+}>`
+  *[data-mce-style='color: #000000;'] {
+    color: ${(props) => props.color} !important;
+  }
+
+  li > span[data-mce-style='color: #000000; background-color: #ffffff;'] {
+    background-color: ${(props) => props.accentColor} !important;
+  }
+
   blockquote {
     margin: 0;
   }
@@ -262,6 +276,24 @@ export const ProductBackendDescription = styled(ProductDescription)<{ accentColo
   ol {
     list-style: tibetan;
     margin-top: 0;
+  }
+
+  > table {
+    display: block;
+    overflow-x: auto;
+    width: 100% !important;
+    ${({ tableShadowColour }) =>
+      tableShadowColour &&
+      `
+      box-shadow: inset -50px 0px 40px -50px ${tableShadowColour};
+      border-radius: 5px;
+    `}
+
+    > tbody {
+      display: block;
+      width: max-content;
+      padding-right: 4rem;
+    }
   }
 `
 
