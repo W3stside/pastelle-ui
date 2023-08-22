@@ -250,13 +250,19 @@ export const ProductBackendDescription = styled(ProductDescription)<{
   accentColor: string
   color?: string
   tableShadowColour?: string
+  css?: string
 }>`
   *[data-mce-style='color: #000000;'] {
     color: ${(props) => props.color} !important;
   }
 
-  li > span[data-mce-style='color: #000000; background-color: #ffffff;'] {
-    background-color: ${(props) => props.accentColor} !important;
+  li {
+    &::marker {
+      content: unset;
+    }
+    > span[data-mce-style='color: #000000; background-color: #ffffff;'] {
+      background-color: ${(props) => props.accentColor} !important;
+    }
   }
 
   blockquote {
@@ -267,15 +273,20 @@ export const ProductBackendDescription = styled(ProductDescription)<{
   h2,
   h3,
   h4 {
-    text-decoration: ${({ accentColor }) => `underline 0.3rem solid ${accentColor}`};
+    text-decoration: ${({ accentColor }) => `underline 0.6rem solid ${accentColor}`};
     &:not(h1) {
       margin-bottom: 1rem;
     }
   }
   ul,
   ol {
-    list-style: tibetan;
+    list-style: urdu;
     margin-top: 0;
+    padding-left: 2.25rem;
+  }
+
+  strong {
+    font-variation-settings: 'wght' 600;
   }
 
   > table {
@@ -295,6 +306,8 @@ export const ProductBackendDescription = styled(ProductDescription)<{
       padding-right: 4rem;
     }
   }
+
+  ${(props) => props?.css}
 `
 
 export const ProductSubDescription = styled(ProductDescription).attrs((props) => ({

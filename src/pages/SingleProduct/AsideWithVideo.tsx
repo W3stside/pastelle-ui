@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Column, Row } from '@past3lle/components'
 import { SkillLockStatus, useDeriveSkillState, useW3UserConnectionInfo } from '@past3lle/forge-web3'
 import { useDetectScrollIntoView, useIsMobile, useStateRef } from '@past3lle/hooks'
+import { setBestTextColour } from '@past3lle/theme'
 import { getIsMobile as getIsMobileDevice } from '@past3lle/utils'
 import AddToCartButton from 'components/AddToCartButton'
 import { useBreadcrumb } from 'components/Breadcrumb'
@@ -34,6 +35,7 @@ import {
   ScrollingProductLabel,
 } from 'pages/common/styleds'
 import { SingleProductPageProps, WithParentAspectRatio } from 'pages/common/types'
+import { darken, transparentize } from 'polished'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { Package, Truck } from 'react-feather'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
@@ -41,6 +43,8 @@ import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
 import { useCloseModals, useModalOpen, useToggleModal } from 'state/modalsAndPopups/hooks'
 import { ApplicationModal } from 'state/modalsAndPopups/reducer'
+import { useThemeManager } from 'state/user/hooks'
+import { ThemeModes } from 'theme'
 
 // import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
 
@@ -125,6 +129,9 @@ export default function SingleProductPage({
     { root: asideContainer, continuous: true },
     !!asideContainer
   )
+
+  const { mode, content } = useThemeManager()
+
   return (
     <>
       <LargeImageCarousel
@@ -260,9 +267,20 @@ export default function SingleProductPage({
                 {skillState !== SkillLockStatus.LOCKED ? (
                   <ProductBackendDescription
                     dangerouslySetInnerHTML={{ __html: description }}
-                    padding="0rem 4rem 1rem"
+                    padding="2rem 4rem 1rem"
                     fontWeight={300}
-                    accentColor={color}
+                    accentColor={bgColor}
+                    backgroundColor={
+                      mode === ThemeModes.DARK ? content.background : transparentize(0.1, darken(0.02, color))
+                    }
+                    color={mode === ThemeModes.DARK ? content.text : setBestTextColour(color)}
+                    css={`
+                      h1:first-of-type > strong {
+                        color: ${setBestTextColour(bgColor)};
+                        background-color: ${bgColor};
+                        padding: 0.25rem 1rem 0.25rem 0.55rem;
+                      }
+                    `}
                   />
                 ) : (
                   <RedactedInformationDescription />
