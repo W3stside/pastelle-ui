@@ -183,7 +183,7 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
       height: calc(100vh - ${LAYOUT_REM_HEIGHT_MAP.HEADER}rem);
     }
 
-    ${ProductLogo} {
+    ${ProductLogo}:not(#product-logo__description) {
       width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromLarge};
     }
   `}
@@ -194,7 +194,7 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
       height: calc(100vh - ${LAYOUT_REM_HEIGHT_MAP.HEADER}rem);
     }
 
-    ${ProductLogo} {
+    ${ProductLogo}:not(#product-logo__description) {
       width: ${FIXED_IMAGE_SIZE_CONSTRAINTS.fromExtraLarge};
     }
   `}

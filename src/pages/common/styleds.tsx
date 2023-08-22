@@ -113,13 +113,14 @@ export const ItemHeader = styled(Text.Header)<ItemHeaderProps>`
       `
     )}
 `
-
-export const ProductLogo = styled.div<{
-  $bgColor?: string
+export interface LogoBaseStyleProps {
   collectionView?: boolean
+  $bgColor?: string
   $maxWidth?: string
   $marginTop?: string
-}>`
+  logoCss?: string
+}
+export const ProductLogo = styled.div<LogoBaseStyleProps>`
   display: flex;
   ${({ $bgColor }) => $bgColor && `background-color: ${$bgColor};`}
   z-index: ${Z_INDEXES.PRODUCT_CONTENT};
@@ -131,6 +132,12 @@ export const ProductLogo = styled.div<{
 
   ${({ theme, $marginTop = '-35px' }) => theme.mediaWidth.upToSmall`
     margin-top: ${$marginTop};  
+  `}
+
+  ${({ logoCss = '' }) => `
+    &&&&&&{
+      ${logoCss}
+    }
   `}
 `
 export const ProductLogoCssImport = styled(ProductLogo)<{

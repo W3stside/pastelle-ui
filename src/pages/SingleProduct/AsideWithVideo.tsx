@@ -263,28 +263,47 @@ export default function SingleProductPage({
                 }
               />
               <Column padding="0 1.5rem">
-                {/* From shopify backened console */}
-                {skillState !== SkillLockStatus.LOCKED ? (
-                  <ProductBackendDescription
-                    dangerouslySetInnerHTML={{ __html: description }}
-                    padding="2rem 4rem 1rem"
-                    fontWeight={300}
-                    accentColor={bgColor}
-                    backgroundColor={
-                      mode === ThemeModes.DARK ? content.background : transparentize(0.1, darken(0.02, color))
-                    }
-                    color={mode === ThemeModes.DARK ? content.text : setBestTextColour(color)}
-                    css={`
-                      h1:first-of-type > strong {
-                        color: ${setBestTextColour(bgColor)};
-                        background-color: ${bgColor};
-                        padding: 0.25rem 1rem 0.25rem 0.55rem;
-                      }
-                    `}
+                <Column
+                  overflow="hidden"
+                  borderRadius="1rem"
+                  backgroundColor={
+                    mode === ThemeModes.DARK ? content.background : transparentize(0.1, darken(0.02, color))
+                  }
+                >
+                  <Logo
+                    id="product-logo__description"
+                    logoCss={`margin: -9% 0 0 0;`}
+                    parentNode={screensContainer}
+                    isCollectionView={false}
+                    logos={{ header: headerLogo, nav: navLogo, main: logo }}
                   />
-                ) : (
-                  <RedactedInformationDescription />
-                )}
+                  {/* From shopify backened console */}
+                  {skillState !== SkillLockStatus.LOCKED ? (
+                    <ProductBackendDescription
+                      dangerouslySetInnerHTML={{ __html: description }}
+                      padding="0rem 4rem 1rem"
+                      fontWeight={300}
+                      accentColor={bgColor}
+                      backgroundColor="transparent"
+                      color={mode === ThemeModes.DARK ? content.text : setBestTextColour(color)}
+                      css={`
+                        h1:first-of-type {
+                          text-decoration: none;
+                          font-size: 4rem;
+                          > strong {
+                            color: ${setBestTextColour(bgColor)};
+                            background-color: ${bgColor};
+                            font-weight: 100;
+                            font-variation-settings: 'wght' 50;
+                            padding: 0.25rem 1rem 0.25rem 0.55rem;
+                          }
+                        }
+                      `}
+                    />
+                  ) : (
+                    <RedactedInformationDescription />
+                  )}
+                </Column>
               </Column>
               {/* Credits */}
               <ProductSubHeader

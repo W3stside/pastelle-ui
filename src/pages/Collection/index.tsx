@@ -49,7 +49,7 @@ export default function Collection() {
 
   const mappedCollectionItems = useMemo(
     () =>
-      collectionProductList.reverse().map((item) => {
+      collectionProductList.map((item) => {
         const newItem = Object.assign({}, item)
         if (item?.lockedImages?.[0]?.url) newItem.images = item.lockedImages
         return newItem
