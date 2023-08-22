@@ -138,8 +138,8 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
     margin-top: -${SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET * 100}%;
 
     // for mobile logos in single
-    &${ProductLogoCssImport} {
-      margin-top: -15.1%;
+    &${ProductLogoCssImport}:not(div#product-logo__description) {
+      margin-top: -15.4%;
     }
     // padding-top: 2rem;
     filter: ${({ theme }) => theme.modeLogoFilter};

@@ -28,14 +28,20 @@ export default function Logo({ id, isCollectionView, logos, colour = '#8d7b90', 
           lqImageOptions={{
             width: parentNode?.clientWidth || 0,
             get height() {
-              return (this.width * SINGLE_ITEM_LOGO_RATIO[0]) / SINGLE_ITEM_LOGO_RATIO[1]
+              return Math.ceil((this.width * SINGLE_ITEM_LOGO_RATIO[0]) / SINGLE_ITEM_LOGO_RATIO[1])
             },
             showLoadingIndicator: false,
           }}
         />
       </ProductLogo>
     ) : (
-      <ProductLogoCssImport logoUri={logos.main} height={parentNode.clientWidth / 3.64} position="relative" />
+      <ProductLogoCssImport
+        id={id}
+        logoCss={logoCss}
+        logoUri={logos.main}
+        height={Math.ceil(parentNode.clientWidth / 3.64)}
+        position="relative"
+      />
     )
   } else {
     return null

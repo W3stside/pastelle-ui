@@ -272,7 +272,11 @@ export default function SingleProductPage({
                 >
                   <Logo
                     id="product-logo__description"
-                    logoCss={`margin: -9% 0 0 0;`}
+                    logoCss={`
+                      filter: brightness(0.75);
+                      transform: rotate(180deg);
+                      margin: 0 0 -12.5% 0;
+                    `}
                     parentNode={screensContainer}
                     isCollectionView={false}
                     logos={{ header: headerLogo, nav: navLogo, main: logo }}

@@ -149,7 +149,7 @@ export const ProductLogoCssImport = styled(ProductLogo)<{
   ${({ theme, logoUri }) =>
     setBackgroundWithDPI(theme, [logoUri, logoUri], {
       preset: 'logo',
-      backgroundAttributes: ['center/cover no-repeat', 'center/cover repeat'],
+      backgroundAttributes: ['center/contain no-repeat', 'center/contain no-repeat'],
       lqIkUrlOptions: {
         transforms: [null, 'pr-true,q-60,bl-12'],
       },
