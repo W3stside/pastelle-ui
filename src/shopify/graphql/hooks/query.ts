@@ -9,6 +9,7 @@ import {
   GetCartQueryVariables,
   GetCollectionQuery,
   GetCollectionQueryVariables,
+  PoliciesQuery,
   ProductByIdQuery,
   ProductByIdQueryVariables,
   ProductVariantQuery,
@@ -18,6 +19,7 @@ import { getMetafields, mapShopifyProductToProps } from 'shopify/utils'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
 
 import { GET_CART } from '../queries/cart'
+import { QUERY_POLICIES } from '../queries/policies'
 import { QUERY_PRODUCT_BY_ID, QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
 // MOCKS
 import { useMockQuery } from './mock/hooks'
@@ -181,4 +183,14 @@ export function useQueryProductByIdAndMap(variables: ProductByIdQueryVariables) 
   const title = 'TRUNCATED'
 
   return { title, id: product?.product?.id, handle: product?.product?.handle, product: formattedProduct, loading }
+}
+
+export function useQueryPolicies() {
+  const { data, error, loading } = useQuery<PoliciesQuery>(QUERY_POLICIES)
+
+  if (error) {
+    devError(error)
+  }
+
+  return { data, error, loading }
 }

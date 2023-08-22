@@ -6,6 +6,10 @@ export const CustomStaticGlobalCSSProvider = createGlobalStyle`
     
     > div#root {
       height: 100vh;
+
+      a {
+        color: ${(props) => props.theme.purple};
+      }
     }
   }
 `
