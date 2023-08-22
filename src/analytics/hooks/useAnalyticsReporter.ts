@@ -70,10 +70,10 @@ export function initGA4() {
   })
 }
 
-export function initAnalytics({ interacted, analytics, marketing, advertising }: CookiePreferences) {
+export function initAnalytics({ interacted, marketing, advertising }: CookiePreferences) {
   googleAnalytics.gtag('consent', 'default', {
     ad_storage: 'denied',
-    analytics_storage: 'denied',
+    analytics_storage: 'granted',
     marketing_storage: 'denied',
   })
 
@@ -82,7 +82,7 @@ export function initAnalytics({ interacted, analytics, marketing, advertising }:
     initGA4()
 
     const adStorageConsent = advertising ? 'granted' : 'denied'
-    const analyticsStorageConsent = analytics ? 'granted' : 'denied'
+    const analyticsStorageConsent = 'granted'
     const marketingStorageConsent = marketing ? 'granted' : 'denied'
 
     devDebug('COOKIES INTERACTED WITH - SETTING GTAG CONSENT')
@@ -94,8 +94,8 @@ export function initAnalytics({ interacted, analytics, marketing, advertising }:
 
     googleAnalytics.gtag('consent', 'update', {
       ad_storage: adStorageConsent,
-      analytics_storage: analytics ? 'granted' : 'denied',
-      marketing_storage: marketing ? 'granted' : 'denied',
+      analytics_storage: analyticsStorageConsent,
+      marketing_storage: marketingStorageConsent,
     })
   }
 }

@@ -10,12 +10,11 @@ export function CookiesBanner() {
       fullText={
         <div>
           <p>
-            WE REALLY ONLY HAVE OPT-IN <strong>ANALYTICS</strong> COOKIES FOR 3 REASONS:
+            WE REALLY ONLY HAVE OPT-IN <strong>MARKETING</strong> COOKIES FOR 2 REASONS:
           </p>
           <div style={{ marginLeft: '2rem' }}>
-            <p>1. See which of our items are most popular</p>
-            <p>2. Assess which parts of our site aren&apos;t working well and/or where you guys are getting stuck</p>
-            <p>3. Get a sense for if you guys like the showcase video option and other new features</p>
+            <p>1. Send you details on newest collections</p>
+            <p>2. See which kind of our merch is preferred and continue delivering similar quality</p>
           </div>
         </div>
       }
