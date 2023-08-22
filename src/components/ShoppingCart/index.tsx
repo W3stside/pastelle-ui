@@ -152,10 +152,10 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
               <a
                 href={data.cart.checkoutUrl}
                 style={{
+                  color: 'ghostwhite',
                   width: '100%',
                   height: '100%',
                   padding: '1rem',
-                  // fontSize: !checkoutClicked ? '2.4rem' : '2.6rem',
                 }}
                 onClick={() => setCheckoutClicked(true)}
               >
