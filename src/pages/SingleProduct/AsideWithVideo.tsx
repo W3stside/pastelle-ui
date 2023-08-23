@@ -277,6 +277,7 @@ export default function SingleProductPage({
                       transform: rotate(180deg);
                       margin: 0 0 -12.5% 0;
                     `}
+                    logoBgAttributes={['bottom/contain no-repeat', 'bottom/contain no-repeat']}
                     parentNode={screensContainer}
                     isCollectionView={false}
                     logos={{ header: headerLogo, nav: navLogo, main: logo }}

@@ -11,9 +11,18 @@ type LogoParams = {
   isCollectionView: boolean
   colour?: string
   logoCss?: LogoBaseStyleProps['logoCss']
+  logoBgAttributes?: string[]
   id?: string
 }
-export default function Logo({ id, isCollectionView, logos, colour = '#8d7b90', parentNode, logoCss }: LogoParams) {
+export default function Logo({
+  id,
+  isCollectionView,
+  logos,
+  colour = '#8d7b90',
+  parentNode,
+  logoCss,
+  logoBgAttributes,
+}: LogoParams) {
   const collectionLogo = logos.nav || logos.header
 
   if (isCollectionView && collectionLogo) {
@@ -37,6 +46,7 @@ export default function Logo({ id, isCollectionView, logos, colour = '#8d7b90', 
     ) : (
       <ProductLogoCssImport
         id={id}
+        bgAttributes={logoBgAttributes}
         logoCss={logoCss}
         logoUri={logos.main}
         height={Math.ceil(parentNode.clientWidth / 3.64)}

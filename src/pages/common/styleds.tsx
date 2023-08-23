@@ -144,12 +144,13 @@ export const ProductLogoCssImport = styled(ProductLogo)<{
   position?: string
   height?: number
   logoUri: ShopImageSrcSet
+  bgAttributes?: string[]
 }>`
   position: ${({ position = 'fixed' }) => position};
-  ${({ theme, logoUri }) =>
+  ${({ theme, logoUri, bgAttributes = ['center/cover no-repeat', 'center/cover repeat'] }) =>
     setBackgroundWithDPI(theme, [logoUri, logoUri], {
       preset: 'logo',
-      backgroundAttributes: ['center/contain no-repeat', 'center/contain no-repeat'],
+      backgroundAttributes: bgAttributes,
       lqIkUrlOptions: {
         transforms: [null, 'pr-true,q-60,bl-12'],
       },
