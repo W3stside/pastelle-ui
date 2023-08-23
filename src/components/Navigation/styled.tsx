@@ -182,19 +182,59 @@ export const PolicyColumnWrapper = styled(Column)`
   font-size: 1.2rem;
   padding: 1rem 0 0;
 
-  > span {
+  > span,
+  > a {
+    border-radius: 2px;
     color: inherit;
     background-color: ${(props) => props.theme.purple};
+    &#instagram-link {
+      text-transform: lowercase;
+      background: ${(props) => `linear-gradient(90deg, ${props.theme.purple} 0%, deeppink 100%)`};
+    }
     padding: 0.3rem 0.8rem 0.3rem 0.5rem;
-    color: black;
+    color: black !important;
     font-style: italic;
     text-align: center;
+    &:not(a) {
+      text-decoration: underline;
+    }
+
+    flex: 1 1 auto;
+
+    &:hover {
+      filter: invert(1);
+    }
+
+    transition: filter 0.3s ease-in-out;
+  }
+
+  > small {
+    margin-top: 0.5rem;
+    text-transform: initial;
+    font-variation-settings: 'wght' 100;
+    font-weight: 100;
   }
 
   ${upToSmall`
     font-size: 2rem;
-    flex-flow: row nowrap;
-    justify-content: space-evenly;
+    flex-flow: row wrap;
+    justify-content: space-between;
     padding: 2rem;
+
+    > a#instagram-link, > span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      
+      &:not(span) {
+        font-variation-settings: 'wght' 200;
+      }
+    }
+
+    > small {
+      display: block;
+      width: 100%;
+    }
   `}
 `

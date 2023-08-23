@@ -1,4 +1,4 @@
-import { Column, Row } from '@past3lle/components'
+import { Column, ExternalLink, Row } from '@past3lle/components'
 import { useIsSmallMediaWidth, useOnResize } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
 import LoadingRows from 'components/Loader/LoadingRows'
@@ -87,7 +87,6 @@ export default function Navigation({
   // Policies open/close nav
   const [{ policies }, setPoliciesOpenState] = useState({
     policies: false,
-    company: false,
   })
 
   const smallMedia = useIsSmallMediaWidth()
@@ -177,44 +176,20 @@ export default function Navigation({
           onClick={() => setPoliciesOpenState((state) => ({ ...state, policies: !state.policies }))}
           flexWrap={'wrap'}
         >
-          <span className="nav-policy-title">Policies</span>
+          <span className="nav-policy-title">Learn more</span>
           <span className="nav-policy-title">[{policies ? ' - ' : ' + '}]</span>
           {policies && (
             <PolicyColumnWrapper>
-              <span
-                style={{ textDecoration: 'underline' }}
-                onClick={(e) => handleNavMove(e, { other: '/policies/shipping' })}
-              >
-                Shipping
-              </span>
-              <span
-                style={{ textDecoration: 'underline' }}
-                onClick={(e) => handleNavMove(e, { other: '/policies/privacy' })}
-              >
-                Privacy
-              </span>
-              <span
-                style={{ textDecoration: 'underline' }}
-                onClick={(e) => handleNavMove(e, { other: '/policies/refunds' })}
-              >
-                Refunds
-              </span>
+              <ExternalLink id="instagram-link" href="https://instagram.com/pastelle.apparel">
+                @pastelle.apparel
+              </ExternalLink>
+              <small>Policies:</small>
+              <span onClick={(e) => handleNavMove(e, { other: '/policies/shipping' })}>Shipping</span>
+              <span onClick={(e) => handleNavMove(e, { other: '/policies/privacy' })}>Privacy</span>
+              <span onClick={(e) => handleNavMove(e, { other: '/policies/refunds' })}>Refunds</span>
             </PolicyColumnWrapper>
           )}
         </NavRowItem>
-        {/* <NavRowItem
-          onClick={() => setPoliciesOpenState((state) => ({ ...state, company: !state.company }))}
-          flexWrap={'wrap'}
-        >
-          <span>Company</span>
-          <span>[{company ? ' - ' : ' + '}]</span>
-          {company && (
-            <Column width={'100%'} marginTop="1rem" gap="0.25rem">
-              <Link to="#">Who is PASTELLE?</Link>
-              <Link to="#">Get in touch</Link>
-            </Column>
-          )}
-        </NavRowItem> */}
         <NavRowItem
           fontSize="0.75rem"
           justifyContent={smallMedia ? 'end' : 'start'}
