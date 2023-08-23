@@ -168,6 +168,12 @@ export default function SingleProductPage({
               />
               {/* DYNAMIC LOGO */}
               <Logo
+                logoCss={`
+                  filter: invert(1) saturate(1.4) hue-rotate(180deg) drop-shadow(0px 5px 10px ${transparentize(
+                    0.4,
+                    color
+                  )});
+                `}
                 parentNode={screensContainer}
                 isCollectionView={false}
                 logos={{ header: headerLogo, nav: navLogo, main: logo }}
@@ -273,7 +279,9 @@ export default function SingleProductPage({
                   <Logo
                     id="product-logo__description"
                     logoCss={`
-                      filter: brightness(0.75);
+                      filter: brightness(0.75) drop-shadow(0px -5px 5px ${
+                        mode === ThemeModes.DARK ? transparentize(0, color) : bgColor
+                      });
                       transform: rotate(180deg);
                       margin: 0 0 -12.5% 0;
                     `}

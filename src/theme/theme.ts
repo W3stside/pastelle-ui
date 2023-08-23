@@ -4,10 +4,11 @@ import { createTheme } from '@past3lle/web3-modal'
 export const pastelleTheme = createPast3lleTemplateTheme('PASTELLE', {
   DARK: {
     modeFilter: '',
-    modeLogoFilter: 'invert(1) saturate(1.4) hue-rotate(180deg) drop-shadow(0px 0px 12px rgba(120,0,0,1))',
+    modeLogoFilter: 'invert(1) saturate(1.4) hue-rotate(180deg) drop-shadow(0px 0px 5px rgba(120,120,120,1))',
   },
   LIGHT: {
     modeFilter: 'invert(1) brightness(0.65) contrast(1.8) hue-rotate(247deg) saturate(2)',
+    modeLogoFilter: 'drop-shadow(0px 10px 12px rgba(120,120,120,0.75))',
   },
 })
 
