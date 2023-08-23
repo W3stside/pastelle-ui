@@ -18,7 +18,7 @@ export function CookiesBanner() {
           </div>
         </div>
       }
-      onAcceptAnalytics={() => console.warn('ACCEPT ANALYTICS')}
+      onAcceptMarketing={() => console.warn('ACCEPT MARKETING')}
       onSaveAndClose={(cookieState) => {
         devDebug('COOKIE BANNER SAVED AND CLOSED.', cookieState)
         initAnalytics(cookieState)
