@@ -54,6 +54,7 @@ export default function SingleProductPage({
   logo,
   color = '#000',
   bgColor,
+  altColor,
   navLogo,
   headerLogo,
   // media,
@@ -169,10 +170,11 @@ export default function SingleProductPage({
               {/* DYNAMIC LOGO */}
               <Logo
                 logoCss={`
-                  filter: invert(1) saturate(1.4) hue-rotate(180deg) drop-shadow(0px 5px 10px ${transparentize(
-                    0.4,
-                    color
-                  )});
+                  filter: ${
+                    mode === ThemeModes.DARK
+                      ? `invert(1) saturate(1.4) hue-rotate(180deg) drop-shadow(0px 3px 7px ${bgColor})`
+                      : `drop-shadow(0px 5px 5px ${bgColor})`
+                  };
                 `}
                 parentNode={screensContainer}
                 isCollectionView={false}
@@ -196,31 +198,31 @@ export default function SingleProductPage({
             </StyledElems.SingleProductScreen>
 
             {/* SCREEN 2 - SHOWCASE */}
-            <StyledElems.SingleProductScreen padding="0 0 3rem">
+            <StyledElems.SingleProductScreen padding="0">
               {/* Size selector */}
               <ProductSubHeader
                 useGradient
                 bgColor={color}
                 label="SIZE & CONFIGURATION"
-                margin={isMobile ? '1rem 0' : '0 0 2rem 0'}
+                margin={isMobile ? '1rem 0' : '0'}
               />
               <Column margin="0" padding={'0 2rem'}>
                 {/* SHOWCASE MODEL SHOWCASE SETTINGS */}
                 {skillState !== SkillLockStatus.LOCKED && (
                   <>
-                    <ProductDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
-                      <Row gap="1rem">
-                        <FontAwesomeIcon icon={faLightbulb} />{' '}
-                        {SHOWCASE_ENABLED ? 'SHOWCASE SETTINGS' : 'SIZE SELECTION'}{' '}
-                      </Row>
-                    </ProductDescription>
+                    {SHOWCASE_ENABLED && (
+                      <ProductDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
+                        <Row gap="1rem">
+                          <FontAwesomeIcon icon={faLightbulb} /> SHOWCASE SETTINGS
+                        </Row>
+                      </ProductDescription>
+                    )}
 
                     <ShowcaseSettings>
-                      <ShowcaseVideoControls isMobile={isMobile} />
                       {/* MOBILE SHOWCASE */}
                       {SHOWCASE_ENABLED && <ModelSizeSelector />}
                       {/* PRODUCT SIZE SELECTOR */}
-                      <SizeSelector color={color} margin="0" />
+                      <SizeSelector color={bgColor} margin="0" />
                     </ShowcaseSettings>
                   </>
                 )}
@@ -248,11 +250,20 @@ export default function SingleProductPage({
 
                 {/* FREE SHIPPING LABEL */}
                 {FREE_SHIPPING_THRESHOLD && skillState !== SkillLockStatus.LOCKED && (
-                  <FreeShippingBanner fontWeight={300} flex="auto" minWidth={'21rem'} marginTop="2rem">
+                  <FreeShippingBanner
+                    fontWeight={300}
+                    flex="auto"
+                    minWidth={'21rem'}
+                    width="95%"
+                    margin="3.3rem auto 0"
+                    backgroundColor={'navajowhite'}
+                  >
                     <Truck />
                     <Package /> FREE SHIPPING OVER {FREE_SHIPPING_THRESHOLD}€
                   </FreeShippingBanner>
                 )}
+
+                <ShowcaseVideoControls isMobile={isMobile} margin="1rem auto 0" width="95%" />
               </Column>
             </StyledElems.SingleProductScreen>
 
@@ -273,15 +284,15 @@ export default function SingleProductPage({
                   overflow="hidden"
                   borderRadius="1rem"
                   backgroundColor={
-                    mode === ThemeModes.DARK ? content.background : transparentize(0.1, darken(0.02, color))
+                    mode === ThemeModes.DARK ? content.background : transparentize(0.1, altColor || darken(0.02, color))
                   }
                 >
                   <Logo
                     id="product-logo__description"
                     logoCss={`
-                      filter: brightness(0.75) drop-shadow(0px -5px 5px ${
-                        mode === ThemeModes.DARK ? transparentize(0, color) : bgColor
-                      });
+                      filter: ${
+                        mode === ThemeModes.DARK ? 'invert(1) hue-rotate(180deg)' : ''
+                      } brightness(0.75) drop-shadow(0px -5px 5px ${mode === ThemeModes.DARK ? color : bgColor});
                       transform: rotate(180deg);
                       margin: 0 0 -12.5% 0;
                     `}
@@ -294,7 +305,7 @@ export default function SingleProductPage({
                   {skillState !== SkillLockStatus.LOCKED ? (
                     <ProductBackendDescription
                       dangerouslySetInnerHTML={{ __html: description }}
-                      padding="0rem 4rem 1rem"
+                      padding="0rem 4rem 2rem"
                       fontWeight={300}
                       accentColor={bgColor}
                       backgroundColor="transparent"

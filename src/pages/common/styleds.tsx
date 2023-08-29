@@ -323,7 +323,7 @@ export const ProductSubDescription = styled(ProductDescription).attrs((props) =>
   padding: props.padding || '1.8rem',
   margin: props.margin || '2rem 0',
   color: props.theme.content.text,
-  backgroundColor: props.theme.content.textAlt,
+  backgroundColor: 'transparent',
   fontWeight: props.fontWeight || 400,
 }))`
   display: flex;
@@ -579,11 +579,22 @@ export const HighlightedText = styled.span<{ color?: string; bgColor: string }>`
   line-height: 1.8;
 `
 
-export const FreeShippingBanner = styled(ProductDescription).attrs((props) => ({ ...props, padding: '1.8rem' }))`
+export const FreeShippingBanner = styled(ProductDescription).attrs((props) => ({
+  ...props,
+  color: 'black',
+  padding: '1.8rem',
+}))`
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.4rem;
+  text-decoration: 0.3rem underline indianred;
+  color: ${({ theme }) => theme.black as string};
+
   > svg {
-    stroke: ${({ theme }) => theme.content.text};
+    stroke: ${({ theme, color = theme.content.text }) => color as string};
+    stroke-width: 0.23rem;
+    &:last-child {
+      margin-right: 0.75rem;
+    }
   }
 `

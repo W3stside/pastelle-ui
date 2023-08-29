@@ -42,6 +42,9 @@ export const FRAGMENT_PRODUCT = gql`
     brandingAssetMap: metafield(namespace: "custom", key: "brandingassetmap") {
       value
     }
+    altColor: metafield(namespace: "custom", key: "altColor") {
+      value
+    }
     bgColor: metafield(namespace: "custom", key: "bgColor") {
       value
     }

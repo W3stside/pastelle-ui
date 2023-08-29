@@ -58,6 +58,7 @@ export const mapSingleShopifyProductToProps = (
   navLogo: metaAssetMap?.navbar,
   description: product.descriptionHtml,
   // metafields
+  altColor: getMetafields<string>(product.altColor)?.toString(),
   bgColor: getMetafields<string>(product.bgColor)?.toString(),
   color: getMetafields<string>(product.color)?.toString(),
   artistInfo: getMetafields<ProductArtistInfo>(product.artistInfo),

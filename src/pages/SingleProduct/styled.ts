@@ -7,6 +7,7 @@ import {
   fromExtraLarge,
   fromLarge,
   fromSmall,
+  setAnimation,
   setBackgroundWithDPI,
   upToSmall,
   upToSmallHeight,
@@ -27,8 +28,10 @@ import {
   ProductScreen,
   ProductScreensContainer,
 } from 'pages/common/styleds'
-import { transparentize } from 'polished'
+import { darken, transparentize } from 'polished'
 import styled from 'styled-components/macro'
+import { ThemeModes } from 'theme'
+import { simmerAnimationCallback } from 'theme/animation'
 import { ShopImageSrcSet } from 'types'
 
 const PRICE_LABEL_PX =
@@ -215,6 +218,14 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
           modeColours: [bgColor, CHARCOAL_BLACK],
         })
       : `background: linear-gradient(${bgColor} 30%, ${transparentize(0.3, theme.white)} 55%);`}
+  
+  ${({ theme: { mode }, bgColor = BLACK }) =>
+    setAnimation(simmerAnimationCallback(darken(mode === ThemeModes.DARK ? 0.4 : 0, bgColor)), {
+      name: 'simmer' as any,
+      state: true,
+      duration: 20,
+      count: 20,
+    })}
 `
 
 function _getOffsetHeight(asideContainerHeight: number, containerWidth: number, optionalHeight = PRICE_LABEL_PX) {

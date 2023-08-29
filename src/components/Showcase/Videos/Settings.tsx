@@ -1,19 +1,20 @@
 import { Row } from '@past3lle/components'
 import { pauseShowcaseVideoAnalytics, playShowcaseVideoAnalytics, toggleShowcaseAutoplayAnalytics } from 'analytics'
-import { ProductSubHeader } from 'pages/common/styleds'
 import { useCallback } from 'react'
 import { PauseCircle, PlayCircle, ToggleLeft, ToggleRight } from 'react-feather'
+import { BoxProps } from 'rebass'
 import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
 import styled, { useTheme } from 'styled-components/macro'
 import { BLACK_TRANSPARENT } from 'theme/colours'
 
 const ShowcaseVideoControlContainer = styled(Row)`
-  background: ${({ theme }) => theme.content.background};
+  flex-flow: column nowrap;
+  background: ${(props) => props.theme.blackOpaque};
   border-radius: ${({ theme }) => theme.button.border.radius};
-  border: 1px solid ${({ theme }) => theme.input.border.colour};
+  border: ${({ theme }) => `1px solid ${theme.input.border.colour}`};
 `
 
-export default function ShowcaseVideoControls({ isMobile }: { isMobile: boolean }) {
+export default function ShowcaseVideoControls({ isMobile, ...containerProps }: BoxProps & { isMobile: boolean }) {
   const [{ autoplay, status }, updateSettings] = useUpdateShowcaseVideoSettings()
 
   const handlePauseVideo = useCallback(() => {
@@ -36,24 +37,13 @@ export default function ShowcaseVideoControls({ isMobile }: { isMobile: boolean 
   if (isMobile) return null
 
   return (
-    <ShowcaseVideoControlContainer alignItems={'center'} justifyContent="space-evenly" padding="0 1.2rem" css={``}>
-      <Row
-        alignItems={'center'}
-        justifyContent="space-evenly"
-        css={`
-          flex: 1;
-        `}
-      >
-        <ProductSubHeader
-          margin="0"
-          paddingLeft="0"
-          backgroundColor={'transparent'}
-          fontSize={'1.2rem'}
-          fontWeight={500}
-        >
-          VIDEO SETTINGS
-        </ProductSubHeader>
-      </Row>
+    <ShowcaseVideoControlContainer
+      alignItems={'center'}
+      justifyContent="space-evenly"
+      padding="0 1.2rem"
+      css={``}
+      {...containerProps}
+    >
       <Row
         alignItems={'center'}
         justifyContent="flex-end"
@@ -65,6 +55,7 @@ export default function ShowcaseVideoControls({ isMobile }: { isMobile: boolean 
           }
         `}
       >
+        VIDEO SETTINGS
         <Row
           width="auto"
           css={`
@@ -74,6 +65,7 @@ export default function ShowcaseVideoControls({ isMobile }: { isMobile: boolean 
           backgroundColor="inherit"
           padding="0.5rem 1rem"
           borderRadius="1rem"
+          marginLeft="auto"
         >
           <Row
             width="auto"
@@ -100,7 +92,7 @@ export default function ShowcaseVideoControls({ isMobile }: { isMobile: boolean 
             {status === 'pause' ? (
               <PlayCircle size={30} onClick={handlePlayVideo} stroke={mode === 'DARK' ? 'grey' : BLACK_TRANSPARENT} />
             ) : (
-              <PauseCircle size={30} onClick={handlePauseVideo} stroke={mode === 'DARK' ? 'grey' : BLACK_TRANSPARENT} />
+              <PauseCircle size={30} onClick={handlePauseVideo} stroke={'grey'} />
             )}
           </Row>
         </Row>

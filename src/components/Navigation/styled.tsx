@@ -2,15 +2,17 @@ import { Button, Column, Row } from '@past3lle/components'
 import {
   BLACK,
   OFF_WHITE,
+  setAnimation,
   setBackgroundWithDPI,
   setBestTextColour,
-  setFlickerAnimation,
   upToMedium,
   upToSmall,
 } from '@past3lle/theme'
 import { Z_INDEXES } from 'constants/config'
+import { darken } from 'polished'
 import styled from 'styled-components/macro'
-import { getThemeColours } from 'theme'
+import { ThemeModes, getThemeColours } from 'theme'
+import { simmerAnimationCallback } from 'theme/animation'
 import { ShopImageSrcSet } from 'types'
 
 import { MobileNavProps } from '.'
@@ -46,7 +48,13 @@ export const NavigationStepsWrapper = styled.nav<{
 
   z-index: ${Z_INDEXES.NAV_MENU};
 
-  ${setFlickerAnimation({ state: true, duration: 4, count: 2 })}
+  ${({ theme: { mode }, currentMedia: { color = BLACK } }) =>
+    setAnimation(simmerAnimationCallback(darken(mode === ThemeModes.DARK ? 0.4 : 0, color)), {
+      name: 'simmer' as any,
+      state: true,
+      duration: 20,
+      count: 5,
+    })}
 
   ${({ isOpen, theme }) => upToMedium`
     display: ${isOpen ? 'flex' : 'none'};

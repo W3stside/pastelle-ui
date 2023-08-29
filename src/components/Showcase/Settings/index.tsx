@@ -13,8 +13,8 @@ export default function useShowShowcase() {
   const ShowcaseSettings = useCallback(
     ({ children }: { children?: ReactNode }) => (
       <ProductSubDescription
-        padding={`5rem 1.3rem ${SHOWCASE_ENABLED ? '0.3rem' : '2rem'}`}
-        margin="-4rem auto 2rem"
+        padding={SHOWCASE_ENABLED ? `5rem 1.3rem 0.3rem` : '1.3rem'}
+        margin={`${SHOWCASE_ENABLED ? '-4' : '0'}rem auto 0rem`}
         width="100%"
         fontWeight={300}
         fontSize="1.2rem"
