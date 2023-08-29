@@ -10,6 +10,7 @@ import {
 import { ShopImageSrcSet } from 'types'
 
 export interface BaseProductPageProps {
+  altColor: string
   bgColor: string
   color: string
   title: string

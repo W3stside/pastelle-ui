@@ -1,5 +1,5 @@
 import { Row, RowProps } from '@past3lle/components'
-import { BLACK, upToExtraSmall } from '@past3lle/theme'
+import { BLACK, setBestTextColour, upToExtraSmall } from '@past3lle/theme'
 import { Text as TYPE } from 'components/Text'
 import { transparentize } from 'polished'
 import { useCallback } from 'react'
@@ -15,22 +15,22 @@ type SizeSelectorProps = Omit<RowProps, 'sizes'> & {
 }
 
 const SquareSelectDiv = styled(TYPE.Black)<{ isSelected: boolean; bgColor?: string }>`
-  ${({ isSelected, theme }) =>
+  ${({ isSelected, theme, bgColor = theme.content.text }) =>
     isSelected &&
     `
       &&&&& {
-        background-color: ${theme.input.hoverColour};
-        color: ${theme.offwhite};
+        filter: hue-rotate(180deg) saturate(1.5);
+        background-color: ${bgColor};
+        color: ${setBestTextColour(bgColor)};
         font-weight: 800;
         text-shadow: 0px 0px 3px ${transparentize(0.6, BLACK)};
       }
     `}
 `
 const GridSelect = styled(Row)<RowProps & Pick<SizeSelectorProps, 'color'>>`
-  gap: 1px;
+  gap: 0.5rem;
   flex-flow: row wrap;
 
-  background: ${({ theme }) => theme.content.background};
   border-radius: ${({ theme }) => theme.button.border.radius};
   border: 1px solid ${({ theme }) => theme.input.border.colour};
   overflow: hidden;
@@ -38,6 +38,7 @@ const GridSelect = styled(Row)<RowProps & Pick<SizeSelectorProps, 'color'>>`
   width: 100%;
 
   > ${SquareSelectDiv} {
+    background: ${({ color }) => color};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -46,8 +47,8 @@ const GridSelect = styled(Row)<RowProps & Pick<SizeSelectorProps, 'color'>>`
     text-align: center;
     font-size: 2rem;
     font-weight: 400;
-    color: ${({ theme }) => theme.content.text};
-    height: 5rem;
+    color: ${({ theme, color = theme.content.text }) => setBestTextColour(color)};
+    height: 7rem;
     flex: 1 1 24%;
 
     ${upToExtraSmall`
@@ -55,10 +56,10 @@ const GridSelect = styled(Row)<RowProps & Pick<SizeSelectorProps, 'color'>>`
     `}
 
     &:hover {
-      background-color: ${({ theme }) => transparentize(0.3, theme.input.hoverColour)};
+      filter: hue-rotate(180deg);
     }
 
-    transition: background-color 0.3s ease-out;
+    transition: filter 0.3s ease-out;
   }
 `
 
