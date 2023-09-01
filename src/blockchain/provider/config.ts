@@ -1,8 +1,9 @@
 import { ForgeWeb3ModalProps } from '@past3lle/forge-web3'
-import LOGO_512 from 'assets/images/512_logo.png'
 import GOOGLE_APPLE_LOGO from 'assets/images/google-apple.png'
 import { pstlModalTheme as MODAL_THEME, pastelleTheme } from 'theme'
 import { polygon, polygonMumbai } from 'wagmi/chains'
+
+import { CONNECTORS } from './connectors'
 
 if (
   !process.env.REACT_APP_WEB3_MODAL_PROJECT_ID ||
@@ -19,9 +20,10 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
     autoConnect: true,
     pollingInterval: 30_000,
   },
+  connectors: CONNECTORS,
   modals: {
     root: {
-      title: 'LOGIN    PASTELLE.SHOP',
+      title: 'LOGIN PASTELLE',
       hideInjectedFromRoot: true,
       closeModalOnConnect: true,
       themeConfig: {
@@ -44,22 +46,6 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
           size: 80,
         },
       },
-    },
-    web3auth: {
-      appName: 'PASTELLE.SHOP',
-      network: process.env.REACT_APP_WEB3_AUTH_NETWORK as any,
-      projectId: process.env.REACT_APP_WEB3_AUTH_PROJECT_ID,
-      storageKey: 'session',
-      preset: 'DISALLOW_EXTERNAL_WALLETS',
-      mfaLevel: 'none',
-      uxMode: 'popup',
-      themeInfo: {
-        mode: 'dark',
-        primary: pastelleTheme.modes.DEFAULT.purple,
-      },
-      url: 'https://pastelle.shop',
-      appLogoDark: LOGO_512,
-      appLogoLight: LOGO_512,
     },
     walletConnect: {
       projectId: process.env.REACT_APP_WEB3_MODAL_PROJECT_ID,

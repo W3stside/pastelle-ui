@@ -19,82 +19,95 @@ export const defaultThemeColours = getThemeColours('DEFAULT')
 export const pstlModalTheme = createTheme({
   DEFAULT: {
     modals: {
-      connection: {
-        filter: 'brightness(0.85) contrast(1.8)',
-        backgroundImg: 'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=h-600,w-360,q-60,bl-5',
+      base: {
+        padding: '1em',
         baseFontSize: 20,
-        helpers: { show: true, color: defaultThemeColours.red3 },
+        background: {
+          backgroundImg: 'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=h-600,w-360,q-60,bl-5',
+        },
+        helpers: { show: true, font: { color: defaultThemeColours.red3 } },
         closeIcon: {
-          size: '40px',
+          size: 40,
         },
         title: {
-          color: '#ffffff9c',
-          fontWeight: 700,
-          letterSpacing: '-1.4px',
-          lineHeight: 0.82,
-        },
-        button: {
-          backgroundColor: '#6c5c84ab',
-          connectedBackgroundColor: '#37b9927d',
-          border: { border: 'none', radius: '1em' },
-          color: 'ghostwhite',
-          fontSize: '1em',
-          fontStyle: 'normal',
-          fontWeight: 200,
-          letterSpacing: '-1px',
-          textShadow: '2px 2px 3px #0000005c',
-          textTransform: 'uppercase',
-          hoverAnimations: true,
+          font: {
+            style: 'normal',
+            color: '#ffffff9c',
+            weight: 700,
+            letterSpacing: '-1.4px',
+            lineHeight: 0.82,
+            size: '2.5em',
+            textAlign: 'left',
+          },
+          margin: '10px 0 0 20px',
         },
       },
-      // account: {
-      //   balanceAndAddressContainer: {
-      //     backgroundColor: 'black',
-      //   },
-      // },
-    },
-  },
-  DARK: {
-    modals: {
       connection: {
-        filter:
-          'invert(1) brightness(0.85) contrast(1.4) hue-rotate(160deg) saturate(1.8)' ||
-          'invert(1) brightness(0.85) contrast(1.2) hue-rotate(115deg) saturate(2.5)',
-        backgroundImg:
-          'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=h-600,w-360,q-60,bl-5,e-grayscale',
         baseFontSize: 20,
-        helpers: { show: true, color: defaultThemeColours.red3 },
-        closeIcon: {
-          color: 'black',
-          size: '40px',
-        },
-        title: {
-          color: defaultThemeColours.red3,
-          fontWeight: 700,
-          letterSpacing: '-1.4px',
-          lineHeight: 0.82,
-        },
+        filter: 'brightness(0.85) contrast(1.8)',
         button: {
-          backgroundColor: '#6c5c84ab',
-          connectedBackgroundColor: '#37b9927d',
+          background: {
+            background: '#6c5c84ab',
+            connected: '#37b9927d',
+          },
+          font: {
+            color: 'ghostwhite',
+            size: '1em',
+            style: 'normal',
+            weight: 200,
+            letterSpacing: '-1px',
+            textShadow: '2px 2px 3px #0000005c',
+            textTransform: 'uppercase',
+          },
           border: { border: 'none', radius: '1em' },
-          color: 'ghostwhite',
-          fontStyle: 'normal',
-          fontWeight: 200,
-          letterSpacing: '-1px',
-          textShadow: '2px 2px 3px #0000005c',
-          textTransform: 'uppercase',
           hoverAnimations: true,
         },
       },
       account: {
-        balanceAndAddressContainer: {
-          backgroundColor: '#ffffff6e',
+        baseFontSize: 10,
+        text: {
+          main: {
+            font: {
+              weight: 700,
+            },
+          },
         },
       },
     },
   },
-  get LIGHT() {
-    return this.DEFAULT
+  DARK: {
+    modals: {
+      base: {
+        filter: 'invert(1) brightness(0.85) contrast(1.4) hue-rotate(160deg) saturate(1.8)',
+        background: {
+          backgroundImg:
+            'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=h-600,w-360,q-60,bl-5,e-grayscale',
+        },
+        closeIcon: {
+          color: 'black',
+        },
+        title: {
+          font: {
+            color: defaultThemeColours.red3,
+          },
+        },
+      },
+      account: {
+        container: {
+          addressAndBalance: {
+            background: {
+              background: '#ffffff6e',
+            },
+          },
+        },
+        button: {
+          disconnect: {
+            background: {
+              background: '#a9165a',
+            },
+          },
+        },
+      },
+    },
   },
 })
