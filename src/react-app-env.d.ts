@@ -14,7 +14,11 @@ interface Window {
     on?: (...args: any[]) => void
     removeListener?: (...args: any[]) => void
     autoRefreshOnNetworkChange?: boolean
+    providers?: WindowProvider[]
+    providerMap?: Map<string, WindowProvider>
   }
+  tally?: WindowProvider
+  coinbaseWalletExtension?: WindowProvider
   web3?: Record<string, unknown>
 }
 
