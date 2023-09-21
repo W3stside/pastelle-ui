@@ -93,7 +93,6 @@ export const ItemVideoContent = ({
         if (!isSelected) return null
 
         return (
-          // @ts-expect-error aria props not set yet
           <SmartVideo
             key={id}
             showError={showError}
