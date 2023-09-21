@@ -11,6 +11,7 @@ import { Breadcrumbs } from 'components/Breadcrumbs'
 import { LargeImageCarousel } from 'components/Carousel/LargeProductImageCarousel'
 import * as Carousels from 'components/Carousel/ProductCarousels'
 import { ProductSwipeCarousel } from 'components/Carousel/ProductCarousels'
+import { TinyHelperTextStyled } from 'components/Common'
 import useModelSizeSelector from 'components/ModelSizeSelector'
 import useShowShowcase from 'components/Showcase/Settings'
 import ShowcaseVideos from 'components/Showcase/Videos'
@@ -41,8 +42,7 @@ import { Package, Truck } from 'react-feather'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
-import { useCloseModals, useModalOpen, useToggleModal } from 'state/modalsAndPopups/hooks'
-import { ApplicationModal } from 'state/modalsAndPopups/reducer'
+import { useLargeImageModal, useSizeChartModal } from 'state/modalsAndPopups/hooks'
 import { useThemeManager } from 'state/user/hooks'
 import { ThemeModes } from 'theme'
 
@@ -62,6 +62,7 @@ export default function SingleProductPage({
   sizes = [],
   images = [],
   lockedImages = [],
+  sizeChart = [],
   videos = [],
   description,
   noVideo = false,
@@ -76,9 +77,16 @@ export default function SingleProductPage({
   const { address } = useW3UserConnectionInfo()
 
   // MODALS
-  const toggleLargeImageModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
-  const closeModals = useCloseModals()
-  const showLargeImage = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
+  const {
+    isOpen: isLargeProductImageOpen,
+    toggleModal: toggleLargeImageModal,
+    dismissModal: closeLargeImageModal,
+  } = useLargeImageModal()
+  const {
+    isOpen: isSizeChartOpen,
+    toggleModal: toggleSizeChartModal,
+    dismissModal: closeSizeChartModal,
+  } = useSizeChartModal()
 
   const { autoplay: autoPlay } = useAppSelector((state) => state.user.showcase.videoSettings)
 
@@ -105,10 +113,10 @@ export default function SingleProductPage({
   /// BREADCRUMBS
   const breadcrumbs = useBreadcrumb()
 
-  // IMAGES
-  const imageUrls = useMemo(
-    () => getImageSizeMap(skillState === SkillLockStatus.LOCKED ? lockedImages : images),
-    [images, lockedImages, skillState]
+  // PRODUCT/SIZE CHART IMAGES
+  const [imageUrls, sizeChartImageUrls] = useMemo(
+    () => [getImageSizeMap(skillState === SkillLockStatus.LOCKED ? lockedImages : images), getImageSizeMap(sizeChart)],
+    [images, lockedImages, sizeChart, skillState]
   )
 
   // SELECTED SHOWCASE VIDEO
@@ -135,13 +143,36 @@ export default function SingleProductPage({
 
   return (
     <>
+      {/* Large product images */}
       <LargeImageCarousel
         images={[imageUrls[currentCarouselIndex]]}
         accentColor={color}
-        isOpen={showLargeImage}
+        isOpen={isLargeProductImageOpen}
         toggleModal={toggleLargeImageModal}
-        dismissModal={closeModals}
+        dismissModal={closeLargeImageModal}
       />
+      {/* Size Chart */}
+      <LargeImageCarousel
+        images={sizeChartImageUrls}
+        accentColor={color}
+        isOpen={isSizeChartOpen}
+        toggleModal={toggleSizeChartModal}
+        dismissModal={closeSizeChartModal}
+        modalProps={{
+          containerHeight: 'auto',
+          containerWidth: '90vw',
+          dimensions: {
+            fillContainer: false,
+            fixedSizes: {
+              width: Math.floor((window?.innerWidth || 0) * 0.9),
+              get height() {
+                return Math.floor(this.width / 1.75)
+              },
+            },
+          },
+        }}
+      />
+
       {/* Item content */}
       <StyledElems.SingleProductContainer id="#item-container" parentAspectRatio={parentAspectRatio}>
         <StyledElems.SingleProductAsidePanel id="#item-aside-panel" ref={asideContainerRef}>
@@ -223,6 +254,11 @@ export default function SingleProductPage({
                       {SHOWCASE_ENABLED && <ModelSizeSelector />}
                       {/* PRODUCT SIZE SELECTOR */}
                       <SizeSelector color={bgColor} margin="0" />
+                      <Row margin="0.5rem 0">
+                        <TinyHelperTextStyled marginLeft={'1rem'} fontSize={'1.2rem'} onClick={toggleSizeChartModal}>
+                          SIZE CHART
+                        </TinyHelperTextStyled>
+                      </Row>
                     </ShowcaseSettings>
                   </>
                 )}

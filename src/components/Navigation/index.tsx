@@ -180,7 +180,11 @@ export default function Navigation({
           <span className="nav-policy-title">[{policies ? ' - ' : ' + '}]</span>
           {policies && (
             <PolicyColumnWrapper>
-              <ExternalLink id="instagram-link" href="https://instagram.com/pastelle.apparel">
+              <ExternalLink
+                id="instagram-link"
+                href="https://instagram.com/pastelle.apparel"
+                style={{ fontWeight: 100 }}
+              >
                 @pastelle.apparel
               </ExternalLink>
               <small>Policies:</small>

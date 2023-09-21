@@ -21,6 +21,7 @@ export interface BaseProductPageProps {
   navLogo?: ShopImageSrcSet
   images: FragmentProductImageFragment[]
   lockedImages: FragmentProductImageFragment[]
+  sizeChart: FragmentProductImageFragment[]
   videos: FragmentProductVideoFragment[]
   // media: (FragmentProductExternalVideoFragment | FragmentProductVideoFragment)[]
   sizes: ProductOptionsSize

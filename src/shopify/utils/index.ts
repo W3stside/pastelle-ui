@@ -42,12 +42,19 @@ interface MetaAssetMap {
   header: ShopImageSrcSet
 }
 
-export const mapSingleShopifyProductToProps = (
-  product: Product,
-  images: FragmentProductImageFragment[],
-  lockedImages: FragmentProductImageFragment[],
+export const mapSingleShopifyProductToProps = ({
+  product,
+  images,
+  lockedImages,
+  sizeChart,
+  metaAssetMap,
+}: {
+  product: Product
+  images: FragmentProductImageFragment[]
+  lockedImages: FragmentProductImageFragment[]
+  sizeChart: FragmentProductImageFragment[]
   metaAssetMap: MetaAssetMap
-) => ({
+}) => ({
   id: product.id,
   title: product.title,
   handle: product.handle,
@@ -66,22 +73,55 @@ export const mapSingleShopifyProductToProps = (
   // TODO: fix
   images,
   lockedImages,
+  sizeChart,
   // @ts-ignore - type
   videos: product.media.nodes.filter(isProductVideo) as FragmentProductVideoFragment[],
   sizes: getMetafields<ProductSizes[]>(product.sizes[0].values),
   shortDescription: getMetafields<string>(product.shortDescription),
 })
-
+enum MediaAltText {
+  PRODUCT_FRONT = 'product-front',
+  PRODUCT_BACK = 'product-back',
+  PRODUCT_FRONT_LOCKED = 'product-front-locked',
+  PRODUCT_BACK_LOCKED = 'product-back-locked',
+  PRODUCT_SIZE_CHART = 'size-chart',
+  PRODUCT_LOGO = 'logo',
+  PRODUCT_NAVBAR = 'navbar',
+  PRODUCT_HEADER = 'header',
+}
 export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPageProps[] => {
   return data.map((datum) => {
-    const productImages = datum.images.nodes.filter(
-      (image) => image.altText === 'PRODUCT-FRONT' || image.altText === 'PRODUCT-BACK'
-    )
-    const lockedProductImages = datum.images.nodes.filter(
-      (image) => image.altText === 'PRODUCT-FRONT-LOCKED' || image.altText === 'PRODUCT-BACK-LOCKED'
-    )
+    const productImages: FragmentProductImageFragment[] = []
+    const lockedProductImages: FragmentProductImageFragment[] = []
+    const sizeChart: FragmentProductImageFragment[] = []
+    const metaAssets: FragmentProductImageFragment[] = []
 
-    const metaAssets = datum.images.nodes.slice(2)
+    // Sort each image into it's own list by altText
+    datum.images.nodes.forEach((image) => {
+      const altText = image.altText?.toLowerCase()
+      switch (altText) {
+        case MediaAltText.PRODUCT_FRONT:
+        case MediaAltText.PRODUCT_BACK:
+          productImages.push(image)
+          break
+        case MediaAltText.PRODUCT_FRONT_LOCKED:
+        case MediaAltText.PRODUCT_BACK_LOCKED:
+          lockedProductImages.push(image)
+          break
+        case MediaAltText.PRODUCT_SIZE_CHART:
+          sizeChart.push(image)
+          break
+        case MediaAltText.PRODUCT_HEADER:
+        case MediaAltText.PRODUCT_LOGO:
+        case MediaAltText.PRODUCT_NAVBAR:
+          metaAssets.push(image)
+          break
+        default:
+          break
+      }
+    })
+
+    // Map meta assets (header/logo/product logos) into a responsive size map
     const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
       const mappedAsset = metaAssets[i]
       if (mappedAsset?.altText) {
@@ -91,7 +131,13 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
       return acc
     }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
 
-    return mapSingleShopifyProductToProps(datum, productImages, lockedProductImages, metaAssetMap)
+    return mapSingleShopifyProductToProps({
+      product: datum,
+      images: productImages,
+      lockedImages: lockedProductImages,
+      sizeChart,
+      metaAssetMap,
+    })
   })
 }
 

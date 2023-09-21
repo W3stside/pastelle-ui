@@ -6,7 +6,14 @@ import { ForwardedRef, forwardRef } from 'react'
 import styled from 'styled-components/macro'
 import { ShopImageSrcSet } from 'types'
 
-const LargeImageModal = styled(Modal)<{ zoomLevel: number }>`
+export type LargeImageModalStyleProps = { containerHeight?: string; containerWidth?: string; zoomLevel: number }
+const LargeImageModal = styled(Modal)<LargeImageModalStyleProps>`
+  div[role='dialog'] {
+    ${({ containerHeight }) => containerHeight && `height: ${containerHeight};`}
+    ${({ containerWidth }) => containerWidth && `width: ${containerWidth};`}
+    max-width: 90vw;
+  }
+
   padding-bottom: 5rem;
 
   -webkit-user-select: none;
@@ -49,7 +56,9 @@ const LargeImageModal = styled(Modal)<{ zoomLevel: number }>`
   }
 `
 
-interface LargeImageCarouselModalProps extends BaseCarouselProps<ShopImageSrcSet[]> {
+interface LargeImageCarouselModalProps
+  extends Omit<LargeImageModalStyleProps, 'zoomLevel'>,
+    BaseCarouselProps<ShopImageSrcSet[]> {
   isOpen: boolean
   forwardedRef?: ForwardedRef<unknown>
   dismissModal: () => void
@@ -63,7 +72,14 @@ export function LargeImageCarouselModalWithoutRef(props: LargeImageCarouselModal
   })
 
   return (
-    <LargeImageModal isOpen={isOpen} onDismiss={dismissModal} isLargeImageModal zoomLevel={1}>
+    <LargeImageModal
+      isOpen={isOpen}
+      onDismiss={dismissModal}
+      isLargeImageModal
+      zoomLevel={1}
+      containerHeight={props.containerHeight}
+      containerWidth={props.containerWidth}
+    >
       <AnimatedCarousel {...carouselProps} touchAction={'none'} animationProps={animationProps} />
     </LargeImageModal>
   )

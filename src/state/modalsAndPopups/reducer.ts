@@ -15,6 +15,7 @@ export enum ApplicationModal {
   SETTINGS,
   MENU,
   ITEM_LARGE_IMAGE,
+  SIZE_CHART,
 }
 
 type PopupList = Array<{

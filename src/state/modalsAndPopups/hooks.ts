@@ -80,3 +80,27 @@ export function useActivePopups(): AppState['modalsAndPopups']['popupList'] {
   const list = useAppSelector((state) => state.modalsAndPopups.popupList)
   return useMemo(() => list.filter((item) => item.show), [list])
 }
+
+export function useLargeImageModal() {
+  const dismissModal = useCloseModals()
+  const toggleModal = useToggleModal(ApplicationModal.ITEM_LARGE_IMAGE)
+  const isOpen = useModalOpen(ApplicationModal.ITEM_LARGE_IMAGE)
+
+  return {
+    isOpen,
+    toggleModal,
+    dismissModal,
+  }
+}
+
+export function useSizeChartModal() {
+  const dismissModal = useCloseModals()
+  const toggleModal = useToggleModal(ApplicationModal.SIZE_CHART)
+  const isOpen = useModalOpen(ApplicationModal.SIZE_CHART)
+
+  return {
+    isOpen,
+    toggleModal,
+    dismissModal,
+  }
+}
