@@ -1,12 +1,4 @@
 // VIRGIL media
-import virgilBackFS from '../assets/virgil-back.jpg'
-import virgilFrontFS from '../assets/virgil-front.jpg'
-import virgilHeader from '../assets/virgil-header.png'
-import virgilLogo from '../assets/virgil-logo.png'
-import virgilNav from '../assets/virgil-nav.png'
-import virgilShowcaseBack from '../assets/virgil-showcase-back.mp4'
-import virgilShowcaseFront from '../assets/virgil-showcase-front.mp4'
-
 export const MOCK_COLLECTION_DATA = {
   __typename: 'QueryRoot',
   collections: {
@@ -44,7 +36,7 @@ export const MOCK_COLLECTION_DATA = {
                   {
                     __typename: 'Image',
                     id: 'gid://virgil-image-mock-1',
-                    url: virgilFrontFS,
+                    url: '',
                     altText: 'virgil image 1',
                     width: 2000,
                     height: 2000,
@@ -58,7 +50,7 @@ export const MOCK_COLLECTION_DATA = {
                   {
                     __typename: 'Image',
                     id: 'gid://virgil-image-mock-2',
-                    url: virgilBackFS,
+                    url: '',
                     altText: 'virgil image 2',
                     width: 2000,
                     height: 2000,
@@ -80,11 +72,11 @@ export const MOCK_COLLECTION_DATA = {
                     mediaContentType: 'VIDEO',
                     previewImage: {
                       __typename: 'Image',
-                      url: virgilShowcaseFront,
+                      url: '',
                       width: 1600,
                       height: 900,
                     },
-                    sources: [{ __typename: 'VideoSource', mimeType: 'video/mp4', url: virgilShowcaseFront }],
+                    sources: [{ __typename: 'VideoSource', mimeType: 'video/mp4', url: '' }],
                   },
                   {
                     __typename: 'Video',
@@ -92,11 +84,11 @@ export const MOCK_COLLECTION_DATA = {
                     mediaContentType: 'VIDEO',
                     previewImage: {
                       __typename: 'Image',
-                      url: virgilShowcaseBack,
+                      url: '',
                       width: 1600,
                       height: 900,
                     },
-                    sources: [{ __typename: 'VideoSource', mimeType: 'video/mp4', url: virgilShowcaseBack }],
+                    sources: [{ __typename: 'VideoSource', mimeType: 'video/mp4', url: '' }],
                   },
                 ],
               },
@@ -105,7 +97,7 @@ export const MOCK_COLLECTION_DATA = {
               options: [{ __typename: 'ProductOption', name: 'Sizes', values: ['S', 'M', 'L', 'XL'] }],
               brandingAssetMap: {
                 __typename: 'Metafield',
-                value: { logo: virgilLogo, navLogo: virgilNav, headerLogo: virgilHeader },
+                value: { logo: '', navLogo: '', headerLogo: '' },
               },
               bgColor: { __typename: 'Metafield', value: '#1f605c' },
               color: { __typename: 'Metafield', value: '#551d27' },
