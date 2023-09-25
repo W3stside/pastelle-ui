@@ -43,11 +43,10 @@ import { Package, Truck } from 'react-feather'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
+import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
 import { useLargeImageModal, useSizeChartModal } from 'state/modalsAndPopups/hooks'
 import { useThemeManager } from 'state/user/hooks'
 import { ThemeModes } from 'theme'
-
-import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
 
 export default function SingleProductPage({
   id,
