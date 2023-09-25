@@ -47,7 +47,7 @@ import { useLargeImageModal, useSizeChartModal } from 'state/modalsAndPopups/hoo
 import { useThemeManager } from 'state/user/hooks'
 import { ThemeModes } from 'theme'
 
-// import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
+import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
 
 export default function SingleProductPage({
   id,
@@ -121,7 +121,7 @@ export default function SingleProductPage({
   )
 
   // SELECTED SHOWCASE VIDEO
-  // const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
+  const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
 
   // CONTENT CONTAINER REF FOR DYNAMIC SIZE UPDATING AND CAROUSELS
   const asideContainerRef = useRef<HTMLElement>()
@@ -167,7 +167,7 @@ export default function SingleProductPage({
             fixedSizes: {
               width: Math.floor((window?.innerWidth || 0) * 0.9),
               get height() {
-                return Math.floor(this.width / 1.75)
+                return Math.floor(isMobile ? Math.min(window.innerHeight / 2, this.width / 1.75) : this width / 1.75)
               },
             },
           },
@@ -194,7 +194,7 @@ export default function SingleProductPage({
               {/* Product carousel */}
               <Carousel
                 axis="x"
-                data={isMobile ? [...imageUrls /* , selectedVideo */] : imageUrls}
+                data={isMobile ? [...imageUrls, selectedVideo] : imageUrls}
                 startIndex={currentCarouselIndex}
                 colors={{ accent: color }}
                 videoProps={{ autoPlay }}
