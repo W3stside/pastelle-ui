@@ -299,7 +299,7 @@ export default function SingleProductPage({
                   </FreeShippingBanner>
                 )}
 
-                <ShowcaseVideoControls isMobile={isMobile} margin="1rem auto 0" width="95%" />
+                <ShowcaseVideoControls isMobile={false} margin="1rem auto 0" width="95%" />
               </Column>
             </StyledElems.SingleProductScreen>
 
