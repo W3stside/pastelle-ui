@@ -167,7 +167,7 @@ export default function SingleProductPage({
             fixedSizes: {
               width: Math.floor((window?.innerWidth || 0) * 0.9),
               get height() {
-                return Math.floor(isMobile ? Math.min(window.innerHeight / 2, this.width / 1.75) : this width / 1.75)
+                return Math.floor(isMobile ? Math.min(window.innerHeight / 2, this.width / 1.75) : this.width / 1.75)
               },
             },
           },
