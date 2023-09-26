@@ -1,5 +1,5 @@
+import { createWeb3ModalTheme } from '@past3lle/forge-web3'
 import { createPast3lleTemplateTheme, getThemeColourByKeyCurried, getThemeColoursCurried } from '@past3lle/theme'
-import { createTheme } from '@past3lle/web3-modal'
 
 export const pastelleTheme = createPast3lleTemplateTheme('PASTELLE', {
   DARK: {
@@ -16,7 +16,7 @@ export const getThemeColourByKey = getThemeColourByKeyCurried(pastelleTheme)
 export const getThemeColours = getThemeColoursCurried(pastelleTheme)
 export const defaultThemeColours = getThemeColours('DEFAULT')
 
-export const pstlModalTheme = createTheme({
+export const pstlModalTheme = createWeb3ModalTheme({
   DEFAULT: {
     modals: {
       base: {

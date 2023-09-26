@@ -11,7 +11,7 @@ import {
 import { ShopImageSrcSet } from 'types'
 
 export function isJson(str: any) {
-  if (typeof str === undefined || typeof str !== 'string') {
+  if (!str || typeof str !== 'string') {
     return false
   }
 
