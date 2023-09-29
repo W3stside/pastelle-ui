@@ -2,6 +2,9 @@
 const path = require('path')
 const webpack = require("webpack")
 
+// Enable for in-depth bundle size analysis
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 // see https://github.com/gsoft-inc/craco/blob/master/packages/craco/README.md#configuration-overview
 
 module.exports = {
@@ -9,7 +12,12 @@ module.exports = {
     plugins: ['@babel/plugin-proposal-nullish-coalescing-operator']
   },
   webpack: {
-    plugins: [],
+    plugins: [
+      new webpack.DefinePlugin({
+        "globalThis.__DEV__": process.env.NODE_ENV === 'development',
+      }),
+      // new BundleAnalyzerPlugin()
+    ],
     alias: {
       '@src': path.resolve(__dirname, 'src')
     },
