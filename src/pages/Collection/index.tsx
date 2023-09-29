@@ -61,7 +61,7 @@ export default function Collection() {
 
   return (
     <>
-      <SEO title="COLLECTION" name="COLLECTION" description="View the latest PASTELLE collection" />
+      <SEO title="COLLECTION" name="COLLECTION" description="PASTELLE. HEAVY STREETWEAR. PORTUGAL." />
       <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>
         {collectionProductList.length > 1 ? (
           <ScrollingContentPage
