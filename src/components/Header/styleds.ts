@@ -145,6 +145,10 @@ export const HeaderRow = styled(RowFixed)`
       padding: 0;
       margin-left: auto;
     }
+
+    > ${Row}#cart-shipping-banner > ${FreeShippingBanner} {
+      display: none;
+    }
   `}
 
   ${upToSmall`
