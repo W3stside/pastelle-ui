@@ -13,7 +13,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
-import { HashRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 // WEB VITALS
 import reportWebVitals from 'reportWebVitals'
 import ApolloProvider from 'shopify/graphql/ApolloProvider'
@@ -78,7 +78,7 @@ root.render(
           <StaticCSSProviders />
           <ApolloProvider>
             <Provider store={store}>
-              <HashRouter>
+              <BrowserRouter basename="/">
                 <VersionUpdater />
                 <PastelleStoreUpdaters />
                 {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
@@ -86,7 +86,7 @@ root.render(
                 <ErrorBoundary fallback={<AppErrorFallback />}>
                   <App />
                 </ErrorBoundary>
-              </HashRouter>
+              </BrowserRouter>
             </Provider>
           </ApolloProvider>
         </PastelleForgeW3Provider>
