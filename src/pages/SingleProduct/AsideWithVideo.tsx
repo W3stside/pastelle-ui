@@ -18,7 +18,7 @@ import ShowcaseVideos from 'components/Showcase/Videos'
 import { ModelInformationOverlay } from 'components/Showcase/Videos/ModelInformationOverlay'
 import ShowcaseVideoControls from 'components/Showcase/Videos/Settings'
 import useSizeSelector from 'components/SizeSelector'
-import { FREE_SHIPPING_THRESHOLD, SHOWCASE_ENABLED, Z_INDEXES } from 'constants/config'
+import { SHOWCASE_ENABLED, Z_INDEXES } from 'constants/config'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import * as StyledElems from 'pages/SingleProduct/styled'
 import Logo from 'pages/common/components/Logo'
@@ -26,7 +26,6 @@ import ProductPriceAndLabel from 'pages/common/components/ProductPriceAndLabel'
 import ProductRarityAndLabel from 'pages/common/components/ProductRarityAndLabel'
 import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
 import {
-  FreeShippingBanner,
   HighlightedText,
   PASTELLE_CREDIT,
   ProductArtistInfo,
@@ -39,7 +38,6 @@ import {
 import { SingleProductPageProps, WithParentAspectRatio } from 'pages/common/types'
 import { darken, transparentize } from 'polished'
 import { useCallback, useMemo, useRef, useState } from 'react'
-import { Package, Truck } from 'react-feather'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
@@ -242,7 +240,12 @@ export default function SingleProductPage({
                 {skillState !== SkillLockStatus.LOCKED && (
                   <>
                     {SHOWCASE_ENABLED && (
-                      <ProductDescription fontWeight={300} padding="1rem 1.8rem" margin="0" style={{ zIndex: 1 }}>
+                      <ProductDescription
+                        fontWeight={300}
+                        padding="1rem 1.8rem"
+                        margin="1rem 0 0"
+                        style={{ zIndex: 1 }}
+                      >
                         <Row gap="1rem">
                           <FontAwesomeIcon icon={faLightbulb} /> SHOWCASE SETTINGS
                         </Row>
@@ -250,15 +253,15 @@ export default function SingleProductPage({
                     )}
 
                     <ShowcaseSettings>
+                      <ShowcaseVideoControls isMobile={false} margin="1rem auto 0" width="100%" />
                       {/* MOBILE SHOWCASE */}
                       {SHOWCASE_ENABLED && <ModelSizeSelector />}
                       {/* PRODUCT SIZE SELECTOR */}
                       <SizeSelector color={bgColor} margin="0" />
-                      <Row margin="0.5rem 0">
-                        <TinyHelperTextStyled marginLeft={'1rem'} fontSize={'1.2rem'} onClick={toggleSizeChartModal}>
-                          SIZE CHART
-                        </TinyHelperTextStyled>
-                      </Row>
+
+                      <TinyHelperTextStyled margin={'0.5rem 0 0.5rem 1rem'} onClick={toggleSizeChartModal}>
+                        SIZE CHART
+                      </TinyHelperTextStyled>
                     </ShowcaseSettings>
                   </>
                 )}
@@ -283,23 +286,6 @@ export default function SingleProductPage({
                     buttonProps={{ bgImage: navLogo, backgroundColor: color || '#000' }}
                   />
                 </StyledElems.AddToCartButtonWrapper>
-
-                {/* FREE SHIPPING LABEL */}
-                {FREE_SHIPPING_THRESHOLD && skillState !== SkillLockStatus.LOCKED && (
-                  <FreeShippingBanner
-                    fontWeight={300}
-                    flex="auto"
-                    minWidth={'21rem'}
-                    width="95%"
-                    margin="3.3rem auto 0"
-                    backgroundColor={'navajowhite'}
-                  >
-                    <Truck />
-                    <Package /> FREE SHIPPING OVER {FREE_SHIPPING_THRESHOLD}€
-                  </FreeShippingBanner>
-                )}
-
-                <ShowcaseVideoControls isMobile={false} margin="1rem auto 0" width="95%" />
               </Column>
             </StyledElems.SingleProductScreen>
 
@@ -389,13 +375,7 @@ export default function SingleProductPage({
 
         <ShowcaseVideos
           videos={videos}
-          videoProps={{
-            autoPlay: true,
-            style: {
-              marginLeft: 'auto',
-              filter: 'saturate(1.8)',
-            },
-          }}
+          smartFill
           hideVideo={isMobile || noVideo}
           showPoster
           height={'100%'}

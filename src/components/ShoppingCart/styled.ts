@@ -5,7 +5,7 @@ import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
 import { ItemHeader, ProductSubHeader } from 'pages/common/styleds'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
-import { BLACK_TRANSPARENT_MORE, ThemeModes } from 'theme'
+import { BLACK_TRANSPARENT_MORE } from 'theme'
 
 export const CartLineContent = styled(Row)`
   display: grid;
@@ -111,14 +111,13 @@ export const ShoppingCartQuantityWrapper = styled(Row)`
 `
 
 export const ShoppingCartFullWrapper = styled.div`
-  height: 70%;
+  height: 100%;
 `
 
 export const ShoppingCartHeaderWrapper = styled(Row)`
   height: 100%;
   justify-content: space-evenly;
   gap: 1rem;
-  background: ${({ theme }) => (theme.mode === ThemeModes.DARK ? '#4a3764d4' || '#2d0023' : '#e19bb5d9')};
   > * {
     filter: invert(1);
   }

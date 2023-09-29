@@ -1,7 +1,7 @@
 import { ButtonVariations, RowProps, SmartVideo, SmartVideoProps } from '@past3lle/components'
 import { getIsMobile, wait } from '@past3lle/utils'
 import { Z_INDEXES } from 'constants/config'
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
+import { Fragment, ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import { Pause, Play } from 'react-feather'
 import { useLocation } from 'react-router-dom'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
@@ -25,6 +25,7 @@ export interface ItemVideoContentProps extends RowProps {
   autoPlayOptions?: SmartVideoProps['autoPlayOptions']
   showError?: boolean
   videoOverlay?: ReactNode
+  smartFill?: boolean
 }
 const CONTROL_BUTTON_SIZE = '16px'
 export const ItemVideoContent = ({
@@ -38,11 +39,12 @@ export const ItemVideoContent = ({
   showError,
   autoPlayOptions,
   videoOverlay,
+  smartFill,
   ...styleProps
 }: ItemVideoContentProps) => {
   const [videoIdx, setVideoIdx] = useState(currentCarouselIndex)
   const [{ autoplay, status: videoStatus }, updateVideoSettings] = useUpdateShowcaseVideoSettings()
-  const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null)
+  const [videoElement, setVideoElement] = useState<HTMLVideoElement[]>([])
   const [videoDelay, showVideoUIDelay] = useState<boolean>(false)
 
   // EFFECT: on video change inside showcase (e.g gender, height), show loader
@@ -63,12 +65,12 @@ export const ItemVideoContent = ({
 
   // EFFECT: sync redux showcase video state w/actual video ref play state
   useEffect(() => {
-    if (!videoElement) return
+    if (!videoElement?.length) return
 
     if (isPlaying) {
-      videoElement.play()
+      videoElement.forEach((vid) => vid.play())
     } else if (isPaused) {
-      videoElement.pause()
+      videoElement.forEach((vid) => vid.pause())
     }
   }, [isPaused, isPlaying, videoElement])
 
@@ -88,38 +90,71 @@ export const ItemVideoContent = ({
     [autoplay, isPlaying, updateVideoSettings]
   )
 
+  const onVideoClick = useCallback(
+    () => updateVideoSettings({ autoplay, status: isPlaying ? 'pause' : 'play' }),
+    [autoplay, isPlaying, updateVideoSettings]
+  )
+
   const videosContent = useMemo(
     () =>
       videos.map(({ id, sources, previewImage }, index) => {
         const isSelected = currentCarouselIndex === null || index === videoIdx
         if (!isSelected) return null
 
+        const commonProps = {
+          showError,
+          container: document.querySelector('#COLLECTION-ARTICLE') as HTMLElement,
+          loadInView: firstPaintOver,
+          forceLoad,
+          videoProps: {
+            ...videoProps,
+            poster: showPoster ? previewImage?.url : undefined,
+          },
+          sourcesProps: sources.map(({ url, mimeType }) => ({ src: url, type: mimeType })),
+          height: styleProps.height,
+          width: styleProps.width,
+          videoDelay: !isMobileWidth && videoDelay,
+          showTapToPlay: getIsMobile() && (!isPlaying || videoProps?.autoPlay === false),
+          ctaOverlayProps: {
+            $zIndex: Z_INDEXES.PRODUCT_VIDEOS,
+          },
+        }
+
+        const bgVideosFilter = 'invert(100%) blur(5px)'
+
         return (
-          <SmartVideo
-            key={id}
-            showError={showError}
-            handleClick={() => updateVideoSettings({ autoplay, status: isPlaying ? 'pause' : 'play' })}
-            ref={setVideoElement}
-            container={document.querySelector('#COLLECTION-ARTICLE') as HTMLElement}
-            loadInView={firstPaintOver}
-            forceLoad={forceLoad}
-            videoProps={{
-              ...videoProps,
-              poster: showPoster ? previewImage?.url : undefined,
-            }}
-            sourcesProps={sources.map(({ url, mimeType }) => ({ src: url, type: mimeType }))}
-            height={styleProps.height}
-            width={styleProps.width}
-            videoDelay={!isMobileWidth && videoDelay}
-            showTapToPlay={getIsMobile() && (!isPlaying || videoProps?.autoPlay === false)}
-            autoPlayOptions={autoplay ? undefined : autoPlayOptions}
-            ctaOverlayProps={{
-              $zIndex: Z_INDEXES.PRODUCT_VIDEOS,
-            }}
-          />
+          <Fragment key={id}>
+            {smartFill && (
+              <SmartVideo
+                {...commonProps}
+                ref={(node) => node && setVideoElement((state) => [...state, node])}
+                onClick={onVideoClick}
+                width="auto"
+                marginLeft="auto"
+                videoProps={{
+                  style: {
+                    ...commonProps.videoProps,
+                    zIndex: 1,
+                    filter: bgVideosFilter,
+                  },
+                }}
+              />
+            )}
+            <SmartVideo
+              {...commonProps}
+              margin={smartFill ? '0 -0.25%' : '0 0 0 auto'}
+              width="auto"
+              handleClick={onVideoClick}
+              ref={(node) => node && setVideoElement((state) => [...state, node])}
+              autoPlayOptions={autoplay ? undefined : autoPlayOptions}
+            />
+          </Fragment>
         )
       }),
+    // We don't need to track onVideoClick
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
+      smartFill,
       autoPlayOptions,
       autoplay,
       currentCarouselIndex,
@@ -131,7 +166,6 @@ export const ItemVideoContent = ({
       showPoster,
       styleProps.height,
       styleProps.width,
-      updateVideoSettings,
       videoDelay,
       videoIdx,
       videoProps,

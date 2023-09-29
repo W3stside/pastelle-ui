@@ -1,12 +1,12 @@
-import { useIsMobile } from '@past3lle/hooks'
 import { TinyHelperText } from 'components/Common'
 import { Text as TYPE } from 'components/Text'
 import { SHOWCASE_ENABLED, Z_INDEXES } from 'constants/config'
 import { ProductSubDescription } from 'pages/common/styleds'
 import { ReactNode, useCallback, useState } from 'react'
+import { useTheme } from 'styled-components/macro'
 
 export default function useShowShowcase() {
-  const isMobile = useIsMobile()
+  const theme = useTheme()
   const [showShowcase, setShowShowcase] = useState(false)
   const toggleShowcase = () => setShowShowcase((state) => !state)
 
@@ -14,7 +14,7 @@ export default function useShowShowcase() {
     ({ children }: { children?: ReactNode }) => (
       <ProductSubDescription
         padding={SHOWCASE_ENABLED ? `5rem 1.3rem 0.3rem` : '1.3rem'}
-        margin={`${SHOWCASE_ENABLED ? '-4' : '0'}rem auto 0rem`}
+        margin={`${SHOWCASE_ENABLED ? '-4' : '0'}rem auto 1rem`}
         width="100%"
         fontWeight={300}
         fontSize="1.2rem"
@@ -24,43 +24,40 @@ export default function useShowShowcase() {
           zIndex: Z_INDEXES.ZERO,
         }}
       >
-        {children}
         {SHOWCASE_ENABLED && (
           <TinyHelperText
             handleClick={toggleShowcase}
-            label={showShowcase ? 'HIDE HOW-TO GUIDE' : 'SHOW HOW-TO GUIDE'}
+            label={showShowcase ? 'Hide information' : 'What is showcase?'}
             css={`
-              padding: 0 1rem 1rem;
+              padding: 0 1rem;
             `}
           />
         )}
-        {showShowcase && (
+
+        {SHOWCASE_ENABLED && showShowcase && (
           <TYPE.Black
             style={{
-              backgroundColor: 'lightgoldenrodyellow',
+              backgroundColor: theme.content.background,
+              color: theme.content.text,
               borderRadius: '1rem',
               padding: '1rem',
-              margin: '-1rem 0 1rem',
+              margin: '1rem 0 -1rem',
               width: '100%',
+              borderLeft: '7px solid navajowhite',
             }}
           >
-            Use the <strong>GENDER</strong> + <strong>HEIGHT</strong> filters above to view selected size worn on
-            different sized/gender models.
-            <br />
-            <p>e.g</p>
-            a. <strong>FEMALE</strong> model, <strong>175cm</strong> tall, wearing size <strong>L</strong>
-            <br />
-            b. <strong>MALE</strong> model, <strong>185cm</strong> tall, wearing size <strong>XL</strong>
-            <p>Available filters below. Changes automatically update showcase videos.</p>
+            Use the filters below to view different sizes on different types of models. Like your own personal runway
+            show!
             <p>
-              {isMobile ? 'Tap the video anywhere' : 'Click the gray button in the upper right hand corner'} to
-              play/pause
+              <strong>Changes automatically update showcase videos.</strong>
             </p>
           </TYPE.Black>
         )}
+
+        {children}
       </ProductSubDescription>
     ),
-    [isMobile, showShowcase]
+    [showShowcase, theme.content.background, theme.content.text]
   )
 
   return {

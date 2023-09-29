@@ -18,7 +18,7 @@ import { ShoppingCartFullWrapper, ShoppingCartHeaderWrapper } from 'components/S
 import ThemeToggleBar from 'components/ThemeToggler'
 import { Web3Button } from 'components/Web3LoginButton'
 import { Z_INDEXES } from 'constants/config'
-import { ProductSubHeader } from 'pages/common/styleds'
+import { FreeShippingBanner, ProductSubHeader } from 'pages/common/styleds'
 import { darken, transparentize } from 'polished'
 import { NavLink } from 'react-router-dom'
 import { Text } from 'rebass'
@@ -106,8 +106,28 @@ export const HeaderRow = styled(RowFixed)`
     width: 100%;
   }
 
-  > ${Web3Button}, > ${ShoppingCartFullWrapper} {
+  > ${Web3Button}, > ${Row}#cart-shipping-banner {
     height: 92%;
+  }
+
+  > ${Row}#cart-shipping-banner > ${FreeShippingBanner}, > ${Web3Button} {
+    background-color: #332f31bf;
+  }
+
+  > ${Row}#cart-shipping-banner {
+    > ${FreeShippingBanner} {
+      min-width: 14.2rem;
+      background-color: #332f31bf;
+    }
+    > ${ShoppingCartFullWrapper} > ${ShoppingCartHeaderWrapper} {
+      background-color: ${({ theme }) => (theme.mode === ThemeModes.DARK ? 'rgb(128 80 242 / 52%)' : '#e19bb5d9')};
+    }
+    > ${FreeShippingBanner} {
+      color: ${(props) => props.theme.content.text};
+      > svg {
+        stroke: ${(props) => props.theme.content.text};
+      }
+    }
   }
 
   > ${StyledThemeToggleBar} {
@@ -130,19 +150,24 @@ export const HeaderRow = styled(RowFixed)`
   ${upToSmall`
     grid-template-columns: 8rem auto min-content min-content;
     gap: 0.5rem;
-    > ${Web3Button}, > ${ShoppingCartFullWrapper} {
+    > ${Web3Button}, > ${Row}#cart-shipping-banner {
       height: 80%;
     }
   `}
 
   ${fromMedium`
-      grid-template-columns: minmax(10rem, 16rem) auto 12rem;
-      > ${ShoppingCartFullWrapper} {
-        > ${ShoppingCartHeaderWrapper} {
-          width: 100%;
-          padding: 0.5rem 2rem;
-          > svg {
-            max-width: 2.5rem;
+      grid-template-columns: minmax(10rem, 16rem) auto max-content;
+      > ${Row}#cart-shipping-banner {
+        svg {
+          max-width: 2rem;
+        }
+        > ${ShoppingCartFullWrapper} {
+          > ${ShoppingCartHeaderWrapper} {
+            width: 100%;
+            padding: 0.5rem 2rem;
+            > svg {
+              max-width: 2.5rem;
+            }
           }
         }
       }
@@ -154,7 +179,7 @@ export const HeaderRow = styled(RowFixed)`
   ${betweenSmallAndMedium`
       grid-template-columns: minmax(10rem, 16rem) 11rem auto min-content min-content;
       
-      > ${Web3Button}, > ${ShoppingCartFullWrapper} {
+      > ${Web3Button}, > ${Row}#cart-shipping-banner {
         height: 70%;
       }
 
@@ -208,7 +233,7 @@ export const HeaderFrame = styled(Header)<{ open: boolean; color?: string; logoS
     > ${HeaderRow} {
       display: ${open ? 'grid' : 'none'};
 
-      > ${ShoppingCartFullWrapper}, > ${MobileNavOrb} {
+      > ${Row} > ${ShoppingCartFullWrapper}, > ${MobileNavOrb} {
         margin-bottom: 2rem;
       }
     }

@@ -1,11 +1,14 @@
+import { Row } from '@past3lle/components'
 import { useIsMediumMediaWidth } from '@past3lle/hooks'
 import { getIsMobile } from '@past3lle/utils'
 import Navigation from 'components/Navigation'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
 import { Web3LoginButton } from 'components/Web3LoginButton'
+import { FREE_SHIPPING_THRESHOLD } from 'constants/config'
 import { COLLECTION_PATHNAME } from 'constants/navigation'
-import { ProductSubHeader } from 'pages/common/styleds'
+import { FreeShippingBanner, ProductSubHeader } from 'pages/common/styleds'
 import { useMemo, useState } from 'react'
+import { Truck } from 'react-feather'
 import { useLocation } from 'react-router-dom'
 import { useCurrentCollection, useCurrentProductMedia, useGetAllProductLogos } from 'state/collection/hooks'
 import { CollectionID } from 'state/collection/reducer'
@@ -57,8 +60,24 @@ export default function Header() {
         <StyledThemeToggleBar themeToggleProps={{ width: '90%' }} />
         {/* WEB3 CONNECT BUTTON */}
         <Web3LoginButton>LOGIN</Web3LoginButton>
-        {/* SHOPPING CART */}
-        <ShoppingCartHeader />
+        <Row id="cart-shipping-banner" flex="row nowrap" gap="1rem" height="100%">
+          {/* FREE SHIPPING LABEL */}
+          {FREE_SHIPPING_THRESHOLD && (
+            <FreeShippingBanner
+              gap="0"
+              fontWeight={300}
+              flex="auto"
+              height="100%"
+              minWidth="14rem"
+              padding="0.75rem 1rem"
+              fontSize={'1.5rem'}
+            >
+              <Truck /> {`FREE @ ${FREE_SHIPPING_THRESHOLD}€`}
+            </FreeShippingBanner>
+          )}
+          {/* SHOPPING CART */}
+          <ShoppingCartHeader />
+        </Row>
         {isMediumOrBelow && <Navigation navOrbProps={{ bgColor: 'transparent', menuSize: 30 }} />}
       </HeaderRow>
     </HeaderFrame>
