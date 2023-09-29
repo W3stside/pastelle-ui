@@ -1,4 +1,4 @@
-import { Row } from '@past3lle/components'
+import { Column } from '@past3lle/components'
 import { WHITE } from '@past3lle/theme'
 import { COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { ProductSubHeader } from 'pages/common/styleds'
@@ -25,8 +25,10 @@ export const CollectionSelector = () => {
 
   return (
     <ProductSubHeader color={WHITE} margin="0 0 1rem 0" padding={0}>
-      <Row flexDirection={'row-reverse'} flexWrap={'wrap'} justifyContent="center" style={{ gap: '0.5rem' }}>
-        <div style={{ fontVariationSettings: '"wght" 300', fontSize: '1.2rem' }}>{COLLECTION_PARAM_NAME}</div>
+      <Column justifyContent="center" style={{ gap: '0.5rem' }}>
+        <h1 style={{ fontVariationSettings: '"wght" 300', fontSize: '1.2rem', marginBottom: 0 }}>
+          {COLLECTION_PARAM_NAME}
+        </h1>
 
         <SelectWrapper>
           <select value={collections[current.id].id} onChange={handleChange}>
@@ -37,7 +39,7 @@ export const CollectionSelector = () => {
             ))}
           </select>
         </SelectWrapper>
-      </Row>
+      </Column>
     </ProductSubHeader>
   )
 }
@@ -53,7 +55,7 @@ const SelectWrapper = styled.div`
     // Additional resets for further consistency
     background-color: transparent;
     border: none;
-    padding: 0 1em 0 0;
+    padding: 0;
     margin: 0;
     width: 100%;
     font-family: inherit;

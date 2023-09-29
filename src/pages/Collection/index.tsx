@@ -1,4 +1,5 @@
 import { useIsMobile, useStateRef } from '@past3lle/hooks'
+import { SEO_DICT } from 'analytics/seo'
 import { ArticleFadeInContainer } from 'components/Layout'
 import SEO from 'components/SEO'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
@@ -61,7 +62,7 @@ export default function Collection() {
 
   return (
     <>
-      <SEO title="COLLECTION" name="COLLECTION" description="PASTELLE. HEAVY STREETWEAR. PORTUGAL." />
+      <SEO title="COLLECTION" name="COLLECTION" description={SEO_DICT.collection.description} />
       <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>
         {collectionProductList.length > 1 ? (
           <ScrollingContentPage

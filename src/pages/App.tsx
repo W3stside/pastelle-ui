@@ -11,6 +11,7 @@ import { CollectionID } from 'state/collection/reducer'
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
 const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Error/NotFound'))
+const Home = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HOME" */ 'pages/Home'))
 const Collection = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "COLLECTION" */ 'pages/Collection'))
 const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
 const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleProduct'))
@@ -40,6 +41,7 @@ export default function App() {
       ) : (
         <Suspense fallback={<FallbackLoader />}>
           <Routes>
+            <Route index element={<Home />} />
             <Route path={`/${COLLECTION_PARAM_NAME}/:collection`} element={<Collection />} />
             <Route path={`/${APPAREL_PARAM_NAME}/:handle`} element={<SingleItem />} />
 

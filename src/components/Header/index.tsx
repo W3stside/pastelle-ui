@@ -1,5 +1,6 @@
 import { useIsMediumMediaWidth } from '@past3lle/hooks'
 import { getIsMobile } from '@past3lle/utils'
+import { SEO_DICT } from 'analytics/seo'
 import Navigation from 'components/Navigation'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
 import { Web3LoginButton } from 'components/Web3LoginButton'
@@ -52,6 +53,7 @@ export default function Header() {
         <Title to={`${COLLECTION_PATHNAME}/${(currentCollection?.id as CollectionID) || ''}`}>
           <Pastellecon />
         </Title>
+        <h1>{SEO_DICT.home.description}</h1>
 
         {/* THEME TOGGLE - ONLY MEDIUM */}
         <StyledThemeToggleBar themeToggleProps={{ width: '90%' }} />

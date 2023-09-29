@@ -29,6 +29,12 @@ import { ShopImageSrcSet } from 'types'
 
 const DEFAULT_BG = transparentize(0.3, getThemeColourByKey(ThemeModes.DARK, 'bg1', BLACK) as string)
 
+const HEADER_GRID_LAYOUTS = {
+  web: 'minmax(10rem, 16rem) auto auto 12rem',
+  bwWebMobile: 'minmax(10rem, 16rem) 11rem auto min-content min-content;',
+  mobile: '8rem auto min-content min-content',
+}
+
 export const StyledNavLink = styled(NavLink)`
   display: flex;
   flex-flow: row nowrap;
@@ -97,7 +103,6 @@ export const HeaderRow = styled(RowFixed)`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: minmax(7.5rem, 16rem) 11rem auto min-content min-content;
   grid-gap: 1rem;
   z-index: 1;
 
@@ -128,7 +133,7 @@ export const HeaderRow = styled(RowFixed)`
   `}
 
   ${upToSmall`
-    grid-template-columns: 8rem auto min-content min-content;
+    grid-template-columns: ${HEADER_GRID_LAYOUTS.mobile};
     gap: 0.5rem;
     > ${Web3Button}, > ${ShoppingCartFullWrapper} {
       height: 80%;
@@ -136,7 +141,8 @@ export const HeaderRow = styled(RowFixed)`
   `}
 
   ${fromMedium`
-      grid-template-columns: minmax(10rem, 16rem) auto 12rem;
+      grid-template-columns: ${HEADER_GRID_LAYOUTS.web};
+      
       > ${ShoppingCartFullWrapper} {
         > ${ShoppingCartHeaderWrapper} {
           width: 100%;
@@ -152,7 +158,7 @@ export const HeaderRow = styled(RowFixed)`
   `};
 
   ${betweenSmallAndMedium`
-      grid-template-columns: minmax(10rem, 16rem) 11rem auto min-content min-content;
+      grid-template-columns: ${HEADER_GRID_LAYOUTS.bwWebMobile};
       
       > ${Web3Button}, > ${ShoppingCartFullWrapper} {
         height: 70%;
