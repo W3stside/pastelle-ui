@@ -1,7 +1,7 @@
 {
   "name": "pastelle",
   "description": "PASTELLE Web Interface",
-  "homepage": ".",
+  "homepage": "/",
   "main": "dist/interface.js",
   "module": "dist/interface.esm.js",
   "types": "dist/index.d.ts",
@@ -98,7 +98,7 @@
     "lint": "npx prettier --write src --ignore-path ./.prettierignore",
     "start:mock": "REACT_APP_IS_MOCK=true && yarn start",
     "start": "PORT=8080 GENERATE_SOURCEMAP=false craco start",
-    "serve": "npx serve -s build -l 666",
+    "serve": "cd build && npx serve -l 666",
     "build": "craco build",
     "build:analyze": "yarn build && yarn analyze",
     "build:serve": "DISABLE_ESLINT_PLUGIN='true' craco build && yarn serve",
