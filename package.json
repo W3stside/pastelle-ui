@@ -1,7 +1,7 @@
 {
   "name": "pastelle",
   "description": "PASTELLE Web Interface",
-  "homepage": ".",
+  "homepage": "/",
   "private": true,
   "version": "1.2.1",
   "engines": {
