@@ -178,17 +178,18 @@ export function useGetProductShowcaseVideos({ videos }: Pick<ShowcaseVideosProps
 }
 
 export function useGetSelectedProductShowcaseVideo(props: Pick<ShowcaseVideosProps, 'videos'>) {
-  const { videoMap, mobileKey, webKey } = useGetProductShowcaseVideos(props)
+  const { videoMap, mobileKey, webKey, fallback } = useGetProductShowcaseVideos(props)
   const isMobileDeviceOrWidth = useIsMobile()
 
   return useMemo(
-    () => videoMap[isMobileDeviceOrWidth ? mobileKey : webKey] || videoMap[webKey],
-    [mobileKey, videoMap, webKey, isMobileDeviceOrWidth]
+    () => videoMap[isMobileDeviceOrWidth ? mobileKey : webKey] || videoMap[webKey] || videoMap[fallback],
+    [mobileKey, videoMap, webKey, fallback, isMobileDeviceOrWidth]
   )
 }
 type ConstructShowcaseDataProps = Pick<ShowcaseVideosProps, 'videos'> &
   Pick<ReturnType<typeof useGetShowcaseSettings>, 'gender' | 'height' | 'size'>
 
+const PROMO_VIDEO_KEY = 'PROMO-VIDEO'
 function _constructShowcaseData({ videos, gender, height, size }: ConstructShowcaseDataProps) {
   const videoMap = videos.reduce(reduceShopifyMediaToShowcaseVideos, {})
 
@@ -199,13 +200,15 @@ function _constructShowcaseData({ videos, gender, height, size }: ConstructShowc
       get mobileKey() {
         return this.webKey + '-MOBILE'
       },
+      fallback: PROMO_VIDEO_KEY,
     }
   } else {
     // Is flagged as false => show default
     return {
       videoMap,
-      webKey: 'MALE-175-L',
-      mobileKey: 'MALE-175-L',
+      webKey: PROMO_VIDEO_KEY,
+      mobileKey: PROMO_VIDEO_KEY,
+      fallback: PROMO_VIDEO_KEY,
     }
   }
 }
