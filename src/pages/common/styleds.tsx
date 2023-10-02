@@ -68,6 +68,7 @@ export const ScrollingProductLabel = styled(Row).attrs((props) => ({ padding: '1
 
 export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number }>`
   z-index: ${({ zIndex = 1 }) => zIndex};
+  position: relative;
 
   opacity: 1;
   ${({ hide }) => hide && `opacity: 0;`}

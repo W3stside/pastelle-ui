@@ -1,7 +1,7 @@
 import { ButtonVariations, RowProps, SmartVideo, SmartVideoProps } from '@past3lle/components'
 import { getIsMobile, wait } from '@past3lle/utils'
 import { Z_INDEXES } from 'constants/config'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import { Pause, Play } from 'react-feather'
 import { useLocation } from 'react-router-dom'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
@@ -24,6 +24,7 @@ export interface ItemVideoContentProps extends RowProps {
   videoProps?: SmartVideoProps['videoProps']
   autoPlayOptions?: SmartVideoProps['autoPlayOptions']
   showError?: boolean
+  videoOverlay?: ReactNode
 }
 const CONTROL_BUTTON_SIZE = '16px'
 export const ItemVideoContent = ({
@@ -36,6 +37,7 @@ export const ItemVideoContent = ({
   isMobileWidth,
   showError,
   autoPlayOptions,
+  videoOverlay,
   ...styleProps
 }: ItemVideoContentProps) => {
   const [videoIdx, setVideoIdx] = useState(currentCarouselIndex)
@@ -141,6 +143,7 @@ export const ItemVideoContent = ({
     <>
       <VideoContentWrapper id="#video-content-wrapper" {...styleProps}>
         {videosContent}
+        {videoOverlay}
       </VideoContentWrapper>
       {/* PLAY/PAUSE */}
       {videoStatus && <VideoControlButton callback={toggleVideo} isPlaying={isPlaying} />}
