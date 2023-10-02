@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { load, save } from 'redux-localstorage-simple'
-import { ProductSizes } from 'shopify/graphql/types'
 // APPAREL
 import { cart } from 'state/cart/reducer'
 import { collection } from 'state/collection/reducer'
@@ -9,7 +8,6 @@ import { updateVersion } from 'state/global/actions'
 import { modalsAndPopups } from 'state/modalsAndPopups/reducer'
 // MISC
 import { user } from 'state/user/reducer'
-import { ThemeModes } from 'theme'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
@@ -32,25 +30,6 @@ const store = configureStore({
   preloadedState: load({
     states: PERSISTED_KEYS,
     namespace: 'PASTELLE_SHOP',
-    // because localstorage can sometimes contain stale data from testing...
-    // TODO: remove this shit
-    preloadedState: {
-      user: {
-        theme: {
-          mode: ThemeModes.DARK,
-          autoDetect: false,
-        },
-        showcase: {
-          gender: 'MALE',
-          height: 175,
-          size: ProductSizes.L,
-          videoSettings: {
-            autoplay: true,
-            status: 'play',
-          },
-        },
-      },
-    },
     disableWarnings: process.env.NODE_ENV === 'production',
   }),
 })

@@ -1,8 +1,9 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'state'
 import { useTheme } from 'styled-components/macro'
+import { ThemeModes } from 'theme'
 
-import { UserState, updateShowcaseSettings, updateThemeAutoDetect } from './reducer'
+import { UserState, updateShowcaseSettings, updateThemeAutoDetect, updateThemeMode } from './reducer'
 import { initialState } from './reducer'
 
 export const useAppColourTheme = () => useAppSelector(({ user }) => user.theme || initialState.theme)
@@ -18,7 +19,15 @@ export function useThemeManager() {
     [dispatch]
   )
 
-  return { ...theme, setAutoDetect }
+  const setMode = useCallback(
+    (mode: ThemeModes) => {
+      dispatch(updateThemeMode(mode))
+      theme.setMode(mode)
+    },
+    [dispatch, theme]
+  )
+
+  return { ...theme, setMode, setAutoDetect }
 }
 
 type UpdateShowcaseSettingsParams = Partial<UserState['showcase']>
