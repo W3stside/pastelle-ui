@@ -13,8 +13,9 @@ import {
   VideoControlButton as VideoControlButtonStyled,
 } from '../common/styleds'
 
+export type ShowcaseVideo = FragmentProductVideoFragment & { isFallback?: boolean }
 export interface ItemVideoContentProps extends RowProps {
-  videos: FragmentProductVideoFragment[]
+  videos: ShowcaseVideo[]
   firstPaintOver?: boolean
   currentCarouselIndex: number | null
   forceLoad?: boolean

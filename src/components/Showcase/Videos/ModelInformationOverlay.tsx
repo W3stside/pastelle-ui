@@ -1,4 +1,5 @@
 import { fromExtraLarge, upToMedium } from '@past3lle/theme'
+import { useMemo } from 'react'
 import { ProductSizes } from 'shopify/graphql/types'
 import styled from 'styled-components/macro'
 
@@ -37,14 +38,20 @@ export function ModelInformationOverlay({
   isMobile,
   modelSize,
   itemSize,
+  isFallback,
 }: {
   isMobile?: boolean
+  isFallback?: boolean
   modelSize: number
   itemSize: ProductSizes
 }) {
-  return (
-    <Container isMobile={!!isMobile}>
-      {isMobile ? (
+  const content = useMemo(
+    () =>
+      isFallback ? (
+        <>
+          No showcase video yet for this size/model combo. <strong>Coming soon</strong>.
+        </>
+      ) : isMobile ? (
         <>
           <strong>{modelSize}cm </strong>
           -- size: <strong>{itemSize}</strong>
@@ -54,7 +61,8 @@ export function ModelInformationOverlay({
           <strong>{modelSize}cm</strong> model wearing <strong>{itemSize}</strong> {'  ----  '} Use showcase settings to
           see different models wearing different sizes!
         </>
-      )}
-    </Container>
+      ),
+    [isFallback, isMobile, itemSize, modelSize]
   )
+  return <Container isMobile={!!isMobile}>{content}</Container>
 }

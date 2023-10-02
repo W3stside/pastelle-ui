@@ -15,7 +15,6 @@ import { TinyHelperTextStyled } from 'components/Common'
 import useModelSizeSelector from 'components/ModelSizeSelector'
 import useShowShowcase from 'components/Showcase/Settings'
 import ShowcaseVideos from 'components/Showcase/Videos'
-import { ModelInformationOverlay } from 'components/Showcase/Videos/ModelInformationOverlay'
 import ShowcaseVideoControls from 'components/Showcase/Videos/Settings'
 import useSizeSelector from 'components/SizeSelector'
 import { SHOWCASE_ENABLED, Z_INDEXES } from 'constants/config'
@@ -127,7 +126,7 @@ export default function SingleProductPage({
 
   const { ShowcaseSettings } = useShowShowcase()
   const { SizeSelector, selectedSize } = useSizeSelector({ sizes })
-  const { modelSize, ModelSizeSelector } = useModelSizeSelector()
+  const { ModelSizeSelector } = useModelSizeSelector()
   const variant = useQueryProductVariantByKeyValue({ productId: id, key: 'Size', value: selectedSize })
 
   const addToCartButtonRef = useRef<HTMLButtonElement | null>(null)
@@ -384,7 +383,6 @@ export default function SingleProductPage({
           firstPaintOver
           currentCarouselIndex={currentCarouselIndex}
           isMobileWidth={false}
-          videoOverlay={SHOWCASE_ENABLED && <ModelInformationOverlay modelSize={modelSize} itemSize={selectedSize} />}
         />
       </StyledElems.SingleProductContainer>
     </>
