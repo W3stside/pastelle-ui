@@ -21,14 +21,14 @@ export interface UserState {
 
 export const initialState: UserState = {
   theme: {
-    mode: ThemeModes.LIGHT,
+    mode: ThemeModes.DARK,
     autoDetect: false,
   },
   showcase: {
     gender: 'MALE',
     height: 175,
     size: ProductSizes.L,
-    videoSettings: { autoplay: false, status: 'pause' },
+    videoSettings: { autoplay: true, status: 'play' },
   },
 }
 const userSlice = createSlice({
