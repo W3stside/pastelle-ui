@@ -106,11 +106,6 @@ export const ItemVideoContent = ({
     [autoplay, isPlaying, updateVideoSettings]
   )
 
-  const onVideoClick = useCallback(
-    () => updateVideoSettings({ autoplay, status: isPlaying ? 'pause' : 'play' }),
-    [autoplay, isPlaying, updateVideoSettings]
-  )
-
   const videosContent = useMemo(
     () =>
       videos.map(({ id, sources, previewImage }, index) => {
@@ -130,9 +125,10 @@ export const ItemVideoContent = ({
           sourcesProps: sources.map(({ url, mimeType }) => ({ src: url, type: mimeType })),
           height: styleProps.height,
           videoDelay: !isMobileWidth && videoDelay,
-          showTapToPlay: getIsMobile() && (!isPlaying || videoProps?.autoPlay === false),
+          showTapToPlay: getIsMobile() && !isPlaying,
           ctaOverlayProps: {
             $zIndex: Z_INDEXES.PRODUCT_VIDEOS,
+            $width: '40%',
           },
         }
 
@@ -144,7 +140,6 @@ export const ItemVideoContent = ({
               <SmartVideo
                 {...commonProps}
                 ref={(node) => node && setVideoNodesList((state) => [...state, node])}
-                onClick={onVideoClick}
                 marginLeft="auto"
                 videoProps={{
                   style: {
@@ -157,7 +152,6 @@ export const ItemVideoContent = ({
             <SmartVideo
               {...commonProps}
               margin={smartFill ? '0' : isMobileWidth ? '0 auto' : '0 0 0 auto'}
-              handleClick={onVideoClick}
               ref={(node) => node && setVideoNodesList((state) => [...state, node])}
               autoPlayOptions={autoplay ? undefined : autoPlayOptions}
             />
@@ -188,12 +182,17 @@ export const ItemVideoContent = ({
 
   return (
     <>
-      <VideoContentWrapper id="#video-content-wrapper" {...styleProps}>
+      <VideoContentWrapper
+        id="#video-content-wrapper"
+        {...styleProps}
+        // Mobile only. Showcase shows in carousel
+        onClick={isMobileWidth ? toggleVideo : undefined}
+      >
         {videosContent}
         {videoOverlay}
       </VideoContentWrapper>
       {/* PLAY/PAUSE */}
-      {videoStatus && <VideoControlButton callback={toggleVideo} isPlaying={isPlaying} />}
+      {videoStatus && !isMobileWidth && <VideoControlButton callback={toggleVideo} isPlaying={isPlaying} />}
     </>
   )
 }
