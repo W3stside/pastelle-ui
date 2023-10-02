@@ -1,10 +1,11 @@
 import { useIsMobile } from '@past3lle/hooks'
 import { ShowcaseVideosProps } from 'components/Showcase/Videos'
 import { SHOWCASE_ENABLED } from 'constants/config'
+import { ShowcaseVideo } from 'pages/SingleProduct/ItemVideoContent'
 import { BaseProductPageProps } from 'pages/common/types'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-import { Product } from 'shopify/graphql/types'
+import { FragmentProductVideoFragment, Product } from 'shopify/graphql/types'
 import { reduceShopifyMediaToShowcaseVideos } from 'shopify/utils'
 import { useAppDispatch, useAppSelector } from 'state'
 import { useGetShowcaseSettings } from 'state/user/hooks'
@@ -177,12 +178,15 @@ export function useGetProductShowcaseVideos({ videos }: Pick<ShowcaseVideosProps
   return useMemo(() => _constructShowcaseData({ gender, height, size, videos }), [gender, height, size, videos])
 }
 
-export function useGetSelectedProductShowcaseVideo(props: Pick<ShowcaseVideosProps, 'videos'>) {
+export function useGetSelectedProductShowcaseVideo(props: Pick<ShowcaseVideosProps, 'videos'>): ShowcaseVideo {
   const { videoMap, mobileKey, webKey, fallback } = useGetProductShowcaseVideos(props)
   const isMobileDeviceOrWidth = useIsMobile()
 
   return useMemo(
-    () => videoMap[isMobileDeviceOrWidth ? mobileKey : webKey] || videoMap[webKey] || videoMap[fallback],
+    () =>
+      videoMap[isMobileDeviceOrWidth ? mobileKey : webKey] ||
+      videoMap[webKey] ||
+      _extendVideo(videoMap[fallback], { isFallback: true }),
     [mobileKey, videoMap, webKey, fallback, isMobileDeviceOrWidth]
   )
 }
@@ -211,4 +215,11 @@ function _constructShowcaseData({ videos, gender, height, size }: ConstructShowc
       fallback: PROMO_VIDEO_KEY,
     }
   }
+}
+
+function _extendVideo<T extends FragmentProductVideoFragment, E extends Record<any, any>>(
+  video: T,
+  extension: E
+): T & E {
+  return Object.assign({}, video, extension)
 }

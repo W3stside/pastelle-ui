@@ -23,8 +23,9 @@ import store from 'state'
 import CartUpdater from 'state/cart/updater'
 import CollectionUpdater from 'state/collection/updater'
 import { VersionUpdater } from 'state/version/updater'
-import { pastelleTheme } from 'theme'
+import { ThemeModes, pastelleTheme } from 'theme'
 import { CustomStaticGlobalCSSProvider, CustomThemedGlobalCSSProvider } from 'theme/global'
+import { getLocalStorageThemeModeOrDefault } from 'utils/localstorage'
 
 import App from './pages/App'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
@@ -71,7 +72,7 @@ const root = createRoot(container)
 root.render(
   <StrictMode>
     <HelmetProvider>
-      <ThemeProvider theme={pastelleTheme} defaultMode="DARK">
+      <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
         {/* @past3lle hooks data provider */}
         <PastelleForgeW3Provider>
           {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}

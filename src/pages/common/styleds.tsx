@@ -583,17 +583,17 @@ export const HighlightedText = styled.span<{ color?: string; bgColor: string }>`
 export const FreeShippingBanner = styled(ProductDescription).attrs((props) => ({
   ...props,
   color: 'black',
-  padding: '1.8rem',
-}))`
+  padding: props.padding || '1.8rem',
+}))<{ gap?: string }>`
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: ${(props) => props?.gap || '0.4rem'};
   text-decoration: 0.3rem underline indianred;
   color: ${({ theme }) => theme.black as string};
 
   > svg {
     stroke: ${({ theme, color = theme.content.text }) => color as string};
-    stroke-width: 0.23rem;
+    stroke-width: 0.18rem;
     &:last-child {
       margin-right: 0.75rem;
     }

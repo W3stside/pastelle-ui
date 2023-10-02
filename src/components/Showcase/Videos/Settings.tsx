@@ -9,7 +9,7 @@ import { BLACK_TRANSPARENT } from 'theme/colours'
 
 const ShowcaseVideoControlContainer = styled(Row)`
   flex-flow: column nowrap;
-  background: ${(props) => props.theme.blackOpaque};
+  background: ${(props) => props.theme.content.background};
   border-radius: ${({ theme }) => theme.button.border.radius};
   border: ${({ theme }) => `1px solid ${theme.input.border.colour}`};
 `
