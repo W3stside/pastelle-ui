@@ -6,8 +6,8 @@ export const QUERY_PRODUCT = gql`
   ${FRAGMENT_PRODUCT}
   ${FRAGMENT_PRODUCT_IMAGE}
   ${FRAGMENT_PRODUCT_VIDEO}
-  query Product($amount: Int, $imageAmt: Int, $videoAmt: Int) {
-    products(first: $amount) {
+  query Product($amount: Int, $imageAmt: Int, $videoAmt: Int, $sortKey: ProductSortKeys) {
+    products(first: $amount, sortKey: $sortKey) {
       nodes {
         ...FragmentProduct
 
