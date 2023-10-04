@@ -36,7 +36,8 @@ import {
 } from 'pages/common/styleds'
 import { SingleProductPageProps, WithParentAspectRatio } from 'pages/common/types'
 import { darken, transparentize } from 'polished'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
@@ -90,8 +91,9 @@ export default function SingleProductPage({
   const isMobile = useIsMobile()
 
   // MOBILE/WEB CAROUSEL
-  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
-  const onCarouselChange = (index: number) => setCurrentCarouselIndex(index)
+  const { currentIndex: currentCarouselIndex, onChange: onCarouselChange } = useProductWebCarouselActions({
+    startIndex: DEFAULT_MEDIA_START_INDEX,
+  })
   const Carousel = useCallback(
     (props: Omit<ProductSwipeCarousel, 'touchAction'>) =>
       getIsMobileDevice() ? (
@@ -104,6 +106,8 @@ export default function SingleProductPage({
           onCarouselChange={onCarouselChange}
         />
       ),
+    // Ignore onCarouselChange
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [toggleLargeImageModal]
   )
 
@@ -419,4 +423,24 @@ const RedactedInformationDescription = (): JSX.Element => {
       </ProductDescription>
     </Column>
   )
+}
+
+function useProductWebCarouselActions({ startIndex }: { startIndex: number }) {
+  const [currentIndex, setCurrentIndex] = useState(startIndex)
+  const onChange = (index: number) => setCurrentIndex(index)
+
+  const location = useLocation()
+
+  // EFFECT: on product change, reset web carousel index to 0
+  useEffect(() => {
+    setCurrentIndex(startIndex)
+    // Ignore startIndex as dep
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.key])
+
+  return {
+    currentIndex,
+    setCurrentIndex,
+    onChange,
+  }
 }
