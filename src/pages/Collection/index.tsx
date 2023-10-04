@@ -19,7 +19,7 @@ export default function Collection() {
   useUpdateCurrentlyViewingCollection(true, collection)
 
   const isMobileDeviceOrWidth = useIsMobile()
-  const collectionProductList = Object.values(collection?.products || {}).reverse()
+  const collectionProductList = Object.values(collection?.products || {})
 
   // on mobile sizes we set a fixed height
   const fixedItemHeight = useMemo(() => {

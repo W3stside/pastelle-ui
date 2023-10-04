@@ -6,6 +6,7 @@ import {
   useQueryCollections,
   useQueryProductByIdAndMap,
 } from 'shopify/graphql/hooks'
+import { ProductCollectionSortKeys } from 'shopify/graphql/types'
 import { ShopifyIdType, getShopifyId, shortenShopifyId } from 'shopify/utils'
 
 import { useUpdateCollections, useUpdateCurrentlyViewing, useUpdateSingleProductInCollection } from './hooks'
@@ -37,6 +38,7 @@ export default function Updater() {
     videoAmt: PRODUCT_VIDEOS_AMOUNT,
     // reverse array to get first as latest
     reverse: true,
+    productSortKey: ProductCollectionSortKeys.BestSelling,
   })
 
   useEffect(() => {
