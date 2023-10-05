@@ -9,6 +9,8 @@ import { STIFF_SPRINGS } from 'constants/springs'
 import { useCallback, useEffect, useMemo } from 'react'
 import { Product } from 'shopify/graphql/types'
 
+import { SloganH1 } from './styled'
+
 interface ScrollingContentPageParams<D> {
   data: D[]
   dataItem: D | undefined
@@ -101,7 +103,8 @@ export function ScrollingContentPage<D>({
         showBg={false}
         loadingComponent={<img src={PastelleIvoryOutlined} />}
         left="50%"
-        width="40vw"
+        width="42vw"
+        loadingLabel={<SloganH1>HEAVY. ORGANIC. STREETWEAR. PORTUGAL.</SloganH1>}
       />
       <StyledScrollerContainer $touchAction={touchAction} $isVerticalScroll {...bind()}>
         {springs.map(({ y, scale }, i, { length }) => {
