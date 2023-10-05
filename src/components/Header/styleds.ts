@@ -101,8 +101,8 @@ export const HeaderRow = styled(RowFixed)`
   grid-gap: 1rem;
   z-index: 1;
 
-  > ${Title} {
-    height: 100%;
+  ${Title} {
+    height: 75%;
     width: 100%;
   }
 
@@ -110,8 +110,11 @@ export const HeaderRow = styled(RowFixed)`
     height: 92%;
   }
 
-  > ${Row}#cart-shipping-banner > ${FreeShippingBanner}, > ${Web3Button} {
-    background-color: #332f31bf;
+  > ${Row}#cart-shipping-banner {
+    white-space: nowrap;
+    > ${FreeShippingBanner}, > ${Web3Button} {
+      background-color: #332f31bf;
+    }
   }
 
   > ${Row}#cart-shipping-banner {
@@ -212,6 +215,10 @@ export const HeaderDrawerButton = styled.div`
 export const HeaderFrame = styled(Header)<{ open: boolean; color?: string; logoSet?: ShopImageSrcSet }>`
   top: 0;
   padding: 1rem;
+
+  ${upToSmall`
+    padding: 0.3rem 0.5rem;
+  `}
 
   z-index: ${Z_INDEXES.HEADER};
 
@@ -315,7 +322,11 @@ export const Pastellecon = styled.div`
   transition: transform 0.3s ease;
 
   background: url(${PNG_LogoShort_2x}) left/contain no-repeat;
-  ${fromExtraSmall`background: url(${PNG_LogoFull_2x}) left/contain no-repeat;`}
+  ${fromExtraSmall`
+    background: url(${PNG_LogoFull_2x}) left/contain no-repeat;
+    height: 120%;
+    width: 120%;
+  `}
 
   &:hover {
     transform: rotate(-5deg);
