@@ -1,4 +1,4 @@
-import { Column, Row } from '@past3lle/components'
+import { Column, Row, Text } from '@past3lle/components'
 import { useIsMediumMediaWidth } from '@past3lle/hooks'
 import { getIsMobile } from '@past3lle/utils'
 import Navigation from 'components/Navigation'
@@ -58,7 +58,13 @@ export default function Header() {
             <br />
           </Title>
           <Row width="100%" height="30%" alignItems="center">
-            <h1 style={{ fontSize: '0.6rem', margin: 0 }}>HEAVY.ORGANIC. STREETWEAR.PORTUGAL.</h1>
+            <h1 style={{ fontSize: '0.6rem', margin: 0, fontVariationSettings: "'wght' 100" }}>
+              HEAVY.ORGANIC.{' '}
+              <Text.Main fontSize="inherit" fontWeight={800} display={'inline-block'}>
+                STREETWEAR.
+              </Text.Main>
+              PORTUGAL.
+            </h1>
           </Row>
         </Column>
 
