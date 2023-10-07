@@ -73,7 +73,7 @@ const FixedContainer = styled(AnimatedContainer)<StyleParams>`
 `
 
 interface LoadingParams {
-  loadingLabel?: string
+  loadingLabel?: ReactNode
   loadingComponent: ReactNode
 }
 
@@ -85,7 +85,7 @@ export const FixedAnimatedLoader = ({
   <FixedContainer {...styleParams}>
     <ProductSubHeader>
       {loadingComponent}
-      <strong>{loadingLabel}</strong>
+      {loadingLabel}
     </ProductSubHeader>
   </FixedContainer>
 )
@@ -103,7 +103,7 @@ export const FallbackLoader = () => (
 export const AnimatedLoader = ({ loadingComponent, loadingLabel }: LoadingParams) => (
   <AnimatedContainer>
     {loadingComponent}
-    {loadingLabel && <strong>{loadingLabel}</strong>}
+    {loadingLabel}
   </AnimatedContainer>
 )
 

@@ -1,5 +1,6 @@
 import { StyledAnimatedDivContainer, StyledScrollerContainer, TouchAction } from '@past3lle/carousel'
 import { useInfiniteVerticalScroll } from '@past3lle/carousel-hooks'
+import { Text } from '@past3lle/components'
 import { LoadInViewOptions, useIsSmallMediaWidth, usePrevious } from '@past3lle/hooks'
 import { getIsMobile } from '@past3lle/utils'
 import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
@@ -8,6 +9,8 @@ import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/
 import { STIFF_SPRINGS } from 'constants/springs'
 import { useCallback, useEffect, useMemo } from 'react'
 import { Product } from 'shopify/graphql/types'
+
+import { SloganH1 } from './styled'
 
 interface ScrollingContentPageParams<D> {
   data: D[]
@@ -101,7 +104,16 @@ export function ScrollingContentPage<D>({
         showBg={false}
         loadingComponent={<img src={PastelleIvoryOutlined} />}
         left="50%"
-        width="40vw"
+        width="42vw"
+        loadingLabel={
+          <SloganH1>
+            HEAVY. ORGANIC.{' '}
+            <Text.Main fontSize="inherit" fontWeight={600} display={'inline-block'}>
+              STREETWEAR.
+            </Text.Main>{' '}
+            PORTUGAL.
+          </SloganH1>
+        }
       />
       <StyledScrollerContainer $touchAction={touchAction} $isVerticalScroll {...bind()}>
         {springs.map(({ y, scale }, i, { length }) => {

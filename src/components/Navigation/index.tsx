@@ -187,6 +187,9 @@ export default function Navigation({
               >
                 @pastelle.apparel
               </ExternalLink>
+              <ExternalLink id="instagram-link" href="mailto:pastelle.portugal@gmail.com" style={{ fontWeight: 100 }}>
+                Email us!
+              </ExternalLink>
               <small>Policies:</small>
               <span onClick={(e) => handleNavMove(e, { other: '/policies/shipping' })}>Shipping</span>
               <span onClick={(e) => handleNavMove(e, { other: '/policies/privacy' })}>Privacy</span>

@@ -1,4 +1,4 @@
-import { Row } from '@past3lle/components'
+import { Column, Row, Text } from '@past3lle/components'
 import { useIsMediumMediaWidth } from '@past3lle/hooks'
 import { getIsMobile } from '@past3lle/utils'
 import Navigation from 'components/Navigation'
@@ -52,9 +52,21 @@ export default function Header() {
       </HeaderDrawerButton>
       <HeaderRow>
         {/* ICON and HOME BUTTON */}
-        <Title to={`${COLLECTION_PATHNAME}/${(currentCollection?.id as CollectionID) || ''}`}>
-          <Pastellecon />
-        </Title>
+        <Column height="100%">
+          <Title to={`${COLLECTION_PATHNAME}/${(currentCollection?.id as CollectionID) || ''}`}>
+            <Pastellecon />
+            <br />
+          </Title>
+          <Row width="100%" height="30%" alignItems="center">
+            <h1 style={{ fontSize: '0.6rem', margin: 0, fontVariationSettings: "'wght' 100" }}>
+              HEAVY.ORGANIC.{' '}
+              <Text.Main fontSize="inherit" fontWeight={800} display={'inline-block'}>
+                STREETWEAR.
+              </Text.Main>
+              PORTUGAL.
+            </h1>
+          </Row>
+        </Column>
 
         {/* THEME TOGGLE - ONLY MEDIUM */}
         <StyledThemeToggleBar themeToggleProps={{ width: '90%' }} />
