@@ -11,6 +11,17 @@ module.exports = {
   babel: {
     plugins: ['@babel/plugin-proposal-nullish-coalescing-operator']
   },
+  jest: {
+    configure(jestConfig) {
+      jestConfig.verbose = true
+      jestConfig.transformIgnorePatterns = [
+        ...jestConfig.transformIgnorePatterns,
+        '/node_modules/@past3lle/utils'
+      ]
+      
+      return jestConfig
+    }
+  },
   webpack: {
     plugins: [
       new webpack.DefinePlugin({
