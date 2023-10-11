@@ -66,10 +66,7 @@ function ThemedCSSProviders() {
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const container = document.getElementById('root')!
-const root = createRoot(container)
-root.render(
+const RootApp = () => (
   <StrictMode>
     <HelmetProvider>
       <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
@@ -95,6 +92,11 @@ root.render(
     </HelmetProvider>
   </StrictMode>
 )
+
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const container = document.getElementById('root')!
+const root = createRoot(container)
+root.render(<RootApp />)
 
 // SERVICE WORKER (e.g USER OFFLINE USE)
 // README: change to unregister to remove SW
