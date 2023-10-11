@@ -6,9 +6,16 @@ const cspHtmlWebpackPlugin = require('csp-html-webpack-plugin')
 
 const cspConfigPolicy = {
   'default-src': "'none'",
-  'media-src': ['https://cdn.shopify.com', 'https://ik.imagekit.io/pastelle/'],
+  'media-src': [
+    'https://cdn.shopify.com',
+    'https://ik.imagekit.io/pastelle/',
+    // hosting server
+    'https://d33wubrfki0l68.cloudfront.net',
+  ],
   'img-src': [
     "'self'",
+    // hosting server
+    'https://d33wubrfki0l68.cloudfront.net',
     'https://ik.imagekit.io/pastelle/',
     'https://cdn.shopify.com',
     'https://cryptologos.cc/logos/versions/ethereum-eth-logo-colored.svg',
@@ -23,17 +30,23 @@ const cspConfigPolicy = {
   'object-src': "'none'",
   'script-src': [
     "'self'",
+    // hosting server
+    'https://d33wubrfki0l68.cloudfront.net',
     // google tag
     "'sha256-jwsanj4WKKtrMM+7Khy+zjXFPYb+YaRZ/mLaS40iTgE='",
   ],
   'script-src-elem': [
     "'self'",
+    // hosting server
+    'https://d33wubrfki0l68.cloudfront.net',
     'https://www.googletagmanager.com',
     // google tag
     "'sha256-jwsanj4WKKtrMM+7Khy+zjXFPYb+YaRZ/mLaS40iTgE='",
   ],
   'connect-src': [
     "'self'",
+    // hosting server
+    'https://d33wubrfki0l68.cloudfront.net',
     'https://*.google-analytics.com',
     // ipfs
     'https://pastelle.infura-ipfs.io',
