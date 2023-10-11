@@ -17,8 +17,8 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
   appName: 'PASTELLE SHOP',
   chains: SUPPORTED_CHAINS_BY_ENV,
   options: {
-    autoConnect: true,
-    pollingInterval: 30_000,
+    autoConnect: false,
+    pollingInterval: 60_000,
   },
   connectors: CONNECTORS,
   modals: {
