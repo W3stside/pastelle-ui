@@ -89,7 +89,7 @@ function addWebpackOverride(config) {
 }
 
 function addCspHtmlWebpackPlugin(config) {
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV === 'production') {
     config.plugins.push(new cspHtmlWebpackPlugin(cspConfigPolicy))
   }
 
