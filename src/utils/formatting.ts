@@ -20,3 +20,8 @@ export function formatShopifyCurrency(amount: number, options: { locales: string
     return amount + ' ' + options.currency
   }
 }
+
+export function getNodeAspectRatio(node: HTMLElement | undefined | null) {
+  if (!node) return undefined
+  return node.clientWidth / node.clientHeight
+}
