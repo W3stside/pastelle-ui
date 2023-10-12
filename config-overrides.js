@@ -60,6 +60,7 @@ const cspConfigPolicy = {
     'wss://relay.walletconnect.com',
     'https://rpc.walletconnect.com',
     'https://e3f9fe-2.myshopify.com',
+    'https://polygon-rpc.com',
     'https://rpc.ankr.com',
     'https://pstlcollections.s3.eu-south-2.amazonaws.com',
   ],
@@ -102,7 +103,7 @@ function addWebpackOverride(config) {
 }
 
 function addCspHtmlWebpackPlugin(config) {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'development') {
     config.plugins.push(new cspHtmlWebpackPlugin(cspConfigPolicy))
   }
 
