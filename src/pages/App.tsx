@@ -7,6 +7,7 @@ import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useDeriveCurrentCollectionId, useIsCollectionLoading } from 'state/collection/hooks'
 
+const Home = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HOME" */ 'pages/Home'))
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
 const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Error/NotFound'))
@@ -39,6 +40,7 @@ export default function App() {
       ) : (
         <Suspense fallback={<FallbackLoader />}>
           <Routes>
+            <Route index element={<Home />} />
             <Route path={`/${COLLECTION_PARAM_NAME}/:collection`} element={<Collection />} />
             <Route path={`/${APPAREL_PARAM_NAME}/:handle`} element={<SingleItem />} />
 
