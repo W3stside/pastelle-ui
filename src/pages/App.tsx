@@ -6,7 +6,6 @@ import { APPAREL_PARAM_NAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useDeriveCurrentCollectionId, useIsCollectionLoading } from 'state/collection/hooks'
-import { CollectionID } from 'state/collection/reducer'
 
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
@@ -46,10 +45,7 @@ export default function App() {
             <Route path={`/policies/:policy`} element={<Policy />} />
 
             <Route path="/404" element={<NotFound />} />
-            <Route
-              path="*"
-              element={<Navigate to={`/${COLLECTION_PARAM_NAME}/${currentId as CollectionID}`} replace />}
-            />
+            <Route path="*" element={<Navigate to={`/${COLLECTION_PARAM_NAME}/latest`} replace />} />
           </Routes>
         </Suspense>
       )}

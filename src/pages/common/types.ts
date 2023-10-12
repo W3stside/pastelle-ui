@@ -9,14 +9,18 @@ import {
 } from 'shopify/graphql/types'
 import { ShopImageSrcSet } from 'types'
 
-export interface BaseProductPageProps {
-  altColor: string
+export interface CommonSinglePageProps {
   bgColor: string
+  logo?: ShopImageSrcSet
+  altLogo?: ShopImageSrcSet
+}
+
+export interface BaseProductPageProps extends Omit<CommonSinglePageProps, 'altLogo'> {
+  altColor: string
   color: string
   title: string
   handle: string
   productType: string
-  logo?: ShopImageSrcSet
   headerLogo?: ShopImageSrcSet
   navLogo?: ShopImageSrcSet
   images: FragmentProductImageFragment[]

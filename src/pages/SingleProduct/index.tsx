@@ -1,41 +1,36 @@
-import { useStateRef } from '@past3lle/hooks'
+import { useDeriveSkillState } from '@past3lle/forge-web3'
+import { useIsMobile } from '@past3lle/hooks'
 import { devDebug } from '@past3lle/utils'
 import SEO from 'components/SEO'
-import { BaseProductPageProps } from 'pages/common/types'
-import { useEffect, useMemo } from 'react'
+import ShowcaseVideos from 'components/Showcase/Videos'
+import { SHOWCASE_ENABLED, Z_INDEXES } from 'constants/config'
+import { SinglePageSmartWrapper } from 'pages/common'
+import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
+import { useProductWebCarouselActions } from 'pages/common/hooks/useProductCarouselActions'
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useCollection, useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
+import { useGetProductFromHandle, useUpdateCurrentlyViewingProduct } from 'state/collection/hooks'
 
 import AsideWithVideo from './AsideWithVideo'
-import { SingleProductArticle } from './styled'
+import { LargeProductAndSizeChartImagesCarousel } from './LargeProductAndSizeChartCarousels'
+import { SingleProductAsidePanel, SingleProductContainer, SingleProductScreensContainer } from './styled'
 
-export default function SingleItem() {
-  const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, (node) => node)
-  const parentAspectRatio = getNodeAspectRatio(container)
-
+export default function SingleProductPage() {
   // Internal referrer = shopify handle
   // External referrer = shopfiy ID
   const { handle } = useParams()
-  const { current, collections } = useCollection()
-  const product = useMemo(() => {
-    let product: BaseProductPageProps | undefined
-    if (handle) {
-      const productInCurrentCollection = current?.id && collections?.[current.id]?.products?.[handle]
-      if (productInCurrentCollection) {
-        product = productInCurrentCollection
-      } else {
-        const flattenedCollections = Object.values(collections).flatMap((collection) => [
-          ...Object.values(collection.products),
-        ])
-        return flattenedCollections.find((product) => handle === product.handle)
-      }
-    }
-
-    return product
-  }, [current?.id, collections, handle])
+  const product = useGetProductFromHandle(handle)
 
   // update state store with current browsing SINGLE product
   useUpdateCurrentlyViewingProduct(true, product)
+
+  // MOBILE/WEB CAROUSEL
+  const { currentIndex: currentCarouselIndex, onChange: onCarouselChange } = useProductWebCarouselActions({
+    startIndex: DEFAULT_MEDIA_START_INDEX,
+  })
+
+  const isMobile = useIsMobile()
+  const lockStatus = useDeriveSkillState(product?.skillMetadata)
 
   const navigate = useNavigate()
   useEffect(() => {
@@ -56,16 +51,57 @@ export default function SingleItem() {
         name={product.handle.toUpperCase()}
         description={`${product.handle.toUpperCase()}: ${product.shortDescription || 'STREET.APPAREL'}`}
       />
-
-      <SingleProductArticle id="COLLECTION-ARTICLE" display="flex" ref={setContainerRef}>
-        <AsideWithVideo {...product} parentAspectRatio={parentAspectRatio} />
-      </SingleProductArticle>
+      <SinglePageSmartWrapper>
+        {(smartWrapperProps) => (
+          <>
+            <LargeProductAndSizeChartImagesCarousel
+              color={product.color}
+              images={product.images}
+              lockedImages={product.lockedImages}
+              sizeChart={product.sizeChart}
+              currentIndex={currentCarouselIndex}
+              isMobile={isMobile}
+              skillState={lockStatus}
+            />
+            <SingleProductContainer id="#item-container" parentAspectRatio={smartWrapperProps.parentAspectRatio}>
+              <SingleProductAsidePanel id="#item-aside-panel" ref={smartWrapperProps.asideContainerRef}>
+                <SingleProductScreensContainer
+                  $calculatedSizes={{
+                    height: smartWrapperProps.asideContainerRef.current?.clientHeight,
+                    width: smartWrapperProps.screensContainerNode?.clientWidth,
+                  }}
+                  ref={smartWrapperProps.setScreensContainerRef}
+                  bgColor={product?.bgColor}
+                  navLogo={product?.navLogo}
+                  logo={product?.logo}
+                >
+                  <AsideWithVideo
+                    {...smartWrapperProps}
+                    product={product}
+                    lockStatus={lockStatus}
+                    isMobile={isMobile}
+                    carousel={{ index: currentCarouselIndex, onChange: onCarouselChange }}
+                  />
+                </SingleProductScreensContainer>
+              </SingleProductAsidePanel>
+              <ShowcaseVideos
+                videos={product.videos}
+                forceLoad={isMobile}
+                smartFill={SHOWCASE_ENABLED && !isMobile}
+                hideVideo={isMobile || !!product?.noVideo}
+                showPoster
+                height={'100%'}
+                zIndex={Z_INDEXES.BEHIND}
+                firstPaintOver
+                currentCarouselIndex={currentCarouselIndex}
+                isMobileWidth={false}
+              />
+            </SingleProductContainer>
+          </>
+        )}
+      </SinglePageSmartWrapper>
     </>
   )
-}
-function getNodeAspectRatio(node: HTMLElement | undefined | null) {
-  if (!node) return undefined
-  return node.clientWidth / node.clientHeight
 }
 
 /* 
