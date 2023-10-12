@@ -10,10 +10,12 @@ import styled from 'styled-components/macro'
 
 export type AddToCartButtonParams = {
   label?: string
+  asyncLabel?: string
   product: ProductVariantQuery['product']
   quantity: number
   skillLocked: boolean
   buttonProps?: ButtonProps
+  callback?: (...args: any[]) => void
 }
 
 const DisappearingMessageWrapper = styled(ProductDescription)`
@@ -51,11 +53,19 @@ function useDisappearingMessage(params: { message: string; showAtStart?: boolean
 }
 
 const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
-  { label = 'Add to cart', product, quantity, skillLocked, buttonProps = {} }: AddToCartButtonParams,
+  {
+    label = 'Add to cart',
+    asyncLabel = 'Added to cart!',
+    product,
+    quantity,
+    skillLocked,
+    buttonProps = {},
+    callback,
+  }: AddToCartButtonParams,
   forwardedRef: ForwardedRef<HTMLButtonElement>
 ) {
   const { addLineToCartCallback, loading, error } = useAddLineToCartAndUpdateReduxCallback()
-  const { message: disappearingMessage, shouldShow, setShow } = useDisappearingMessage({ message: 'Added to cart!' })
+  const { message: disappearingMessage, shouldShow, setShow } = useDisappearingMessage({ message: asyncLabel })
 
   const { isDisabled } = useMemo(() => {
     const isDisabled = loading || !quantity || shouldShow
@@ -80,7 +90,7 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
   return (
     <Row ref={forwardedRef} width="100%">
       <Button
-        onClick={skillLocked ? handleLearnMore : handleAddToCart}
+        onClick={callback ? callback : skillLocked ? handleLearnMore : handleAddToCart}
         disabled={isDisabled}
         buttonVariant={ButtonVariations.THEME}
         buttonSize={ButtonSizeVariations.SMALL}
@@ -97,6 +107,9 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
             alignItems="center"
             height="100%"
             width="100%"
+            fontWeight={buttonProps?.fontWeight}
+            fontSize="inherit"
+            fontStyle="inherit"
           >
             {skillLocked
               ? 'LOCKED. CLICK TO LEARN MORE.'

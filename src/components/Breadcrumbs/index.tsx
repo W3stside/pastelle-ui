@@ -15,20 +15,19 @@ const BreadcrumbContainer = styled(Row)<{ $color: string }>`
 `
 
 export function Breadcrumbs({
-  // color,
   breadcrumbs,
   lastCrumb,
   navLinkProps,
   ...rowProps
 }: {
-  // color: string
   breadcrumbs: string[]
   lastCrumb: string | undefined
   navLinkProps?: NavLinkProps
 } & BoxProps) {
   return (
     <BreadcrumbContainer $color={OFF_WHITE} {...rowProps}>
-      {breadcrumbs?.map((crumb, index) => {
+      {breadcrumbs?.filter(Boolean).map((crumb, index) => {
+        // No crumb? We are at root
         if (!crumb) return null
         const isLastCrumb = crumb === lastCrumb
         return (

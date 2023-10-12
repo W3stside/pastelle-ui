@@ -115,7 +115,19 @@ export function useUpdateCollectionLoadingStatus() {
 export function useGetCurrentCollectionFromUrl() {
   // we need to use the URL to determine what item we're currently viewing
   const { collection: id } = useParams()
-  return useAppSelector((state) => (id ? state.collection.collections[id] : undefined))
+  const sanitizedId = id?.toLowerCase()
+  return useAppSelector((state) => {
+    switch (sanitizedId) {
+      case 'latest': {
+        const id = state.collection.latest
+        return id ? state.collection.collections[id] : state.collection.collections[0]
+      }
+      case undefined:
+        return undefined
+      default:
+        return state.collection.collections[sanitizedId]
+    }
+  })
 }
 
 export function useGetCurrentCollectionProductsFromUrl() {
@@ -222,4 +234,24 @@ function _extendVideo<T extends FragmentProductVideoFragment, E extends Record<a
   extension: E
 ): T & E {
   return Object.assign({}, video, extension)
+}
+
+export function useGetProductFromHandle(handle: string | undefined) {
+  const { current, collections } = useCollection()
+  return useMemo(() => {
+    let product: BaseProductPageProps | undefined
+    if (handle) {
+      const productInCurrentCollection = current?.id && collections?.[current.id]?.products?.[handle]
+      if (productInCurrentCollection) {
+        product = productInCurrentCollection
+      } else {
+        const flattenedCollections = Object.values(collections).flatMap((collection) => [
+          ...Object.values(collection.products),
+        ])
+        return flattenedCollections.find((product) => handle === product.handle)
+      }
+    }
+
+    return product
+  }, [current?.id, collections, handle])
 }
