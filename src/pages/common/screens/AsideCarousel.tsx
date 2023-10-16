@@ -6,6 +6,7 @@ import { getIsMobile as getIsMobileDevice } from '@past3lle/utils'
 import { useBreadcrumb } from 'components/Breadcrumb'
 import { Breadcrumbs } from 'components/Breadcrumbs'
 import * as Carousels from 'components/Carousel/ProductCarousels'
+import { Z_INDEXES } from 'constants/config'
 import { SingleProductScreen } from 'pages/SingleProduct/styled'
 import Logo from 'pages/common/components/Logo'
 import { memo, useCallback, useMemo } from 'react'
@@ -84,6 +85,17 @@ export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScre
         startIndex={startIndex}
         colors={{ accent: color }}
         videoProps={videoProps}
+        indicatorOptions={{
+          showIndicators: true,
+          position: 'top',
+          barStyles: `
+            width 95%;
+            top: 11.3%;
+            height: 3px;
+            gap: 0.7rem;
+            z-index: ${Z_INDEXES.MODALS + 1};
+          `,
+        }}
       />
       {/* DYNAMIC LOGO */}
       <Logo
