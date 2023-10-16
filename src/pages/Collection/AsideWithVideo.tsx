@@ -1,59 +1,52 @@
 import { Row } from '@past3lle/components'
-import { useStateRef } from '@past3lle/hooks'
-import { getIsMobile } from '@past3lle/utils'
-import { ClickCarousel, ProductClickCarousel, SwipeCarousel } from 'components/Carousel/ProductCarousels'
+import { useW3UserConnectionInfo } from '@past3lle/forge-web3'
+import { useIsMobile, useStateRef } from '@past3lle/hooks'
 import { MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
-import Logo from 'pages/common/components/Logo'
 import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
-import { ProductAsidePanel, ProductContainer, ProductScreen, ScrollingProductLabel } from 'pages/common/styleds'
+import { useGetCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPropsFromProduct'
+import { AsideCarousel } from 'pages/common/screens'
+import { ProductAsidePanel, ProductContainer, ScrollingProductLabel } from 'pages/common/styleds'
 import { CollectionPageProps } from 'pages/common/types'
 import { useState } from 'react'
-import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
 import {
   useCurrentCollection,
-  /* useGetSelectedProductShowcaseVideo, */
+  useGetSelectedProductShowcaseVideo,
   useUpdateCurrentlyViewingProduct,
 } from 'state/collection/hooks'
+import { useThemeManager } from 'state/user/hooks'
 import { defaultThemeColours } from 'theme'
 
 import { CollectionScreensContainer } from './styled'
 
-function WebCarousel(props: Omit<ProductClickCarousel, 'showButtons'>) {
-  if (getIsMobile()) return null
-
-  return <ClickCarousel showButtons={false} {...props} />
-}
-
-export default function CollectionProductPage({
-  id,
-  logo,
-  title,
-  color = '#000',
-  handle,
-  images = [],
-  lockedImages = [],
-  // videos = [],
-  bgColor,
-  navLogo,
-  isActive,
-  itemIndex,
-  headerLogo,
-  shortDescription,
-
-  // Optional props passed from the ScrollableContentPage (carousel)
-  dimensions,
-}: CollectionPageProps) {
+export default function CollectionProductPage(props: CollectionPageProps) {
+  const {
+    id,
+    logo,
+    title,
+    color = '#000',
+    handle,
+    images = [],
+    lockedImages = [],
+    videos = [],
+    bgColor,
+    navLogo,
+    isActive,
+    itemIndex,
+    headerLogo,
+    shortDescription,
+    lockStatus,
+    // Optional props passed from the ScrollableContentPage (carousel)
+    dimensions,
+    carousel,
+  } = props
   // UPDATE VIEWING WITH WHATEVER ITEM IS CURRENT ON SCREEN
   useUpdateCurrentlyViewingProduct(isActive, { handle, id })
 
   // CAROUSEL STATE
   const [currentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
-  const Carousel = getIsMobile() ? SwipeCarousel : WebCarousel
-  // IMAGES
-  const imageUrls = getImageSizeMap(images)
   // SELECTED SHOWCASE VIDEO
-  // const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
+  const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
   // CONTENT CONTAINER REF FOR DYNAMIC SIZE UPDATING AND CAROUSELS
   const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, (node) => node)
   // USER VIDEO AUTOPLAY SETTINGS
@@ -62,6 +55,14 @@ export default function CollectionProductPage({
   // COLLECTION SIZE (for scrolling product label)
   const { collection } = useCurrentCollection()
   const collectionSize = collection ? Object.keys(collection.products).length : 0
+
+  const isMobile = useIsMobile()
+  const commonProps = useGetCommonPropsFromProduct({ ...props, isMobile, variant: undefined, lockStatus })
+
+  const { mode } = useThemeManager()
+
+  // USER BLOCKCHAIN INFO
+  const { address } = useW3UserConnectionInfo()
 
   return (
     <>
@@ -88,15 +89,19 @@ export default function CollectionProductPage({
       <ProductContainer id="#item-container" bgColor={color} navLogo={navLogo} logo={logo}>
         <ProductAsidePanel id="#item-aside-panel">
           <CollectionScreensContainer ref={setRef}>
-            <ProductScreen>
-              {/* Product carousel */}
-              <Carousel
-                axis="x"
-                data={getIsMobile() ? [...imageUrls /* , selectedVideo */] : imageUrls}
-                startIndex={currentCarouselIndex}
-                colors={{ accent: color }}
-                videoProps={{ autoPlay }}
-                dimensions={{
+            <AsideCarousel
+              {...commonProps}
+              carousel={{
+                ...carousel,
+                touchAction: 'none',
+                startIndex: currentCarouselIndex,
+                images,
+                lockedImages,
+                videos: [selectedVideo],
+                videoProps: {
+                  autoPlay,
+                },
+                dimensions: {
                   fixedSizes: {
                     height:
                       dimensions?.fixedSizes?.fixedHeight ||
@@ -107,17 +112,15 @@ export default function CollectionProductPage({
                       innerContainerRef?.clientHeight ||
                       MINIMUM_COLLECTION_ITEM_HEIGHT,
                   },
-                }}
-                touchAction="none"
-              />
-              {/* DYNAMIC LOGO */}
-              <Logo
-                parentNode={innerContainerRef}
-                colour={bgColor}
-                isCollectionView
-                logos={{ header: headerLogo, nav: navLogo, main: logo }}
-              />
-            </ProductScreen>
+                },
+              }}
+              themeMode={mode}
+              breadcrumbs={null}
+              containerNode={innerContainerRef}
+              userAddress={address}
+              hidePrice
+              isCollectionView
+            />
           </CollectionScreensContainer>
         </ProductAsidePanel>
       </ProductContainer>

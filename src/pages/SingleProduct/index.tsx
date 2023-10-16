@@ -77,7 +77,7 @@ export default function SingleProductPage() {
                 >
                   <AsideWithVideo
                     {...smartWrapperProps}
-                    product={product}
+                    {...product}
                     lockStatus={lockStatus}
                     isMobile={isMobile}
                     carousel={{ index: currentCarouselIndex, onChange: onCarouselChange }}

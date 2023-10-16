@@ -27,39 +27,33 @@ import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
 import { useLargeImageModal, useSizeChartModal } from 'state/modalsAndPopups/hooks'
 import { useThemeManager } from 'state/user/hooks'
 
-type AuxProps = {
-  lockStatus: SkillLockStatus
-  isMobile: boolean
-  carousel: {
-    index: number
-    onChange: (idx: number) => void
-  }
-}
-export type SingleProductPageProps = { product: BaseProps } & AuxProps & SmartWrapperNodesAndRefs
+export type SingleProductPageProps = BaseProps & SmartWrapperNodesAndRefs
 export default function SingleProductPage(props: SingleProductPageProps) {
   const {
-    product: {
-      id,
-      color = '#000',
-      bgColor,
-      artistInfo,
-      sizes = [],
-      images = [],
-      lockedImages = [],
-      videos = [],
-      description,
-    },
     carousel: { index: currentCarouselIndex, onChange: onCarouselChange },
     lockStatus,
     isMobile,
     screensContainerNode,
     asideContainerRef,
+    ...product
   } = props
+
+  const {
+    id,
+    color = '#000',
+    bgColor,
+    artistInfo,
+    sizes = [],
+    images = [],
+    lockedImages = [],
+    videos = [],
+    description,
+  } = product
 
   const { selectedSize } = useSizeSelector({ sizes })
   const variant = useQueryProductVariantByKeyValue({ productId: id, key: 'Size', value: selectedSize })
   // Mapped common props
-  const commonProps = useMapToCommonPropsFromProduct({ ...props.product, variant, lockStatus, isMobile })
+  const commonProps = useMapToCommonPropsFromProduct({ ...product, variant, lockStatus, isMobile })
 
   // USER BLOCKCHAIN INFO
   const { address } = useW3UserConnectionInfo()
@@ -91,6 +85,7 @@ export default function SingleProductPage(props: SingleProductPageProps) {
       <Screens.AsideCarousel
         {...commonProps}
         carousel={{
+          touchAction: 'pan-y',
           startIndex: currentCarouselIndex,
           images,
           lockedImages,
@@ -169,12 +164,3 @@ export default function SingleProductPage(props: SingleProductPageProps) {
     </>
   )
 }
-
-/* function _getScreenContentOffsetHeight(screenNode: HTMLElement, ratio: [number, number]) {
-  const logoHeight = (screenNode.clientWidth * ratio[1]) / ratio[0]
-  const headerAndPriceLabelHeights = LAYOUT_REM_HEIGHT_MAP.HEADER + LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL * BASE_FONT_SIZE
-
-  const offsetHeight = screenNode.clientHeight - (logoHeight + headerAndPriceLabelHeights)
-  return offsetHeight < 0 ? undefined : offsetHeight
-}
- */

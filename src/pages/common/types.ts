@@ -1,4 +1,4 @@
-import { SkillMetadata } from '@past3lle/forge-web3'
+import { SkillLockStatus, SkillMetadata } from '@past3lle/forge-web3'
 import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
 import {
   FragmentProductImageFragment,
@@ -38,6 +38,15 @@ export interface BaseProductPageProps extends Omit<CommonSinglePageProps, 'altLo
   skillMetadata?: SkillMetadata
 }
 
+export type AsideWithVideoAuxProps = {
+  lockStatus: SkillLockStatus
+  isMobile: boolean
+  carousel: {
+    index: number
+    onChange: (idx: number) => void
+  }
+}
+
 export type CollectionMap = Record<Product['handle'], BaseProductPageProps>
 
 export type ItemPageDesignsProps = {
@@ -45,6 +54,8 @@ export type ItemPageDesignsProps = {
   navLogo?: string
 }
 
-export type SingleProductPageProps = BaseProductPageProps
-export type CollectionPageProps = BaseProductPageProps & ScrollableContentComponentBaseProps & { itemIndex: number }
+export type SingleProductPageProps = BaseProductPageProps & AsideWithVideoAuxProps
+export type CollectionPageProps = BaseProductPageProps &
+  AsideWithVideoAuxProps &
+  ScrollableContentComponentBaseProps & { itemIndex: number }
 export type WithParentAspectRatio = { parentAspectRatio?: number }

@@ -115,7 +115,7 @@ export const ItemVideoContent = ({
         const commonProps = {
           width: 'auto',
           showError,
-          container: document.querySelector('#COLLECTION-ARTICLE') as HTMLElement,
+          container: window.document.body,
           loadInView: firstPaintOver,
           forceLoad,
           videoProps: {

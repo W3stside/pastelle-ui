@@ -30,17 +30,17 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
   
   > ${ProductScreen} {
     > ${ProductLogo} {
-      margin-top: 0px;
+      // margin-top: 0px;
     }
 
     > ${StyledCarouselContainer} {
       ${upToSmall`
         margin: 7rem 0 0;
-        > ${StyledAnimatedDivContainer} {
-          picture {
-            margin-top: -3.5rem;
-          }
-        }
+        // > ${StyledAnimatedDivContainer} {
+        //   picture {
+        //     margin-top: -3.5rem;
+        //   }
+        // }
       `}
       ${fromMedium`  
         margin-top: 2rem;

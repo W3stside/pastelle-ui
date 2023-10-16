@@ -51,6 +51,7 @@ export default function Logo({
         logoUri={logos.main}
         height={Math.ceil(parentNode.clientWidth / 3.64)}
         position="relative"
+        $marginTop="-20%"
       />
     )
   } else {
