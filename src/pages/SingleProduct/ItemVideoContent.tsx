@@ -143,6 +143,7 @@ export const ItemVideoContent = ({
             {(smartFill?.full || smartFill?.side) && (
               <SmartVideo
                 {...commonProps}
+                sourcesProps={commonProps.sourcesProps.filter((src) => !src.src.includes('720'))}
                 ref={(node) => node && setVideoNodesList((state) => [...state, node])}
                 marginLeft="auto"
                 videoProps={{
@@ -160,7 +161,7 @@ export const ItemVideoContent = ({
             )}
             <SmartVideo
               {...commonProps}
-              margin={smartFill ? '0' : isMobileWidth ? '0 auto' : '0 0 0 auto'}
+              justifyContent={isMobileWidth ? 'center' : 'end'}
               ref={(node) => node && setVideoNodesList((state) => [...state, node])}
               autoPlayOptions={autoplay ? undefined : autoPlayOptions}
             />
