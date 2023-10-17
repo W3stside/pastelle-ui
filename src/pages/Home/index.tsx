@@ -10,6 +10,7 @@ import {
 import { SinglePageSmartWrapper } from 'pages/common'
 import { useGetCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPropsFromProduct'
 import { useProductWebCarouselActions } from 'pages/common/hooks/useProductCarouselActions'
+import { ProductSubHeader } from 'pages/common/styleds'
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQueryHomepage } from 'shopify/graphql/hooks'
@@ -95,16 +96,19 @@ export default function Home() {
                       touchAction: 'pan-y',
                       images: homepage.images,
                       lockedImages: [],
-                      videos: [],
+                      videos: homepage.videos,
                       startIndex: 0,
                       onChange,
-                      onCarouselItemClick: alert,
+                      onCarouselItemClick: navigateToCollection,
                       indicatorOptions: {
                         showIndicators: true,
                       },
                     }}
                     themeMode={mode}
-                    breadcrumbs={null}
+                    breadcrumbs={{
+                      breadcrumbs: ['PASTELLE APPAREL'],
+                      lastCrumb: '',
+                    }}
                     skillInfo={null}
                     userAddress={undefined}
                     logoCss="filter: unset;"
@@ -120,11 +124,29 @@ export default function Home() {
                     fixedWidth={screensContainerNode?.clientWidth}
                     rootNode={rootContainerNode}
                   >
-                    <br />
+                    <ProductSubHeader
+                      fontWeight={100}
+                      fontStyle="none"
+                      css={`
+                        > div {
+                          width: max-content;
+                          background-color: ${homepage.bgColor};
+                          &:not(:last-child) {
+                            margin: 0 0 4px;
+                          }
+                          padding: 2px 8px;
+                        }
+                      `}
+                    >
+                      <div>
+                        <strong>GENES1S</strong> HEAVYWEIGHT COLLECTION
+                      </div>
+                      <div>AVAILABLE NOW</div>
+                    </ProductSubHeader>
                   </Screens.ActionScreen>
                   <Screens.Description
                     {...commonProps}
-                    header="WHO ARE WE?"
+                    header=""
                     containerNode={screensContainerNode}
                     description={homepage.description}
                   />

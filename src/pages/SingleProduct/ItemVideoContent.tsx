@@ -26,7 +26,10 @@ export interface ItemVideoContentProps extends RowProps {
   autoPlayOptions?: SmartVideoProps['autoPlayOptions']
   showError?: boolean
   videoOverlay?: ReactNode
-  smartFill?: boolean
+  smartFill?: {
+    full?: boolean
+    side?: boolean
+  }
 }
 const CONTROL_BUTTON_SIZE = '16px'
 const EMPTY_LIST: HTMLVideoElement[] = []
@@ -132,19 +135,24 @@ export const ItemVideoContent = ({
           },
         }
 
-        const bgVideosFilter = 'invert(100%) blur(5px)'
+        const bgVideosFilter = ' blur(8px)'
 
         return (
           <Fragment key={id}>
-            {smartFill && (
+            {(smartFill?.full || smartFill?.side) && (
               <SmartVideo
                 {...commonProps}
                 ref={(node) => node && setVideoNodesList((state) => [...state, node])}
                 marginLeft="auto"
                 videoProps={{
+                  ...commonProps.videoProps,
                   style: {
-                    ...commonProps.videoProps,
+                    ...commonProps.videoProps.style,
                     filter: bgVideosFilter,
+                    position: smartFill?.full ? 'fixed' : 'inherit',
+                    top: 0,
+                    right: 0,
+                    height: '100%',
                   },
                 }}
               />

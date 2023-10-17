@@ -18,7 +18,7 @@ export function useGetCommonPropsFromProduct({
   skillMetadata,
   lockStatus,
   isMobile,
-}: Omit<BaseProductPageProps, 'id' | 'sizes'> & {
+}: Omit<BaseProductPageProps, 'id' | 'sizes' | 'images' | 'videos' | 'description' | 'descriptionHtml'> & {
   variant: ProductVariantQuery['product'] | null | undefined
   lockStatus: SkillLockStatus | null
   isMobile: boolean

@@ -139,7 +139,12 @@ export default function SingleProductPage(props: SingleProductPageProps) {
       </Screens.ActionScreen>
 
       {/* SCREEN 3 - ITEM INFO */}
-      <Screens.Description {...commonProps} description={description} containerNode={screensContainerNode}>
+      <Screens.Description
+        {...commonProps}
+        header="INFO & CARE INSTRUCTIONS"
+        description={description}
+        containerNode={screensContainerNode}
+      >
         <>
           {/* Credits */}
           <ProductSubHeader

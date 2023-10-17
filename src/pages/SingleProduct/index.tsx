@@ -87,7 +87,7 @@ export default function SingleProductPage() {
               <ShowcaseVideos
                 videos={product.videos}
                 forceLoad={isMobile}
-                smartFill={SHOWCASE_ENABLED && !isMobile}
+                smartFill={SHOWCASE_ENABLED && !isMobile ? { side: true } : undefined}
                 hideVideo={isMobile || !!product?.noVideo}
                 showPoster
                 height={'100%'}

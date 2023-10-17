@@ -31,6 +31,7 @@ export interface AsideCarouselProps extends BaseScreensProps, WithContainerNode 
   userAddress: Address | undefined
   hidePrice?: boolean
   isCollectionView?: boolean
+  logoCss?: string
 }
 const ITEM_LABEL_HEIGHT = 40
 export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScreen({
@@ -46,6 +47,7 @@ export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScre
   userAddress,
   hidePrice,
   isCollectionView = false,
+  logoCss,
 }: AsideCarouselProps) {
   const { headerLogo, logo, navLogo } = metaContent
   const { bgColor, color } = palette
@@ -119,13 +121,16 @@ export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScre
       />
       {/* DYNAMIC LOGO */}
       <Logo
-        logoCss={`
+        logoCss={
+          logoCss ??
+          `
                     filter: ${
                       mode === ThemeModes.DARK
                         ? `invert(1) saturate(1.4) hue-rotate(180deg) drop-shadow(0px 3px 7px ${bgColor})`
                         : `drop-shadow(0px 5px 5px ${bgColor})`
                     };
-                  `}
+                  `
+        }
         parentNode={containerNode}
         isCollectionView={isCollectionView}
         logos={{ header: headerLogo, nav: navLogo, main: logo }}

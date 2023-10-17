@@ -15,6 +15,7 @@ import { BaseScreensProps, WithContainerNode } from './types'
 interface DescriptionScreenProps extends BaseScreensProps, WithContainerNode {
   children?: ReactNode
   description: string
+  header?: string | null
 }
 export const Description = memo<DescriptionScreenProps>(function DescriptionAndChildren({
   children,
@@ -23,6 +24,7 @@ export const Description = memo<DescriptionScreenProps>(function DescriptionAndC
   description,
   skillInfo,
   containerNode,
+  header,
 }: DescriptionScreenProps) {
   const { color } = palette
   const { logo, headerLogo, navLogo } = metaContent
@@ -33,16 +35,14 @@ export const Description = memo<DescriptionScreenProps>(function DescriptionAndC
   return (
     <SingleProductScreen paddingBottom={LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON + 'rem'}>
       {/* Item description */}
-      <ProductSubHeader
-        useGradient
-        bgColor={color}
-        label={
-          skillInfo?.lockStatus !== SkillLockStatus.LOCKED
-            ? 'INFO & CARE INSTRUCTIONS'
-            : 'DESCRIPTION: INFORMATION REDACTED'
-        }
-      />
-      <Column padding="0 1.5rem">
+      {header && (
+        <ProductSubHeader
+          useGradient
+          bgColor={color}
+          label={skillInfo?.lockStatus !== SkillLockStatus.LOCKED ? header : 'DESCRIPTION: INFORMATION REDACTED'}
+        />
+      )}
+      <Column padding="0 1.5rem" marginTop={!header ? '2rem' : 0}>
         <Column
           overflow="hidden"
           borderRadius="1rem"
