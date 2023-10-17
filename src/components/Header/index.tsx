@@ -23,7 +23,7 @@ export default function Header() {
   const isMediumOrBelow = useIsMediumMediaWidth()
 
   const productLogos = useGetAllProductLogos()
-  const { headerLogoSet: dynamicHeaderLogoSet, color } = useCurrentProductMedia()
+  const { headerLogoSet: dynamicHeaderLogoSet, color } = useCurrentProductMedia(location.pathname === '/')
   // "randomly" select a product header from collection for header (on mobile collection view ONLY)
   const staticRandomLogoSet = useMemo(
     () => productLogos?.[Math.ceil(Math.random() * productLogos.length - 1)]?.headerLogo,
