@@ -1,4 +1,4 @@
-import { SkillMetadata } from '@past3lle/forge-web3'
+import { SkillLockStatus, SkillMetadata } from '@past3lle/forge-web3'
 import { BaseProductPageProps } from 'pages/common/types'
 import {
   FragmentProductImageFragment,
@@ -70,6 +70,7 @@ export const mapSingleShopifyProductToProps = ({
   color: getMetafields<string>(product.color)?.toString(),
   artistInfo: getMetafields<ProductArtistInfo>(product.artistInfo),
   skillMetadata: getMetafields<SkillMetadata>(product.skillMetadata),
+  lockStatus: SkillLockStatus.LOCKED,
   // TODO: fix
   images,
   lockedImages,

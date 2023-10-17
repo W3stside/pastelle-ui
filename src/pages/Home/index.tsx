@@ -1,3 +1,4 @@
+import { SkillLockStatus } from '@past3lle/forge-web3'
 import { useIsMobile } from '@past3lle/hooks'
 import SEO from 'components/SEO'
 import { SelectedShowcaseVideo } from 'components/Showcase/Videos'
@@ -57,7 +58,7 @@ export default function Home() {
     productType: '',
     variant: null,
     isMobile,
-    lockStatus: null,
+    lockStatus: SkillLockStatus.OWNED,
   })
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,4 +1,3 @@
-import { useDeriveSkillState } from '@past3lle/forge-web3'
 import { useIsMobile } from '@past3lle/hooks'
 import { devDebug } from '@past3lle/utils'
 import SEO from 'components/SEO'
@@ -30,7 +29,6 @@ export default function SingleProductPage() {
   })
 
   const isMobile = useIsMobile()
-  const lockStatus = useDeriveSkillState(product?.skillMetadata)
 
   const navigate = useNavigate()
   useEffect(() => {
@@ -61,7 +59,7 @@ export default function SingleProductPage() {
               sizeChart={product.sizeChart}
               currentIndex={currentCarouselIndex}
               isMobile={isMobile}
-              skillState={lockStatus}
+              skillState={product.lockStatus}
             />
             <SingleProductContainer id="#item-container" parentAspectRatio={smartWrapperProps.parentAspectRatio}>
               <SingleProductAsidePanel id="#item-aside-panel" ref={smartWrapperProps.asideContainerRef}>
@@ -78,7 +76,7 @@ export default function SingleProductPage() {
                   <AsideWithVideo
                     {...smartWrapperProps}
                     {...product}
-                    lockStatus={lockStatus}
+                    lockStatus={product.lockStatus}
                     isMobile={isMobile}
                     carousel={{ index: currentCarouselIndex, onChange: onCarouselChange }}
                   />

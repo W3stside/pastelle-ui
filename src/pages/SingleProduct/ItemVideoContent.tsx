@@ -1,7 +1,7 @@
 import { ButtonVariations, RowProps, SmartVideo, SmartVideoProps } from '@past3lle/components'
 import { getIsMobile, wait } from '@past3lle/utils'
 import { Z_INDEXES } from 'constants/config'
-import { Fragment, ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
+import { Fragment, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import { Pause, Play } from 'react-feather'
 import { useLocation } from 'react-router-dom'
 import { FragmentProductVideoFragment } from 'shopify/graphql/types'
@@ -109,11 +109,12 @@ export const ItemVideoContent = ({
     [autoplay, isPlaying, updateVideoSettings]
   )
 
+  // reduce over sources list to get videos. filter out empties
   const videosContent = useMemo(
     () =>
-      videos.map(({ id, sources, previewImage }, index) => {
+      videos.reduce((acc, { id, sources, previewImage }, index) => {
         const isSelected = currentCarouselIndex === null || index === videoIdx
-        if (!isSelected) return null
+        if (!isSelected || !sources?.length) return acc
 
         const commonProps = {
           width: 'auto',
@@ -137,7 +138,7 @@ export const ItemVideoContent = ({
 
         const bgVideosFilter = ' blur(8px)'
 
-        return (
+        acc.push(
           <Fragment key={id}>
             {(smartFill?.full || smartFill?.side) && (
               <SmartVideo
@@ -165,7 +166,9 @@ export const ItemVideoContent = ({
             />
           </Fragment>
         )
-      }),
+
+        return acc
+      }, [] as ReactElement<any, any>[]),
     // We don't need to track onVideoClick
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -187,6 +190,8 @@ export const ItemVideoContent = ({
       videos,
     ]
   )
+
+  if (!videosContent?.length) return null
 
   return (
     <>

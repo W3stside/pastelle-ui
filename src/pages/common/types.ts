@@ -36,6 +36,7 @@ export interface BaseProductPageProps extends Omit<CommonSinglePageProps, 'altLo
   noVideo?: boolean
   noDescription?: boolean
   skillMetadata?: SkillMetadata
+  lockStatus: SkillLockStatus
 }
 
 export type AsideWithVideoAuxProps = {

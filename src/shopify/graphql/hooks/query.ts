@@ -1,4 +1,5 @@
 import { ApolloError, useQuery as useRealQuery } from '@apollo/client'
+import { getLockStatus } from '@past3lle/forge-web3'
 import { devError } from '@past3lle/utils'
 import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
 import { BaseProductPageProps, CollectionMap } from 'pages/common/types'
@@ -71,7 +72,8 @@ function _formatCollectionsResponse(response: ReturnType<typeof useQueryRawColle
     const collectionProductList = mapShopifyProductToProps(collection?.products.nodes)
     // { [PRODUCT_HANDLE]: PRODUCT }
     const collectionProductMap = collectionProductList.reduce((acc, product: BaseProductPageProps) => {
-      acc[product.handle] = product
+      const lockStatus = getLockStatus(product.skillMetadata)
+      acc[product.handle] = { ...product, lockStatus }
 
       return acc
     }, {} as CollectionMap)

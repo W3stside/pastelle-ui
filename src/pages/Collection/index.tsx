@@ -1,4 +1,3 @@
-import { SkillMetadata, getLockStatus } from '@past3lle/forge-web3'
 import { useIsMobile, useStateRef } from '@past3lle/hooks'
 import { ArticleFadeInContainer } from 'components/Layout'
 import SEO from 'components/SEO'
@@ -27,7 +26,6 @@ export default function Collection() {
   })
 
   const isMobileDeviceOrWidth = useIsMobile()
-  const getLockStatusCb = useCallback((skill?: SkillMetadata) => getLockStatus(skill), [])
 
   const collectionProductList = Object.values(collection?.products || {})
 
@@ -57,7 +55,7 @@ export default function Collection() {
         firstPaintOver
         loadInViewOptions={{ container: document, conditionalCheck: true }}
         carousel={{ index: currentCarouselIndex, onChange: onCarouselChange }}
-        lockStatus={getLockStatusCb(collectionProductList[0].skillMetadata)}
+        lockStatus={collectionProductList[0].lockStatus}
         isMobile={isMobileDeviceOrWidth}
       />
     ),
