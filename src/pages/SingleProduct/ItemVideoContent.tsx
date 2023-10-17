@@ -85,7 +85,7 @@ export const ItemVideoContent = ({
     else if (isPaused) videosList.forEach((vid) => vid.pause())
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPaused, isPlaying, currentVideoId])
+  }, [isPaused, isPlaying, currentVideoId, videosList])
 
   // EFFECT: sync video play status with AUTOPLAY and current PLAY/PAUSE status
   const location = useLocation()
