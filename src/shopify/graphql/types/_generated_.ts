@@ -32,14 +32,7 @@ export type ApiVersion = {
   displayName: Scalars['String']['output'];
   /** The unique identifier of an ApiVersion. All supported API versions have a date-based (YYYY-MM) or `unstable` handle. */
   handle: Scalars['String']['output'];
-  /**
-   * Whether the version is actively supported by Shopify. Supported API versions
-   * are guaranteed to be stable. Unsupported API versions include unstable,
-   * release candidate, and end-of-life versions that are marked as unsupported.
-   * For more information, refer to
-   * [Versioning](https://shopify.dev/api/usage/versioning).
-   *
-   */
+  /** Whether the version is actively supported by Shopify. Supported API versions are guaranteed to be stable. Unsupported API versions include unstable, release candidate, and end-of-life versions that are marked as unsupported. For more information, refer to [Versioning](https://shopify.dev/api/usage/versioning). */
   supported: Scalars['Boolean']['output'];
 };
 
@@ -440,12 +433,7 @@ export type Cart = Node & {
   buyerIdentity: CartBuyerIdentity;
   /** The URL of the checkout for the cart. */
   checkoutUrl: Scalars['URL']['output'];
-  /**
-   * The estimated costs that the buyer will pay at checkout. The costs are subject
-   * to change and changes will be reflected at checkout. The `cost` field uses the
-   * `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
-   *
-   */
+  /** The estimated costs that the buyer will pay at checkout. The costs are subject to change and changes will be reflected at checkout. The `cost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
   cost: CartCost;
   /** The date and time when the cart was created. */
   createdAt: Scalars['DateTime']['output'];
@@ -460,11 +448,7 @@ export type Cart = Node & {
   /** The case-insensitive discount codes that the customer added at checkout. */
   discountCodes: Array<CartDiscountCode>;
   /**
-   * The estimated costs that the buyer will pay at checkout.
-   * The estimated costs are subject to change and changes will be reflected at checkout.
-   * The `estimatedCost` field uses the `buyerIdentity` field to determine
-   * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
-   *
+   * The estimated costs that the buyer will pay at checkout. The estimated costs are subject to change and changes will be reflected at checkout. The `estimatedCost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
    * @deprecated Use `cost` instead.
    */
   estimatedCost: CartEstimatedCost;
@@ -613,13 +597,7 @@ export type CartCodeDiscountAllocation = CartDiscountAllocation & {
  */
 export type CartCost = {
   __typename?: 'CartCost';
-  /**
-   * The estimated amount, before taxes and discounts, for the customer to pay at
-   * checkout. The checkout charge amount doesn't include any deferred payments
-   * that'll be paid at a later date. If the cart has no deferred payments, then
-   * the checkout charge amount is equivalent to `subtotalAmount`.
-   *
-   */
+  /** The estimated amount, before taxes and discounts, for the customer to pay at checkout. The checkout charge amount doesn't include any deferred payments that'll be paid at a later date. If the cart has no deferred payments, then the checkout charge amount is equivalent to `subtotalAmount`. */
   checkoutChargeAmount: MoneyV2;
   /** The amount, before taxes and cart-level discounts, for the customer to pay. */
   subtotalAmount: MoneyV2;
@@ -763,14 +741,7 @@ export enum CartErrorCode {
   MissingNote = 'MISSING_NOTE'
 }
 
-/**
- * The estimated costs that the buyer will pay at checkout.
- * The estimated cost uses
- * [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity)
- * to determine
- * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
- *
- */
+/** The estimated costs that the buyer will pay at checkout. The estimated cost uses [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity) to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
 export type CartEstimatedCost = {
   __typename?: 'CartEstimatedCost';
   /** The estimated amount, before taxes and discounts, for the customer to pay at checkout. The checkout charge amount doesn't include any deferred payments that'll be paid at a later date. If the cart has no deferred payments, then the checkout charge amount is equivalent to`subtotal_amount`. */
@@ -3608,6 +3579,20 @@ export type ImageTransformInput = {
   scale?: InputMaybe<Scalars['Int']['input']>;
 };
 
+/** Provide details about the contexts influenced by the @inContext directive on a field. */
+export type InContext = {
+  __typename?: 'InContext';
+  description: Scalars['String']['output'];
+  type: InContextType;
+};
+
+/** This gives information about the type of context that impacts a field. For example, for a query with @inContext(language: "EN"), the type would point to the name: LanguageCode and kind: ENUM. */
+export type InContextType = {
+  __typename?: 'InContextType';
+  kind: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+};
+
 /** A language. */
 export type Language = {
   __typename?: 'Language';
@@ -4381,7 +4366,7 @@ export type MetafieldParentResource = Article | Blog | Collection | Customer | O
  * Returns the resource which is being referred to by a metafield.
  *
  */
-export type MetafieldReference = Collection | GenericFile | MediaImage | Page | Product | ProductVariant | Video;
+export type MetafieldReference = Collection | GenericFile | MediaImage | Metaobject | Page | Product | ProductVariant | Video;
 
 /**
  * An auto-generated type for paginating through multiple MetafieldReferences.
@@ -4407,6 +4392,95 @@ export type MetafieldReferenceEdge = {
   cursor: Scalars['String']['output'];
   /** The item at the end of MetafieldReferenceEdge. */
   node: MetafieldReference;
+};
+
+/** An instance of a user-defined model based on a MetaobjectDefinition. */
+export type Metaobject = Node & {
+  __typename?: 'Metaobject';
+  /** Accesses a field of the object by key. */
+  field?: Maybe<MetaobjectField>;
+  /**
+   * All object fields with defined values.
+   * Omitted object keys can be assumed null, and no guarantees are made about field order.
+   *
+   */
+  fields: Array<MetaobjectField>;
+  /** The unique handle of the metaobject. Useful as a custom ID. */
+  handle: Scalars['String']['output'];
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output'];
+  /** The type of the metaobject. Defines the namespace of its associated metafields. */
+  type: Scalars['String']['output'];
+  /** The date and time when the metaobject was last updated. */
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+
+/** An instance of a user-defined model based on a MetaobjectDefinition. */
+export type MetaobjectFieldArgs = {
+  key: Scalars['String']['input'];
+};
+
+/**
+ * An auto-generated type for paginating through multiple Metaobjects.
+ *
+ */
+export type MetaobjectConnection = {
+  __typename?: 'MetaobjectConnection';
+  /** A list of edges. */
+  edges: Array<MetaobjectEdge>;
+  /** A list of the nodes contained in MetaobjectEdge. */
+  nodes: Array<Metaobject>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/**
+ * An auto-generated type which holds one Metaobject and a cursor during pagination.
+ *
+ */
+export type MetaobjectEdge = {
+  __typename?: 'MetaobjectEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of MetaobjectEdge. */
+  node: Metaobject;
+};
+
+/** Provides the value of a Metaobject field. */
+export type MetaobjectField = {
+  __typename?: 'MetaobjectField';
+  /** The field key. */
+  key: Scalars['String']['output'];
+  /** A referenced object if the field type is a resource reference. */
+  reference?: Maybe<MetafieldReference>;
+  /** A list of referenced objects if the field type is a resource reference list. */
+  references?: Maybe<MetafieldReferenceConnection>;
+  /**
+   * The type name of the field.
+   * See the list of [supported types](https://shopify.dev/apps/metafields/definitions/types).
+   *
+   */
+  type: Scalars['String']['output'];
+  /** The field value. */
+  value?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Provides the value of a Metaobject field. */
+export type MetaobjectFieldReferencesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The input fields used to retrieve a metaobject by handle. */
+export type MetaobjectHandleInput = {
+  /** The handle of the metaobject. */
+  handle: Scalars['String']['input'];
+  /** The type of the metaobject. */
+  type: Scalars['String']['input'];
 };
 
 /** Represents a Shopify hosted 3D model. */
@@ -4908,6 +4982,8 @@ export type Order = HasMetafields & Node & {
   currentTotalPrice: MoneyV2;
   /** The total of all taxes applied to the order, excluding taxes for returned line items. */
   currentTotalTax: MoneyV2;
+  /** A list of the custom attributes added to the order. */
+  customAttributes: Array<Attribute>;
   /** The locale code in which this specific order happened. */
   customerLocale?: Maybe<Scalars['String']['output']>;
   /** The unique URL that the customer can use to access the order. */
@@ -5684,6 +5760,8 @@ export type ProductFilter = {
   productType?: InputMaybe<Scalars['String']['input']>;
   /** The product vendor to filter on. */
   productVendor?: InputMaybe<Scalars['String']['input']>;
+  /** A product tag to filter on. */
+  tag?: InputMaybe<Scalars['String']['input']>;
   /** A variant metafield to filter on. */
   variantMetafield?: InputMaybe<MetafieldFilter>;
   /** A variant option to filter on. */
@@ -5873,6 +5951,7 @@ export type ProductVariantStoreAvailabilityArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
+  near?: InputMaybe<GeoCoordinateInput>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -5967,6 +6046,10 @@ export type QueryRoot = {
   locations: LocationConnection;
   /** Retrieve a [navigation menu](https://help.shopify.com/manual/online-store/menus-and-links) by its handle. */
   menu?: Maybe<Menu>;
+  /** Fetch a specific Metaobject by one of its unique identifiers. */
+  metaobject?: Maybe<Metaobject>;
+  /** All active metaobjects for the shop. */
+  metaobjects: MetaobjectConnection;
   /** Returns a specific node by ID. */
   node?: Maybe<Node>;
   /** Returns the list of nodes with the given IDs. */
@@ -6106,6 +6189,25 @@ export type QueryRootMenuArgs = {
 
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type QueryRootMetaobjectArgs = {
+  handle?: InputMaybe<MetaobjectHandleInput>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type QueryRootMetaobjectsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  reverse?: InputMaybe<Scalars['Boolean']['input']>;
+  sortKey?: InputMaybe<Scalars['String']['input']>;
+  type: Scalars['String']['input'];
+};
+
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type QueryRootNodeArgs = {
   id: Scalars['ID']['input'];
 };
@@ -6191,6 +6293,7 @@ export type QueryRootUrlRedirectsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -6952,6 +7055,11 @@ export type PoliciesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PoliciesQuery = { __typename?: 'QueryRoot', shop: { __typename?: 'Shop', shippingPolicy?: { __typename?: 'ShopPolicy', title: string, body: string } | null, privacyPolicy?: { __typename?: 'ShopPolicy', title: string, body: string } | null, refundPolicy?: { __typename?: 'ShopPolicy', title: string, body: string } | null } };
+
+export type HomePageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomePageQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', id: string, title: string, handle: string, tags: Array<string>, productType: string, updatedAt: any, description: string, descriptionHtml: any, images: { __typename?: 'ImageConnection', nodes: Array<{ __typename?: 'Image', id?: string | null, altText?: string | null, width?: number | null, height?: number | null, url: any, url125: any, url250: any, url500: any, url720: any, url960: any, url1280: any, url1440: any, url125_2x: any, url250_2x: any, url500_2x: any, url720_2x: any, url960_2x: any, url1280_2x: any, url1440_2x: any, url125_3x: any, url250_3x: any, url500_3x: any, url720_3x: any, url960_3x: any, url1280_3x: any, url1440_3x: any }> }, media: { __typename?: 'MediaConnection', nodes: Array<{ __typename?: 'ExternalVideo' } | { __typename?: 'MediaImage' } | { __typename?: 'Model3d' } | { __typename?: 'Video', id: string, alt?: string | null, mediaContentType: MediaContentType, previewImage?: { __typename?: 'Image', url: any, width?: number | null, height?: number | null } | null, sources: Array<{ __typename?: 'VideoSource', mimeType: string, url: string }> }> }, sizes: Array<{ __typename?: 'ProductOption', values: Array<string> }>, featuredImage?: { __typename?: 'Image', url: any, width?: number | null, height?: number | null } | null, options: Array<{ __typename?: 'ProductOption', name: string, values: Array<string> }>, showcaseVideos?: { __typename?: 'Metafield', value: string } | null, brandingAssetMap?: { __typename?: 'Metafield', value: string } | null, altColor?: { __typename?: 'Metafield', value: string } | null, bgColor?: { __typename?: 'Metafield', value: string } | null, color?: { __typename?: 'Metafield', value: string } | null, artistInfo?: { __typename?: 'Metafield', value: string } | null, shortDescription?: { __typename?: 'Metafield', value: string } | null, skillMetadata?: { __typename?: 'Metafield', value: string } | null } | null };
 
 export type ProductQueryVariables = Exact<{
   amount?: InputMaybe<Scalars['Int']['input']>;
