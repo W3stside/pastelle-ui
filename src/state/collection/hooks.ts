@@ -5,6 +5,7 @@ import { ShowcaseVideo } from 'pages/SingleProduct/ItemVideoContent'
 import { BaseProductPageProps } from 'pages/common/types'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
+import { useQueryHomepage } from 'shopify/graphql/hooks'
 import { FragmentProductVideoFragment, Product } from 'shopify/graphql/types'
 import { reduceShopifyMediaToShowcaseVideos } from 'shopify/utils'
 import { useAppDispatch, useAppSelector } from 'state'
@@ -162,8 +163,11 @@ export function useGetCurrentOnScreenCollectionProduct() {
   return item ? collection?.products[item.handle] : undefined
 }
 
-export function useCurrentProductMedia() {
-  const currentItem = useGetCurrentOnScreenCollectionProduct()
+export function useCurrentProductMedia(isHomepage?: boolean) {
+  const homepageItem = useQueryHomepage()
+  const onScreenCollectionItem = useGetCurrentOnScreenCollectionProduct()
+
+  const currentItem = isHomepage ? homepageItem : onScreenCollectionItem
 
   return useMemo(
     () => ({

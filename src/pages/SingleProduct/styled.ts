@@ -52,6 +52,7 @@ export const AddToCartButtonWrapper = styled(Row)<{ isInView?: boolean; width?: 
   bottom: 0.5rem;
   left: 0.5rem;
   width: ${({ width = '90%' }) => `calc(${width} - 1rem)`};
+  height: ${LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON}rem;
   margin: 0 auto;
 
   ${Button} {
@@ -60,7 +61,6 @@ export const AddToCartButtonWrapper = styled(Row)<{ isInView?: boolean; width?: 
   }
   align-items: stretch;
   justify-content: stretch;
-  height: ${LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON}rem;
 
   z-index: 999;
 

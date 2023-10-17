@@ -9,18 +9,19 @@ import {
   GetCartQueryVariables,
   GetCollectionQuery,
   GetCollectionQueryVariables,
+  HomePageQuery,
   PoliciesQuery,
   ProductByIdQuery,
   ProductByIdQueryVariables,
   ProductVariantQuery,
   ProductVariantQueryVariables,
 } from 'shopify/graphql/types'
-import { getMetafields, mapShopifyProductToProps } from 'shopify/utils'
+import { getMetafields, mapShopifyHomepageToProps, mapShopifyProductToProps } from 'shopify/utils'
 import { useOnScreenProductHandle } from 'state/collection/hooks'
 
 import { GET_CART } from '../queries/cart'
 import { QUERY_POLICIES } from '../queries/policies'
-import { QUERY_PRODUCT_BY_ID, QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
+import { QUERY_HOMEPAGE, QUERY_PRODUCT_BY_ID, QUERY_PRODUCT_VARIANT_BY_KEY_VALUE } from '../queries/products'
 // MOCKS
 import { useMockQuery } from './mock/hooks'
 import { MOCK_COLLECTION_DATA } from './mock/queries'
@@ -120,6 +121,22 @@ export function useQueryCurrentOnScreenCollectionProduct(
   const item = useOnScreenProductHandle()
 
   return item ? collectionProductMap[item.handle] : undefined
+}
+
+export function useQueryHomepageRaw() {
+  const { data, error } = useQuery<HomePageQuery>(QUERY_HOMEPAGE)
+
+  if (error) {
+    devError(error)
+  }
+
+  return data?.product
+}
+
+export function useQueryHomepage() {
+  const homepageRaw = useQueryHomepageRaw()
+
+  return homepageRaw ? mapShopifyHomepageToProps(homepageRaw) : null
 }
 
 export function useQueryProductVariantByKeyValue(

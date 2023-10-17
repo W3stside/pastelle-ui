@@ -1,4 +1,4 @@
-import { BaseCarouselProps } from '@past3lle/carousel'
+import { BaseAnimatedCarouselProps } from '@past3lle/carousel'
 import { SmartVideoProps } from '@past3lle/components'
 import { SkillLockStatus } from '@past3lle/forge-web3'
 import { ThemeSubModesRequired } from '@past3lle/theme'
@@ -6,6 +6,7 @@ import { getIsMobile as getIsMobileDevice } from '@past3lle/utils'
 import { useBreadcrumb } from 'components/Breadcrumb'
 import { Breadcrumbs } from 'components/Breadcrumbs'
 import * as Carousels from 'components/Carousel/ProductCarousels'
+import { Z_INDEXES } from 'constants/config'
 import { SingleProductScreen } from 'pages/SingleProduct/styled'
 import Logo from 'pages/common/components/Logo'
 import { memo, useCallback, useMemo } from 'react'
@@ -22,13 +23,17 @@ import { BaseScreensProps, WithContainerNode } from './types'
 
 export interface AsideCarouselProps extends BaseScreensProps, WithContainerNode {
   carousel: Pick<BaseProductPageProps, 'images' | 'lockedImages' | 'videos'> &
-    Pick<BaseCarouselProps<any>, 'onCarouselItemClick' | 'startIndex'> &
+    Omit<BaseAnimatedCarouselProps<any>, 'axis' | 'data' | 'children' | 'animationProps'> &
     Pick<ReturnType<typeof useProductWebCarouselActions>, 'onChange'> &
     Pick<SmartVideoProps, 'videoProps'>
   themeMode: ThemeSubModesRequired | 'DEFAULT'
   breadcrumbs: ReturnType<typeof useBreadcrumb> | null
   userAddress: Address | undefined
+  hidePrice?: boolean
+  isCollectionView?: boolean
+  logoCss?: string
 }
+const ITEM_LABEL_HEIGHT = 40
 export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScreen({
   metaContent,
   palette,
@@ -40,10 +45,24 @@ export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScre
   containerNode,
   skillInfo,
   userAddress,
+  hidePrice,
+  isCollectionView = false,
+  logoCss,
 }: AsideCarouselProps) {
   const { headerLogo, logo, navLogo } = metaContent
   const { bgColor, color } = palette
-  const { images, lockedImages, videos, startIndex, videoProps, onChange, onCarouselItemClick } = carousel
+  const {
+    images,
+    touchAction,
+    lockedImages,
+    videos,
+    startIndex,
+    videoProps,
+    onChange,
+    onCarouselItemClick,
+    indicatorOptions,
+    ...restCarouselProps
+  } = carousel
   const { shortDescription, title, variant } = product
 
   // PRODUCT/SIZE CHART IMAGES
@@ -55,11 +74,11 @@ export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScre
   const Carousel = useCallback(
     (props: Omit<Carousels.ProductSwipeCarousel, 'touchAction'>) =>
       getIsMobileDevice() ? (
-        <Carousels.SwipeCarousel {...props} touchAction="pan-y" />
+        <Carousels.SwipeCarousel {...props} touchAction={touchAction} />
       ) : (
         <Carousels.ClickCarousel
           {...props}
-          showButtons
+          showButtons={!isCollectionView}
           onCarouselItemClick={onCarouselItemClick}
           onCarouselChange={onChange}
         />
@@ -73,32 +92,52 @@ export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScre
     <SingleProductScreen>
       {/* Breadcrumbs */}
       {breadcrumbs && (
-        <ScrollingProductLabel logo={headerLogo} padding={'0.25rem'}>
+        <ScrollingProductLabel height={ITEM_LABEL_HEIGHT} logo={headerLogo} padding={'0.25rem'}>
           <Breadcrumbs {...breadcrumbs} color={bgColor} />
         </ScrollingProductLabel>
       )}
       {/* Product carousel */}
       <Carousel
+        {...restCarouselProps}
         axis="x"
         data={isMobile ? [...imageUrls, ...videos] : imageUrls}
         startIndex={startIndex}
-        colors={{ accent: color }}
+        colors={{ accent: color, ...restCarouselProps.colors }}
         videoProps={videoProps}
+        indicatorOptions={{
+          showIndicators: true,
+          position: 'top',
+          ...indicatorOptions,
+          barStyles: `
+          filter: invert(1);
+          width 100%;
+          height: 5px;
+          gap: 0rem;
+          z-index: ${Z_INDEXES.MODALS + 1};
+          top: ${isCollectionView ? '0.35%' : ITEM_LABEL_HEIGHT - 2 + 'px'};
+          ${indicatorOptions?.barStyles}
+          `,
+        }}
       />
       {/* DYNAMIC LOGO */}
       <Logo
-        logoCss={`
+        logoCss={
+          logoCss ??
+          `
                     filter: ${
                       mode === ThemeModes.DARK
                         ? `invert(1) saturate(1.4) hue-rotate(180deg) drop-shadow(0px 3px 7px ${bgColor})`
                         : `drop-shadow(0px 5px 5px ${bgColor})`
                     };
-                  `}
+                  `
+        }
         parentNode={containerNode}
-        isCollectionView={false}
+        isCollectionView={isCollectionView}
         logos={{ header: headerLogo, nav: navLogo, main: logo }}
       />
-      <ProductPriceAndLabel variant={variant} color={color} title={title} shortDescription={shortDescription} />
+      {!hidePrice && (
+        <ProductPriceAndLabel variant={variant} color={color} title={title} shortDescription={shortDescription} />
+      )}
       {skillInfo !== null && process.env.REACT_APP_USE_FORGE == 'true' && (
         <ProductRarityAndLabel
           lockStatus={skillInfo.lockStatus}

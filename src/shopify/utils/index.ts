@@ -45,9 +45,9 @@ interface MetaAssetMap {
 export const mapSingleShopifyProductToProps = ({
   product,
   images,
+  metaAssetMap,
   lockedImages,
   sizeChart,
-  metaAssetMap,
 }: {
   product: Product
   images: FragmentProductImageFragment[]
@@ -138,6 +138,45 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
       sizeChart,
       metaAssetMap,
     })
+  })
+}
+
+export const mapShopifyHomepageToProps = (data: Product) => {
+  const productImages: FragmentProductImageFragment[] = []
+  const metaAssets: FragmentProductImageFragment[] = []
+
+  // Sort each image into it's own list by altText
+  data.images.nodes.forEach((image) => {
+    const altText = image.altText?.toLowerCase()
+    switch (altText) {
+      case MediaAltText.PRODUCT_FRONT_LOCKED:
+      case MediaAltText.PRODUCT_HEADER:
+      case MediaAltText.PRODUCT_LOGO:
+      case MediaAltText.PRODUCT_NAVBAR:
+        metaAssets.push(image)
+        break
+      default:
+        productImages.push(image)
+        break
+    }
+  })
+
+  // Map meta assets (header/logo/product logos) into a responsive size map
+  const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
+    const mappedAsset = metaAssets[i]
+    if (mappedAsset?.altText) {
+      acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
+    }
+
+    return acc
+  }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
+
+  return mapSingleShopifyProductToProps({
+    product: data,
+    images: productImages,
+    metaAssetMap,
+    lockedImages: [],
+    sizeChart: [],
   })
 }
 

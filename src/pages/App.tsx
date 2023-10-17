@@ -4,9 +4,10 @@ import { CookiesBanner as Cookies } from 'components/Cookies/Banner'
 import { FallbackLoader } from 'components/Loader'
 import { APPAREL_PARAM_NAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
 import { Suspense, lazy } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { useDeriveCurrentCollectionId, useIsCollectionLoading } from 'state/collection/hooks'
 
+const Home = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HOME" */ 'pages/Home'))
 const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
 const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
 const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Error/NotFound'))
@@ -23,8 +24,10 @@ export default function App() {
 
   const currentId = useDeriveCurrentCollectionId()
   const loadingCollectionsData = useIsCollectionLoading()
-
   const appLoading = !currentId || loadingCollectionsData
+
+  const location = useLocation()
+  const onHomePage = location.pathname === '/'
 
   return (
     <Suspense fallback={<FallbackLoader />}>
@@ -32,13 +35,14 @@ export default function App() {
 
       {/* HEADER + NAVIGATION */}
       <Header />
-      {!isMobileWidthOrBelow && <Navigation mobileHide />}
+      {!isMobileWidthOrBelow && !onHomePage && <Navigation mobileHide />}
 
-      {appLoading ? (
+      {!onHomePage && appLoading ? (
         <FallbackLoader />
       ) : (
         <Suspense fallback={<FallbackLoader />}>
           <Routes>
+            <Route index element={<Home />} />
             <Route path={`/${COLLECTION_PARAM_NAME}/:collection`} element={<Collection />} />
             <Route path={`/${APPAREL_PARAM_NAME}/:handle`} element={<SingleItem />} />
 

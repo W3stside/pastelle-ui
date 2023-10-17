@@ -2,6 +2,28 @@ import { gql } from '@apollo/client'
 
 import { FRAGMENT_PRODUCT, FRAGMENT_PRODUCT_IMAGE, FRAGMENT_PRODUCT_VIDEO } from '../fragments'
 
+export const QUERY_HOMEPAGE = gql`
+  ${FRAGMENT_PRODUCT}
+  ${FRAGMENT_PRODUCT_IMAGE}
+  ${FRAGMENT_PRODUCT_VIDEO}
+  query HomePage {
+    product(handle: "PASTELLE") {
+      ...FragmentProduct
+
+      images(first: 50) {
+        nodes {
+          ...FragmentProductImage
+        }
+      }
+      media(first: 1, sortKey: ID) {
+        nodes {
+          ...FragmentProductVideo
+        }
+      }
+    }
+  }
+`
+
 export const QUERY_PRODUCT = gql`
   ${FRAGMENT_PRODUCT}
   ${FRAGMENT_PRODUCT_IMAGE}

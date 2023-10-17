@@ -1,10 +1,13 @@
+import { SkillMetadata, getLockStatus } from '@past3lle/forge-web3'
 import { useIsMobile, useStateRef } from '@past3lle/hooks'
 import { ArticleFadeInContainer } from 'components/Layout'
 import SEO from 'components/SEO'
 import { ScrollingContentPage } from 'components/ScrollingContentPage'
 import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import AsideWithVideo from 'pages/Collection/AsideWithVideo'
-import { CollectionPageProps } from 'pages/common/types'
+import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
+import { useProductWebCarouselActions } from 'pages/common/hooks/useProductCarouselActions'
+import { AsideWithVideoAuxProps, CollectionPageProps } from 'pages/common/types'
 import { useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetCurrentCollectionFromUrl, useUpdateCurrentlyViewingCollection } from 'state/collection/hooks'
@@ -18,7 +21,14 @@ export default function Collection() {
   const collection = useGetCurrentCollectionFromUrl()
   useUpdateCurrentlyViewingCollection(true, collection)
 
+  // MOBILE/WEB CAROUSEL
+  const { currentIndex: currentCarouselIndex, onChange: onCarouselChange } = useProductWebCarouselActions({
+    startIndex: DEFAULT_MEDIA_START_INDEX,
+  })
+
   const isMobileDeviceOrWidth = useIsMobile()
+  const getLockStatusCb = useCallback((skill?: SkillMetadata) => getLockStatus(skill), [])
+
   const collectionProductList = Object.values(collection?.products || {})
 
   // on mobile sizes we set a fixed height
@@ -41,9 +51,17 @@ export default function Collection() {
   )
 
   const AsideWithVideoAux = useCallback(
-    (props: { onClick?: () => void } & Omit<CollectionPageProps, 'loadInView'>) => (
-      <AsideWithVideo {...props} firstPaintOver loadInViewOptions={{ container: document, conditionalCheck: true }} />
+    (props: { onClick?: () => void } & Omit<CollectionPageProps, 'loadInView' | keyof AsideWithVideoAuxProps>) => (
+      <AsideWithVideo
+        {...props}
+        firstPaintOver
+        loadInViewOptions={{ container: document, conditionalCheck: true }}
+        carousel={{ index: currentCarouselIndex, onChange: onCarouselChange }}
+        lockStatus={getLockStatusCb(collectionProductList[0].skillMetadata)}
+        isMobile={isMobileDeviceOrWidth}
+      />
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
