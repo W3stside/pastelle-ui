@@ -1,6 +1,7 @@
 import { BaseCarouselProps } from '@past3lle/carousel'
 import { SmartImageProps, SmartImg } from '@past3lle/components'
 import LargeImageCarouselModal, { LargeImageModalStyleProps } from 'components/Carousel/LargeImageModalCarousel'
+import { SmartImgLoader } from 'components/Loader/SmartImgLoader'
 import { STORE_IMAGE_SIZES } from 'constants/config'
 import { ShopImageSrcSet } from 'types'
 
@@ -61,6 +62,9 @@ export function LargeImageCarousel({
             transformation={[defaultImageTransforms, ...(imageProps?.transformation || [])]}
             onClick={toggleModal}
             lqImageOptions={{ ...defaultImageTransforms, showLoadingIndicator: true, ...imageProps?.lqImageOptions }}
+            placeholderProps={{
+              loadingContent: <SmartImgLoader />,
+            }}
             {...imageProps}
           />
         )

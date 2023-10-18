@@ -1,5 +1,6 @@
 import { AutoColumn, ImageKitTransformation, Row, SmartImg, Text } from '@past3lle/components'
 import { BLACK } from '@past3lle/theme'
+import { SmartImgLoader } from 'components/Loader/SmartImgLoader'
 import { MarkdownRenderer } from 'components/Markdown'
 import { ReactNode } from 'react'
 import styled from 'styled-components/macro'
@@ -68,7 +69,13 @@ export function AsideWithScrollableImages({ header, markdown, image }: Params) {
         </AboutUsTextContainer>
       </ProductAsidePanel>
       <ImageContainer>
-        <SmartImg path={{ defaultPath: image.path }} transformation={image.transformation} />
+        <SmartImg
+          path={{ defaultPath: image.path }}
+          transformation={image.transformation}
+          placeholderProps={{
+            loadingContent: <SmartImgLoader />,
+          }}
+        />
       </ImageContainer>
     </AsideWithScrollableImagesContainer>
   )

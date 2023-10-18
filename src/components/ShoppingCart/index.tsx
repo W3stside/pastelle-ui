@@ -257,7 +257,13 @@ function CartLine({ line }: { line: FragmentCartLineFragment }) {
     <CartLineWrapper bgLogo={bgLogo} color={itemColor}>
       <div style={{ position: 'relative' }}>
         <QuantityBubble>{line?.quantity}</QuantityBubble>
-        <SmartImg path={{ defaultPath: images.nodes[0].url125 }} onClick={handleClick} />
+        <SmartImg
+          path={{ defaultPath: images.nodes[0].url125 }}
+          onClick={handleClick}
+          placeholderProps={{
+            loadingContent: '...',
+          }}
+        />
         <CartLineContent onClick={handleClick}>
           <Row>
             <ProductSubHeader color={WHITE} fontSize="3rem" fontWeight={1000} padding={0} margin={0}>

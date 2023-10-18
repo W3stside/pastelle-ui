@@ -1,5 +1,6 @@
 import { SmartImg } from '@past3lle/components'
 import { useStateRef } from '@past3lle/hooks'
+import { SmartImgLoader } from 'components/Loader/SmartImgLoader'
 import { useCallback, useMemo } from 'react'
 import { ShopImageSrcSet } from 'types'
 
@@ -23,6 +24,9 @@ export function Logo({ logoSrcSet, src, parentNode, isHeader }: LogoProps) {
             width: parentNode?.clientWidth || 0,
             height: parentNode?.clientHeight || 0,
             showLoadingIndicator: false,
+          }}
+          placeholderProps={{
+            loadingContent: <SmartImgLoader />,
           }}
         />
       ) : (

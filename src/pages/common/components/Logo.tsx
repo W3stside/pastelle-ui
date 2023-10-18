@@ -1,5 +1,6 @@
 import { SmartImg } from '@past3lle/components'
 import { getIsMobile } from '@past3lle/utils'
+import { SmartImgLoader } from 'components/Loader/SmartImgLoader'
 import { SINGLE_ITEM_LOGO_RATIO } from 'constants/config'
 import { ShopImageSrcSet } from 'types'
 
@@ -40,6 +41,9 @@ export default function Logo({
               return Math.ceil((this.width * SINGLE_ITEM_LOGO_RATIO[0]) / SINGLE_ITEM_LOGO_RATIO[1])
             },
             showLoadingIndicator: false,
+          }}
+          placeholderProps={{
+            loadingContent: <SmartImgLoader />,
           }}
         />
       </ProductLogo>
