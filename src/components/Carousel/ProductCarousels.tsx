@@ -16,7 +16,7 @@ import { ShopImageSrcSet } from 'types'
 import { CarouselShowcaseVideo } from './CarouselShowcaseVideo'
 
 type CarouselData = ShopImageSrcSet | FragmentProductVideoFragment | undefined
-type ProductCarousel = Omit<BaseCarouselProps<CarouselData[]>, 'children'> & {
+export type ProductCarousel = Omit<BaseCarouselProps<CarouselData[]>, 'children'> & {
   data: CarouselData[]
   imageProps?: Omit<SmartImageProps, 'path' | 'pathSrcSet' | 'onClick'>
   videoProps?: LazyVideoProps['videoProps']

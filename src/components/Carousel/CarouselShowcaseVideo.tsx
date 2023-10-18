@@ -29,6 +29,12 @@ export function CarouselShowcaseVideo({
       videoOverlay={
         SHOWCASE_ENABLED && <ModelInformationOverlay isMobile modelSize={modelSize} itemSize={selectedSize} />
       }
+      loadInViewOptions={{
+        threshold: 0.01,
+        // @ts-ignore
+        delay: 500,
+        continuous: true,
+      }}
     />
   )
 }

@@ -21,7 +21,9 @@ import {
   ProductSubHeader,
 } from 'pages/common/styleds'
 import { SingleProductPageProps as BaseProps } from 'pages/common/types'
+import { useMemo } from 'react'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
+import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
 import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
 import { useLargeImageModal, useSizeChartModal } from 'state/modalsAndPopups/hooks'
@@ -79,6 +81,12 @@ export default function SingleProductPage(props: SingleProductPageProps) {
 
   const { mode } = useThemeManager()
 
+  // Src-set of all images
+  const imageSrcSet = useMemo(
+    () => getImageSizeMap(lockStatus === SkillLockStatus.LOCKED ? lockedImages : images),
+    [lockedImages, lockStatus, images]
+  )
+
   return (
     <>
       {/* SCREEN 1 - CAROUSEL & LOGO */}
@@ -86,10 +94,8 @@ export default function SingleProductPage(props: SingleProductPageProps) {
         {...commonProps}
         carousel={{
           touchAction: 'pan-y',
+          data: isMobile ? [...imageSrcSet, selectedVideo] : imageSrcSet,
           startIndex: currentCarouselIndex,
-          images,
-          lockedImages,
-          videos: [selectedVideo],
           videoProps: {
             autoPlay,
           },

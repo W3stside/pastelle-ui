@@ -1,4 +1,4 @@
-import { BaseAnimatedCarouselProps } from '@past3lle/carousel'
+import { WithTouchAction } from '@past3lle/carousel'
 import { SmartVideoProps } from '@past3lle/components'
 import { SkillLockStatus } from '@past3lle/forge-web3'
 import { ThemeSubModesRequired } from '@past3lle/theme'
@@ -6,11 +6,11 @@ import { getIsMobile as getIsMobileDevice } from '@past3lle/utils'
 import { useBreadcrumb } from 'components/Breadcrumb'
 import { Breadcrumbs } from 'components/Breadcrumbs'
 import * as Carousels from 'components/Carousel/ProductCarousels'
+import { ProductCarousel } from 'components/Carousel/ProductCarousels'
 import { Z_INDEXES } from 'constants/config'
 import { SingleProductScreen } from 'pages/SingleProduct/styled'
 import Logo from 'pages/common/components/Logo'
-import { memo, useCallback, useMemo } from 'react'
-import { getImageSizeMap } from 'shopify/utils'
+import { memo, useCallback } from 'react'
 import { ThemeModes } from 'theme'
 import { Address } from 'viem'
 
@@ -18,14 +18,14 @@ import ProductPriceAndLabel from '../components/ProductPriceAndLabel'
 import ProductRarityAndLabel from '../components/ProductRarityAndLabel'
 import { useProductWebCarouselActions } from '../hooks/useProductCarouselActions'
 import { ScrollingProductLabel } from '../styleds'
-import { BaseProductPageProps } from '../types'
 import { BaseScreensProps, WithContainerNode } from './types'
 
+export type CarouselScreenProps = Omit<ProductCarousel, 'axis' | 'children' | 'animationProps'> &
+  WithTouchAction &
+  Pick<ReturnType<typeof useProductWebCarouselActions>, 'onChange'> &
+  Pick<SmartVideoProps, 'videoProps'>
 export interface AsideCarouselProps extends BaseScreensProps, WithContainerNode {
-  carousel: Pick<BaseProductPageProps, 'images' | 'lockedImages' | 'videos'> &
-    Omit<BaseAnimatedCarouselProps<any>, 'axis' | 'data' | 'children' | 'animationProps'> &
-    Pick<ReturnType<typeof useProductWebCarouselActions>, 'onChange'> &
-    Pick<SmartVideoProps, 'videoProps'>
+  carousel: CarouselScreenProps
   themeMode: ThemeSubModesRequired | 'DEFAULT'
   breadcrumbs: ReturnType<typeof useBreadcrumb> | null
   userAddress: Address | undefined
@@ -40,7 +40,6 @@ export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScre
   carousel,
   themeMode: mode,
   product,
-  isMobile,
   breadcrumbs,
   containerNode,
   skillInfo,
@@ -52,11 +51,10 @@ export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScre
   const { headerLogo, logo, navLogo } = metaContent
   const { bgColor, color } = palette
   const {
-    images,
+    data,
     touchAction,
-    lockedImages,
-    videos,
     startIndex,
+    imageProps,
     videoProps,
     onChange,
     onCarouselItemClick,
@@ -64,12 +62,6 @@ export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScre
     ...restCarouselProps
   } = carousel
   const { shortDescription, title, variant } = product
-
-  // PRODUCT/SIZE CHART IMAGES
-  const imageUrls = useMemo(
-    () => getImageSizeMap(skillInfo?.lockStatus === SkillLockStatus.LOCKED ? lockedImages : images),
-    [images, lockedImages, skillInfo?.lockStatus]
-  )
 
   const Carousel = useCallback(
     (props: Omit<Carousels.ProductSwipeCarousel, 'touchAction'>) =>
@@ -100,22 +92,23 @@ export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScre
       <Carousel
         {...restCarouselProps}
         axis="x"
-        data={isMobile ? [...imageUrls, ...videos] : imageUrls}
+        data={data}
         startIndex={startIndex}
         colors={{ accent: color, ...restCarouselProps.colors }}
+        imageProps={imageProps}
         videoProps={videoProps}
         indicatorOptions={{
           showIndicators: true,
           position: 'top',
           ...indicatorOptions,
           barStyles: `
-          filter: invert(1);
-          width 100%;
-          height: 5px;
-          gap: 0rem;
-          z-index: ${Z_INDEXES.MODALS + 1};
-          top: ${isCollectionView ? '0.35%' : ITEM_LABEL_HEIGHT - 2 + 'px'};
-          ${indicatorOptions?.barStyles}
+            filter: invert(1);
+            width 100%;
+            height: 5px;
+            gap: 0rem;
+            z-index: ${Z_INDEXES.MODALS + 1};
+            top: ${isCollectionView ? '0.25%' : ITEM_LABEL_HEIGHT - 2 + 'px'};
+            ${indicatorOptions?.barStyles}
           `,
         }}
       />

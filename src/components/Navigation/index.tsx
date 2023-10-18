@@ -191,6 +191,7 @@ export default function Navigation({
                 Email us!
               </ExternalLink>
               <small>Policies:</small>
+              <span onClick={(e) => handleNavMove(e, { other: '/' })}>About</span>
               <span onClick={(e) => handleNavMove(e, { other: '/policies/shipping' })}>Shipping</span>
               <span onClick={(e) => handleNavMove(e, { other: '/policies/privacy' })}>Privacy</span>
               <span onClick={(e) => handleNavMove(e, { other: '/policies/refunds' })}>Refunds</span>

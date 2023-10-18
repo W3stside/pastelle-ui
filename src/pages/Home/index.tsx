@@ -1,5 +1,6 @@
 import { SkillLockStatus } from '@past3lle/forge-web3'
 import { useIsMobile } from '@past3lle/hooks'
+import { OFF_WHITE } from '@past3lle/theme'
 import SEO from 'components/SEO'
 import { SelectedShowcaseVideo } from 'components/Showcase/Videos'
 import { COLLECTION_PATHNAME } from 'constants/navigation'
@@ -12,10 +13,12 @@ import { SinglePageSmartWrapper } from 'pages/common'
 import { useGetCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPropsFromProduct'
 import { useProductWebCarouselActions } from 'pages/common/hooks/useProductCarouselActions'
 import { ProductSubHeader } from 'pages/common/styleds'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQueryHomepage } from 'shopify/graphql/hooks'
+import { getImageSizeMap } from 'shopify/utils'
 import { useThemeManager } from 'state/user/hooks'
+import { BLACK_TRANSPARENT_MORE } from 'theme'
 
 import * as Screens from '../common/screens'
 
@@ -33,6 +36,8 @@ const VIDEO_CSS = `
   }
 `
 
+const OVERSIZED_CAROUSEL_MEDIA_WIDTH = '140%'
+
 export default function Home() {
   const homepage = useQueryHomepage()
 
@@ -48,9 +53,9 @@ export default function Home() {
   // lockStatus === null means ignore skill state
   const commonProps = useGetCommonPropsFromProduct({
     ...homepage,
-    bgColor: homepage?.bgColor || 'red',
-    color: homepage?.bgColor || 'red',
-    altColor: homepage?.bgColor || 'red',
+    bgColor: homepage?.bgColor || BLACK_TRANSPARENT_MORE,
+    color: homepage?.color || OFF_WHITE,
+    altColor: homepage?.altColor || BLACK_TRANSPARENT_MORE,
     lockedImages: [],
     sizeChart: [],
     title: homepage?.title || 'PASTELLE',
@@ -63,6 +68,9 @@ export default function Home() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const navigateToCollection = useCallback(() => navigate(COLLECTION_PATHNAME), [])
+
+  // Src-set of all images
+  const imageSrcSet = useMemo(() => getImageSizeMap(homepage?.images || []), [homepage?.images])
 
   if (!homepage?.images?.length || !homepage?.videos?.length) return null
 
@@ -95,9 +103,16 @@ export default function Home() {
                     containerNode={screensContainerNode}
                     carousel={{
                       touchAction: 'pan-y',
-                      images: homepage.images,
-                      lockedImages: [],
-                      videos: homepage.videos,
+                      data: commonProps.isMobile ? [...homepage.videos, ...imageSrcSet] : imageSrcSet,
+                      imageProps: {
+                        style: {
+                          maxWidth: OVERSIZED_CAROUSEL_MEDIA_WIDTH,
+                        },
+                      },
+                      videoProps: {
+                        height: 'auto',
+                        width: OVERSIZED_CAROUSEL_MEDIA_WIDTH,
+                      },
                       startIndex: 0,
                       onChange,
                       onCarouselItemClick: navigateToCollection,
@@ -157,9 +172,13 @@ export default function Home() {
                 forceLoad
                 firstPaintOver
                 isMobileWidth={false}
-                smartFill={{
-                  full: true,
-                }}
+                smartFill={
+                  isMobile
+                    ? undefined
+                    : {
+                        full: true,
+                      }
+                }
                 hideVideo={false}
                 css={VIDEO_CSS}
                 currentCarouselIndex={0}

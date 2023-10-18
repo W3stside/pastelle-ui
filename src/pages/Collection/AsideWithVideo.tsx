@@ -1,5 +1,5 @@
 import { Row } from '@past3lle/components'
-import { useW3UserConnectionInfo } from '@past3lle/forge-web3'
+import { SkillLockStatus, useW3UserConnectionInfo } from '@past3lle/forge-web3'
 import { useIsMobile, useStateRef } from '@past3lle/hooks'
 import { MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
 import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
@@ -7,7 +7,8 @@ import { useGetCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPro
 import { AsideCarousel } from 'pages/common/screens'
 import { ProductAsidePanel, ProductContainer, ScrollingProductLabel } from 'pages/common/styleds'
 import { CollectionPageProps } from 'pages/common/types'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
 import {
   useCurrentCollection,
@@ -64,6 +65,12 @@ export default function CollectionProductPage(props: CollectionPageProps) {
   // USER BLOCKCHAIN INFO
   const { address } = useW3UserConnectionInfo()
 
+  // Src-set of all images
+  const imageSrcSet = useMemo(
+    () => getImageSizeMap(lockStatus === SkillLockStatus.LOCKED ? lockedImages : images),
+    [lockedImages, lockStatus, images]
+  )
+
   return (
     <>
       <ScrollingProductLabel logo={headerLogo} labelColor={bgColor} flexWrap="wrap">
@@ -93,11 +100,9 @@ export default function CollectionProductPage(props: CollectionPageProps) {
               {...commonProps}
               carousel={{
                 ...carousel,
+                data: isMobile ? [...imageSrcSet, selectedVideo] : imageSrcSet,
                 touchAction: 'none',
                 startIndex: currentCarouselIndex,
-                images,
-                lockedImages,
-                videos: [selectedVideo],
                 videoProps: {
                   autoPlay,
                 },

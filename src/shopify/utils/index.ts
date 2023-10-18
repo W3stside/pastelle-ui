@@ -181,15 +181,22 @@ export const mapShopifyHomepageToProps = (data: Product) => {
   })
 }
 
-export function getImageSizeMap(images: FragmentProductImageFragment[]) {
-  return images.map<ShopImageSrcSet>(({ url, ...urls }) => ({
-    defaultUrl: url,
-    '500': { '1x': urls.url500, '2x': urls.url500_2x, '3x': urls.url500_3x },
-    '720': { '1x': urls.url720, '2x': urls.url720_2x, '3x': urls.url720_3x },
-    '960': { '1x': urls.url960, '2x': urls.url960_2x, '3x': urls.url960_3x },
-    '1280': { '1x': urls.url1280, '2x': urls.url1280_2x, '3x': urls.url1280_3x },
-    '1440': { '1x': urls.url1440, '2x': urls.url1440_2x, '3x': urls.url1440_3x },
-  }))
+export function getImageSizeMap(data: (FragmentProductImageFragment | FragmentProductVideoFragment)[]) {
+  return data.reduce((acc, item) => {
+    if (item?.__typename !== 'Image') return acc
+
+    const { url, ...urls } = item
+    acc.push({
+      defaultUrl: url,
+      '500': { '1x': urls.url500, '2x': urls.url500_2x, '3x': urls.url500_3x },
+      '720': { '1x': urls.url720, '2x': urls.url720_2x, '3x': urls.url720_3x },
+      '960': { '1x': urls.url960, '2x': urls.url960_2x, '3x': urls.url960_3x },
+      '1280': { '1x': urls.url1280, '2x': urls.url1280_2x, '3x': urls.url1280_3x },
+      '1440': { '1x': urls.url1440, '2x': urls.url1440_2x, '3x': urls.url1440_3x },
+    })
+
+    return acc
+  }, [] as ShopImageSrcSet[])
 }
 
 export function sizeToFullSize(size: ProductSizes): string {

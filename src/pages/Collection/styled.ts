@@ -1,4 +1,4 @@
-import { StyledAnimatedDivContainer, StyledCarouselContainer, StyledCarouselItemContainer } from '@past3lle/carousel'
+import { StyledCarouselContainer, StyledCarouselItemContainer } from '@past3lle/carousel'
 import {
   betweenSmallAndLarge,
   fromExtraLarge,
@@ -36,11 +36,6 @@ export const CollectionScreensContainer = styled(ProductScreensContainer)`
     > ${StyledCarouselContainer} {
       ${upToSmall`
         margin: 7rem 0 0;
-        // > ${StyledAnimatedDivContainer} {
-        //   picture {
-        //     margin-top: -3.5rem;
-        //   }
-        // }
       `}
       ${fromMedium`  
         margin-top: 2rem;
