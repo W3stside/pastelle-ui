@@ -2,6 +2,7 @@ import { Button, Column, Row } from '@past3lle/components'
 import { ExternalLink } from '@past3lle/components'
 import {
   BLACK,
+  fromSmall,
   rotateKeyframe,
   setAnimation,
   setBackgroundWithDPI,
@@ -73,6 +74,10 @@ export const VideoContentWrapper = styled(Row)<{ hide?: boolean; zIndex?: number
   opacity: 1;
   ${({ hide }) => hide && `opacity: 0;`}
   transition: opacity 0.8s ease-in-out;
+
+  ${fromSmall`
+      justify-content: end;
+  `}
 
   video {
     // lock the video to 16:9 ratio
