@@ -1,5 +1,6 @@
 import { PastelleTheme as Theme } from '@past3lle/theme'
 import { PayloadAction, createSlice, current } from '@reduxjs/toolkit'
+import { ElementType } from 'react'
 import { ProductSizes } from 'shopify/graphql/types'
 import { ThemeModes } from 'theme'
 
@@ -7,6 +8,20 @@ const currentTimestamp = () => new Date().getTime()
 
 export type ShowcaseGender = 'MALE' | 'FEMALE'
 export type ShowcaseHeight = 165 | 175 | 185 | 190
+
+export type BannerType = 'OFFLINE' | 'MISC'
+export type BannerMessages = Record<
+  BannerType,
+  | null
+  | {
+      elem: ElementType
+      id?: string
+      className?: string
+      content?: string
+      url?: string
+      style?: React.CSSProperties
+    }[]
+>
 export interface UserState {
   theme: Pick<Theme, 'mode' | 'autoDetect'>
   // the timestamp of the last updateVersion action
@@ -17,6 +32,7 @@ export interface UserState {
     size: ProductSizes
     videoSettings: { autoplay: boolean; status: 'play' | 'pause' }
   }
+  bannerMessages: BannerMessages
 }
 
 export const initialState: UserState = {
@@ -30,11 +46,21 @@ export const initialState: UserState = {
     size: ProductSizes.L,
     videoSettings: { autoplay: true, status: 'play' },
   },
+  bannerMessages: {
+    OFFLINE: null,
+    MISC: null,
+  },
 }
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    addBannerMessage(state, { payload }: PayloadAction<{ key: BannerType; message: BannerMessages[BannerType] }>) {
+      state.bannerMessages[payload.key] = payload.message
+    },
+    removeBannerMessage(state, { payload }: PayloadAction<{ key: BannerType }>) {
+      state.bannerMessages[payload.key] = null
+    },
     updateVersion(state) {
       state.lastUpdateVersionTimestamp = currentTimestamp()
     },
@@ -57,7 +83,8 @@ const userSlice = createSlice({
     },
   },
 })
-export const { updateThemeAutoDetect, updateThemeMode, updateShowcaseSettings } = userSlice.actions
+export const { addBannerMessage, removeBannerMessage, updateThemeAutoDetect, updateThemeMode, updateShowcaseSettings } =
+  userSlice.actions
 export const user = userSlice.reducer
 
 function _isShowcaseState(showcase: UserState['showcase']) {
