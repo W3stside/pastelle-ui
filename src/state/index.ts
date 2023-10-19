@@ -31,14 +31,6 @@ const store = configureStore({
     states: PERSISTED_KEYS,
     namespace: 'PASTELLE_SHOP',
     disableWarnings: process.env.NODE_ENV === 'production',
-    preloadedState: {
-      user: {
-        bannerMessages: {
-          OFFLINE: null,
-          MISC: null,
-        },
-      },
-    },
   }),
 })
 

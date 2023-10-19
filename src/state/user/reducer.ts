@@ -51,14 +51,30 @@ export const initialState: UserState = {
     MISC: null,
   },
 }
+
+function _setBannerStateIfMissing(state: UserState) {
+  if (typeof state?.bannerMessages === 'undefined') {
+    state.bannerMessages = initialState.bannerMessages
+  } else {
+    Object.keys(initialState.bannerMessages).map((bannerType) => {
+      const bannerState = state.bannerMessages
+      if (typeof bannerState?.[bannerType as BannerType] === 'undefined') {
+        bannerState[bannerType as BannerType] = initialState.bannerMessages[bannerType as BannerType]
+      }
+    })
+  }
+}
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     addBannerMessage(state, { payload }: PayloadAction<{ key: BannerType; message: BannerMessages[BannerType] }>) {
+      _setBannerStateIfMissing(state)
       state.bannerMessages[payload.key] = payload.message
     },
     removeBannerMessage(state, { payload }: PayloadAction<{ key: BannerType }>) {
+      _setBannerStateIfMissing(state)
       state.bannerMessages[payload.key] = null
     },
     updateVersion(state) {
