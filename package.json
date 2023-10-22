@@ -88,8 +88,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "scripts": {
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "analyze2": "webpack-bundle-analyzer bundle/output/path/stats.json",
+    "analyze": "ANALYZE_BUNDLE=true yarn build",
     "lint": "npx prettier --write src --ignore-path ./.prettierignore",
     "start:mock": "REACT_APP_IS_MOCK=true && yarn start",
     "start": "PORT=8080 GENERATE_SOURCEMAP=false react-app-rewired start",

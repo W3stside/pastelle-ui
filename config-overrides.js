@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // @ts-check
+const dotEnv = require('dotenv')
 const webpack = require('webpack')
 const { override } = require('customize-cra')
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+
+dotEnv.config()
 
 function addWebpackOverride(config) {
   const fallback = config.resolve.fallback || {}
@@ -22,8 +25,10 @@ function addWebpackOverride(config) {
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer'],
     }),
-    // new BundleAnalyzerPlugin(),
   ])
+  // Analyze bundle size and show UI
+  if (process.env.ANALYZE_BUNDLE == 'true') config.plugins.concat(new BundleAnalyzerPlugin())
+
   config.ignoreWarnings = [/Failed to parse source map/]
   config.module.rules.push({
     test: /\.(ts|tsx|js|mjs|jsx)$/,
