@@ -39,7 +39,7 @@ import {
 } from './styled'
 
 const ShoppingCart = lazy(
-  () => /* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ import('pages/ShoppingCart')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ 'pages/ShoppingCart')
 )
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
