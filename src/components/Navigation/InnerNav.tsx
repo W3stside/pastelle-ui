@@ -70,7 +70,11 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
       isOpen={isNavOpen}
       minWidth="9vw"
       width="16.5rem"
-      currentMedia={{ navLogoSet: product?.navLogo, color: product?.color }}
+      currentMedia={{
+        navLogoSet: product?.navLogo,
+        color: product?.color,
+        fallbackColor: 'linear-gradient(1deg, rgb(0 0 0 / 92%) 90%, rgb(0 0 0 / 83%) 20%)',
+      }}
     >
       <InnerNavWrapper $width={isNavOpen ? '90%' : '100%'}>
         <CollectionSelector />

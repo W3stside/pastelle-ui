@@ -2,7 +2,6 @@ import { Column, Row, SpinnerCircle, Text } from '@past3lle/components'
 import { useIsSmallMediaWidth, useOnResize } from '@past3lle/hooks'
 import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react'
 import { Menu, X } from 'react-feather'
-import { BLACK_TRANSPARENT } from 'theme'
 
 import { InnerNavWrapper, MobileNavOrb, NavigationStepsWrapper } from './styled'
 
@@ -66,7 +65,7 @@ function NavigationFallback({ isSmallNav, isNavOpen }: { isSmallNav: boolean; is
       isOpen={isNavOpen}
       minWidth="9vw"
       width="16.5rem"
-      currentMedia={{ fallbackColor: BLACK_TRANSPARENT }}
+      currentMedia={{ fallbackColor: 'linear-gradient(1deg, rgb(0 0 0 / 92%) 90%, rgb(0 0 0 / 83%) 20%)' }}
     >
       {/* <NavLogo parentNode={parentNode} logoSrcSet={currentProduct?.navLogo} /> */}
       <InnerNavWrapper $width="100%" height={'100%'}>

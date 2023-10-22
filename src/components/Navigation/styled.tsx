@@ -1,13 +1,5 @@
 import { Button, Column, Row } from '@past3lle/components'
-import {
-  BLACK,
-  OFF_WHITE,
-  setAnimation,
-  setBackgroundWithDPI,
-  setBestTextColour,
-  upToMedium,
-  upToSmall,
-} from '@past3lle/theme'
+import { BLACK, setAnimation, setBackgroundWithDPI, setBestTextColour, upToMedium, upToSmall } from '@past3lle/theme'
 import { Z_INDEXES } from 'constants/config'
 import { darken } from 'polished'
 import styled from 'styled-components/macro'
@@ -40,7 +32,7 @@ export const NavigationStepsWrapper = styled.nav<{
           preset: 'navbar',
           modeColours: [color, BLACK],
         })
-      : `background-color: ${fallbackColor};`}
+      : `background: ${fallbackColor};`}
 
   z-index: 1;
 
@@ -50,7 +42,8 @@ export const NavigationStepsWrapper = styled.nav<{
 
   z-index: ${Z_INDEXES.NAV_MENU};
 
-  ${({ theme: { mode }, currentMedia: { color = BLACK } }) =>
+  ${({ theme: { mode }, currentMedia: { navLogoSet, color = BLACK } }) =>
+    !!navLogoSet &&
     setAnimation(simmerAnimationCallback(darken(mode === ThemeModes.DARK ? 0.4 : 0, color)), {
       name: 'simmer' as any,
       state: true,
@@ -71,7 +64,6 @@ export const NavigationStepsWrapper = styled.nav<{
       min-height: 60px;
       width: 100%;
       padding: 1.25rem 0.75rem 1.25rem 1.25rem;
-      // background: linear-gradient(267deg, #000000c2 33%, transparent);
       background-color: ${theme.blackLight};
       border-radius: 0 1rem 1rem 0;
       > div {
@@ -141,7 +133,7 @@ export const CollectionLabel = styled(Row)<{ isNavOpen: boolean; active: boolean
       width: 100%;
     `}
 
-  ${({ isNavOpen, bgColor = OFF_WHITE }) =>
+  ${({ isNavOpen, bgColor = '#6161a3' }) =>
     isNavOpen &&
     `
     color: ${setBestTextColour(bgColor)};
