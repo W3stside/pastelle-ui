@@ -13,14 +13,23 @@ import { SinglePageSmartWrapper } from 'pages/common'
 import { useGetCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPropsFromProduct'
 import { useProductWebCarouselActions } from 'pages/common/hooks/useProductCarouselActions'
 import { ProductSubHeader } from 'pages/common/styleds'
-import { useCallback, useMemo } from 'react'
+import { lazy, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQueryHomepage } from 'shopify/graphql/hooks'
 import { getImageSizeMap } from 'shopify/utils'
 import { useThemeManager } from 'state/user/hooks'
 import { BLACK_TRANSPARENT_MORE } from 'theme'
 
-import * as Screens from '../common/screens'
+const AsideCarousel = lazy(
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ 'pages/common/screens/AsideCarousel')
+)
+const ActionScreen = lazy(
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ 'pages/common/screens/ActionsAndChildren')
+)
+const Description = lazy(
+  () =>
+    import(/* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ 'pages/common/screens/DescriptionAndChildren')
+)
 
 const VIDEO_CSS = `
   position: fixed;
@@ -85,110 +94,108 @@ export default function Home() {
           setScreensContainerRef,
           parentAspectRatio,
         }) => (
-          <>
-            <SingleProductContainer id="#item-container" parentAspectRatio={parentAspectRatio}>
-              <SingleProductAsidePanel id="#item-aside-panel" ref={asideContainerRef}>
-                <SingleProductScreensContainer
-                  $calculatedSizes={{
-                    height: asideContainerRef.current?.clientHeight,
-                    width: screensContainerNode?.clientWidth,
-                  }}
-                  ref={setScreensContainerRef}
-                  bgColor={homepage?.bgColor}
-                  navLogo={homepage?.navLogo}
-                  logo={homepage?.logo}
-                >
-                  <Screens.AsideCarousel
-                    {...commonProps}
-                    containerNode={screensContainerNode}
-                    carousel={{
-                      touchAction: 'pan-y',
-                      data: commonProps.isMobile ? [...homepage.videos, ...imageSrcSet] : imageSrcSet,
-                      imageProps: {
-                        style: {
-                          maxWidth: OVERSIZED_CAROUSEL_MEDIA_WIDTH,
-                        },
-                      },
-                      videoProps: {
-                        height: 'auto',
-                        width: OVERSIZED_CAROUSEL_MEDIA_WIDTH,
-                      },
-                      startIndex: 0,
-                      onChange,
-                      onCarouselItemClick: navigateToCollection,
-                      indicatorOptions: {
-                        showIndicators: true,
-                      },
-                    }}
-                    themeMode={mode}
-                    breadcrumbs={{
-                      breadcrumbs: ['PASTELLE APPAREL'],
-                      lastCrumb: '',
-                    }}
-                    skillInfo={null}
-                    userAddress={undefined}
-                    logoCss="filter: unset;"
-                  />
-                  <Screens.ActionScreen
-                    {...commonProps}
-                    labels={{
-                      main: 'VIEW COLLECTION',
-                      async: 'HEADING TO COLLECTION',
-                    }}
-                    skillInfo={null}
-                    callback={navigateToCollection}
-                    fixedWidth={screensContainerNode?.clientWidth}
-                    rootNode={rootContainerNode}
-                  >
-                    <ProductSubHeader
-                      fontWeight={100}
-                      fontStyle="none"
-                      css={`
-                        > div {
-                          width: max-content;
-                          background-color: ${homepage.bgColor};
-                          &:not(:last-child) {
-                            margin: 0 0 4px;
-                          }
-                          padding: 2px 8px;
-                        }
-                      `}
-                    >
-                      <div>
-                        <strong>GENES1S</strong> HEAVYWEIGHT COLLECTION
-                      </div>
-                      <div>AVAILABLE NOW</div>
-                    </ProductSubHeader>
-                  </Screens.ActionScreen>
-                  <Screens.Description
-                    {...commonProps}
-                    header=""
-                    containerNode={screensContainerNode}
-                    description={homepage.description}
-                  />
-                </SingleProductScreensContainer>
-              </SingleProductAsidePanel>
-              <SelectedShowcaseVideo
-                forceLoad
-                firstPaintOver
-                isMobileWidth={false}
-                smartFill={
-                  isMobile
-                    ? undefined
-                    : {
-                        full: true,
-                      }
-                }
-                hideVideo={false}
-                css={VIDEO_CSS}
-                currentCarouselIndex={0}
-                selectedVideo={homepage.videos[0]}
-                videoProps={{
-                  loop: false,
+          <SingleProductContainer id="#item-container" parentAspectRatio={parentAspectRatio}>
+            <SingleProductAsidePanel id="#item-aside-panel" ref={asideContainerRef}>
+              <SingleProductScreensContainer
+                $calculatedSizes={{
+                  height: asideContainerRef.current?.clientHeight,
+                  width: screensContainerNode?.clientWidth,
                 }}
-              />
-            </SingleProductContainer>
-          </>
+                ref={setScreensContainerRef}
+                bgColor={homepage?.bgColor}
+                navLogo={homepage?.navLogo}
+                logo={homepage?.logo}
+              >
+                <AsideCarousel
+                  {...commonProps}
+                  containerNode={screensContainerNode}
+                  carousel={{
+                    touchAction: 'pan-y',
+                    data: commonProps.isMobile ? [...homepage.videos, ...imageSrcSet] : imageSrcSet,
+                    imageProps: {
+                      style: {
+                        maxWidth: OVERSIZED_CAROUSEL_MEDIA_WIDTH,
+                      },
+                    },
+                    videoProps: {
+                      height: 'auto',
+                      width: OVERSIZED_CAROUSEL_MEDIA_WIDTH,
+                    },
+                    startIndex: 0,
+                    onChange,
+                    onCarouselItemClick: navigateToCollection,
+                    indicatorOptions: {
+                      showIndicators: true,
+                    },
+                  }}
+                  themeMode={mode}
+                  breadcrumbs={{
+                    breadcrumbs: ['PASTELLE APPAREL'],
+                    lastCrumb: '',
+                  }}
+                  skillInfo={null}
+                  userAddress={undefined}
+                  logoCss="filter: unset;"
+                />
+                <ActionScreen
+                  {...commonProps}
+                  labels={{
+                    main: 'VIEW COLLECTION',
+                    async: 'HEADING TO COLLECTION',
+                  }}
+                  skillInfo={null}
+                  callback={navigateToCollection}
+                  fixedWidth={screensContainerNode?.clientWidth}
+                  rootNode={rootContainerNode}
+                >
+                  <ProductSubHeader
+                    fontWeight={100}
+                    fontStyle="none"
+                    css={`
+                      > div {
+                        width: max-content;
+                        background-color: ${homepage.bgColor};
+                        &:not(:last-child) {
+                          margin: 0 0 4px;
+                        }
+                        padding: 2px 8px;
+                      }
+                    `}
+                  >
+                    <div>
+                      <strong>GENES1S</strong> HEAVYWEIGHT COLLECTION
+                    </div>
+                    <div>AVAILABLE NOW</div>
+                  </ProductSubHeader>
+                </ActionScreen>
+                <Description
+                  {...commonProps}
+                  header=""
+                  containerNode={screensContainerNode}
+                  description={homepage.description}
+                />
+              </SingleProductScreensContainer>
+            </SingleProductAsidePanel>
+            <SelectedShowcaseVideo
+              forceLoad
+              firstPaintOver
+              isMobileWidth={false}
+              smartFill={
+                isMobile
+                  ? undefined
+                  : {
+                      full: true,
+                    }
+              }
+              hideVideo={false}
+              css={VIDEO_CSS}
+              currentCarouselIndex={0}
+              selectedVideo={homepage.videos[0]}
+              videoProps={{
+                loop: false,
+              }}
+            />
+          </SingleProductContainer>
         )}
       </SinglePageSmartWrapper>
     </>

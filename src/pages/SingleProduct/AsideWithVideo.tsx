@@ -11,7 +11,6 @@ import useSizeSelector from 'components/SizeSelector'
 import { SHOWCASE_ENABLED } from 'constants/config'
 import { SmartWrapperNodesAndRefs } from 'pages/common'
 import { useGetCommonPropsFromProduct as useMapToCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPropsFromProduct'
-import * as Screens from 'pages/common/screens'
 import {
   HighlightedText,
   PASTELLE_CREDIT,
@@ -21,13 +20,24 @@ import {
   ProductSubHeader,
 } from 'pages/common/styleds'
 import { SingleProductPageProps as BaseProps } from 'pages/common/types'
-import { useMemo } from 'react'
+import { lazy, useMemo } from 'react'
 import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
 import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
 import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
 import { useLargeImageModal, useSizeChartModal } from 'state/modalsAndPopups/hooks'
 import { useThemeManager } from 'state/user/hooks'
+
+const AsideCarousel = lazy(
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ 'pages/common/screens/AsideCarousel')
+)
+const ActionScreen = lazy(
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ 'pages/common/screens/ActionsAndChildren')
+)
+const Description = lazy(
+  () =>
+    import(/* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ 'pages/common/screens/DescriptionAndChildren')
+)
 
 export type SingleProductPageProps = BaseProps & SmartWrapperNodesAndRefs
 export default function SingleProductPage(props: SingleProductPageProps) {
@@ -90,7 +100,7 @@ export default function SingleProductPage(props: SingleProductPageProps) {
   return (
     <>
       {/* SCREEN 1 - CAROUSEL & LOGO */}
-      <Screens.AsideCarousel
+      <AsideCarousel
         {...commonProps}
         carousel={{
           touchAction: 'pan-y',
@@ -109,7 +119,7 @@ export default function SingleProductPage(props: SingleProductPageProps) {
       />
 
       {/* SCREEN 2 - SHOWCASE */}
-      <Screens.ActionScreen
+      <ActionScreen
         {...commonProps}
         labels={{
           main: 'ADD TO CART',
@@ -142,10 +152,10 @@ export default function SingleProductPage(props: SingleProductPageProps) {
             </ShowcaseSettings>
           </>
         )}
-      </Screens.ActionScreen>
+      </ActionScreen>
 
       {/* SCREEN 3 - ITEM INFO */}
-      <Screens.Description
+      <Description
         {...commonProps}
         header="INFO & CARE INSTRUCTIONS"
         description={description}
@@ -171,7 +181,7 @@ export default function SingleProductPage(props: SingleProductPageProps) {
             </Column>
           )}
         </>
-      </Screens.Description>
+      </Description>
     </>
   )
 }

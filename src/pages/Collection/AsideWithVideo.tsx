@@ -4,10 +4,9 @@ import { useIsMobile, useStateRef } from '@past3lle/hooks'
 import { MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
 import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
 import { useGetCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPropsFromProduct'
-import { AsideCarousel } from 'pages/common/screens'
 import { ProductAsidePanel, ProductContainer, ScrollingProductLabel } from 'pages/common/styleds'
 import { CollectionPageProps } from 'pages/common/types'
-import { useMemo, useState } from 'react'
+import { lazy, useMemo, useState } from 'react'
 import { getImageSizeMap } from 'shopify/utils'
 import { useAppSelector } from 'state'
 import {
@@ -19,6 +18,10 @@ import { useThemeManager } from 'state/user/hooks'
 import { defaultThemeColours } from 'theme'
 
 import { CollectionScreensContainer } from './styled'
+
+const AsideCarousel = lazy(
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ 'pages/common/screens/AsideCarousel')
+)
 
 export default function CollectionProductPage(props: CollectionPageProps) {
   const {

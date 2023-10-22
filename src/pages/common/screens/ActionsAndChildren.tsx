@@ -5,6 +5,7 @@ import ActionButton from 'components/AddToCartButton'
 import { AddToCartButtonWrapper as ActionButtonWrapper, SingleProductScreen } from 'pages/SingleProduct/styled'
 import { ReactNode, memo, useRef } from 'react'
 
+import { useShopifySrcSetToImageKitSrcSet } from '../../../hooks/useShopifySrcSetToImageKitSrcSet'
 import { ProductSubHeader } from '../styleds'
 import { BaseScreensProps } from './types'
 
@@ -24,7 +25,8 @@ interface ActionScreenProps extends BaseScreensProps {
   rootNode: HTMLElement | undefined | null
   styles?: ButtonProps
 }
-export const ActionScreen = memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
+const TR_MID_URI = 'w-535,h-60'
+export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
   callback,
   children,
   fixedWidth,
@@ -48,6 +50,8 @@ export const ActionScreen = memo<ActionScreenProps>(function ShowcaseAndCtaCompo
 
   const showSkillLockedUi = skillInfo !== null && skillInfo?.lockStatus === SkillLockStatus.LOCKED
 
+  const mappedSrcSet = useShopifySrcSetToImageKitSrcSet(navLogo, TR_MID_URI)
+
   return (
     <SingleProductScreen padding="0">
       {/* Size selector */}
@@ -64,7 +68,7 @@ export const ActionScreen = memo<ActionScreenProps>(function ShowcaseAndCtaCompo
           skillLocked={showSkillLockedUi}
           quantity={1}
           buttonProps={{
-            bgImage: navLogo,
+            bgImage: mappedSrcSet,
             backgroundColor: color || '#000',
             width: '100%',
             fontSize: '1.8rem',
@@ -82,7 +86,7 @@ export const ActionScreen = memo<ActionScreenProps>(function ShowcaseAndCtaCompo
             skillLocked={showSkillLockedUi}
             quantity={1}
             buttonProps={{
-              bgImage: navLogo,
+              bgImage: mappedSrcSet,
               backgroundColor: color || '#000',
               fontSize: '3rem',
               fontWeight: 200,

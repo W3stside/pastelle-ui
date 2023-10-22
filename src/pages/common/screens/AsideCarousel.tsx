@@ -34,7 +34,7 @@ export interface AsideCarouselProps extends BaseScreensProps, WithContainerNode 
   logoCss?: string
 }
 const ITEM_LABEL_HEIGHT = 40
-export const AsideCarousel = memo<AsideCarouselProps>(function AsideCarouselScreen({
+export default memo<AsideCarouselProps>(function AsideCarouselScreen({
   metaContent,
   palette,
   carousel,

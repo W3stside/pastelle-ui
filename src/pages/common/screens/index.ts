@@ -1,3 +1,5 @@
-export { AsideCarousel } from './AsideCarousel'
-export { ActionScreen } from './ActionsAndChildren'
-export { Description } from './DescriptionAndChildren'
+import ActionScreen from './ActionsAndChildren'
+import AsideCarousel from './AsideCarousel'
+import Description from './DescriptionAndChildren'
+
+export { ActionScreen, AsideCarousel, Description }

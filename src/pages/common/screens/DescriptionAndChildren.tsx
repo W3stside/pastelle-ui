@@ -17,7 +17,7 @@ interface DescriptionScreenProps extends BaseScreensProps, WithContainerNode {
   description: string
   header?: string | null
 }
-export const Description = memo<DescriptionScreenProps>(function DescriptionAndChildren({
+export default memo<DescriptionScreenProps>(function DescriptionAndChildren({
   children,
   metaContent,
   palette,

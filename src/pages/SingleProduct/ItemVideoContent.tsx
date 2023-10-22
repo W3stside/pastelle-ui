@@ -39,7 +39,7 @@ const EMPTY_MAP: Map<string, HTMLVideoElement> = new Map()
 const LOAD_IN_VIEW_DELAY = 500
 const LOAD_IN_VIEW_THRESHOLD = 0.01
 
-export const ItemVideoContent = ({
+const ItemVideoContent = ({
   videos,
   currentCarouselIndex,
   firstPaintOver,
@@ -247,23 +247,6 @@ function VideoControlButton({ callback, isPlaying }: VideoControlButtonParams) {
   )
 }
 
-type Props = ItemVideoContentProps & { isOpen: boolean; zIndex?: number }
-export function SmallScreenVideoContent(props: Props) {
-  const { isOpen, firstPaintOver, videos, currentCarouselIndex, ...styleProps } = props
-
-  if (!isOpen) return null
-
-  return (
-    <ItemVideoContent
-      firstPaintOver={firstPaintOver}
-      videos={videos}
-      currentCarouselIndex={currentCarouselIndex}
-      forceLoad
-      {...styleProps}
-    />
-  )
-}
-
 async function _delayedVideoUpdater({
   currentCarouselIndex,
   showVideoUIDelay,
@@ -289,3 +272,5 @@ function _playVideoThenable(video: HTMLVideoElement) {
       return video
     })
 }
+
+export default ItemVideoContent
