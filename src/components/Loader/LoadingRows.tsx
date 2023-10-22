@@ -1,7 +1,15 @@
 import { bgPositionAnimation, setAnimation } from '@past3lle/theme'
+import { Fragment, ReactNode } from 'react'
 import styled from 'styled-components/macro'
 
-type LoadingRowsStyleProps = { $height?: string; $margin?: string; $padding?: string; $borderRadius?: string }
+type LoadingRowsStyleProps = {
+  $height?: string
+  $margin?: string
+  $padding?: string
+  $borderRadius?: string
+  $fromColor?: string
+  $toColor?: string
+}
 const StyledLoadingRows = styled.div<LoadingRowsStyleProps>`
   display: grid;
   gap: 0.6rem;
@@ -15,9 +23,9 @@ const StyledLoadingRows = styled.div<LoadingRowsStyleProps>`
     })}
     background: linear-gradient(
       to left,
-      ${({ theme }) => theme.white} 25%,
-      ${({ theme }) => theme.black} 50%,
-      ${({ theme }) => theme.white} 75%
+      ${({ $fromColor = '#5e3f8391' }) => $fromColor} 25%,
+      ${({ theme, $toColor = theme.offblackOpaqueMost }) => $toColor} 50%,
+      ${({ $fromColor = '#5e3f8391' }) => $fromColor} 75%
       );
     background-size: 400%;
     ${({ $borderRadius }) => $borderRadius && `border-radius: ${$borderRadius}`};
@@ -28,13 +36,17 @@ const StyledLoadingRows = styled.div<LoadingRowsStyleProps>`
   }
 `
 
-function LoadingRows({ rows, ...rest }: { rows: number } & LoadingRowsStyleProps) {
+function LoadingRows({
+  component = <div />,
+  rows,
+  ...rest
+}: { component?: ReactNode; rows: number } & LoadingRowsStyleProps) {
   const arr = Array.from({ length: rows })
 
   return (
     <StyledLoadingRows {...rest}>
       {arr.map((_, i) => (
-        <div key={i} />
+        <Fragment key={i}>{component}</Fragment>
       ))}
     </StyledLoadingRows>
   )

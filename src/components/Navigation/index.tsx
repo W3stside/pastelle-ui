@@ -51,7 +51,7 @@ export default function Navigation({
         {NavToggleButton}
       </MobileNavOrb>
       {/* <NavigationFallback isNavOpen={isNavOpen} /> */}
-      <Suspense fallback={<NavigationFallback isNavOpen={isNavOpen} />}>
+      <Suspense fallback={<NavigationFallback isSmallNav={isSmallWidth} isNavOpen={isNavOpen} />}>
         {((isSmallWidth && isNavOpen) || !isSmallWidth) && (
           <InnerNavigation isNavOpen={isSmallWidth && isNavOpen} toggleNav={toggleNav} />
         )}
@@ -60,7 +60,7 @@ export default function Navigation({
   )
 }
 
-function NavigationFallback({ isNavOpen }: { isNavOpen: boolean }) {
+function NavigationFallback({ isSmallNav, isNavOpen }: { isSmallNav: boolean; isNavOpen: boolean }) {
   return (
     <NavigationStepsWrapper
       isOpen={isNavOpen}
@@ -72,7 +72,7 @@ function NavigationFallback({ isNavOpen }: { isNavOpen: boolean }) {
       <InnerNavWrapper $width="100%" height={'100%'}>
         <Column height="100%" justifyContent={'center'} alignItems={'center'} gap="1rem">
           <SpinnerCircle size={70} />
-          <Text.LargeHeader fontWeight={100}>LOADING NAV. . .</Text.LargeHeader>
+          {isSmallNav && <Text.LargeHeader fontWeight={100}>LOADING NAV. . .</Text.LargeHeader>}
         </Column>
       </InnerNavWrapper>
     </NavigationStepsWrapper>

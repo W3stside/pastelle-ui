@@ -1,34 +1,25 @@
-import { Button, ButtonVariations, Column, Row, SmartImg, SpinnerCircle } from '@past3lle/components'
-import { useCleanTimeout, useIsExtraSmallMediaWidth, usePrevious } from '@past3lle/hooks'
+import { Button, ButtonVariations, Column, SpinnerCircle } from '@past3lle/components'
+import { useIsExtraSmallMediaWidth } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
 import LoadingRows from 'components/Loader/LoadingRows'
 import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import { COLLECTION_PARAM_NAME, COLLECTION_PATHNAME } from 'constants/navigation'
 import { SearchParamQuickViews } from 'constants/views'
-import useQuantitySelector from 'hooks/useQuantitySelector'
 import { ProductSubHeader } from 'pages/common/styleds'
-import { ReactNode, Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react'
+import { Suspense, lazy, useCallback, useState } from 'react'
 import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useQueryCart } from 'shopify/graphql/hooks'
-import { FragmentCartCostFragment, FragmentCartLineFragment, GetCartQuery, ProductSizes } from 'shopify/graphql/types'
-import { getMetafields, sizeToFullSize } from 'shopify/utils'
-import {
-  useGetCartState,
-  useRemoveCartLineAndUpdateReduxCallback,
-  useToggleCartAndState,
-  useUpdateCartLineAndUpdateReduxCallback,
-} from 'state/cart/hooks'
+import { FragmentCartCostFragment, GetCartQuery } from 'shopify/graphql/types'
+import { useGetCartState, useToggleCartAndState } from 'state/cart/hooks'
 import { CartState } from 'state/cart/reducer'
-import { useOnScreenProductHandle } from 'state/collection/hooks'
-import { ThemeModes, getThemeColourByKey, pastelleTheme } from 'theme'
+import { ThemeModes, getThemeColourByKey } from 'theme'
 import { formatShopifyCurrency } from 'utils/formatting'
-import { buildItemUrl, checkIsCollectionPage } from 'utils/navigation'
+import { checkIsCollectionPage } from 'utils/navigation'
 
+import { LoadingCartLine } from './common'
 import {
   CartHeader,
-  CartLineContent,
-  CartLineWrapper,
   CartTableHeaderBaseWrapper,
   CartTableHeaderWrapper,
   ShoppingCartFullWrapper,
@@ -40,6 +31,10 @@ import {
 
 const ShoppingCart = lazy(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ 'pages/ShoppingCart')
+)
+
+const CartLine = lazy(
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART_LINE" */ 'components/ShoppingCart/CartLine')
 )
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
@@ -105,7 +100,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
       {/* CART LINES */}
       <ShoppingCartPanelContentWrapper>
         {loading ? (
-          <LoadingRows rows={3} $height="11rem" $padding="1rem" $margin="1rem 0" $borderRadius="1rem" />
+          <CartLoadingRow rows={3} />
         ) : isEmptyCart ? (
           <ProductSubHeader color={WHITE} fontSize="2.5rem" fontWeight={400} padding={0} margin="2rem 0">
             <span id="lenny-face">Your cart is</span> <strong>empty</strong> <span id="lenny-face">ʕ ͡° ʖ̯ ͡°ʔ</span>
@@ -116,7 +111,11 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
             )}
           </ProductSubHeader>
         ) : (
-          cartLines?.map((line) => <CartLine key={line.id} line={line} />)
+          cartLines?.map((line) => (
+            <Suspense key={line.id} fallback={<CartLineFallback key={line.id} />}>
+              <CartLine key={line.id} line={line} />
+            </Suspense>
+          ))
         )}
       </ShoppingCartPanelContentWrapper>
 
@@ -182,6 +181,23 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
   )
 }
 
+function CartLoadingRow({ rows = 1 }: { rows?: number }) {
+  return (
+    <LoadingRows
+      rows={rows}
+      $height="11rem"
+      $padding="1rem"
+      $margin="1rem 0"
+      $borderRadius="1rem"
+      component={<LoadingCartLine />}
+    />
+  )
+}
+
+function CartLineFallback() {
+  return <CartLoadingRow />
+}
+
 function CartTableHeader({
   totalQuantity,
   closeCartPanel,
@@ -208,109 +224,3 @@ function CartTableHeader({
     </CartTableHeaderWrapper>
   )
 }
-
-function CartLine({ line }: { line: FragmentCartLineFragment }) {
-  const { updateCartLineCallback } = useUpdateCartLineAndUpdateReduxCallback()
-  const { removeCartLineCallback } = useRemoveCartLineAndUpdateReduxCallback()
-
-  const cleanTimeout = useCleanTimeout()
-  const [removeLineLoading, setRemoveOperationLoading] = useState(false)
-
-  const { QuantitySelector, quantity } = useQuantitySelector({
-    defaultQuantity: line.quantity,
-    onTrashClick: line.id
-      ? (e: React.MouseEvent<SVGElement, MouseEvent>) => {
-          e.stopPropagation()
-          setRemoveOperationLoading(true)
-          removeCartLineCallback(
-            { lineIds: [line.id] },
-            {
-              onCompleted: () => {
-                cleanTimeout(() => setRemoveOperationLoading(false), 1000)
-              },
-            }
-          )
-        }
-      : undefined,
-  })
-
-  const previousQuantity = usePrevious(line.quantity)
-  const wasPreviousAndChanged = !!previousQuantity && previousQuantity !== quantity
-  const selectionIsValidQuantity = Number(quantity)
-
-  const { color, handle, images } = line.merchandise.product
-
-  const { bgLogo, color: itemColor } = useMemo(
-    () => ({
-      bgLogo: images.nodes?.find(
-        (node) => node.altText === 'LOGO' || node.altText === 'HEADER' || node.altText === 'NAVBAR'
-      )?.url500,
-      color: getMetafields<string>(color),
-    }),
-    [color, images.nodes]
-  )
-
-  const navigate = useNavigate()
-  const handleClick = useCallback(() => {
-    const url = buildItemUrl(handle)
-    navigate(url)
-  }, [navigate, handle])
-
-  useEffect(() => {
-    if (removeLineLoading || !line.id) return
-    else if (selectionIsValidQuantity && wasPreviousAndChanged) {
-      updateCartLineCallback({ quantity, lineId: line.id })
-    }
-  }, [line.id, quantity, selectionIsValidQuantity, updateCartLineCallback, removeLineLoading, wasPreviousAndChanged])
-
-  const sizeFull = line?.merchandise.size ? sizeToFullSize(line.merchandise.size as ProductSizes) : null
-  const collectionCurrentProduct = useOnScreenProductHandle()
-
-  return (
-    <CartLineWrapper bgLogo={bgLogo} color={itemColor}>
-      <div style={{ position: 'relative' }}>
-        <QuantityBubble>{line?.quantity}</QuantityBubble>
-        <SmartImg
-          path={{ defaultPath: images.nodes[0].url125 }}
-          onClick={handleClick}
-          placeholderProps={{
-            loadingContent: '...',
-          }}
-        />
-        <CartLineContent onClick={handleClick}>
-          <Row>
-            <ProductSubHeader color={WHITE} fontSize="3rem" fontWeight={1000} padding={0} margin={0}>
-              {line?.merchandise.product.title}
-            </ProductSubHeader>
-            <ProductSubHeader color={WHITE} fontSize="2.2rem" fontWeight={300} padding={0} margin={0}>
-              {sizeFull?.toLocaleUpperCase()} {sizeFull && `(${line?.merchandise.size})`}
-            </ProductSubHeader>
-            {collectionCurrentProduct?.handle !== handle && (
-              <ProductSubHeader color={WHITE} fontSize="1.5rem" fontWeight={300} padding={0} margin={0}>
-                tap or click to view item
-              </ProductSubHeader>
-            )}
-          </Row>
-          <QuantitySelector isDisabled={removeLineLoading} />
-        </CartLineContent>
-      </div>
-    </CartLineWrapper>
-  )
-}
-
-const QuantityBubble: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <ProductSubHeader
-    display="flex"
-    alignItems="center"
-    justifyContent="center"
-    margin="0.5rem"
-    fontSize="1.5rem"
-    fontWeight={300}
-    width={30}
-    height={30}
-    backgroundColor={pastelleTheme.blackOpaqueMore}
-    style={{ position: 'absolute', bottom: 0, left: 0, borderRadius: 30 }}
-  >
-    {children}
-  </ProductSubHeader>
-)
