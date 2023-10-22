@@ -1,4 +1,3 @@
-import { useIsSmallMediaWidth } from '@past3lle/hooks'
 import { useAnalyticsReporter } from 'analytics'
 import { CookiesBanner as Cookies } from 'components/Cookies/Banner'
 import { FallbackLoader } from 'components/Loader'
@@ -20,8 +19,6 @@ export default function App() {
   // attempt to enable analytics, will do nothing if consent not set
   useAnalyticsReporter()
 
-  const isMobileWidthOrBelow = useIsSmallMediaWidth()
-
   const currentId = useDeriveCurrentCollectionId()
   const loadingCollectionsData = useIsCollectionLoading()
   const appLoading = !currentId || loadingCollectionsData
@@ -35,7 +32,7 @@ export default function App() {
 
       {/* HEADER + NAVIGATION */}
       <Header />
-      {!isMobileWidthOrBelow && !onHomePage && <Navigation mobileHide />}
+      {!onHomePage && <Navigation mobileHide />}
 
       {!onHomePage && appLoading ? (
         <FallbackLoader />

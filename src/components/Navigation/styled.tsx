@@ -11,7 +11,7 @@ import {
 import { Z_INDEXES } from 'constants/config'
 import { darken } from 'polished'
 import styled from 'styled-components/macro'
-import { ThemeModes, getThemeColours } from 'theme'
+import { BLACK_TRANSPARENT_MORE, ThemeModes, getThemeColours } from 'theme'
 import { simmerAnimationCallback } from 'theme/animation'
 import { ShopImageSrcSet } from 'types'
 
@@ -21,7 +21,7 @@ export const NavigationStepsWrapper = styled.nav<{
   isOpen?: boolean
   width?: string
   minWidth?: string
-  currentMedia: { navLogoSet?: ShopImageSrcSet; color?: string }
+  currentMedia: { navLogoSet?: ShopImageSrcSet; color?: string; fallbackColor?: string }
 }>`
   position: relative;
   overflow: hidden;
@@ -34,11 +34,13 @@ export const NavigationStepsWrapper = styled.nav<{
   text-align: left;
   gap: 0px;
 
-  ${({ theme, currentMedia: { navLogoSet, color = BLACK } }) =>
-    setBackgroundWithDPI(theme, navLogoSet, {
-      preset: 'navbar',
-      modeColours: [color, BLACK],
-    })}
+  ${({ theme, currentMedia: { navLogoSet, fallbackColor = BLACK_TRANSPARENT_MORE, color = BLACK } }) =>
+    navLogoSet
+      ? setBackgroundWithDPI(theme, navLogoSet, {
+          preset: 'navbar',
+          modeColours: [color, BLACK],
+        })
+      : `background-color: ${fallbackColor};`}
 
   z-index: 1;
 
