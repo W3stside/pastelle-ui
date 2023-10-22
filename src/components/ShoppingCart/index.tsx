@@ -1,4 +1,4 @@
-import { Button, ButtonVariations, Column, Row, SmartImg } from '@past3lle/components'
+import { Button, ButtonVariations, Column, Row, SmartImg, SpinnerCircle } from '@past3lle/components'
 import { useCleanTimeout, useIsExtraSmallMediaWidth, usePrevious } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
 import LoadingRows from 'components/Loader/LoadingRows'
@@ -6,9 +6,8 @@ import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
 import { COLLECTION_PARAM_NAME, COLLECTION_PATHNAME } from 'constants/navigation'
 import { SearchParamQuickViews } from 'constants/views'
 import useQuantitySelector from 'hooks/useQuantitySelector'
-import ShoppingCart from 'pages/ShoppingCart'
 import { ProductSubHeader } from 'pages/common/styleds'
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
+import { ReactNode, Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react'
 import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useQueryCart } from 'shopify/graphql/hooks'
@@ -39,6 +38,10 @@ import {
   ShoppingCartQuantityWrapper,
 } from './styled'
 
+const ShoppingCart = lazy(
+  () => /* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ import('pages/ShoppingCart')
+)
+
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
   return <ShoppingCartQuantityWrapper>{totalQuantity}</ShoppingCartQuantityWrapper>
 }
@@ -52,13 +55,23 @@ export function ShoppingCartHeader() {
 
   return (
     <ShoppingCartFullWrapper>
-      <ShoppingCartHeaderWrapper onClick={() => openOrCloseCart(true, cart)}>
-        <ShoppingCartIcon size={30} />
-        <ShoppingCartQuantity totalQuantity={cart.totalQuantity} />
-      </ShoppingCartHeaderWrapper>
-      {/* SHOW CART IF PARAMS DETECT CART */}
-      {searchParams.get('peek') === SearchParamQuickViews.CART && <ShoppingCart />}
+      <Suspense fallback={<ShoppingCartFallback />}>
+        <ShoppingCartHeaderWrapper onClick={() => openOrCloseCart(true, cart)}>
+          <ShoppingCartIcon size={30} />
+          <ShoppingCartQuantity totalQuantity={cart.totalQuantity} />
+        </ShoppingCartHeaderWrapper>
+        {searchParams.get('peek') === SearchParamQuickViews.CART && <ShoppingCart />}
+      </Suspense>
     </ShoppingCartFullWrapper>
+  )
+}
+
+function ShoppingCartFallback() {
+  return (
+    <ShoppingCartHeaderWrapper>
+      <ShoppingCartIcon size={30} />
+      <SpinnerCircle size={23} />
+    </ShoppingCartHeaderWrapper>
   )
 }
 

@@ -112,13 +112,15 @@ export const ShoppingCartQuantityWrapper = styled(Row)`
 
 export const ShoppingCartFullWrapper = styled.div`
   height: 100%;
+  min-width: 86px;
 `
 
 export const ShoppingCartHeaderWrapper = styled(Row)`
   height: 100%;
   justify-content: space-evenly;
   gap: 1rem;
-  > * {
+  > svg:first-child,
+  > ${ShoppingCartQuantityWrapper} {
     filter: invert(1);
   }
   padding: 1rem 1.5rem;
