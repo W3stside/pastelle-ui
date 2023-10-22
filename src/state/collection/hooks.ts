@@ -259,3 +259,23 @@ export function useGetProductFromHandle(handle: string | undefined) {
     return product
   }, [current?.id, collections, handle])
 }
+
+type ProductTypeMap = { [key: Product['productType']]: Pick<BaseProductPageProps, 'id' | 'title' | 'handle'>[] }
+export function useGroupCollectionByType(collection?: ProductPageMap): ProductTypeMap {
+  return useMemo(
+    () =>
+      !collection
+        ? {}
+        : Object.values(collection).reduce((prev, product) => {
+            if (product.productType) {
+              const productTypeList = prev[product.productType]
+              prev[product.productType] = [
+                ...(productTypeList || []),
+                { title: product.title, handle: product.handle, id: product.id },
+              ]
+            }
+            return prev
+          }, {} as ProductTypeMap),
+    [collection]
+  )
+}
