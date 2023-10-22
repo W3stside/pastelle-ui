@@ -1,4 +1,4 @@
-import { PstlWeb3AuthConnector } from '@past3lle/wagmi-connectors'
+import { PstlWeb3AuthConnector } from '@past3lle/wagmi-connectors/PstlWeb3AuthConnector'
 import LOGO_512 from 'assets/images/512_logo.png'
 import { pastelleTheme } from 'theme'
 import { Chain } from 'wagmi'

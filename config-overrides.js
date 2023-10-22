@@ -2,6 +2,7 @@
 // @ts-check
 const webpack = require('webpack')
 const { override } = require('customize-cra')
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 function addWebpackOverride(config) {
   const fallback = config.resolve.fallback || {}
@@ -21,6 +22,7 @@ function addWebpackOverride(config) {
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer'],
     }),
+    // new BundleAnalyzerPlugin(),
   ])
   config.ignoreWarnings = [/Failed to parse source map/]
   config.module.rules.push({
