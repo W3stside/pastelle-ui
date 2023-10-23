@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // @ts-check
-const dotEnv = require('dotenv')
 const webpack = require('webpack')
 const { override } = require('customize-cra')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-
-dotEnv.config()
 
 function addWebpackOverride(config) {
   const fallback = config.resolve.fallback || {}
@@ -18,6 +15,7 @@ function addWebpackOverride(config) {
     os: require.resolve('os-browserify'),
     url: require.resolve('url'),
     zlib: require.resolve('browserify-zlib'),
+    path: require.resolve('path-browserify'),
   })
   config.resolve.fallback = fallback
   config.plugins = (config.plugins || []).concat([
@@ -26,8 +24,11 @@ function addWebpackOverride(config) {
       Buffer: ['buffer', 'Buffer'],
     }),
   ])
+
   // Analyze bundle size and show UI
-  if (process.env.ANALYZE_BUNDLE == 'true') config.plugins.concat(new BundleAnalyzerPlugin())
+  if (process.env.REACT_APP_ANALYZE_BUNDLE == 'true') {
+    config.plugins.concat(new BundleAnalyzerPlugin({ analyzerMode: 'server' }))
+  }
 
   config.ignoreWarnings = [/Failed to parse source map/]
   config.module.rules.push({

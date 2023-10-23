@@ -50,6 +50,7 @@
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "customize-cra": "^1.0.0",
+    "dotenv": "^16.3.1",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -60,6 +61,7 @@
     "jotai-devtools": "^0.6.2",
     "lodash.debounce": "^4.0.8",
     "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
     "polished": "^3.3.2",
     "prettier": "^2.8.3",
     "react": "^18.2.0",
@@ -88,7 +90,7 @@
     "webpack-bundle-analyzer": "^4.9.1"
   },
   "scripts": {
-    "analyze": "ANALYZE_BUNDLE=true yarn build",
+    "analyze": "REACT_APP_ANALYZE_BUNDLE=true yarn build",
     "lint": "npx prettier --write src --ignore-path ./.prettierignore",
     "start:mock": "REACT_APP_IS_MOCK=true && yarn start",
     "start": "PORT=8080 GENERATE_SOURCEMAP=false react-app-rewired start",
