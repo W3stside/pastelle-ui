@@ -123,6 +123,7 @@ export function initAnalytics({ interacted, marketing, advertising }: CookiePref
 // }
 
 const DEFAULT_COOKIE_CONSENT = { interacted: false, analytics: true, advertising: false, marketing: false }
+const ANALYTICS_ENABLED = process.env.REACT_APP_DEV_GA == 'true' || process.env.NODE_ENV === 'production'
 
 // tracks web vitals and pageviews
 export function useAnalyticsReporter() {
@@ -135,13 +136,19 @@ export function useAnalyticsReporter() {
   // useBlockchainAnalyticsReporter()
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') return
+    if (!ANALYTICS_ENABLED) {
+      devDebug('[useAnalyticsReporter] --> GOOGLE ANALYTICS DISABLED!')
+      return
+    }
     // Not in dev, init analytics
     googleAnalytics.pageview(`${pathname}${search}`)
   }, [pathname, search])
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') return
+    if (!ANALYTICS_ENABLED) {
+      devDebug('[useAnalyticsReporter] --> GOOGLE ANALYTICS DISABLED!')
+      return
+    }
     // Not in dev, init analytics
     const storageItem = localStorage.getItem(process.env.REACT_APP_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies')
     const consent: typeof DEFAULT_COOKIE_CONSENT = storageItem ? JSON.parse(storageItem) : DEFAULT_COOKIE_CONSENT
