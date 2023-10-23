@@ -161,6 +161,10 @@ export const FRAGMENT_CART_LINE = gql`
       ... on ProductVariant {
         id
         sku
+        selectedOptions {
+          name
+          value
+        }
         size: title
         priceV2 {
           currencyCode
