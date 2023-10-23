@@ -15,11 +15,12 @@ export function addToCartAnalytics(item: ProductVariantQuery['product'], quantit
   sendEvent('add_to_cart', mappedData)
 }
 
-export function removeFromCartAnalytics(item: ProductVariantQuery['product']) {
+export function removeFromCartAnalytics(item: FragmentCartLineFragment['merchandise']) {
   const mappedData = _mapShopifyProductToGA4(item, 1, {
     category: Category.CART,
-    label: `${item?.variantBySelectedOptions?.product.handle} removed from cart`,
+    label: `${item?.product.handle} removed from cart`,
   })
+
   if (!mappedData) return
 
   sendEvent('remove_from_cart', mappedData)
@@ -62,7 +63,7 @@ export async function viewCartAnalytics(cart: CartState) {
 }
 
 function _mapShopifyProductToGA4(
-  item: ProductVariantQuery['product'],
+  item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
   quantity: number,
   params: { category: string; label: string }
 ) {
@@ -78,23 +79,31 @@ function _mapShopifyProductToGA4(
   }
 }
 
-function _shopifyProductVariantToGA(item: ProductVariantQuery['product'], quantity: number, category: Category) {
-  const product = item?.variantBySelectedOptions
+function _shopifyProductVariantToGA(
+  item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
+  quantity: number,
+  category: Category
+) {
+  const product =
+    (item as ProductVariantQuery['product'])?.variantBySelectedOptions ||
+    (item as FragmentCartLineFragment['merchandise'])
+
   if (!product) return null
 
   return [
     product,
     {
-      item_id: product.sku,
-      item_name: product.product.title,
+      item_sku: product?.sku,
+      item_id: product.id,
+      item_name: product?.product?.handle,
       item_brand: 'PASTELLE APPAREL',
-      item_variant: product.selectedOptions.map((options) => options.name + '-' + options.value).join(', '),
       item_category: category,
-      item_category_2: product.product.tags[0],
-      item_category_3: product.product.tags[1],
-      item_category_4: product.product.tags[2],
-      item_category_5: product.product.tags[3],
-      price: parseFloat(product.priceV2.amount),
+      price: parseFloat(product?.priceV2.amount),
+      item_variant: product?.selectedOptions.map((options: any) => options.name + '-' + options.value).join(', '),
+      item_category_2: product?.product?.tags?.[0],
+      item_category_3: product?.product?.tags?.[1],
+      item_category_4: product?.product?.tags?.[2],
+      item_category_5: product?.product?.tags?.[3],
       quantity,
     },
   ] as const
@@ -111,10 +120,10 @@ function _shopifyCartLineToGA(cartLine: FragmentCartLineFragment, quantity: numb
     item_brand: 'PASTELLE APPAREL',
     item_variant: `${merchandise.size}`,
     item_category: category,
-    item_category_2: merchandise.product.tags[0],
-    item_category_3: merchandise.product.tags[1],
-    item_category_4: merchandise.product.tags[2],
-    item_category_5: merchandise.product.tags[3],
+    item_category_2: merchandise.product.tags?.[0],
+    item_category_3: merchandise.product.tags?.[1],
+    item_category_4: merchandise.product.tags?.[2],
+    item_category_5: merchandise.product.tags?.[3],
     price: parseFloat(cartLine?.merchandise?.priceV2?.amount) || 'N/A',
     quantity,
   } as const

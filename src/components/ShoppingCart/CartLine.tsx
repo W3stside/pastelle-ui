@@ -1,6 +1,7 @@
 import { Row, SmartImg } from '@past3lle/components'
 import { useCleanTimeout, usePrevious } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
+import { removeFromCartAnalytics } from 'analytics/events/cartEvents'
 import useQuantitySelector from 'hooks/useQuantitySelector'
 import { ProductSubHeader } from 'pages/common/styleds'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -27,6 +28,7 @@ export default function CartLine({ line }: { line: FragmentCartLineFragment }) {
       ? (e: React.MouseEvent<SVGElement, MouseEvent>) => {
           e.stopPropagation()
           setRemoveOperationLoading(true)
+          removeFromCartAnalytics(line.merchandise)
           removeCartLineCallback(
             { lineIds: [line.id] },
             {
