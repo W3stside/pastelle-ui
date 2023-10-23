@@ -15,7 +15,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 // WEB VITALS
-import reportWebVitals from 'reportWebVitals'
+// import reportWebVitals from 'reportWebVitals'
 import ApolloProvider from 'shopify/graphql/ApolloProvider'
 // STATE
 import store from 'state'
@@ -106,4 +106,4 @@ serviceWorkerRegistration.register()
 
 // WEB VITALS REPORTING
 // README: change to unregister to remove web vitals reporting
-reportWebVitals()
+// reportWebVitals()
