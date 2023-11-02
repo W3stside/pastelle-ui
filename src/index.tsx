@@ -22,7 +22,7 @@ import store from 'state'
 // PASTELLE STORE UPDATERS
 import CartUpdater from 'state/cart/updater'
 import CollectionUpdater from 'state/collection/updater'
-import { AppOnlineStatusUpdater } from 'state/user/appOnlineStatus/updater'
+// import { AppOnlineStatusUpdater } from 'state/user/appOnlineStatus/updater'
 import { VersionUpdater } from 'state/version/updater'
 import { ThemeModes, pastelleTheme } from 'theme'
 import { CustomStaticGlobalCSSProvider, CustomThemedGlobalCSSProvider } from 'theme/global'
@@ -79,7 +79,7 @@ const RootApp = () => (
             <Provider store={store}>
               <BrowserRouter basename="/">
                 <VersionUpdater />
-                <AppOnlineStatusUpdater />
+                {/* <AppOnlineStatusUpdater /> */}
                 <PastelleStoreUpdaters />
                 {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
                 <ThemedCSSProviders />
