@@ -8,13 +8,20 @@ import { ProductVariantQuery } from 'shopify/graphql/types'
 import { useAddLineToCartAndUpdateReduxCallback } from 'state/cart/hooks'
 import styled from 'styled-components/macro'
 
+export interface SpecialThemedButtonProps extends ButtonProps {
+  hoverFilter?: string
+  innerBgColor?: string
+  innerOpacity?: number
+  innerFilter?: string
+  innerHoverFilter?: string
+}
 export type AddToCartButtonParams = {
   label?: string
   asyncLabel?: string
   product: ProductVariantQuery['product']
   quantity: number
   skillLocked: boolean
-  buttonProps?: ButtonProps
+  buttonProps?: SpecialThemedButtonProps
   callback?: (...args: any[]) => void
 }
 
@@ -51,6 +58,8 @@ function useDisappearingMessage(params: { message: string; showAtStart?: boolean
     message,
   }
 }
+
+const CartButton = styled(Button)<{ innerBgColor?: string; color?: string }>``
 
 const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
   {
@@ -89,12 +98,14 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
 
   return (
     <Row ref={forwardedRef} width="100%">
-      <Button
+      <CartButton
         onClick={callback ? callback : skillLocked ? handleLearnMore : handleAddToCart}
         disabled={isDisabled}
         buttonVariant={ButtonVariations.THEME}
         buttonSize={ButtonSizeVariations.SMALL}
         height={LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON + 'rem'}
+        color="black"
+        innerBgColor="#ced9d3"
         // override w/ button props if necessary
         {...buttonProps}
       >
@@ -120,7 +131,7 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
               : label}
           </ProductDescription>
         )}
-      </Button>
+      </CartButton>
       {error && <ErrorMessage error={error} />}
     </Row>
   )

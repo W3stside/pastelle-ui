@@ -23,7 +23,8 @@ interface ActionScreenProps extends BaseScreensProps {
     hideVideoControls?: boolean
   }
   rootNode: HTMLElement | undefined | null
-  styles?: ButtonProps
+  fixedButtonStyles?: ButtonProps
+  staticButtonStyles?: ButtonProps
 }
 const TR_MID_URI = 'w-535,h-60'
 export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
@@ -38,7 +39,8 @@ export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
   product,
   rootNode,
   skillInfo,
-  styles = {},
+  fixedButtonStyles = {},
+  staticButtonStyles = {},
   labels,
 }: ActionScreenProps) {
   const { color } = palette
@@ -71,8 +73,8 @@ export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
             bgImage: mappedSrcSet,
             backgroundColor: color || '#000',
             width: '100%',
-            fontSize: '1.8rem',
-            ...styles,
+            fontSize: '2.2rem',
+            ...staticButtonStyles,
           }}
           callback={callback}
         />
@@ -89,8 +91,8 @@ export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
               bgImage: mappedSrcSet,
               backgroundColor: color || '#000',
               fontSize: '3rem',
-              fontWeight: 200,
-              ...styles,
+              fontWeight: 400,
+              ...fixedButtonStyles,
             }}
             callback={callback}
           />

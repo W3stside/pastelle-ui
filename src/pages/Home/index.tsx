@@ -140,13 +140,19 @@ export default function Home() {
                 <ActionScreen
                   {...commonProps}
                   labels={{
-                    main: 'VIEW COLLECTION',
+                    main: (isMobile ? 'TAP TO ' : '') + 'VIEW COLLECTION',
                     async: 'HEADING TO COLLECTION',
                   }}
                   skillInfo={null}
                   callback={navigateToCollection}
                   fixedWidth={screensContainerNode?.clientWidth}
                   rootNode={rootContainerNode}
+                  fixedButtonStyles={{
+                    fontSize: '2.8rem',
+                  }}
+                  staticButtonStyles={{
+                    fontSize: '2.2rem',
+                  }}
                 >
                   <ProductSubHeader
                     fontWeight={100}
