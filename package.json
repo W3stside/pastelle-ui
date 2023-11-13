@@ -3,7 +3,7 @@
   "description": "PASTELLE Web Interface",
   "homepage": "/",
   "private": true,
-  "version": "1.3.2",
+  "version": "1.3.3",
   "engines": {
     "node": ">=16.20.0"
   },
