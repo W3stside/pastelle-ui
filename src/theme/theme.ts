@@ -57,7 +57,6 @@ export const pstlModalTheme = createWeb3ModalTheme({
         },
       },
       connection: {
-        baseFontSize: 20,
         filter: 'brightness(0.85) contrast(1.8)',
         button: {
           main: {
@@ -79,7 +78,6 @@ export const pstlModalTheme = createWeb3ModalTheme({
         },
       },
       account: {
-        baseFontSize: 10,
         text: {
           main: {
             weight: 700,
