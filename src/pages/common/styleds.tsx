@@ -230,7 +230,7 @@ export const ProductSubHeader = styled(Text.SubHeader)<{
 
 export const ItemBreadcrumb = styled(NavLink)<{ color: string }>`
   &&&&&&&&& {
-    color: ${({ color }) => setBestTextColour(color)};
+    color: ${({ color }) => setBestTextColour(color, 2)};
   }
   font-size: 1.4rem;
   font-weight: 300;
