@@ -64,7 +64,7 @@ export default memo<DescriptionScreenProps>(function DescriptionAndChildren({
             isCollectionView={false}
             logos={{ header: headerLogo, nav: navLogo, main: logo }}
           />
-          {/* From shopify backened console */}
+          {/* From shopify backend console */}
           {skillInfo?.lockStatus !== SkillLockStatus.LOCKED ? (
             <ProductBackendDescription
               dangerouslySetInnerHTML={{ __html: description }}
@@ -72,13 +72,13 @@ export default memo<DescriptionScreenProps>(function DescriptionAndChildren({
               fontWeight={300}
               accentColor={bgColor}
               backgroundColor="transparent"
-              color={mode === ThemeModes.DARK ? content.text : setBestTextColour(color)}
+              color={mode === ThemeModes.DARK ? content.text : setBestTextColour(color, 2)}
               css={`
                 h1:first-of-type {
                   text-decoration: none;
                   font-size: 4rem;
                   > strong {
-                    color: ${setBestTextColour(bgColor)};
+                    color: ${setBestTextColour(bgColor, 2)};
                     background-color: ${bgColor};
                     font-weight: 100;
                     font-variation-settings: 'wght' 50;

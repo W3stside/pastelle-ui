@@ -126,7 +126,7 @@ export const CollectionLabel = styled(Row)<{ isNavOpen: boolean; active: boolean
   ${({ active, bgColor = 'transparent' }) =>
     active &&
     `
-      color: ${setBestTextColour(bgColor)};
+      color: ${setBestTextColour(bgColor, 2)};
       background-color: ${bgColor};
       text-decoration: line-through;
       text-decoration-thickness: from-font;
@@ -136,7 +136,7 @@ export const CollectionLabel = styled(Row)<{ isNavOpen: boolean; active: boolean
   ${({ isNavOpen, bgColor = '#6161a3' }) =>
     isNavOpen &&
     `
-    color: ${setBestTextColour(bgColor)};
+    color: ${setBestTextColour(bgColor, 2)};
     background: linear-gradient(267deg,${bgColor} 33%,transparent);
   `}
 `

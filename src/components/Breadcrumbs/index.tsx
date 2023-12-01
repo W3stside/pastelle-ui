@@ -10,7 +10,7 @@ const BreadcrumbContainer = styled(Row)<{ $color: string }>`
   padding: 1rem;
 
   > a#breadcrumb-link {
-    color: ${({ $color }) => setBestTextColour($color)};
+    color: ${({ $color }) => setBestTextColour($color, ['AAA'])};
   }
 `
 

@@ -10,6 +10,7 @@ import ShowcaseVideoControls from 'components/Showcase/Videos/Settings'
 import useSizeSelector from 'components/SizeSelector'
 import { SHOWCASE_ENABLED } from 'constants/config'
 import { SmartWrapperNodesAndRefs } from 'pages/common'
+import { CTA_BUTTON_PROP_THEMES } from 'pages/common/constants'
 import { useGetCommonPropsFromProduct as useMapToCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPropsFromProduct'
 import {
   HighlightedText,
@@ -129,6 +130,8 @@ export default function SingleProductPage(props: SingleProductPageProps) {
         callback={undefined}
         fixedWidth={screensContainerNode?.clientWidth}
         rootNode={asideContainerRef.current}
+        fixedButtonStyles={CTA_BUTTON_PROP_THEMES.GLACIUS}
+        staticButtonStyles={CTA_BUTTON_PROP_THEMES.GLACIUS}
       >
         {/* SHOWCASE MODEL SHOWCASE SETTINGS */}
         {skillState !== SkillLockStatus.LOCKED && (

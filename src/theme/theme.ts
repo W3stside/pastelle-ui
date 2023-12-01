@@ -36,7 +36,18 @@ export const pstlModalTheme = createWeb3ModalTheme({
         padding: '1em',
         baseFontSize: 20,
         background: {
-          backgroundImg: 'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=h-600,w-360,q-60,bl-5',
+          main: '#715e82',
+          url: 'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=h-600,w-360,q-60,bl-5',
+        },
+        button: {
+          main: {
+            font: {
+              textShadow: '2px 2px 3px #ffffff47',
+            },
+            background: { default: '#24063e9e' },
+            filter: 'hue-rotate(-315deg) saturate(1.2)',
+            hoverAnimations: true,
+          },
         },
         helpers: { show: true, font: { color: defaultThemeColours.red3 } },
         closeIcon: {
@@ -45,7 +56,7 @@ export const pstlModalTheme = createWeb3ModalTheme({
         title: {
           font: {
             style: 'normal',
-            color: '#ffffff9c',
+            color: '#4b2e735c',
             weight: 700,
             letterSpacing: '-1.4px',
             lineHeight: 0.82,
@@ -56,33 +67,53 @@ export const pstlModalTheme = createWeb3ModalTheme({
         },
       },
       connection: {
-        baseFontSize: 20,
         filter: 'brightness(0.85) contrast(1.8)',
         button: {
-          background: {
-            background: '#6c5c84ab',
-            connected: '#37b9927d',
+          main: {
+            background: { default: '#a6a7c8b5' },
+            border: { border: 'none', radius: '1em' },
+            filter: 'hue-rotate(10deg) saturate(4.5)',
+            font: {
+              color: 'ghostwhite',
+              size: '1em',
+              style: 'normal',
+              weight: 200,
+              letterSpacing: '-1px',
+              textShadow: '2px 2px 3px #0000005c',
+              textTransform: 'uppercase',
+            },
+            hoverAnimations: true,
           },
-          font: {
-            color: 'ghostwhite',
-            size: '1em',
-            style: 'normal',
-            weight: 200,
-            letterSpacing: '-1px',
-            textShadow: '2px 2px 3px #0000005c',
-            textTransform: 'uppercase',
+          active: {
+            background: { default: '#37b9927d' },
           },
-          border: { border: 'none', radius: '1em' },
-          hoverAnimations: true,
         },
       },
       account: {
-        baseFontSize: 10,
+        button: {
+          main: {
+            background: { default: '#7a67b0eb' },
+          },
+          alternate: {
+            background: { default: '#a91111' },
+          },
+        },
+        container: {
+          main: {
+            background: '#a6a7c861',
+          },
+          alternate: {
+            background: '#a6a7c861',
+          },
+        },
         text: {
           main: {
-            font: {
-              weight: 700,
-            },
+            color: 'ghostwhite',
+            weight: 700,
+          },
+          subHeader: {
+            color: 'ghostwhite',
+            weight: 400,
           },
         },
       },
@@ -93,11 +124,12 @@ export const pstlModalTheme = createWeb3ModalTheme({
       base: {
         filter: 'invert(1) brightness(0.85) contrast(1.4) hue-rotate(160deg) saturate(1.8)',
         background: {
-          backgroundImg:
-            'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=h-600,w-360,q-60,bl-5,e-grayscale',
+          main: 'white',
+          url: 'https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg?tr=h-600,w-360,q-60,bl-5,e-grayscale',
         },
         closeIcon: {
           color: 'black',
+          size: 55,
         },
         title: {
           font: {
@@ -107,17 +139,41 @@ export const pstlModalTheme = createWeb3ModalTheme({
       },
       account: {
         container: {
-          addressAndBalance: {
-            background: {
-              background: '#ffffff6e',
-            },
+          main: {
+            background: '#0b0b0b38',
+          },
+          alternate: {
+            background: '#0b0b0b38',
+          },
+        },
+        text: {
+          header: {
+            color: '#f8b792',
+          },
+          subHeader: {
+            weight: 100,
           },
         },
         button: {
-          disconnect: {
-            background: {
-              background: '#a9165a',
+          main: {
+            filter: 'saturate(0.6) hue-rotate(73deg)',
+            background: { default: '#b08db396' },
+            hoverAnimations: true,
+          },
+          alternate: {
+            background: { default: '#c24e002b' },
+          },
+        },
+      },
+      connection: {
+        button: {
+          main: {
+            font: {
+              textShadow: '2px 2px 3px #ffffff47',
             },
+            background: { default: '#24063e9e' },
+            filter: 'invert(1) hue-rotate(45deg) saturate(2)',
+            hoverAnimations: true,
           },
         },
       },

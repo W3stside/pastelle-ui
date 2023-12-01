@@ -250,7 +250,7 @@ export const HeaderFrame = styled(Header)<{ open: boolean; color?: string; logoS
     }
   `}
 
-  transition: left,height 0.2s ease-in-out;
+  transition: left 0.2s ease-in-out, height 0.2s ease-in-out;
 `
 
 export const HeaderLinks = styled(Row)<{ color?: string }>`
@@ -263,7 +263,7 @@ export const HeaderLinks = styled(Row)<{ color?: string }>`
   background-color: ${({ color }) => (color ? darken(0.03, color) : DEFAULT_BG)};
 
   > a {
-    color: ${({ color = DEFAULT_BG }) => setBestTextColour(color)};
+    color: ${({ color = DEFAULT_BG }) => setBestTextColour(color, 2)};
     white-space: nowrap;
     flex: 1 0 auto;
 

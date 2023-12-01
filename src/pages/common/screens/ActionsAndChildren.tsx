@@ -1,11 +1,11 @@
-import { ButtonProps, Column } from '@past3lle/components'
+import { ButtonProps, Column, SpecialThemedButtonProps } from '@past3lle/components'
 import { SkillLockStatus } from '@past3lle/forge-web3'
-import { useDetectScrollIntoView } from '@past3lle/hooks'
+import { useDetectScrollIntoView, useIsExtraSmallMediaWidth } from '@past3lle/hooks'
+import { urlToSimpleGenericImageSrcSet } from '@past3lle/theme'
 import ActionButton from 'components/AddToCartButton'
 import { AddToCartButtonWrapper as ActionButtonWrapper, SingleProductScreen } from 'pages/SingleProduct/styled'
 import { ReactNode, memo, useRef } from 'react'
 
-import { useShopifySrcSetToImageKitSrcSet } from '../../../hooks/useShopifySrcSetToImageKitSrcSet'
 import { ProductSubHeader } from '../styleds'
 import { BaseScreensProps } from './types'
 
@@ -23,10 +23,15 @@ interface ActionScreenProps extends BaseScreensProps {
     hideVideoControls?: boolean
   }
   rootNode: HTMLElement | undefined | null
-  fixedButtonStyles?: ButtonProps
-  staticButtonStyles?: ButtonProps
+  fixedButtonStyles?: ButtonProps & SpecialThemedButtonProps
+  staticButtonStyles?: ButtonProps & SpecialThemedButtonProps
 }
-const TR_MID_URI = 'w-535,h-60'
+
+// const TR_MID_URI = 'w-535,h-60'
+const CTA_BUTTON_BG_URL = urlToSimpleGenericImageSrcSet(
+  process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT +
+    '/tr:w-535,h-60/s/files/1/0769/8510/6755/products/nav-bar_136c881a-0d35-494a-9c79-075ff7e67fda_500x.png.webp'
+)
 export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
   callback,
   children,
@@ -34,7 +39,6 @@ export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
   flags,
   header,
   isMobile,
-  metaContent,
   palette,
   product,
   rootNode,
@@ -44,15 +48,13 @@ export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
   labels,
 }: ActionScreenProps) {
   const { color } = palette
-  const { navLogo } = metaContent
   const { variant } = product
 
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const isInView = useDetectScrollIntoView(buttonRef.current, { root: rootNode, continuous: true }, !!rootNode)
+  const isExtraSmall = useIsExtraSmallMediaWidth()
 
   const showSkillLockedUi = skillInfo !== null && skillInfo?.lockStatus === SkillLockStatus.LOCKED
-
-  const mappedSrcSet = useShopifySrcSetToImageKitSrcSet(navLogo, TR_MID_URI)
 
   return (
     <SingleProductScreen padding="0">
@@ -70,10 +72,11 @@ export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
           skillLocked={showSkillLockedUi}
           quantity={1}
           buttonProps={{
-            bgImage: mappedSrcSet,
+            bgImage: CTA_BUTTON_BG_URL,
+            // TODO: remove type cast to any after next @past3lle/components version bump
             backgroundColor: color || '#000',
             width: '100%',
-            fontSize: '2.2rem',
+            fontSize: '2.5rem',
             ...staticButtonStyles,
           }}
           callback={callback}
@@ -88,9 +91,9 @@ export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
             skillLocked={showSkillLockedUi}
             quantity={1}
             buttonProps={{
-              bgImage: mappedSrcSet,
+              bgImage: CTA_BUTTON_BG_URL,
               backgroundColor: color || '#000',
-              fontSize: '3rem',
+              fontSize: isExtraSmall ? '7vw' : '3rem',
               fontWeight: 400,
               ...fixedButtonStyles,
             }}

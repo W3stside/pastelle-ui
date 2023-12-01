@@ -42,8 +42,10 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
         },
       },
       loaderProps: {
+        fontSize: '2.2em',
         spinnerProps: {
-          size: 80,
+          size: 85,
+          filter: 'invert(1) saturate(0.6) hue-rotate(306deg) brightness(2)',
         },
       },
     },

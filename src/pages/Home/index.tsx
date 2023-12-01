@@ -10,6 +10,7 @@ import {
   SingleProductScreensContainer,
 } from 'pages/SingleProduct/styled'
 import { SinglePageSmartWrapper } from 'pages/common'
+import { CTA_BUTTON_PROP_THEMES } from 'pages/common/constants'
 import { useGetCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPropsFromProduct'
 import { useProductWebCarouselActions } from 'pages/common/hooks/useProductCarouselActions'
 import { ProductSubHeader } from 'pages/common/styleds'
@@ -147,12 +148,8 @@ export default function Home() {
                   callback={navigateToCollection}
                   fixedWidth={screensContainerNode?.clientWidth}
                   rootNode={rootContainerNode}
-                  fixedButtonStyles={{
-                    fontSize: '2.8rem',
-                  }}
-                  staticButtonStyles={{
-                    fontSize: '2.2rem',
-                  }}
+                  fixedButtonStyles={CTA_BUTTON_PROP_THEMES.GLACIUS}
+                  staticButtonStyles={CTA_BUTTON_PROP_THEMES.GLACIUS}
                 >
                   <ProductSubHeader
                     fontWeight={100}
