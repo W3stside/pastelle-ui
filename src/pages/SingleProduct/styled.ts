@@ -66,17 +66,11 @@ export const AddToCartButtonWrapper = styled(Row)<{ isInView?: boolean; width?: 
 
   opacity: ${({ isInView }) => (isInView ? 0 : 1)};
 
-  // &:hover {
-  //   opacity: 1;
-  // }
-
-  transition: height, opacity 0.3s ease-out;
+  transition: height 0.3s ease-out, opacity 0.3s ease-out;
 `
 
 export const SingleProductScreen = styled(ProductScreen)`
   ${upToSmall`
-    // height: 100%;
-
     > ${Column} {
       padding: 0 1rem;
     }
@@ -92,7 +86,6 @@ export const SingleProductScreen = styled(ProductScreen)`
     ${StyledCarouselItemContainer} {
       height: 100%;
 
-      // TODO: TESTING THIS STYLE
       picture {
         height: 100%;
         img {
@@ -108,7 +101,6 @@ export const SingleProductContainer = styled(ProductContainer)<{ parentAspectRat
     parentAspectRatio &&
     parentAspectRatio < SIZE_RATIOS[169].landscape * 0.85 &&
     betweenSmallAndLarge`
-      // 16:9 (HORIZONTAL LANDSCAPE) size
       height: calc(100% * 9 / 16 * 1.35);
       margin: auto !important;
     `}

@@ -46,6 +46,16 @@ const VIDEO_CSS = `
 `
 
 const OVERSIZED_CAROUSEL_MEDIA_WIDTH = '140%'
+const SHARED_BUTTON_PROPS = {
+  fontWeight: 200,
+  filter: 'contrast(1.5) hue-rotate(36deg)',
+  hoverFilter: 'contrast(2) hue-rotate(105deg)',
+  innerFilter: 'unset',
+  backgroundColor: 'ghostwhite',
+  color: 'ghostwhite',
+  innerBgColor: 'unset',
+  textShadow: '1px 3px 3px #003b65',
+}
 
 export default function Home() {
   const homepage = useQueryHomepage()
@@ -149,9 +159,13 @@ export default function Home() {
                   rootNode={rootContainerNode}
                   fixedButtonStyles={{
                     fontSize: '2.8rem',
+                    height: '80%',
+                    width: '90%',
+                    ...SHARED_BUTTON_PROPS,
                   }}
                   staticButtonStyles={{
                     fontSize: '2.2rem',
+                    ...SHARED_BUTTON_PROPS,
                   }}
                 >
                   <ProductSubHeader

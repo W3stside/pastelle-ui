@@ -1,4 +1,4 @@
-import { ButtonProps, Column } from '@past3lle/components'
+import { ButtonProps, Column, SpecialThemedButtonProps } from '@past3lle/components'
 import { SkillLockStatus } from '@past3lle/forge-web3'
 import { useDetectScrollIntoView } from '@past3lle/hooks'
 import ActionButton from 'components/AddToCartButton'
@@ -23,8 +23,8 @@ interface ActionScreenProps extends BaseScreensProps {
     hideVideoControls?: boolean
   }
   rootNode: HTMLElement | undefined | null
-  fixedButtonStyles?: ButtonProps
-  staticButtonStyles?: ButtonProps
+  fixedButtonStyles?: ButtonProps & SpecialThemedButtonProps
+  staticButtonStyles?: ButtonProps & SpecialThemedButtonProps
 }
 const TR_MID_URI = 'w-535,h-60'
 export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({

@@ -250,7 +250,7 @@ export const HeaderFrame = styled(Header)<{ open: boolean; color?: string; logoS
     }
   `}
 
-  transition: left,height 0.2s ease-in-out;
+  transition: left 0.2s ease-in-out, height 0.2s ease-in-out;
 `
 
 export const HeaderLinks = styled(Row)<{ color?: string }>`
