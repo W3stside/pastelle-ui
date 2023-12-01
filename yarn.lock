@@ -3056,36 +3056,36 @@
   resolved "https://registry.yarnpkg.com/@past3lle/assets/-/assets-0.1.0.tgz#3521d50c15884e5ffa9b6e906f58ba5a046f2800"
   integrity sha512-zajiOXppbHeP/i9OfBZxovRD0gJZ+qF5OQ7YbcIK9SzsiYnCfiSip5ySpDEOjnDXCryFjkxJzQ4FqXDwMR17Mw==
 
-"@past3lle/carousel-hooks@^1.0.0-alpha.4":
-  version "1.0.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/@past3lle/carousel-hooks/-/carousel-hooks-1.0.0-alpha.4.tgz#5ba513f79c0bce4a5f6152a5bc232beb5c387ea5"
-  integrity sha512-OmrXwD0afxN76+ZlJuDiRdn23Eyeo4lCXegB+WacFq9qAfjhxB4P19CAi7cocuP2VZSUTVoMzjQHmuKoghSgSw==
+"@past3lle/carousel-hooks@^1.0.0-alpha.5":
+  version "1.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/@past3lle/carousel-hooks/-/carousel-hooks-1.0.0-alpha.5.tgz#9efd019c0fefff7eb15517b208cf54c7cf3c7075"
+  integrity sha512-UXY4FBAmkBip+mloyk2CCC2Rr3gWO5V8VthTnuxSmSlL/5iQxGouFHlbx7QxFwaAOph55kpFMtQAdX3oeHOANQ==
   dependencies:
-    "@past3lle/hooks" "^1.0.0-alpha.5"
+    "@past3lle/hooks" "^1.0.0-alpha.6"
     lodash.clamp "^4.0.3"
 
-"@past3lle/carousel@^1.0.0-alpha.5":
-  version "1.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@past3lle/carousel/-/carousel-1.0.0-alpha.5.tgz#50f7fee93c3dd0ae7db0de4380bcf8fa21699107"
-  integrity sha512-Y+bjSknueU6kC4zaPNMfezxs9rdN7SsYHb7j2SC6MsFcIQxjRCklXOSVHjvxgFR5AITuyB5w27mT72ejaOuSjQ==
+"@past3lle/carousel@^1.0.0-alpha.6":
+  version "1.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@past3lle/carousel/-/carousel-1.0.0-alpha.6.tgz#dd59716abaf1dc1f9d261163582e32e23c32eb12"
+  integrity sha512-CcpNtt+02yz6xZ9Rq7U/V+IIMuY8bLt+zx+lu8avkojfsYoib7Xyjl0cMuCqs8uX0L8tiHRutIabGpGyEXo3Kw==
   dependencies:
-    "@past3lle/carousel-hooks" "^1.0.0-alpha.4"
-    "@past3lle/components" "^1.0.0-alpha.5"
-    "@past3lle/hooks" "^1.0.0-alpha.5"
-    "@past3lle/theme" "^0.1.17"
+    "@past3lle/carousel-hooks" "^1.0.0-alpha.5"
+    "@past3lle/components" "^1.0.0-alpha.6"
+    "@past3lle/hooks" "^1.0.0-alpha.6"
+    "@past3lle/theme" "^0.1.18"
     "@past3lle/utils" "^0.1.13"
     polished "^4.2.2"
     react-feather "^2.0.10"
 
-"@past3lle/components@^1.0.0-alpha.5":
-  version "1.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-1.0.0-alpha.5.tgz#ee1b0e8fc3506c67329ece7614bff57f7f84a654"
-  integrity sha512-yzB3iVDvRhmY1lTXQ5xVIPzURYaeyb2wGwI4piugJuKDjQivHqPe7r/thYUvpgKep7klHF3p6qwVcpvj34AF0g==
+"@past3lle/components@^1.0.0-alpha.6":
+  version "1.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@past3lle/components/-/components-1.0.0-alpha.6.tgz#93dd9401dbaa096ed74d9e0bbfdc003f20e6671a"
+  integrity sha512-siw+IO6acBQXsVatsNIbwNzfLgsLkjOIgB4AWb1zceev2M1jTb/KhPGqsiw2nMaQ4MBY9kpCcNan5AJUeEiDbg==
   dependencies:
     "@past3lle/assets" "^0.1.0"
     "@past3lle/constants" "^0.1.13"
-    "@past3lle/hooks" "^1.0.0-alpha.5"
-    "@past3lle/theme" "^0.1.17"
+    "@past3lle/hooks" "^1.0.0-alpha.6"
+    "@past3lle/theme" "^0.1.18"
     "@past3lle/types" "^0.0.26"
     "@past3lle/utils" "^0.1.13"
     "@popperjs/core" "^2.11.6"
@@ -3108,23 +3108,23 @@
   dependencies:
     "@past3lle/utils" "^0.1.13"
 
-"@past3lle/forge-web3@^1.0.0-alpha.8":
-  version "1.0.0-alpha.8"
-  resolved "https://registry.yarnpkg.com/@past3lle/forge-web3/-/forge-web3-1.0.0-alpha.8.tgz#f0e5bc94edf689eb4b838ebd2b8fd0eef76963fd"
-  integrity sha512-APbzBnX7gLs/tgOz6YIISJ4XTjZTl89KSv9CI7pZWuC5rJuEzWlGF7fJgDfM1/GCVlUGbm50TsjkAy9hNYjIZQ==
+"@past3lle/forge-web3@^1.0.0-alpha.9":
+  version "1.0.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@past3lle/forge-web3/-/forge-web3-1.0.0-alpha.9.tgz#d12c7e4365bcfb5d8cf03a9561cac2f9430a74b3"
+  integrity sha512-jQDHNOWX2b6PMKJagZB+jrs0erXvihm4P825/mFWl92iwY6ytaqrlRZnpTXtQpQAgqeaYu2QPM1j/7kPW2/BIg==
   dependencies:
-    "@past3lle/hooks" "^1.0.0-alpha.5"
+    "@past3lle/hooks" "^1.0.0-alpha.6"
     "@past3lle/skilltree-contracts" "^0.1.1"
     "@past3lle/utils" "^0.1.13"
-    "@past3lle/web3-modal" "^2.0.0-alpha.7"
+    "@past3lle/web3-modal" "^2.0.0-alpha.8"
     jotai "^1.13.0"
 
-"@past3lle/hooks@^1.0.0-alpha.5":
-  version "1.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@past3lle/hooks/-/hooks-1.0.0-alpha.5.tgz#11011e782cc642acc749a70cb14c832d7a8da10a"
-  integrity sha512-8d9Mg2/ObzCS8V+bUuHx08Uh49WooqRHoDYhy/4u9XEcgguyAdPRdsQJjnJC2EYiQR7d++k4hQv3werhPYJUjw==
+"@past3lle/hooks@^1.0.0-alpha.6":
+  version "1.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@past3lle/hooks/-/hooks-1.0.0-alpha.6.tgz#6da8e9ca3152377cb11854a4f0b35ac54a2bd383"
+  integrity sha512-cXjBvXjaHa4tuqWJ/Zozu9X2amE1eAAFz1q6sKXl1lO7nSKul46QQbgh+qqrp1QW/RJum+5dvcVNWFAsZ8ZdcQ==
   dependencies:
-    "@past3lle/theme" "^0.1.17"
+    "@past3lle/theme" "^0.1.18"
     "@past3lle/utils" "^0.1.13"
     copy-to-clipboard "^3.3.3"
     lodash.throttle "^4.1.1"
@@ -3138,10 +3138,10 @@
     chai "^4.2.0"
     ethers "^6.4.0"
 
-"@past3lle/theme@^0.1.17":
-  version "0.1.17"
-  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.1.17.tgz#6d849feeec23a5a40ef2cdf2fa09aa45a165cfd2"
-  integrity sha512-uCpcT3EiCdiIeoImJMjrbXmWxJq6wzXUaLyMadoLxZT3IuieEV2U/UXntNaDKbAvr2UinCdPKU06HKbqfa2hPQ==
+"@past3lle/theme@^0.1.18":
+  version "0.1.18"
+  resolved "https://registry.yarnpkg.com/@past3lle/theme/-/theme-0.1.18.tgz#9974dfe2b4637bd1bbec40872c0a7275391d2662"
+  integrity sha512-f6Q5CA2pMFHjSML3VDTdYbihzeMA7YYWK3Ci2HaTbtiFVVLpsyfAImxojP9Lt0WyoPfxnEWADHei3Gi9+kyzZw==
   dependencies:
     "@past3lle/assets" "^0.1.0"
     "@past3lle/constants" "^0.1.13"
@@ -3177,14 +3177,14 @@
     "@web3auth/web3auth-wagmi-connector" "^4.0.0"
     tiny-invariant "^1.3.1"
 
-"@past3lle/web3-modal@^2.0.0-alpha.7":
-  version "2.0.0-alpha.7"
-  resolved "https://registry.yarnpkg.com/@past3lle/web3-modal/-/web3-modal-2.0.0-alpha.7.tgz#3154c9b55ea8f7110a2a10cbcd24304b7632ba67"
-  integrity sha512-cwLl9pFP0pg3L3BI9qEHB4otvMgYMeT1Hkp4/9gKpwOoTBO/dKHSU8qBhU4iwhNs/UFoXHiOc4fy0yyuhGifwA==
+"@past3lle/web3-modal@^2.0.0-alpha.8":
+  version "2.0.0-alpha.8"
+  resolved "https://registry.yarnpkg.com/@past3lle/web3-modal/-/web3-modal-2.0.0-alpha.8.tgz#1ba605f1a34d9ced0becbe47ad606c3cd80f8ec4"
+  integrity sha512-CDhs0DycppfHjDbUO/NKDoUjXWMaFdtMUITyqbIkRv5AZ0yiDaAbnKpmHgyNt3tLhKeEDtTuXeHZXDAJWsRCwg==
   dependencies:
-    "@past3lle/components" "^1.0.0-alpha.5"
-    "@past3lle/hooks" "^1.0.0-alpha.5"
-    "@past3lle/theme" "^0.1.17"
+    "@past3lle/components" "^1.0.0-alpha.6"
+    "@past3lle/hooks" "^1.0.0-alpha.6"
+    "@past3lle/theme" "^0.1.18"
     "@past3lle/utils" "^0.1.13"
     "@past3lle/wagmi-connectors" "^0.1.15-alpha.0"
     "@web3modal/ethereum" "^2.7.1"
