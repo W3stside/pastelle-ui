@@ -25,7 +25,8 @@ export const ArticleFadeInContainer = styled(ArticleFadeIn)`
         ],
       },
       backgroundAttributes: ['center/contain no-repeat', '-1px -1px/contain repeat', 'center/cover no-repeat'],
-      backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'difference' : 'unset',
+      backgroundBlendMode: theme.mode === ThemeModes.DARK ? 'color-burn' : 'unset',
+      backgroundColor: theme.mode === ThemeModes.DARK ? '#694c8430' : undefined,
     })}
 `
 
