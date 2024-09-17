@@ -40,6 +40,14 @@ function addWebpackOverride(config) {
     },
   })
 
+  // fixes "Uncaught TypeError: (0 , superstruct_1.boolean) is not a function" error
+  config.module.rules.map((rule) => {
+    if (rule.oneOf instanceof Array) {
+      rule.oneOf[rule.oneOf.length - 1].exclude = [/\.(js|mjs|jsx|cjs|ts|tsx)$/, /\.html$/, /\.json$/]
+    }
+    return rule
+  })
+
   return config
 }
 
