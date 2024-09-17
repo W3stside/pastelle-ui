@@ -1,5 +1,4 @@
 import { Button, Column, Row } from '@past3lle/components'
-import { ExternalLink } from '@past3lle/components'
 import {
   BLACK,
   fromSmall,
@@ -10,8 +9,9 @@ import {
   textShadowAnimation,
   upToSmallHeight,
 } from '@past3lle/theme'
+import { ExternalLink } from 'components/Navigation/styled'
 import { Text } from 'components/Text'
-import { Z_INDEXES } from 'constants/config'
+import { TRANSPARENT_HEX, Z_INDEXES } from 'constants/config'
 import { SocialType } from 'mock/types'
 import { BaseProductPageProps } from 'pages/common/types'
 import { darken } from 'polished'
@@ -203,7 +203,7 @@ export const ProductSubHeader = styled(Text.SubHeader)<{
   label?: string | boolean
 }>`
   color: ${({ theme }) => theme.content.text};
-  background: ${({ theme: { mode }, useGradient = false, bgColor = 'transparent' }) =>
+  background: ${({ theme: { mode }, useGradient = false, bgColor = TRANSPARENT_HEX }) =>
     useGradient
       ? `linear-gradient(15deg, ${mode === ThemeModes.DARK ? darken(0.1, bgColor) : bgColor} 0%, ${
           mode === ThemeModes.DARK ? BLACK : darken(0.1, bgColor)
@@ -230,7 +230,7 @@ export const ProductSubHeader = styled(Text.SubHeader)<{
 
 export const ItemBreadcrumb = styled(NavLink)<{ color: string }>`
   &&&&&&&&& {
-    color: ${({ color }) => setBestTextColour(color, 2)};
+    color: ${({ color }) => setBestTextColour(color, 2, true)};
   }
   font-size: 1.4rem;
   font-weight: 300;
@@ -329,7 +329,7 @@ export const ProductSubDescription = styled(ProductDescription).attrs((props) =>
   padding: props.padding || '1.8rem',
   margin: props.margin || '2rem 0',
   color: props.theme.content.text,
-  backgroundColor: 'transparent',
+  backgroundColor: TRANSPARENT_HEX,
   fontWeight: props.fontWeight || 400,
 }))`
   display: flex;

@@ -4,7 +4,7 @@ import { getIsMobile } from '@past3lle/utils'
 import Navigation from 'components/Navigation'
 import { ShoppingCartHeader } from 'components/ShoppingCart'
 import { Web3LoginButton } from 'components/Web3LoginButton'
-import { FREE_SHIPPING_THRESHOLD } from 'constants/config'
+import { FREE_SHIPPING_THRESHOLD, TRANSPARENT_HEX } from 'constants/config'
 import { COLLECTION_PATHNAME } from 'constants/navigation'
 import { FreeShippingBanner, ProductSubHeader } from 'pages/common/styleds'
 import { useMemo, useState } from 'react'
@@ -87,7 +87,7 @@ export default function Header() {
           {/* SHOPPING CART */}
           <ShoppingCartHeader />
         </Row>
-        {isMediumOrBelow && <Navigation navOrbProps={{ bgColor: 'transparent', menuSize: 30 }} />}
+        {isMediumOrBelow && <Navigation navOrbProps={{ bgColor: TRANSPARENT_HEX, menuSize: 30 }} />}
       </HeaderRow>
     </HeaderFrame>
   )

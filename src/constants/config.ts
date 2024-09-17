@@ -76,3 +76,6 @@ export const MINIMUM_COLLECTION_ITEM_HEIGHT = 773
 export const DEFAULT_CAROUSEL_ACCENT_COLOR = pastelleTheme.modes.DARK.purple1 || '#000'
 
 export const SHOWCASE_ENABLED = process.env.REACT_APP_USE_SHOWCASE == 'true'
+
+export const TRANSPARENT_HEX = '#e5e5e500'
+export const PLACEHOLDER_HIGHLIGHT_COLOUR = '#fcc4ed' || '#B6B8DC'

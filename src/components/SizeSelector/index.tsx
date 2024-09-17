@@ -21,7 +21,7 @@ const SquareSelectDiv = styled(TYPE.Black)<{ isSelected: boolean; bgColor?: stri
       &&&&& {
         filter: hue-rotate(180deg) saturate(1.5);
         background-color: ${bgColor};
-        color: ${setBestTextColour(bgColor, 2)};
+        color: ${setBestTextColour(bgColor, 2, true)};
         font-weight: 800;
         text-shadow: 0px 0px 3px ${transparentize(0.6, BLACK)};
       }
@@ -47,7 +47,7 @@ const GridSelect = styled(Row)<RowProps & Pick<SizeSelectorProps, 'color'>>`
     text-align: center;
     font-size: 2rem;
     font-weight: 400;
-    color: ${({ theme, color = theme.content.text }) => setBestTextColour(color, 2)};
+    color: ${({ theme, color = theme.content.text }) => setBestTextColour(color, 2, true)};
     height: 7rem;
     flex: 1 1 24%;
 

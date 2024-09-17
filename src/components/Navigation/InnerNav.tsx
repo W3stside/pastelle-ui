@@ -1,8 +1,9 @@
-import { Column, ExternalLink } from '@past3lle/components'
+import { Column } from '@past3lle/components'
 import { useIsSmallMediaWidth } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
 import LoadingRows from 'components/Loader/LoadingRows'
 import ThemeToggleBar from 'components/ThemeToggler'
+import { PLACEHOLDER_HIGHLIGHT_COLOUR } from 'constants/config'
 import { ProductSubHeader } from 'pages/common/styleds'
 import { BaseProductPageProps } from 'pages/common/types'
 import { Fragment, memo, useCallback, useState } from 'react'
@@ -20,6 +21,7 @@ import packageJSON from '../../../package.json'
 import { CollectionSelector } from './CollectionSelector'
 import {
   CollectionLabel,
+  ExternalLink,
   InnerNavWrapper,
   NavRowItem,
   NavigationStepsWrapper,
@@ -182,13 +184,16 @@ const NavProductLine = ({
   isNavOpen,
 }: {
   isNavOpen: boolean
-  handleNavMove: any
-  currentProduct: any
+  handleNavMove: (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    product: { product: Pick<BaseProductPageProps, 'id' | 'title' | 'handle'> }
+  ) => void
+  currentProduct: BaseProductPageProps | undefined
   product: Pick<BaseProductPageProps, 'id' | 'title' | 'handle'>
 }) => (
   <SideEffectNavLink key={product.id} onClick={(e) => handleNavMove(e, { product })}>
     <ProductSubHeader
-      width={'100%'}
+      width="100%"
       padding="2px 0"
       margin="0"
       color={WHITE}
@@ -198,7 +203,7 @@ const NavProductLine = ({
       <CollectionLabel
         isNavOpen={isNavOpen}
         active={product.id === currentProduct?.id}
-        bgColor={currentProduct?.bgColor}
+        bgColor={currentProduct?.bgColor || PLACEHOLDER_HIGHLIGHT_COLOUR}
         justifyContent={isNavOpen ? 'end' : 'start'}
       >
         {product.title}

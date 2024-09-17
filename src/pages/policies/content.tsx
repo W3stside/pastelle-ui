@@ -2,6 +2,7 @@ import { Column } from '@past3lle/components'
 import { useIsSmallMediaWidth } from '@past3lle/hooks'
 import { ArticleFadeInContainer } from 'components/Layout'
 import SEO from 'components/SEO'
+import { TRANSPARENT_HEX } from 'constants/config'
 import { ProductBackendDescription } from 'pages/common/styleds'
 import { useQueryPolicies } from 'shopify/graphql/hooks'
 import { useThemeManager } from 'state/user/hooks'
@@ -9,7 +10,7 @@ import { BLACK_TRANSPARENT, ThemeModes } from 'theme'
 
 const DEFAULT_HTML_PROPS = {
   accentColor: 'navajowhite',
-  backgroundColor: 'transparent',
+  backgroundColor: TRANSPARENT_HEX,
   color: 'ghostwhite',
 }
 

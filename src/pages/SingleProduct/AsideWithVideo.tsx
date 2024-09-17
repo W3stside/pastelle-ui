@@ -8,7 +8,7 @@ import useModelSizeSelector from 'components/ModelSizeSelector'
 import useShowShowcase from 'components/Showcase/Settings'
 import ShowcaseVideoControls from 'components/Showcase/Videos/Settings'
 import useSizeSelector from 'components/SizeSelector'
-import { SHOWCASE_ENABLED } from 'constants/config'
+import { PLACEHOLDER_HIGHLIGHT_COLOUR, SHOWCASE_ENABLED } from 'constants/config'
 import { SmartWrapperNodesAndRefs } from 'pages/common'
 import { CTA_BUTTON_PROP_THEMES } from 'pages/common/constants'
 import { useGetCommonPropsFromProduct as useMapToCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPropsFromProduct'
@@ -54,7 +54,7 @@ export default function SingleProductPage(props: SingleProductPageProps) {
   const {
     id,
     color = '#000',
-    bgColor,
+    bgColor = PLACEHOLDER_HIGHLIGHT_COLOUR,
     artistInfo,
     sizes = [],
     images = [],
@@ -63,7 +63,7 @@ export default function SingleProductPage(props: SingleProductPageProps) {
     description,
   } = product
 
-  const { selectedSize } = useSizeSelector({ sizes })
+  const { selectedSize, SizeSelector } = useSizeSelector({ sizes })
   const variant = useQueryProductVariantByKeyValue({ productId: id, key: 'Size', value: selectedSize })
   // Mapped common props
   const commonProps = useMapToCommonPropsFromProduct({ ...product, variant, lockStatus, isMobile })
@@ -87,7 +87,6 @@ export default function SingleProductPage(props: SingleProductPageProps) {
   const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
 
   const { ShowcaseSettings } = useShowShowcase()
-  const { SizeSelector } = useSizeSelector({ sizes })
   const { ModelSizeSelector } = useModelSizeSelector()
 
   const { mode } = useThemeManager()

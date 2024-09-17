@@ -263,7 +263,7 @@ export const HeaderLinks = styled(Row)<{ color?: string }>`
   background-color: ${({ color }) => (color ? darken(0.03, color) : DEFAULT_BG)};
 
   > a {
-    color: ${({ color = DEFAULT_BG }) => setBestTextColour(color, 2)};
+    color: ${({ color = DEFAULT_BG }) => setBestTextColour(color, 2, true)};
     white-space: nowrap;
     flex: 1 0 auto;
 

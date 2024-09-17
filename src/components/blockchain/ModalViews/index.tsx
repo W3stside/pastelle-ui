@@ -1,6 +1,7 @@
-import { AutoColumn, ColumnCenter, ExternalLink, RowBetween, Text } from '@past3lle/components'
+import { AutoColumn, ColumnCenter, RowBetween, Text } from '@past3lle/components'
 import { useW3UserConnectionInfo } from '@past3lle/forge-web3'
 import Circle from 'assets/images/blue-loader.svg'
+import { ExternalLink } from 'components/Navigation/styled'
 import { ReactNode } from 'react'
 import { ArrowUpCircle } from 'react-feather'
 import styled, { useTheme } from 'styled-components/macro'

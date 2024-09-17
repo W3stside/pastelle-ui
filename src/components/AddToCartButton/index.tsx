@@ -1,6 +1,7 @@
 import { Button, ButtonProps, ButtonSizeVariations, ButtonVariations, Row } from '@past3lle/components'
 import { addToCartAnalytics } from 'analytics/events/cartEvents'
 import ErrorMessage from 'components/ErrorMessage'
+import { TRANSPARENT_HEX } from 'constants/config'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import { ProductDescription } from 'pages/common/styleds'
 import { ForwardedRef, forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
@@ -45,7 +46,7 @@ function useDisappearingMessage(params: { message: string; showAtStart?: boolean
   const DisappearingMessage = useCallback(
     () =>
       showMessage ? (
-        <DisappearingMessageWrapper backgroundColor={'transparent'} padding="1rem">
+        <DisappearingMessageWrapper backgroundColor={TRANSPARENT_HEX} padding="1rem">
           {message}
         </DisappearingMessageWrapper>
       ) : null,

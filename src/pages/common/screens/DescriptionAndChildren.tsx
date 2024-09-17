@@ -1,6 +1,7 @@
 import { Column } from '@past3lle/components'
 import { SkillLockStatus } from '@past3lle/forge-web3'
 import { setBestTextColour } from '@past3lle/theme'
+import { TRANSPARENT_HEX } from 'constants/config'
 import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
 import { SingleProductScreen } from 'pages/SingleProduct/styled'
 import { darken, transparentize } from 'polished'
@@ -26,9 +27,8 @@ export default memo<DescriptionScreenProps>(function DescriptionAndChildren({
   containerNode,
   header,
 }: DescriptionScreenProps) {
-  const { color } = palette
   const { logo, headerLogo, navLogo } = metaContent
-  const { bgColor, altColor } = palette
+  const { color, bgColor = TRANSPARENT_HEX, altColor } = palette
 
   const { mode, content } = useTheme()
 
@@ -71,14 +71,14 @@ export default memo<DescriptionScreenProps>(function DescriptionAndChildren({
               padding="0rem 4rem 2rem"
               fontWeight={300}
               accentColor={bgColor}
-              backgroundColor="transparent"
-              color={mode === ThemeModes.DARK ? content.text : setBestTextColour(color, 2)}
+              backgroundColor={TRANSPARENT_HEX}
+              color={mode === ThemeModes.DARK ? content.text : setBestTextColour(color, 2, true)}
               css={`
                 h1:first-of-type {
                   text-decoration: none;
                   font-size: 4rem;
                   > strong {
-                    color: ${setBestTextColour(bgColor, 2)};
+                    color: ${setBestTextColour(bgColor, 2, true)};
                     background-color: ${bgColor};
                     font-weight: 100;
                     font-variation-settings: 'wght' 50;
@@ -104,7 +104,7 @@ const RedactedInformationDescription = (): JSX.Element => {
       <ProductDescription
         fontWeight={300}
         padding="0rem 4rem 1rem"
-        color={'transparent'}
+        color={TRANSPARENT_HEX}
         css={`
           > * {
             background-color: indianred;

@@ -24,7 +24,7 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
     border-radius: 0.1rem;
     margin: 0 0.5rem;
     background-color: ${({ color = BLACK }) => color};
-    color: ${({ color = BLACK }) => setBestTextColour(color, 2)};
+    color: ${({ color = BLACK }) => setBestTextColour(color, 2, true)};
     min-width: 3rem;
 
     &:first-of-type:not(:disabled) {

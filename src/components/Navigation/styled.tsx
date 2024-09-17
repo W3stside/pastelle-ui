@@ -1,6 +1,6 @@
 import { Button, Column, Row } from '@past3lle/components'
 import { BLACK, setAnimation, setBackgroundWithDPI, setBestTextColour, upToMedium, upToSmall } from '@past3lle/theme'
-import { Z_INDEXES } from 'constants/config'
+import { TRANSPARENT_HEX, Z_INDEXES } from 'constants/config'
 import { darken } from 'polished'
 import styled from 'styled-components/macro'
 import { BLACK_TRANSPARENT_MORE, ThemeModes, getThemeColours } from 'theme'
@@ -123,10 +123,10 @@ export const CollectionLabel = styled(Row)<{ isNavOpen: boolean; active: boolean
   padding: 0 1rem;
   gap: 1rem;
 
-  ${({ active, bgColor = 'transparent' }) =>
+  ${({ active, bgColor = TRANSPARENT_HEX }) =>
     active &&
     `
-      color: ${setBestTextColour(bgColor, 2)};
+      color: ${setBestTextColour(bgColor, 2, true)};
       background-color: ${bgColor};
       text-decoration: line-through;
       text-decoration-thickness: from-font;
@@ -136,7 +136,7 @@ export const CollectionLabel = styled(Row)<{ isNavOpen: boolean; active: boolean
   ${({ isNavOpen, bgColor = '#6161a3' }) =>
     isNavOpen &&
     `
-    color: ${setBestTextColour(bgColor, 2)};
+    color: ${setBestTextColour(bgColor, 2, true)};
     background: linear-gradient(267deg,${bgColor} 33%,transparent);
   `}
 `
@@ -240,3 +240,5 @@ export const PolicyColumnWrapper = styled(Column)`
     }
   `}
 `
+
+export const ExternalLink = styled.a``
