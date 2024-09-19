@@ -1,7 +1,7 @@
 schema:
-  - 'https://${REACT_APP_SHOPIFY_STORE_DOMAIN}/api/${REACT_APP_SHOPIFY_API_VERSION}/graphql':
+  - 'https://${VITE_SHOPIFY_STORE_DOMAIN}/api/${VITE_SHOPIFY_API_VERSION}/graphql':
       headers:
-        X-Shopify-Storefront-Access-Token: ${REACT_APP_SHOPIFY_STOREFRONT_TOKEN}
+        X-Shopify-Storefront-Access-Token: ${VITE_SHOPIFY_STOREFRONT_TOKEN}
 
 documents: 'src/**/!(*.d).{ts,tsx}'
 generates:
