@@ -2,10 +2,10 @@ import { ArticleFadeIn } from '@past3lle/components'
 import { MediaWidths, setBackgroundWithDPI } from '@past3lle/theme'
 import { GenericImageSrcSet } from '@past3lle/types'
 import styled from 'styled-components/macro'
-import { ThemeModes } from 'theme'
-import { ShopImageSrcSet } from 'types'
+import { ThemeModes } from '@/theme'
+import { ShopImageSrcSet } from '@/types'
 
-export const portugalBg = `https://ik.imagekit.io/portugal-bg_Rqj8jTKhFmds.jpg`
+export const portugalBg = `https://ik.imagekit.io/pastelle/portugal-bg_Rqj8jTKhFmds.jpg`
 
 const LOGO_SET = [
   { defaultUrl: portugalBg } as ShopImageSrcSet,

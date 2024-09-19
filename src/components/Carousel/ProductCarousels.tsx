@@ -8,11 +8,11 @@ import {
 } from '@past3lle/carousel'
 import { SmartVideoProps as LazyVideoProps, SmartImageProps, SmartImg } from '@past3lle/components'
 import { useIsMobile as useIsMobileDeviceOrWidth } from '@past3lle/hooks'
-import { SmartImgLoader } from 'components/Loader/SmartImgLoader'
+import { SmartImgLoader } from '@/components/Loader/SmartImgLoader'
 import { useCallback } from 'react'
-import { FragmentProductVideoFragment } from 'shopify/graphql/types'
-import { isProductVideo } from 'shopify/utils'
-import { ShopImageSrcSet } from 'types'
+import { FragmentProductVideoFragment } from '@/shopify/graphql/types'
+import { isProductVideo } from '@/shopify/utils'
+import { ShopImageSrcSet } from '@/types'
 
 import { CarouselShowcaseVideo } from './CarouselShowcaseVideo'
 

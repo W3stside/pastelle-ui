@@ -1,19 +1,19 @@
-import { useAnalyticsReporter } from 'analytics'
-import { CookiesBanner as Cookies } from 'components/Cookies/Banner'
-import { FallbackLoader } from 'components/Loader'
-import { APPAREL_PARAM_NAME, COLLECTION_PARAM_NAME } from 'constants/navigation'
+import { useAnalyticsReporter } from '@/analytics'
+import { CookiesBanner as Cookies } from '@/components/Cookies/Banner'
+import { FallbackLoader } from '@/components/Loader'
+import { APPAREL_PARAM_NAME, COLLECTION_PARAM_NAME } from '@/constants/navigation'
 import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import { useDeriveCurrentCollectionId, useIsCollectionLoading } from 'state/collection/hooks'
+import { useDeriveCurrentCollectionId, useIsCollectionLoading } from '@/state/collection/hooks'
 
-const Home = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HOME" */ 'pages/Home'))
-const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ 'components/Header'))
-const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ 'components/Popups'))
-const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ 'pages/Error/NotFound'))
-const Collection = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "COLLECTION" */ 'pages/Collection'))
-const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ 'components/Navigation'))
-const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ 'pages/SingleProduct'))
-const Policy = lazy(() => import(/* webpackChunkName: "POLICY" */ 'pages/policies'))
+const Home = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HOME" */ '@/pages/Home'))
+const Header = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ '@/components/Header'))
+const Popups = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "POPUPS" */ '@/components/Popups'))
+const NotFound = lazy(() => import(/* webpackChunkName: "NOTFOUND" */ '@/pages/Error/NotFound'))
+const Collection = lazy(() => import(/* webpackPrefetch: true,  webpackChunkName: "COLLECTION" */ '@/pages/Collection'))
+const Navigation = lazy(() => import(/* webpackChunkName: "NAVIGATION" */ '@/components/Navigation'))
+const SingleItem = lazy(() => import(/* webpackChunkName: "SINGLEITEM" */ '@/pages/SingleProduct'))
+const Policy = lazy(() => import(/* webpackChunkName: "POLICY" */ '@/pages/policies'))
 
 export default function App() {
   // attempt to enable analytics, will do nothing if consent not set

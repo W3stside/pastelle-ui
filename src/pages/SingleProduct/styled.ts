@@ -12,14 +12,14 @@ import {
   upToSmall,
   upToSmallHeight,
 } from '@past3lle/theme'
-import { ArticleFadeInContainer } from 'components/Layout'
-import { FIXED_IMAGE_SIZE_CONSTRAINTS, SINGLE_ITEM_LOGO_RATIO, STORE_IMAGE_SIZES } from 'constants/config'
+import { ArticleFadeInContainer } from '@/components/Layout'
+import { FIXED_IMAGE_SIZE_CONSTRAINTS, SINGLE_ITEM_LOGO_RATIO, STORE_IMAGE_SIZES } from '@/constants/config'
 import {
   BASE_FONT_SIZE,
   LAYOUT_REM_HEIGHT_MAP,
   SINGLE_PRODUCT_LOGO_MARGIN_TOP_OFFSET,
   SIZE_RATIOS,
-} from 'constants/sizes'
+} from '@/constants/sizes'
 import {
   ProductAsidePanel,
   ProductContainer,
@@ -27,12 +27,12 @@ import {
   ProductLogoCssImport,
   ProductScreen,
   ProductScreensContainer,
-} from 'pages/common/styleds'
+} from '@/pages/common/styleds'
 import { darken, transparentize } from 'polished'
 import styled from 'styled-components/macro'
-import { ThemeModes } from 'theme'
-import { simmerAnimationCallback } from 'theme/animation'
-import { ShopImageSrcSet } from 'types'
+import { ThemeModes } from '@/theme'
+import { simmerAnimationCallback } from '@/theme/animation'
+import { ShopImageSrcSet } from '@/types'
 
 const PRICE_LABEL_PX =
   (LAYOUT_REM_HEIGHT_MAP.PRICE_LABEL + LAYOUT_REM_HEIGHT_MAP.FIXED_ADD_TO_CART_BUTTON) * BASE_FONT_SIZE

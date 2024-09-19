@@ -1,5 +1,5 @@
 import { SkillLockStatus, SkillMetadata } from '@past3lle/forge-web3'
-import { BaseProductPageProps } from 'pages/common/types'
+import { BaseProductPageProps } from '@/pages/common/types'
 import {
   FragmentProductImageFragment,
   FragmentProductVideoFragment,
@@ -7,8 +7,8 @@ import {
   ProductArtistInfo,
   ProductSizes,
   ProductsList,
-} from 'shopify/graphql/types'
-import { ShopImageSrcSet } from 'types'
+} from '@/shopify/graphql/types'
+import { ShopImageSrcSet } from '@/types'
 
 export function isJson(str: any) {
   if (!str || typeof str !== 'string') {

@@ -2,12 +2,12 @@ import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { load, save } from 'redux-localstorage-simple'
 // APPAREL
-import { cart } from 'state/cart/reducer'
-import { collection } from 'state/collection/reducer'
-import { updateVersion } from 'state/global/actions'
-import { modalsAndPopups } from 'state/modalsAndPopups/reducer'
+import { cart } from '@/state/cart/reducer'
+import { collection } from '@/state/collection/reducer'
+import { updateVersion } from '@/state/global/actions'
+import { modalsAndPopups } from '@/state/modalsAndPopups/reducer'
 // MISC
-import { user } from 'state/user/reducer'
+import { user } from '@/state/user/reducer'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
@@ -30,7 +30,7 @@ const store = configureStore({
   preloadedState: load({
     states: PERSISTED_KEYS,
     namespace: 'PASTELLE_SHOP',
-    disableWarnings: process.env.NODE_ENV === 'production',
+    disableWarnings: import.meta.env.NODE_ENV === 'production',
   }),
 })
 

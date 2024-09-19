@@ -1,5 +1,5 @@
-import { ShoppingCartPanel } from 'components/ShoppingCart'
-import { useGetCartState, useToggleCartAndState } from 'state/cart/hooks'
+import { ShoppingCartPanel } from '@/components/ShoppingCart'
+import { useGetCartState, useToggleCartAndState } from '@/state/cart/hooks'
 
 // Standalone shopping cart panel
 export default function ShoppingCart() {

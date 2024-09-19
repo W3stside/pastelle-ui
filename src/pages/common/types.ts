@@ -1,13 +1,13 @@
 import { SkillLockStatus, SkillMetadata } from '@past3lle/forge-web3'
-import { ScrollableContentComponentBaseProps } from 'components/ScrollingContentPage'
+import { ScrollableContentComponentBaseProps } from '@/components/ScrollingContentPage'
 import {
   FragmentProductImageFragment,
   FragmentProductVideoFragment,
   Product,
   ProductArtistInfo,
   ProductOptionsSize,
-} from 'shopify/graphql/types'
-import { ShopImageSrcSet } from 'types'
+} from '@/shopify/graphql/types'
+import { ShopImageSrcSet } from '@/types'
 
 export interface CommonSinglePageProps {
   bgColor: string

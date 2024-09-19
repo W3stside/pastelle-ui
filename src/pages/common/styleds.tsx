@@ -9,17 +9,17 @@ import {
   textShadowAnimation,
   upToSmallHeight,
 } from '@past3lle/theme'
-import { ExternalLink } from 'components/Navigation/styled'
-import { Text } from 'components/Text'
-import { TRANSPARENT_HEX, Z_INDEXES } from 'constants/config'
+import { ExternalLink } from '@/components/Navigation/styled'
+import { Text } from '@/components/Text'
+import { TRANSPARENT_HEX, Z_INDEXES } from '@/constants/config'
 import { SocialType } from 'mock/types'
-import { BaseProductPageProps } from 'pages/common/types'
+import { BaseProductPageProps } from '@/pages/common/types'
 import { darken } from 'polished'
 import { Dribbble, Instagram } from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components/macro'
-import { ThemeModes } from 'theme'
-import { ShopImageSrcSet } from 'types'
+import { ThemeModes } from '@/theme'
+import { ShopImageSrcSet } from '@/types'
 
 export const ScrollingProductLabel = styled(Row).attrs((props) => ({ padding: '1rem', ...props }))<{
   logo?: ShopImageSrcSet
@@ -199,6 +199,7 @@ export const ProductLogoCollectionView = styled(ProductLogoCssImport)<{ $bgColor
 export const ProductSubHeader = styled(Text.SubHeader)<{
   color?: string
   bgColor?: string
+  borderRadius?: string
   useGradient?: boolean
   label?: string | boolean
 }>`
@@ -210,6 +211,7 @@ export const ProductSubHeader = styled(Text.SubHeader)<{
         } 80%)`
       : bgColor};
   width: 100%;
+  ${({ borderRadius }) => borderRadius && `border-radius: ${borderRadius};`}
 
   ${({ theme, label }) =>
     label &&

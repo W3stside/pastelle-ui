@@ -1,20 +1,20 @@
 import { Column } from '@past3lle/components'
 import { useIsSmallMediaWidth } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
-import LoadingRows from 'components/Loader/LoadingRows'
-import ThemeToggleBar from 'components/ThemeToggler'
-import { PLACEHOLDER_HIGHLIGHT_COLOUR } from 'constants/config'
-import { ProductSubHeader } from 'pages/common/styleds'
-import { BaseProductPageProps } from 'pages/common/types'
+import LoadingRows from '@/components/Loader/LoadingRows'
+import ThemeToggleBar from '@/components/ThemeToggler'
+import { PLACEHOLDER_HIGHLIGHT_COLOUR } from '@/constants/config'
+import { ProductSubHeader } from '@/pages/common/styleds'
+import { BaseProductPageProps } from '@/pages/common/types'
 import { Fragment, memo, useCallback, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
   useDeriveCurrentCollection,
   useGetCurrentOnScreenCollectionProduct,
   useGroupCollectionByType,
-} from 'state/collection/hooks'
-import { URLFlowType, getFlowParams } from 'state/collection/updater'
-import { BLACK_TRANSPARENT_MOST } from 'theme'
+} from '@/state/collection/hooks'
+import { URLFlowType, getFlowParams } from '@/state/collection/updater'
+import { BLACK_TRANSPARENT_MOST } from '@/theme'
 import { buildItemUrl } from 'utils/navigation'
 
 import packageJSON from '../../../package.json'

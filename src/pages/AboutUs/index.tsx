@@ -1,8 +1,8 @@
 import { nanoid } from '@reduxjs/toolkit'
-import { ArticleFadeInContainer } from 'components/Layout'
-import { BASE_MARKDOWN_PATH } from 'components/Markdown/constants'
-import SEO from 'components/SEO'
-import { AsideWithScrollableImages } from 'pages/SingleProduct/AsideWithScrollableImages'
+import { ArticleFadeInContainer } from '@/components/Layout'
+import { BASE_MARKDOWN_PATH } from '@/components/Markdown/constants'
+import SEO from '@/components/SEO'
+import { AsideWithScrollableImages } from '@/pages/SingleProduct/AsideWithScrollableImages'
 
 // assets
 // const david = 'david_Je_k19QVb.jpeg'

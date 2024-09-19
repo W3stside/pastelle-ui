@@ -1,9 +1,9 @@
 import { PNG_LogoCircle_2x } from '@past3lle/assets'
 import { BSV, BV, ButtonProps, Row } from '@past3lle/components'
 import { ReactNode } from 'react'
-import { useThemeManager } from 'state/user/hooks'
-import { ThemeModes } from 'theme'
-import { ShopImageSrcSet } from 'types'
+import { useThemeManager } from '@/state/user/hooks'
+import { ThemeModes } from '@/theme'
+import { ShopImageSrcSet } from '@/types'
 
 import { ThemeToggle, ThemeToggleProps } from './ThemeToggle'
 

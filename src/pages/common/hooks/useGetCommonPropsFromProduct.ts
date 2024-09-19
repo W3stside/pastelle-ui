@@ -1,6 +1,6 @@
 import { SkillLockStatus } from '@past3lle/forge-web3'
 import { useMemo } from 'react'
-import { ProductVariantQuery } from 'shopify/graphql/types'
+import { ProductVariantQuery } from '@/shopify/graphql/types'
 
 import { BaseScreensProps } from '../screens/types'
 import { BaseProductPageProps } from '../types'

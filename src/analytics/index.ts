@@ -5,7 +5,7 @@ import GoogleAnalyticsProvider from './GoogleAnalytics4Provider'
 
 export { useAnalyticsReporter } from './hooks/useAnalyticsReporter'
 
-export const GOOGLE_ANALYTICS_ID: string | undefined = process.env.REACT_APP_GOOGLE_GA_MEASUREMENT_ID
+export const GOOGLE_ANALYTICS_ID: string | undefined = import.meta.env.VITE_GOOGLE_GA_MEASUREMENT_ID
 export const GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY = 'ga_client_id'
 
 export const googleAnalytics = new GoogleAnalyticsProvider()

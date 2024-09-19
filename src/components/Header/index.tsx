@@ -1,16 +1,17 @@
 import { Column, Row, Text } from '@past3lle/components'
 import { useIsMediumMediaWidth } from '@past3lle/hooks'
 import { getIsMobile } from '@past3lle/utils'
-import Navigation from 'components/Navigation'
-import { ShoppingCartHeader } from 'components/ShoppingCart'
-import { Web3LoginButton } from 'components/Web3LoginButton'
-import { FREE_SHIPPING_THRESHOLD, TRANSPARENT_HEX } from 'constants/config'
-import { COLLECTION_PATHNAME } from 'constants/navigation'
-import { FreeShippingBanner, ProductSubHeader } from 'pages/common/styleds'
+import Navigation from '@/components/Navigation'
+import { ShoppingCartHeader } from '@/components/ShoppingCart'
+import { Web3LoginButton } from '@/components/Web3LoginButton'
+import { FREE_SHIPPING_THRESHOLD, TRANSPARENT_HEX } from '@/constants/config'
+import { COLLECTION_PATHNAME } from '@/constants/navigation'
+import { FORGE_WEB3_ENABLED } from '@/constants/flags'
+import { FreeShippingBanner, ProductSubHeader } from '@/pages/common/styleds'
 import { useMemo, useState } from 'react'
 import { Truck } from 'react-feather'
 import { useLocation } from 'react-router-dom'
-import { useCurrentProductMedia, useGetAllProductLogos } from 'state/collection/hooks'
+import { useCurrentProductMedia, useGetAllProductLogos } from '@/state/collection/hooks'
 import { checkIsCollectionPage } from 'utils/navigation'
 
 import { HeaderDrawerButton, HeaderFrame, HeaderRow, Pastellecon, StyledThemeToggleBar, Title } from './styleds'
@@ -68,8 +69,8 @@ export default function Header() {
         {/* THEME TOGGLE - ONLY MEDIUM */}
         <StyledThemeToggleBar themeToggleProps={{ width: '90%' }} />
         {/* WEB3 CONNECT BUTTON */}
-        <Web3LoginButton>LOGIN</Web3LoginButton>
-        <Row id="cart-shipping-banner" flex="row nowrap" gap="1rem" height="100%">
+        {FORGE_WEB3_ENABLED && <Web3LoginButton>LOGIN</Web3LoginButton>}
+        <Row id="cart-shipping-banner" flex="row nowrap" gap="1rem" height="100%" justifyContent="flex-end">
           {/* FREE SHIPPING LABEL */}
           {FREE_SHIPPING_THRESHOLD && (
             <FreeShippingBanner
@@ -78,14 +79,16 @@ export default function Header() {
               flex="auto"
               height="100%"
               minWidth="14rem"
+              maxWidth="min-content"
+              marginLeft="auto"
               padding="0.75rem 1rem"
-              fontSize={'1.5rem'}
+              fontSize="1.5rem"
             >
               <Truck /> {`FREE @ ${FREE_SHIPPING_THRESHOLD}€`}
             </FreeShippingBanner>
           )}
           {/* SHOPPING CART */}
-          <ShoppingCartHeader />
+          <ShoppingCartHeader styleProps={{ justifyContent: 'flex-end', maxWidth: 'min-content' }} />
         </Row>
         {isMediumOrBelow && <Navigation navOrbProps={{ bgColor: TRANSPARENT_HEX, menuSize: 30 }} />}
       </HeaderRow>

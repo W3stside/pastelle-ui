@@ -1,6 +1,6 @@
 import { BLACK } from '@past3lle/theme'
-import { Text as TYPE } from 'components/Text'
-import { Z_INDEXES } from 'constants/config'
+import { Text as TYPE } from '@/components/Text'
+import { Z_INDEXES } from '@/constants/config'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
 

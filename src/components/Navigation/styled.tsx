@@ -1,11 +1,11 @@
 import { Button, Column, Row } from '@past3lle/components'
 import { BLACK, setAnimation, setBackgroundWithDPI, setBestTextColour, upToMedium, upToSmall } from '@past3lle/theme'
-import { TRANSPARENT_HEX, Z_INDEXES } from 'constants/config'
+import { TRANSPARENT_HEX, Z_INDEXES } from '@/constants/config'
 import { darken } from 'polished'
 import styled from 'styled-components/macro'
-import { BLACK_TRANSPARENT_MORE, ThemeModes, getThemeColours } from 'theme'
-import { simmerAnimationCallback } from 'theme/animation'
-import { ShopImageSrcSet } from 'types'
+import { BLACK_TRANSPARENT_MORE, ThemeModes, getThemeColours } from '@/theme'
+import { simmerAnimationCallback } from '@/theme/animation'
+import { ShopImageSrcSet } from '@/types'
 
 import { MobileNavProps } from '.'
 

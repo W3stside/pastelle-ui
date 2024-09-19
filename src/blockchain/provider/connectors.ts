@@ -5,8 +5,8 @@ import GOOGLE_APPLE_LOGO from 'assets/images/google-apple.png'
 export const CONNECTORS = {
   connectors: [
     web3Auth({
-      network: process.env.REACT_APP_WEB3_AUTH_NETWORK as any,
-      projectId: process.env.REACT_APP_WEB3_AUTH_PROJECT_ID as string,
+      network: import.meta.env.VITE_WEB3_AUTH_NETWORK as any,
+      projectId: import.meta.env.VITE_WEB3_AUTH_PROJECT_ID as string,
       storageKey: 'session',
       preset: 'DISALLOW_EXTERNAL_WALLETS',
       mfaLevel: 'none',

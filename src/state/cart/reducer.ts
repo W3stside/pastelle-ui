@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { FragmentCartCostFragment } from 'shopify/graphql/types'
+import { FragmentCartCostFragment } from '@/shopify/graphql/types'
 
 export type CartState = {
   cartId: string | undefined

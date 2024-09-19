@@ -1,6 +1,6 @@
 import { devDebug } from '@past3lle/utils'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useQueryPolicies } from 'shopify/graphql/hooks'
+import { useQueryPolicies } from '@/shopify/graphql/hooks'
 
 import PolicyContent from './content'
 

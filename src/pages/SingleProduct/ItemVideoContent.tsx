@@ -1,12 +1,12 @@
 import { ButtonVariations, RowProps, SmartVideo, SmartVideoProps } from '@past3lle/components'
 import { useDetectScrollIntoView } from '@past3lle/hooks'
 import { getIsMobile, wait } from '@past3lle/utils'
-import { Z_INDEXES } from 'constants/config'
+import { Z_INDEXES } from '@/constants/config'
 import { Fragment, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import { Pause, Play } from 'react-feather'
 import { useLocation } from 'react-router-dom'
-import { FragmentProductVideoFragment } from 'shopify/graphql/types'
-import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
+import { FragmentProductVideoFragment } from '@/shopify/graphql/types'
+import { useUpdateShowcaseVideoSettings } from '@/state/user/hooks'
 
 import {
   ProductSubHeader,

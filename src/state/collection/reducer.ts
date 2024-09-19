@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { BaseProductPageProps } from 'pages/common/types'
-import { Product } from 'shopify/graphql/types'
-import { ShopifyId } from 'shopify/utils'
+import { BaseProductPageProps } from '@/pages/common/types'
+import { Product } from '@/shopify/graphql/types'
+import { ShopifyId } from '@/shopify/utils'
 
 export interface ProductCurrentlyViewing {
   handle: Product['handle']

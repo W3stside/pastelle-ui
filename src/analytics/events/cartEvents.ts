@@ -1,7 +1,7 @@
-import { apolloClient } from 'shopify/graphql/ApolloProvider'
-import { GET_CART } from 'shopify/graphql/queries/cart'
-import { FragmentCartLineFragment, GetCartQuery, ProductVariantQuery } from 'shopify/graphql/types'
-import { CartState } from 'state/cart/reducer'
+import { apolloClient } from '@/shopify/graphql/ApolloClient'
+import { GET_CART } from '@/shopify/graphql/queries/cart'
+import { FragmentCartLineFragment, GetCartQuery, ProductVariantQuery } from '@/shopify/graphql/types'
+import { CartState } from '@/state/cart/reducer'
 
 import { Category, sendEvent } from '../index'
 

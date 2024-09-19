@@ -1,8 +1,9 @@
-import useModelSizeSelector from 'components/ModelSizeSelector'
-import { SelectedShowcaseVideo, SelectedShowcaseVideoProps } from 'components/Showcase/Videos'
-import { ModelInformationOverlay } from 'components/Showcase/Videos/ModelInformationOverlay'
-import { SHOWCASE_ENABLED, Z_INDEXES } from 'constants/config'
-import { useGetShowcaseSettings } from 'state/user/hooks'
+import useModelSizeSelector from '@/components/ModelSizeSelector'
+import { SelectedShowcaseVideo, SelectedShowcaseVideoProps } from '@/components/Showcase/Videos'
+import { ModelInformationOverlay } from '@/components/Showcase/Videos/ModelInformationOverlay'
+import { Z_INDEXES } from '@/constants/config'
+import { SHOWCASE_ENABLED } from '@/constants/flags'
+import { useGetShowcaseSettings } from '@/state/user/hooks'
 
 export function CarouselShowcaseVideo({
   selectedVideo,

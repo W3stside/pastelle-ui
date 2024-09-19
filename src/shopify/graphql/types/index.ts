@@ -1,4 +1,4 @@
-import { ShowcaseGender } from 'state/user/reducer'
+import { ShowcaseGender } from '@/state/user/reducer'
 
 import { AddNewCartLineMutation, GetCartQuery, ProductQuery } from './_generated_'
 

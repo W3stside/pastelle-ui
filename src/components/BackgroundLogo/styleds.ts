@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro'
-import { ThemeModes } from 'theme'
+import { ThemeModes } from '@/theme'
 
 export const LogoContainer = styled.div<{ isHeader: boolean }>`
   position: absolute;

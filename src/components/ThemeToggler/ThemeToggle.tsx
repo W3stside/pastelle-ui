@@ -1,6 +1,6 @@
 import { Button, ButtonProps, ButtonSizeVariations, ButtonVariations } from '@past3lle/components'
 import styled from 'styled-components/macro'
-import { ThemeModes } from 'theme'
+import { ThemeModes } from '@/theme'
 
 const ThemeButtonToggleWrapper = styled.div<{
   disabled: boolean

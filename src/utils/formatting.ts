@@ -1,4 +1,4 @@
-import { CurrencyCode } from 'shopify/graphql/types'
+import { CurrencyCode } from '@/shopify/graphql/types'
 
 /**
  * @name formatCurrency

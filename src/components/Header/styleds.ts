@@ -12,20 +12,20 @@ import {
   upToSmall,
   upToSmallHeight,
 } from '@past3lle/theme'
-import { YellowCard } from 'components/Layout'
-import { MobileNavOrb } from 'components/Navigation/styled'
-import { ShoppingCartFullWrapper, ShoppingCartHeaderWrapper } from 'components/ShoppingCart/styled'
-import ThemeToggleBar from 'components/ThemeToggler'
-import { Web3Button } from 'components/Web3LoginButton'
-import { Z_INDEXES } from 'constants/config'
-import { FreeShippingBanner, ProductSubHeader } from 'pages/common/styleds'
+import { YellowCard } from '@/components/Layout'
+import { MobileNavOrb } from '@/components/Navigation/styled'
+import { ShoppingCartFullWrapper, ShoppingCartHeaderWrapper } from '@/components/ShoppingCart/styled'
+import ThemeToggleBar from '@/components/ThemeToggler'
+import { Web3Button } from '@/components/Web3LoginButton'
+import { Z_INDEXES } from '@/constants/config'
+import { FreeShippingBanner, ProductSubHeader } from '@/pages/common/styleds'
 import { darken, transparentize } from 'polished'
 import { NavLink } from 'react-router-dom'
 import { Text } from 'rebass'
 import styled from 'styled-components/macro'
-import { getThemeColourByKey } from 'theme'
-import { ThemeModes } from 'theme'
-import { ShopImageSrcSet } from 'types'
+import { getThemeColourByKey } from '@/theme'
+import { ThemeModes } from '@/theme'
+import { ShopImageSrcSet } from '@/types'
 
 const DEFAULT_BG = transparentize(0.3, getThemeColourByKey(ThemeModes.DARK, 'bg1', BLACK) as string)
 

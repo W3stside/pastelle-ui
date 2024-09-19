@@ -1,10 +1,10 @@
 import { Row, RowProps } from '@past3lle/components'
 import { BLACK, setBestTextColour, upToExtraSmall } from '@past3lle/theme'
-import { Text as TYPE } from 'components/Text'
+import { Text as TYPE } from '@/components/Text'
 import { transparentize } from 'polished'
 import { useCallback } from 'react'
-import { ProductOptionsSize, ProductSizes } from 'shopify/graphql/types'
-import { useGetShowcaseSettings, useUpdateShowcaseSettings } from 'state/user/hooks'
+import { ProductOptionsSize, ProductSizes } from '@/shopify/graphql/types'
+import { useGetShowcaseSettings, useUpdateShowcaseSettings } from '@/state/user/hooks'
 import styled from 'styled-components/macro'
 
 type SizeSelectorProps = Omit<RowProps, 'sizes'> & {

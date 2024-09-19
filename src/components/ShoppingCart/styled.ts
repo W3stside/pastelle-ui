@@ -1,11 +1,11 @@
 import { Column, Row } from '@past3lle/components'
 import { OFF_WHITE, fromExtraLarge, setFadeInAnimation, upToExtraSmall, upToMedium, upToSmall } from '@past3lle/theme'
-import { TRANSPARENT_HEX, Z_INDEXES } from 'constants/config'
+import { TRANSPARENT_HEX, Z_INDEXES } from '@/constants/config'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
-import { ItemHeader, ProductSubHeader } from 'pages/common/styleds'
+import { ItemHeader, ProductSubHeader } from '@/pages/common/styleds'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
-import { BLACK_TRANSPARENT_MORE } from 'theme'
+import { BLACK_TRANSPARENT_MORE } from '@/theme'
 
 export const CartLineContent = styled(Row)`
   display: grid;
@@ -110,7 +110,7 @@ export const ShoppingCartQuantityWrapper = styled(Row)`
   font-size: 1.5rem;
 `
 
-export const ShoppingCartFullWrapper = styled.div`
+export const ShoppingCartFullWrapper = styled(Row)`
   height: 100%;
   min-width: 86px;
 `

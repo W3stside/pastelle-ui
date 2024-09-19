@@ -1,5 +1,5 @@
-import { ProductSizes } from 'shopify/graphql/types'
-import { pastelleTheme } from 'theme'
+import { ProductSizes } from '@/shopify/graphql/types'
+import { pastelleTheme } from '@/theme'
 
 export const CURRENT_DROP = 1
 export const DEFAULT_COLLECTION_URL = `/drop-${CURRENT_DROP}/collection`
@@ -75,7 +75,5 @@ export const NAV_CSS_LOGO_TRANSFORMS = ['pr-true,dpr-2,q-70,w-183', 'pr-true,dpr
 export const MINIMUM_COLLECTION_ITEM_HEIGHT = 773
 export const DEFAULT_CAROUSEL_ACCENT_COLOR = pastelleTheme.modes.DARK.purple1 || '#000'
 
-export const SHOWCASE_ENABLED = process.env.REACT_APP_USE_SHOWCASE == 'true'
-
 export const TRANSPARENT_HEX = '#e5e5e500'
-export const PLACEHOLDER_HIGHLIGHT_COLOUR = '#fcc4ed' || '#B6B8DC'
+export const PLACEHOLDER_HIGHLIGHT_COLOUR = '#fcc4ed' // || '#B6B8DC'

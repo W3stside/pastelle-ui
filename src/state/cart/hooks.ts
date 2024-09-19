@@ -1,17 +1,17 @@
 import { MutationHookOptions } from '@apollo/client'
-import { viewCartAnalytics } from 'analytics/events/cartEvents'
-import { SearchParamQuickViews } from 'constants/views'
+import { viewCartAnalytics } from '@/analytics/events/cartEvents'
+import { SearchParamQuickViews } from '@/constants/views'
 import { useCallback } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useAddNewCartLine, useRemoveCartLine, useUpdateCartLine } from 'shopify/graphql/hooks'
+import { useAddNewCartLine, useRemoveCartLine, useUpdateCartLine } from '@/shopify/graphql/hooks'
 import {
   RemoveLineParams,
   UpdateLineParams,
   addCartLineAndUpdateStore,
   removeCartLineAndUpdateStore,
   updateCartLineAndUpdateStore,
-} from 'shopify/utils/cart'
-import { useAppDispatch, useAppSelector } from 'state'
+} from '@/shopify/utils/cart'
+import { useAppDispatch, useAppSelector } from '@/state'
 
 import { CartState, CreateCartParams, UpdateCartInfoParams, createCart, setShowCart, updateCartInfo } from './reducer'
 

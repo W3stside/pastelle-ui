@@ -8,8 +8,8 @@ import disconnectionIconDark from 'assets/images/disconnection-dark.png'
 import disconnectionIconLight from 'assets/images/disconnection-light.png'
 import React from 'react'
 import styled, { useTheme } from 'styled-components/macro'
-import { ThemeModes } from 'theme'
-
+import { ThemeModes } from '@/theme'
+import { FORGE_WEB3_ENABLED } from '@/constants/flags'
 interface Props {
   children?: React.ReactNode
   logoUri?: string | null
@@ -22,6 +22,9 @@ export function Web3LoginButton({ logoUri, buttonProps, children }: Props) {
   const { address } = useW3UserConnectionInfo()
 
   const theme = useTheme()
+
+  // Flag enabled/disabled
+  if (!FORGE_WEB3_ENABLED) return null
 
   return (
     <Web3Button disabled={isOpen} onClick={onAccountClick} {...buttonProps}>

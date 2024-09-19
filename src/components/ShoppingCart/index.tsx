@@ -1,19 +1,19 @@
 import { Button, ButtonVariations, Column, SpinnerCircle } from '@past3lle/components'
 import { useIsExtraSmallMediaWidth } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
-import LoadingRows from 'components/Loader/LoadingRows'
-import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
-import { COLLECTION_PARAM_NAME, COLLECTION_PATHNAME } from 'constants/navigation'
-import { SearchParamQuickViews } from 'constants/views'
-import { ProductSubHeader } from 'pages/common/styleds'
+import LoadingRows from '@/components/Loader/LoadingRows'
+import { DEFAULT_CART_LINES_AMOUNT } from '@/constants/config'
+import { COLLECTION_PARAM_NAME, COLLECTION_PATHNAME } from '@/constants/navigation'
+import { SearchParamQuickViews } from '@/constants/views'
+import { ProductSubHeader } from '@/pages/common/styleds'
 import { Suspense, lazy, useCallback, useState } from 'react'
 import { ShoppingCart as ShoppingCartIcon, X } from 'react-feather'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { useQueryCart } from 'shopify/graphql/hooks'
-import { FragmentCartCostFragment, GetCartQuery } from 'shopify/graphql/types'
-import { useGetCartState, useToggleCartAndState } from 'state/cart/hooks'
-import { CartState } from 'state/cart/reducer'
-import { ThemeModes, getThemeColourByKey } from 'theme'
+import { useQueryCart } from '@/shopify/graphql/hooks'
+import { FragmentCartCostFragment, GetCartQuery } from '@/shopify/graphql/types'
+import { useGetCartState, useToggleCartAndState } from '@/state/cart/hooks'
+import { CartState } from '@/state/cart/reducer'
+import { ThemeModes, getThemeColourByKey } from '@/theme'
 import { formatShopifyCurrency } from 'utils/formatting'
 import { checkIsCollectionPage } from 'utils/navigation'
 
@@ -28,9 +28,10 @@ import {
   ShoppingCartPanelWrapper,
   ShoppingCartQuantityWrapper,
 } from './styled'
+import { BoxProps } from 'rebass'
 
 const ShoppingCart = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ 'pages/ShoppingCart')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ '@/pages/ShoppingCart')
 )
 
 const CartLine = lazy(
@@ -41,15 +42,18 @@ function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'
   return <ShoppingCartQuantityWrapper>{totalQuantity}</ShoppingCartQuantityWrapper>
 }
 
+interface ShoppingCartHeaderProps {
+  styleProps?: BoxProps
+}
 // Icon and count to show in header
-export function ShoppingCartHeader() {
+export function ShoppingCartHeader(props: ShoppingCartHeaderProps) {
   const [, openOrCloseCart] = useToggleCartAndState()
   const cart = useGetCartState()
 
   const [searchParams] = useSearchParams()
 
   return (
-    <ShoppingCartFullWrapper>
+    <ShoppingCartFullWrapper {...props?.styleProps}>
       <Suspense fallback={<ShoppingCartFallback />}>
         <ShoppingCartHeaderWrapper onClick={() => openOrCloseCart(true, cart)}>
           <ShoppingCartIcon size={30} />

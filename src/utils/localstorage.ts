@@ -1,4 +1,4 @@
-import { ThemeModes } from 'theme'
+import { ThemeModes } from '@/theme'
 
 function getAndParseLocalStorageItem(key: string) {
   const unparsedVal = localStorage.getItem(key)

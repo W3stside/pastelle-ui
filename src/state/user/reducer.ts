@@ -1,8 +1,8 @@
 import { PastelleTheme as Theme } from '@past3lle/theme'
 import { PayloadAction, createSlice, current } from '@reduxjs/toolkit'
 import { ElementType } from 'react'
-import { ProductSizes } from 'shopify/graphql/types'
-import { ThemeModes } from 'theme'
+import { ProductSizes } from '@/shopify/graphql/types'
+import { ThemeModes } from '@/theme'
 
 const currentTimestamp = () => new Date().getTime()
 

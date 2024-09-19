@@ -1,4 +1,4 @@
-import { MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
+import { MINIMUM_COLLECTION_ITEM_HEIGHT } from '@/constants/config'
 
 export function getMobileShowcaseVideoWidth(innerContainerRef: HTMLElement | null) {
   return innerContainerRef?.clientWidth ? innerContainerRef.clientWidth + 'px' : '120%'

@@ -1,5 +1,5 @@
-import { ExternalLink } from 'components/Navigation/styled'
-import { Text as TYPE } from 'components/Text'
+import { ExternalLink } from '@/components/Navigation/styled'
+import { Text as TYPE } from '@/components/Text'
 import { BoxProps } from 'rebass'
 import { Chain } from 'viem'
 
@@ -10,7 +10,7 @@ interface RarityLabelProps {
   metadata: Record<string, any>
   chain?: Chain
 }
-const SKILLS_URI = process.env.NODE_ENV === 'production' ? 'https://skills.pastelle.shop/' : 'http://localhost:6969/'
+const SKILLS_URI = import.meta.env.NODE_ENV === 'production' ? 'https://skills.pastelle.shop/' : 'http://localhost:6969/'
 export function RarityLabel({ buttonLabel, metadata, chain, styleProps }: RarityLabelProps) {
   const url = `${SKILLS_URI}?forge-network=${chain?.id || 'disconnected'}&forge-skill=${metadata?.properties.id}`
   return (

@@ -6,8 +6,8 @@ import {
   RemoveCartLineMutationVariables,
   UpdateCartLineMutation,
   UpdateCartLineMutationVariables,
-} from 'shopify/graphql/types'
-import { UpdateCartInfoParams } from 'state/cart/reducer'
+} from '@/shopify/graphql/types'
+import { UpdateCartInfoParams } from '@/state/cart/reducer'
 
 type BaseParams = {
   cartId: string | undefined
