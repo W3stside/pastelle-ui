@@ -1,9 +1,9 @@
 import { Column, Row } from '@past3lle/components'
-import { Price } from 'components/Price'
-import { Text as TYPE } from 'components/Text'
-import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
+import { Price } from '@/components/Price'
+import { Text as TYPE } from '@/components/Text'
+import { LAYOUT_REM_HEIGHT_MAP } from '@/constants/sizes'
 import { darken, transparentize } from 'polished'
-import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
+import { useQueryProductVariantByKeyValue } from '@/shopify/graphql/hooks'
 
 import { BaseProductPageProps } from '../types'
 

@@ -1,5 +1,5 @@
 import { devDebug, getIsMobile } from '@past3lle/utils'
-import { Dimensions } from 'analytics/GoogleAnalytics4Provider'
+import { Dimensions } from '@/analytics/GoogleAnalytics4Provider'
 import { useEffect } from 'react'
 import TagManager from 'react-gtm-module'
 import { useLocation } from 'react-router-dom'
@@ -29,9 +29,9 @@ interface CookiePreferences {
 }
 
 export function initGTM() {
-  if (typeof process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID === 'string') {
+  if (typeof import.meta.env.VITE_GOOGLE_TAG_MANAGER_ID === 'string') {
     TagManager.initialize({
-      gtmId: process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID,
+      gtmId: import.meta.env.VITE_GOOGLE_TAG_MANAGER_ID,
     })
   }
 }
@@ -40,7 +40,7 @@ export function initGA4() {
   if (typeof GOOGLE_ANALYTICS_ID === 'string') {
     const storedClientId = window.localStorage.getItem(GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY)
     const gtagOptions: Record<string, any> = {}
-    if (process.env.NODE_ENV !== 'production') {
+    if (import.meta.env.NODE_ENV !== 'production') {
       gtagOptions.debug_mode = true
       gtagOptions.debug = true
     }
@@ -123,11 +123,11 @@ export function initAnalytics({ interacted, marketing, advertising }: CookiePref
 // }
 
 const DEFAULT_COOKIE_CONSENT = { interacted: false, analytics: true, advertising: false, marketing: false }
-const ANALYTICS_ENABLED = process.env.REACT_APP_DEV_GA == 'true' || process.env.NODE_ENV === 'production'
+const ANALYTICS_ENABLED = import.meta.env.VITE_DEV_GA == 'true' || import.meta.env.NODE_ENV === 'production'
 
 // tracks web vitals and pageviews
 export function useAnalyticsReporter() {
-  if (!process.env.REACT_APP_GOOGLE_GA_MEASUREMENT_ID || !process.env.REACT_APP_GOOGLE_TAG_MANAGER_ID) {
+  if (!import.meta.env.VITE_GOOGLE_GA_MEASUREMENT_ID || !import.meta.env.VITE_GOOGLE_TAG_MANAGER_ID) {
     console.error('MISSING GOOGLE GA and/or GOOGLE TAG MANAGER ID KEY! CHECK ENV')
   }
 
@@ -150,7 +150,7 @@ export function useAnalyticsReporter() {
       return
     }
     // Not in dev, init analytics
-    const storageItem = localStorage.getItem(process.env.REACT_APP_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies')
+    const storageItem = localStorage.getItem(import.meta.env.VITE_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies')
     const consent: typeof DEFAULT_COOKIE_CONSENT = storageItem ? JSON.parse(storageItem) : DEFAULT_COOKIE_CONSENT
 
     reportWebVitals()

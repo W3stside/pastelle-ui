@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react'
-import { AppState, useAppDispatch, useAppSelector } from 'state'
+import { AppState, useAppDispatch, useAppSelector } from '@/state'
 
 import {
   ApplicationModal,

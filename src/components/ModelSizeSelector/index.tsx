@@ -1,9 +1,9 @@
 import { Row } from '@past3lle/components'
-import { ProductSubHeader } from 'pages/common/styleds'
+import { ProductSubHeader } from '@/pages/common/styleds'
 import { ChangeEvent, useCallback } from 'react'
 import { ChevronDown } from 'react-feather'
-import { useGetShowcaseSettings, useUpdateShowcaseSettings } from 'state/user/hooks'
-import { ShowcaseGender, ShowcaseHeight, UserState } from 'state/user/reducer'
+import { useGetShowcaseSettings, useUpdateShowcaseSettings } from '@/state/user/hooks'
+import { ShowcaseGender, ShowcaseHeight, UserState } from '@/state/user/reducer'
 import styled from 'styled-components/macro'
 
 const ModelSizeSelectorWrapper = styled(Row)`

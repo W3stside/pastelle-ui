@@ -1,9 +1,9 @@
 import { BaseCarouselProps } from '@past3lle/carousel'
 import { SmartImageProps, SmartImg } from '@past3lle/components'
-import LargeImageCarouselModal, { LargeImageModalStyleProps } from 'components/Carousel/LargeImageModalCarousel'
-import { SmartImgLoader } from 'components/Loader/SmartImgLoader'
-import { STORE_IMAGE_SIZES } from 'constants/config'
-import { ShopImageSrcSet } from 'types'
+import LargeImageCarouselModal, { LargeImageModalStyleProps } from '@/components/Carousel/LargeImageModalCarousel'
+import { SmartImgLoader } from '@/components/Loader/SmartImgLoader'
+import { STORE_IMAGE_SIZES } from '@/constants/config'
+import { ShopImageSrcSet } from '@/types'
 
 interface LargeImageCarouselProps {
   images: ShopImageSrcSet[]

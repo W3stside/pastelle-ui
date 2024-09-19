@@ -1,13 +1,13 @@
 import { Column } from '@past3lle/components'
 import { SkillLockStatus } from '@past3lle/forge-web3'
-import { setBestTextColour } from '@past3lle/theme'
-import { TRANSPARENT_HEX } from 'constants/config'
-import { LAYOUT_REM_HEIGHT_MAP } from 'constants/sizes'
-import { SingleProductScreen } from 'pages/SingleProduct/styled'
+import { OFF_WHITE, setBestTextColour } from '@past3lle/theme'
+import { TRANSPARENT_HEX } from '@/constants/config'
+import { LAYOUT_REM_HEIGHT_MAP } from '@/constants/sizes'
+import { SingleProductScreen } from '@/pages/SingleProduct/styled'
 import { darken, transparentize } from 'polished'
 import { ReactNode, memo } from 'react'
 import { useTheme } from 'styled-components/macro'
-import { ThemeModes } from 'theme'
+import { ThemeModes } from '@/theme'
 
 import Logo from '../components/Logo'
 import { ProductBackendDescription, ProductDescription, ProductSubHeader } from '../styleds'
@@ -78,7 +78,7 @@ export default memo<DescriptionScreenProps>(function DescriptionAndChildren({
                   text-decoration: none;
                   font-size: 4rem;
                   > strong {
-                    color: ${setBestTextColour(bgColor, 2, true)};
+                    color: ${OFF_WHITE};
                     background-color: ${bgColor};
                     font-weight: 100;
                     font-variation-settings: 'wght' 50;

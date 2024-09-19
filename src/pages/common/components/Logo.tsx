@@ -1,8 +1,8 @@
 import { SmartImg } from '@past3lle/components'
 import { getIsMobile } from '@past3lle/utils'
-import { SmartImgLoader } from 'components/Loader/SmartImgLoader'
-import { SINGLE_ITEM_LOGO_RATIO } from 'constants/config'
-import { ShopImageSrcSet } from 'types'
+import { SmartImgLoader } from '@/components/Loader/SmartImgLoader'
+import { SINGLE_ITEM_LOGO_RATIO } from '@/constants/config'
+import { ShopImageSrcSet } from '@/types'
 
 import { LogoBaseStyleProps, ProductLogo, ProductLogoCollectionView, ProductLogoCssImport } from '../styleds'
 

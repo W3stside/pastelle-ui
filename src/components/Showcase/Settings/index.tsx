@@ -1,9 +1,10 @@
-import { TinyHelperText } from 'components/Common'
-import { Text as TYPE } from 'components/Text'
-import { SHOWCASE_ENABLED, Z_INDEXES } from 'constants/config'
-import { ProductSubDescription } from 'pages/common/styleds'
+import { TinyHelperText } from '@/components/Common'
+import { Text as TYPE } from '@/components/Text'
+import { Z_INDEXES } from '@/constants/config'
+import { ProductSubDescription } from '@/pages/common/styleds'
 import { ReactNode, useCallback, useState } from 'react'
 import { useTheme } from 'styled-components/macro'
+import { SHOWCASE_ENABLED } from '@/constants/flags'
 
 export default function useShowShowcase() {
   const theme = useTheme()

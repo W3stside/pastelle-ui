@@ -1,6 +1,6 @@
 import { fromExtraLarge, upToMedium } from '@past3lle/theme'
 import { useMemo } from 'react'
-import { ProductSizes } from 'shopify/graphql/types'
+import { ProductSizes } from '@/shopify/graphql/types'
 import styled from 'styled-components/macro'
 
 const Container = styled.h1<{ isMobile: boolean }>`

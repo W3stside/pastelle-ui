@@ -1,9 +1,9 @@
 import { MediaWidths } from '@past3lle/theme'
 import { DDPXImageUrlMap } from '@past3lle/types'
 import { useMemo } from 'react'
-import { ShopImageSrcSet } from 'types'
+import { ShopImageSrcSet } from '@/types'
 
-const BASE_IK_URI = process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT
+const BASE_IK_URI = import.meta.env.VITE_IMAGEKIT_URL_ENDPOINT
 
 export function useShopifySrcSetToImageKitSrcSet(srcSet: ShopImageSrcSet | undefined, transformations: string) {
   const { defaultUrl: oDefaultUrl, ...restImages } = srcSet || {}

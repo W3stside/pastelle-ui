@@ -4,7 +4,7 @@ import {
   SingleProductAsidePanel,
   SingleProductContainer,
   SingleProductScreensContainer,
-} from 'pages/SingleProduct/styled'
+} from '@/pages/SingleProduct/styled'
 import { MutableRefObject, ReactNode, useMemo, useRef } from 'react'
 import { getNodeAspectRatio } from 'utils/formatting'
 

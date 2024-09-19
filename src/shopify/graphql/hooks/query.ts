@@ -1,10 +1,10 @@
 import { ApolloError, useQuery as useRealQuery } from '@apollo/client'
 import { getLockStatus } from '@past3lle/forge-web3'
 import { devError } from '@past3lle/utils'
-import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
-import { BaseProductPageProps, CollectionMap } from 'pages/common/types'
+import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from '@/constants/config'
+import { BaseProductPageProps, CollectionMap } from '@/pages/common/types'
 import { useParams } from 'react-router-dom'
-import { QUERY_GET_COLLECTION } from 'shopify/graphql/queries/collections'
+import { QUERY_GET_COLLECTION } from '@/shopify/graphql/queries/collections'
 import {
   GetCartQuery,
   GetCartQueryVariables,
@@ -16,9 +16,10 @@ import {
   ProductByIdQueryVariables,
   ProductVariantQuery,
   ProductVariantQueryVariables,
-} from 'shopify/graphql/types'
-import { getMetafields, mapShopifyHomepageToProps, mapShopifyProductToProps } from 'shopify/utils'
-import { useOnScreenProductHandle } from 'state/collection/hooks'
+} from '@/shopify/graphql/types'
+import { getMetafields, mapShopifyHomepageToProps, mapShopifyProductToProps } from '@/shopify/utils'
+import { useOnScreenProductHandle } from '@/state/collection/hooks'
+import { MOCK_ENABLED } from '@/constants/flags'
 
 import { GET_CART } from '../queries/cart'
 import { QUERY_POLICIES } from '../queries/policies'
@@ -27,9 +28,7 @@ import { QUERY_HOMEPAGE, QUERY_PRODUCT_BY_ID, QUERY_PRODUCT_VARIANT_BY_KEY_VALUE
 import { useMockQuery } from './mock/hooks'
 import { MOCK_COLLECTION_DATA } from './mock/queries'
 
-const isMock = process.env.REACT_APP_IS_MOCK === 'true'
-
-const useQuery: typeof useRealQuery = isMock ? (useMockQuery as typeof useRealQuery) : useRealQuery
+const useQuery: typeof useRealQuery = MOCK_ENABLED ? (useMockQuery as typeof useRealQuery) : useRealQuery
 
 export const DEFAULT_CURRENT_COLLECTION_VARIABLES = {
   collectionAmount: 1,
@@ -45,7 +44,7 @@ function useRealQueryCollections(variables: GetCollectionQueryVariables) {
   })
 }
 
-function useMockQueryCollection(variables: GetCollectionQueryVariables, mockOptions?: { error?: Error }) {
+function useMockQueryCollection(_variables: GetCollectionQueryVariables, mockOptions?: { error?: Error }) {
   return {
     data: MOCK_COLLECTION_DATA,
     error: mockOptions?.error,
@@ -53,7 +52,7 @@ function useMockQueryCollection(variables: GetCollectionQueryVariables, mockOpti
   }
 }
 
-export const useQueryRawCollections: typeof useRealQueryCollections = isMock
+export const useQueryRawCollections: typeof useRealQueryCollections = MOCK_ENABLED
   ? (useMockQueryCollection as unknown as typeof useRealQueryCollections)
   : useRealQueryCollections
 

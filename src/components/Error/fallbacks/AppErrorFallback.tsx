@@ -1,13 +1,13 @@
 import { Button, ButtonSizeVariations, ButtonVariations, Row } from '@past3lle/components'
 import { ikUrlToSimpleImageSrcSet, urlToSimpleGenericImageSrcSet } from '@past3lle/theme'
 import LOGO from 'assets/svg/pastelle-cursive-logo.svg'
-import useLogo from 'components/BackgroundLogo'
-import { ArticleFadeInWithBg } from 'components/Layout'
-import SEO from 'components/SEO'
-import { ProductDescription, ProductScreen, ProductSubHeader } from 'pages/common/styleds'
+import useLogo from '@/components/BackgroundLogo'
+import { ArticleFadeInWithBg } from '@/components/Layout'
+import SEO from '@/components/SEO'
+import { ProductDescription, ProductScreen, ProductSubHeader } from '@/pages/common/styleds'
 import { transparentize } from 'polished'
 import { useCallback } from 'react'
-import { getThemeColours } from 'theme'
+import { getThemeColours } from '@/theme'
 
 const bgSrcSet = ikUrlToSimpleImageSrcSet('https://ik.imagekit.io/SHOP/PICTURES/error_picture')
 

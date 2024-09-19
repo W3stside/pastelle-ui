@@ -1,6 +1,6 @@
-import { Text as TYPE } from 'components/Text'
+import { Text as TYPE } from '@/components/Text'
 import { BoxProps } from 'rebass'
-import { MoneyV2 } from 'shopify/graphql/types'
+import { MoneyV2 } from '@/shopify/graphql/types'
 import { formatShopifyCurrency } from 'utils/formatting'
 
 interface PriceProps {

@@ -6,11 +6,14 @@ import { CONTRACT_ADDRESSES_MAP } from '../constants/addresses'
 import { GATEWAY_URIS } from '../constants/ipfs'
 import { METADATA_URIS_MAP } from '../constants/metadata'
 import { WEB3_MODAL_PROPS } from './config'
+import { FORGE_WEB3_ENABLED } from '@/constants/flags'
 
 export function PastelleForgeW3Provider({ children }: { children: ReactNode }) {
   const pastelleTheme = useTheme()
 
   const web3 = useMemo(() => overwriteWeb3PropsWithOuterTheme(WEB3_MODAL_PROPS, pastelleTheme), [pastelleTheme])
+
+  if (!FORGE_WEB3_ENABLED) return children
 
   return (
     <ForgeW3Providers

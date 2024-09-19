@@ -1,0 +1,5 @@
+export const FORGE_WEB3_ENABLED = JSON.parse(import.meta.env.VITE_USE_FORGE || 'false')
+export const SHOWCASE_ENABLED = JSON.parse(import.meta.env.VITE_USE_SHOWCASE || 'false')
+export const CART_ENABLED = JSON.parse(import.meta.env.VITE_USE_CHECKOUT || 'false')
+export const PRE_PROD_ENABLED = JSON.parse(import.meta.env.VITE_IS_PRE_PROD || 'true')
+export const MOCK_ENABLED = JSON.parse(import.meta.env.VITE_IS_MOCK || 'false')

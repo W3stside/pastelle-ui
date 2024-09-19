@@ -4,7 +4,7 @@ import { Modal } from '@past3lle/components'
 import { upToSmall } from '@past3lle/theme'
 import { ForwardedRef, forwardRef } from 'react'
 import styled from 'styled-components/macro'
-import { ShopImageSrcSet } from 'types'
+import { ShopImageSrcSet } from '@/types'
 
 export type LargeImageModalStyleProps = { containerHeight?: string; containerWidth?: string; zoomLevel: number }
 const LargeImageModal = styled(Modal)<LargeImageModalStyleProps>`

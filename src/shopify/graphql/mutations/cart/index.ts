@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { FRAGMENT_CART_SIMPLE } from 'shopify/graphql/queries/fragments'
+import { FRAGMENT_CART_SIMPLE } from '@/shopify/graphql/queries/fragments'
 
 export const CREATE_CART = gql`
   mutation CreateCart {

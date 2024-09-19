@@ -1,10 +1,10 @@
 import { AutoColumn, ImageKitTransformation, Row, SmartImg, Text } from '@past3lle/components'
 import { BLACK } from '@past3lle/theme'
-import { SmartImgLoader } from 'components/Loader/SmartImgLoader'
-import { MarkdownRenderer } from 'components/Markdown'
+import { SmartImgLoader } from '@/components/Loader/SmartImgLoader'
+import { MarkdownRenderer } from '@/components/Markdown'
 import { ReactNode } from 'react'
 import styled from 'styled-components/macro'
-import { ThemeModes, getThemeColourByKey } from 'theme'
+import { ThemeModes, getThemeColourByKey } from '@/theme'
 
 import { ItemHeader, ProductAsidePanel, ProductContainer } from '../common/styleds'
 

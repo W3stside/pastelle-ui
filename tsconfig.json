@@ -1,15 +1,7 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "baseUrl": "src"
-  },
-  "exclude": [
-    "node_modules",
-    "cypress",
-    "src/shopify/graphql/types/types.ts"
-  ],
-  "include": [
-    "src/**/*"
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
   ]
 }

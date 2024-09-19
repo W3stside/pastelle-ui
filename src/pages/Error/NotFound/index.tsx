@@ -1,12 +1,12 @@
 import { ArticleFadeIn, Button as ButtonPrimaryUnstyled, ButtonVariations } from '@past3lle/components'
 import { setBackgroundWithDPI } from '@past3lle/theme'
-import SEO from 'components/SEO'
-import { Z_INDEXES } from 'constants/config'
-import { ItemHeader, ProductSubHeader } from 'pages/common/styleds'
+import SEO from '@/components/SEO'
+import { Z_INDEXES } from '@/constants/config'
+import { ItemHeader, ProductSubHeader } from '@/pages/common/styleds'
 import { transparentize } from 'polished'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components/macro'
-import { ShopImageSrcSet } from 'types'
+import { ShopImageSrcSet } from '@/types'
 
 const ButtonPrimary = styled(ButtonPrimaryUnstyled)``
 

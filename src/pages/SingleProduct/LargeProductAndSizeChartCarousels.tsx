@@ -1,9 +1,9 @@
 import { SkillLockStatus } from '@past3lle/forge-web3'
-import { LargeImageCarousel } from 'components/Carousel/LargeProductImageCarousel'
-import { BaseProductPageProps } from 'pages/common/types'
+import { LargeImageCarousel } from '@/components/Carousel/LargeProductImageCarousel'
+import { BaseProductPageProps } from '@/pages/common/types'
 import { useMemo } from 'react'
-import { getImageSizeMap } from 'shopify/utils'
-import { useLargeImageModal, useSizeChartModal } from 'state/modalsAndPopups/hooks'
+import { getImageSizeMap } from '@/shopify/utils'
+import { useLargeImageModal, useSizeChartModal } from '@/state/modalsAndPopups/hooks'
 
 type Props = Pick<BaseProductPageProps, 'images' | 'lockedImages' | 'sizeChart' | 'color'> & {
   currentIndex: number

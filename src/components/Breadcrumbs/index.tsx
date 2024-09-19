@@ -1,6 +1,6 @@
 import { Row } from '@past3lle/components'
 import { OFF_WHITE, setBestTextColour } from '@past3lle/theme'
-import { ItemBreadcrumb } from 'pages/common/styleds'
+import { ItemBreadcrumb } from '@/pages/common/styleds'
 import { NavLinkProps } from 'react-router-dom'
 import { BoxProps } from 'rebass'
 import styled from 'styled-components/macro'

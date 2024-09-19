@@ -1,7 +1,7 @@
 import { CookieBanner } from '@past3lle/components'
 import { devDebug } from '@past3lle/utils'
-import { initAnalytics } from 'analytics/hooks/useAnalyticsReporter'
-import { useAppColourTheme } from 'state/user/hooks'
+import { initAnalytics } from '@/analytics/hooks/useAnalyticsReporter'
+import { useAppColourTheme } from '@/state/user/hooks'
 
 export function CookiesBanner() {
   const { mode } = useAppColourTheme()
@@ -47,7 +47,7 @@ export function CookiesBanner() {
           }
         }
       `}
-      storageKey={process.env.REACT_APP_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies'}
+      storageKey={import.meta.env.VITE_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies'}
       message={'COOKIES?'}
       fullText={
         <div>

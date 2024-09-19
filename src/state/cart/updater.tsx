@@ -1,11 +1,11 @@
 import { useApolloClient } from '@apollo/client'
 import { devDebug, devError } from '@past3lle/utils'
-import { DEFAULT_CART_LINES_AMOUNT } from 'constants/config'
+import { DEFAULT_CART_LINES_AMOUNT } from '@/constants/config'
 import { useEffect } from 'react'
-import { useCreateCart } from 'shopify/graphql/hooks'
-import { GET_CART } from 'shopify/graphql/queries/cart'
-import { GetCartQuery, GetCartQueryVariables } from 'shopify/graphql/types'
-import { useGetCartIdState, useToggleCartAndState, useUpdateCartInfoDispatch } from 'state/cart/hooks'
+import { useCreateCart } from '@/shopify/graphql/hooks'
+import { GET_CART } from '@/shopify/graphql/queries/cart'
+import { GetCartQuery, GetCartQueryVariables } from '@/shopify/graphql/types'
+import { useGetCartIdState, useToggleCartAndState, useUpdateCartInfoDispatch } from '@/state/cart/hooks'
 
 import { UpdateCartInfoParams } from './reducer'
 
@@ -29,7 +29,7 @@ export default function CartUpdater() {
         await (cartId
           ? _queryAndUpdateCart({ cartId, query, updateCartInfo })
           : _createAndSaveCart({ createCart, updateCartInfo, toggleCartOptions }))
-      } catch (error) {
+      } catch (error: any) {
         if (error?.type === 'EMPTY_CART') {
           devDebug('[CART UPDATER] --> EMPTY_CART - INITIATING NEW CART!')
           _createAndSaveCart({ createCart, updateCartInfo, toggleCartOptions })

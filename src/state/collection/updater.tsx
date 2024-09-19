@@ -1,13 +1,13 @@
-import { PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from 'constants/config'
+import { PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from '@/constants/config'
 import { useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import {
   DEFAULT_CURRENT_COLLECTION_VARIABLES,
   useQueryCollections,
   useQueryProductByIdAndMap,
-} from 'shopify/graphql/hooks'
-import { ProductCollectionSortKeys } from 'shopify/graphql/types'
-import { ShopifyIdType, getShopifyId, shortenShopifyId } from 'shopify/utils'
+} from '@/shopify/graphql/hooks'
+import { ProductCollectionSortKeys } from '@/shopify/graphql/types'
+import { ShopifyIdType, getShopifyId, shortenShopifyId } from '@/shopify/utils'
 
 import { useUpdateCollections, useUpdateCurrentlyViewing, useUpdateSingleProductInCollection } from './hooks'
 

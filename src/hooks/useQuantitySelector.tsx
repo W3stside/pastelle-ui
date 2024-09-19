@@ -4,7 +4,7 @@ import { BLACK, setBestTextColour } from '@past3lle/theme'
 import { ChangeEventHandler, useCallback, useState } from 'react'
 import { Trash2 } from 'react-feather'
 import styled from 'styled-components/macro'
-import { RED } from 'theme'
+import { RED } from '@/theme'
 
 export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
   width: 100%;

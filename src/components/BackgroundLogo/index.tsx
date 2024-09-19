@@ -1,8 +1,8 @@
 import { SmartImg } from '@past3lle/components'
 import { useStateRef } from '@past3lle/hooks'
-import { SmartImgLoader } from 'components/Loader/SmartImgLoader'
+import { SmartImgLoader } from '@/components/Loader/SmartImgLoader'
 import { useCallback, useMemo } from 'react'
-import { ShopImageSrcSet } from 'types'
+import { ShopImageSrcSet } from '@/types'
 
 import { LogoContainer } from './styleds'
 

@@ -1,6 +1,6 @@
 import { useWindowSize } from '@past3lle/hooks'
 import { MEDIA_WIDTHS } from '@past3lle/theme'
-import { ItemHeader, ItemHeaderProps } from 'pages/common/styleds'
+import { ItemHeader, ItemHeaderProps } from '@/pages/common/styleds'
 import { useMemo } from 'react'
 import { TextProps } from 'rebass'
 import styled from 'styled-components/macro'

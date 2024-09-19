@@ -3,15 +3,16 @@ import { SmartVideoProps } from '@past3lle/components'
 import { SkillLockStatus } from '@past3lle/forge-web3'
 import { ThemeSubModesRequired } from '@past3lle/theme'
 import { getIsMobile as getIsMobileDevice } from '@past3lle/utils'
-import { useBreadcrumb } from 'components/Breadcrumb'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import * as Carousels from 'components/Carousel/ProductCarousels'
-import { ProductCarousel } from 'components/Carousel/ProductCarousels'
-import { Z_INDEXES } from 'constants/config'
-import { SingleProductScreen } from 'pages/SingleProduct/styled'
-import Logo from 'pages/common/components/Logo'
+import { useBreadcrumb } from '@/components/Breadcrumb'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
+import * as Carousels from '@/components/Carousel/ProductCarousels'
+import { ProductCarousel } from '@/components/Carousel/ProductCarousels'
+import { Z_INDEXES } from '@/constants/config'
+import { FORGE_WEB3_ENABLED } from '@/constants/flags'
+import { SingleProductScreen } from '@/pages/SingleProduct/styled'
+import Logo from '@/pages/common/components/Logo'
 import { memo, useCallback } from 'react'
-import { ThemeModes } from 'theme'
+import { ThemeModes } from '@/theme'
 import { Address } from 'viem'
 
 import ProductPriceAndLabel from '../components/ProductPriceAndLabel'
@@ -131,7 +132,7 @@ export default memo<AsideCarouselProps>(function AsideCarouselScreen({
       {!hidePrice && (
         <ProductPriceAndLabel variant={variant} color={color} title={title} shortDescription={shortDescription} />
       )}
-      {skillInfo !== null && process.env.REACT_APP_USE_FORGE == 'true' && (
+      {skillInfo !== null && FORGE_WEB3_ENABLED && (
         <ProductRarityAndLabel
           lockStatus={skillInfo.lockStatus}
           variant={variant}

@@ -2,16 +2,17 @@ import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Column, Row } from '@past3lle/components'
 import { SkillLockStatus, useW3UserConnectionInfo } from '@past3lle/forge-web3'
-import { useBreadcrumb } from 'components/Breadcrumb'
-import { TinyHelperTextStyled } from 'components/Common'
-import useModelSizeSelector from 'components/ModelSizeSelector'
-import useShowShowcase from 'components/Showcase/Settings'
-import ShowcaseVideoControls from 'components/Showcase/Videos/Settings'
-import useSizeSelector from 'components/SizeSelector'
-import { PLACEHOLDER_HIGHLIGHT_COLOUR, SHOWCASE_ENABLED } from 'constants/config'
-import { SmartWrapperNodesAndRefs } from 'pages/common'
-import { CTA_BUTTON_PROP_THEMES } from 'pages/common/constants'
-import { useGetCommonPropsFromProduct as useMapToCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPropsFromProduct'
+import { useBreadcrumb } from '@/components/Breadcrumb'
+import { TinyHelperTextStyled } from '@/components/Common'
+import useModelSizeSelector from '@/components/ModelSizeSelector'
+import useShowShowcase from '@/components/Showcase/Settings'
+import ShowcaseVideoControls from '@/components/Showcase/Videos/Settings'
+import useSizeSelector from '@/components/SizeSelector'
+import { PLACEHOLDER_HIGHLIGHT_COLOUR } from '@/constants/config'
+import { FORGE_WEB3_ENABLED, SHOWCASE_ENABLED } from '@/constants/flags'
+import { SmartWrapperNodesAndRefs } from '@/pages/common'
+import { CTA_BUTTON_PROP_THEMES } from '@/pages/common/constants'
+import { useGetCommonPropsFromProduct as useMapToCommonPropsFromProduct } from '@/pages/common/hooks/useGetCommonPropsFromProduct'
 import {
   HighlightedText,
   PASTELLE_CREDIT,
@@ -19,25 +20,28 @@ import {
   ProductCredits,
   ProductDescription,
   ProductSubHeader,
-} from 'pages/common/styleds'
-import { SingleProductPageProps as BaseProps } from 'pages/common/types'
+} from '@/pages/common/styleds'
+import { SingleProductPageProps as BaseProps } from '@/pages/common/types'
 import { lazy, useMemo } from 'react'
-import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
-import { getImageSizeMap } from 'shopify/utils'
-import { useAppSelector } from 'state'
-import { useGetSelectedProductShowcaseVideo } from 'state/collection/hooks'
-import { useLargeImageModal, useSizeChartModal } from 'state/modalsAndPopups/hooks'
-import { useThemeManager } from 'state/user/hooks'
+import { useQueryProductVariantByKeyValue } from '@/shopify/graphql/hooks'
+import { getImageSizeMap } from '@/shopify/utils'
+import { useAppSelector } from '@/state'
+import { useGetSelectedProductShowcaseVideo } from '@/state/collection/hooks'
+import { useLargeImageModal, useSizeChartModal } from '@/state/modalsAndPopups/hooks'
+import { useThemeManager } from '@/state/user/hooks'
 
 const AsideCarousel = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ 'pages/common/screens/AsideCarousel')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/pages/common/screens/AsideCarousel')
 )
 const ActionScreen = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ 'pages/common/screens/ActionsAndChildren')
+  () =>
+    import(/* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/pages/common/screens/ActionsAndChildren')
 )
 const Description = lazy(
   () =>
-    import(/* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ 'pages/common/screens/DescriptionAndChildren')
+    import(
+      /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/pages/common/screens/DescriptionAndChildren'
+    )
 )
 
 export type SingleProductPageProps = BaseProps & SmartWrapperNodesAndRefs
@@ -69,7 +73,7 @@ export default function SingleProductPage(props: SingleProductPageProps) {
   const commonProps = useMapToCommonPropsFromProduct({ ...product, variant, lockStatus, isMobile })
 
   // USER BLOCKCHAIN INFO
-  const { address } = useW3UserConnectionInfo()
+  const { address } = (FORGE_WEB3_ENABLED && useW3UserConnectionInfo()) || { address: undefined }
   // FORGE related user skill state
   const skillState = commonProps.skillInfo?.lockStatus
 

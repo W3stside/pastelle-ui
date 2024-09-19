@@ -3,9 +3,9 @@ import { pauseShowcaseVideoAnalytics, playShowcaseVideoAnalytics, toggleShowcase
 import { useCallback } from 'react'
 import { PauseCircle, PlayCircle, ToggleLeft, ToggleRight } from 'react-feather'
 import { BoxProps } from 'rebass'
-import { useUpdateShowcaseVideoSettings } from 'state/user/hooks'
+import { useUpdateShowcaseVideoSettings } from '@/state/user/hooks'
 import styled, { useTheme } from 'styled-components/macro'
-import { BLACK_TRANSPARENT } from 'theme/colours'
+import { BLACK_TRANSPARENT } from '@/theme/colours'
 
 const ShowcaseVideoControlContainer = styled(Row)`
   flex-flow: column nowrap;

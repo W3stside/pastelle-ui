@@ -1,5 +1,5 @@
 import { SkillLockStatus } from '@past3lle/forge-web3'
-import { useQueryProductVariantByKeyValue } from 'shopify/graphql/hooks'
+import { useQueryProductVariantByKeyValue } from '@/shopify/graphql/hooks'
 
 import { BaseProductPageProps } from '../types'
 

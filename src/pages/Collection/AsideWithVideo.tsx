@@ -1,26 +1,27 @@
 import { Row } from '@past3lle/components'
 import { SkillLockStatus, useW3UserConnectionInfo } from '@past3lle/forge-web3'
 import { useIsMobile, useStateRef } from '@past3lle/hooks'
-import { MINIMUM_COLLECTION_ITEM_HEIGHT } from 'constants/config'
-import { DEFAULT_MEDIA_START_INDEX } from 'pages/common/constants'
-import { useGetCommonPropsFromProduct } from 'pages/common/hooks/useGetCommonPropsFromProduct'
-import { ProductAsidePanel, ProductContainer, ScrollingProductLabel } from 'pages/common/styleds'
-import { CollectionPageProps } from 'pages/common/types'
+import { MINIMUM_COLLECTION_ITEM_HEIGHT } from '@/constants/config'
+import { FORGE_WEB3_ENABLED } from '@/constants/flags'
+import { DEFAULT_MEDIA_START_INDEX } from '@/pages/common/constants'
+import { useGetCommonPropsFromProduct } from '@/pages/common/hooks/useGetCommonPropsFromProduct'
+import { ProductAsidePanel, ProductContainer, ScrollingProductLabel } from '@/pages/common/styleds'
+import { CollectionPageProps } from '@/pages/common/types'
 import { lazy, useMemo, useState } from 'react'
-import { getImageSizeMap } from 'shopify/utils'
-import { useAppSelector } from 'state'
+import { getImageSizeMap } from '@/shopify/utils'
+import { useAppSelector } from '@/state'
 import {
   useCurrentCollection,
   useGetSelectedProductShowcaseVideo,
   useUpdateCurrentlyViewingProduct,
-} from 'state/collection/hooks'
-import { useThemeManager } from 'state/user/hooks'
-import { defaultThemeColours } from 'theme'
+} from '@/state/collection/hooks'
+import { useThemeManager } from '@/state/user/hooks'
+import { defaultThemeColours } from '@/theme'
 
 import { CollectionScreensContainer } from './styled'
 
 const AsideCarousel = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ 'pages/common/screens/AsideCarousel')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/pages/common/screens/AsideCarousel')
 )
 
 export default function CollectionProductPage(props: CollectionPageProps) {
@@ -66,7 +67,7 @@ export default function CollectionProductPage(props: CollectionPageProps) {
   const { mode } = useThemeManager()
 
   // USER BLOCKCHAIN INFO
-  const { address } = useW3UserConnectionInfo()
+  const { address } = (FORGE_WEB3_ENABLED && useW3UserConnectionInfo()) || { address: undefined }
 
   // Src-set of all images
   const imageSrcSet = useMemo(

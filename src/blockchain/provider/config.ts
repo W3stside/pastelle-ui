@@ -1,18 +1,18 @@
 import { ForgeWeb3ModalProps } from '@past3lle/forge-web3'
-import { pstlModalTheme as MODAL_THEME, pastelleTheme } from 'theme'
+import { pstlModalTheme as MODAL_THEME, pastelleTheme } from '@/theme'
 import { polygon, polygonAmoy } from 'wagmi/chains'
 
 import { CONNECTORS } from './connectors'
 
 if (
-  !process.env.REACT_APP_WEB3_MODAL_PROJECT_ID ||
-  !process.env.REACT_APP_WEB3_AUTH_PROJECT_ID ||
-  !process.env.REACT_APP_WEB3_AUTH_NETWORK
+  !import.meta.env.VITE_WEB3_MODAL_PROJECT_ID ||
+  !import.meta.env.VITE_WEB3_AUTH_PROJECT_ID ||
+  !import.meta.env.VITE_WEB3_AUTH_NETWORK
 ) {
   throw new Error('Missing Web3Auth and/or WalletConnect projectID env variables!')
 }
 export const SUPPORTED_CHAINS_BY_ENV =
-  process.env.NODE_ENV === 'production' ? ([polygon] as const) : ([polygonAmoy] as const)
+  import.meta.env.NODE_ENV === 'production' ? ([polygon] as const) : ([polygonAmoy] as const)
 export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
   appName: 'PASTELLE SHOP',
   chains: SUPPORTED_CHAINS_BY_ENV as any,
@@ -35,7 +35,7 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
       },
     },
     walletConnect: {
-      projectId: process.env.REACT_APP_WEB3_MODAL_PROJECT_ID,
+      projectId: import.meta.env.VITE_WEB3_MODAL_PROJECT_ID,
       themeMode: 'dark',
       themeVariables: {
         '--wcm-background-color': pastelleTheme.blackOpaque,

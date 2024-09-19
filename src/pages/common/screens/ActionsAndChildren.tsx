@@ -2,8 +2,8 @@ import { ButtonProps, Column, SpecialThemedButtonProps } from '@past3lle/compone
 import { SkillLockStatus } from '@past3lle/forge-web3'
 import { useDetectScrollIntoView, useIsExtraSmallMediaWidth } from '@past3lle/hooks'
 import { urlToSimpleGenericImageSrcSet } from '@past3lle/theme'
-import ActionButton from 'components/AddToCartButton'
-import { AddToCartButtonWrapper as ActionButtonWrapper, SingleProductScreen } from 'pages/SingleProduct/styled'
+import ActionButton from '@/components/AddToCartButton'
+import { AddToCartButtonWrapper as ActionButtonWrapper, SingleProductScreen } from '@/pages/SingleProduct/styled'
 import { ReactNode, memo, useRef } from 'react'
 
 import { ProductSubHeader } from '../styleds'
@@ -29,7 +29,7 @@ interface ActionScreenProps extends BaseScreensProps {
 
 // const TR_MID_URI = 'w-535,h-60'
 const CTA_BUTTON_BG_URL = urlToSimpleGenericImageSrcSet(
-  process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT +
+  import.meta.env.VITE_IMAGEKIT_URL_ENDPOINT +
     '/tr:w-535,h-60/s/files/1/0769/8510/6755/products/nav-bar_136c881a-0d35-494a-9c79-075ff7e67fda_500x.png.webp'
 )
 export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
