@@ -62,7 +62,7 @@ export function ModelInformationOverlay({
           see different models wearing different sizes!
         </>
       ),
-    [isFallback, isMobile, itemSize, modelSize]
+    [isFallback, isMobile, itemSize, modelSize],
   )
   return <Container isMobile={!!isMobile}>{content}</Container>
 }

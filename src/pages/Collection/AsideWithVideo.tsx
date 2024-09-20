@@ -21,7 +21,7 @@ import { defaultThemeColours } from '@/theme'
 import { CollectionScreensContainer } from './styled'
 
 const AsideCarousel = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/pages/common/screens/AsideCarousel')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/pages/common/screens/AsideCarousel'),
 )
 
 export default function CollectionProductPage(props: CollectionPageProps) {
@@ -72,7 +72,7 @@ export default function CollectionProductPage(props: CollectionPageProps) {
   // Src-set of all images
   const imageSrcSet = useMemo(
     () => getImageSizeMap(lockStatus === SkillLockStatus.LOCKED ? lockedImages : images),
-    [lockedImages, lockStatus, images]
+    [lockedImages, lockStatus, images],
   )
 
   return (

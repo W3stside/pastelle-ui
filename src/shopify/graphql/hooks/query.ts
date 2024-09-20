@@ -91,7 +91,7 @@ export function useQueryCollections(variables: GetCollectionQueryVariables) {
 }
 
 export function useQueryCurrentCollection(
-  variables: Omit<GetCollectionQueryVariables, 'reverse' | 'collectionAmount'>
+  variables: Omit<GetCollectionQueryVariables, 'reverse' | 'collectionAmount'>,
 ) {
   const response = useQueryRawCollections({ ...variables, collectionAmount: 1, reverse: true })
 
@@ -99,7 +99,7 @@ export function useQueryCurrentCollection(
 }
 
 export function useQueryCurrentCollectionProductsFromUrl(
-  variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
+  variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES,
 ) {
   // we need to use the URL to determine what item we're currently viewing
   const { handle } = useParams()
@@ -116,7 +116,7 @@ export function useQueryCurrentCollectionProductsFromUrl(
 }
 
 export function useQueryCurrentOnScreenCollectionProduct(
-  variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES
+  variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES,
 ) {
   const { collectionProductMap } = useQueryCurrentCollection(variables)
   const item = useOnScreenProductHandle()
@@ -141,11 +141,11 @@ export function useQueryHomepage() {
 }
 
 export function useQueryProductVariantByKeyValue(
-  variables: ProductVariantQueryVariables
+  variables: ProductVariantQueryVariables,
 ): ProductVariantQuery['product'] | null | undefined {
   const { data, error } = useQuery<ProductVariantQuery, ProductVariantQueryVariables>(
     QUERY_PRODUCT_VARIANT_BY_KEY_VALUE,
-    { variables }
+    { variables },
   )
   if (error) {
     devError(error)

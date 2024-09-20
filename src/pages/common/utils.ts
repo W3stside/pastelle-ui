@@ -13,7 +13,7 @@ export function setHeightLqTransforms(
   {
     showLoading = false,
     heightDefault = MINIMUM_COLLECTION_ITEM_HEIGHT,
-  }: { heightDefault?: number; showLoading?: boolean }
+  }: { heightDefault?: number; showLoading?: boolean },
 ) {
   return {
     width: node?.clientHeight || heightDefault,
@@ -23,7 +23,7 @@ export function setHeightLqTransforms(
 }
 export function setWidthLqTransforms(
   node: HTMLElement | undefined | null,
-  { showLoading = false, widthDefault = 500 }: { widthDefault?: number; showLoading?: boolean }
+  { showLoading = false, widthDefault = 500 }: { widthDefault?: number; showLoading?: boolean },
 ) {
   return {
     width: node?.clientWidth || widthDefault,

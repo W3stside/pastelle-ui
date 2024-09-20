@@ -31,7 +31,7 @@ export function useUpdateCurrentlyViewing() {
 export const useOnScreenProductHandle = () => useAppSelector(({ collection }) => collection.currentlyViewing)
 export function useUpdateCurrentlyViewingProduct(
   isActive: boolean | undefined,
-  product?: Pick<Product, 'handle' | 'id'> | null
+  product?: Pick<Product, 'handle' | 'id'> | null,
 ) {
   const updateCurrentlyViewing = useUpdateCurrentlyViewing()
   useEffect(() => {
@@ -44,7 +44,7 @@ export function useUpdateCurrentlyViewingProduct(
 
 export function useUpdateCurrentlyViewingCollection(
   isActive: boolean | undefined,
-  collection?: Pick<CollectionProductMap, 'title' | 'id'> | null
+  collection?: Pick<CollectionProductMap, 'title' | 'id'> | null,
 ) {
   const updateCurrentCollection = useUpdateCurrentCollection()
   useEffect(() => {
@@ -88,7 +88,7 @@ export function useUpdateCurrentCollection() {
   const dispatch = useAppDispatch()
   return useCallback(
     (id: string | undefined, loading: boolean) => dispatch(updateCurrentCollection({ id, loading })),
-    [dispatch]
+    [dispatch],
   )
 }
 
@@ -96,7 +96,7 @@ export function useUpdateCollections() {
   const dispatch = useAppDispatch()
   return useCallback(
     (collections: CollectionProductMap[], loading: boolean) => dispatch(updateCollections({ collections, loading })),
-    [dispatch]
+    [dispatch],
   )
 }
 
@@ -104,7 +104,7 @@ export function useUpdateSingleProductInCollection() {
   const dispatch = useAppDispatch()
   return useCallback(
     (product: ProductPageMap[string], id: string) => dispatch(updateSingleProductInCollection({ product, id })),
-    [dispatch]
+    [dispatch],
   )
 }
 
@@ -177,7 +177,7 @@ export function useCurrentProductMedia(isHomepage?: boolean) {
       logoSet: currentItem?.logo,
       navLogoSet: currentItem?.navLogo,
     }),
-    [currentItem]
+    [currentItem],
   )
 }
 
@@ -203,7 +203,7 @@ export function useGetSelectedProductShowcaseVideo(props: Pick<ShowcaseVideosPro
       videoMap[isMobileDeviceOrWidth ? mobileKey : webKey] ||
       videoMap[webKey] ||
       _extendVideo(videoMap[fallback], { isFallback: true }),
-    [mobileKey, videoMap, webKey, fallback, isMobileDeviceOrWidth]
+    [mobileKey, videoMap, webKey, fallback, isMobileDeviceOrWidth],
   )
 }
 type ConstructShowcaseDataProps = Pick<ShowcaseVideosProps, 'videos'> &
@@ -235,7 +235,7 @@ function _constructShowcaseData({ videos, gender, height, size }: ConstructShowc
 
 function _extendVideo<T extends FragmentProductVideoFragment, E extends Record<any, any>>(
   video: T,
-  extension: E
+  extension: E,
 ): T & E {
   return Object.assign({}, video, extension)
 }
@@ -276,6 +276,6 @@ export function useGroupCollectionByType(collection?: ProductPageMap): ProductTy
             }
             return prev
           }, {} as ProductTypeMap),
-    [collection]
+    [collection],
   )
 }

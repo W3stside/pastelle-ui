@@ -48,7 +48,7 @@ export function useAddTxPopup(): (content: TxPopupContent, key?: string) => void
     (content: TxPopupContent, key?: string) => {
       dispatch(addTxPopup({ content, key }))
     },
-    [dispatch]
+    [dispatch],
   )
 }
 
@@ -60,7 +60,7 @@ export function useAddPopup(): (content: PopupContent, key?: string) => void {
     (content: PopupContent, key?: string) => {
       dispatch(addAnyPopup({ content, key }))
     },
-    [dispatch]
+    [dispatch],
   )
 }
 
@@ -71,7 +71,7 @@ export function useRemovePopup() {
     (payload: Parameters<typeof removePopup>[0]) => {
       dispatch(removePopup(payload))
     },
-    [dispatch]
+    [dispatch],
   )
 }
 

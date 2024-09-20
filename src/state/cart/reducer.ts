@@ -31,7 +31,7 @@ const cartSlice = createSlice({
     },
     updateCartInfo(
       state,
-      { payload: { cartId, totalQuantity = 0, costs = undefined } }: PayloadAction<UpdateCartInfoParams>
+      { payload: { cartId, totalQuantity = 0, costs = undefined } }: PayloadAction<UpdateCartInfoParams>,
     ) {
       state.cartId = cartId
       state.totalQuantity = totalQuantity

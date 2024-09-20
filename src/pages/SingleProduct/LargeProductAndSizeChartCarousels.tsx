@@ -33,7 +33,7 @@ export function LargeProductAndSizeChartImagesCarousel({
   // PRODUCT/SIZE CHART IMAGES
   const [imageUrls, sizeChartImageUrls] = useMemo(
     () => [getImageSizeMap(skillState === SkillLockStatus.LOCKED ? lockedImages : images), getImageSizeMap(sizeChart)],
-    [skillState, images, lockedImages, sizeChart]
+    [skillState, images, lockedImages, sizeChart],
   )
   return (
     <>

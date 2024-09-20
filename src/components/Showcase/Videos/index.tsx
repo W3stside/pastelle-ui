@@ -11,7 +11,7 @@ import { ModelInformationOverlay } from './ModelInformationOverlay'
 
 const ItemVideoContent = lazy(
   () =>
-    import(/* webpackPrefetch: true,  webpackChunkName: "ITEMVIDEOCONTENT" */ '@/pages/SingleProduct/ItemVideoContent')
+    import(/* webpackPrefetch: true,  webpackChunkName: "ITEMVIDEOCONTENT" */ '@/pages/SingleProduct/ItemVideoContent'),
 )
 
 export type ShowcaseVideosProps = Pick<CollectionPageProps, 'firstPaintOver' | 'videos'> &

@@ -28,7 +28,7 @@ export function ClickCarousel({ data, imageProps, ...rest }: ProductClickCarouse
 
   const memoedCurriedFn = useCallback(
     () => curriedCarouselRenderFn({ data, imageProps, isMobileDeviceOrWidth }),
-    [data, imageProps, isMobileDeviceOrWidth]
+    [data, imageProps, isMobileDeviceOrWidth],
   )
   return (
     <ButtonCarousel {...rest} data={data}>
@@ -40,7 +40,7 @@ export type ProductSwipeCarousel = ProductCarousel & WithTouchAction
 export function SwipeCarousel({ data, imageProps, videoProps, ...rest }: ProductSwipeCarousel) {
   const memoedCurriedFn = useCallback(
     () => curriedCarouselRenderFn({ data, imageProps, videoProps, isMobileDeviceOrWidth: true }),
-    [data, imageProps, videoProps]
+    [data, imageProps, videoProps],
   )
   return (
     <HorizontalSwipeCarousel {...rest} data={data}>

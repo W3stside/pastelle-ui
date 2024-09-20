@@ -16,7 +16,7 @@ export function useThemeManager() {
     (autoDetect: boolean) => {
       dispatch(updateThemeAutoDetect(autoDetect))
     },
-    [dispatch]
+    [dispatch],
   )
 
   const setMode = useCallback(
@@ -24,7 +24,7 @@ export function useThemeManager() {
       dispatch(updateThemeMode(mode))
       theme.setMode(mode)
     },
-    [dispatch, theme]
+    [dispatch, theme],
   )
 
   return { ...theme, setMode, setAutoDetect }
@@ -42,7 +42,7 @@ export function useGetShowcaseSettings() {
 
 export function useUpdateShowcaseVideoSettings(): [
   UserState['showcase']['videoSettings'],
-  (settings: UserState['showcase']['videoSettings']) => void
+  (settings: UserState['showcase']['videoSettings']) => void,
 ] {
   const { videoSettings } = useAppSelector((state) => state.user.showcase)
   const updateShowcase = useUpdateShowcaseSettings()

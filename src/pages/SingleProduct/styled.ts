@@ -66,7 +66,9 @@ export const AddToCartButtonWrapper = styled(Row)<{ isInView?: boolean; width?: 
       box-shadow: 0 0 0 !important;
     }
 
-    transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+    transition:
+      box-shadow 0.3s ease-in-out,
+      transform 0.2s ease-in-out;
   }
   align-items: stretch;
   justify-content: stretch;
@@ -75,7 +77,9 @@ export const AddToCartButtonWrapper = styled(Row)<{ isInView?: boolean; width?: 
 
   opacity: ${({ isInView }) => (isInView ? 0 : 1)};
 
-  transition: height 0.3s ease-out, opacity 0.3s ease-out;
+  transition:
+    height 0.3s ease-out,
+    opacity 0.3s ease-out;
 `
 
 export const SingleProductScreen = styled(ProductScreen)`

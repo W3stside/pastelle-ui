@@ -116,7 +116,7 @@ export const ItemHeader = styled(Text.Header)<ItemHeaderProps>`
       },
       css`
         text-shadow: 1rem 0.2rem 0.2rem ${itemColor};
-      `
+      `,
     )}
 `
 export interface LogoBaseStyleProps {

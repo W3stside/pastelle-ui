@@ -63,7 +63,7 @@ export default class GoogleAnalyticsProvider {
       testMode?: boolean
       gaOptions?: GaOptions & { debug?: boolean; siteSpeedSampleRate?: number; storage?: string; storeGac?: boolean }
       gtagOptions?: any
-    }
+    },
   ) {
     ReactGA.initialize(GA_MEASUREMENT_ID, options)
   }
@@ -78,7 +78,7 @@ export default class GoogleAnalyticsProvider {
     }: {
       url: string
     },
-    hitCallback: () => unknown
+    hitCallback: () => unknown,
   ) {
     this.ga('send', 'event', 'outbound', 'click', url, {
       transport: 'beacon',

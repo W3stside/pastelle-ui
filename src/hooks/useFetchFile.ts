@@ -21,7 +21,7 @@ export default function useFetchFile(filePath: string) {
       })
       .catch((error) => {
         throw error
-      })
+      }),
   )
 
   return { file, loading: isValidating, error }

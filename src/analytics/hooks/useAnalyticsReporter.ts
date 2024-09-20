@@ -58,7 +58,7 @@ export function initGA4() {
 
   googleAnalytics.setDimension(
     Dimensions.customBrowserType,
-    !getIsMobile() ? 'desktop' : 'web3' in window || 'ethereum' in window ? 'mobileWeb3' : 'mobileRegular'
+    !getIsMobile() ? 'desktop' : 'web3' in window || 'ethereum' in window ? 'mobileWeb3' : 'mobileRegular',
   )
 
   // typed as 'any' in react-ga4 -.-

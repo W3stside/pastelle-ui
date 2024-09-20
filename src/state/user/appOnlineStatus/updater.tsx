@@ -30,7 +30,7 @@ export function AppOnlineStatusUpdater() {
               content: ' PLEASE CHECK CONNECTION.',
             },
           ],
-        })
+        }),
       ),
     handleOnline: () => dispatch(removeBannerMessage({ key: 'OFFLINE' })),
   })

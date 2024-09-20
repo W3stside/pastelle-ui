@@ -8,7 +8,7 @@ const ETHERSCAN_PREFIXES: { [chainId: number]: string } = {
 export function getEtherscanLink(
   chainId: number,
   data: string,
-  type: 'transaction' | 'token' | 'address' | 'block'
+  type: 'transaction' | 'token' | 'address' | 'block',
 ): string {
   const prefix = `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[1]}etherscan.io`
 

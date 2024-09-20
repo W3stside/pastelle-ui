@@ -22,14 +22,17 @@ import { useThemeManager } from '@/state/user/hooks'
 import { BLACK_TRANSPARENT_MORE } from '@/theme'
 
 const AsideCarousel = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/pages/common/screens/AsideCarousel')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/pages/common/screens/AsideCarousel'),
 )
 const ActionScreen = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/pages/common/screens/ActionsAndChildren')
+  () =>
+    import(/* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/pages/common/screens/ActionsAndChildren'),
 )
 const Description = lazy(
   () =>
-    import(/* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/pages/common/screens/DescriptionAndChildren')
+    import(
+      /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/pages/common/screens/DescriptionAndChildren'
+    ),
 )
 
 const VIDEO_CSS = `

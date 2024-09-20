@@ -21,11 +21,11 @@ export function useShopifySrcSetToImageKitSrcSet(srcSet: ShopImageSrcSet | undef
                 }
                 return acc
               },
-              {} as ShopImageSrcSet
+              {} as ShopImageSrcSet,
             ),
             defaultUrl: oDefaultUrl.replace('https://cdn.shopify.com/', `${BASE_IK_URI}/tr:${transformations}/`),
           },
-    [oDefaultUrl, restImages, transformations]
+    [oDefaultUrl, restImages, transformations],
   )
 
   return mappedSrcSet

@@ -31,11 +31,11 @@ import {
 import { BoxProps } from 'rebass'
 
 const ShoppingCart = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ '@/pages/ShoppingCart')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ '@/pages/ShoppingCart'),
 )
 
 const CartLine = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART_LINE" */ 'components/ShoppingCart/CartLine')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART_LINE" */ 'components/ShoppingCart/CartLine'),
 )
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {

@@ -58,7 +58,7 @@ export default function useShowShowcase() {
         {children}
       </ProductSubDescription>
     ),
-    [showShowcase, theme.content.background, theme.content.text]
+    [showShowcase, theme.content.background, theme.content.text],
   )
 
   return {

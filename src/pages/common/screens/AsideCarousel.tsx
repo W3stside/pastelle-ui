@@ -78,7 +78,7 @@ export default memo<AsideCarouselProps>(function AsideCarouselScreen({
       ),
     // Ignore onCarouselChange
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [onCarouselItemClick]
+    [onCarouselItemClick],
   )
 
   return (

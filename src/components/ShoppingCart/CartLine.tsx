@@ -35,7 +35,7 @@ export default function CartLine({ line }: { line: FragmentCartLineFragment }) {
               onCompleted: () => {
                 cleanTimeout(() => setRemoveOperationLoading(false), 1000)
               },
-            }
+            },
           )
         }
       : undefined,
@@ -50,11 +50,11 @@ export default function CartLine({ line }: { line: FragmentCartLineFragment }) {
   const { bgLogo, color: itemColor } = useMemo(
     () => ({
       bgLogo: images.nodes?.find(
-        (node) => node.altText === 'LOGO' || node.altText === 'HEADER' || node.altText === 'NAVBAR'
+        (node) => node.altText === 'LOGO' || node.altText === 'HEADER' || node.altText === 'NAVBAR',
       )?.url500,
       color: getMetafields<string>(color),
     }),
-    [color, images.nodes]
+    [color, images.nodes],
   )
 
   const navigate = useNavigate()

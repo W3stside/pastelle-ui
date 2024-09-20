@@ -46,7 +46,7 @@ const modalsAndPopupsSlice = createSlice({
       state,
       {
         payload: { content, key, removeAfterMs = POPUP_REMOVE_TIME },
-      }: PayloadAction<{ content: PopupContent; key?: string; removeAfterMs?: number }>
+      }: PayloadAction<{ content: PopupContent; key?: string; removeAfterMs?: number }>,
     ) {
       state.popupList = (key ? state.popupList.filter((popup) => popup.key !== key) : state.popupList).concat([
         {
@@ -61,7 +61,7 @@ const modalsAndPopupsSlice = createSlice({
       state,
       {
         payload: { content, key, removeAfterMs = POPUP_REMOVE_TIME },
-      }: PayloadAction<{ content: TxPopupContent; key?: string; removeAfterMs?: number }>
+      }: PayloadAction<{ content: TxPopupContent; key?: string; removeAfterMs?: number }>,
     ) {
       state.popupList = (key ? state.popupList.filter((popup) => popup.key !== key) : state.popupList).concat([
         {

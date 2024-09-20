@@ -89,7 +89,7 @@ export default function useSizeSelector({ sizes }: Pick<SizeSelectorProps, 'size
     (props: Omit<SizeSelectorProps, 'selectedSize' | 'sizes' | 'handleSizeSelect'>) => (
       <SizeSelector {...props} selectedSize={selectedSize} sizes={sizes} handleSizeSelect={handleSetSize} />
     ),
-    [handleSetSize, selectedSize, sizes]
+    [handleSetSize, selectedSize, sizes],
   )
 
   return {

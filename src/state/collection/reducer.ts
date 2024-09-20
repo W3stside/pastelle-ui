@@ -40,10 +40,13 @@ const collectionSlice = createSlice({
   initialState,
   reducers: {
     updateCollections(state, { payload: { collections, loading } }: PayloadAction<UpdateCollectionsParams>) {
-      const collectionMap = collections.reduce((acc, collection) => {
-        acc[collection.id] = collection
-        return acc
-      }, {} as CollectionState['collections'])
+      const collectionMap = collections.reduce(
+        (acc, collection) => {
+          acc[collection.id] = collection
+          return acc
+        },
+        {} as CollectionState['collections'],
+      )
 
       state.loading = loading
       state.collections = { ...state.collections, ...collectionMap } || {}
@@ -59,14 +62,14 @@ const collectionSlice = createSlice({
     },
     updateCurrentCollection(
       state,
-      { payload: { id, locked = false, loading } }: PayloadAction<UpdateCollectionParams>
+      { payload: { id, locked = false, loading } }: PayloadAction<UpdateCollectionParams>,
     ) {
       if (!id) return
       state.current = { id, locked, loading } || {}
     },
     updateSingleProductInCollection(
       state,
-      { payload: { id, product } }: PayloadAction<UpdateProductInCollectionParams>
+      { payload: { id, product } }: PayloadAction<UpdateProductInCollectionParams>,
     ) {
       const productToUpdate = state.collections[id]?.products[product.handle]
       if (!productToUpdate) return

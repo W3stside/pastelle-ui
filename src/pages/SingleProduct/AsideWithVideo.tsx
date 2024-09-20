@@ -31,17 +31,17 @@ import { useLargeImageModal, useSizeChartModal } from '@/state/modalsAndPopups/h
 import { useThemeManager } from '@/state/user/hooks'
 
 const AsideCarousel = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/pages/common/screens/AsideCarousel')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/pages/common/screens/AsideCarousel'),
 )
 const ActionScreen = lazy(
   () =>
-    import(/* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/pages/common/screens/ActionsAndChildren')
+    import(/* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/pages/common/screens/ActionsAndChildren'),
 )
 const Description = lazy(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/pages/common/screens/DescriptionAndChildren'
-    )
+    ),
 )
 
 export type SingleProductPageProps = BaseProps & SmartWrapperNodesAndRefs
@@ -98,7 +98,7 @@ export default function SingleProductPage(props: SingleProductPageProps) {
   // Src-set of all images
   const imageSrcSet = useMemo(
     () => getImageSizeMap(lockStatus === SkillLockStatus.LOCKED ? lockedImages : images),
-    [lockedImages, lockStatus, images]
+    [lockedImages, lockStatus, images],
   )
 
   return (

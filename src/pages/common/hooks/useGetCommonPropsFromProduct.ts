@@ -62,6 +62,6 @@ export function useGetCommonPropsFromProduct({
       skillMetadata,
       title,
       variant,
-    ]
+    ],
   )
 }

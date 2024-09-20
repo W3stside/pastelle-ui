@@ -6,7 +6,7 @@ import { Menu, X } from 'react-feather'
 import { InnerNavWrapper, MobileNavOrb, NavigationStepsWrapper } from './styled'
 
 const InnerNavigation = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "INNER_NAVIGATION" */ './InnerNav')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "INNER_NAVIGATION" */ './InnerNav'),
 )
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string }

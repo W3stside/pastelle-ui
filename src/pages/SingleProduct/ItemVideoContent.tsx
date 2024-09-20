@@ -97,7 +97,7 @@ const ItemVideoContent = ({
     videosMap.get('MAIN'),
     // @ts-ignore
     { delay: LOAD_IN_VIEW_DELAY, threshold: LOAD_IN_VIEW_THRESHOLD, continuous: true },
-    !isMobileWidth
+    !isMobileWidth,
   )
 
   // EFFECT: sync video play status with AUTOPLAY/IN VIEW state and current PLAY/PAUSE status
@@ -110,7 +110,7 @@ const ItemVideoContent = ({
 
   const toggleVideo = useCallback(
     () => updateVideoSettings({ autoplay, status: isPlaying ? 'pause' : 'play' }),
-    [autoplay, isPlaying, updateVideoSettings]
+    [autoplay, isPlaying, updateVideoSettings],
   )
 
   const shouldSmartFillFull = smartFill?.full
@@ -119,66 +119,69 @@ const ItemVideoContent = ({
   // reduce over sources list to get videos. filter out empties
   const VideosComponents = useMemo(
     () =>
-      videos.reduce((acc, { id, sources, previewImage }, index) => {
-        const isSelected = currentCarouselIndex === null || index === videoIdx
-        if (!isSelected || !sources?.length) return acc
+      videos.reduce(
+        (acc, { id, sources, previewImage }, index) => {
+          const isSelected = currentCarouselIndex === null || index === videoIdx
+          if (!isSelected || !sources?.length) return acc
 
-        const commonProps = {
-          width: 'auto',
-          showError,
-          container: window.document.body,
-          loadInView: firstPaintOver,
-          forceLoad,
-          loadInViewOptions,
-          videoProps: {
-            ...videoProps,
-            poster: showPoster ? previewImage?.url : undefined,
-          },
-          sourcesProps: sources.map(({ url, mimeType }) => ({ src: url, type: mimeType })),
-          height: styleProps.height,
-          videoDelay: !isMobileWidth && videoDelay,
-          showTapToPlay: getIsMobile() && !isPlaying,
-          ctaOverlayProps: {
-            $zIndex: Z_INDEXES.PRODUCT_VIDEOS,
-            $width: '40%',
-          },
-        }
+          const commonProps = {
+            width: 'auto',
+            showError,
+            container: window.document.body,
+            loadInView: firstPaintOver,
+            forceLoad,
+            loadInViewOptions,
+            videoProps: {
+              ...videoProps,
+              poster: showPoster ? previewImage?.url : undefined,
+            },
+            sourcesProps: sources.map(({ url, mimeType }) => ({ src: url, type: mimeType })),
+            height: styleProps.height,
+            videoDelay: !isMobileWidth && videoDelay,
+            showTapToPlay: getIsMobile() && !isPlaying,
+            ctaOverlayProps: {
+              $zIndex: Z_INDEXES.PRODUCT_VIDEOS,
+              $width: '40%',
+            },
+          }
 
-        const bgVideosFilter = ' blur(8px)'
+          const bgVideosFilter = ' blur(8px)'
 
-        acc.push(
-          <Fragment key={id}>
-            {(shouldSmartFillFull || shouldSmartFillSide) && (
+          acc.push(
+            <Fragment key={id}>
+              {(shouldSmartFillFull || shouldSmartFillSide) && (
+                <SmartVideo
+                  {...commonProps}
+                  // Get the lowest quality src
+                  sourcesProps={commonProps.sourcesProps.filter((src) => !src.src.includes('720'))}
+                  ref={(node) => node && setVideoNodesMap((state) => new Map(state).set('ALT', node))}
+                  marginLeft="auto"
+                  videoProps={{
+                    ...commonProps.videoProps,
+                    style: {
+                      ...commonProps.videoProps.style,
+                      filter: bgVideosFilter,
+                      position: shouldSmartFillFull ? 'fixed' : 'inherit',
+                      top: 0,
+                      right: 0,
+                      height: '100%',
+                    },
+                  }}
+                />
+              )}
               <SmartVideo
                 {...commonProps}
-                // Get the lowest quality src
-                sourcesProps={commonProps.sourcesProps.filter((src) => !src.src.includes('720'))}
-                ref={(node) => node && setVideoNodesMap((state) => new Map(state).set('ALT', node))}
-                marginLeft="auto"
-                videoProps={{
-                  ...commonProps.videoProps,
-                  style: {
-                    ...commonProps.videoProps.style,
-                    filter: bgVideosFilter,
-                    position: shouldSmartFillFull ? 'fixed' : 'inherit',
-                    top: 0,
-                    right: 0,
-                    height: '100%',
-                  },
-                }}
+                justifyContent={isMobileWidth ? 'center' : 'end'}
+                ref={(node) => node && setVideoNodesMap((state) => new Map(state).set('MAIN', node))}
+                autoPlayOptions={autoplay ? undefined : autoPlayOptions}
               />
-            )}
-            <SmartVideo
-              {...commonProps}
-              justifyContent={isMobileWidth ? 'center' : 'end'}
-              ref={(node) => node && setVideoNodesMap((state) => new Map(state).set('MAIN', node))}
-              autoPlayOptions={autoplay ? undefined : autoPlayOptions}
-            />
-          </Fragment>
-        )
+            </Fragment>,
+          )
 
-        return acc
-      }, [] as ReactElement<any, any>[]),
+          return acc
+        },
+        [] as ReactElement<any, any>[],
+      ),
     // We don't need to track onVideoClick
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -199,7 +202,7 @@ const ItemVideoContent = ({
       videoIdx,
       videoProps,
       videos,
-    ]
+    ],
   )
 
   if (!VideosComponents?.length) return null

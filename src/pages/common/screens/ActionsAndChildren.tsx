@@ -30,7 +30,7 @@ interface ActionScreenProps extends BaseScreensProps {
 // const TR_MID_URI = 'w-535,h-60'
 const CTA_BUTTON_BG_URL = urlToSimpleGenericImageSrcSet(
   import.meta.env.VITE_IMAGEKIT_URL_ENDPOINT +
-    '/tr:w-535,h-60/s/files/1/0769/8510/6755/products/nav-bar_136c881a-0d35-494a-9c79-075ff7e67fda_500x.png.webp'
+    '/tr:w-535,h-60/s/files/1/0769/8510/6755/products/nav-bar_136c881a-0d35-494a-9c79-075ff7e67fda_500x.png.webp',
 )
 export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
   callback,
