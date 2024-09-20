@@ -10,7 +10,7 @@ export const GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY = 'ga_client_id'
 
 export const googleAnalytics = new GoogleAnalyticsProvider()
 
-export function sendEvent(event: string | UaEventOptions, params?: any) {
+export function sendEvent(event: string | UaEventOptions, params?: unknown) {
   return googleAnalytics.sendEvent(event, params)
 }
 
@@ -24,13 +24,13 @@ export function outboundLink(
   }: {
     url: string
   },
-  hitCallback: () => unknown,
+  hitCallback: () => unknown
 ) {
   return googleAnalytics.outboundLink({ url }, hitCallback)
 }
 
 const installed = Boolean(window.navigator.serviceWorker?.controller)
-const hit = Boolean((window as any).__isDocumentCached)
+const hit = Boolean((window as unknown as Window & { __isDocumentCached: boolean }).__isDocumentCached)
 const action = installed ? (hit ? 'Cache hit' : 'Cache miss') : 'Not installed'
 sendEvent({ category: 'Service Worker', action, nonInteraction: true })
 

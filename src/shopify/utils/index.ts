@@ -10,21 +10,22 @@ import {
 } from '@/shopify/graphql/types'
 import { ShopImageSrcSet } from '@/types'
 
-export function isJson(str: any) {
+export function isJson(str: unknown): str is string {
   if (!str || typeof str !== 'string') {
     return false
   }
 
   try {
     JSON.parse(str)
-  } catch (e) {
+  } catch (e: unknown) {
+    console.error('[shopify-utils::isJson] Error!', e)
     return false
   }
   return true
 }
 
-export function getMetafields<T>(query: any) {
-  const test = query?.value || query
+export function getMetafields<T>(query: { value?: unknown } | unknown) {
+  const test = query && typeof query === 'object' && 'value' in query ? query.value : query
   if (isJson(test)) {
     return JSON.parse(test) as T
   } else {
@@ -32,8 +33,8 @@ export function getMetafields<T>(query: any) {
   }
 }
 
-export function isProductVideo(data: any): data is FragmentProductVideoFragment {
-  return '__typename' in data && data.__typename === 'Video'
+export function isProductVideo(data: unknown): data is FragmentProductVideoFragment {
+  return !!data && typeof data === 'object' && '__typename' in data && data.__typename === 'Video'
 }
 
 interface MetaAssetMap {
@@ -75,7 +76,6 @@ export const mapSingleShopifyProductToProps = ({
   images,
   lockedImages,
   sizeChart,
-  // @ts-ignore - type
   videos: product.media.nodes.filter(isProductVideo) as FragmentProductVideoFragment[],
   sizes: getMetafields<ProductSizes[]>(product.sizes[0].values),
   shortDescription: getMetafields<string>(product.shortDescription),
@@ -123,17 +123,14 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
     })
 
     // Map meta assets (header/logo/product logos) into a responsive size map
-    const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce(
-      (acc, asset, i) => {
-        const mappedAsset = metaAssets[i]
-        if (mappedAsset?.altText) {
-          acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
-        }
+    const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
+      const mappedAsset = metaAssets[i]
+      if (mappedAsset?.altText) {
+        acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
+      }
 
-        return acc
-      },
-      {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet },
-    )
+      return acc
+    }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
 
     return mapSingleShopifyProductToProps({
       product: datum,
@@ -166,17 +163,14 @@ export const mapShopifyHomepageToProps = (data: Product) => {
   })
 
   // Map meta assets (header/logo/product logos) into a responsive size map
-  const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce(
-    (acc, asset, i) => {
-      const mappedAsset = metaAssets[i]
-      if (mappedAsset?.altText) {
-        acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
-      }
+  const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
+    const mappedAsset = metaAssets[i]
+    if (mappedAsset?.altText) {
+      acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
+    }
 
-      return acc
-    },
-    {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet },
-  )
+    return acc
+  }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
 
   return mapSingleShopifyProductToProps({
     product: data,
@@ -228,8 +222,8 @@ interface ReducedShowcaseVideos {
 }
 
 export function reduceShopifyMediaToShowcaseVideos(
-  acc: Record<any, any>,
-  media: FragmentProductVideoFragment,
+  acc: Record<string, FragmentProductVideoFragment>,
+  media: FragmentProductVideoFragment
 ): ReducedShowcaseVideos {
   if (media?.id && media?.alt) {
     acc[media.alt] = media
@@ -253,7 +247,7 @@ export function getShopifyId<T extends ShopifyIdType>(id: string | null, type: T
 }
 export function shortenShopifyId<T extends ShopifyIdType>(
   longId: T | string | number | undefined | null,
-  type: T,
+  type: T
 ): string | '' {
   const idIsAlreadyFormed = !!Number(longId)
 

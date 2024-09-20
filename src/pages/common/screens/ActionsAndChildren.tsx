@@ -14,7 +14,7 @@ interface ActionScreenProps extends BaseScreensProps {
     main: string
     async: string
   }
-  callback: ((...params: any[]) => void) | undefined
+  callback: ((...params: unknown[]) => void) | undefined
   children?: ReactNode
   header?: string
   fixedWidth: number | undefined

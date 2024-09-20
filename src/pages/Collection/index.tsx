@@ -43,9 +43,9 @@ export default function Collection() {
 
   const onContentClick = useCallback(
     (handle?: string) => {
-      handle && navigate(buildItemUrl(handle))
+      if (handle) navigate(buildItemUrl(handle))
     },
-    [navigate],
+    [navigate]
   )
 
   const AsideWithVideoAux = useCallback(
@@ -60,7 +60,7 @@ export default function Collection() {
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    []
   )
 
   const mappedCollectionItems = useMemo(
@@ -70,7 +70,7 @@ export default function Collection() {
         if (item?.lockedImages?.[0]?.url) newItem.images = item.lockedImages
         return newItem
       }),
-    [collectionProductList],
+    [collectionProductList]
   )
 
   if (!collection) return null

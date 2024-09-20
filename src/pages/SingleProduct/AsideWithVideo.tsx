@@ -15,7 +15,7 @@ import { CTA_BUTTON_PROP_THEMES } from '@/pages/common/constants'
 import { useGetCommonPropsFromProduct as useMapToCommonPropsFromProduct } from '@/pages/common/hooks/useGetCommonPropsFromProduct'
 import {
   HighlightedText,
-  PASTELLE_CREDIT,
+  PastelleCredit,
   ProductArtistInfo,
   ProductCredits,
   ProductDescription,
@@ -73,6 +73,7 @@ export default function SingleProductPage(props: SingleProductPageProps) {
   const commonProps = useMapToCommonPropsFromProduct({ ...product, variant, lockStatus, isMobile })
 
   // USER BLOCKCHAIN INFO
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { address } = (FORGE_WEB3_ENABLED && useW3UserConnectionInfo()) || { address: undefined }
   // FORGE related user skill state
   const skillState = commonProps.skillInfo?.lockStatus
@@ -181,7 +182,7 @@ export default function SingleProductPage(props: SingleProductPageProps) {
                 {artistInfo ? (
                   <ProductArtistInfo {...artistInfo} bgColor={color} />
                 ) : (
-                  <HighlightedText bgColor={color}>{PASTELLE_CREDIT}</HighlightedText>
+                  <HighlightedText bgColor={color}>{PastelleCredit}</HighlightedText>
                 )}
               </ProductCredits>
             </Column>

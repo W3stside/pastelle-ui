@@ -82,7 +82,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
 
   const [checkoutClicked, setCheckoutClicked] = useState(false)
 
-  const isEmptyCart = !Boolean(cartLines?.length)
+  const isEmptyCart = !cartLines?.length
 
   const location = useLocation()
   const navigate = useNavigate()

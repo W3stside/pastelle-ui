@@ -1,6 +1,4 @@
-import { ForgeMetadataUriMap } from '@past3lle/forge-web3'
-
-export const METADATA_URIS_MAP: ForgeMetadataUriMap<any> = {
+export const METADATA_URIS_MAP = {
   [11155111]: {
     collectionsManager: 'https://pstlcollections.s3.eu-south-2.amazonaws.com/collections/',
   },

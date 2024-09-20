@@ -44,7 +44,7 @@ export function useRemoveCartLineAndUpdateReduxCallback() {
     removeCartLineCallback: useCallback(
       ({ lineIds }: Pick<RemoveLineParams, 'lineIds'>, options?: MutationHookOptions) =>
         removeCartLineAndUpdateStore({ cartId, lineIds, options, removeCartLine, updateCartInfo }),
-      [removeCartLine, cartId, updateCartInfo],
+      [removeCartLine, cartId, updateCartInfo]
     ),
   }
 }
@@ -59,7 +59,7 @@ export function useUpdateCartLineAndUpdateReduxCallback() {
     updateCartLineCallback: useCallback(
       ({ lineId, quantity }: Pick<UpdateLineParams, 'lineId' | 'quantity'>) =>
         updateCartLineAndUpdateStore({ cartId, quantity, lineId, updateCartLine, updateCartInfo }),
-      [updateCartLine, cartId, updateCartInfo],
+      [updateCartLine, cartId, updateCartInfo]
     ),
   }
 }
@@ -78,7 +78,7 @@ export function useAddLineToCartAndUpdateReduxCallback() {
     addLineToCartCallback: useCallback(
       ({ merchandiseId, quantity }: AddLineToCartProps) =>
         addCartLineAndUpdateStore({ cartId, quantity, merchandiseId, addNewCartLine, updateCartInfo }),
-      [addNewCartLine, cartId, updateCartInfo],
+      [addNewCartLine, cartId, updateCartInfo]
     ),
   }
 }
@@ -108,11 +108,14 @@ export function useToggleCartAndState(): [boolean, (state: boolean, cart: CartSt
 
   const viewCartCallback = useCallback(
     (showOpen: boolean, cart: CartState | null) => {
-      !!showOpen && cart && viewCartAnalytics(cart)
-      showOpen ? setSearchParams({ peek: SearchParamQuickViews.CART }) : navigate(-1)
+      if (showOpen && !!cart) viewCartAnalytics(cart)
+
+      if (showOpen) setSearchParams({ peek: SearchParamQuickViews.CART })
+      else navigate(-1)
+
       dispatch(showOpen)
     },
-    [dispatch, navigate, setSearchParams],
+    [dispatch, navigate, setSearchParams]
   )
   return [cartOpen, viewCartCallback]
 }

@@ -120,7 +120,7 @@ export default function Loader({
 }: {
   size?: string
   stroke?: string
-  [k: string]: any
+  [k: string]: unknown
 }) {
   return (
     <StyledSVG viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" size={size} stroke={stroke} {...rest}>

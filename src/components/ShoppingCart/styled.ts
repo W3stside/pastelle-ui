@@ -1,7 +1,7 @@
 import { Column, Row } from '@past3lle/components'
 import { OFF_WHITE, fromExtraLarge, setFadeInAnimation, upToExtraSmall, upToMedium, upToSmall } from '@past3lle/theme'
 import { TRANSPARENT_HEX, Z_INDEXES } from '@/constants/config'
-import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
+import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector/styled'
 import { ItemHeader, ProductSubHeader } from '@/pages/common/styleds'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'

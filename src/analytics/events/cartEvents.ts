@@ -48,14 +48,15 @@ export async function viewCartAnalytics(cart: CartState) {
       }
 
       const mappedData = data.cart?.lines.nodes.map((node, index) =>
-        _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index),
+        _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index)
       )
 
-      mappedData &&
+      if (mappedData) {
         sendEvent('view_cart', {
           ...params,
           items: mappedData,
         })
+      }
     })
     .catch((error) => {
       console.error(error)
@@ -65,7 +66,7 @@ export async function viewCartAnalytics(cart: CartState) {
 function _mapShopifyProductToGA4(
   item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
   quantity: number,
-  params: { category: string; label: string },
+  params: { category: string; label: string }
 ) {
   const data = _shopifyProductVariantToGA(item, quantity, Category.APPAREL)
   if (!data) return
@@ -82,7 +83,7 @@ function _mapShopifyProductToGA4(
 function _shopifyProductVariantToGA(
   item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
   quantity: number,
-  category: Category,
+  category: Category
 ) {
   const product =
     (item as ProductVariantQuery['product'])?.variantBySelectedOptions ||
@@ -99,7 +100,9 @@ function _shopifyProductVariantToGA(
       item_brand: 'PASTELLE APPAREL',
       item_category: category,
       price: parseFloat(product?.priceV2.amount),
-      item_variant: product?.selectedOptions.map((options: any) => options.name + '-' + options.value).join(', '),
+      item_variant: product?.selectedOptions
+        .map((options: { name: string; value: unknown }) => options.name + '-' + options.value)
+        .join(', '),
       item_category_2: product?.product?.tags?.[0],
       item_category_3: product?.product?.tags?.[1],
       item_category_4: product?.product?.tags?.[2],

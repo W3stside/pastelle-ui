@@ -45,7 +45,7 @@ export const NavigationStepsWrapper = styled.nav<{
   ${({ theme: { mode }, currentMedia: { navLogoSet, color = BLACK } }) =>
     !!navLogoSet &&
     setAnimation(simmerAnimationCallback(darken(mode === ThemeModes.DARK ? 0.4 : 0, color)), {
-      name: 'simmer' as any,
+      name: 'simmer' as Parameters<typeof setAnimation>[1]['name'],
       state: true,
       duration: 20,
       count: 5,

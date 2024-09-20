@@ -13,11 +13,12 @@ import {
   useGetCurrentOnScreenCollectionProduct,
   useGroupCollectionByType,
 } from '@/state/collection/hooks'
-import { URLFlowType, getFlowParams } from '@/state/collection/updater'
+import { URLFlowType } from '@/state/collection/types'
+import { getFlowParams } from '@/state/collection/utils'
 import { BLACK_TRANSPARENT_MOST } from '@/theme'
-import { buildItemUrl } from 'utils/navigation'
+import { buildItemUrl } from '@/utils/navigation'
 
-import packageJSON from '../../../package.json'
+import packageJSON from '@/../package.json'
 import { CollectionSelector } from './CollectionSelector'
 import {
   CollectionLabel,
@@ -52,15 +53,15 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
   const handleNavMove = useCallback(
     (
       e: React.MouseEvent<HTMLElement, MouseEvent>,
-      path: { product?: Pick<BaseProductPageProps, 'handle'>; other?: string },
+      path: { product?: Pick<BaseProductPageProps, 'handle'>; other?: string }
     ) => {
       e.preventDefault()
 
-      isNavOpen && toggleNav()
+      if (isNavOpen) toggleNav()
 
       navigate(path?.product?.handle ? buildItemUrl(path.product.handle) : (path?.other as string))
     },
-    [navigate, isNavOpen, toggleNav],
+    [navigate, isNavOpen, toggleNav]
   )
 
   // groups products by their product type
@@ -186,7 +187,7 @@ const NavProductLine = ({
   isNavOpen: boolean
   handleNavMove: (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    product: { product: Pick<BaseProductPageProps, 'id' | 'title' | 'handle'> },
+    product: { product: Pick<BaseProductPageProps, 'id' | 'title' | 'handle'> }
   ) => void
   currentProduct: BaseProductPageProps | undefined
   product: Pick<BaseProductPageProps, 'id' | 'title' | 'handle'>

@@ -233,7 +233,7 @@ function _constructShowcaseData({ videos, gender, height, size }: ConstructShowc
   }
 }
 
-function _extendVideo<T extends FragmentProductVideoFragment, E extends Record<any, any>>(
+function _extendVideo<T extends FragmentProductVideoFragment, E extends Record<string, unknown>>(
   video: T,
   extension: E,
 ): T & E {

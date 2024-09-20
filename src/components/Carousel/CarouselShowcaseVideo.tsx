@@ -32,7 +32,7 @@ export function CarouselShowcaseVideo({
       }
       loadInViewOptions={{
         threshold: 0.01,
-        // @ts-ignore
+        // @ts-expect-error: missing type in internals
         delay: 500,
         continuous: true,
       }}

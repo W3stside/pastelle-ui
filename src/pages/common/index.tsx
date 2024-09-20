@@ -6,14 +6,15 @@ import {
   SingleProductScreensContainer,
 } from '@/pages/SingleProduct/styled'
 import { MutableRefObject, ReactNode, useMemo, useRef } from 'react'
-import { getNodeAspectRatio } from 'utils/formatting'
+import { getNodeAspectRatio } from '@/utils/formatting'
 
 import { CommonSinglePageProps } from './types'
+import { Literal } from 'unist'
 
 export type SmartWrapperNodesAndRefs = {
   asideContainerRef: MutableRefObject<HTMLElement | undefined>
   parentAspectRatio: number | undefined
-  setScreensContainerRef: (newNode: any) => void
+  setScreensContainerRef: (newNode: Literal) => void
   rootContainerNode: HTMLElement | null
   screensContainerNode: HTMLElement | null
 }
@@ -72,7 +73,7 @@ export function SinglePageSmartWrapper({ children }: SmartWrapperFunctionChildre
       screensContainerNode,
       setScreensContainerRef,
     }),
-    [parentAspectRatio, rootContainerNode, screensContainerNode, setScreensContainerRef],
+    [parentAspectRatio, rootContainerNode, screensContainerNode, setScreensContainerRef]
   )
 
   return (

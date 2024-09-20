@@ -23,7 +23,7 @@ export type AddToCartButtonParams = {
   quantity: number
   skillLocked: boolean
   buttonProps?: SpecialThemedButtonProps
-  callback?: (...args: any[]) => void
+  callback?: (...args: unknown[]) => void
 }
 
 const DisappearingMessageWrapper = styled(ProductDescription)`
@@ -36,7 +36,7 @@ function useDisappearingMessage(params: { message: string; showAtStart?: boolean
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      showMessage && setShow(false)
+      if (showMessage) setShow(false)
     }, 2000)
     return () => {
       clearTimeout(timeout)
@@ -50,7 +50,7 @@ function useDisappearingMessage(params: { message: string; showAtStart?: boolean
           {message}
         </DisappearingMessageWrapper>
       ) : null,
-    [showMessage, message],
+    [showMessage, message]
   )
   return {
     DisappearingMessage,
@@ -72,7 +72,7 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
     buttonProps = {},
     callback,
   }: AddToCartButtonParams,
-  forwardedRef: ForwardedRef<HTMLButtonElement>,
+  forwardedRef: ForwardedRef<HTMLButtonElement>
 ) {
   const { addLineToCartCallback, loading, error } = useAddLineToCartAndUpdateReduxCallback()
   const { message: disappearingMessage, shouldShow, setShow } = useDisappearingMessage({ message: asyncLabel })
@@ -126,10 +126,10 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
             {skillLocked
               ? 'LOCKED. CLICK TO LEARN MORE.'
               : loading
-                ? 'Adding...'
-                : shouldShow
-                  ? disappearingMessage
-                  : label}
+              ? 'Adding...'
+              : shouldShow
+              ? disappearingMessage
+              : label}
           </ProductDescription>
         )}
       </CartButton>

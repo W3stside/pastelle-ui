@@ -33,9 +33,10 @@ export default function ProductRarityAndLabel({
   }, [metadataMap, variant?.id])
 
   const skillProperties = useMemo(() => {
-    const props = _getSkillLockStatusProperties(skillMetadata, lockStatus)
+    const props = _getSkillLockStatusProperties(lockStatus)
 
     return props
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skillMetadata, lockStatus])
 
   const theme = useTheme()
@@ -75,11 +76,11 @@ export default function ProductRarityAndLabel({
   )
 }
 
-function _getSkillLockStatusProperties(meta: SkillMetadata | null, lockStatus: SkillLockStatus) {
+function _getSkillLockStatusProperties(lockStatus: SkillLockStatus) {
   return lockStatus === SkillLockStatus.LOCKED
     ? { bgColor: '#cd5c5c', color: '#a9a9a9' }
     : SkillLockStatus.UNLOCKABLE_IN_STORE
-      ? { bgColor: '#2e8b57', color: '#2e8b57' }
-      : // SkillLockStatus.OWNED
-        { bgColor: '#2e8b57', color: '#2e8b57' }
+    ? { bgColor: '#2e8b57', color: '#2e8b57' }
+    : // SkillLockStatus.OWNED
+      { bgColor: '#2e8b57', color: '#2e8b57' }
 }

@@ -497,7 +497,7 @@ export const ProductArtistInfo = (props: (BaseProductPageProps['artistInfo'] & {
   )
 }
 
-export const PASTELLE_CREDIT = (
+export const PastelleCredit = (
   <>
     Homegrown at <ItalicStrikethrough>PASTELLE</ItalicStrikethrough> labs
   </>

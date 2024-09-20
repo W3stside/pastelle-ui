@@ -16,7 +16,7 @@ export class ErrorBoundary extends React.Component<
     return { error, hasError: true }
   }
 
-  componentDidCatch(error: any, info: { componentStack: any }) {
+  componentDidCatch(error: Error, info: { componentStack: string | null | undefined }) {
     console.error(error, info.componentStack)
   }
 

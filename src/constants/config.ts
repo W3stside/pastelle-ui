@@ -47,10 +47,10 @@ export const DEFAULT_SIZE_SELECTED: ProductSizes = ProductSizes.L
 export const enum Z_INDEXES {
   BEHIND = -1,
   ZERO = 0,
-  MENU_FLYOUT = 100,
+  MENU_FLYOUT = 101,
   PRODUCT_CONTENT = 100,
   PRODUCT_VIDEOS = 200,
-  NAV_MENU = 200,
+  NAV_MENU = 202,
   HEADER = 201,
   SHOPPING_CART = 300,
   SCROLLER_DIV = 900,

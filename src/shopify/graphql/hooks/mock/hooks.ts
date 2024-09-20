@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DocumentNode, OperationVariables, QueryHookOptions, TypedDocumentNode } from '@apollo/client'
 
 const MOCK_DATA = {
@@ -7,9 +6,9 @@ const MOCK_DATA = {
   loading: false,
 }
 
-export function useMockQuery<TData = any, TVariables extends OperationVariables = OperationVariables>(
-  query: DocumentNode | TypedDocumentNode<TData, TVariables>,
-  options?: QueryHookOptions<TData, TVariables>,
-): { data: any; error?: Error; loading: boolean } {
+export function useMockQuery<TData = unknown, TVariables extends OperationVariables = OperationVariables>(
+  _query: DocumentNode | TypedDocumentNode<TData, TVariables>,
+  _options?: QueryHookOptions<TData, TVariables>,
+): { data: unknown; error?: Error; loading: boolean } {
   return MOCK_DATA
 }

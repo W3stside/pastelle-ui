@@ -7,7 +7,7 @@ import { Metric, getCLS, getFCP, getFID, getLCP } from 'web-vitals'
 
 import { GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY, GOOGLE_ANALYTICS_ID, googleAnalytics } from '..'
 
-export function sendTiming(timingCategory: any, timingVar: any, timingValue: any, timingLabel: any) {
+export function sendTiming(timingCategory: unknown, timingVar: unknown, timingValue: unknown, timingLabel: unknown) {
   return googleAnalytics.gaCommandSendTiming(timingCategory, timingVar, timingValue, timingLabel)
 }
 
@@ -39,7 +39,7 @@ export function initGTM() {
 export function initGA4() {
   if (typeof GOOGLE_ANALYTICS_ID === 'string') {
     const storedClientId = window.localStorage.getItem(GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY)
-    const gtagOptions: Record<string, any> = {}
+    const gtagOptions: Record<string, unknown> = {}
     if (import.meta.env.NODE_ENV !== 'production') {
       gtagOptions.debug_mode = true
       gtagOptions.debug = true
@@ -61,8 +61,8 @@ export function initGA4() {
     !getIsMobile() ? 'desktop' : 'web3' in window || 'ethereum' in window ? 'mobileWeb3' : 'mobileRegular',
   )
 
-  // typed as 'any' in react-ga4 -.-
-  googleAnalytics.ga((tracker: any) => {
+  // typed as 'unknown' in react-ga4 -.-
+  googleAnalytics.ga((tracker: {get: (type: string) => string}) => {
     if (!tracker) return
 
     const clientId = tracker.get('clientId')

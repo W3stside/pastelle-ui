@@ -7,9 +7,10 @@ import {
   useQueryProductByIdAndMap,
 } from '@/shopify/graphql/hooks'
 import { ProductCollectionSortKeys } from '@/shopify/graphql/types'
-import { ShopifyIdType, getShopifyId, shortenShopifyId } from '@/shopify/utils'
+import { ShopifyIdType, shortenShopifyId } from '@/shopify/utils'
 
 import { useUpdateCollections, useUpdateCurrentlyViewing, useUpdateSingleProductInCollection } from './hooks'
+import { getFlowParams } from './utils'
 
 export default function Updater() {
   const updateCollections = useUpdateCollections()
@@ -42,7 +43,7 @@ export default function Updater() {
   })
 
   useEffect(() => {
-    if (!!collections.length) {
+    if (collections.length) {
       updateCollections(
         collections.map(({ collectionProductMap, locked, id, title }) => ({
           products: collectionProductMap,
@@ -50,7 +51,7 @@ export default function Updater() {
           id: shortenShopifyId(id as ShopifyIdType, 'Collection'),
           title,
         })),
-        false,
+        false
       )
 
       if (singleSkill?.id) {
@@ -61,30 +62,4 @@ export default function Updater() {
   }, [collections, flowParams, singleSkill, updateCollections, updateCurrentlyViewing, updateSingleItemInCollection])
 
   return null
-}
-
-export const enum URLFlowType {
-  SKILL = 'SKILL',
-  COLLECTION = 'COLLECTION',
-}
-
-const enum PastelleReferrals {
-  FORGE = 'FORGE',
-  OTHER = 'EXTERNAL',
-}
-
-export function getFlowParams(searchParams: URLSearchParams) {
-  const shopifyId = getShopifyId(searchParams.get('id'), 'Product')
-  if (shopifyId && searchParams.get('referral') === PastelleReferrals.FORGE) {
-    return {
-      type: URLFlowType.SKILL,
-      params: { id: shopifyId, amount: DEFAULT_CURRENT_COLLECTION_VARIABLES.productAmt },
-    }
-  } else {
-    // normal flow, e.g collection view
-    return {
-      type: URLFlowType.COLLECTION,
-      params: { amount: searchParams.get('skills') || DEFAULT_CURRENT_COLLECTION_VARIABLES.productAmt },
-    }
-  }
 }

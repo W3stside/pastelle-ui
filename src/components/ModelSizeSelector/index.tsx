@@ -4,62 +4,8 @@ import { ChangeEvent, useCallback } from 'react'
 import { ChevronDown } from 'react-feather'
 import { useGetShowcaseSettings, useUpdateShowcaseSettings } from '@/state/user/hooks'
 import { ShowcaseGender, ShowcaseHeight, UserState } from '@/state/user/reducer'
-import styled from 'styled-components/macro'
+import { ModelSizeSelectorWrapper } from './styled'
 
-const ModelSizeSelectorWrapper = styled(Row)`
-  position: relative;
-  flex-flow: row wrap;
-  width: 100%;
-  gap: 0.7rem;
-  margin-bottom: 0;
-  justify-content: space-between;
-
-  > div {
-    position: relative;
-    flex: 1 1 21.8rem;
-    min-width: 15.5rem;
-
-    > ${ProductSubHeader} {
-      position: absolute;
-      width: min-content;
-      display: flex;
-      align-items: center;
-      height: 100%;
-      padding-left: 1.2rem;
-    }
-
-    > ${Row} {
-      height: 5rem;
-
-      > select {
-        color: ${({ theme }) => theme.content.text};
-        border: 1px solid ${({ theme }) => theme.input.border.colour};
-        border-radius: 1rem;
-        font-size: 1.5rem;
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 0.8rem 0 0.8rem 0;
-        padding-left: calc(50% - 1.6rem);
-        font-weight: 700;
-        outline: none;
-        font-style: italic;
-
-        &:hover {
-          background: ${({ theme }) => theme.input.hoverColour};
-        }
-
-        transition: background 0.2s ease-in-out;
-      }
-      > svg {
-        cursor: pointer;
-        width: 2rem;
-        height: 100%;
-        margin-left: -3rem;
-      }
-    }
-  }
-`
 const FEMALE_HEIGHT_LIST: ShowcaseHeight[] = [165, 175]
 const MALE_HEIGHT_LIST: ShowcaseHeight[] = [175, 185]
 
@@ -85,7 +31,7 @@ export default function useModelSizeSelector() {
 
       updateShowcaseSettings(changingState)
     },
-    [selectedHeight, updateShowcaseSettings],
+    [selectedHeight, updateShowcaseSettings]
   )
 
   const handleSelectHeight = useCallback(
@@ -93,7 +39,7 @@ export default function useModelSizeSelector() {
       e.preventDefault()
       updateShowcaseSettings({ height: +e.target.value as ShowcaseHeight })
     },
-    [updateShowcaseSettings],
+    [updateShowcaseSettings]
   )
 
   const ModelSizeSelector = useCallback(
@@ -133,7 +79,7 @@ export default function useModelSizeSelector() {
         </div>
       </ModelSizeSelectorWrapper>
     ),
-    [handleSelectGender, handleSelectHeight, selectedGender, selectedHeight],
+    [handleSelectGender, handleSelectHeight, selectedGender, selectedHeight]
   )
 
   return {

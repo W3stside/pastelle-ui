@@ -1,13 +1,13 @@
 import { ExternalLink } from '@/components/Navigation/styled'
 import { Text as TYPE } from '@/components/Text'
+import { SkillMetadata } from '@past3lle/forge-web3'
 import { BoxProps } from 'rebass'
 import { Chain } from 'viem'
 
 interface RarityLabelProps {
   styleProps?: BoxProps
   buttonLabel: string
-  // TODO: fix
-  metadata: Record<string, any>
+  metadata: SkillMetadata
   chain?: Chain
 }
 const SKILLS_URI =

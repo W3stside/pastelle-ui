@@ -223,7 +223,7 @@ export const SingleProductScreensContainer = styled(ProductScreensContainer)<{
   
   ${({ theme: { mode }, bgColor = BLACK }) =>
     setAnimation(simmerAnimationCallback(darken(mode === ThemeModes.DARK ? 0.4 : 0, bgColor)), {
-      name: 'simmer' as any,
+      name: 'simmer' as Parameters<typeof setAnimation>[1]['name'],
       state: true,
       duration: 20,
       count: 20,

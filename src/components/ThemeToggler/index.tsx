@@ -1,22 +1,10 @@
-import { PNG_LogoCircle_2x } from '@past3lle/assets'
-import { BSV, BV, ButtonProps, Row } from '@past3lle/components'
+import { ButtonProps, Row } from '@past3lle/components'
 import { ReactNode } from 'react'
 import { useThemeManager } from '@/state/user/hooks'
 import { ThemeModes } from '@/theme'
-import { ShopImageSrcSet } from '@/types'
 
 import { ThemeToggle, ThemeToggleProps } from './ThemeToggle'
-
-export const getBaseButtonProps = (isDarkMode: boolean, toggleDarkMode: () => void): ButtonProps => ({
-  size: BSV.DEFAULT,
-  variant: BV.DARK_MODE_TOGGLE,
-  bgImage: { defaultUrl: PNG_LogoCircle_2x } as ShopImageSrcSet,
-  backgroundColor: isDarkMode ? 'darkslategrey' : 'blue',
-  filter: 'invert(' + isDarkMode ? '1' : '0' + ') contrast(2) saturate(2)',
-  bgBlendMode: 'lighten',
-  bgAttributes: ['0px / 10% repeat', '0px / 100% no-repeat'],
-  onClick: toggleDarkMode,
-})
+import { getBaseButtonProps } from './utils'
 
 export const ThemeToggleButton = ({
   children,

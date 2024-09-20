@@ -1,68 +1,9 @@
-import { Row } from '@past3lle/components'
 import { useDebouncedChangeHandler } from '@past3lle/hooks'
-import { BLACK, setBestTextColour } from '@past3lle/theme'
 import { ChangeEventHandler, useCallback, useState } from 'react'
 import { Trash2 } from 'react-feather'
-import styled from 'styled-components/macro'
 import { RED } from '@/theme'
+import { QuantitySelectorWrapper } from './styled'
 
-export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
-  width: 100%;
-  min-height: 6rem;
-
-  align-items: stretch;
-  justify-content: center;
-  padding: 1rem;
-
-  > button {
-    &:disabled {
-      background: dimgrey;
-      cursor: not-allowed;
-      color: #000;
-    }
-    border: none;
-    border-radius: 0.1rem;
-    margin: 0 0.5rem;
-    background-color: ${({ color = BLACK }) => color};
-    color: ${({ color = BLACK }) => setBestTextColour(color, 2, true)};
-    min-width: 3rem;
-
-    &:first-of-type:not(:disabled) {
-      background: none;
-      background-color: ${({ theme }) => theme.red3};
-    }
-  }
-
-  > button,
-  > input {
-    text-align: center;
-    font-weight: 200;
-    font-size: 1.6rem;
-    outline: none;
-  }
-
-  > input {
-    font-weight: 400;
-    background-color: ${({ theme }) => theme.content.background};
-    color: ${({ theme }) => theme.content.text};
-  }
-
-  > svg {
-    align-self: center;
-  }
-
-  > *:not(input[type='number']):not(button:disabled) {
-    cursor: pointer;
-  }
-
-  #reset-button {
-    color: ${({ theme }) => theme.content.text};
-    text-decoration: underline;
-    cursor: pointer;
-    padding: 0.1rem;
-    background-color: ${({ theme }) => theme.offwhiteOpaqueMost};
-  }
-`
 export interface QuantitySelectorParams {
   defaultQuantity?: number
   onTrashClick?: (e: React.MouseEvent<SVGElement, MouseEvent>) => void | Promise<void>
@@ -80,7 +21,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
       if (quantity === 0) return
       return setQuantity((state) => state - 1)
     },
-    [quantity],
+    [quantity]
   )
   const handleOnClickUp = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -89,7 +30,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
       if (quantity === PURCHASE_LIMIT) return
       return setQuantity((state) => state + 1)
     },
-    [quantity],
+    [quantity]
   )
   const handleInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
@@ -99,7 +40,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
       if (value <= 0 || value > PURCHASE_LIMIT) return
       return debouncedSetQuantity(value)
     },
-    [debouncedSetQuantity],
+    [debouncedSetQuantity]
   )
 
   const QuantitySelector = useCallback(
@@ -123,7 +64,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
           <button disabled={isDisabled || quantity === PURCHASE_LIMIT} onClick={handleOnClickUp}>
             +
           </button>
-          {!isDisabled && (!!onTrashClick ? <Trash2 onClick={onTrashClick} color={RED} size={'2rem'} /> : null)}
+          {!isDisabled && (onTrashClick ? <Trash2 onClick={onTrashClick} color={RED} size={'2rem'} /> : null)}
         </QuantitySelectorWrapper>
       )
     },
@@ -135,7 +76,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
       onTrashClick,
       options?.numberInput,
       quantity,
-    ],
+    ]
   )
 
   return {

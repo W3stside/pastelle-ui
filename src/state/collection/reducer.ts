@@ -49,7 +49,7 @@ const collectionSlice = createSlice({
       )
 
       state.loading = loading
-      state.collections = { ...state.collections, ...collectionMap } || {}
+      state.collections = { ...state.collections, ...collectionMap }
       state.latest = (collections?.[0]?.id as string) || null
       // set the current collection to our first collection if it doesn't exist
       if (!state.current) {
@@ -65,7 +65,7 @@ const collectionSlice = createSlice({
       { payload: { id, locked = false, loading } }: PayloadAction<UpdateCollectionParams>,
     ) {
       if (!id) return
-      state.current = { id, locked, loading } || {}
+      state.current = { id, locked, loading }
     },
     updateSingleProductInCollection(
       state,

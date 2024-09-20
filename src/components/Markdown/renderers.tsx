@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Node as MarkdownNode } from 'unist'
+import { Node as MarkdownNode, Literal } from 'unist'
 import visit from 'unist-util-visit'
 
 const constructId = (text: string): string => text.toLowerCase().replace(/\W/g, '-')
@@ -10,9 +10,8 @@ const getTextFromMarkdownNode = (node: MarkdownNode): string => {
   // for heading, most of the time there will be only one child text node
   // but can be `## heading text <span>span text</span> **bold text**`
   // =4 nodes (space is a text node)
-  visit(node, 'text', (textNode) => {
-    // TODO: fix this properly
-    text += (textNode as any).value || ''
+  visit(node, 'text', (textNode: Literal) => {
+    text += textNode.value || ''
   })
 
   return text
@@ -31,5 +30,5 @@ export function HeadingRenderer({ level, children, node }: HeadingProps) {
 
   const HComp = ('h' + level) as keyof JSX.IntrinsicElements
 
-  return <HComp id={id}>{children as any}</HComp>
+  return <HComp id={id}>{children as ReactNode}</HComp>
 }

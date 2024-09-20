@@ -61,7 +61,7 @@ export function ScrollingContentPage<D>({
         minSize: MINIMUM_COLLECTION_ITEM_HEIGHT,
       },
     }),
-    [fixedItemHeight, isMobileWidth],
+    [fixedItemHeight, isMobileWidth]
   )
   const {
     bind,
@@ -86,12 +86,12 @@ export function ScrollingContentPage<D>({
   // set target ref node as collection article
   useEffect(() => {
     setHeightRef(HEIGHT_AND_VIEW_TARGET)
-    !getIsMobile() && setScrollingZoneRef(HEIGHT_AND_VIEW_TARGET)
+    if (!getIsMobile()) setScrollingZoneRef(HEIGHT_AND_VIEW_TARGET)
   }, [HEIGHT_AND_VIEW_TARGET, setHeightRef, setScrollingZoneRef])
 
   const handleItemSelect = useCallback(
     (index: number) => onContentClick && onContentClick((data[index] as Product).handle),
-    [data, onContentClick],
+    [data, onContentClick]
   )
 
   const prevDataLength = usePrevious(data.length)

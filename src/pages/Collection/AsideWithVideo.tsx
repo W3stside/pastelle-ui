@@ -21,7 +21,7 @@ import { defaultThemeColours } from '@/theme'
 import { CollectionScreensContainer } from './styled'
 
 const AsideCarousel = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/pages/common/screens/AsideCarousel'),
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/pages/common/screens/AsideCarousel')
 )
 
 export default function CollectionProductPage(props: CollectionPageProps) {
@@ -67,12 +67,13 @@ export default function CollectionProductPage(props: CollectionPageProps) {
   const { mode } = useThemeManager()
 
   // USER BLOCKCHAIN INFO
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { address } = (FORGE_WEB3_ENABLED && useW3UserConnectionInfo()) || { address: undefined }
 
   // Src-set of all images
   const imageSrcSet = useMemo(
     () => getImageSizeMap(lockStatus === SkillLockStatus.LOCKED ? lockedImages : images),
-    [lockedImages, lockStatus, images],
+    [lockedImages, lockStatus, images]
   )
 
   return (

@@ -28,7 +28,8 @@ export function anonymizeLink(href: string): string {
       return `${url.protocol}//${url.hostname}${anonymizedPath}`
     }
     return href
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('[analytics::utils] Error!', error)
     return href
   }
 }

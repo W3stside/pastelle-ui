@@ -11,11 +11,24 @@ if (
 ) {
   throw new Error('Missing Web3Auth and/or WalletConnect projectID env variables!')
 }
+
+// TODO: just fix this in the forge-web3 packet and make wagmi need to be latest
+// this is an issue because wagmi/viem keeps updating their chains as const
+// and forge-web3 allows a range of versions of wagmi but has a strict requirement on ForgeChainsMinimum
+const polygonWrapped = {
+  ...polygon,
+  nativeCurrency: {
+    ...polygon.nativeCurrency,
+    name: 'MATIC',
+    symbol: 'MATIC'
+  },
+} as const
+
 export const SUPPORTED_CHAINS_BY_ENV =
-  import.meta.env.NODE_ENV === 'production' ? ([polygon] as const) : ([polygonAmoy] as const)
+  import.meta.env.NODE_ENV === 'production' ? ([polygonWrapped] as const) : ([polygonAmoy] as const)
 export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
   appName: 'PASTELLE SHOP',
-  chains: SUPPORTED_CHAINS_BY_ENV as any,
+  chains: SUPPORTED_CHAINS_BY_ENV,
   connectors: CONNECTORS,
   modals: {
     root: {
