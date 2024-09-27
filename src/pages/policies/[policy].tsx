@@ -9,7 +9,7 @@ export async function getStaticPaths() {
 
   const paths = Object.keys(policies).reduce((acc, key) => {
     if (key !== '__typename') {
-      acc?.push({ params: { policy: key.replace('Policy', '') } })
+      acc?.push({ params: { policy: _shortenString(key, 'Policy', '') } })
     }
     return acc
   }, [] as { params: { policy: string } }[])
@@ -24,7 +24,7 @@ export async function getStaticProps({ params }) {
 
   if (!params?.policy) throw new Error('Missing policy param!')
 
-  return { props: { policy: policies?.[params.policy] } }
+  return { props: { policy: policies?.[_appendString(params.policy, 'Policy')] } }
 }
 
 interface Props {
@@ -33,4 +33,12 @@ interface Props {
 
 export default function Policies({ policy }: Props) {
   return <PolicyContent policy={policy} />
+}
+
+function _shortenString(sbj: string, section: string, replaceWith: string) {
+  return sbj.replace(section, replaceWith)
+}
+
+function _appendString(sbj: string, toAdd: string) {
+  return sbj + toAdd
 }

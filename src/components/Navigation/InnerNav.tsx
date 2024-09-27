@@ -170,9 +170,9 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
             </ExternalLink>
             <small>Policies:</small>
             <span onClick={(e) => handleNavMove(e, { other: '/' })}>About</span>
-            <span onClick={(e) => handleNavMove(e, { other: '/policies/shippingPolicy' })}>Shipping</span>
-            <span onClick={(e) => handleNavMove(e, { other: '/policies/privacyPolicy' })}>Privacy</span>
-            <span onClick={(e) => handleNavMove(e, { other: '/policies/refundPolicy' })}>Refunds</span>
+            <span onClick={(e) => handleNavMove(e, { other: '/policies/shipping' })}>Shipping</span>
+            <span onClick={(e) => handleNavMove(e, { other: '/policies/privacy' })}>Privacy</span>
+            <span onClick={(e) => handleNavMove(e, { other: '/policies/refund' })}>Refunds</span>
           </PolicyColumnWrapper>
         )}
       </NavRowItem>
