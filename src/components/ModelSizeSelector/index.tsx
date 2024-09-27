@@ -1,5 +1,5 @@
 import { Row } from '@past3lle/components'
-import { ProductSubHeader } from '@/pages/common/styleds'
+import { ProductSubHeader } from '@/components/pages-common/styleds'
 import { ChangeEvent, useCallback } from 'react'
 import { ChevronDown } from 'react-feather'
 import { useGetShowcaseSettings, useUpdateShowcaseSettings } from '@/state/user/hooks'

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { Node as MarkdownNode, Literal } from 'unist'
-import visit from 'unist-util-visit'
+import { visit } from 'unist-util-visit'
 
 const constructId = (text: string): string => text.toLowerCase().replace(/\W/g, '-')
 
@@ -30,5 +30,6 @@ export function HeadingRenderer({ level, children, node }: HeadingProps) {
 
   const HComp = ('h' + level) as keyof JSX.IntrinsicElements
 
-  return <HComp id={id}>{children as ReactNode}</HComp>
+  // @ts-expect-error - types fix
+  return <HComp id={id}>{children}</HComp>
 }

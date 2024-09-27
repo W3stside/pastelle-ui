@@ -4,11 +4,11 @@ import { WHITE } from '@past3lle/theme'
 import LoadingRows from '@/components/Loader/LoadingRows'
 import ThemeToggleBar from '@/components/ThemeToggler'
 import { PLACEHOLDER_HIGHLIGHT_COLOUR } from '@/constants/config'
-import { ProductSubHeader } from '@/pages/common/styleds'
-import { BaseProductPageProps } from '@/pages/common/types'
+import { ProductSubHeader } from '@/components/pages-common/styleds'
+import { BaseProductPageProps } from '@/components/pages-common/types'
 import { Fragment, memo, useCallback, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
+  // useCurrentCollection,
   useDeriveCurrentCollection,
   useGetCurrentOnScreenCollectionProduct,
   useGroupCollectionByType,
@@ -29,6 +29,8 @@ import {
   PolicyColumnWrapper,
   SideEffectNavLink,
 } from './styled'
+import { useRouter } from 'next/router'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 interface InnerNavProps {
   isNavOpen: boolean
@@ -36,8 +38,8 @@ interface InnerNavProps {
 }
 export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps) {
   // check search params to show different nav menu
-  const [searchParams] = useSearchParams()
-  const isDirectReferralView = getFlowParams(searchParams)
+  const searchParams = useSearchParams()
+  const isDirectReferralView = getFlowParams(searchParams ?? new URLSearchParams(''))
   // Policies open/close nav
   const [{ policies }, setPoliciesOpenState] = useState({
     policies: false,
@@ -46,10 +48,10 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
   const smallMedia = useIsSmallMediaWidth()
 
   // state collection data
-  const currentCollection = useDeriveCurrentCollection()
+  const collection = useDeriveCurrentCollection()
   const product = useGetCurrentOnScreenCollectionProduct()
 
-  const navigate = useNavigate()
+  const { push: navigate } = useRouter()
   const handleNavMove = useCallback(
     (
       e: React.MouseEvent<HTMLElement, MouseEvent>,
@@ -66,7 +68,12 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
 
   // groups products by their product type
   // e.g { LONGSLEEVE: [VOODOO, VIRGIL] ... }
-  const productTypeMap = useGroupCollectionByType(currentCollection?.products)
+  const productTypeMap = useGroupCollectionByType(collection?.products)
+
+  // check if on home page ("/"")
+  // if so, dont render inner nav
+  const pathname = usePathname()
+  const onHomePage = pathname === '/'
 
   return (
     <NavigationStepsWrapper
@@ -79,52 +86,54 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
         fallbackColor: 'linear-gradient(1deg, rgb(0 0 0 / 92%) 90%, rgb(0 0 0 / 83%) 20%)',
       }}
     >
-      <InnerNavWrapper $width={isNavOpen ? '90%' : '100%'}>
-        <CollectionSelector />
-        <Column>
-          {currentCollection ? (
-            Object.entries(productTypeMap)
-              .reverse()
-              .map(([type, collProductList], i) => (
-                <Fragment key={i}>
-                  <ProductSubHeader
-                    color={WHITE}
-                    padding="0"
-                    margin="0.5rem 0 0.2rem 0"
-                    fontSize={isNavOpen ? '4rem' : '1.6rem'}
-                    fontWeight={800}
-                  >
-                    {type.toLocaleUpperCase()}S
-                  </ProductSubHeader>
-                  {collProductList.map((collProd) => (
-                    <NavItemMemoed
-                      key={collProd.id}
-                      product={collProd}
-                      currentProduct={product}
-                      handleNavMove={handleNavMove}
-                      isNavOpen={isNavOpen}
-                    />
-                  ))}
-                </Fragment>
-              ))
-          ) : (
-            <LoadingRows rows={6} />
-          )}
-          {isDirectReferralView?.type === URLFlowType.SKILL && (
-            <ProductSubHeader
-              color={WHITE}
-              padding="0"
-              margin="1.2rem 0 0.2rem 0"
-              fontSize={isNavOpen ? '4rem' : '1.6rem'}
-              fontWeight={200}
-              style={{ cursor: 'pointer' }}
-              onClick={(e) => handleNavMove(e, { other: 'collection' })}
-            >
-              FULL COLLECTION
-            </ProductSubHeader>
-          )}
-        </Column>
-      </InnerNavWrapper>
+      {!onHomePage && (
+        <InnerNavWrapper $width={isNavOpen ? '90%' : '100%'}>
+          <CollectionSelector />
+          <Column>
+            {collection ? (
+              Object.entries(productTypeMap)
+                .reverse()
+                .map(([type, collProductList], i) => (
+                  <Fragment key={i}>
+                    <ProductSubHeader
+                      color={WHITE}
+                      padding="0"
+                      margin="0.5rem 0 0.2rem 0"
+                      fontSize={isNavOpen ? '4rem' : '1.6rem'}
+                      fontWeight={800}
+                    >
+                      {type.toLocaleUpperCase()}S
+                    </ProductSubHeader>
+                    {collProductList.map((collProd) => (
+                      <NavItemMemoed
+                        key={collProd.id}
+                        product={collProd}
+                        currentProduct={product}
+                        handleNavMove={handleNavMove}
+                        isNavOpen={isNavOpen}
+                      />
+                    ))}
+                  </Fragment>
+                ))
+            ) : (
+              <LoadingRows rows={6} />
+            )}
+            {isDirectReferralView?.type === URLFlowType.SKILL && (
+              <ProductSubHeader
+                color={WHITE}
+                padding="0"
+                margin="1.2rem 0 0.2rem 0"
+                fontSize={isNavOpen ? '4rem' : '1.6rem'}
+                fontWeight={200}
+                style={{ cursor: 'pointer' }}
+                onClick={(e) => handleNavMove(e, { other: 'collection' })}
+              >
+                FULL COLLECTION
+              </ProductSubHeader>
+            )}
+          </Column>
+        </InnerNavWrapper>
+      )}
 
       <InnerNavWrapper
         className="theme-toggler"
@@ -161,9 +170,9 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
             </ExternalLink>
             <small>Policies:</small>
             <span onClick={(e) => handleNavMove(e, { other: '/' })}>About</span>
-            <span onClick={(e) => handleNavMove(e, { other: '/policies/shipping' })}>Shipping</span>
-            <span onClick={(e) => handleNavMove(e, { other: '/policies/privacy' })}>Privacy</span>
-            <span onClick={(e) => handleNavMove(e, { other: '/policies/refunds' })}>Refunds</span>
+            <span onClick={(e) => handleNavMove(e, { other: '/policies/shippingPolicy' })}>Shipping</span>
+            <span onClick={(e) => handleNavMove(e, { other: '/policies/privacyPolicy' })}>Privacy</span>
+            <span onClick={(e) => handleNavMove(e, { other: '/policies/refundPolicy' })}>Refunds</span>
           </PolicyColumnWrapper>
         )}
       </NavRowItem>

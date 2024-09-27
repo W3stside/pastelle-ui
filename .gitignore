@@ -16,6 +16,7 @@
 # production
 /build
 /dist
+/out
 
 # misc
 .DS_Store
@@ -46,3 +47,7 @@ gh-pages.pub
 cypress/videos
 cypress/screenshots
 cypress/fixtures/example.json
+
+# next
+.next
+next-env.d.ts

@@ -1,5 +1,5 @@
 import { ApolloError } from '@apollo/client'
-import { ProductSubHeader } from '@/pages/common/styleds'
+import { ProductSubHeader } from '@/components/pages-common/styleds'
 import styled from 'styled-components/macro'
 
 const ErrorWrapper = styled(ProductSubHeader)`

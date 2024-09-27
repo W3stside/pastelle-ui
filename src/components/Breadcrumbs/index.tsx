@@ -1,9 +1,9 @@
 import { Row } from '@past3lle/components'
 import { OFF_WHITE, setBestTextColour } from '@past3lle/theme'
-import { ItemBreadcrumb } from '@/pages/common/styleds'
-import { NavLinkProps } from 'react-router-dom'
+import { ItemBreadcrumb } from '@/components/pages-common/styleds'
 import { BoxProps } from 'rebass'
 import styled from 'styled-components/macro'
+import { LinkProps } from 'next/link'
 
 const BreadcrumbContainer = styled(Row)<{ $color: string }>`
   margin: 0;
@@ -22,7 +22,7 @@ export function Breadcrumbs({
 }: {
   breadcrumbs: string[]
   lastCrumb: string | undefined
-  navLinkProps?: NavLinkProps
+  navLinkProps?: Omit<LinkProps, 'as'>
 } & BoxProps) {
   return (
     <BreadcrumbContainer $color={OFF_WHITE} {...rowProps}>
@@ -31,7 +31,7 @@ export function Breadcrumbs({
         if (!crumb) return null
         const isLastCrumb = crumb === lastCrumb
         return (
-          <ItemBreadcrumb id="breadcrumb-link" key={crumb + '_' + index} color={OFF_WHITE} to="/#" {...navLinkProps}>
+          <ItemBreadcrumb id="breadcrumb-link" key={crumb + '_' + index} color={OFF_WHITE} href="/" {...navLinkProps}>
             <span>{!isLastCrumb ? crumb : <strong>{crumb}</strong>}</span>
             {!isLastCrumb && <span>{'//'}</span>}
           </ItemBreadcrumb>

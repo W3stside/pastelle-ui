@@ -5,6 +5,8 @@ import { ShopImageSrcSet } from '@/types'
 export const getBaseButtonProps = (isDarkMode: boolean, toggleDarkMode: () => void): ButtonProps => ({
   size: BSV.DEFAULT,
   variant: BV.DARK_MODE_TOGGLE,
+  // TODO: check this
+  // @ts-expect-error - next static image error
   bgImage: { defaultUrl: PNG_LogoCircle_2x } as ShopImageSrcSet,
   backgroundColor: isDarkMode ? 'darkslategrey' : 'blue',
   filter: 'invert(' + isDarkMode ? '1' : '0' + ') contrast(2) saturate(2)',

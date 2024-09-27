@@ -8,12 +8,13 @@ import { simmerAnimationCallback } from '@/theme/animation'
 import { ShopImageSrcSet } from '@/types'
 
 import { MobileNavProps } from '.'
+import { BaseProductPageProps } from '../pages-common/types'
 
 export const NavigationStepsWrapper = styled.nav<{
   isOpen?: boolean
   width?: string
   minWidth?: string
-  currentMedia: { navLogoSet?: ShopImageSrcSet; color?: string; fallbackColor?: string }
+  currentMedia: { navLogoSet?: ShopImageSrcSet; color?: BaseProductPageProps['color']; fallbackColor?: string }
 }>`
   position: relative;
   overflow: hidden;
@@ -26,13 +27,13 @@ export const NavigationStepsWrapper = styled.nav<{
   text-align: left;
   gap: 0px;
 
-  ${({ theme, currentMedia: { navLogoSet, fallbackColor = BLACK_TRANSPARENT_MORE, color = BLACK } }) =>
+  ${({ theme, currentMedia: { navLogoSet, fallbackColor, color } }) =>
     navLogoSet
       ? setBackgroundWithDPI(theme, navLogoSet, {
           preset: 'navbar',
-          modeColours: [color, BLACK],
+          modeColours: [color || BLACK, BLACK],
         })
-      : `background: ${fallbackColor};`}
+      : `background: ${fallbackColor || BLACK_TRANSPARENT_MORE};`}
 
   z-index: 1;
 
@@ -42,9 +43,9 @@ export const NavigationStepsWrapper = styled.nav<{
 
   z-index: ${Z_INDEXES.NAV_MENU};
 
-  ${({ theme: { mode }, currentMedia: { navLogoSet, color = BLACK } }) =>
+  ${({ theme: { mode }, currentMedia: { navLogoSet, color } }) =>
     !!navLogoSet &&
-    setAnimation(simmerAnimationCallback(darken(mode === ThemeModes.DARK ? 0.4 : 0, color)), {
+    setAnimation(simmerAnimationCallback(darken(mode === ThemeModes.DARK ? 0.4 : 0, color || BLACK)), {
       name: 'simmer' as Parameters<typeof setAnimation>[1]['name'],
       state: true,
       duration: 20,
@@ -87,7 +88,7 @@ export const MobileNavOrb = styled(Button).attrs<MobileNavProps & { mobileHide?:
   display: props.mobileHide ? 'none' : 'initial',
 }))<MobileNavProps & { mobileHide?: boolean }>`
   display: none;
-  background: ${({ theme, bgColor = theme.red2 }) => bgColor};
+  background: ${({ theme, bgColor }) => bgColor || theme.red2};
   color: ${({ theme }) => theme.white};
   cursor: pointer;
   z-index: ${Z_INDEXES.NAV_MENU + 1};
@@ -118,26 +119,26 @@ export const MobileNavOrb = styled(Button).attrs<MobileNavProps & { mobileHide?:
   `};
 `
 
-export const CollectionLabel = styled(Row)<{ isNavOpen: boolean; active: boolean; bgColor?: string }>`
+export const CollectionLabel = styled(Row)<{ isNavOpen: boolean; active: boolean; bgColor?: string | null }>`
   font-weight: ${({ active }) => (active ? 700 : 300)};
   padding: 0 1rem;
   gap: 1rem;
 
-  ${({ active, bgColor = TRANSPARENT_HEX }) =>
+  ${({ active, bgColor }) =>
     active &&
     `
-      color: ${setBestTextColour(bgColor, 2, true)};
-      background-color: ${bgColor};
+      color: ${setBestTextColour(bgColor || TRANSPARENT_HEX, 2, true)};
+      background-color: ${bgColor || TRANSPARENT_HEX};
       text-decoration: line-through;
       text-decoration-thickness: from-font;
       width: 100%;
     `}
 
-  ${({ isNavOpen, bgColor = '#6161a3' }) =>
+  ${({ isNavOpen, bgColor }) =>
     isNavOpen &&
     `
-    color: ${setBestTextColour(bgColor, 2, true)};
-    background: linear-gradient(267deg,${bgColor} 33%,transparent);
+    color: ${setBestTextColour(bgColor || '#6161a3', 2, true)};
+    background: linear-gradient(267deg,${bgColor || '#6161a3'} 33%,transparent);
   `}
 `
 
@@ -146,10 +147,10 @@ export const SideEffectNavLink = styled.span`
 `
 
 // #1d1d1d
-export const InnerNavWrapper = styled(Column)<{ bgColor?: string; $width: string }>`
+export const InnerNavWrapper = styled(Column)<{ bgColor?: string | null; $width: string }>`
   overflow-y: auto;
   width: ${({ $width }) => $width};
-  background-color: ${({ theme, bgColor = theme.blackOpaqueMore }) => bgColor};
+  background-color: ${({ theme, bgColor }) => bgColor || theme.blackOpaqueMore};
   padding: 1rem;
 
   > div {
@@ -187,19 +188,15 @@ export const PolicyColumnWrapper = styled(Column)`
   > span,
   > a {
     border-radius: 2px;
-    color: inherit;
-    background-color: ${(props) => props.theme.purple};
+    background-color: #7b6ba1;
     &#instagram-link {
       text-transform: lowercase;
       background: ${(props) => `linear-gradient(90deg, ${props.theme.purple} 0%, deeppink 100%)`};
     }
     padding: 0.3rem 0.8rem 0.3rem 0.5rem;
-    color: black !important;
-    font-style: italic;
+    color: ghostwhite !important;
     text-align: center;
-    &:not(a) {
-      text-decoration: underline;
-    }
+    text-transform: lowercase;
 
     flex: 1 1 auto;
 

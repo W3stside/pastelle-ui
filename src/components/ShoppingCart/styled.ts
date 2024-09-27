@@ -2,7 +2,7 @@ import { Column, Row } from '@past3lle/components'
 import { OFF_WHITE, fromExtraLarge, setFadeInAnimation, upToExtraSmall, upToMedium, upToSmall } from '@past3lle/theme'
 import { TRANSPARENT_HEX, Z_INDEXES } from '@/constants/config'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector/styled'
-import { ItemHeader, ProductSubHeader } from '@/pages/common/styleds'
+import { ItemHeader, ProductSubHeader } from '@/components/pages-common/styleds'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
 import { BLACK_TRANSPARENT_MORE } from '@/theme'
@@ -60,7 +60,7 @@ export const CartLineContent = styled(Row)`
 
 export const CartLineWrapper = styled(Row)<{
   bgLogo: string | undefined
-  color?: string
+  color?: string | null
 }>`
   border-radius: ${({ theme }) => theme.button.border.radius};
 
@@ -82,7 +82,7 @@ export const CartLineWrapper = styled(Row)<{
       ? `url(${bgLogo}) center / contain repeat, url(${bgLogo}) center -56px / contain repeat`
       : color || transparentize(0.3, theme.bg1)};
 
-  background-color: ${({ theme, color = transparentize(0.3, theme.bg1) }) => color};
+  background-color: ${({ theme, color }) => color || transparentize(0.3, theme.bg1)};
   background-size: initial;
   background-blend-mode: difference;
 

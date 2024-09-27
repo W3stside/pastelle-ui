@@ -1,4 +1,4 @@
-import { ProductSubHeader } from '@/pages/common/styleds'
+import { ProductSubHeader } from '@/components/pages-common/styleds'
 import styled from 'styled-components/macro'
 
 export type ScrollingIndicatorParams = ScrollingIndicatorStyleProps & {
@@ -7,7 +7,7 @@ export type ScrollingIndicatorParams = ScrollingIndicatorStyleProps & {
 }
 
 export interface ScrollingIndicatorStyleProps {
-  bgColor?: string
+  bgColor?: string | null
   left?: string
   top?: string
   bottom?: string
@@ -22,8 +22,8 @@ const Wrapper = styled.div<ScrollingIndicatorStyleProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${({ bgColor = '#fa9b6f' }) => bgColor};
-  color: ${({ color = '#000' }) => color};
+  background-color: ${({ bgColor }) => bgColor || '#fa9b6f'};
+  color: ${({ color }) => color || '#000'};
   right: 0;
   ${({ left }) => left && `left: ${left};`}
   ${({ top }) => top && `top: ${top};`}

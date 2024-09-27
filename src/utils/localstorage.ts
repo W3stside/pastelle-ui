@@ -1,7 +1,9 @@
 import { ThemeModes } from '@/theme'
 
+const IS_SERVER = typeof globalThis?.window == 'undefined'
+
 function getAndParseLocalStorageItem(key: string) {
-  const unparsedVal = localStorage.getItem(key)
+  const unparsedVal = !IS_SERVER ? localStorage.getItem(key) : null
 
   return unparsedVal ? JSON.parse(unparsedVal) : undefined
 }

@@ -2,7 +2,7 @@ import { Row } from '@past3lle/components'
 import { BLACK, setBestTextColour } from '@past3lle/theme'
 import styled from 'styled-components/macro'
 
-export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
+export const QuantitySelectorWrapper = styled(Row)<{ color?: string | null }>`
   width: 100%;
   min-height: 6rem;
 
@@ -19,8 +19,8 @@ export const QuantitySelectorWrapper = styled(Row)<{ color?: string }>`
     border: none;
     border-radius: 0.1rem;
     margin: 0 0.5rem;
-    background-color: ${({ color = BLACK }) => color};
-    color: ${({ color = BLACK }) => setBestTextColour(color, 2, true)};
+    background-color: ${({ color }) => color || BLACK};
+    color: ${({ color }) => setBestTextColour(color || BLACK, 2, true)};
     min-width: 3rem;
 
     &:first-of-type:not(:disabled) {

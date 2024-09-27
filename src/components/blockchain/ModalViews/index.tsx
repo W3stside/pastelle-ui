@@ -4,9 +4,9 @@ import Circle from 'assets/images/blue-loader.svg'
 import { ExternalLink } from '@/components/Navigation/styled'
 import { ReactNode } from 'react'
 import { ArrowUpCircle } from 'react-feather'
-import styled, { useTheme } from 'styled-components/macro'
+import styled, { useTheme } from 'styled-components'
 import { CloseIcon, CustomLightSpinner } from '@/theme'
-import { getEtherscanLink } from 'utils/blockchain'
+import { getEtherscanLink } from '@/utils/blockchain'
 
 const ConfirmOrLoadingWrapper = styled.div`
   width: 100%;

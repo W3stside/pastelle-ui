@@ -2,11 +2,11 @@ import { ArticleFadeIn, Button as ButtonPrimaryUnstyled, ButtonVariations } from
 import { setBackgroundWithDPI } from '@past3lle/theme'
 import SEO from '@/components/SEO'
 import { Z_INDEXES } from '@/constants/config'
-import { ItemHeader, ProductSubHeader } from '@/pages/common/styleds'
+import { ItemHeader, ProductSubHeader } from '@/components/pages-common/styleds'
 import { transparentize } from 'polished'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import { ShopImageSrcSet } from '@/types'
+import { useRouter } from 'next/router'
 
 const ButtonPrimary = styled(ButtonPrimaryUnstyled)``
 
@@ -59,7 +59,7 @@ const ContainerDiv = styled.div`
 `
 
 export default function NotFound() {
-  const navigate = useNavigate()
+  const { push: navigate } = useRouter()
 
   return (
     <>

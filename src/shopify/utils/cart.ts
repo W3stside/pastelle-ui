@@ -10,7 +10,7 @@ import {
 import { UpdateCartInfoParams } from '@/state/cart/reducer'
 
 type BaseParams = {
-  cartId: string | undefined
+  cartId: string | undefined | null
   quantity: number
   options?: MutationHookOptions
   updateCartInfo: (params: UpdateCartInfoParams) => {
@@ -52,7 +52,7 @@ export const addCartLineAndUpdateStore = async ({
     },
   })
 
-  const totalQuantity = response?.data?.cartLinesAdd?.cart?.totalQuantity
+  const totalQuantity = response?.data?.cartLinesAdd?.cart?.totalQuantity || 0
   const costs = response.data?.cartLinesAdd?.cart?.cost
 
   updateCartInfo({ cartId, totalQuantity, costs })

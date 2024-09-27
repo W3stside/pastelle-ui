@@ -1,3 +1,9 @@
-# https://www.robotstxt.org/robotstxt.html
+# *
 User-agent: *
-Disallow:
+Allow: /
+
+# Host
+Host: https://pastelle.shop
+
+# Sitemaps
+Sitemap: https://pastelle.shop/sitemap.xml

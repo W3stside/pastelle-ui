@@ -5,9 +5,9 @@ import { polygon, polygonAmoy } from 'wagmi/chains'
 import { CONNECTORS } from './connectors'
 
 if (
-  !import.meta.env.VITE_WEB3_MODAL_PROJECT_ID ||
-  !import.meta.env.VITE_WEB3_AUTH_PROJECT_ID ||
-  !import.meta.env.VITE_WEB3_AUTH_NETWORK
+  !process.env.NEXT_PUBLIC_WEB3_MODAL_PROJECT_ID ||
+  !process.env.NEXT_PUBLIC_WEB3_AUTH_PROJECT_ID ||
+  !process.env.NEXT_PUBLIC_WEB3_AUTH_NETWORK
 ) {
   throw new Error('Missing Web3Auth and/or WalletConnect projectID env variables!')
 }
@@ -25,7 +25,7 @@ const polygonWrapped = {
 } as const
 
 export const SUPPORTED_CHAINS_BY_ENV =
-  import.meta.env.NODE_ENV === 'production' ? ([polygonWrapped] as const) : ([polygonAmoy] as const)
+  process.env.NODE_ENV === 'production' ? ([polygonWrapped] as const) : ([polygonAmoy] as const)
 export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
   appName: 'PASTELLE SHOP',
   chains: SUPPORTED_CHAINS_BY_ENV,
@@ -48,7 +48,7 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
       },
     },
     walletConnect: {
-      projectId: import.meta.env.VITE_WEB3_MODAL_PROJECT_ID,
+      projectId: process.env.NEXT_PUBLIC_WEB3_MODAL_PROJECT_ID,
       themeMode: 'dark',
       themeVariables: {
         '--wcm-background-color': pastelleTheme.blackOpaque,

@@ -2,16 +2,16 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { FragmentCartCostFragment } from '@/shopify/graphql/types'
 
 export type CartState = {
-  cartId: string | undefined
+  cartId: string | null
   totalQuantity: number
-  costs?: FragmentCartCostFragment
+  costs: FragmentCartCostFragment | null
   readonly showCart: boolean
 }
 
 const initialState: CartState = {
-  cartId: undefined,
+  cartId: null,
   totalQuantity: 0,
-  costs: undefined,
+  costs: null,
   showCart: false,
 }
 
@@ -19,7 +19,7 @@ export type CreateCartParams = string
 export type UpdateCartInfoParams = {
   cartId: string
   totalQuantity?: number
-  costs?: FragmentCartCostFragment
+  costs?: CartState['costs']
 }
 
 const cartSlice = createSlice({
@@ -31,7 +31,7 @@ const cartSlice = createSlice({
     },
     updateCartInfo(
       state,
-      { payload: { cartId, totalQuantity = 0, costs = undefined } }: PayloadAction<UpdateCartInfoParams>,
+      { payload: { cartId, totalQuantity = 0, costs = null } }: PayloadAction<UpdateCartInfoParams>,
     ) {
       state.cartId = cartId
       state.totalQuantity = totalQuantity

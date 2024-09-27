@@ -44,7 +44,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
   )
 
   const QuantitySelector = useCallback(
-    ({ isDisabled, color }: { isDisabled?: boolean; color?: string }) => {
+    ({ isDisabled, color }: { isDisabled?: boolean; color?: string | null }) => {
       return (
         <QuantitySelectorWrapper color={color}>
           {/* - */}
@@ -57,7 +57,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
               type="number"
               onChange={handleInputChange}
               onClick={(e) => e.stopPropagation()}
-              value={debouncedQuantity}
+              value={debouncedQuantity as number}
             />
           )}
           {/* + */}

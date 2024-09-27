@@ -1,6 +1,6 @@
 import { Footer as PSTLFooter } from '@past3lle/components'
 import { fromExtraSmall, upToSmall } from '@past3lle/theme'
-import { ShoppingCartHeader } from '@/components/ShoppingCart'
+import { ShoppingCartHeader } from '@/components/ShoppingCart/ShoppingCart'
 import { ShoppingCartFullWrapper } from '@/components/ShoppingCart/styled'
 import ThemeToggleBar from '@/components/ThemeToggler'
 import { Z_INDEXES } from '@/constants/config'

@@ -1,38 +1,37 @@
+'use client'
+
 import { SkillLockStatus } from '@past3lle/forge-web3'
 import { useIsMobile } from '@past3lle/hooks'
 import { OFF_WHITE } from '@past3lle/theme'
 import SEO from '@/components/SEO'
 import { SelectedShowcaseVideo } from '@/components/Showcase/Videos'
 import { COLLECTION_PATHNAME } from '@/constants/navigation'
-import {
-  SingleProductAsidePanel,
-  SingleProductContainer,
-  SingleProductScreensContainer,
-} from '@/pages/SingleProduct/styled'
-import { SinglePageSmartWrapper } from '@/pages/common'
-import { CTA_BUTTON_PROP_THEMES } from '@/pages/common/constants'
-import { useGetCommonPropsFromProduct } from '@/pages/common/hooks/useGetCommonPropsFromProduct'
-import { useProductWebCarouselActions } from '@/pages/common/hooks/useProductCarouselActions'
-import { ProductSubHeader } from '@/pages/common/styleds'
-import { lazy, useCallback, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { SingleProductAsidePanel, SingleProductContainer, SingleProductScreensContainer } from '@/components/Asides/skill/styled'
+import { SinglePageSmartWrapper } from '@/components/pages-common'
+import { CTA_BUTTON_PROP_THEMES } from '@/components/pages-common/constants'
+import { useGetCommonPropsFromProduct } from '@/components/pages-common/hooks/useGetCommonPropsFromProduct'
+import { useProductWebCarouselActions } from '@/components/pages-common/hooks/useProductCarouselActions'
+import { ProductSubHeader } from '@/components/pages-common/styleds'
+import { useCallback, useMemo } from 'react'
 import { useQueryHomepage } from '@/shopify/graphql/hooks'
 import { getImageSizeMap } from '@/shopify/utils'
 import { useThemeManager } from '@/state/user/hooks'
 import { BLACK_TRANSPARENT_MORE } from '@/theme'
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 
-const AsideCarousel = lazy(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/pages/common/screens/AsideCarousel'),
+const AsideCarousel = dynamic(
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/components/pages-common/screens/AsideCarousel')
 )
-const ActionScreen = lazy(
+const ActionScreen = dynamic(
   () =>
-    import(/* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/pages/common/screens/ActionsAndChildren'),
+    import(/* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/components/pages-common/screens/ActionsAndChildren')
 )
-const Description = lazy(
+const Description = dynamic(
   () =>
     import(
-      /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/pages/common/screens/DescriptionAndChildren'
-    ),
+      /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/components/pages-common/screens/DescriptionAndChildren'
+    )
 )
 
 const VIDEO_CSS = `
@@ -54,7 +53,7 @@ const OVERSIZED_CAROUSEL_MEDIA_WIDTH = '140%'
 export default function Home() {
   const homepage = useQueryHomepage()
 
-  const navigate = useNavigate()
+  const { push: navigate } = useRouter()
 
   const { mode } = useThemeManager()
   const { onChange } = useProductWebCarouselActions({

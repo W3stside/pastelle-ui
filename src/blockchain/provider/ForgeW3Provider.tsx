@@ -1,6 +1,6 @@
 import { ForgeW3Providers, overwriteWeb3PropsWithOuterTheme } from '@past3lle/forge-web3'
 import { ReactNode, useMemo } from 'react'
-import { useTheme } from 'styled-components/macro'
+import { useTheme } from 'styled-components'
 
 import { CONTRACT_ADDRESSES_MAP } from '../constants/addresses'
 import { GATEWAY_URIS } from '../constants/ipfs'

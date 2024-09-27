@@ -1,6 +1,5 @@
 import { PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from '@/constants/config'
 import { useEffect, useMemo } from 'react'
-import { useSearchParams } from 'react-router-dom'
 import {
   DEFAULT_CURRENT_COLLECTION_VARIABLES,
   useQueryCollections,
@@ -11,14 +10,15 @@ import { ShopifyIdType, shortenShopifyId } from '@/shopify/utils'
 
 import { useUpdateCollections, useUpdateCurrentlyViewing, useUpdateSingleProductInCollection } from './hooks'
 import { getFlowParams } from './utils'
+import { useSearchParams } from 'next/navigation'
 
 export default function Updater() {
   const updateCollections = useUpdateCollections()
   const updateSingleItemInCollection = useUpdateSingleProductInCollection()
   const updateCurrentlyViewing = useUpdateCurrentlyViewing()
 
-  const [searchParams] = useSearchParams()
-  const flowParams = useMemo(() => getFlowParams(searchParams), [searchParams])
+  const searchParams = useSearchParams()
+  const flowParams = useMemo(() => getFlowParams(searchParams ?? new URLSearchParams('')), [searchParams])
 
   // SINGLE SKILL, REFERRAL FLOW
   // undefined id variable skips query

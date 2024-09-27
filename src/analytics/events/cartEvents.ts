@@ -48,7 +48,7 @@ export async function viewCartAnalytics(cart: CartState) {
       }
 
       const mappedData = data.cart?.lines.nodes.map((node, index) =>
-        _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index)
+        'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index) : null
       )
 
       if (mappedData) {

@@ -1,5 +1,5 @@
-import { SkillLockStatus, SkillMetadata } from '@past3lle/forge-web3'
-import { BaseProductPageProps } from '@/pages/common/types'
+import { getLockStatus, SkillMetadata } from '@past3lle/forge-web3'
+import { BaseProductPageProps } from '@/components/pages-common/types'
 import {
   FragmentProductImageFragment,
   FragmentProductVideoFragment,
@@ -17,8 +17,7 @@ export function isJson(str: unknown): str is string {
 
   try {
     JSON.parse(str)
-  } catch (e: unknown) {
-    console.error('[shopify-utils::isJson] Error!', e)
+  } catch (_e: unknown) {
     return false
   }
   return true
@@ -61,17 +60,19 @@ export const mapSingleShopifyProductToProps = ({
   handle: product.handle,
   productType: product.productType,
   // TODO: fix
-  logo: metaAssetMap?.logo,
-  headerLogo: metaAssetMap?.header,
-  navLogo: metaAssetMap?.navbar,
-  description: product.descriptionHtml,
+  logo: metaAssetMap?.logo ?? null,
+  headerLogo: metaAssetMap?.header ?? null,
+  navLogo: metaAssetMap?.navbar ?? null,
+  description: product.descriptionHtml ?? null,
   // metafields
-  altColor: getMetafields<string>(product.altColor)?.toString(),
-  bgColor: getMetafields<string>(product.bgColor)?.toString(),
-  color: getMetafields<string>(product.color)?.toString(),
-  artistInfo: getMetafields<ProductArtistInfo>(product.artistInfo),
-  skillMetadata: getMetafields<SkillMetadata>(product.skillMetadata),
-  lockStatus: SkillLockStatus.LOCKED,
+  altColor: getMetafields<string>(product.altColor) ?? null,
+  bgColor: getMetafields<string>(product.bgColor) ?? null,
+  color: getMetafields<string>(product.color) ?? null,
+  artistInfo: getMetafields<ProductArtistInfo>(product.artistInfo) ?? null,
+  skillMetadata: getMetafields<SkillMetadata>(product.skillMetadata) ?? null,
+  get lockStatus() {
+    return getLockStatus(this.skillMetadata) ?? null
+  },
   // TODO: fix
   images,
   lockedImages,

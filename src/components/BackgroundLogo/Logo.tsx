@@ -3,6 +3,7 @@ import { SmartImgLoader } from '@/components/Loader/SmartImgLoader'
 import { ShopImageSrcSet } from '@/types'
 
 import { LogoContainer } from './styleds'
+import Image from 'next/image'
 
 export interface LogoProps {
   logoSrcSet?: ShopImageSrcSet
@@ -28,7 +29,7 @@ export function Logo({ logoSrcSet, src, parentNode, isHeader }: LogoProps) {
           }}
         />
       ) : (
-        <img src={src} alt="logo" />
+        <Image src={src || ''} alt="logo" />
       )}
     </LogoContainer>
   )

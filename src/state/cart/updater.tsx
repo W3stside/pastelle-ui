@@ -24,7 +24,7 @@ export default function CartUpdater() {
   const cartId = useGetCartIdState()
 
   useEffect(() => {
-    async function initCart(cartId: string | undefined) {
+    async function initCart(cartId: string | null | undefined) {
       try {
         await (cartId
           ? _queryAndUpdateCart({ cartId, query, updateCartInfo })
