@@ -8,7 +8,6 @@ import { DEFAULT_MEDIA_START_INDEX } from '@/components/pages-common/constants'
 import { useProductWebCarouselActions } from '@/components/pages-common/hooks/useProductCarouselActions'
 import { AsideWithVideoAuxProps, CollectionPageProps } from '@/components/pages-common/types'
 import { useCallback, useMemo } from 'react'
-import { useUpdateCurrentlyViewingCollection } from '@/state/collection/hooks'
 import { buildItemUrl } from '@/utils/navigation'
 import { useRouter } from 'next/router'
 import { CollectionResponseFormatted } from '@/shopify/graphql/hooks'
@@ -76,10 +75,6 @@ interface Props {
 export default function Collection({ collection }: Props) {
   const { push: navigate } = useRouter()
   const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, (node) => node)
-
-  // get latest collection and the current on screen item handle
-  // const collection = useGetCurrentCollectionFromUrl()
-  useUpdateCurrentlyViewingCollection(true, collection)
 
   // MOBILE/WEB CAROUSEL
   const { currentIndex: currentCarouselIndex, onChange: onCarouselChange } = useProductWebCarouselActions({

@@ -31,7 +31,7 @@ export function Breadcrumbs({
         if (!crumb) return null
         const isLastCrumb = crumb === lastCrumb
         return (
-          <ItemBreadcrumb id="breadcrumb-link" key={crumb + '_' + index} color={OFF_WHITE} href="/" {...navLinkProps}>
+          <ItemBreadcrumb id="breadcrumb-link" key={crumb + '_' + index} color={OFF_WHITE} href="/collection" {...navLinkProps}>
             <span>{!isLastCrumb ? crumb : <strong>{crumb}</strong>}</span>
             {!isLastCrumb && <span>{'//'}</span>}
           </ItemBreadcrumb>
