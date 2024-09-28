@@ -26,6 +26,10 @@ export const QUERY_GET_COLLECTION = gql`
         lockStatus: metafield(namespace: "custom", key: "lock_status") {
           value
         }
+        seo {
+          title
+          description
+        }
         products(first: $productAmt, sortKey: $productSortKey) {
           nodes {
             ...FragmentProduct

@@ -27,7 +27,15 @@ export default function PolicyContent({ policy }: Props) {
 
   return (
     <>
-      <SEO title={policy.title} name={policy.title} description={policy.title} />
+      {/* TODO: fix SEO */}
+      <SEO
+        title={`${policy.title} | PASTELLE APPAREL`}
+        name={policy.title}
+        description={`Learn about Pastelle Apparel's ${policy.title} options. More information available.`}
+        image={null}
+        schema={null}
+        cannonicalUrl={policy.title}
+      />
       <ArticleFadeInContainer id={policy.title} style={{ overflowY: 'auto' }}>
         <Column
           padding="5%"

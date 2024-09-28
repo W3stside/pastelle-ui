@@ -17,13 +17,16 @@ import { ProductCollectionSortKeys } from '@/shopify/graphql/types'
 import { wrapper } from '@/state'
 import { updateCollections, updateCurrentCollection } from '@/state/collection/reducer'
 import { ShopifyIdType, shortenShopifyId } from '@/shopify/utils'
+import { DEFAULT_COLLECTION_DESCRIPTION } from '@/components/SEO/constants'
+import { getCollectionSeoSchema } from '@/components/SEO/utils'
+import { CollectionSchema } from '@/components/SEO/types'
 
 const IS_SERVER = typeof globalThis?.window == 'undefined'
 const ANCHOR_NODE = IS_SERVER ? null : document
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getStaticProps = wrapper.getStaticProps(
-  (store) => async (): Promise<{ props: { collection: CollectionResponseFormatted } }> => {
+  (store) => async (): Promise<{ props: Props }> => {
     const collections = await formattedCollectionQuery({
       collectionAmount: 1,
       // always show the latest collection
@@ -64,6 +67,7 @@ export const getStaticProps = wrapper.getStaticProps(
     return {
       props: {
         collection: collections?.[0] ?? null,
+        schemaSEO: getCollectionSeoSchema(collections?.[0])
       },
     }
   }
@@ -71,8 +75,9 @@ export const getStaticProps = wrapper.getStaticProps(
 
 interface Props {
   collection: CollectionResponseFormatted | null
+  schemaSEO: CollectionSchema | null
 }
-export default function Collection({ collection }: Props) {
+export default function Collection({ collection, schemaSEO }: Props) {
   const { push: navigate } = useRouter()
   const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, (node) => node)
 
@@ -133,11 +138,18 @@ export default function Collection({ collection }: Props) {
     [collectionProductList]
   )
 
-  if (!collection || !mappedCollectionItems || collectionProductList?.length < 1) return null
+  if (!collection || !schemaSEO || !mappedCollectionItems || collectionProductList?.length < 1) return null
 
   return (
     <>
-      <SEO title="COLLECTION" name="COLLECTION" description="PASTELLE. HEAVY STREETWEAR. PORTUGAL." />
+      <SEO
+        name="Collection | PASTELLE APPAREL"
+        title={collection.seo.title || 'Latest Collection | PASTELLE APPAREL'}
+        description={collection.seo.description || DEFAULT_COLLECTION_DESCRIPTION}
+        image={collection.image || ''}
+        cannonicalUrl="collection"
+        schema={schemaSEO}
+      />
       <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>
         {mappedCollectionItems && collectionProductList.length > 1 ? (
           <ScrollingContentPage

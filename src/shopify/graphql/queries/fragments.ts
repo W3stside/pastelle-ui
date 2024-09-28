@@ -24,6 +24,16 @@ export const FRAGMENT_PRODUCT = gql`
     updatedAt
     description
     descriptionHtml
+    seo {
+      title
+      description
+    }
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
     sizes: options {
       values
     }

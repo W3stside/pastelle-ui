@@ -73,7 +73,6 @@ export default memo<ActionScreenProps>(function ShowcaseAndCtaComponent({
           quantity={1}
           buttonProps={{
             bgImage: CTA_BUTTON_BG_URL,
-            // TODO: remove type cast to any after next @past3lle/components version bump
             backgroundColor: color || '#000',
             width: '100%',
             fontSize: '2.5rem',

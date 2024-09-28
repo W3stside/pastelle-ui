@@ -3,7 +3,6 @@ import { ikUrlToSimpleImageSrcSet, urlToSimpleGenericImageSrcSet } from '@past3l
 import LOGO from '@/assets/svg/pastelle-cursive-logo.svg'
 import { useLogo } from '@/components/BackgroundLogo'
 import { ArticleFadeInWithBg } from '@/components/Layout/Article'
-import SEO from '@/components/SEO'
 import { ProductDescription, ProductScreen, ProductSubHeader } from '@/components/pages-common/styleds'
 import { transparentize } from 'polished'
 import { useCallback } from 'react'
@@ -24,13 +23,12 @@ export function AppErrorFallback() {
 
   return (
     <>
-      <SEO title="APP ERROR" name="APP ERROR" description="Top-level app error" />
       <ArticleFadeInWithBg id="APP-ERROR-ARTICLE" bgSet={bgSrcSet}>
         <ProductScreen height="100%" padding="10%">
           <Row ref={setRef} height="50%" justifyContent="center" style={{ position: 'relative' }}>
             <Logo />
           </Row>
-          <ProductSubHeader fontSize={'8rem'}>OOOOPS!</ProductSubHeader>
+          <ProductSubHeader fontSize={'8rem'}>Oops!</ProductSubHeader>
 
           <ProductDescription
             fontSize={'3rem'}

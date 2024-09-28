@@ -60,6 +60,8 @@ export interface CollectionResponseFormatted {
   title: string
   id: string
   locked: boolean
+  image: string | null
+  seo: { title?: null | string; description?: null | string }
   collectionProductMap: CollectionMap
   collectionProductList: BaseProductPageProps[]
   loading: boolean
@@ -92,8 +94,10 @@ export function formatCollectionsResponse(
     const title = collection?.title || 'current'
     const id = collection?.id
     const locked = !!getMetafields<boolean | null>(collection?.lockStatus)
+    const seo = collection.seo ?? null
+    const image = collection.image?.url ?? null
 
-    return { title, id, locked, collectionProductMap, collectionProductList, loading }
+    return { title, id, locked, seo, image, collectionProductMap, collectionProductList, loading }
   })
 }
 

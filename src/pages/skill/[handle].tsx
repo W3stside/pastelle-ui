@@ -1,14 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
 import { useIsMobile } from '@past3lle/hooks'
-import { devDebug } from '@past3lle/utils'
 import SEO from '@/components/SEO'
 import ShowcaseVideos from '@/components/Showcase/Videos'
-import { Z_INDEXES } from '@/constants/config'
+import { PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT, Z_INDEXES } from '@/constants/config'
 import { SHOWCASE_ENABLED } from '@/constants/flags'
 import { SinglePageSmartWrapper } from '@/components/pages-common'
 import { DEFAULT_MEDIA_START_INDEX } from '@/components/pages-common/constants'
 import { useProductWebCarouselActions } from '@/components/pages-common/hooks/useProductCarouselActions'
-import { useEffect } from 'react'
 import { useUpdateCurrentlyViewingProduct } from '@/state/collection/hooks'
 
 import AsideWithVideo from '../../components/Asides/skill/AsideWithVideo'
@@ -18,22 +16,19 @@ import {
   SingleProductContainer,
   SingleProductScreensContainer,
 } from '../../components/Asides/skill/styled'
-import { useRouter } from 'next/router'
-import { productsQuery, productByIdQuery } from '@/shopify/graphql/api/products'
+import { queryProductPaths, queryProducts } from '@/shopify/graphql/api/products'
 import { BaseProductPageProps } from '@/components/pages-common/types'
 import { mapShopifyProductToProps } from '@/shopify/utils'
 import { BLACK } from '@past3lle/theme'
+import { ProductSchema } from '@/components/SEO/types'
+import { getProductSeoSchema } from '@/components/SEO/utils'
+import { DEFAULT_PRODUCT_DESCRIPTION } from '@/components/SEO/constants'
 
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
   const {
     products: { nodes },
-  } = await productsQuery({
-    amount: 20,
-    imageAmt: 20,
-    videoAmt: 20,
-    query: "tag:COLLECTION-1"
-  })
+  } = await queryProductPaths('tag:COLLECTION-1')
 
   // Get the paths we want to pre-render based on products
   const paths = nodes.map((node) => ({
@@ -47,45 +42,29 @@ export async function getStaticPaths() {
 
 // This also gets called at build time
 export async function getStaticProps({ params }) {
-  let unformattedProduct
-  // SCENARIO 1: missing ID in params, we need to get all products and find in list
-  if (!params?.id) {
-    const {
-      products: { nodes },
-    } = await productsQuery({
-      amount: 20,
-      imageAmt: 20,
-      videoAmt: 20,
-    })
+  const {
+    products: { nodes },
+  } = await queryProducts({
+    amount: 1,
+    imageAmt: PRODUCT_IMAGES_AMOUNT,
+    videoAmt: PRODUCT_VIDEOS_AMOUNT,
+    query: params?.handle ? `title:${params.handle}` : `id:${params.id}`,
+  })
 
-    unformattedProduct = nodes.find((node) => node.handle === params.handle)
-  }
-  // SCENARIO 2: ID in params, just get product via ID
-  else {
-    // params contains the product `id`.
-    // If the route is like /skill/1, then params.id is 1
-    const { product: prod1 } = await productByIdQuery({
-      id: params.id,
-      imageAmt: 20,
-      videoAmt: 5,
-    })
-    // assign
-    unformattedProduct = prod1
-  }
+  if (!nodes?.[0]) throw new Error('Missing product information with id ' + JSON.stringify(params.id))
 
-  if (!unformattedProduct) throw new Error('Missing product information with id ' + JSON.stringify(params.id))
-
-  const [product] = mapShopifyProductToProps([unformattedProduct])
+  const [product] = mapShopifyProductToProps(nodes)
 
   // Pass post data to the page via props
-  return { props: { product } }
+  return { props: { product, schemaSEO: getProductSeoSchema(product) } }
 }
 
 interface Props {
   product: BaseProductPageProps | undefined
+  schemaSEO: ProductSchema | null
 }
 
-export default function SingleProductPage({ product }: Props) {
+export default function SingleProductPage({ product, schemaSEO }: Props) {
   // update state store with current browsing SINGLE product
   useUpdateCurrentlyViewingProduct(true, product)
 
@@ -95,25 +74,18 @@ export default function SingleProductPage({ product }: Props) {
   })
 
   const isMobile = useIsMobile()
-  const router = useRouter()
 
-  useEffect(() => {
-    // redirect if no product
-    if (!product) {
-      devDebug('No product, redirecting')
-      router.push('/404')
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product])
-
-  if (!product) return null
+  if (!product || !schemaSEO) return null
 
   return (
     <>
       <SEO
-        title={product.handle.toUpperCase()}
         name={product.handle.toUpperCase()}
-        description={`${product.handle.toUpperCase()}: ${product.shortDescription || 'STREET.APPAREL'}`}
+        title={product.seo.title || `${product.handle.toUpperCase()} | PASTELLE APPAREL`}
+        description={product.seo.description || product.description || product.shortDescription || DEFAULT_PRODUCT_DESCRIPTION}
+        image={product.images?.[0].url1280_2x}
+        cannonicalUrl={`skill/${product.handle}`}
+        schema={schemaSEO}
       />
       <SinglePageSmartWrapper>
         {(smartWrapperProps) => (

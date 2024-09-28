@@ -6,6 +6,7 @@ import {
   Product,
   ProductArtistInfo,
   ProductOptionsSize,
+  ProductQuery,
 } from '@/shopify/graphql/types'
 import { ShopImageSrcSet } from '@/types'
 
@@ -37,6 +38,8 @@ export interface BaseProductPageProps extends Omit<CommonSinglePageProps, 'altLo
   noDescription?: boolean
   skillMetadata?: SkillMetadata
   lockStatus: SkillLockStatus
+  priceRange: ProductQuery['products']['nodes'][number]['priceRange']
+  seo: ProductQuery['products']['nodes'][number]['seo']
 }
 
 export type AsideWithVideoAuxProps = {

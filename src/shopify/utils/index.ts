@@ -80,6 +80,8 @@ export const mapSingleShopifyProductToProps = ({
   videos: product.media.nodes.filter(isProductVideo) as FragmentProductVideoFragment[],
   sizes: getMetafields<ProductSizes[]>(product.sizes[0].values),
   shortDescription: getMetafields<string>(product.shortDescription),
+  seo: product.seo,
+  priceRange: product.priceRange
 })
 enum MediaAltText {
   PRODUCT_FRONT = 'product-front',

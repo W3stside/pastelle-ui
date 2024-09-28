@@ -63,7 +63,14 @@ export default function NotFound() {
 
   return (
     <>
-      <SEO title="404" name="404 | Not Found" description="Page not found!" />
+      <SEO
+        title="404"
+        name="404 | Not Found"
+        description="Page not found!"
+        cannonicalUrl="404"
+        image={null}
+        schema={null}
+      />
       <BackgroundWrapper>
         <ContainerDiv>
           <ItemHeader itemColor="#000" animation={false} letterSpacing={-5}>

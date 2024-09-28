@@ -24,6 +24,17 @@ export const QUERY_HOMEPAGE = gql`
   }
 `
 
+export const QUERY_PRODUCT_PATHS = gql`
+  query ProductPaths($amount: Int, $query: String!) {
+    products(first: $amount, query: $query) {
+      nodes {
+        handle
+        id
+      }
+    }
+  }
+`
+
 export const QUERY_PRODUCT = gql`
   ${FRAGMENT_PRODUCT}
   ${FRAGMENT_PRODUCT_IMAGE}
