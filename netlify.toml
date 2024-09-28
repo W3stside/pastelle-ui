@@ -1,7 +1,18 @@
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[build]
+  # Default build settings for all branches
+  command = "yarn build"
+  publish = "dist"
+
+[context.deploy-preview]
+  # Currently only applicable for CRA on main
+  command = "yarn build"
+  publish = "dist"
+
+# build for NextJS branch
+[context."nextjs"]
+  command = "yarn build && yarn postbuild"
+  publish = "out"
+
 [[headers]]
   for = "/*"
   [headers.values]

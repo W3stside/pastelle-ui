@@ -4711,21 +4711,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@past3lle/carousel-hooks@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@past3lle/carousel-hooks@npm:2.1.1"
-  dependencies:
-    "@past3lle/hooks": "npm:^2.1.1"
-    lodash.clamp: "npm:^4.0.3"
-  peerDependencies:
-    "@react-spring/web": ">=9 < 10"
-    "@use-gesture/react": ">=10 < 11"
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: 10c0/e93979febfbad48622bd49a309de78aa8e3bd2f8d0b29eb5faf08d6aeda9df63719929189da316ed2b3d0d32709e80b615c3fa0961945914cbcd065963828d7c
-  languageName: node
-  linkType: hard
-
 "@past3lle/carousel-hooks@npm:^2.1.2-alpha.0":
   version: 2.1.2-alpha.0
   resolution: "@past3lle/carousel-hooks@npm:2.1.2-alpha.0"
@@ -4741,9 +4726,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@past3lle/carousel@file:/Users/davidsato/Work/pastelle/monorepo/packages/carousel/package.tgz::locator=pastelle%40workspace%3A.":
-  version: 2.1.2-alpha.0
-  resolution: "@past3lle/carousel@file:/Users/davidsato/Work/pastelle/monorepo/packages/carousel/package.tgz#/Users/davidsato/Work/pastelle/monorepo/packages/carousel/package.tgz::hash=c66ef7&locator=pastelle%40workspace%3A."
+"@past3lle/carousel@npm:^2.1.2-alpha.2":
+  version: 2.1.2-alpha.2
+  resolution: "@past3lle/carousel@npm:2.1.2-alpha.2"
   dependencies:
     "@past3lle/carousel-hooks": "npm:^2.1.2-alpha.0"
     "@past3lle/components": "npm:^2.1.2-alpha.0"
@@ -4757,7 +4742,7 @@ __metadata:
     react: ">=16"
     react-router-dom: ">=16"
     styled-components: ">=5 < 6"
-  checksum: 10c0/8618532b17c64a83a05682f3810fe8625ced80d3e0c5f303244a6732989f119e4e1004c63c06c53acb47c07dff19efca09c391a1fcaed1794c9fd9ea0e0b9c85
+  checksum: 10c0/ae3910519a45f913973b265327c8ec46fb3aec698ee74f27b97c7d1eb03aab3b87551521375d764a35cd4df35cd1e955e71a6b1a345e6d2121d080229d0db759
   languageName: node
   linkType: hard
 
@@ -4881,24 +4866,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@past3lle/theme@npm:2.1.2-alpha.0, @past3lle/theme@npm:^2.1.2-alpha.0":
-  version: 2.1.2-alpha.0
-  resolution: "@past3lle/theme@npm:2.1.2-alpha.0"
-  dependencies:
-    "@past3lle/assets": "npm:^2.1.0"
-    "@past3lle/constants": "npm:^2.1.0"
-    "@past3lle/types": "npm:^2.1.0"
-    get-contrast: "npm:3.0.0"
-    lodash.defaultsdeep: "npm:^4.6.1"
-    polished: "npm:^4.2.2"
-    react-helmet: "npm:^6.1.0"
-  peerDependencies:
-    react: ">=16"
-    styled-components: ">=5"
-  checksum: 10c0/d6f63f88bf02a8a7232c51d49f72043a1d9e6fbc9453f2bf76a9637257ee757468804dd8728fbee6989f53971fd5229e262ed31a117ff525309cc6846f2d3907
-  languageName: node
-  linkType: hard
-
 "@past3lle/theme@npm:^2.1.1":
   version: 2.1.1
   resolution: "@past3lle/theme@npm:2.1.1"
@@ -4914,6 +4881,24 @@ __metadata:
     react: ">=16"
     styled-components: ">=5"
   checksum: 10c0/84c27199869deac80c109b4304752b315111f298129f73739b500de95d6ab0f56833f7e8016861249ea311eefe0441a0e5dc8f8ca5ff2b7c7f4a443557080976
+  languageName: node
+  linkType: hard
+
+"@past3lle/theme@npm:^2.1.2-alpha.0":
+  version: 2.1.2-alpha.0
+  resolution: "@past3lle/theme@npm:2.1.2-alpha.0"
+  dependencies:
+    "@past3lle/assets": "npm:^2.1.0"
+    "@past3lle/constants": "npm:^2.1.0"
+    "@past3lle/types": "npm:^2.1.0"
+    get-contrast: "npm:3.0.0"
+    lodash.defaultsdeep: "npm:^4.6.1"
+    polished: "npm:^4.2.2"
+    react-helmet: "npm:^6.1.0"
+  peerDependencies:
+    react: ">=16"
+    styled-components: ">=5"
+  checksum: 10c0/d6f63f88bf02a8a7232c51d49f72043a1d9e6fbc9453f2bf76a9637257ee757468804dd8728fbee6989f53971fd5229e262ed31a117ff525309cc6846f2d3907
   languageName: node
   linkType: hard
 
@@ -14902,13 +14887,13 @@ __metadata:
     "@graphql-codegen/typescript": "npm:4.0.9"
     "@graphql-codegen/typescript-operations": "npm:^4.0.1"
     "@past3lle/assets": "npm:^2.1.0"
-    "@past3lle/carousel": /Users/davidsato/Work/pastelle/monorepo/packages/carousel/package.tgz
-    "@past3lle/carousel-hooks": "npm:^2.1.1"
-    "@past3lle/components": "npm:^2.1.1"
+    "@past3lle/carousel": "npm:^2.1.2-alpha.2"
+    "@past3lle/carousel-hooks": "npm:^2.1.2-alpha.0"
+    "@past3lle/components": "npm:^2.1.2-alpha.0"
     "@past3lle/constants": "npm:^2.1.0"
     "@past3lle/forge-web3": "npm:^2.3.1"
     "@past3lle/hooks": "npm:^2.1.1"
-    "@past3lle/theme": "npm:2.1.2-alpha.0"
+    "@past3lle/theme": "npm:^2.1.2-alpha.0"
     "@past3lle/types": "npm:^2.1.0"
     "@past3lle/utils": "npm:^2.1.0"
     "@past3lle/wagmi-connectors": "npm:^2.3.1"
