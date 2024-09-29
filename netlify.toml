@@ -3,19 +3,15 @@
   command = "yarn build"
   publish = "dist"
 
+# build for NextJS branch
+[context."nextjs"]
+  command = "yarn build"
+  publish = "dist"
+
 [context.deploy-preview]
   # Currently only applicable for CRA on main
   command = "yarn build"
   publish = "dist"
-
-# build for NextJS branch
-[context."nextjs"]
-  command = "yarn build"
-  publish = "out"
-
-[context.deploy-preview-next]
-  command = "yarn build"
-  publish = "out"
 
 [[headers]]
   for = "/*"
