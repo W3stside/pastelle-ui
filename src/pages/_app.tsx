@@ -1,10 +1,7 @@
-'use client'
-
 import { ErrorBoundary } from '@past3lle/components'
 import { ThemeProvider } from '@past3lle/theme'
 import { PastelleForgeW3Provider } from '@/blockchain/provider/ForgeW3Provider'
 import { AppErrorFallback } from '@/components/Error/fallbacks/AppErrorFallback'
-// import App from '@/pages/ClientApp'
 import { StaticCSSProviders, PastelleStoreUpdaters, ThemedCSSProviders } from 'Providers'
 import { Provider } from 'react-redux'
 import ApolloProvider from '@/shopify/graphql/ApolloProvider'
@@ -17,21 +14,21 @@ import { AppProps } from 'next/app'
 import { ShopifyProvider } from '@shopify/hydrogen-react'
 import { useShopifyAnalyticsRouteChange } from '@/analytics/hooks/useShopifyAnalyticsReporter'
 import { Layout } from '@/components/Layout'
+import { CountryCode, LanguageCode } from '@/shopify/graphql/types'
 
 if (!process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN)
   throw new Error('Missing process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!')
 if (!process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN)
   throw new Error('Missing process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!')
 if (!process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION)
-  throw new Error('Missing process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION!')
-if (!process.env.NEXT_PUBLIC_SHOPIFY_SHOP_ID) throw new Error('Missing process.env.NEXT_PUBLIC_SHOPIFY_SHOP_ID!')
+  console.error('Missing process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION! Defaulting to latest.')
 
 const shopifyConfig: Parameters<typeof ShopifyProvider>[0] = {
   storeDomain: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN,
   storefrontToken: process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN,
-  storefrontApiVersion: process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION,
-  countryIsoCode: 'PT',
-  languageIsoCode: 'EN',
+  storefrontApiVersion: process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION || 'latest',
+  countryIsoCode: (process.env.NEXT_PUBLIC_SHOPIFY_COUNTRY_ISO_CODE as CountryCode) || 'PT',
+  languageIsoCode: (process.env.NEXT_PUBLIC_SHOPIFY_LANGUAGE_ISO_CODE as LanguageCode) || 'EN',
 }
 
 function RootApp({ Component, ...pageProps }: AppProps) {
