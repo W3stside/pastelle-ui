@@ -4,11 +4,7 @@ import { polygon, polygonAmoy } from 'wagmi/chains'
 
 import { CONNECTORS } from './connectors'
 
-if (
-  !process.env.NEXT_PUBLIC_WEB3_MODAL_PROJECT_ID ||
-  !process.env.NEXT_PUBLIC_WEB3_AUTH_PROJECT_ID ||
-  !process.env.NEXT_PUBLIC_WEB3_AUTH_NETWORK
-) {
+if (!process.env.NEXT_PUBLIC_WEB3_MODAL_PROJECT_ID) {
   throw new Error('Missing Web3Auth and/or WalletConnect projectID env variables!')
 }
 
