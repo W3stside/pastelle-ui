@@ -10,6 +10,8 @@ const nextConfig = {
     unoptimized: true
   },
   reactStrictMode: false,
+  // netlify build timing out @ 60 so increased here
+  staticPageGenerationTimeout: 240,
   transpilePackages: ["@past3lle/web3-modal", "@past3lle/forge-web3", "@past3lle/wagmi-connectors"]
 }
  
