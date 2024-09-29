@@ -10,7 +10,11 @@
 
 # build for NextJS branch
 [context."nextjs"]
-  command = "yarn build && yarn postbuild"
+  command = "yarn build"
+  publish = "out"
+
+[context.deploy-preview-next]
+  command = "yarn build"
   publish = "out"
 
 [[headers]]
