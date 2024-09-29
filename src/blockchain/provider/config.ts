@@ -15,8 +15,8 @@ const polygonWrapped = {
   ...polygon,
   nativeCurrency: {
     ...polygon.nativeCurrency,
-    name: 'MATIC',
-    symbol: 'MATIC',
+    name: 'POL',
+    symbol: 'POL',
   },
 } as const
 
