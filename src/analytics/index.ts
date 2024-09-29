@@ -1,23 +1,22 @@
-import { ErrorInfo } from 'react'
-import { UaEventOptions } from 'react-ga4/types/ga4'
-
-import GoogleAnalyticsProvider from './GoogleAnalytics4Provider'
+import { sendGTMEvent } from '@next/third-parties/google'
 
 export { useAnalyticsReporter } from './hooks/useAnalyticsReporter'
-
-const IS_SERVER = typeof globalThis?.window == 'undefined'
 
 export const GOOGLE_ANALYTICS_ID: string | undefined = process.env.NEXT_PUBLIC_GOOGLE_GA_MEASUREMENT_ID
 export const GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY = 'ga_client_id'
 
-export const googleAnalytics = new GoogleAnalyticsProvider()
-
-export function sendEvent(event: string | UaEventOptions, params?: unknown) {
-  return googleAnalytics.sendEvent(event, params)
+export function sendEvent(event: string, data: object) {
+  return sendGTMEvent({ event, ...data })
 }
 
-export function sendError(error: Error, errorInfo: ErrorInfo) {
-  return googleAnalytics.sendError(error, errorInfo)
+export function sendError(error: Error, type?: string) {
+  return sendGTMEvent({
+    event: 'error',
+    errorType: type || 'Unknown Error', // Type of error (e.g., network, validation)
+    errorMessage: error.message || 'Unknown Error', // Detailed error message
+    eventCategory: 'Error Tracking',
+    eventAction: 'Error Occurred',
+  })
 }
 
 export function outboundLink(
@@ -26,15 +25,10 @@ export function outboundLink(
   }: {
     url: string
   },
-  hitCallback: () => unknown,
+  hitCallback: () => unknown
 ) {
   return googleAnalytics.outboundLink({ url }, hitCallback)
 }
-
-const installed = Boolean(!IS_SERVER && window.navigator.serviceWorker?.controller)
-const hit = !IS_SERVER && Boolean((window as unknown as Window & { __isDocumentCached: boolean }).__isDocumentCached)
-const action = installed ? (hit ? 'Cache hit' : 'Cache miss') : 'Not installed'
-sendEvent({ category: 'Service Worker', action, nonInteraction: true })
 
 export * from './events/settingsEvents'
 export * from './events/themeEvents'

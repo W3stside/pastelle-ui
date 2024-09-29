@@ -7,6 +7,7 @@ import {
 import { AppProps } from 'next/app'
 import router from 'next/router'
 import { useEffect, useMemo } from 'react'
+import { sendPageViewEvents } from '../events/pageViewEvents'
 
 const ANALYTICS_ENABLED = process.env.NEXT_PUBLIC_DEV_GA == 'true' || process.env.NODE_ENV === 'production'
 
@@ -36,8 +37,9 @@ export function useShopifyAnalyticsRouteChange({ pageProps }: Props) {
   }, [pageProps])
 
   useEffect(() => {
-    const handleRouteChange = () => {
+    const handleRouteChange = (url) => {
       sendPageView(analytics)
+      sendPageViewEvents(url)
     }
 
     router.events.on('routeChangeComplete', handleRouteChange)

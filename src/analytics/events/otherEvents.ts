@@ -5,7 +5,7 @@ export function externalLinkAnalytics(href: string) {
   const explorer = detectExplorer(href)
 
   if (explorer) {
-    sendEvent({
+    sendEvent('blockchain__view_on_explorer', {
       category: Category.EXTERNAL_LINK,
       action: `View on ${explorer}`,
       label: href,

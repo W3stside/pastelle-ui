@@ -1,4 +1,5 @@
 import { outboundLink } from 'analytics'
+import { MouseEvent } from 'react'
 
 const EXPLORER_HOSTNAMES: { [hostname: string]: true } = {
   'etherscan.io': true,
@@ -34,7 +35,7 @@ export function anonymizeLink(href: string): string {
   }
 }
 
-export function handleClickExternalLink(event: React.MouseEvent<HTMLAnchorElement>) {
+export function handleClickExternalLink(event: MouseEvent<HTMLAnchorElement>) {
   const { target, href } = event.currentTarget
 
   const anonymizedHref = anonymizeLink(href)
