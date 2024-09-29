@@ -55,7 +55,7 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
   const handleNavMove = useCallback(
     (
       e: React.MouseEvent<HTMLElement, MouseEvent>,
-      path: { product?: Pick<BaseProductPageProps, 'handle'>; other?: string }
+      path: { product?: Pick<BaseProductPageProps, 'handle'>; other?: string },
     ) => {
       e.preventDefault()
 
@@ -63,7 +63,7 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
 
       navigate(path?.product?.handle ? buildItemUrl(path.product.handle) : (path?.other as string))
     },
-    [navigate, isNavOpen, toggleNav]
+    [navigate, isNavOpen, toggleNav],
   )
 
   // groups products by their product type
@@ -196,7 +196,7 @@ const NavProductLine = ({
   isNavOpen: boolean
   handleNavMove: (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    product: { product: Pick<BaseProductPageProps, 'id' | 'title' | 'handle'> }
+    product: { product: Pick<BaseProductPageProps, 'id' | 'title' | 'handle'> },
   ) => void
   currentProduct: BaseProductPageProps | undefined
   product: Pick<BaseProductPageProps, 'id' | 'title' | 'handle'>

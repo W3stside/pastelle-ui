@@ -73,7 +73,7 @@ export function SinglePageSmartWrapper({ children }: SmartWrapperFunctionChildre
       screensContainerNode,
       setScreensContainerRef,
     }),
-    [parentAspectRatio, rootContainerNode, screensContainerNode, setScreensContainerRef]
+    [parentAspectRatio, rootContainerNode, screensContainerNode, setScreensContainerRef],
   )
 
   return (

@@ -25,53 +25,51 @@ const IS_SERVER = typeof globalThis?.window == 'undefined'
 const ANCHOR_NODE = IS_SERVER ? null : document
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const getStaticProps = wrapper.getStaticProps(
-  (store) => async (): Promise<{ props: Props }> => {
-    const collections = await formattedCollectionQuery({
-      collectionAmount: 1,
-      // always show the latest collection
-      productAmt: 10,
-      imageAmt: PRODUCT_IMAGES_AMOUNT,
-      videoAmt: PRODUCT_VIDEOS_AMOUNT,
-      // reverse array to get first as latest
-      reverse: true,
-      productSortKey: ProductCollectionSortKeys.BestSelling,
-    })
+export const getStaticProps = wrapper.getStaticProps((store) => async (): Promise<{ props: Props }> => {
+  const collections = await formattedCollectionQuery({
+    collectionAmount: 1,
+    // always show the latest collection
+    productAmt: 10,
+    imageAmt: PRODUCT_IMAGES_AMOUNT,
+    videoAmt: PRODUCT_VIDEOS_AMOUNT,
+    // reverse array to get first as latest
+    reverse: true,
+    productSortKey: ProductCollectionSortKeys.BestSelling,
+  })
 
-    if (collections.length) {
-      const formattedCollections = collections.map(({ collectionProductMap, locked, id, title }) => ({
-        products: collectionProductMap,
-        locked,
-        id: shortenShopifyId(id as ShopifyIdType, 'Collection'),
-        title,
-      }))
+  if (collections.length) {
+    const formattedCollections = collections.map(({ collectionProductMap, locked, id, title }) => ({
+      products: collectionProductMap,
+      locked,
+      id: shortenShopifyId(id as ShopifyIdType, 'Collection'),
+      title,
+    }))
 
+    store.dispatch(
+      updateCollections({
+        collections: formattedCollections,
+        loading: false,
+      }),
+    )
+
+    if (formattedCollections?.[0]?.id) {
       store.dispatch(
-        updateCollections({
-          collections: formattedCollections,
+        updateCurrentCollection({
+          id: formattedCollections[0].id,
+          locked: formattedCollections[0]?.locked,
           loading: false,
-        })
+        }),
       )
-
-      if (formattedCollections?.[0]?.id) {
-        store.dispatch(
-          updateCurrentCollection({
-            id: formattedCollections[0].id,
-            locked: formattedCollections[0]?.locked,
-            loading: false,
-          })
-        )
-      }
-    }
-
-    return {
-      props: {
-        collection: collections?.[0] ?? null,
-        schemaSEO: getCollectionSeoSchema(collections?.[0])
-      },
     }
   }
-)
+
+  return {
+    props: {
+      collection: collections?.[0] ?? null,
+      schemaSEO: getCollectionSeoSchema(collections?.[0]),
+    },
+  }
+})
 
 interface Props {
   collection: CollectionResponseFormatted | null
@@ -90,7 +88,7 @@ export default function Collection({ collection, schemaSEO }: Props) {
 
   const collectionProductList = useMemo(
     () => collection?.collectionProductList || [],
-    [collection?.collectionProductList]
+    [collection?.collectionProductList],
   )
 
   // on mobile sizes we set a fixed height
@@ -109,7 +107,7 @@ export default function Collection({ collection, schemaSEO }: Props) {
     (handle?: string) => {
       if (handle) navigate(buildItemUrl(handle))
     },
-    [navigate]
+    [navigate],
   )
 
   const AsideWithVideoAux = useCallback(
@@ -125,7 +123,7 @@ export default function Collection({ collection, schemaSEO }: Props) {
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [collection]
+    [collection],
   )
 
   const mappedCollectionItems = useMemo(
@@ -135,7 +133,7 @@ export default function Collection({ collection, schemaSEO }: Props) {
         if (item?.lockedImages?.[0]?.url) newItem.images = item.lockedImages
         return newItem
       }),
-    [collectionProductList]
+    [collectionProductList],
   )
 
   if (!collection || !schemaSEO || !mappedCollectionItems || collectionProductList?.length < 1) return null

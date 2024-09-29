@@ -8,7 +8,7 @@ import dynamic from 'next/dynamic'
 
 const InnerNavigation = dynamic(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "INNER_NAVIGATION" */ './InnerNav'),
-  { ssr: false }
+  { ssr: false },
 )
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string | null }

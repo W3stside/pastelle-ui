@@ -10,7 +10,12 @@ import {
   upToSmall,
 } from '@past3lle/theme'
 import { Z_INDEXES } from '@/constants/config'
-import { ProductLogo, ProductLogoCollectionView, ProductScreen, ProductScreensContainer } from '@/components/pages-common/styleds'
+import {
+  ProductLogo,
+  ProductLogoCollectionView,
+  ProductScreen,
+  ProductScreensContainer,
+} from '@/components/pages-common/styleds'
 import { transparentize } from 'polished'
 import styled from 'styled-components/macro'
 

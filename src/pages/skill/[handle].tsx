@@ -82,7 +82,9 @@ export default function SingleProductPage({ product, schemaSEO }: Props) {
       <SEO
         name={product.handle.toUpperCase()}
         title={product.seo.title || `${product.handle.toUpperCase()} | PASTELLE APPAREL`}
-        description={product.seo.description || product.description || product.shortDescription || DEFAULT_PRODUCT_DESCRIPTION}
+        description={
+          product.seo.description || product.description || product.shortDescription || DEFAULT_PRODUCT_DESCRIPTION
+        }
         image={product.images?.[0].url1280_2x}
         cannonicalUrl={`skill/${product.handle}`}
         schema={schemaSEO}

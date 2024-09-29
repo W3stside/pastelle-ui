@@ -97,7 +97,7 @@ const ItemVideoContent = ({
     videosMap.get('MAIN'),
     // @ts-expect-error problem in types of internals
     { delay: LOAD_IN_VIEW_DELAY, threshold: LOAD_IN_VIEW_THRESHOLD, continuous: true },
-    !isMobileWidth
+    !isMobileWidth,
   )
 
   // EFFECT: sync video play status with AUTOPLAY/IN VIEW state and current PLAY/PAUSE status
@@ -110,7 +110,7 @@ const ItemVideoContent = ({
 
   const toggleVideo = useCallback(
     () => updateVideoSettings({ autoplay, status: isPlaying ? 'pause' : 'play' }),
-    [autoplay, isPlaying, updateVideoSettings]
+    [autoplay, isPlaying, updateVideoSettings],
   )
 
   const shouldSmartFillFull = smartFill?.full
@@ -174,7 +174,7 @@ const ItemVideoContent = ({
               ref={(node) => (node ? setVideoNodesMap((state) => new Map(state).set('MAIN', node)) : undefined)}
               autoPlayOptions={autoplay ? undefined : autoPlayOptions}
             />
-          </Fragment>
+          </Fragment>,
         )
 
         return acc
@@ -200,7 +200,7 @@ const ItemVideoContent = ({
       videoIdx,
       videoProps,
       videos,
-    ]
+    ],
   )
 
   if (!VideosComponents?.length) return null

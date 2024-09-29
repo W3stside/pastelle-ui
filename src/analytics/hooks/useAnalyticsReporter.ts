@@ -62,7 +62,7 @@ export function initGA4() {
   )
 
   // typed as 'unknown' in react-ga4 -.-
-  googleAnalytics.ga((tracker: {get: (type: string) => string}) => {
+  googleAnalytics.ga((tracker: { get: (type: string) => string }) => {
     if (!tracker) return
 
     const clientId = tracker.get('clientId')
@@ -151,7 +151,9 @@ export function useAnalyticsReporter() {
       return
     }
     // Not in dev, init analytics
-    const storageItem = localStorage.getItem(process.env.NEXT_PUBLIC_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies')
+    const storageItem = localStorage.getItem(
+      process.env.NEXT_PUBLIC_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies',
+    )
     const consent: typeof DEFAULT_COOKIE_CONSENT = storageItem ? JSON.parse(storageItem) : DEFAULT_COOKIE_CONSENT
 
     reportWebVitals()

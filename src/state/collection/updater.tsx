@@ -51,7 +51,7 @@ export default function Updater() {
           id: shortenShopifyId(id as ShopifyIdType, 'Collection'),
           title,
         })),
-        false
+        false,
       )
 
       if (singleSkill?.id) {

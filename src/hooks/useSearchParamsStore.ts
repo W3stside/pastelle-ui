@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 
 export function useSearchParamsStore(): [
   ReadonlyURLSearchParams | null,
-  (key: string, value: string) => Promise<boolean>
+  (key: string, value: string) => Promise<boolean>,
 ] {
   const pathname = usePathname()
   const router = useRouter()
@@ -19,12 +19,12 @@ export function useSearchParamsStore(): [
 
       return params.toString()
     },
-    [searchParams]
+    [searchParams],
   )
 
   const setSearchParams = useCallback(
     (key: string, value: string) => router.push(pathname + '?' + createQueryString(key, value)),
-    [createQueryString, pathname, router]
+    [createQueryString, pathname, router],
   )
 
   return [searchParams, setSearchParams]

@@ -116,7 +116,7 @@ export const ItemHeader = styled(Text.Header)<ItemHeaderProps>`
       },
       css`
         text-shadow: 1rem 0.2rem 0.2rem ${itemColor};
-      `
+      `,
     )}
 `
 export interface LogoBaseStyleProps {
@@ -475,7 +475,7 @@ function _showSocialUrl(type: string | SocialType) {
 }
 
 export const ProductArtistInfo = (
-  props: (BaseProductPageProps['artistInfo'] & { bgColor: string | undefined | null }) | undefined
+  props: (BaseProductPageProps['artistInfo'] & { bgColor: string | undefined | null }) | undefined,
 ) => {
   if (!props) return null
 

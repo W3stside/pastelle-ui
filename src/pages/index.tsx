@@ -29,19 +29,19 @@ const AsideCarousel = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/components/pages-common/screens/AsideCarousel'
-    )
+    ),
 )
 const ActionScreen = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/components/pages-common/screens/ActionsAndChildren'
-    )
+    ),
 )
 const Description = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/components/pages-common/screens/DescriptionAndChildren'
-    )
+    ),
 )
 
 const VIDEO_CSS = `

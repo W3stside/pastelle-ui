@@ -28,7 +28,7 @@ const AsideCarousel = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/components/pages-common/screens/AsideCarousel'
-    )
+    ),
 )
 
 export default function CollectionProductPage(props: CollectionPageProps) {
@@ -80,7 +80,7 @@ export default function CollectionProductPage(props: CollectionPageProps) {
   // Src-set of all images
   const imageSrcSet = useMemo(
     () => getImageSizeMap(lockStatus === SkillLockStatus.LOCKED ? lockedImages : images),
-    [lockedImages, lockStatus, images]
+    [lockedImages, lockStatus, images],
   )
   return (
     <>

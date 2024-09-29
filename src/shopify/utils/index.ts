@@ -81,7 +81,7 @@ export const mapSingleShopifyProductToProps = ({
   sizes: getMetafields<ProductSizes[]>(product.sizes[0].values),
   shortDescription: getMetafields<string>(product.shortDescription),
   seo: product.seo,
-  priceRange: product.priceRange
+  priceRange: product.priceRange,
 })
 enum MediaAltText {
   PRODUCT_FRONT = 'product-front',
@@ -126,14 +126,17 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
     })
 
     // Map meta assets (header/logo/product logos) into a responsive size map
-    const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
-      const mappedAsset = metaAssets[i]
-      if (mappedAsset?.altText) {
-        acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
-      }
+    const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce(
+      (acc, asset, i) => {
+        const mappedAsset = metaAssets[i]
+        if (mappedAsset?.altText) {
+          acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
+        }
 
-      return acc
-    }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
+        return acc
+      },
+      {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet },
+    )
 
     return mapSingleShopifyProductToProps({
       product: datum,
@@ -166,14 +169,17 @@ export const mapShopifyHomepageToProps = (data: Product) => {
   })
 
   // Map meta assets (header/logo/product logos) into a responsive size map
-  const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
-    const mappedAsset = metaAssets[i]
-    if (mappedAsset?.altText) {
-      acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
-    }
+  const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce(
+    (acc, asset, i) => {
+      const mappedAsset = metaAssets[i]
+      if (mappedAsset?.altText) {
+        acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
+      }
 
-    return acc
-  }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
+      return acc
+    },
+    {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet },
+  )
 
   return mapSingleShopifyProductToProps({
     product: data,
@@ -226,7 +232,7 @@ interface ReducedShowcaseVideos {
 
 export function reduceShopifyMediaToShowcaseVideos(
   acc: Record<string, FragmentProductVideoFragment>,
-  media: FragmentProductVideoFragment
+  media: FragmentProductVideoFragment,
 ): ReducedShowcaseVideos {
   if (media?.id && media?.alt) {
     acc[media.alt] = media
@@ -250,7 +256,7 @@ export function getShopifyId<T extends ShopifyIdType>(id: string | null, type: T
 }
 export function shortenShopifyId<T extends ShopifyIdType>(
   longId: T | string | number | undefined | null,
-  type: T
+  type: T,
 ): string | '' {
   const idIsAlreadyFormed = !!Number(longId)
 

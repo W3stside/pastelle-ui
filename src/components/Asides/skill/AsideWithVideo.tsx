@@ -35,19 +35,19 @@ const AsideCarousel = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/components/pages-common/screens/AsideCarousel'
-    )
+    ),
 )
 const ActionScreen = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/components/pages-common/screens/ActionsAndChildren'
-    )
+    ),
 )
 const Description = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/components/pages-common/screens/DescriptionAndChildren'
-    )
+    ),
 )
 
 export type SingleProductPageProps = BaseProps & SmartWrapperNodesAndRefs
@@ -105,7 +105,7 @@ export default function SingleProductPage(props: SingleProductPageProps) {
   // Src-set of all images
   const imageSrcSet = useMemo(
     () => getImageSizeMap(lockStatus === SkillLockStatus.LOCKED ? lockedImages : images),
-    [lockedImages, lockStatus, images]
+    [lockedImages, lockStatus, images],
   )
 
   return (

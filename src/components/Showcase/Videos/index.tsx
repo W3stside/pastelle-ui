@@ -12,7 +12,9 @@ import dynamic from 'next/dynamic'
 
 const ItemVideoContent = dynamic(
   () =>
-    import(/* webpackPrefetch: true,  webpackChunkName: "ITEMVIDEOCONTENT" */ '@/components/Asides/skill/ItemVideoContent'),
+    import(
+      /* webpackPrefetch: true,  webpackChunkName: "ITEMVIDEOCONTENT" */ '@/components/Asides/skill/ItemVideoContent'
+    ),
 )
 
 export type ShowcaseVideosProps = Pick<CollectionPageProps, 'firstPaintOver' | 'videos'> &

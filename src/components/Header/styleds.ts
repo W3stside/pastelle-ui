@@ -216,7 +216,11 @@ export const HeaderDrawerButton = styled.div`
     color: white;
   }
 `
-export const HeaderFrame = styled(Header)<{ open: boolean; color?: string | undefined | null; logoSet?: ShopImageSrcSet }>`
+export const HeaderFrame = styled(Header)<{
+  open: boolean
+  color?: string | undefined | null
+  logoSet?: ShopImageSrcSet
+}>`
   top: 0;
   padding: 1rem;
 

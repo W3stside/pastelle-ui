@@ -38,7 +38,7 @@ function RootApp({ Component, ...pageProps }: AppProps) {
   // Inject redux SSR state props
   const { store, props } = wrapper.useWrappedStore(pageProps)
   const pagePropsWithAppAnalytics = useShopifyAnalyticsRouteChange({ pageProps: props.pageProps })
-  
+
   return (
     <ShopifyProvider {...shopifyConfig}>
       <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>

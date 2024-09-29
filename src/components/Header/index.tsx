@@ -33,7 +33,7 @@ export default function Header() {
     () => productLogos?.[Math.ceil(Math.random() * productLogos.length - 1)]?.headerLogo,
     // only update when navving in-out of collection page on mobile
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isCollectionPage]
+    [isCollectionPage],
   )
 
   // only applicable for certain view sizes..

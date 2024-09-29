@@ -20,7 +20,7 @@ const polygonWrapped = {
   nativeCurrency: {
     ...polygon.nativeCurrency,
     name: 'MATIC',
-    symbol: 'MATIC'
+    symbol: 'MATIC',
   },
 } as const
 

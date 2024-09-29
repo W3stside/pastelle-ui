@@ -8,14 +8,14 @@ export function useLogo(props: Omit<LogoProps, 'parentNode'>) {
   return {
     Logo: useCallback(
       () => (props?.logoSrcSet || props?.src ? <Logo parentNode={node} {...props} /> : null),
-      [node, props]
+      [node, props],
     ),
     ref: useMemo(
       () => ({
         setRef: setNodeRef,
         ref: node,
       }),
-      [node, setNodeRef]
+      [node, setNodeRef],
     ),
   }
 }

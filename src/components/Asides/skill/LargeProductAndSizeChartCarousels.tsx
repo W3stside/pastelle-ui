@@ -36,7 +36,7 @@ export function LargeProductAndSizeChartImagesCarousel({
   // PRODUCT/SIZE CHART IMAGES
   const [imageUrls, sizeChartImageUrls] = useMemo(
     () => [getImageSizeMap(skillState === SkillLockStatus.LOCKED ? lockedImages : images), getImageSizeMap(sizeChart)],
-    [skillState, images, lockedImages, sizeChart]
+    [skillState, images, lockedImages, sizeChart],
   )
   return (
     <>
@@ -64,7 +64,7 @@ export function LargeProductAndSizeChartImagesCarousel({
               width: Math.floor(((!IS_SERVER && window?.innerWidth) || 0) * 0.9),
               get height() {
                 return Math.floor(
-                  isMobile ? Math.min(IS_SERVER ? 0 : window.innerHeight / 2, this.width / 1.75) : this.width / 1.75
+                  isMobile ? Math.min(IS_SERVER ? 0 : window.innerHeight / 2, this.width / 1.75) : this.width / 1.75,
                 )
               },
             },

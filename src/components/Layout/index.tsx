@@ -2,7 +2,9 @@ import { ReactNode } from 'react'
 // import { CookiesBanner } from '../Cookies/Banner'
 import dynamic from 'next/dynamic'
 
-const Header = dynamic(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ '@/components/Header'), { ssr: false })
+const Header = dynamic(() => import(/* webpackPrefetch: true,  webpackChunkName: "HEADER" */ '@/components/Header'), {
+  ssr: false,
+})
 const Navigation = dynamic(() => import(/* webpackChunkName: "NAVIGATION" */ '@/components/Navigation'), { ssr: false })
 
 interface Props {

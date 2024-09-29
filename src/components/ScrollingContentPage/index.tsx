@@ -64,7 +64,7 @@ export function ScrollingContentPage<D>({
         minSize: MINIMUM_COLLECTION_ITEM_HEIGHT,
       },
     }),
-    [fixedItemHeight, isMobileWidth]
+    [fixedItemHeight, isMobileWidth],
   )
   const {
     bind,
@@ -94,7 +94,7 @@ export function ScrollingContentPage<D>({
 
   const handleItemSelect = useCallback(
     (index: number) => onContentClick && onContentClick((data[index] as Product).handle),
-    [data, onContentClick]
+    [data, onContentClick],
   )
 
   const prevDataLength = usePrevious(data.length)

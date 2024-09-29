@@ -18,7 +18,7 @@ export const CollectionSelector = () => {
         navigate(COLLECTION_PARAM_NAME + '/' + collection.id)
       }
     },
-    [collections, navigate]
+    [collections, navigate],
   )
 
   if (!collections || !current?.id || !collections?.[current.id]?.id) return null
