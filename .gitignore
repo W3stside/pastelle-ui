@@ -46,3 +46,7 @@ gh-pages.pub
 cypress/videos
 cypress/screenshots
 cypress/fixtures/example.json
+
+# next ignore
+.next
+next-env.d.ts
