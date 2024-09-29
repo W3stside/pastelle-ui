@@ -12,24 +12,28 @@ import {
   upToSmall,
   upToSmallHeight,
 } from '@past3lle/theme'
-import { YellowCard } from '@/components/Layout'
+import { YellowCard } from '@/components/Layout/Card'
 import { MobileNavOrb } from '@/components/Navigation/styled'
 import { ShoppingCartFullWrapper, ShoppingCartHeaderWrapper } from '@/components/ShoppingCart/styled'
 import ThemeToggleBar from '@/components/ThemeToggler'
 import { Web3Button } from '@/components/Web3LoginButton'
 import { Z_INDEXES } from '@/constants/config'
-import { FreeShippingBanner, ProductSubHeader } from '@/pages/common/styleds'
+import { FreeShippingBanner, ProductSubHeader } from '@/components/pages-common/styleds'
 import { darken, transparentize } from 'polished'
-import { NavLink } from 'react-router-dom'
 import { Text } from 'rebass'
 import styled from 'styled-components/macro'
 import { getThemeColourByKey } from '@/theme'
 import { ThemeModes } from '@/theme'
 import { ShopImageSrcSet } from '@/types'
+import Link from 'next/link'
+
+// weird bug with next thinking static
+const logoFull = PNG_LogoFull_2x as unknown as string
+const logoShort = PNG_LogoShort_2x as unknown as string
 
 const DEFAULT_BG = transparentize(0.3, getThemeColourByKey(ThemeModes.DARK, 'bg1', BLACK) as string)
 
-export const StyledNavLink = styled(NavLink)`
+export const StyledNavLink = styled(Link)`
   display: flex;
   flex-flow: row nowrap;
   align-items: left;
@@ -80,7 +84,7 @@ export const HeaderElement = styled.div`
   gap: 8px;
 `
 
-export const Title = styled(NavLink)`
+export const Title = styled(Link)`
   display: flex;
   align-items: center;
   pointer-events: auto;
@@ -212,7 +216,11 @@ export const HeaderDrawerButton = styled.div`
     color: white;
   }
 `
-export const HeaderFrame = styled(Header)<{ open: boolean; color?: string; logoSet?: ShopImageSrcSet }>`
+export const HeaderFrame = styled(Header)<{
+  open: boolean
+  color?: string | undefined | null
+  logoSet?: ShopImageSrcSet
+}>`
   top: 0;
   padding: 1rem;
 
@@ -253,7 +261,7 @@ export const HeaderFrame = styled(Header)<{ open: boolean; color?: string; logoS
   transition: left 0.2s ease-in-out, height 0.2s ease-in-out;
 `
 
-export const HeaderLinks = styled(Row)<{ color?: string }>`
+export const HeaderLinks = styled(Row)<{ color?: string | null }>`
   width: max-content;
   margin-right: auto;
   justify-content: center;
@@ -263,7 +271,7 @@ export const HeaderLinks = styled(Row)<{ color?: string }>`
   background-color: ${({ color }) => (color ? darken(0.03, color) : DEFAULT_BG)};
 
   > a {
-    color: ${({ color = DEFAULT_BG }) => setBestTextColour(color, 2, true)};
+    color: ${({ color }) => setBestTextColour(color || DEFAULT_BG, 2, true)};
     white-space: nowrap;
     flex: 1 0 auto;
 
@@ -321,9 +329,9 @@ export const Pastellecon = styled.div`
   width: 100%;
   transition: transform 0.3s ease;
 
-  background: url(${PNG_LogoShort_2x}) left/contain no-repeat;
+  background: url(${logoShort}) left/contain no-repeat;
   ${fromExtraSmall`
-    background: url(${PNG_LogoFull_2x}) left/contain no-repeat;
+    background: url(${logoFull}) left/contain no-repeat;
     height: 120%;
     width: 120%;
   `}

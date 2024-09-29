@@ -1,30 +1,43 @@
+import Head from 'next/head'
 import React from 'react'
-import { Helmet } from 'react-helmet-async'
+import { CollectionSchema, ProductSchema } from './types'
 
 interface SEOProps {
   title: string
   description: string
   name: string
+  image: string | null
+  cannonicalUrl: string
+  schema: ProductSchema | CollectionSchema | null
   type?: string
 }
 
-export default function SEO({ title, description, name, type = 'website' }: SEOProps) {
+export default function SEO({ title, description, name, cannonicalUrl, type = 'website', image, schema }: SEOProps) {
   return (
-    <Helmet titleTemplate="%s | PASTELLE">
+    <Head>
       {/* Standard metadata tags */}
       <title>{title}</title>
-      <meta name="description" content={description} data-rh="true" />
+      <meta name="description" content={description} />
 
       {/* Facebook tags */}
-      <meta property="og:type" content={type} data-rh="true" />
-      <meta property="og:title" content={title} data-rh="true" />
-      <meta property="og:description" content={description} data-rh="true" />
+      <meta property="og:title" content={title} />
+      <meta property="og:type" content={type} />
+      {image && <meta property="og:image" content={image} />}
+      <meta property="og:description" content={description} />
+      <meta property="og:url" content={cannonicalUrl} />
 
       {/* Twitter tags */}
-      <meta name="twitter:creator" content={name} data-rh="true" />
-      <meta name="twitter:card" content={type} data-rh="true" />
-      <meta name="twitter:title" content={title} data-rh="true" />
-      <meta name="twitter:description" content={description} data-rh="true" />
-    </Helmet>
+      <meta name="twitter:creator" content={name} />
+      <meta name="twitter:card" content={type} />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      {image && <meta name="twitter:image" content={image} />}
+
+      {/* Cannonical link */}
+      <link rel="canonical" href={`https://pastelle.shop/${cannonicalUrl}`} />
+
+      {/* Schema */}
+      {schema && <script type="application/ld+json">{JSON.stringify(schema)}</script>}
+    </Head>
   )
 }

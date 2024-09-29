@@ -21,7 +21,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
       if (quantity === 0) return
       return setQuantity((state) => state - 1)
     },
-    [quantity]
+    [quantity],
   )
   const handleOnClickUp = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -30,7 +30,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
       if (quantity === PURCHASE_LIMIT) return
       return setQuantity((state) => state + 1)
     },
-    [quantity]
+    [quantity],
   )
   const handleInputChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (e) => {
@@ -40,11 +40,11 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
       if (value <= 0 || value > PURCHASE_LIMIT) return
       return debouncedSetQuantity(value)
     },
-    [debouncedSetQuantity]
+    [debouncedSetQuantity],
   )
 
   const QuantitySelector = useCallback(
-    ({ isDisabled, color }: { isDisabled?: boolean; color?: string }) => {
+    ({ isDisabled, color }: { isDisabled?: boolean; color?: string | null }) => {
       return (
         <QuantitySelectorWrapper color={color}>
           {/* - */}
@@ -57,7 +57,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
               type="number"
               onChange={handleInputChange}
               onClick={(e) => e.stopPropagation()}
-              value={debouncedQuantity}
+              value={debouncedQuantity as number}
             />
           )}
           {/* + */}
@@ -76,7 +76,7 @@ export default function useQuantitySelector({ defaultQuantity = 1, onTrashClick,
       onTrashClick,
       options?.numberInput,
       quantity,
-    ]
+    ],
   )
 
   return {

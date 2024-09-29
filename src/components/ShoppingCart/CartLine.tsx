@@ -3,17 +3,17 @@ import { useCleanTimeout, usePrevious } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
 import { removeFromCartAnalytics } from '@/analytics/events/cartEvents'
 import useQuantitySelector from 'hooks/useQuantitySelector'
-import { ProductSubHeader } from '@/pages/common/styleds'
+import { ProductSubHeader } from '@/components/pages-common/styleds'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { FragmentCartLineFragment, ProductSizes } from '@/shopify/graphql/types'
 import { getMetafields, sizeToFullSize } from '@/shopify/utils'
 import { useRemoveCartLineAndUpdateReduxCallback, useUpdateCartLineAndUpdateReduxCallback } from '@/state/cart/hooks'
 import { useOnScreenProductHandle } from '@/state/collection/hooks'
-import { buildItemUrl } from 'utils/navigation'
+import { buildItemUrl } from '@/utils/navigation'
 
 import { QuantityBubble } from './common'
 import { CartLineContent, CartLineWrapper } from './styled'
+import { useRouter } from 'next/router'
 
 export default function CartLine({ line }: { line: FragmentCartLineFragment }) {
   const { updateCartLineCallback } = useUpdateCartLineAndUpdateReduxCallback()
@@ -57,7 +57,7 @@ export default function CartLine({ line }: { line: FragmentCartLineFragment }) {
     [color, images.nodes],
   )
 
-  const navigate = useNavigate()
+  const { push: navigate } = useRouter()
   const handleClick = useCallback(() => {
     const url = buildItemUrl(handle)
     navigate(url)

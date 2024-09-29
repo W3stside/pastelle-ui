@@ -2,10 +2,10 @@ import { devDebug, getIsMobile } from '@past3lle/utils'
 import { Dimensions } from '@/analytics/GoogleAnalytics4Provider'
 import { useEffect } from 'react'
 import TagManager from 'react-gtm-module'
-import { useLocation } from 'react-router-dom'
 import { Metric, getCLS, getFCP, getFID, getLCP } from 'web-vitals'
 
 import { GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY, GOOGLE_ANALYTICS_ID, googleAnalytics } from '..'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 export function sendTiming(timingCategory: unknown, timingVar: unknown, timingValue: unknown, timingLabel: unknown) {
   return googleAnalytics.gaCommandSendTiming(timingCategory, timingVar, timingValue, timingLabel)
@@ -29,9 +29,9 @@ interface CookiePreferences {
 }
 
 export function initGTM() {
-  if (typeof import.meta.env.VITE_GOOGLE_TAG_MANAGER_ID === 'string') {
+  if (typeof process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID === 'string') {
     TagManager.initialize({
-      gtmId: import.meta.env.VITE_GOOGLE_TAG_MANAGER_ID,
+      gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
     })
   }
 }
@@ -40,7 +40,7 @@ export function initGA4() {
   if (typeof GOOGLE_ANALYTICS_ID === 'string') {
     const storedClientId = window.localStorage.getItem(GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY)
     const gtagOptions: Record<string, unknown> = {}
-    if (import.meta.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       gtagOptions.debug_mode = true
       gtagOptions.debug = true
     }
@@ -62,7 +62,7 @@ export function initGA4() {
   )
 
   // typed as 'unknown' in react-ga4 -.-
-  googleAnalytics.ga((tracker: {get: (type: string) => string}) => {
+  googleAnalytics.ga((tracker: { get: (type: string) => string }) => {
     if (!tracker) return
 
     const clientId = tracker.get('clientId')
@@ -123,15 +123,16 @@ export function initAnalytics({ interacted, marketing, advertising }: CookiePref
 // }
 
 const DEFAULT_COOKIE_CONSENT = { interacted: false, analytics: true, advertising: false, marketing: false }
-const ANALYTICS_ENABLED = import.meta.env.VITE_DEV_GA == 'true' || import.meta.env.NODE_ENV === 'production'
+const ANALYTICS_ENABLED = process.env.NEXT_PUBLIC_DEV_GA == 'true' || process.env.NODE_ENV === 'production'
 
 // tracks web vitals and pageviews
 export function useAnalyticsReporter() {
-  if (!import.meta.env.VITE_GOOGLE_GA_MEASUREMENT_ID || !import.meta.env.VITE_GOOGLE_TAG_MANAGER_ID) {
+  if (!process.env.NEXT_PUBLIC_GOOGLE_GA_MEASUREMENT_ID || !process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID) {
     console.error('MISSING GOOGLE GA and/or GOOGLE TAG MANAGER ID KEY! CHECK ENV')
   }
 
-  const { pathname, search } = useLocation()
+  const pathname = usePathname()
+  const search = useSearchParams()
 
   // useBlockchainAnalyticsReporter()
 
@@ -141,7 +142,7 @@ export function useAnalyticsReporter() {
       return
     }
     // Not in dev, init analytics
-    googleAnalytics.pageview(`${pathname}${search}`)
+    googleAnalytics.pageview(`${pathname}${search?.toString()}`)
   }, [pathname, search])
 
   useEffect(() => {
@@ -150,7 +151,9 @@ export function useAnalyticsReporter() {
       return
     }
     // Not in dev, init analytics
-    const storageItem = localStorage.getItem(import.meta.env.VITE_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies')
+    const storageItem = localStorage.getItem(
+      process.env.NEXT_PUBLIC_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies',
+    )
     const consent: typeof DEFAULT_COOKIE_CONSENT = storageItem ? JSON.parse(storageItem) : DEFAULT_COOKIE_CONSENT
 
     reportWebVitals()

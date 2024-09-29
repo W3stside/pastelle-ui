@@ -3,7 +3,7 @@ import { DDPXImageUrlMap } from '@past3lle/types'
 import { useMemo } from 'react'
 import { ShopImageSrcSet } from '@/types'
 
-const BASE_IK_URI = import.meta.env.VITE_IMAGEKIT_URL_ENDPOINT
+const BASE_IK_URI = process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT
 
 export function useShopifySrcSetToImageKitSrcSet(srcSet: ShopImageSrcSet | undefined, transformations: string) {
   const { defaultUrl: oDefaultUrl, ...restImages } = srcSet || {}

@@ -1,3 +1,5 @@
+'use client'
+
 import { CookieBanner } from '@past3lle/components'
 import { devDebug } from '@past3lle/utils'
 import { initAnalytics } from '@/analytics/hooks/useAnalyticsReporter'
@@ -47,7 +49,7 @@ export function CookiesBanner() {
           }
         }
       `}
-      storageKey={import.meta.env.VITE_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies'}
+      storageKey={process.env.NEXT_PUBLIC_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies'}
       message={'COOKIES?'}
       fullText={
         <div>

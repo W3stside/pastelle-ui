@@ -4,6 +4,6 @@ import { ProductOptionsSize, ProductSizes } from '@/shopify/graphql/types'
 export type SizeSelectorProps = Omit<RowProps, 'sizes'> & {
   sizes: ProductOptionsSize
   selectedSize: ProductSizes
-  color?: string
+  color?: string | null
   handleSizeSelect: (size: ProductSizes) => void
 }

@@ -2,7 +2,7 @@ import { FixedAnimatedLoader } from '@/components/Loader'
 import useFetchFile from 'hooks/useFetchFile'
 import ReactMarkdown, { ReactMarkdownProps } from 'react-markdown'
 import ReactMarkdownHtml from 'react-markdown/with-html'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 import { HeadingRenderer } from './renderers'
 

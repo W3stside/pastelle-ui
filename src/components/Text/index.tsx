@@ -1,6 +1,6 @@
 import { Text as PSTLText, TextProps } from '@past3lle/components'
 import { ReactElement } from 'react'
-import { useTheme } from 'styled-components/macro'
+import { useTheme } from 'styled-components'
 import { TextWrapper } from './styled'
 
 export const Text = {

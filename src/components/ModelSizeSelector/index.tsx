@@ -1,5 +1,5 @@
 import { Row } from '@past3lle/components'
-import { ProductSubHeader } from '@/pages/common/styleds'
+import { ProductSubHeader } from '@/components/pages-common/styleds'
 import { ChangeEvent, useCallback } from 'react'
 import { ChevronDown } from 'react-feather'
 import { useGetShowcaseSettings, useUpdateShowcaseSettings } from '@/state/user/hooks'
@@ -31,7 +31,7 @@ export default function useModelSizeSelector() {
 
       updateShowcaseSettings(changingState)
     },
-    [selectedHeight, updateShowcaseSettings]
+    [selectedHeight, updateShowcaseSettings],
   )
 
   const handleSelectHeight = useCallback(
@@ -39,7 +39,7 @@ export default function useModelSizeSelector() {
       e.preventDefault()
       updateShowcaseSettings({ height: +e.target.value as ShowcaseHeight })
     },
-    [updateShowcaseSettings]
+    [updateShowcaseSettings],
   )
 
   const ModelSizeSelector = useCallback(
@@ -79,7 +79,7 @@ export default function useModelSizeSelector() {
         </div>
       </ModelSizeSelectorWrapper>
     ),
-    [handleSelectGender, handleSelectHeight, selectedGender, selectedHeight]
+    [handleSelectGender, handleSelectHeight, selectedGender, selectedHeight],
   )
 
   return {

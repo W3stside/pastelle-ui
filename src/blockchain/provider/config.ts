@@ -4,14 +4,6 @@ import { polygon, polygonAmoy } from 'wagmi/chains'
 
 import { CONNECTORS } from './connectors'
 
-if (
-  !import.meta.env.VITE_WEB3_MODAL_PROJECT_ID ||
-  !import.meta.env.VITE_WEB3_AUTH_PROJECT_ID ||
-  !import.meta.env.VITE_WEB3_AUTH_NETWORK
-) {
-  throw new Error('Missing Web3Auth and/or WalletConnect projectID env variables!')
-}
-
 // TODO: just fix this in the forge-web3 packet and make wagmi need to be latest
 // this is an issue because wagmi/viem keeps updating their chains as const
 // and forge-web3 allows a range of versions of wagmi but has a strict requirement on ForgeChainsMinimum
@@ -19,13 +11,13 @@ const polygonWrapped = {
   ...polygon,
   nativeCurrency: {
     ...polygon.nativeCurrency,
-    name: 'MATIC',
-    symbol: 'MATIC'
+    name: 'POL',
+    symbol: 'POL',
   },
 } as const
 
 export const SUPPORTED_CHAINS_BY_ENV =
-  import.meta.env.NODE_ENV === 'production' ? ([polygonWrapped] as const) : ([polygonAmoy] as const)
+  process.env.NODE_ENV === 'production' ? ([polygonWrapped] as const) : ([polygonAmoy] as const)
 export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
   appName: 'PASTELLE SHOP',
   chains: SUPPORTED_CHAINS_BY_ENV,
@@ -48,7 +40,8 @@ export const WEB3_MODAL_PROPS: ForgeWeb3ModalProps = {
       },
     },
     walletConnect: {
-      projectId: import.meta.env.VITE_WEB3_MODAL_PROJECT_ID,
+      // If there is no variable here we will deal with it at the provider level and disable the entire modal
+      projectId: process.env.NEXT_PUBLIC_WEB3_MODAL_PROJECT_ID || '',
       themeMode: 'dark',
       themeVariables: {
         '--wcm-background-color': pastelleTheme.blackOpaque,

@@ -1,6 +1,7 @@
 import { Row } from '@past3lle/components'
 import AddToCartButton, { AddToCartButtonParams } from '@/components/AddToCartButton'
-import useQuantitySelector, { QuantitySelectorParams, QuantitySelectorWrapper } from 'hooks/useQuantitySelector'
+import useQuantitySelector, { QuantitySelectorParams } from 'hooks/useQuantitySelector'
+import { QuantitySelectorWrapper } from '@/hooks/useQuantitySelector/styled'
 import { useCurrentProductMedia } from '@/state/collection/hooks'
 import styled from 'styled-components/macro'
 

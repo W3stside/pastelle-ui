@@ -1,5 +1,5 @@
 import { transparentize } from 'polished'
-import { css } from 'styled-components/macro'
+import { css } from 'styled-components'
 
 export const simmerAnimationCallback = (color = '#ffc1ff') => css`
   @keyframes simmer {

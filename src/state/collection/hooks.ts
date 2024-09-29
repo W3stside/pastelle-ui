@@ -1,10 +1,9 @@
 import { useIsMobile } from '@past3lle/hooks'
 import { ShowcaseVideosProps } from '@/components/Showcase/Videos'
 import { SHOWCASE_ENABLED } from '@/constants/flags'
-import { ShowcaseVideo } from '@/pages/SingleProduct/ItemVideoContent'
-import { BaseProductPageProps } from '@/pages/common/types'
+import { ShowcaseVideo } from '@/components/Asides/skill/ItemVideoContent'
+import { BaseProductPageProps } from '@/components/pages-common/types'
 import { useCallback, useEffect, useMemo } from 'react'
-import { useParams } from 'react-router-dom'
 import { useQueryHomepage } from '@/shopify/graphql/hooks'
 import { FragmentProductVideoFragment, Product } from '@/shopify/graphql/types'
 import { reduceShopifyMediaToShowcaseVideos } from '@/shopify/utils'
@@ -21,6 +20,7 @@ import {
   updateLoadingState,
   updateSingleProductInCollection,
 } from './reducer'
+import { useSearchParams } from 'next/navigation'
 
 export function useUpdateCurrentlyViewing() {
   const dispatch = useAppDispatch()
@@ -115,7 +115,8 @@ export function useUpdateCollectionLoadingStatus() {
 
 export function useGetCurrentCollectionFromUrl() {
   // we need to use the URL to determine what item we're currently viewing
-  const { collection: id } = useParams()
+  const searchParams = useSearchParams()
+  const id = searchParams?.get('collection')
   const sanitizedId = id?.toLowerCase()
   return useAppSelector((state) => {
     switch (sanitizedId) {
@@ -133,16 +134,16 @@ export function useGetCurrentCollectionFromUrl() {
 
 export function useGetCurrentCollectionProductsFromUrl() {
   // we need to use the URL to determine what item we're currently viewing
-  const { handle } = useParams()
+  const searchParams = useSearchParams()
+  const handle = searchParams?.get('handle')
+
   const { collection } = useCurrentCollection()
 
   const currentCollectionProduct = collection && handle ? collection.products[handle] : undefined
-  if (!currentCollectionProduct) return null
-
-  const collectionProductList: BaseProductPageProps[] = Object.values(currentCollectionProduct)
+  if (!currentCollectionProduct || !collection?.products) return null
 
   return {
-    collectionProductList,
+    collectionProductList: collection.products,
     currentCollectionProduct,
     handle,
   }

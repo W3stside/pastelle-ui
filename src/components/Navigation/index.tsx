@@ -1,15 +1,17 @@
 import { Column, Row, SpinnerCircle, Text } from '@past3lle/components'
 import { useIsSmallMediaWidth, useOnResize } from '@past3lle/hooks'
-import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { Menu, X } from 'react-feather'
 
 import { InnerNavWrapper, MobileNavOrb, NavigationStepsWrapper } from './styled'
+import dynamic from 'next/dynamic'
 
-const InnerNavigation = lazy(
+const InnerNavigation = dynamic(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "INNER_NAVIGATION" */ './InnerNav'),
+  { ssr: false },
 )
 
-export type MobileNavProps = { menuSize?: number; bgColor?: string }
+export type MobileNavProps = { menuSize?: number; bgColor?: string | null }
 
 export default function Navigation({
   navOrbProps,

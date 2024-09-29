@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { useState } from 'react'
 import { HelpCircle } from 'react-feather'
 import { ImageProps } from 'rebass'
@@ -18,9 +19,9 @@ export default function Logo({ srcs, alt, ...rest }: LogoProps) {
 
   if (src) {
     return (
-      <img
+      <Image
         {...rest}
-        alt={alt}
+        alt={alt || 'alt'}
         src={src}
         onError={() => {
           if (src) BAD_SRCS[src] = true

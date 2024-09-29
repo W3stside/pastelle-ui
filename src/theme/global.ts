@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components/macro'
+import { createGlobalStyle } from 'styled-components'
 
 export const CustomStaticGlobalCSSProvider = createGlobalStyle`
   html, body {
@@ -9,11 +9,32 @@ export const CustomStaticGlobalCSSProvider = createGlobalStyle`
   body {
     overflow: hidden;
     
-    > div#root {
+    > div#__next {
+      // height: calc(18rem + 100vh);
       height: 100vh;
+      display: grid;
+      grid-template:
+          "header header"
+          "nav main" 1fr
+          "footer footer" / minmax(auto, max-content) 5fr;
+      overflow: hidden;
 
       a {
         color: ${(props) => props.theme.purple};
+      }
+
+      header {
+        display: grid;
+        grid-template-columns: 1fr;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+        position: relative;
+        padding: 1rem;
+        z-index: 2;
       }
     }
   }

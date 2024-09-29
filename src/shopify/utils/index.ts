@@ -1,5 +1,5 @@
-import { SkillLockStatus, SkillMetadata } from '@past3lle/forge-web3'
-import { BaseProductPageProps } from '@/pages/common/types'
+import { getLockStatus, SkillMetadata } from '@past3lle/forge-web3'
+import { BaseProductPageProps } from '@/components/pages-common/types'
 import {
   FragmentProductImageFragment,
   FragmentProductVideoFragment,
@@ -17,8 +17,7 @@ export function isJson(str: unknown): str is string {
 
   try {
     JSON.parse(str)
-  } catch (e: unknown) {
-    console.error('[shopify-utils::isJson] Error!', e)
+  } catch (_e: unknown) {
     return false
   }
   return true
@@ -61,17 +60,19 @@ export const mapSingleShopifyProductToProps = ({
   handle: product.handle,
   productType: product.productType,
   // TODO: fix
-  logo: metaAssetMap?.logo,
-  headerLogo: metaAssetMap?.header,
-  navLogo: metaAssetMap?.navbar,
-  description: product.descriptionHtml,
+  logo: metaAssetMap?.logo ?? null,
+  headerLogo: metaAssetMap?.header ?? null,
+  navLogo: metaAssetMap?.navbar ?? null,
+  description: product.descriptionHtml ?? null,
   // metafields
-  altColor: getMetafields<string>(product.altColor)?.toString(),
-  bgColor: getMetafields<string>(product.bgColor)?.toString(),
-  color: getMetafields<string>(product.color)?.toString(),
-  artistInfo: getMetafields<ProductArtistInfo>(product.artistInfo),
-  skillMetadata: getMetafields<SkillMetadata>(product.skillMetadata),
-  lockStatus: SkillLockStatus.LOCKED,
+  altColor: getMetafields<string>(product.altColor) ?? null,
+  bgColor: getMetafields<string>(product.bgColor) ?? null,
+  color: getMetafields<string>(product.color) ?? null,
+  artistInfo: getMetafields<ProductArtistInfo>(product.artistInfo) ?? null,
+  skillMetadata: getMetafields<SkillMetadata>(product.skillMetadata) ?? null,
+  get lockStatus() {
+    return getLockStatus(this.skillMetadata) ?? null
+  },
   // TODO: fix
   images,
   lockedImages,
@@ -79,6 +80,8 @@ export const mapSingleShopifyProductToProps = ({
   videos: product.media.nodes.filter(isProductVideo) as FragmentProductVideoFragment[],
   sizes: getMetafields<ProductSizes[]>(product.sizes[0].values),
   shortDescription: getMetafields<string>(product.shortDescription),
+  seo: product.seo,
+  priceRange: product.priceRange,
 })
 enum MediaAltText {
   PRODUCT_FRONT = 'product-front',
@@ -123,14 +126,17 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
     })
 
     // Map meta assets (header/logo/product logos) into a responsive size map
-    const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
-      const mappedAsset = metaAssets[i]
-      if (mappedAsset?.altText) {
-        acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
-      }
+    const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce(
+      (acc, asset, i) => {
+        const mappedAsset = metaAssets[i]
+        if (mappedAsset?.altText) {
+          acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
+        }
 
-      return acc
-    }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
+        return acc
+      },
+      {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet },
+    )
 
     return mapSingleShopifyProductToProps({
       product: datum,
@@ -163,14 +169,17 @@ export const mapShopifyHomepageToProps = (data: Product) => {
   })
 
   // Map meta assets (header/logo/product logos) into a responsive size map
-  const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
-    const mappedAsset = metaAssets[i]
-    if (mappedAsset?.altText) {
-      acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
-    }
+  const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce(
+    (acc, asset, i) => {
+      const mappedAsset = metaAssets[i]
+      if (mappedAsset?.altText) {
+        acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
+      }
 
-    return acc
-  }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
+      return acc
+    },
+    {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet },
+  )
 
   return mapSingleShopifyProductToProps({
     product: data,
@@ -223,7 +232,7 @@ interface ReducedShowcaseVideos {
 
 export function reduceShopifyMediaToShowcaseVideos(
   acc: Record<string, FragmentProductVideoFragment>,
-  media: FragmentProductVideoFragment
+  media: FragmentProductVideoFragment,
 ): ReducedShowcaseVideos {
   if (media?.id && media?.alt) {
     acc[media.alt] = media
@@ -247,7 +256,7 @@ export function getShopifyId<T extends ShopifyIdType>(id: string | null, type: T
 }
 export function shortenShopifyId<T extends ShopifyIdType>(
   longId: T | string | number | undefined | null,
-  type: T
+  type: T,
 ): string | '' {
   const idIsAlreadyFormed = !!Number(longId)
 

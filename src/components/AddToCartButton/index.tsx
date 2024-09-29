@@ -3,7 +3,7 @@ import { addToCartAnalytics } from '@/analytics/events/cartEvents'
 import ErrorMessage from '@/components/ErrorMessage'
 import { TRANSPARENT_HEX } from '@/constants/config'
 import { LAYOUT_REM_HEIGHT_MAP } from '@/constants/sizes'
-import { ProductDescription } from '@/pages/common/styleds'
+import { ProductDescription } from '@/components/pages-common/styleds'
 import { ForwardedRef, forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { ProductVariantQuery } from '@/shopify/graphql/types'
 import { useAddLineToCartAndUpdateReduxCallback } from '@/state/cart/hooks'
@@ -50,7 +50,7 @@ function useDisappearingMessage(params: { message: string; showAtStart?: boolean
           {message}
         </DisappearingMessageWrapper>
       ) : null,
-    [showMessage, message]
+    [showMessage, message],
   )
   return {
     DisappearingMessage,
@@ -72,7 +72,7 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
     buttonProps = {},
     callback,
   }: AddToCartButtonParams,
-  forwardedRef: ForwardedRef<HTMLButtonElement>
+  forwardedRef: ForwardedRef<HTMLButtonElement>,
 ) {
   const { addLineToCartCallback, loading, error } = useAddLineToCartAndUpdateReduxCallback()
   const { message: disappearingMessage, shouldShow, setShow } = useDisappearingMessage({ message: asyncLabel })
@@ -126,10 +126,10 @@ const AddToCartButton = forwardRef(function AddToCartButtonNoRef(
             {skillLocked
               ? 'LOCKED. CLICK TO LEARN MORE.'
               : loading
-              ? 'Adding...'
-              : shouldShow
-              ? disappearingMessage
-              : label}
+                ? 'Adding...'
+                : shouldShow
+                  ? disappearingMessage
+                  : label}
           </ProductDescription>
         )}
       </CartButton>

@@ -1,4 +1,4 @@
-import { BaseProductPageProps, ItemPageDesignsProps } from '@/pages/common/types'
+import { BaseProductPageProps, ItemPageDesignsProps } from '@/components/pages-common/types'
 
 export enum SocialType {
   INSTAGRAM = 'INSTAGRAM',

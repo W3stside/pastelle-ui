@@ -13,15 +13,15 @@ env:
   REPO_NAME_SLUG: pastelle-ui
   PR_NUMBER: ${{ github.event.number }}
   # INFURA
-  VITE_INFURA_KEY: ${{ secrets.VITE_INFURA_KEY }}
+  NEXT_PUBLIC_INFURA_KEY: ${{ secrets.NEXT_PUBLIC_INFURA_KEY }}
   # IMAGEKIT CDN
-  VITE_IMAGEKIT_PUBLIC_KEY: ${{ secrets.VITE_IMAGEKIT_PUBLIC_KEY }}
-  VITE_IMAGEKIT_PRIVATE_KEY: ${{ secrets.VITE_IMAGEKIT_PRIVATE_KEY }}
-  VITE_IMAGEKIT_URL_ENDPOINT: ${{ secrets.VITE_IMAGEKIT_URL_ENDPOINT }}
+  NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY: ${{ secrets.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY }}
+  NEXT_PUBLIC_IMAGEKIT_PRIVATE_KEY: ${{ secrets.NEXT_PUBLIC_IMAGEKIT_PRIVATE_KEY }}
+  NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT: ${{ secrets.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT }}
   # SHOPIFY
-  VITE_SHOPIFY_STOREFRONT_TOKEN: ${{ secrets.VITE_SHOPIFY_STOREFRONT_TOKEN }}
-  VITE_SHOPIFY_STORE_DOMAIN: ${{ secrets.VITE_SHOPIFY_STORE_DOMAIN }}
-  VITE_SHOPIFY_API_VERSION: ${{ secrets.VITE_SHOPIFY_API_VERSION }}
+  NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN: ${{ secrets.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN }}
+  NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN: ${{ secrets.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN }}
+  NEXT_PUBLIC_SHOPIFY_API_VERSION: ${{ secrets.NEXT_PUBLIC_SHOPIFY_API_VERSION }}
 
 jobs:
   setup:
@@ -32,7 +32,6 @@ jobs:
       - name: Yarn PnP Setup
         uses: Araxeus/setup-yarn-pnp-action@v1
             
-
   test:
     name: Test
     needs: setup
@@ -55,10 +54,35 @@ jobs:
         uses: Araxeus/setup-yarn-pnp-action@v1
 
       - name: Run linters
-        uses: wearerequired/lint-action@v1
+        run: yarn lint
+
+      - name: Commit lint changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          eslint: true
-          eslint_args: "-c eslint.config.mjs"
-          prettier: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          auto_fix: ${{ github.event_name == 'pull_request' }}
+          commit_message: "chore: linting"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+        
+  
+  build:
+    name: Build
+    needs: [setup,test,lint]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Yarn PnP Setup
+        uses: Araxeus/setup-yarn-pnp-action@v1
+
+      - name: Build
+        run: yarn build && yarn sitemap:generate
+
+      - name: Commit sitemap
+        uses: stefanzweifel/git-auto-commit-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commit_message: "chore: sitemap update"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"

@@ -60,7 +60,6 @@ const curriedCarouselRenderFn = ({
 }) =>
   function CarouselRenderFn({ index, defaultImageTransforms }: CarouselChildrenProps) {
     const item = data[index]
-
     if (item) {
       return isProductVideo(item) ? (
         <CarouselShowcaseVideo

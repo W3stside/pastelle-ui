@@ -1,30 +1,33 @@
+'use client'
+
 import { Column, Row, Text } from '@past3lle/components'
 import { useIsMediumMediaWidth } from '@past3lle/hooks'
 import { getIsMobile } from '@past3lle/utils'
 import Navigation from '@/components/Navigation'
-import { ShoppingCartHeader } from '@/components/ShoppingCart'
+import { ShoppingCartHeader } from '@/components/ShoppingCart/ShoppingCart'
 import { Web3LoginButton } from '@/components/Web3LoginButton'
 import { FREE_SHIPPING_THRESHOLD, TRANSPARENT_HEX } from '@/constants/config'
 import { COLLECTION_PATHNAME } from '@/constants/navigation'
 import { FORGE_WEB3_ENABLED } from '@/constants/flags'
-import { FreeShippingBanner, ProductSubHeader } from '@/pages/common/styleds'
+import { FreeShippingBanner, ProductSubHeader } from '@/components/pages-common/styleds'
 import { useMemo, useState } from 'react'
 import { Truck } from 'react-feather'
-import { useLocation } from 'react-router-dom'
 import { useCurrentProductMedia, useGetAllProductLogos } from '@/state/collection/hooks'
-import { checkIsCollectionPage } from 'utils/navigation'
+import { checkIsCollectionPage } from '@/utils/navigation'
 
 import { HeaderDrawerButton, HeaderFrame, HeaderRow, Pastellecon, StyledThemeToggleBar, Title } from './styleds'
+import { usePathname } from 'next/navigation'
+import { BLACK } from '@past3lle/theme'
 
 export default function Header() {
-  const location = useLocation()
-  const isCollectionPage = checkIsCollectionPage(location)
+  const pathname = usePathname() || ''
+  const isCollectionPage = checkIsCollectionPage({ pathname })
   // const isEnabled = useMemo(() => isWeb3Enabled(), [])
 
   const isMediumOrBelow = useIsMediumMediaWidth()
 
   const productLogos = useGetAllProductLogos()
-  const { headerLogoSet: dynamicHeaderLogoSet, color } = useCurrentProductMedia(location.pathname === '/')
+  const { headerLogoSet: dynamicHeaderLogoSet, color } = useCurrentProductMedia(pathname === '/')
   // "randomly" select a product header from collection for header (on mobile collection view ONLY)
   const staticRandomLogoSet = useMemo(
     () => productLogos?.[Math.ceil(Math.random() * productLogos.length - 1)]?.headerLogo,
@@ -39,9 +42,9 @@ export default function Header() {
   return (
     <HeaderFrame
       as="header"
-      color={color}
+      color={color || BLACK}
       logoSet={getIsMobile() && isCollectionPage ? staticRandomLogoSet : dynamicHeaderLogoSet}
-      open={open}
+      open={false}
     >
       <HeaderDrawerButton onClick={() => setOpen((state) => !state)}>
         <ProductSubHeader padding="0" margin="0">
@@ -51,18 +54,18 @@ export default function Header() {
       <HeaderRow>
         {/* ICON and HOME BUTTON */}
         <Column height="100%">
-          <Title to={`${COLLECTION_PATHNAME}/latest`}>
+          <Title href={`${COLLECTION_PATHNAME}?collection=latest`}>
             <Pastellecon />
             <br />
           </Title>
           <Row width="100%" height="30%" alignItems="center">
-            <h1 style={{ fontSize: '0.6rem', margin: 0, fontVariationSettings: "'wght' 100" }}>
+            <div style={{ fontSize: '0.6rem', margin: 0, fontVariationSettings: "'wght' 350" }}>
               HEAVY.ORGANIC.{' '}
               <Text.Main fontSize="inherit" fontWeight={800} display={'inline-block'}>
                 STREETWEAR.
               </Text.Main>
               PORTUGAL.
-            </h1>
+            </div>
           </Row>
         </Column>
 

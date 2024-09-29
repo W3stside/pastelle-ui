@@ -5,7 +5,9 @@ import GoogleAnalyticsProvider from './GoogleAnalytics4Provider'
 
 export { useAnalyticsReporter } from './hooks/useAnalyticsReporter'
 
-export const GOOGLE_ANALYTICS_ID: string | undefined = import.meta.env.VITE_GOOGLE_GA_MEASUREMENT_ID
+const IS_SERVER = typeof globalThis?.window == 'undefined'
+
+export const GOOGLE_ANALYTICS_ID: string | undefined = process.env.NEXT_PUBLIC_GOOGLE_GA_MEASUREMENT_ID
 export const GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY = 'ga_client_id'
 
 export const googleAnalytics = new GoogleAnalyticsProvider()
@@ -24,13 +26,13 @@ export function outboundLink(
   }: {
     url: string
   },
-  hitCallback: () => unknown
+  hitCallback: () => unknown,
 ) {
   return googleAnalytics.outboundLink({ url }, hitCallback)
 }
 
-const installed = Boolean(window.navigator.serviceWorker?.controller)
-const hit = Boolean((window as unknown as Window & { __isDocumentCached: boolean }).__isDocumentCached)
+const installed = Boolean(!IS_SERVER && window.navigator.serviceWorker?.controller)
+const hit = !IS_SERVER && Boolean((window as unknown as Window & { __isDocumentCached: boolean }).__isDocumentCached)
 const action = installed ? (hit ? 'Cache hit' : 'Cache miss') : 'Not installed'
 sendEvent({ category: 'Service Worker', action, nonInteraction: true })
 

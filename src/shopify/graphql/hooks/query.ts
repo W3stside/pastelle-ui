@@ -1,9 +1,8 @@
-import { ApolloError, useQuery as useRealQuery } from '@apollo/client'
+import { ApolloError, ApolloQueryResult, useQuery as useRealQuery } from '@apollo/client'
 import { getLockStatus } from '@past3lle/forge-web3'
 import { devError } from '@past3lle/utils'
 import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from '@/constants/config'
-import { BaseProductPageProps, CollectionMap } from '@/pages/common/types'
-import { useParams } from 'react-router-dom'
+import { BaseProductPageProps, CollectionMap } from '@/components/pages-common/types'
 import { QUERY_GET_COLLECTION } from '@/shopify/graphql/queries/collections'
 import {
   GetCartQuery,
@@ -27,6 +26,7 @@ import { QUERY_HOMEPAGE, QUERY_PRODUCT_BY_ID, QUERY_PRODUCT_VARIANT_BY_KEY_VALUE
 // MOCKS
 import { useMockQuery } from './mock/hooks'
 import { MOCK_COLLECTION_DATA } from './mock/queries'
+import { useSearchParams } from 'next/navigation'
 
 const useQuery: typeof useRealQuery = MOCK_ENABLED ? (useMockQuery as typeof useRealQuery) : useRealQuery
 
@@ -56,7 +56,22 @@ export const useQueryRawCollections: typeof useRealQueryCollections = MOCK_ENABL
   ? (useMockQueryCollection as unknown as typeof useRealQueryCollections)
   : useRealQueryCollections
 
-function _formatCollectionsResponse(response: ReturnType<typeof useQueryRawCollections>) {
+export interface CollectionResponseFormatted {
+  title: string
+  id: string
+  locked: boolean
+  image: string | null
+  seo: { title?: null | string; description?: null | string }
+  collectionProductMap: CollectionMap
+  collectionProductList: BaseProductPageProps[]
+  loading: boolean
+}
+
+export function formatCollectionsResponse(
+  response:
+    | ReturnType<typeof useQueryRawCollections>
+    | (ApolloQueryResult<GetCollectionQuery> & { variables?: GetCollectionQueryVariables }),
+): CollectionResponseFormatted[] {
   const { data, error, loading, variables } = response
 
   if (error) {
@@ -79,15 +94,18 @@ function _formatCollectionsResponse(response: ReturnType<typeof useQueryRawColle
     const title = collection?.title || 'current'
     const id = collection?.id
     const locked = !!getMetafields<boolean | null>(collection?.lockStatus)
+    const seo = collection.seo ?? null
+    const image = collection.image?.url ?? null
 
-    return { title, id, locked, collectionProductMap, collectionProductList, loading }
+    return { title, id, locked, seo, image, collectionProductMap, collectionProductList, loading }
   })
 }
 
 export function useQueryCollections(variables: GetCollectionQueryVariables) {
+  'use server'
   const response = useQueryRawCollections(variables)
 
-  return _formatCollectionsResponse(response)
+  return formatCollectionsResponse(response)
 }
 
 export function useQueryCurrentCollection(
@@ -95,14 +113,16 @@ export function useQueryCurrentCollection(
 ) {
   const response = useQueryRawCollections({ ...variables, collectionAmount: 1, reverse: true })
 
-  return _formatCollectionsResponse(response)?.[0]
+  return formatCollectionsResponse(response)?.[0]
 }
 
 export function useQueryCurrentCollectionProductsFromUrl(
   variables: GetCollectionQueryVariables = DEFAULT_CURRENT_COLLECTION_VARIABLES,
 ) {
   // we need to use the URL to determine what item we're currently viewing
-  const { handle } = useParams()
+  const searchParams = useSearchParams()
+  const handle = searchParams?.get('handle')
+
   const { collectionProductMap, collectionProductList } = useQueryCurrentCollection(variables)
 
   const urlItem = handle ? collectionProductMap[handle] : null

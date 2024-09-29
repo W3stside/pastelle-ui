@@ -1,8 +1,8 @@
-import { useLocation } from 'react-router-dom'
+import { usePathname } from 'next/navigation'
 
 export function useBreadcrumb() {
-  const { pathname } = useLocation()
-  const breadcrumbs = pathname.split('/').slice()
+  const pathname = usePathname()
+  const breadcrumbs = pathname?.split('/').slice()
 
-  return { breadcrumbs, lastCrumb: breadcrumbs.slice().pop() }
+  return { breadcrumbs, lastCrumb: breadcrumbs?.slice().pop() }
 }

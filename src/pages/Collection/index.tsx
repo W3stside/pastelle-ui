@@ -1,24 +1,83 @@
 import { useIsMobile, useStateRef } from '@past3lle/hooks'
-import { ArticleFadeInContainer } from '@/components/Layout'
+import { ArticleFadeInContainer } from '@/components/Layout/Article'
 import SEO from '@/components/SEO'
 import { ScrollingContentPage } from '@/components/ScrollingContentPage'
 import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from '@/constants/sizes'
-import AsideWithVideo from '@/pages/Collection/AsideWithVideo'
-import { DEFAULT_MEDIA_START_INDEX } from '@/pages/common/constants'
-import { useProductWebCarouselActions } from '@/pages/common/hooks/useProductCarouselActions'
-import { AsideWithVideoAuxProps, CollectionPageProps } from '@/pages/common/types'
+import AsideWithVideo from '@/components/Asides/collection/AsideWithVideo'
+import { DEFAULT_MEDIA_START_INDEX } from '@/components/pages-common/constants'
+import { useProductWebCarouselActions } from '@/components/pages-common/hooks/useProductCarouselActions'
+import { AsideWithVideoAuxProps, CollectionPageProps } from '@/components/pages-common/types'
 import { useCallback, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useGetCurrentCollectionFromUrl, useUpdateCurrentlyViewingCollection } from '@/state/collection/hooks'
-import { buildItemUrl } from 'utils/navigation'
+import { buildItemUrl } from '@/utils/navigation'
+import { useRouter } from 'next/router'
+import { CollectionResponseFormatted } from '@/shopify/graphql/hooks'
+import { formattedCollectionQuery } from '@/shopify/graphql/api/collection'
+import { PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from '@/constants/config'
+import { ProductCollectionSortKeys } from '@/shopify/graphql/types'
+import { wrapper } from '@/state'
+import { updateCollections, updateCurrentCollection } from '@/state/collection/reducer'
+import { ShopifyIdType, shortenShopifyId } from '@/shopify/utils'
+import { DEFAULT_COLLECTION_DESCRIPTION } from '@/components/SEO/constants'
+import { getCollectionSeoSchema } from '@/components/SEO/utils'
+import { CollectionSchema } from '@/components/SEO/types'
 
-export default function Collection() {
-  const navigate = useNavigate()
+const IS_SERVER = typeof globalThis?.window == 'undefined'
+const ANCHOR_NODE = IS_SERVER ? null : document
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const getStaticProps = wrapper.getStaticProps((store) => async (): Promise<{ props: Props }> => {
+  const collections = await formattedCollectionQuery({
+    collectionAmount: 1,
+    // always show the latest collection
+    productAmt: 10,
+    imageAmt: PRODUCT_IMAGES_AMOUNT,
+    videoAmt: PRODUCT_VIDEOS_AMOUNT,
+    // reverse array to get first as latest
+    reverse: true,
+    productSortKey: ProductCollectionSortKeys.BestSelling,
+  })
+
+  if (collections.length) {
+    const formattedCollections = collections.map(({ collectionProductMap, locked, id, title }) => ({
+      products: collectionProductMap,
+      locked,
+      id: shortenShopifyId(id as ShopifyIdType, 'Collection'),
+      title,
+    }))
+
+    store.dispatch(
+      updateCollections({
+        collections: formattedCollections,
+        loading: false,
+      }),
+    )
+
+    if (formattedCollections?.[0]?.id) {
+      store.dispatch(
+        updateCurrentCollection({
+          id: formattedCollections[0].id,
+          locked: formattedCollections[0]?.locked,
+          loading: false,
+        }),
+      )
+    }
+  }
+
+  return {
+    props: {
+      collection: collections?.[0] ?? null,
+      schemaSEO: getCollectionSeoSchema(collections?.[0]),
+    },
+  }
+})
+
+interface Props {
+  collection: CollectionResponseFormatted | null
+  schemaSEO: CollectionSchema | null
+}
+export default function Collection({ collection, schemaSEO }: Props) {
+  const { push: navigate } = useRouter()
   const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, (node) => node)
-
-  // get latest collection and the current on screen item handle
-  const collection = useGetCurrentCollectionFromUrl()
-  useUpdateCurrentlyViewingCollection(true, collection)
 
   // MOBILE/WEB CAROUSEL
   const { currentIndex: currentCarouselIndex, onChange: onCarouselChange } = useProductWebCarouselActions({
@@ -27,25 +86,28 @@ export default function Collection() {
 
   const isMobileDeviceOrWidth = useIsMobile()
 
-  const collectionProductList = Object.values(collection?.products || {})
+  const collectionProductList = useMemo(
+    () => collection?.collectionProductList || [],
+    [collection?.collectionProductList],
+  )
 
   // on mobile sizes we set a fixed height
   const fixedItemHeight = useMemo(() => {
     const cHeight = container?.clientHeight || 0
 
-    return (collectionProductList.length <= 3 || isMobileDeviceOrWidth) && cHeight
+    return ((!!collectionProductList && collectionProductList?.length <= 3) || isMobileDeviceOrWidth) && cHeight
       ? // container height - the header and 70px to fit the next product label
         isMobileDeviceOrWidth
         ? cHeight - LAYOUT_REM_HEIGHT_MAP.HEADER * BASE_FONT_SIZE
         : cHeight
       : undefined
-  }, [collectionProductList.length, container?.clientHeight, isMobileDeviceOrWidth])
+  }, [collectionProductList, container?.clientHeight, isMobileDeviceOrWidth])
 
   const onContentClick = useCallback(
     (handle?: string) => {
       if (handle) navigate(buildItemUrl(handle))
     },
-    [navigate]
+    [navigate],
   )
 
   const AsideWithVideoAux = useCallback(
@@ -53,36 +115,44 @@ export default function Collection() {
       <AsideWithVideo
         {...props}
         firstPaintOver
-        loadInViewOptions={{ container: document, conditionalCheck: true }}
+        // @ts-expect-error - TODO: fix types
+        loadInViewOptions={{ container: ANCHOR_NODE, conditionalCheck: true }}
         carousel={{ index: currentCarouselIndex, onChange: onCarouselChange }}
-        lockStatus={collectionProductList[0].lockStatus}
+        lockStatus={collectionProductList?.[0]?.lockStatus}
         isMobile={isMobileDeviceOrWidth}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [collection],
   )
 
   const mappedCollectionItems = useMemo(
     () =>
-      collectionProductList.map((item) => {
+      collectionProductList?.map((item) => {
         const newItem = Object.assign({}, item)
         if (item?.lockedImages?.[0]?.url) newItem.images = item.lockedImages
         return newItem
       }),
-    [collectionProductList]
+    [collectionProductList],
   )
 
-  if (!collection) return null
+  if (!collection || !schemaSEO || !mappedCollectionItems || collectionProductList?.length < 1) return null
 
   return (
     <>
-      <SEO title="COLLECTION" name="COLLECTION" description="PASTELLE. HEAVY STREETWEAR. PORTUGAL." />
+      <SEO
+        name="Collection | PASTELLE APPAREL"
+        title={collection.seo.title || 'Latest Collection | PASTELLE APPAREL'}
+        description={collection.seo.description || DEFAULT_COLLECTION_DESCRIPTION}
+        image={collection.image || ''}
+        cannonicalUrl="collection"
+        schema={schemaSEO}
+      />
       <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>
-        {collectionProductList.length > 1 ? (
+        {mappedCollectionItems && collectionProductList.length > 1 ? (
           <ScrollingContentPage
             data={mappedCollectionItems}
-            dataItem={collectionProductList[0]}
+            dataItem={collectionProductList?.[0]}
             IterableComponent={AsideWithVideoAux}
             fixedItemHeight={fixedItemHeight}
             onContentClick={onContentClick}
@@ -90,7 +160,7 @@ export default function Collection() {
           />
         ) : (
           <AsideWithVideoAux
-            {...collectionProductList[0]}
+            {...collectionProductList?.[0]}
             isActive
             itemIndex={0}
             firstPaintOver

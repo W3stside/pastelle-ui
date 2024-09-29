@@ -24,12 +24,23 @@ export const QUERY_HOMEPAGE = gql`
   }
 `
 
+export const QUERY_PRODUCT_PATHS = gql`
+  query ProductPaths($amount: Int, $query: String!) {
+    products(first: $amount, query: $query) {
+      nodes {
+        handle
+        id
+      }
+    }
+  }
+`
+
 export const QUERY_PRODUCT = gql`
   ${FRAGMENT_PRODUCT}
   ${FRAGMENT_PRODUCT_IMAGE}
   ${FRAGMENT_PRODUCT_VIDEO}
-  query Product($amount: Int, $imageAmt: Int, $videoAmt: Int, $sortKey: ProductSortKeys) {
-    products(first: $amount, sortKey: $sortKey) {
+  query Product($amount: Int, $imageAmt: Int, $videoAmt: Int, $sortKey: ProductSortKeys, $query: String) {
+    products(first: $amount, sortKey: $sortKey, query: $query) {
       nodes {
         ...FragmentProduct
 

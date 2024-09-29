@@ -3,7 +3,7 @@ import { useInfiniteVerticalScroll } from '@past3lle/carousel-hooks'
 import { Text } from '@past3lle/components'
 import { LoadInViewOptions, useIsSmallMediaWidth, usePrevious } from '@past3lle/hooks'
 import { getIsMobile } from '@past3lle/utils'
-import PastelleIvoryOutlined from 'assets/svg/pastelle-ivory-outlined.svg'
+import PastelleIvoryOutlined from '@/assets/svg/pastelle-ivory-outlined.svg'
 import { FixedAnimatedLoader } from '@/components/Loader'
 import { COLLECTION_MAX_WIDTH, MINIMUM_COLLECTION_ITEM_HEIGHT } from '@/constants/config'
 import { STIFF_SPRINGS } from '@/constants/springs'
@@ -11,6 +11,9 @@ import { useCallback, useEffect, useMemo } from 'react'
 import { Product } from '@/shopify/graphql/types'
 
 import { SloganH1 } from './styled'
+import Image from 'next/image'
+
+const IS_SERVER = typeof globalThis?.window == 'undefined'
 
 interface ScrollingContentPageParams<D> {
   data: D[]
@@ -61,7 +64,7 @@ export function ScrollingContentPage<D>({
         minSize: MINIMUM_COLLECTION_ITEM_HEIGHT,
       },
     }),
-    [fixedItemHeight, isMobileWidth]
+    [fixedItemHeight, isMobileWidth],
   )
   const {
     bind,
@@ -81,7 +84,7 @@ export function ScrollingContentPage<D>({
    * Set the target HEIGHT ref (sets the heights of scrolling article divs accordingly)
    * Set as the "loadInViewOptions" boundary - that is when elems scroll into it's view they are loaded
    */
-  const HEIGHT_AND_VIEW_TARGET = document.getElementById('COLLECTION-ARTICLE')
+  const HEIGHT_AND_VIEW_TARGET = !IS_SERVER ? document.getElementById('COLLECTION-ARTICLE') : null
 
   // set target ref node as collection article
   useEffect(() => {
@@ -91,7 +94,7 @@ export function ScrollingContentPage<D>({
 
   const handleItemSelect = useCallback(
     (index: number) => onContentClick && onContentClick((data[index] as Product).handle),
-    [data, onContentClick]
+    [data, onContentClick],
   )
 
   const prevDataLength = usePrevious(data.length)
@@ -102,7 +105,7 @@ export function ScrollingContentPage<D>({
     <>
       <FixedAnimatedLoader
         showBg={false}
-        loadingComponent={<img src={PastelleIvoryOutlined} />}
+        loadingComponent={<Image alt="pastelle-logo" src={PastelleIvoryOutlined} />}
         left="50%"
         width="42vw"
         loadingLabel={
@@ -136,6 +139,7 @@ export function ScrollingContentPage<D>({
               $touchAction={touchAction}
               $withBoxShadow={withBoxShadow}
             >
+              {/* @ts-expect-error - TODO: fix types */}
               <IterableComponent
                 dimensions={{
                   fixedSizes: {
@@ -144,7 +148,7 @@ export function ScrollingContentPage<D>({
                   },
                 }}
                 loadInViewOptions={{
-                  container: HEIGHT_AND_VIEW_TARGET || document,
+                  container: HEIGHT_AND_VIEW_TARGET,
                   conditionalCheck: firstPaintOver,
                 }}
                 // undefined = paint is over

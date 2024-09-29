@@ -1,15 +1,18 @@
+'use client'
+
 import { Button, ButtonProps, Row, RowBetween } from '@past3lle/components'
 import { useW3AccountNetworkActions, useW3Modal, useW3UserConnectionInfo } from '@past3lle/forge-web3'
 import { Address } from '@past3lle/types'
 import { truncateAddress } from '@past3lle/utils'
-import connectionIconDark from 'assets/images/connection-dark.png'
-import connectionIconLight from 'assets/images/connection-light.png'
-import disconnectionIconDark from 'assets/images/disconnection-dark.png'
-import disconnectionIconLight from 'assets/images/disconnection-light.png'
+import connectionIconDark from '@/assets/images/connection-dark.png'
+import connectionIconLight from '@/assets/images/connection-light.png'
+import disconnectionIconDark from '@/assets/images/disconnection-dark.png'
+import disconnectionIconLight from '@/assets/images/disconnection-light.png'
 import React from 'react'
-import styled, { useTheme } from 'styled-components/macro'
+import styled, { useTheme } from 'styled-components'
 import { ThemeModes } from '@/theme'
 import { FORGE_WEB3_ENABLED } from '@/constants/flags'
+import Image from 'next/image'
 interface Props {
   children?: React.ReactNode
   logoUri?: string | null
@@ -29,19 +32,21 @@ export function Web3LoginButton({ logoUri, buttonProps, children }: Props) {
   return (
     <Web3Button disabled={isOpen} onClick={onAccountClick} {...buttonProps}>
       <Row height="inherit" justifyContent="center" alignItems="center">
-        {logoUri && <img src={logoUri} />}
+        {logoUri && <Image alt="logo" src={logoUri} />}
         {address ? (
           <RowBetween>
-            <img
+            <Image
               id="web3loginbutton-icon"
+              alt="web3-login-button-icon"
               src={theme?.mode === ThemeModes.DARK ? connectionIconDark : connectionIconLight}
             />
             {truncateAddress(address as Address)}
           </RowBetween>
         ) : (
           <>
-            <img
+            <Image
               id="web3loginbutton-icon"
+              alt="web3-login-button-icon"
               src={theme?.mode === ThemeModes.DARK ? disconnectionIconDark : disconnectionIconLight}
             />
             {children}

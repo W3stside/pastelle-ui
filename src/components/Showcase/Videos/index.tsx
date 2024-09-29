@@ -1,17 +1,20 @@
 import useModelSizeSelector from '@/components/ModelSizeSelector'
 import { SHOWCASE_ENABLED } from '@/constants/flags'
-import { ItemVideoContentProps } from '@/pages/SingleProduct/ItemVideoContent'
-import { CollectionPageProps } from '@/pages/common/types'
-import { lazy, memo } from 'react'
+import { ItemVideoContentProps } from '@/components/Asides/skill/ItemVideoContent'
+import { CollectionPageProps } from '@/components/pages-common/types'
+import { memo } from 'react'
 import { FragmentProductVideoFragment } from '@/shopify/graphql/types'
 import { useGetSelectedProductShowcaseVideo } from '@/state/collection/hooks'
 import { useGetShowcaseSettings } from '@/state/user/hooks'
 
 import { ModelInformationOverlay } from './ModelInformationOverlay'
+import dynamic from 'next/dynamic'
 
-const ItemVideoContent = lazy(
+const ItemVideoContent = dynamic(
   () =>
-    import(/* webpackPrefetch: true,  webpackChunkName: "ITEMVIDEOCONTENT" */ '@/pages/SingleProduct/ItemVideoContent'),
+    import(
+      /* webpackPrefetch: true,  webpackChunkName: "ITEMVIDEOCONTENT" */ '@/components/Asides/skill/ItemVideoContent'
+    ),
 )
 
 export type ShowcaseVideosProps = Pick<CollectionPageProps, 'firstPaintOver' | 'videos'> &
