@@ -54,13 +54,17 @@ jobs:
         uses: Araxeus/setup-yarn-pnp-action@v1
 
       - name: Run linters
-        uses: wearerequired/lint-action@v1
+        run: yarn lint
+
+      - name: Commit lint changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          eslint: true
-          eslint_args: "-c eslint.config.mjs"
-          prettier: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          auto_fix: ${{ github.event_name == 'pull_request' }}
+          commit_message: "chore: linting"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+        
   
   build:
     name: Build
