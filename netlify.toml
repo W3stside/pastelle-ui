@@ -1,3 +1,7 @@
+[build.environment]
+  NETLIFY_BUILD_DEBUG = "true"
+  NETLIFY_BUILD_TIMEOUT = "1800000"  # Increase build time to 30 minutes
+
 [build]
   # Default build settings for all branches
   command = "yarn build"
