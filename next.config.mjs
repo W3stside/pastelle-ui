@@ -13,7 +13,10 @@ const nextConfig = {
   // netlify build timing out @ 60 so increased here
   // 3 minutes
   staticPageGenerationTimeout: 3 * 60,
-  transpilePackages: ["@past3lle/web3-modal", "@past3lle/forge-web3", "@past3lle/wagmi-connectors"]
+  transpilePackages: ["@past3lle/web3-modal", "@past3lle/forge-web3", "@past3lle/wagmi-connectors"],
+  experimental: {
+    cpus: 1
+  }
 }
  
 export default nextConfig
