@@ -139,7 +139,7 @@
     "lint": "yarn dlx prettier --write src --ignore-path ./.prettierignore",
     "start:mock": "NEXT_PUBLIC_IS_MOCK=true && yarn start",
     "dev": "next dev",
-    "build": "next build && yarn sitemap:generate",
+    "build": "next build",
     "sitemap:generate": "yarn next-sitemap --config next-sitemap.config.mjs",
     "netlify:build": "netlify build",
     "netlify:login": "netlify login",

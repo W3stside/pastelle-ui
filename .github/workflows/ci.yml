@@ -32,15 +32,14 @@ jobs:
       - name: Yarn PnP Setup
         uses: Araxeus/setup-yarn-pnp-action@v1
             
-
   test:
     name: Test
     needs: setup
     runs-on: ubuntu-latest
 
     steps:
-      - name: Yarn PnP Setup
-        uses: Araxeus/setup-yarn-pnp-action@v1
+      # - name: Yarn PnP Setup
+      #   uses: Araxeus/setup-yarn-pnp-action@v1
 
       - name: Unit Test
         run: yarn test
@@ -51,8 +50,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Yarn PnP Setup
-        uses: Araxeus/setup-yarn-pnp-action@v1
+      # - name: Yarn PnP Setup
+      #   uses: Araxeus/setup-yarn-pnp-action@v1
 
       - name: Run linters
         uses: wearerequired/lint-action@v1
@@ -62,3 +61,21 @@ jobs:
           prettier: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
           auto_fix: ${{ github.event_name == 'pull_request' }}
+  
+  build:
+    name: Build
+    needs: [setup,test,lint]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build
+        run: yarn build && yarn sitemap:generate
+
+      - name: Commit sitemap
+        uses: stefanzweifel/git-auto-commit-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commit_message: "chore: sitemap update"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
