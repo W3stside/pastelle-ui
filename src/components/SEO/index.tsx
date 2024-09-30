@@ -2,9 +2,10 @@ import Head from 'next/head'
 import React from 'react'
 
 import { CollectionSchema, ProductSchema } from './types'
+import { devWarn } from '@past3lle/utils'
 
 if (!process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID) {
-  console.warn('Missing GoogleTagManager tag id. Check .env. Not throwing and app continuing without GA.')
+  devWarn('Missing GoogleTagManager tag id. Check .env. Not throwing and app continuing without GA.')
 }
 
 interface SEOProps {

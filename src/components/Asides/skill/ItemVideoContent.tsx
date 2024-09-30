@@ -1,6 +1,6 @@
 import { ButtonVariations, RowProps, SmartVideo, SmartVideoProps } from '@past3lle/components'
 import { useDetectScrollIntoView } from '@past3lle/hooks'
-import { getIsMobile, wait } from '@past3lle/utils'
+import { devError, getIsMobile, wait } from '@past3lle/utils'
 import { Z_INDEXES } from '@/constants/config'
 import { Fragment, ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import { Pause, Play } from 'react-feather'
@@ -269,7 +269,7 @@ function _playVideoThenable(video: HTMLVideoElement) {
     .play()
     .then(() => video)
     .catch((error) => {
-      console.error(error)
+      devError(error)
       return video
     })
 }

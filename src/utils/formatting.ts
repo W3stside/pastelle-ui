@@ -1,4 +1,5 @@
 import { CurrencyCode } from '@/shopify/graphql/types'
+import { devError } from '@past3lle/utils'
 
 /**
  * @name formatCurrency
@@ -16,7 +17,7 @@ export function formatShopifyCurrency(amount: number, options: { locales: string
       style: 'currency',
     }).format(amount)
   } catch (error) {
-    console.error('[formatShopifyCurrency]::Error in format.', error)
+    devError('[formatShopifyCurrency]::Error in format.', error)
     return amount + ' ' + options.currency
   }
 }

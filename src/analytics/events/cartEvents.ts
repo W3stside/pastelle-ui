@@ -6,6 +6,7 @@ import { CartState } from '@/state/cart/reducer'
 import { sendError, sendEvent } from './base'
 import { Category } from './types'
 import { mapShopifyProductVariantToGA } from '@/shopify/utils'
+import { devError } from '@past3lle/utils'
 
 export function addToCartAnalytics(item: ProductVariantQuery['product'], quantity: number) {
   const mappedData = _mapShopifyProductToGA4(item, quantity, {
@@ -39,7 +40,7 @@ export async function viewCartAnalytics(cart: CartState) {
     })
     .then(({ data, error }) => {
       if (error) {
-        console.error('[viewCartAnalytics]::Error occurred in sending viewCart analytics:', error)
+        devError('[viewCartAnalytics]::Error occurred in sending viewCart analytics:', error)
         sendError(error, 'view_cart::apolloClient_query::GET_CART')
         throw new Error(error?.message)
       }
@@ -62,7 +63,7 @@ export async function viewCartAnalytics(cart: CartState) {
       }
     })
     .catch((error) => {
-      console.error(error)
+      devError(error)
       sendError(error, 'view_cart::apolloClient_query::GET_CART')
     })
 }
