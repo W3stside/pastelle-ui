@@ -96,7 +96,7 @@ function _mapShopifyProductToGA4(
   return {
     ...params,
     currency: product.priceV2.currencyCode,
-    value: parseFloat(product.priceV2.amount) || 'N/A',
+    value: parseFloat(product?.priceV2?.amount) || 'N/A',
     items: [productTagData],
   }
 }

@@ -287,11 +287,11 @@ export function mapShopifyProductVariantToGA(
     product,
     {
       item_sku: product?.sku,
-      item_id: product.id,
+      item_id: product?.id,
       item_name: product?.product?.handle,
       item_brand: 'PASTELLE APPAREL',
       item_category: category,
-      price: parseFloat(product?.priceV2.amount),
+      price: parseFloat(product?.priceV2?.amount),
       item_variant: product?.selectedOptions
         .map((options: { name: string; value: unknown }) => options.name + '-' + options.value)
         .join(', '),
