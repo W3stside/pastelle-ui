@@ -4,7 +4,7 @@ import { Category } from './types'
 
 export function blockchainAccountAnalytics(wallet: string) {
   sendEvent('blockchain__account', {
-    category: Category.WALLET,
+    eventCategory: Category.BLOCKCHAIN,
     label: 'blockchain__wallet',
     value: wallet,
   })
@@ -12,7 +12,7 @@ export function blockchainAccountAnalytics(wallet: string) {
 
 export function blockchainChainAnalytics(id?: number) {
   sendEvent('blockchain__chain_id', {
-    category: Category.WALLET,
+    eventCategory: Category.BLOCKCHAIN,
     label: 'blockchain__chain_id',
     value: id || 'web3_disconnected',
   })
@@ -23,8 +23,8 @@ export function externalLinkAnalytics(href: string) {
 
   if (explorer) {
     sendEvent('blockchain__view_on_explorer', {
-      category: Category.EXTERNAL_LINK,
-      action: `View on ${explorer}`,
+      eventCategory: Category.EXTERNAL_LINK,
+      eventAction: `View on ${explorer}`,
       label: href,
     })
   }

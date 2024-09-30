@@ -5,10 +5,11 @@ import { CartState } from '@/state/cart/reducer'
 
 import { sendError, sendEvent } from './base'
 import { Category } from './types'
+import { mapShopifyProductVariantToGA } from '@/shopify/utils'
 
 export function addToCartAnalytics(item: ProductVariantQuery['product'], quantity: number) {
   const mappedData = _mapShopifyProductToGA4(item, quantity, {
-    category: Category.CART,
+    eventCategory: Category.ECOMMERCE,
     label: `${item?.variantBySelectedOptions?.product?.handle} added to cart`,
   })
   if (!mappedData) return
@@ -18,7 +19,7 @@ export function addToCartAnalytics(item: ProductVariantQuery['product'], quantit
 
 export function removeFromCartAnalytics(item: FragmentCartLineFragment['merchandise']) {
   const mappedData = _mapShopifyProductToGA4(item, 1, {
-    category: Category.CART,
+    eventCategory: Category.ECOMMERCE,
     label: `${item?.product.handle} removed from cart`,
   })
 
@@ -44,13 +45,13 @@ export async function viewCartAnalytics(cart: CartState) {
       }
 
       const params = {
-        category: Category.APPAREL,
+        eventCategory: Category.ECOMMERCE,
         currency: data?.cart?.cost.totalAmount.currencyCode,
         value: parseFloat(data?.cart?.cost.totalAmount.amount) || 'N/A',
       }
 
       const mappedData = data.cart?.lines.nodes.map((node, index) =>
-        'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index) : null,
+        'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.ECOMMERCE, index) : null
       )
 
       if (mappedData) {
@@ -68,16 +69,16 @@ export async function viewCartAnalytics(cart: CartState) {
 
 export async function goToCheckoutAnalytics(cart?: GetCartQuery['cart']) {
   const params = {
-    category: Category.APPAREL,
+    eventCategory: Category.ECOMMERCE,
     currency: cart?.cost.totalAmount.currencyCode,
     value: parseFloat(cart?.cost.totalAmount.amount) || 'N/A',
   }
 
   const mappedData = cart?.lines.nodes.map((node, index) =>
-    'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index) : null,
+    'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.ECOMMERCE, index) : null
   )
 
-  sendEvent('go_to_checkout', {
+  sendEvent('begin_checkout', {
     ...params,
     items: mappedData || [],
   })
@@ -86,9 +87,9 @@ export async function goToCheckoutAnalytics(cart?: GetCartQuery['cart']) {
 function _mapShopifyProductToGA4(
   item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
   quantity: number,
-  params: { category: string; label: string },
+  params: { eventCategory: string; label: string }
 ) {
-  const data = _shopifyProductVariantToGA(item, quantity, Category.APPAREL)
+  const data = mapShopifyProductVariantToGA(item, quantity, Category.ECOMMERCE)
   if (!data) return
 
   const [product, productTagData] = data
@@ -98,38 +99,6 @@ function _mapShopifyProductToGA4(
     value: parseFloat(product.priceV2.amount) || 'N/A',
     items: [productTagData],
   }
-}
-
-function _shopifyProductVariantToGA(
-  item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
-  quantity: number,
-  category: Category,
-) {
-  const product =
-    (item as ProductVariantQuery['product'])?.variantBySelectedOptions ||
-    (item as FragmentCartLineFragment['merchandise'])
-
-  if (!product) return null
-
-  return [
-    product,
-    {
-      item_sku: product?.sku,
-      item_id: product.id,
-      item_name: product?.product?.handle,
-      item_brand: 'PASTELLE APPAREL',
-      item_category: category,
-      price: parseFloat(product?.priceV2.amount),
-      item_variant: product?.selectedOptions
-        .map((options: { name: string; value: unknown }) => options.name + '-' + options.value)
-        .join(', '),
-      item_category_2: product?.product?.tags?.[0],
-      item_category_3: product?.product?.tags?.[1],
-      item_category_4: product?.product?.tags?.[2],
-      item_category_5: product?.product?.tags?.[3],
-      quantity,
-    },
-  ] as const
 }
 
 function _shopifyCartLineToGA(cartLine: FragmentCartLineFragment, quantity: number, category: Category, index: number) {

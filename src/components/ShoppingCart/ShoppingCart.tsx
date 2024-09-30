@@ -31,13 +31,14 @@ import { BoxProps } from 'rebass'
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { goToCheckoutAnalytics } from '@/analytics'
+import { devWarn } from '@past3lle/utils'
 
 const ShoppingCart = dynamic(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ '@/components/ShoppingCart'),
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ '@/components/ShoppingCart')
 )
 
 const CartLine = dynamic(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART_LINE" */ 'components/ShoppingCart/CartLine'),
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART_LINE" */ 'components/ShoppingCart/CartLine')
 )
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
@@ -98,10 +99,13 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
 
   const isMobileWidth = useIsExtraSmallMediaWidth()
 
-  const handleCheckout = useCallback(() => {
-    goToCheckoutAnalytics(data?.cart)
+  const handleCheckout = useCallback(async () => {
+    if (!data?.cart?.checkoutUrl) return devWarn('[ShoppingCart.tsx] Missing data.cart?.checkoutUrl info!')
     setCheckoutClicked(true)
-  }, [data?.cart])
+
+    await goToCheckoutAnalytics(data?.cart)
+    navigate(data.cart.checkoutUrl)
+  }, [data?.cart, navigate])
 
   return (
     <ShoppingCartPanelWrapper>
@@ -128,7 +132,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
                 <Suspense key={line.id} fallback={<CartLineFallback key={line.id} />}>
                   <CartLine key={line.id} line={line} />
                 </Suspense>
-              ),
+              )
           )
         )}
       </ShoppingCartPanelContentWrapper>
@@ -176,7 +180,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
               fontWeight={100}
             >
               <a
-                href={data.cart.checkoutUrl}
+                href={undefined}
                 style={{
                   color: 'ghostwhite',
                   width: '100%',

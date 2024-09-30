@@ -1,14 +1,17 @@
 import { getLockStatus, SkillMetadata } from '@past3lle/forge-web3'
 import { BaseProductPageProps } from '@/components/pages-common/types'
 import {
+  FragmentCartLineFragment,
   FragmentProductImageFragment,
   FragmentProductVideoFragment,
   Product,
   ProductArtistInfo,
   ProductSizes,
   ProductsList,
+  ProductVariantQuery,
 } from '@/shopify/graphql/types'
 import { ShopImageSrcSet } from '@/types'
+import { Category } from '@/analytics/events/types'
 
 export function isJson(str: unknown): str is string {
   if (!str || typeof str !== 'string') {
@@ -126,17 +129,14 @@ export const mapShopifyProductToProps = (data: ProductsList = []): BaseProductPa
     })
 
     // Map meta assets (header/logo/product logos) into a responsive size map
-    const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce(
-      (acc, asset, i) => {
-        const mappedAsset = metaAssets[i]
-        if (mappedAsset?.altText) {
-          acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
-        }
+    const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
+      const mappedAsset = metaAssets[i]
+      if (mappedAsset?.altText) {
+        acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
+      }
 
-        return acc
-      },
-      {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet },
-    )
+      return acc
+    }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
 
     return mapSingleShopifyProductToProps({
       product: datum,
@@ -169,17 +169,14 @@ export const mapShopifyHomepageToProps = (data: Product) => {
   })
 
   // Map meta assets (header/logo/product logos) into a responsive size map
-  const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce(
-    (acc, asset, i) => {
-      const mappedAsset = metaAssets[i]
-      if (mappedAsset?.altText) {
-        acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
-      }
+  const metaAssetMap: MetaAssetMap = getImageSizeMap(metaAssets).reduce((acc, asset, i) => {
+    const mappedAsset = metaAssets[i]
+    if (mappedAsset?.altText) {
+      acc[mappedAsset.altText.toLowerCase() as 'logo' | 'header' | 'navbar'] = asset
+    }
 
-      return acc
-    },
-    {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet },
-  )
+    return acc
+  }, {} as { logo: ShopImageSrcSet; navbar: ShopImageSrcSet; header: ShopImageSrcSet })
 
   return mapSingleShopifyProductToProps({
     product: data,
@@ -232,7 +229,7 @@ interface ReducedShowcaseVideos {
 
 export function reduceShopifyMediaToShowcaseVideos(
   acc: Record<string, FragmentProductVideoFragment>,
-  media: FragmentProductVideoFragment,
+  media: FragmentProductVideoFragment
 ): ReducedShowcaseVideos {
   if (media?.id && media?.alt) {
     acc[media.alt] = media
@@ -256,7 +253,7 @@ export function getShopifyId<T extends ShopifyIdType>(id: string | null, type: T
 }
 export function shortenShopifyId<T extends ShopifyIdType>(
   longId: T | string | number | undefined | null,
-  type: T,
+  type: T
 ): string | '' {
   const idIsAlreadyFormed = !!Number(longId)
 
@@ -267,4 +264,36 @@ export function shortenShopifyId<T extends ShopifyIdType>(
   } else {
     return ''
   }
+}
+
+export function mapShopifyProductVariantToGA(
+  item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
+  quantity: number,
+  category: Category
+) {
+  const product =
+    (item as ProductVariantQuery['product'])?.variantBySelectedOptions ||
+    (item as FragmentCartLineFragment['merchandise'])
+
+  if (!product) return null
+
+  return [
+    product,
+    {
+      item_sku: product?.sku,
+      item_id: product.id,
+      item_name: product?.product?.handle,
+      item_brand: 'PASTELLE APPAREL',
+      item_category: category,
+      price: parseFloat(product?.priceV2.amount),
+      item_variant: product?.selectedOptions
+        .map((options: { name: string; value: unknown }) => options.name + '-' + options.value)
+        .join(', '),
+      item_category_2: product?.product?.tags?.[0],
+      item_category_3: product?.product?.tags?.[1],
+      item_category_4: product?.product?.tags?.[2],
+      item_category_5: product?.product?.tags?.[3],
+      quantity,
+    },
+  ] as const
 }

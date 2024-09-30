@@ -3,8 +3,8 @@ import { Category } from './types'
 
 export function toggleShowcaseAutoplayAnalytics(enable: boolean) {
   sendEvent('settings__showcase_autoplay', {
-    category: Category.SHOWCASE_VIDEO,
-    action: 'Toggle showcase autoplay',
+    eventCategory: Category.USER_INTERFACE,
+    eventAction: 'Toggle showcase autoplay',
     label: enable ? 'ENABLED' : 'DISABLED',
     value: enable ? 'ENABLED' : 'DISABLED',
   })
@@ -12,16 +12,16 @@ export function toggleShowcaseAutoplayAnalytics(enable: boolean) {
 
 export function pauseShowcaseVideoAnalytics() {
   sendEvent('settings__showcase_pause', {
-    category: Category.SHOWCASE_VIDEO,
-    action: 'Pause showcase video',
+    eventCategory: Category.USER_INTERFACE,
+    eventAction: 'Pause showcase video',
     value: 'PAUSE',
   })
 }
 
 export function playShowcaseVideoAnalytics() {
   sendEvent('settings__showcase_play', {
-    category: Category.SHOWCASE_VIDEO,
-    action: 'Play showcase video',
+    eventCategory: Category.USER_INTERFACE,
+    eventAction: 'Play showcase video',
     value: 'PLAY',
   })
 }

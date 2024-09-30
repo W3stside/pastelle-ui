@@ -23,6 +23,7 @@ import { BLACK } from '@past3lle/theme'
 import { ProductSchema } from '@/components/SEO/types'
 import { getProductSeoSchema } from '@/components/SEO/utils'
 import { DEFAULT_PRODUCT_DESCRIPTION } from '@/components/SEO/constants'
+import { useProductViewReporter } from '@/analytics/hooks/useProductViewReporter'
 
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
@@ -65,6 +66,9 @@ interface Props {
 }
 
 export default function SingleProductPage({ product, schemaSEO }: Props) {
+  // Update GA
+  useProductViewReporter(product)
+
   // update state store with current browsing SINGLE product
   useUpdateCurrentlyViewingProduct(true, product)
 

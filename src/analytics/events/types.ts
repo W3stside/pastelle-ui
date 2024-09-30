@@ -1,10 +1,9 @@
 export enum Category {
-  APPAREL = 'APPAREL',
-  CART = 'CART',
-  SHOWCASE_VIDEO = 'SHOWCASE VIDEO',
-  WALLET = 'WALLET',
-  THEME = 'THEME',
-  EXTERNAL_LINK = 'EXTERNAL LINK',
+  PAGE_VIEW = 'Page View',
+  ECOMMERCE = 'Ecommerce',
+  USER_INTERFACE = 'User Interface',
+  BLOCKCHAIN = 'Blockchain',
+  EXTERNAL_LINK = 'External Link',
 }
 
 export interface EventParams {
