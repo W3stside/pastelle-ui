@@ -1,3 +1,4 @@
+import { sendError } from '@/analytics'
 import React, { ReactNode } from 'react'
 
 export class ErrorBoundary extends React.Component<
@@ -18,6 +19,7 @@ export class ErrorBoundary extends React.Component<
 
   componentDidCatch(error: Error, info: { componentStack: string | null | undefined }) {
     console.error(error, info.componentStack)
+    sendError(error, 'ErrorBoundary')
   }
 
   render() {

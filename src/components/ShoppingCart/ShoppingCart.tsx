@@ -30,6 +30,7 @@ import {
 import { BoxProps } from 'rebass'
 import dynamic from 'next/dynamic'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { goToCheckoutAnalytics } from '@/analytics'
 
 const ShoppingCart = dynamic(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ '@/components/ShoppingCart'),
@@ -96,6 +97,11 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
   }, [closeCartPanel, navigate])
 
   const isMobileWidth = useIsExtraSmallMediaWidth()
+
+  const handleCheckout = useCallback(() => {
+    goToCheckoutAnalytics(data?.cart)
+    setCheckoutClicked(true)
+  }, [data?.cart])
 
   return (
     <ShoppingCartPanelWrapper>
@@ -177,7 +183,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
                   height: '100%',
                   padding: '1rem',
                 }}
-                onClick={() => setCheckoutClicked(true)}
+                onClick={handleCheckout}
               >
                 {checkoutClicked ? 'Redirecting to checkout...' : 'Checkout'}
               </a>

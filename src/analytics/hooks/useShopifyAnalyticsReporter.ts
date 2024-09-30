@@ -5,8 +5,10 @@ import {
   ShopifyPageViewPayload,
 } from '@shopify/hydrogen-react'
 import { AppProps } from 'next/app'
-import router from 'next/router'
+import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
+import { sendPageViewEvents } from '../events/pageViewEvents'
+import { useParams, usePathname } from 'next/navigation'
 
 const ANALYTICS_ENABLED = process.env.NEXT_PUBLIC_DEV_GA == 'true' || process.env.NODE_ENV === 'production'
 
@@ -35,12 +37,14 @@ export function useShopifyAnalyticsRouteChange({ pageProps }: Props) {
     return [analytics, pagePropsWithAppAnalytics]
   }, [pageProps])
 
+  const router = useRouter()
+  const pathname = usePathname()
+  const params = useParams()
   useEffect(() => {
     const handleRouteChange = () => {
       sendPageView(analytics)
+      sendPageViewEvents({ url: router.route, pageTitle: document.title, pathname, params: JSON.stringify(params) })
     }
-
-    router.events.on('routeChangeComplete', handleRouteChange)
 
     // First load event guard
     if (!isInit) {
@@ -48,11 +52,9 @@ export function useShopifyAnalyticsRouteChange({ pageProps }: Props) {
       sendPageView(analytics)
     }
 
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [analytics, router.events])
+    // send route events
+    handleRouteChange()
+  }, [analytics, router.route, pathname, params])
 
   return pagePropsWithAnalytics
 }

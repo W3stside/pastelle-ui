@@ -15,13 +15,15 @@ import { ShopifyProvider } from '@shopify/hydrogen-react'
 import { useShopifyAnalyticsRouteChange } from '@/analytics/hooks/useShopifyAnalyticsReporter'
 import { Layout } from '@/components/Layout'
 import { CountryCode, LanguageCode } from '@/shopify/graphql/types'
+import { devError } from '@past3lle/utils'
+import { CookiesBanner } from '@/components/Cookies/Banner'
 
 if (!process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN)
   throw new Error('Missing process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!')
 if (!process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN)
   throw new Error('Missing process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!')
 if (!process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION)
-  console.error('Missing process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION! Defaulting to latest.')
+  devError('Missing process.env.NEXT_PUBLIC_SHOPIFY_API_VERSION! Defaulting to latest.')
 
 const shopifyConfig: Parameters<typeof ShopifyProvider>[0] = {
   storeDomain: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN,
@@ -54,6 +56,7 @@ function RootApp({ Component, ...pageProps }: AppProps) {
                 <Layout>
                   <Component {...pagePropsWithAppAnalytics} />
                 </Layout>
+                <CookiesBanner />
               </ErrorBoundary>
             </Provider>
           </ApolloProvider>

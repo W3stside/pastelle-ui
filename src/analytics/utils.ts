@@ -1,4 +1,6 @@
-import { outboundLink } from 'analytics'
+import { devDebug, devError } from '@past3lle/utils'
+import { sendEvent } from '@/analytics/events/base'
+import { CookiePreferences, Explorers } from './events/types'
 
 const EXPLORER_HOSTNAMES: { [hostname: string]: true } = {
   'etherscan.io': true,
@@ -29,34 +31,9 @@ export function anonymizeLink(href: string): string {
     }
     return href
   } catch (error: unknown) {
-    console.error('[analytics::utils] Error!', error)
+    devError('[analytics::utils] Error!', error)
     return href
   }
-}
-
-export function handleClickExternalLink(event: React.MouseEvent<HTMLAnchorElement>) {
-  const { target, href } = event.currentTarget
-
-  const anonymizedHref = anonymizeLink(href)
-
-  // don't prevent default, don't redirect if it's a new tab
-  if (target === '_blank' || event.ctrlKey || event.metaKey) {
-    outboundLink({ url: anonymizedHref }, () => {
-      console.debug('Fired outbound link event', anonymizedHref)
-    })
-  } else {
-    event.preventDefault()
-    // send a ReactGA event and then trigger a location change
-    outboundLink({ url: anonymizedHref }, () => {
-      window.location.href = anonymizedHref
-    })
-  }
-}
-
-enum Explorers {
-  Explorer = 'Explorer',
-  Blockscout = 'Blockscout',
-  Etherscan = 'Etherscan',
 }
 
 // Used for GA ExternalLink detection
@@ -69,5 +46,28 @@ export function detectExplorer(href: string) {
     return Explorers.Etherscan
   } else {
     return undefined
+  }
+}
+
+export function initAnalytics({ interacted, marketing, advertising }: CookiePreferences) {
+  if (interacted) {
+    const adStorageConsent = advertising ? 'granted' : 'denied'
+    const analyticsStorageConsent = 'granted'
+    const marketingStorageConsent = marketing ? 'granted' : 'denied'
+
+    devDebug('COOKIES INTERACTED WITH - SETTING GTAG CONSENT')
+    devDebug(`
+      ADVERTISING: ${adStorageConsent}
+      ANALYTICS: ${analyticsStorageConsent}
+      MARKETING: ${marketingStorageConsent}
+    `)
+
+    sendEvent('consent_update', {
+      consent: {
+        ad_storage: adStorageConsent,
+        analytics_storage: analyticsStorageConsent,
+        marketing_storage: marketingStorageConsent,
+      },
+    })
   }
 }

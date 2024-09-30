@@ -9,7 +9,6 @@ import { collection } from '@/state/collection/reducer'
 import { modalsAndPopups } from '@/state/modalsAndPopups/reducer'
 // MISC
 import { user } from '@/state/user/reducer'
-import { hydrateSSR } from './global/reducer'
 
 const IS_SERVER = typeof globalThis?.window == 'undefined'
 const PERSISTED_KEYS: string[] = ['blockchainTransactions', 'cart', 'collection', 'user']
@@ -17,8 +16,6 @@ const PERSISTED_KEYS: string[] = ['blockchainTransactions', 'cart', 'collection'
 const makeStore = () =>
   configureStore({
     reducer: {
-      // GLOBAL -- SSR REDUX
-      hydrateSSR,
       // APPAREL
       cart,
       collection,

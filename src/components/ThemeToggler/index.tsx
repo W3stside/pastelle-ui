@@ -1,10 +1,11 @@
 import { ButtonProps, Row } from '@past3lle/components'
-import { ReactNode } from 'react'
+import { ReactNode, useCallback } from 'react'
 import { useThemeManager } from '@/state/user/hooks'
 import { ThemeModes } from '@/theme'
 
 import { ThemeToggle, ThemeToggleProps } from './ThemeToggle'
 import { getBaseButtonProps } from './utils'
+import { toggleDarkModeAnalytics } from '@/analytics'
 
 export const ThemeToggleButton = ({
   children,
@@ -44,7 +45,11 @@ const ThemeToggleBar = ({
 }) => {
   const { mode, setMode } = useThemeManager()
   const isDarkMode = mode === ThemeModes.DARK
-  const toggleDarkMode = () => setMode(isDarkMode ? ThemeModes.LIGHT : ThemeModes.DARK)
+  const toggleDarkMode = useCallback(() => {
+    const mode = isDarkMode ? ThemeModes.LIGHT : ThemeModes.DARK
+    toggleDarkModeAnalytics(isDarkMode)
+    setMode(mode)
+  }, [isDarkMode, setMode])
 
   return (
     <Row className={className} justifyContent="center" width="100%">

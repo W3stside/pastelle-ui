@@ -1,6 +1,7 @@
 import { Button, ButtonProps, ButtonSizeVariations, ButtonVariations } from '@past3lle/components'
 import styled from 'styled-components/macro'
 import { ThemeModes } from '@/theme'
+import { ReactNode, FC } from 'react'
 
 const ThemeButtonToggleWrapper = styled.div<{
   disabled: boolean
@@ -53,10 +54,10 @@ export interface ThemeToggleProps {
   width?: string
   maxWidth?: string
   disabled?: boolean
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
-export const ThemeToggle: React.FC<ThemeToggleProps & { mode: boolean; buttonProps: ButtonProps }> = ({
+export const ThemeToggle: FC<ThemeToggleProps & { mode: boolean; buttonProps: ButtonProps }> = ({
   mode,
   margin,
   width,

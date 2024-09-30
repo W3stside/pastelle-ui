@@ -226,7 +226,8 @@ export default function Home({ homepage, schemaSEO }: Props) {
               hideVideo={false}
               css={VIDEO_CSS}
               currentCarouselIndex={0}
-              selectedVideo={homepage.videos[0]}
+              // Flag in CLI sets video quality. false = 12mb hq and true = 3mb lq
+              selectedVideo={homepage.videos[process.env.NEXT_PUBLIC_SHOW_LQ_HOME_VIDEO ? 1 : 0]}
               videoProps={{
                 loop: false,
               }}

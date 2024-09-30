@@ -1,3 +1,4 @@
+import { devWarn } from '@past3lle/utils'
 import { web3Auth } from '@past3lle/wagmi-connectors'
 import { Web3AuthParameters } from '@past3lle/wagmi-connectors'
 import LOGO_512 from 'assets/images/512_logo.png'
@@ -41,7 +42,7 @@ const CONNECTORS = {
 }
 
 if (!HAS_WEB3AUTH_ENV) {
-  console.warn(
+  devWarn(
     'Missing process.env.NEXT_PUBLIC_WEB3_AUTH_PROJECT_ID and/or process.env.NEXT_PUBLIC_WEB3_AUTH_PROJECT_ID - skipping connector initialisation. If you want to include this connector please check the .env config.',
   )
 }
