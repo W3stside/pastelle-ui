@@ -15,7 +15,7 @@ const ItemVideoContent = dynamic(
     import(
       /* webpackPrefetch: true,  webpackChunkName: "ITEMVIDEOCONTENT" */ '@/components/Asides/skill/ItemVideoContent'
     ),
-  { ssr: false }
+  { ssr: false },
 )
 
 export type ShowcaseVideosProps = Pick<CollectionPageProps, 'firstPaintOver' | 'videos'> &
