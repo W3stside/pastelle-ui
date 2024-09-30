@@ -1,126 +1,8 @@
-import { devDebug, getIsMobile } from '@past3lle/utils'
-import { Dimensions } from '@/analytics/GoogleAnalytics4Provider'
+import { devDebug, devError } from '@past3lle/utils'
 import { useEffect } from 'react'
-import TagManager from 'react-gtm-module'
-import { Metric, getCLS, getFCP, getFID, getLCP } from 'web-vitals'
 
-import { GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY, GOOGLE_ANALYTICS_ID, googleAnalytics } from '..'
 import { usePathname, useSearchParams } from 'next/navigation'
-
-export function sendTiming(timingCategory: unknown, timingVar: unknown, timingValue: unknown, timingLabel: unknown) {
-  return googleAnalytics.gaCommandSendTiming(timingCategory, timingVar, timingValue, timingLabel)
-}
-
-function sendWebVitals({ name, delta, id }: Metric) {
-  sendTiming('Web Vitals', name, Math.round(name === 'CLS' ? delta * 1000 : delta), id)
-}
-
-export function reportWebVitals() {
-  getFCP(sendWebVitals)
-  getFID(sendWebVitals)
-  getLCP(sendWebVitals)
-  getCLS(sendWebVitals)
-}
-interface CookiePreferences {
-  interacted: boolean
-  analytics: boolean
-  marketing?: boolean
-  advertising?: boolean
-}
-
-export function initGTM() {
-  if (typeof process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID === 'string') {
-    TagManager.initialize({
-      gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
-    })
-  }
-}
-
-export function initGA4() {
-  if (typeof GOOGLE_ANALYTICS_ID === 'string') {
-    const storedClientId = window.localStorage.getItem(GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY)
-    const gtagOptions: Record<string, unknown> = {}
-    if (process.env.NODE_ENV !== 'production') {
-      gtagOptions.debug_mode = true
-      gtagOptions.debug = true
-    }
-    googleAnalytics.initialize(GOOGLE_ANALYTICS_ID, {
-      gaOptions: {
-        anonymizeIp: true,
-        clientId: storedClientId ?? undefined,
-        siteSpeedSampleRate: 100,
-      },
-      gtagOptions,
-    })
-  } else {
-    googleAnalytics.initialize('test', { gtagOptions: { debug_mode: true } })
-  }
-
-  googleAnalytics.setDimension(
-    Dimensions.customBrowserType,
-    !getIsMobile() ? 'desktop' : 'web3' in window || 'ethereum' in window ? 'mobileWeb3' : 'mobileRegular',
-  )
-
-  // typed as 'unknown' in react-ga4 -.-
-  googleAnalytics.ga((tracker: { get: (type: string) => string }) => {
-    if (!tracker) return
-
-    const clientId = tracker.get('clientId')
-    window.localStorage.setItem(GOOGLE_ANALYTICS_CLIENT_ID_STORAGE_KEY, clientId)
-  })
-}
-
-export function initAnalytics({ interacted, marketing, advertising }: CookiePreferences) {
-  googleAnalytics.gtag('consent', 'default', {
-    ad_storage: 'denied',
-    analytics_storage: 'granted',
-    marketing_storage: 'denied',
-  })
-
-  if (interacted) {
-    initGTM()
-    initGA4()
-
-    const adStorageConsent = advertising ? 'granted' : 'denied'
-    const analyticsStorageConsent = 'granted'
-    const marketingStorageConsent = marketing ? 'granted' : 'denied'
-
-    devDebug('COOKIES INTERACTED WITH - SETTING GTAG CONSENT')
-    devDebug(`
-      ADVERTISING: ${adStorageConsent}
-      ANALYTICS: ${analyticsStorageConsent}
-      MARKETING: ${marketingStorageConsent}
-    `)
-
-    googleAnalytics.gtag('consent', 'update', {
-      ad_storage: adStorageConsent,
-      analytics_storage: analyticsStorageConsent,
-      marketing_storage: marketingStorageConsent,
-    })
-  }
-}
-
-// TODO: re-enable when BC ready
-// export function useBlockchainAnalyticsReporter() {
-//   // Handle chain id custom dimension
-//   const [, , { chainId, connector, address: account }] = useW3Connection()
-//   useEffect(() => {
-//     // custom dimension 1 - chainId
-//     googleAnalytics.setDimension(Dimensions.chainId, chainId)
-//   }, [chainId])
-
-//   // Handle wallet name custom dimension
-//   const walletInfo = useWalletInfo()
-//   const connection = getConnection(connector)
-//   const isMetaMask = getIsMetaMask()
-
-//   const walletName = walletInfo?.walletName || getConnectionName(connection.type, isMetaMask)
-
-//   useEffect(() => {
-//     // custom dimension 2 - walletname
-//     googleAnalytics.setDimension(Dimensions.walletName, account ? walletName : 'Not connected')
-//   }, [account, walletName])
-// }
+import { initAnalytics } from '../utils'
 
 const DEFAULT_COOKIE_CONSENT = { interacted: false, analytics: true, advertising: false, marketing: false }
 const ANALYTICS_ENABLED = process.env.NEXT_PUBLIC_DEV_GA == 'true' || process.env.NODE_ENV === 'production'
@@ -128,21 +10,17 @@ const ANALYTICS_ENABLED = process.env.NEXT_PUBLIC_DEV_GA == 'true' || process.en
 // tracks web vitals and pageviews
 export function useAnalyticsReporter() {
   if (!process.env.NEXT_PUBLIC_GOOGLE_GA_MEASUREMENT_ID || !process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID) {
-    console.error('MISSING GOOGLE GA and/or GOOGLE TAG MANAGER ID KEY! CHECK ENV')
+    devError('MISSING GOOGLE GA and/or GOOGLE TAG MANAGER ID KEY! CHECK ENV')
   }
 
   const pathname = usePathname()
   const search = useSearchParams()
-
-  // useBlockchainAnalyticsReporter()
 
   useEffect(() => {
     if (!ANALYTICS_ENABLED) {
       devDebug('[useAnalyticsReporter] --> GOOGLE ANALYTICS DISABLED!')
       return
     }
-    // Not in dev, init analytics
-    googleAnalytics.pageview(`${pathname}${search?.toString()}`)
   }, [pathname, search])
 
   useEffect(() => {
@@ -152,11 +30,10 @@ export function useAnalyticsReporter() {
     }
     // Not in dev, init analytics
     const storageItem = localStorage.getItem(
-      process.env.NEXT_PUBLIC_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies',
+      process.env.NEXT_PUBLIC_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies'
     )
     const consent: typeof DEFAULT_COOKIE_CONSENT = storageItem ? JSON.parse(storageItem) : DEFAULT_COOKIE_CONSENT
 
-    reportWebVitals()
     initAnalytics(consent)
   }, [])
 }

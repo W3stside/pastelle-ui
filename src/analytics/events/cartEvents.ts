@@ -3,7 +3,8 @@ import { GET_CART } from '@/shopify/graphql/queries/cart'
 import { FragmentCartLineFragment, GetCartQuery, ProductVariantQuery } from '@/shopify/graphql/types'
 import { CartState } from '@/state/cart/reducer'
 
-import { Category, sendEvent } from '../index'
+import { sendError, sendEvent } from './base'
+import { Category } from './types'
 
 export function addToCartAnalytics(item: ProductVariantQuery['product'], quantity: number) {
   const mappedData = _mapShopifyProductToGA4(item, quantity, {
@@ -38,6 +39,7 @@ export async function viewCartAnalytics(cart: CartState) {
     .then(({ data, error }) => {
       if (error) {
         console.error('[viewCartAnalytics]::Error occurred in sending viewCart analytics:', error)
+        sendError(error, 'view_cart::apolloClient_query::GET_CART')
         throw new Error(error?.message)
       }
 
@@ -48,7 +50,7 @@ export async function viewCartAnalytics(cart: CartState) {
       }
 
       const mappedData = data.cart?.lines.nodes.map((node, index) =>
-        'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index) : null,
+        'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index) : null
       )
 
       if (mappedData) {
@@ -60,13 +62,31 @@ export async function viewCartAnalytics(cart: CartState) {
     })
     .catch((error) => {
       console.error(error)
+      sendError(error, 'view_cart::apolloClient_query::GET_CART')
     })
+}
+
+export async function goToCheckoutAnalytics(cart?: GetCartQuery['cart']) {
+  const params = {
+    category: Category.APPAREL,
+    currency: cart?.cost.totalAmount.currencyCode,
+    value: parseFloat(cart?.cost.totalAmount.amount) || 'N/A',
+  }
+
+  const mappedData = cart?.lines.nodes.map((node, index) =>
+    'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index) : null
+  )
+
+  sendEvent('go_to_checkout', {
+    ...params,
+    items: mappedData || [],
+  })
 }
 
 function _mapShopifyProductToGA4(
   item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
   quantity: number,
-  params: { category: string; label: string },
+  params: { category: string; label: string }
 ) {
   const data = _shopifyProductVariantToGA(item, quantity, Category.APPAREL)
   if (!data) return
@@ -83,7 +103,7 @@ function _mapShopifyProductToGA4(
 function _shopifyProductVariantToGA(
   item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
   quantity: number,
-  category: Category,
+  category: Category
 ) {
   const product =
     (item as ProductVariantQuery['product'])?.variantBySelectedOptions ||

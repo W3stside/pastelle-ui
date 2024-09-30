@@ -15,7 +15,7 @@ export const QUERY_HOMEPAGE = gql`
           ...FragmentProductImage
         }
       }
-      media(first: 1, sortKey: ID) {
+      media(first: 2, reverse: true) {
         nodes {
           ...FragmentProductVideo
         }

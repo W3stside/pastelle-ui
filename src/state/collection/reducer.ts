@@ -90,7 +90,6 @@ const collectionSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(hydrateAction, (state, action) => {
-      console.log('HYDRATING COLLECTIONS STATE', state, action.payload)
       const nextState = { ...state, ...action.payload.collection }
 
       return nextState

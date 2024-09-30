@@ -1,9 +1,8 @@
 import { BaseProductPageProps } from '@/components/pages-common/types'
-import { sendGTMEvent } from '@next/third-parties/google'
+import { sendEvent } from './base'
 
 export function sendProductViewEvent(product: BaseProductPageProps) {
-  sendGTMEvent({
-    event: 'product_view', // Custom event for product views
+  sendEvent('product_view', {
     productId: product.id, // ID of the product
     productName: product.handle, // Name of the product
     productPrice: product.priceRange.minVariantPrice.amount, // Product price (optional)
