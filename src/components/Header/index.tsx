@@ -54,7 +54,7 @@ export default function Header() {
       <HeaderRow>
         {/* ICON and HOME BUTTON */}
         <Column height="100%">
-          <Title href={`${COLLECTION_PATHNAME}?collection=latest`}>
+          <Title href={COLLECTION_PATHNAME}>
             <Pastellecon />
             <br />
           </Title>

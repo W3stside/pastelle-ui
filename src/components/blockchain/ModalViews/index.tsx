@@ -4,7 +4,7 @@ import Circle from 'assets/images/blue-loader.svg'
 import { ExternalLink } from '@/components/Navigation/styled'
 import { ReactNode } from 'react'
 import { ArrowUpCircle } from 'react-feather'
-import styled, { useTheme } from 'styled-components'
+import styled, { useTheme } from 'styled-components/macro'
 import { CloseIcon, CustomLightSpinner } from '@/theme'
 import { getEtherscanLink } from '@/utils/blockchain'
 

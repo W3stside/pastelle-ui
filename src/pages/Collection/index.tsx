@@ -3,7 +3,7 @@ import { ArticleFadeInContainer } from '@/components/Layout/Article'
 import SEO from '@/components/SEO'
 import { ScrollingContentPage } from '@/components/ScrollingContentPage'
 import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from '@/constants/sizes'
-import AsideWithVideo from '@/components/Asides/collection/AsideWithVideo'
+// import AsideWithVideo from '@/components/Asides/collection/AsideWithVideo'
 import { DEFAULT_MEDIA_START_INDEX } from '@/components/pages-common/constants'
 import { useProductWebCarouselActions } from '@/components/pages-common/hooks/useProductCarouselActions'
 import { AsideWithVideoAuxProps, CollectionPageProps } from '@/components/pages-common/types'
@@ -20,9 +20,16 @@ import { ShopifyIdType, shortenShopifyId } from '@/shopify/utils'
 import { DEFAULT_COLLECTION_DESCRIPTION } from '@/components/SEO/constants'
 import { getCollectionSeoSchema } from '@/components/SEO/utils'
 import { CollectionSchema } from '@/components/SEO/types'
+import dynamic from 'next/dynamic'
 
-const IS_SERVER = typeof globalThis?.window == 'undefined'
-const ANCHOR_NODE = IS_SERVER ? null : document
+const CollectionAsideWithVideo = dynamic(
+  import(
+    /* webpackPrefetch: true,  webpackChunkName: "COLLECTIONASIDEWITHVIDEO" */ '@/components/Asides/collection/AsideWithVideo'
+  ),
+)
+
+// const IS_SERVER = typeof globalThis?.window == 'undefined'
+// const ANCHOR_NODE = IS_SERVER ? null : document
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getStaticProps = wrapper.getStaticProps((store) => async (): Promise<{ props: Props }> => {
@@ -112,11 +119,10 @@ export default function Collection({ collection, schemaSEO }: Props) {
 
   const AsideWithVideoAux = useCallback(
     (props: { onClick?: () => void } & Omit<CollectionPageProps, 'loadInView' | keyof AsideWithVideoAuxProps>) => (
-      <AsideWithVideo
+      <CollectionAsideWithVideo
         {...props}
         firstPaintOver
-        // @ts-expect-error - TODO: fix types
-        loadInViewOptions={{ container: ANCHOR_NODE, conditionalCheck: true }}
+        loadInViewOptions={undefined /* { container: ANCHOR_NODE, conditionalCheck: true } */}
         carousel={{ index: currentCarouselIndex, onChange: onCarouselChange }}
         lockStatus={collectionProductList?.[0]?.lockStatus}
         isMobile={isMobileDeviceOrWidth}

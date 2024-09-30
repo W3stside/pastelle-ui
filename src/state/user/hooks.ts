@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@/state'
-import { useTheme } from 'styled-components'
+import { useTheme } from 'styled-components/macro'
 import { ThemeModes } from '@/theme'
 
 import { UserState, updateShowcaseSettings, updateThemeAutoDetect, updateThemeMode } from './reducer'

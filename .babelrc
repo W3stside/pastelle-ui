@@ -1,0 +1,9 @@
+{
+  "presets": ["next/babel", "@babel/preset-env"],
+  "env": {
+    "production": {
+      "plugins": ["macros", ["styled-components", { "ssr": true, "displayName": false }]]
+    }
+  },
+  "plugins": ["macros", ["styled-components", { "ssr": true }]]
+}

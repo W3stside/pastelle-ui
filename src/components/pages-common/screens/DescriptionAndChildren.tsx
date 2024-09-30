@@ -6,7 +6,7 @@ import { LAYOUT_REM_HEIGHT_MAP } from '@/constants/sizes'
 import { SingleProductScreen } from '@/components/Asides/skill/styled'
 import { darken, transparentize } from 'polished'
 import { ReactNode, memo } from 'react'
-import { useTheme } from 'styled-components'
+import { useTheme } from 'styled-components/macro'
 import { ThemeModes } from '@/theme'
 
 import Logo from '../components/Logo'

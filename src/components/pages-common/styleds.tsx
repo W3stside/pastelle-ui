@@ -17,7 +17,7 @@ import { BaseProductPageProps } from '@/components/pages-common/types'
 import { darken } from 'polished'
 import { Dribbble, Instagram } from 'react-feather'
 import Link from 'next/link'
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components/macro'
 import { ThemeModes } from '@/theme'
 import { ShopImageSrcSet } from '@/types'
 

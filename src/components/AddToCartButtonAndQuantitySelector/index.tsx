@@ -3,7 +3,7 @@ import AddToCartButton, { AddToCartButtonParams } from '@/components/AddToCartBu
 import useQuantitySelector, { QuantitySelectorParams } from 'hooks/useQuantitySelector'
 import { QuantitySelectorWrapper } from '@/hooks/useQuantitySelector/styled'
 import { useCurrentProductMedia } from '@/state/collection/hooks'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 const Wrapper = styled(Row)`
   width: 100%;

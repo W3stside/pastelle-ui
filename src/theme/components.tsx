@@ -1,7 +1,7 @@
 import { rotateKeyframe } from '@past3lle/theme'
 import { darken } from 'polished'
 import { X } from 'react-feather'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 export const Button = styled.button.attrs<{ warning: boolean }, { backgroundColor: string }>(({ warning, theme }) => ({
   backgroundColor: warning ? theme.red1 : theme.primary1,

@@ -7,7 +7,7 @@ import { ProductDescription } from '@/components/pages-common/styleds'
 import { ForwardedRef, forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { ProductVariantQuery } from '@/shopify/graphql/types'
 import { useAddLineToCartAndUpdateReduxCallback } from '@/state/cart/hooks'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 export interface SpecialThemedButtonProps extends ButtonProps {
   hoverFilter?: string

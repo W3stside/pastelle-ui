@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 export const SloganH1 = styled.h1`
   font-variation-settings: 'wght' 100;

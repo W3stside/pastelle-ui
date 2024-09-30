@@ -3,7 +3,7 @@ import { useW3UserConnectionInfo } from '@past3lle/forge-web3'
 import Circle from 'assets/images/blue-loader.svg'
 import { ExternalLink } from '@/components/Navigation/styled'
 import { AlertTriangle, ArrowUpCircle } from 'react-feather'
-import styled, { useTheme } from 'styled-components'
+import styled, { useTheme } from 'styled-components/macro'
 import { CloseIcon, CustomLightSpinner } from '@/theme'
 import { getEtherscanLink } from '@/utils/blockchain'
 

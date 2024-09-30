@@ -2,7 +2,7 @@ import { BLACK } from '@past3lle/theme'
 import { Text as TYPE } from '@/components/Text'
 import { Z_INDEXES } from '@/constants/config'
 import { transparentize } from 'polished'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 export const TinyHelperTextStyled = styled(TYPE.Black)`
   font-size: 1rem;

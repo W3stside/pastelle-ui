@@ -1,6 +1,6 @@
 import { Row, RowProps } from '@past3lle/components'
 import { setBestTextColour, BLACK, upToExtraSmall, transparentize } from '@past3lle/theme'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import { SizeSelectorProps } from './types'
 import { Text } from '@/components/Text'
 

@@ -3,7 +3,7 @@ import { useCallback, useContext, useEffect } from 'react'
 import { X } from 'react-feather'
 import { useRemovePopup } from '@/state/modalsAndPopups/hooks'
 import { PopupContent, TxPopupContent } from '@/state/modalsAndPopups/reducer'
-import styled, { ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components/macro'
 
 export const StyledClose = styled(X)`
   position: absolute;
