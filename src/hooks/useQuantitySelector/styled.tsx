@@ -1,6 +1,6 @@
 import { Row } from '@past3lle/components'
 import { BLACK, setBestTextColour } from '@past3lle/theme'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 export const QuantitySelectorWrapper = styled(Row)<{ color?: string | null }>`
   width: 100%;

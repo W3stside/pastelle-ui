@@ -1,6 +1,6 @@
 import { Row } from '@past3lle/components'
 import { ProductSubHeader } from '@/components/pages-common/styleds'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 export const ModelSizeSelectorWrapper = styled(Row)`
   position: relative;

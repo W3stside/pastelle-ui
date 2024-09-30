@@ -3,7 +3,7 @@ import { rotateKeyframe } from '@past3lle/theme'
 import { setBackgroundWithDPI } from '@past3lle/theme'
 import { ProductSubHeader } from '@/components/pages-common/styleds'
 import { ReactNode } from 'react'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { ShopImageSrcSet } from '@/types'
 
 import PastelleCursiveLoader from './PastelleCursiveLoader'

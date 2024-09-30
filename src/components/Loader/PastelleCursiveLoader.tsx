@@ -1,5 +1,5 @@
 import { setAnimation, strokeWidth } from '@past3lle/theme'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 const SvgWrapper = styled.svg`
   path {

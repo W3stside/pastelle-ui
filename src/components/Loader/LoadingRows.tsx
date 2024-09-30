@@ -1,6 +1,6 @@
 import { bgPositionAnimation, setAnimation } from '@past3lle/theme'
 import { Fragment, ReactNode } from 'react'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 type LoadingRowsStyleProps = {
   $height?: string

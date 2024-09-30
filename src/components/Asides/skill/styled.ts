@@ -29,7 +29,7 @@ import {
   ProductScreensContainer,
 } from '@/components/pages-common/styleds'
 import { darken, transparentize } from 'polished'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { ThemeModes } from '@/theme'
 import { simmerAnimationCallback } from '@/theme/animation'
 import { ShopImageSrcSet } from '@/types'

@@ -3,7 +3,7 @@ import { Z_INDEXES } from '@/constants/config'
 
 import { setBackgroundWithDPI } from '@past3lle/theme'
 import { transparentize } from 'polished'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { NOT_FOUND_SET } from './constants'
 
 export const ButtonPrimary = styled(ButtonPrimaryUnstyled)``

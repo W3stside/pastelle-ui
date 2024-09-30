@@ -17,7 +17,7 @@ import {
   ProductScreensContainer,
 } from '@/components/pages-common/styleds'
 import { transparentize } from 'polished'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 export const CollectionScreensContainer = styled(ProductScreensContainer)`
   ${upToSmall`

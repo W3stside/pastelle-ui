@@ -102,7 +102,6 @@ export function formatCollectionsResponse(
 }
 
 export function useQueryCollections(variables: GetCollectionQueryVariables) {
-  'use server'
   const response = useQueryRawCollections(variables)
 
   return formatCollectionsResponse(response)

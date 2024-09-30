@@ -3,7 +3,7 @@ import { usePinchZoomAndDrag } from '@past3lle/carousel-hooks'
 import { Modal } from '@past3lle/components'
 import { upToSmall } from '@past3lle/theme'
 import { ForwardedRef, forwardRef } from 'react'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { ShopImageSrcSet } from '@/types'
 
 export type LargeImageModalStyleProps = { containerHeight?: string; containerWidth?: string; zoomLevel: number }

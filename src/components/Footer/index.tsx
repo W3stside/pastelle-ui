@@ -5,7 +5,7 @@ import { ShoppingCartFullWrapper } from '@/components/ShoppingCart/styled'
 import ThemeToggleBar from '@/components/ThemeToggler'
 import { Z_INDEXES } from '@/constants/config'
 import { LAYOUT_REM_HEIGHT_MAP } from '@/constants/sizes'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 const FooterWrapper = styled(PSTLFooter)`
   display: none;

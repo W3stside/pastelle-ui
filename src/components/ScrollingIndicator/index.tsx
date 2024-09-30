@@ -1,5 +1,5 @@
 import { ProductSubHeader } from '@/components/pages-common/styleds'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 export type ScrollingIndicatorParams = ScrollingIndicatorStyleProps & {
   baseContentMessage: string

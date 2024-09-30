@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { ThemeModes } from '@/theme'
 
 export const LogoContainer = styled.div<{ isHeader: boolean }>`

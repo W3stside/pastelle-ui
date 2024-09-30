@@ -16,7 +16,6 @@ import { useShopifyAnalyticsRouteChange } from '@/analytics/hooks/useShopifyAnal
 import { Layout } from '@/components/Layout'
 import { CountryCode, LanguageCode } from '@/shopify/graphql/types'
 import { devError } from '@past3lle/utils'
-import { CookiesBanner } from '@/components/Cookies/Banner'
 import { GoogleTagManager } from '@next/third-parties/google'
 
 if (!process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN)
@@ -40,34 +39,35 @@ function RootApp({ Component, ...pageProps }: AppProps) {
   const pagePropsWithAppAnalytics = useShopifyAnalyticsRouteChange({ pageProps: props.pageProps })
 
   return (
-    <ShopifyProvider {...shopifyConfig}>
-      <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
-        {/* @past3lle hooks data provider */}
-        <PastelleForgeW3Provider>
-          {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
-          <StaticCSSProviders />
-          <ApolloProvider>
-            <Provider store={store}>
-              <VersionUpdater />
-              {/* <AppOnlineStatusUpdater /> */}
-              <PastelleStoreUpdaters />
-              {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-              <ThemedCSSProviders />
-              <ErrorBoundary fallback={<AppErrorFallback />}>
-                <Layout>
-                  <Component {...pagePropsWithAppAnalytics} />
-                  {/* GA */}
-                  {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID && (
-                    <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID} />
-                  )}
-                </Layout>
-                <CookiesBanner />
-              </ErrorBoundary>
-            </Provider>
-          </ApolloProvider>
-        </PastelleForgeW3Provider>
-      </ThemeProvider>
-    </ShopifyProvider>
+    <>
+      <ShopifyProvider {...shopifyConfig}>
+        <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
+          {/* @past3lle hooks data provider */}
+          <PastelleForgeW3Provider>
+            {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
+            <StaticCSSProviders />
+            <ApolloProvider>
+              <Provider store={store}>
+                <VersionUpdater />
+                {/* <AppOnlineStatusUpdater /> */}
+                <PastelleStoreUpdaters />
+                {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
+                <ThemedCSSProviders />
+                <ErrorBoundary fallback={<AppErrorFallback />}>
+                  <Layout>
+                    <Component {...pagePropsWithAppAnalytics} />
+                  </Layout>
+                </ErrorBoundary>
+              </Provider>
+            </ApolloProvider>
+          </PastelleForgeW3Provider>
+        </ThemeProvider>
+      </ShopifyProvider>
+      {/* GA */}
+      {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID && (
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID} />
+      )}
+    </>
   )
 }
 

@@ -1,6 +1,6 @@
 import { AutoColumn } from '@past3lle/components'
 import { useActivePopups } from '@/state/modalsAndPopups/hooks'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 import PopupItem from './PopupItem'
 

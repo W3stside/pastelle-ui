@@ -4,12 +4,12 @@ import { CookieBanner } from '@past3lle/components'
 import { devDebug } from '@past3lle/utils'
 import { initAnalytics } from '@/analytics'
 import { useAppColourTheme } from '@/state/user/hooks'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { transparentize, upToExtraSmall } from '@past3lle/theme'
 
 const IS_SERVER = typeof globalThis?.window == 'undefined'
 
-export function CookiesBanner() {
+export default function CookiesBanner() {
   const { mode } = useAppColourTheme()
   if (IS_SERVER) return null
   return (

@@ -1,6 +1,6 @@
 import { ApolloError } from '@apollo/client'
 import { ProductSubHeader } from '@/components/pages-common/styleds'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 const ErrorWrapper = styled(ProductSubHeader)`
   background-color: ${({ theme }) => theme.dangerLight};

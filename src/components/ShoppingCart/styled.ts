@@ -4,7 +4,7 @@ import { TRANSPARENT_HEX, Z_INDEXES } from '@/constants/config'
 import { QuantitySelectorWrapper } from 'hooks/useQuantitySelector/styled'
 import { ItemHeader, ProductSubHeader } from '@/components/pages-common/styleds'
 import { transparentize } from 'polished'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 import { BLACK_TRANSPARENT_MORE } from '@/theme'
 
 export const CartLineContent = styled(Row)`
