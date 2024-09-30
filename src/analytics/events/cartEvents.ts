@@ -50,7 +50,7 @@ export async function viewCartAnalytics(cart: CartState) {
       }
 
       const mappedData = data.cart?.lines.nodes.map((node, index) =>
-        'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index) : null
+        'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index) : null,
       )
 
       if (mappedData) {
@@ -74,7 +74,7 @@ export async function goToCheckoutAnalytics(cart?: GetCartQuery['cart']) {
   }
 
   const mappedData = cart?.lines.nodes.map((node, index) =>
-    'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index) : null
+    'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.APPAREL, index) : null,
   )
 
   sendEvent('go_to_checkout', {
@@ -86,7 +86,7 @@ export async function goToCheckoutAnalytics(cart?: GetCartQuery['cart']) {
 function _mapShopifyProductToGA4(
   item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
   quantity: number,
-  params: { category: string; label: string }
+  params: { category: string; label: string },
 ) {
   const data = _shopifyProductVariantToGA(item, quantity, Category.APPAREL)
   if (!data) return
@@ -103,7 +103,7 @@ function _mapShopifyProductToGA4(
 function _shopifyProductVariantToGA(
   item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
   quantity: number,
-  category: Category
+  category: Category,
 ) {
   const product =
     (item as ProductVariantQuery['product'])?.variantBySelectedOptions ||

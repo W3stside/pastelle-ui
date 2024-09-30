@@ -1,4 +1,4 @@
-import { sendError } from '@/analytics';
+import { sendError } from '@/analytics'
 import React, { ReactNode } from 'react'
 
 export class ErrorBoundary extends React.Component<

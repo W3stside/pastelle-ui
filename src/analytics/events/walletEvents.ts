@@ -6,6 +6,6 @@ export function changeWalletAnalytics(walletName: string) {
     category: Category.WALLET,
     action: 'Change Wallet',
     label: walletName,
-    value: walletName
+    value: walletName,
   })
 }

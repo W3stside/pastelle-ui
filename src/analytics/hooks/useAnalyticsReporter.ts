@@ -30,7 +30,7 @@ export function useAnalyticsReporter() {
     }
     // Not in dev, init analytics
     const storageItem = localStorage.getItem(
-      process.env.NEXT_PUBLIC_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies'
+      process.env.NEXT_PUBLIC_PASTELLE_COOKIE_SETTINGS || 'PASTELLE_SHOP_cookies',
     )
     const consent: typeof DEFAULT_COOKIE_CONSENT = storageItem ? JSON.parse(storageItem) : DEFAULT_COOKIE_CONSENT
 

@@ -4,7 +4,7 @@ export function sendPageViewEvents({
   url,
   pageTitle,
   params,
-  pathname
+  pathname,
 }: {
   url: string
   pageTitle: string

@@ -78,7 +78,7 @@ type Props = {
 
 export default function Home({ homepage, schemaSEO }: Props) {
   const { push: navigate } = useRouter()
-  
+
   const { mode } = useThemeManager()
   const { onChange } = useProductWebCarouselActions({
     startIndex: 0,

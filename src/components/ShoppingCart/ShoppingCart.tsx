@@ -33,11 +33,11 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { goToCheckoutAnalytics } from '@/analytics'
 
 const ShoppingCart = dynamic(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ '@/components/ShoppingCart')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ '@/components/ShoppingCart'),
 )
 
 const CartLine = dynamic(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART_LINE" */ 'components/ShoppingCart/CartLine')
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART_LINE" */ 'components/ShoppingCart/CartLine'),
 )
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
@@ -128,7 +128,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
                 <Suspense key={line.id} fallback={<CartLineFallback key={line.id} />}>
                   <CartLine key={line.id} line={line} />
                 </Suspense>
-              )
+              ),
           )
         )}
       </ShoppingCartPanelContentWrapper>

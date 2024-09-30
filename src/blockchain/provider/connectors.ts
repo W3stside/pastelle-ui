@@ -5,7 +5,7 @@ import LOGO_512 from 'assets/images/512_logo.png'
 import GOOGLE_APPLE_LOGO from 'assets/images/google-apple.png'
 
 const HAS_WEB3AUTH_ENV = Boolean(
-  process.env.NEXT_PUBLIC_WEB3_AUTH_NETWORK && process.env.NEXT_PUBLIC_WEB3_AUTH_PROJECT_ID
+  process.env.NEXT_PUBLIC_WEB3_AUTH_NETWORK && process.env.NEXT_PUBLIC_WEB3_AUTH_PROJECT_ID,
 )
 
 const connectors = [
@@ -43,7 +43,7 @@ const CONNECTORS = {
 
 if (!HAS_WEB3AUTH_ENV) {
   devWarn(
-    'Missing process.env.NEXT_PUBLIC_WEB3_AUTH_PROJECT_ID and/or process.env.NEXT_PUBLIC_WEB3_AUTH_PROJECT_ID - skipping connector initialisation. If you want to include this connector please check the .env config.'
+    'Missing process.env.NEXT_PUBLIC_WEB3_AUTH_PROJECT_ID and/or process.env.NEXT_PUBLIC_WEB3_AUTH_PROJECT_ID - skipping connector initialisation. If you want to include this connector please check the .env config.',
   )
 }
 
