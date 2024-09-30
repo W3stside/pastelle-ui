@@ -3,7 +3,7 @@ import { PoliciesQuery } from '@/shopify/graphql/types'
 
 export function sendPolicyViewEvent(
   policyName: string,
-  policy: Omit<PoliciesQuery['shop'], '__typename'>[keyof Omit<PoliciesQuery['shop'], '__typename'>]
+  policy: Omit<PoliciesQuery['shop'], '__typename'>[keyof Omit<PoliciesQuery['shop'], '__typename'>],
 ) {
   sendEvent('policy_view', {
     policyName: policyName, // ID of the product

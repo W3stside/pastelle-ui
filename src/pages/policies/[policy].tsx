@@ -8,12 +8,15 @@ export async function getStaticPaths() {
   // Call an external API endpoint to get posts
   const { shop: policies } = await queryPolicies()
 
-  const paths = Object.keys(policies).reduce((acc, key) => {
-    if (key !== '__typename') {
-      acc?.push({ params: { policy: _shortenString(key, 'Policy', '') } })
-    }
-    return acc
-  }, [] as { params: { policy: string } }[])
+  const paths = Object.keys(policies).reduce(
+    (acc, key) => {
+      if (key !== '__typename') {
+        acc?.push({ params: { policy: _shortenString(key, 'Policy', '') } })
+      }
+      return acc
+    },
+    [] as { params: { policy: string } }[],
+  )
 
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.

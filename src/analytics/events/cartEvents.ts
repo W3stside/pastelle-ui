@@ -51,7 +51,7 @@ export async function viewCartAnalytics(cart: CartState) {
       }
 
       const mappedData = data.cart?.lines.nodes.map((node, index) =>
-        'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.ECOMMERCE, index) : null
+        'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.ECOMMERCE, index) : null,
       )
 
       if (mappedData) {
@@ -75,7 +75,7 @@ export async function goToCheckoutAnalytics(cart?: GetCartQuery['cart']) {
   }
 
   const mappedData = cart?.lines.nodes.map((node, index) =>
-    'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.ECOMMERCE, index) : null
+    'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.ECOMMERCE, index) : null,
   )
 
   sendEvent('begin_checkout', {
@@ -87,7 +87,7 @@ export async function goToCheckoutAnalytics(cart?: GetCartQuery['cart']) {
 function _mapShopifyProductToGA4(
   item: ProductVariantQuery['product'] | FragmentCartLineFragment['merchandise'],
   quantity: number,
-  params: { eventCategory: string; label: string }
+  params: { eventCategory: string; label: string },
 ) {
   const data = mapShopifyProductVariantToGA(item, quantity, Category.ECOMMERCE)
   if (!data) return
