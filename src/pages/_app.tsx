@@ -17,6 +17,7 @@ import { Layout } from '@/components/Layout'
 import { CountryCode, LanguageCode } from '@/shopify/graphql/types'
 import { devError } from '@past3lle/utils'
 import { CookiesBanner } from '@/components/Cookies/Banner'
+import { GoogleTagManager } from '@next/third-parties/google'
 
 if (!process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN)
   throw new Error('Missing process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!')
@@ -55,6 +56,10 @@ function RootApp({ Component, ...pageProps }: AppProps) {
               <ErrorBoundary fallback={<AppErrorFallback />}>
                 <Layout>
                   <Component {...pagePropsWithAppAnalytics} />
+                  {/* GA */}
+                  {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID && (
+                    <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID} />
+                  )}
                 </Layout>
                 <CookiesBanner />
               </ErrorBoundary>
