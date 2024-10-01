@@ -1,5 +1,5 @@
 import { Row } from '@past3lle/components'
-import { ProductSubHeader } from '@/components/pages-common/styleds'
+import { ProductSubHeader } from '@/components/PagesComponents/styleds'
 import styled from 'styled-components/macro'
 
 export const ModelSizeSelectorWrapper = styled(Row)`

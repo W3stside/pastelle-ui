@@ -1,34 +1,27 @@
 'use client'
-
 import { Row } from '@past3lle/components'
-import { SkillLockStatus, useW3UserConnectionInfo } from '@past3lle/forge-web3'
-import { useIsMobile, useStateRef } from '@past3lle/hooks'
-import { MINIMUM_COLLECTION_ITEM_HEIGHT } from '@/constants/config'
-import { FORGE_WEB3_ENABLED } from '@/constants/flags'
-import { DEFAULT_MEDIA_START_INDEX } from '@/components/pages-common/constants'
-import { useGetCommonPropsFromProduct } from '@/components/pages-common/hooks/useGetCommonPropsFromProduct'
-import { ProductAsidePanel, ProductContainer, ScrollingProductLabel } from '@/components/pages-common/styleds'
-import { CollectionPageProps } from '@/components/pages-common/types'
-import { useMemo, useState } from 'react'
-import { getImageSizeMap } from '@/shopify/utils'
-import { useAppSelector } from '@/state'
-import {
-  useCurrentCollection,
-  useGetSelectedProductShowcaseVideo,
-  useUpdateCurrentlyViewingProduct,
-} from '@/state/collection/hooks'
-import { useThemeManager } from '@/state/user/hooks'
+import { ProductAsidePanel, /* ProductContainer, */ ScrollingProductLabel } from '@/components/PagesComponents/styleds'
+import { CollectionPageProps } from '@/components/PagesComponents/types'
+import { useCurrentCollection, useUpdateCurrentlyViewingProduct } from '@/state/collection/hooks'
 import { defaultThemeColours } from '@/theme'
 
-import { CollectionScreensContainer } from './styled'
-import dynamic from 'next/dynamic'
 import { BLACK } from '@past3lle/theme'
+import dynamic from 'next/dynamic'
+import { useIsClientReady } from '@/hooks/useIsClientReady'
+import Loader from '@/components/Loader'
 
-const AsideCarousel = dynamic(
-  () =>
-    import(
-      /* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/components/pages-common/screens/AsideCarousel'
-    ),
+const ProductContainer = dynamic(
+  import(
+    /* webpackPrefetch: true,  webpackChunkName: "PRODUCT_CONTAINER" */ '@/components/PagesComponents/styleds'
+  ).then((module) => module.ProductContainer),
+  { ssr: false, loading: () => <Loader /> }
+)
+
+const DynamicCollectionCarouseScreen = dynamic(
+  import(
+    /* webpackPrefetch: true,  webpackChunkName: "COLLECTIONSCREENWITHCAROUSEL" */ './CollectionScreenWithCarousel'
+  ),
+  { ssr: false }
 )
 
 export default function CollectionProductPage(props: CollectionPageProps) {
@@ -38,50 +31,23 @@ export default function CollectionProductPage(props: CollectionPageProps) {
     title,
     color = '#000',
     handle,
-    images = [],
     lockedImages = [],
-    videos = [],
     bgColor,
     navLogo,
     isActive,
     itemIndex,
     headerLogo,
     shortDescription,
-    lockStatus,
-    // Optional props passed from the ScrollableContentPage (carousel)
-    dimensions,
-    carousel,
   } = props
   // UPDATE VIEWING WITH WHATEVER ITEM IS CURRENT ON SCREEN
   useUpdateCurrentlyViewingProduct(isActive, { handle, id })
-
-  // CAROUSEL STATE
-  const [currentCarouselIndex] = useState(DEFAULT_MEDIA_START_INDEX)
-  // SELECTED SHOWCASE VIDEO
-  const selectedVideo = useGetSelectedProductShowcaseVideo({ videos })
-  // CONTENT CONTAINER REF FOR DYNAMIC SIZE UPDATING AND CAROUSELS
-  const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, (node) => node)
-  // USER VIDEO AUTOPLAY SETTINGS
-  const { autoplay: autoPlay } = useAppSelector((state) => state.user.showcase.videoSettings)
 
   // COLLECTION SIZE (for scrolling product label)
   const { collection } = useCurrentCollection()
   const collectionSize = collection ? Object.keys(collection.products).length : 0
 
-  const isMobile = useIsMobile()
-  const commonProps = useGetCommonPropsFromProduct({ ...props, isMobile, variant: undefined, lockStatus })
+  const clientReady = useIsClientReady()
 
-  const { mode } = useThemeManager()
-
-  // USER BLOCKCHAIN INFO
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { address } = (FORGE_WEB3_ENABLED && useW3UserConnectionInfo()) || { address: undefined }
-
-  // Src-set of all images
-  const imageSrcSet = useMemo(
-    () => getImageSizeMap(lockStatus === SkillLockStatus.LOCKED ? lockedImages : images),
-    [lockedImages, lockStatus, images],
-  )
   return (
     <>
       <ScrollingProductLabel logo={headerLogo} labelColor={bgColor || BLACK} flexWrap="wrap">
@@ -102,44 +68,15 @@ export default function CollectionProductPage(props: CollectionPageProps) {
           <span style={{ fontSize: 'smaller' }}>{shortDescription}</span>
         </Row>
       </ScrollingProductLabel>
-
-      {/* Item content */}
-      <ProductContainer id="#item-container" bgColor={color || BLACK} navLogo={navLogo} logo={logo}>
-        <ProductAsidePanel id="#item-aside-panel">
-          <CollectionScreensContainer ref={setRef}>
-            <AsideCarousel
-              {...commonProps}
-              carousel={{
-                ...carousel,
-                data: isMobile ? [...imageSrcSet, selectedVideo] : imageSrcSet,
-                touchAction: 'none',
-                startIndex: currentCarouselIndex,
-                videoProps: {
-                  autoPlay,
-                },
-                dimensions: {
-                  fixedSizes: {
-                    height:
-                      dimensions?.fixedSizes?.fixedHeight ||
-                      innerContainerRef?.clientHeight ||
-                      MINIMUM_COLLECTION_ITEM_HEIGHT,
-                    width:
-                      dimensions?.fixedSizes?.fixedWidth ||
-                      innerContainerRef?.clientHeight ||
-                      MINIMUM_COLLECTION_ITEM_HEIGHT,
-                  },
-                },
-              }}
-              themeMode={mode}
-              breadcrumbs={null}
-              containerNode={innerContainerRef}
-              userAddress={address}
-              hidePrice
-              isCollectionView
-            />
-          </CollectionScreensContainer>
-        </ProductAsidePanel>
-      </ProductContainer>
+      {clientReady ? (
+        <ProductContainer id="#item-container" bgColor={color || BLACK} navLogo={navLogo} logo={logo}>
+          <ProductAsidePanel id="#item-aside-panel">
+            <DynamicCollectionCarouseScreen {...props} />
+          </ProductAsidePanel>
+        </ProductContainer>
+      ) : (
+        <Loader />
+      )}
     </>
   )
 }

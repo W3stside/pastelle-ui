@@ -1,6 +1,6 @@
 import { SkillLockStatus } from '@past3lle/forge-web3'
 import { LargeImageCarousel } from '@/components/Carousel/LargeProductImageCarousel'
-import { BaseProductPageProps } from '@/components/pages-common/types'
+import { BaseProductPageProps } from '@/components/PagesComponents/types'
 import { useMemo } from 'react'
 import { getImageSizeMap } from '@/shopify/utils'
 import { useLargeImageModal, useSizeChartModal } from '@/state/modalsAndPopups/hooks'

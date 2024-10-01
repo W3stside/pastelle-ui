@@ -1,6 +1,6 @@
 import { Row } from '@past3lle/components'
 import { OFF_WHITE } from '@past3lle/theme'
-import { ProductSubHeader } from '@/components/pages-common/styleds'
+import { ProductSubHeader } from '@/components/PagesComponents/styleds'
 import { ReactNode } from 'react'
 import { pastelleTheme } from '@/theme'
 

@@ -8,7 +8,7 @@ import { simmerAnimationCallback } from '@/theme/animation'
 import { ShopImageSrcSet } from '@/types'
 
 import { MobileNavProps } from '.'
-import { BaseProductPageProps } from '../pages-common/types'
+import { BaseProductPageProps } from '../PagesComponents/types'
 
 export const NavigationStepsWrapper = styled.nav<{
   isOpen?: boolean
@@ -144,6 +144,15 @@ export const CollectionLabel = styled(Row)<{ isNavOpen: boolean; active: boolean
 
 export const SideEffectNavLink = styled.span`
   cursor: pointer;
+`
+
+export const StyledNav = styled.nav`
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  > ul {
+    padding: 0; 
+  }
 `
 
 // #1d1d1d

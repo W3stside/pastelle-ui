@@ -56,8 +56,9 @@ export function SingleAsidePage({ children, ...restProps }: CommonSinglePageProp
   )
 }
 
-export function SinglePageSmartWrapper({ children }: SmartWrapperFunctionChildren) {
+export default function SinglePageSmartWrapper({ children }: SmartWrapperFunctionChildren) {
   const [rootContainerNode, setContainerRef] = useStateRef<HTMLDivElement | null>(null, (node) => node)
+  // TODO: change this to use useEffect and you wont need to client side import
   const size = useWindowSize()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const parentAspectRatio = useMemo(() => getNodeAspectRatio(rootContainerNode), [rootContainerNode, size?.ar])
@@ -73,7 +74,7 @@ export function SinglePageSmartWrapper({ children }: SmartWrapperFunctionChildre
       screensContainerNode,
       setScreensContainerRef,
     }),
-    [parentAspectRatio, rootContainerNode, screensContainerNode, setScreensContainerRef],
+    [parentAspectRatio, rootContainerNode, screensContainerNode, setScreensContainerRef]
   )
 
   return (

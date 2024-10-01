@@ -6,12 +6,15 @@ import { initAnalytics } from '@/analytics'
 import { useAppColourTheme } from '@/state/user/hooks'
 import styled from 'styled-components/macro'
 import { transparentize, upToExtraSmall } from '@past3lle/theme'
-
-const IS_SERVER = typeof globalThis?.window == 'undefined'
+import { useIsClientReady } from '@/hooks/useIsClientReady'
 
 export default function CookiesBanner() {
   const { mode } = useAppColourTheme()
-  if (IS_SERVER) return null
+
+  const isClientReady = useIsClientReady()
+
+  if (!isClientReady) return null
+
   return (
     <CookieBannerWrapper>
       <CookieBanner

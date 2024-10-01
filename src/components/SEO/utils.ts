@@ -1,6 +1,6 @@
 import { CollectionResponseFormatted } from '@/shopify/graphql/hooks'
 import { DEFAULT_COLLECTION_DESCRIPTION, DEFAULT_PRODUCT_DESCRIPTION } from './constants'
-import { BaseProductPageProps } from '../pages-common/types'
+import { BaseProductPageProps } from '../PagesComponents/types'
 
 export function getCollectionSeoSchema(collection: CollectionResponseFormatted | null) {
   if (!collection) return null

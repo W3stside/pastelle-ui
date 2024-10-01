@@ -1,4 +1,4 @@
-import { BaseProductPageProps } from '@/components/pages-common/types'
+import { BaseProductPageProps } from '@/components/PagesComponents/types'
 import { sendEvent } from './base'
 import { Category } from './types'
 import { mapShopifyProductVariantToGA } from '@/shopify/utils'

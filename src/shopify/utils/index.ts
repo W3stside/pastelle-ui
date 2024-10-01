@@ -1,5 +1,5 @@
 import { getLockStatus, SkillMetadata } from '@past3lle/forge-web3'
-import { BaseProductPageProps } from '@/components/pages-common/types'
+import { BaseProductPageProps } from '@/components/PagesComponents/types'
 import {
   FragmentCartLineFragment,
   FragmentProductImageFragment,

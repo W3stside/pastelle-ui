@@ -3,7 +3,7 @@ import { ikUrlToSimpleImageSrcSet, urlToSimpleGenericImageSrcSet } from '@past3l
 import LOGO from '@/assets/svg/pastelle-cursive-logo.svg'
 import { useLogo } from '@/components/BackgroundLogo'
 import { ArticleFadeInWithBg } from '@/components/Layout/Article'
-import { ProductDescription, ProductScreen, ProductSubHeader } from '@/components/pages-common/styleds'
+import { ProductDescription, ProductScreen, ProductSubHeader } from '@/components/PagesComponents/styleds'
 import { transparentize } from 'polished'
 import { useCallback } from 'react'
 import { getThemeColours } from '@/theme'

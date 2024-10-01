@@ -1,6 +1,6 @@
 import { Row } from '@past3lle/components'
 import { OFF_WHITE, setBestTextColour } from '@past3lle/theme'
-import { ItemBreadcrumb } from '@/components/pages-common/styleds'
+import { ItemBreadcrumb } from '@/components/PagesComponents/styleds'
 import { BoxProps } from 'rebass'
 import styled from 'styled-components/macro'
 import { LinkProps } from 'next/link'

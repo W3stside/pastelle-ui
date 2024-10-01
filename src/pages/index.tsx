@@ -10,11 +10,10 @@ import {
   SingleProductContainer,
   SingleProductScreensContainer,
 } from '@/components/Asides/skill/styled'
-import { SinglePageSmartWrapper } from '@/components/pages-common'
-import { CTA_BUTTON_PROP_THEMES } from '@/components/pages-common/constants'
-import { useGetCommonPropsFromProduct } from '@/components/pages-common/hooks/useGetCommonPropsFromProduct'
-import { useProductWebCarouselActions } from '@/components/pages-common/hooks/useProductCarouselActions'
-import { ProductSubHeader } from '@/components/pages-common/styleds'
+import { CTA_BUTTON_PROP_THEMES } from '@/components/PagesComponents/constants'
+import { useGetCommonPropsFromProduct } from '@/components/PagesComponents/hooks/useGetCommonPropsFromProduct'
+import { useProductWebCarouselActions } from '@/components/PagesComponents/hooks/useProductCarouselActions'
+import { ProductSubHeader } from '@/components/PagesComponents/styleds'
 import { useCallback, useMemo } from 'react'
 import { getImageSizeMap, mapShopifyHomepageToProps } from '@/shopify/utils'
 import { useThemeManager } from '@/state/user/hooks'
@@ -24,24 +23,32 @@ import { useRouter } from 'next/router'
 import { homeQuery } from '@/shopify/graphql/api/home'
 import { ProductSchema } from '@/components/SEO/types'
 import { getProductSeoSchema } from '@/components/SEO/utils'
+import { AnimatedPastelleLoader } from '@/components/Loader'
 
 const AsideCarousel = dynamic(
   () =>
     import(
-      /* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/components/pages-common/screens/AsideCarousel'
-    ),
+      /* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/components/PagesComponents/screens/AsideCarousel'
+    )
 )
 const ActionScreen = dynamic(
   () =>
     import(
-      /* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/components/pages-common/screens/ActionsAndChildren'
+      /* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/components/PagesComponents/screens/ActionsAndChildren'
     ),
+  { ssr: false }
 )
 const Description = dynamic(
   () =>
     import(
-      /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/components/pages-common/screens/DescriptionAndChildren'
+      /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/components/PagesComponents/screens/DescriptionAndChildren'
     ),
+  { ssr: false }
+)
+
+const SinglePageSmartWrapper = dynamic(
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "HOMESMARTWRAPPER" */ '@/components/PagesComponents'),
+  { ssr: false, loading: () => <AnimatedPastelleLoader /> }
 )
 
 const VIDEO_CSS = `

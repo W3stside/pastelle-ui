@@ -1,57 +1,61 @@
-'use client'
-
-import { Column, Row, Text } from '@past3lle/components'
+import { Column, Row } from '@past3lle/components'
 import { useIsMediumMediaWidth } from '@past3lle/hooks'
-import { getIsMobile } from '@past3lle/utils'
 import Navigation from '@/components/Navigation'
 import { ShoppingCartHeader } from '@/components/ShoppingCart/ShoppingCart'
 import { Web3LoginButton } from '@/components/Web3LoginButton'
 import { FREE_SHIPPING_THRESHOLD, TRANSPARENT_HEX } from '@/constants/config'
 import { COLLECTION_PATHNAME } from '@/constants/navigation'
 import { FORGE_WEB3_ENABLED } from '@/constants/flags'
-import { FreeShippingBanner, ProductSubHeader } from '@/components/pages-common/styleds'
-import { useMemo, useState } from 'react'
+import { ProductSubHeader } from '@/components/PagesComponents/styleds'
+import { useState } from 'react'
 import { Truck } from 'react-feather'
-import { useCurrentProductMedia, useGetAllProductLogos } from '@/state/collection/hooks'
-import { checkIsCollectionPage } from '@/utils/navigation'
 
-import { HeaderDrawerButton, HeaderFrame, HeaderRow, Pastellecon, StyledThemeToggleBar, Title } from './styleds'
-import { usePathname } from 'next/navigation'
-import { BLACK } from '@past3lle/theme'
+import { HeaderDrawerButton, HeaderFrame, HeaderH1, Pastellecon, Title } from './styleds'
+import { useIsClientReady } from '@/hooks/useIsClientReady'
+import dynamic from 'next/dynamic'
+import { useHeaderMedia } from './hooks'
+
+// Relies on client side tech - load async // SSR = false
+const DynamicThemeToggler = dynamic(
+  () =>
+    import(/* webpackPrefetch: true,  webpackChunkName: "THEME_TOGGLE_BAR" */ './styleds').then(
+      (module) => module.StyledThemeToggleBar
+    ),
+  { ssr: true }
+)
+// Relies on client side tech - load async // SSR = false
+const DynamicHeaderRow = dynamic(
+  () =>
+    import(/* webpackPrefetch: true,  webpackChunkName: "HEADER_ROW" */ './styleds').then((module) => module.HeaderRow),
+  { ssr: true }
+)
+// Relies on client side tech - load async // SSR = false
+const DynamicFreeShippingBanner = dynamic(
+  () =>
+    import(
+      /* webpackPrefetch: true,  webpackChunkName: "FREE_SHIPPING_BANNER" */ '@/components/PagesComponents/styleds'
+    ).then((module) => module.FreeShippingBanner),
+  { ssr: true }
+)
 
 export default function Header() {
-  const pathname = usePathname() || ''
-  const isCollectionPage = checkIsCollectionPage({ pathname })
+  const clientReady = useIsClientReady()
+
   // const isEnabled = useMemo(() => isWeb3Enabled(), [])
-
   const isMediumOrBelow = useIsMediumMediaWidth()
-
-  const productLogos = useGetAllProductLogos()
-  const { headerLogoSet: dynamicHeaderLogoSet, color } = useCurrentProductMedia(pathname === '/')
-  // "randomly" select a product header from collection for header (on mobile collection view ONLY)
-  const staticRandomLogoSet = useMemo(
-    () => productLogos?.[Math.ceil(Math.random() * productLogos.length - 1)]?.headerLogo,
-    // only update when navving in-out of collection page on mobile
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isCollectionPage],
-  )
-
+  // Header content: logos and color
+  const { headerLogo, color } = useHeaderMedia()
   // only applicable for certain view sizes..
   const [open, setOpen] = useState(false)
 
   return (
-    <HeaderFrame
-      as="header"
-      color={color || BLACK}
-      logoSet={getIsMobile() && isCollectionPage ? staticRandomLogoSet : dynamicHeaderLogoSet}
-      open={false}
-    >
+    <HeaderFrame as="header" color={color} logoSet={headerLogo} open={false}>
       <HeaderDrawerButton onClick={() => setOpen((state) => !state)}>
         <ProductSubHeader padding="0" margin="0">
           TAP TO {open ? 'HIDE' : 'VIEW CART + MENU'}
         </ProductSubHeader>
       </HeaderDrawerButton>
-      <HeaderRow>
+      <DynamicHeaderRow>
         {/* ICON and HOME BUTTON */}
         <Column height="100%">
           <Title href={COLLECTION_PATHNAME}>
@@ -59,24 +63,21 @@ export default function Header() {
             <br />
           </Title>
           <Row width="100%" height="30%" alignItems="center">
-            <div style={{ fontSize: '0.6rem', margin: 0, fontVariationSettings: "'wght' 350" }}>
-              HEAVY.ORGANIC.{' '}
-              <Text.Main fontSize="inherit" fontWeight={800} display={'inline-block'}>
-                STREETWEAR.
-              </Text.Main>
+            <HeaderH1>
+              HEAVY.ORGANIC. <span>STREETWEAR.</span>
               PORTUGAL.
-            </div>
+            </HeaderH1>
           </Row>
         </Column>
 
         {/* THEME TOGGLE - ONLY MEDIUM */}
-        <StyledThemeToggleBar themeToggleProps={{ width: '90%' }} />
+        <DynamicThemeToggler themeToggleProps={{ width: '90%' }} />
         {/* WEB3 CONNECT BUTTON */}
         {FORGE_WEB3_ENABLED && <Web3LoginButton>LOGIN</Web3LoginButton>}
         <Row id="cart-shipping-banner" flex="row nowrap" gap="1rem" height="100%" justifyContent="flex-end">
           {/* FREE SHIPPING LABEL */}
           {FREE_SHIPPING_THRESHOLD && (
-            <FreeShippingBanner
+            <DynamicFreeShippingBanner
               gap="0"
               fontWeight={300}
               flex="auto"
@@ -88,13 +89,13 @@ export default function Header() {
               fontSize="1.5rem"
             >
               <Truck /> {`FREE @ ${FREE_SHIPPING_THRESHOLD}€`}
-            </FreeShippingBanner>
+            </DynamicFreeShippingBanner>
           )}
           {/* SHOPPING CART */}
           <ShoppingCartHeader styleProps={{ justifyContent: 'flex-end', maxWidth: 'min-content' }} />
         </Row>
-        {isMediumOrBelow && <Navigation navOrbProps={{ bgColor: TRANSPARENT_HEX, menuSize: 30 }} />}
-      </HeaderRow>
+        {clientReady && isMediumOrBelow && <Navigation navOrbProps={{ bgColor: TRANSPARENT_HEX, menuSize: 30 }} />}
+      </DynamicHeaderRow>
     </HeaderFrame>
   )
 }

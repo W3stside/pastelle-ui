@@ -1,5 +1,5 @@
 import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit'
-import { BaseProductPageProps } from '@/components/pages-common/types'
+import { BaseProductPageProps } from '@/components/PagesComponents/types'
 import { Product } from '@/shopify/graphql/types'
 import { ShopifyId } from '@/shopify/utils'
 import { HYDRATE } from 'next-redux-wrapper'

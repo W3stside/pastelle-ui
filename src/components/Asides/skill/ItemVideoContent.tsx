@@ -11,7 +11,7 @@ import {
   ProductSubHeader,
   VideoContentWrapper,
   VideoControlButton as VideoControlButtonStyled,
-} from '../../pages-common/styleds'
+} from '../../PagesComponents/styleds'
 import { usePathname } from 'next/navigation'
 
 export type ShowcaseVideo = FragmentProductVideoFragment & { isFallback?: boolean }

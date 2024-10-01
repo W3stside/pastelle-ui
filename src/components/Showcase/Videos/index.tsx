@@ -1,7 +1,7 @@
 import useModelSizeSelector from '@/components/ModelSizeSelector'
 import { SHOWCASE_ENABLED } from '@/constants/flags'
 import { ItemVideoContentProps } from '@/components/Asides/skill/ItemVideoContent'
-import { CollectionPageProps } from '@/components/pages-common/types'
+import { CollectionPageProps } from '@/components/PagesComponents/types'
 import { memo } from 'react'
 import { FragmentProductVideoFragment } from '@/shopify/graphql/types'
 import { useGetSelectedProductShowcaseVideo } from '@/state/collection/hooks'

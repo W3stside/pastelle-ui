@@ -6,7 +6,7 @@ import { ReactNode } from 'react'
 import styled from 'styled-components/macro'
 import { ThemeModes, getThemeColourByKey } from '@/theme'
 
-import { ItemHeader, ProductAsidePanel, ProductContainer } from '../../pages-common/styleds'
+import { ItemHeader, ProductAsidePanel, ProductContainer } from '../../PagesComponents/styleds'
 
 const ImageContainer = styled(AutoColumn)`
   overflow-y: auto;
