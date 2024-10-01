@@ -7,6 +7,7 @@ import { ProductDescription, ProductScreen, ProductSubHeader } from '@/component
 import { transparentize } from 'polished'
 import { useCallback } from 'react'
 import { getThemeColours } from '@/theme'
+import Link from 'next/link'
 
 const bgSrcSet = ikUrlToSimpleImageSrcSet('https://ik.imagekit.io/SHOP/PICTURES/error_picture')
 
@@ -56,7 +57,7 @@ export function AppErrorFallback() {
             <br />
             <p style={{ fontSize: '2rem' }}>
               If the issue persists, please contact us at{' '}
-              <a href="mailto: pastelle.portugal@gmail.com">pastelle.portugal@gmail.com</a>
+              <Link href="mailto: pastelle.portugal@gmail.com">pastelle.portugal@gmail.com</Link>
             </p>
           </ProductDescription>
         </ProductScreen>
