@@ -35,12 +35,12 @@ const DEFAULT_BG = transparentize(0.3, getThemeColourByKey(ThemeModes.DARK, 'bg1
 
 export const HeaderH1 = styled.h1`
   font-size: 0.9rem;
-  margin: 0; 
+  margin: 0;
   font-variation-settings: 'wght' 350;
   > span {
-    font-size: inherit; 
-    font-variation-settings: 'wght' 800; 
-    display: inline-block; 
+    font-size: inherit;
+    font-variation-settings: 'wght' 800;
+    display: inline-block;
   }
 `
 export const StyledNavLink = styled(Link)`

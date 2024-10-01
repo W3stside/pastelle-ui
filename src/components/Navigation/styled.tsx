@@ -151,7 +151,7 @@ export const StyledNav = styled.nav`
   flex-flow: column nowrap;
   width: 100%;
   > ul {
-    padding: 0; 
+    padding: 0;
   }
 `
 

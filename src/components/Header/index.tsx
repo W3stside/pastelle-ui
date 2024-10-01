@@ -19,15 +19,15 @@ import { useHeaderMedia } from './hooks'
 const DynamicThemeToggler = dynamic(
   () =>
     import(/* webpackPrefetch: true,  webpackChunkName: "THEME_TOGGLE_BAR" */ './styleds').then(
-      (module) => module.StyledThemeToggleBar
+      (module) => module.StyledThemeToggleBar,
     ),
-  { ssr: true }
+  { ssr: true },
 )
 // Relies on client side tech - load async // SSR = false
 const DynamicHeaderRow = dynamic(
   () =>
     import(/* webpackPrefetch: true,  webpackChunkName: "HEADER_ROW" */ './styleds').then((module) => module.HeaderRow),
-  { ssr: true }
+  { ssr: true },
 )
 // Relies on client side tech - load async // SSR = false
 const DynamicFreeShippingBanner = dynamic(
@@ -35,7 +35,7 @@ const DynamicFreeShippingBanner = dynamic(
     import(
       /* webpackPrefetch: true,  webpackChunkName: "FREE_SHIPPING_BANNER" */ '@/components/PagesComponents/styleds'
     ).then((module) => module.FreeShippingBanner),
-  { ssr: true }
+  { ssr: true },
 )
 
 export default function Header() {

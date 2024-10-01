@@ -20,21 +20,21 @@ const AsideCarousel = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/components/PagesComponents/screens/AsideCarousel'
-    )
+    ),
 )
 const ActionScreen = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/components/PagesComponents/screens/ActionsAndChildren'
     ),
-  { ssr: false }
+  { ssr: false },
 )
 const Description = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/components/PagesComponents/screens/DescriptionAndChildren'
     ),
-  { ssr: false }
+  { ssr: false },
 )
 
 interface HomePageMainContentProps extends SmartWrapperNodesAndRefs {
