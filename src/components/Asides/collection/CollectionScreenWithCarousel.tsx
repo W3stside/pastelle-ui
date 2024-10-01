@@ -19,12 +19,12 @@ const AsideCarousel = dynamic(
     import(
       /* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/components/PagesComponents/screens/AsideCarousel'
     ),
-  { ssr: false }
+  { ssr: false },
 )
 
 export default function CollectionScreenWithCarousel(props: CollectionPageProps) {
   const { lockStatus, lockedImages, images, carousel, dimensions, videos } = props
-  
+
   // CONTENT CONTAINER REF FOR DYNAMIC SIZE UPDATING AND CAROUSELS
   const [innerContainerRef, setRef] = useStateRef<HTMLDivElement | null>(null, (node) => node)
 
@@ -48,7 +48,7 @@ export default function CollectionScreenWithCarousel(props: CollectionPageProps)
   // Src-set of all images
   const imageSrcSet = useMemo(
     () => getImageSizeMap(lockStatus === SkillLockStatus.LOCKED ? lockedImages : images),
-    [lockedImages, lockStatus, images]
+    [lockedImages, lockStatus, images],
   )
   return (
     <CollectionScreensContainer ref={setRef}>

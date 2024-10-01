@@ -14,14 +14,14 @@ const ProductContainer = dynamic(
   import(
     /* webpackPrefetch: true,  webpackChunkName: "PRODUCT_CONTAINER" */ '@/components/PagesComponents/styleds'
   ).then((module) => module.ProductContainer),
-  { ssr: false, loading: () => <Loader /> }
+  { ssr: false, loading: () => <Loader /> },
 )
 
 const DynamicCollectionCarouseScreen = dynamic(
   import(
     /* webpackPrefetch: true,  webpackChunkName: "COLLECTIONSCREENWITHCAROUSEL" */ './CollectionScreenWithCarousel'
   ),
-  { ssr: false }
+  { ssr: false },
 )
 
 export default function CollectionProductPage(props: CollectionPageProps) {

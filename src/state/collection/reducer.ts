@@ -91,7 +91,7 @@ const collectionSlice = createSlice({
     },
     updateHomepage(state, action: PayloadAction<BaseProductPageProps>) {
       state.homepage = action.payload
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(hydrateAction, (state, action) => {

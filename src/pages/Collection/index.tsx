@@ -27,7 +27,7 @@ import { AnimatedPastelleLoader } from '@/components/Loader'
 const CollectionAsideWithVideo = dynamic(
   import(
     /* webpackPrefetch: true,  webpackChunkName: "COLLECTIONASIDEWITHVIDEO" */ '@/components/Asides/collection/AsideWithVideo'
-  )
+  ),
 )
 
 // const IS_SERVER = typeof globalThis?.window == 'undefined'
@@ -58,7 +58,7 @@ export const getStaticProps = wrapper.getStaticProps((store) => async (): Promis
       updateCollections({
         collections: formattedCollections,
         loading: false,
-      })
+      }),
     )
 
     if (formattedCollections?.[0]?.id) {
@@ -67,7 +67,7 @@ export const getStaticProps = wrapper.getStaticProps((store) => async (): Promis
           id: formattedCollections[0].id,
           locked: formattedCollections[0]?.locked,
           loading: false,
-        })
+        }),
       )
     }
   }
@@ -96,7 +96,7 @@ export default function Collection({ collection, schemaSEO }: Props) {
 
   const collectionProductList = useMemo(
     () => collection?.collectionProductList || [],
-    [collection?.collectionProductList]
+    [collection?.collectionProductList],
   )
 
   // on mobile sizes we set a fixed height
@@ -110,7 +110,7 @@ export default function Collection({ collection, schemaSEO }: Props) {
           isMobileDeviceOrWidth
           ? cHeight - LAYOUT_REM_HEIGHT_MAP.HEADER * BASE_FONT_SIZE
           : cHeight
-        : 0
+        : 0,
     )
   }, [collectionProductList, container?.clientHeight, isMobileDeviceOrWidth])
 
@@ -118,7 +118,7 @@ export default function Collection({ collection, schemaSEO }: Props) {
     (handle?: string) => {
       if (handle) navigate(buildItemUrl(handle))
     },
-    [navigate]
+    [navigate],
   )
 
   const AsideWithVideoAux = useCallback(
@@ -133,7 +133,7 @@ export default function Collection({ collection, schemaSEO }: Props) {
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [collection]
+    [collection],
   )
 
   const mappedCollectionItems = useMemo(
@@ -143,7 +143,7 @@ export default function Collection({ collection, schemaSEO }: Props) {
         if (item?.lockedImages?.[0]?.url) newItem.images = item.lockedImages
         return newItem
       }),
-    [collectionProductList]
+    [collectionProductList],
   )
 
   const clientReady = useIsClientReady()

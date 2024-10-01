@@ -28,7 +28,7 @@ import { useIsClientReady } from '@/hooks/useIsClientReady'
 
 const SinglePageSmartWrapper = dynamic(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "HOMESMARTWRAPPER" */ '@/components/PagesComponents'),
-  { ssr: false }
+  { ssr: false },
 )
 
 export async function getStaticPaths() {
