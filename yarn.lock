@@ -5358,6 +5358,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@netlify/plugin-csp-nonce@npm:^1.2.10":
+  version: 1.2.10
+  resolution: "@netlify/plugin-csp-nonce@npm:1.2.10"
+  checksum: 10c0/16283743f914ad18edd1ec4f47fae748d9d20743598c4d5c47bce2d9d5f38d0ef55b2c0ac692272e0f9e1e6fcf30efe629db49906692708a521ab3140c231c4b
+  languageName: node
+  linkType: hard
+
 "@netlify/plugins-list@npm:^6.80.0":
   version: 6.80.0
   resolution: "@netlify/plugins-list@npm:6.80.0"
@@ -5549,15 +5556,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/third-parties@npm:^14.2.13":
-  version: 14.2.13
-  resolution: "@next/third-parties@npm:14.2.13"
+"@next/third-parties@npm:canary":
+  version: 15.0.0-canary.174
+  resolution: "@next/third-parties@npm:15.0.0-canary.174"
   dependencies:
     third-party-capital: "npm:1.0.20"
   peerDependencies:
     next: ^13.0.0 || ^14.0.0
     react: ^18.2.0
-  checksum: 10c0/ebf4e9187045c9600bb6bbad23a23ae49f77c31bb22b5ad5c6d746e74a4a9bd51c4f1cfd7aa87a03dcde715457c40db3d8b60be6b9298c0bfa64088ede046811
+  checksum: 10c0/5ac75a6095fe8bdeabc3aec784d82eb766ba7b24a860ea19365a0a9dd06dabd69431e1d60d022dd34c67ca014492434a7596fdf133691776896a9825a3257add
   languageName: node
   linkType: hard
 
@@ -20007,7 +20014,8 @@ __metadata:
     "@graphql-codegen/cli": "npm:^2.6.2"
     "@graphql-codegen/typescript": "npm:4.0.9"
     "@graphql-codegen/typescript-operations": "npm:^4.0.1"
-    "@next/third-parties": "npm:^14.2.13"
+    "@netlify/plugin-csp-nonce": "npm:^1.2.10"
+    "@next/third-parties": "npm:15.0.0-canary.174"
     "@past3lle/assets": "npm:^2.1.0"
     "@past3lle/carousel": "npm:^2.1.2-alpha.2"
     "@past3lle/carousel-hooks": "npm:^2.1.2-alpha.0"

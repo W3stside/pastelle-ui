@@ -51,7 +51,8 @@ const RAW_RUNTIME_STATE =
           ["@graphql-codegen/cli", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.16.5"],\
           ["@graphql-codegen/typescript", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.9"],\
           ["@graphql-codegen/typescript-operations", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.2.3"],\
-          ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:14.2.13"],\
+          ["@netlify/plugin-csp-nonce", "npm:1.2.10"],\
+          ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.174"],\
           ["@past3lle/assets", "npm:2.1.0"],\
           ["@past3lle/carousel", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
           ["@past3lle/carousel-hooks", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
@@ -8143,6 +8144,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@netlify/plugin-csp-nonce", [\
+      ["npm:1.2.10", {\
+        "packageLocation": "../../../.yarn/berry/cache/@netlify-plugin-csp-nonce-npm-1.2.10-a17b8570bd-10c0.zip/node_modules/@netlify/plugin-csp-nonce/",\
+        "packageDependencies": [\
+          ["@netlify/plugin-csp-nonce", "npm:1.2.10"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@netlify/plugins-list", [\
       ["npm:6.80.0", {\
         "packageLocation": "../../../.yarn/berry/cache/@netlify-plugins-list-npm-6.80.0-ef660bcf7e-10c0.zip/node_modules/@netlify/plugins-list/",\
@@ -8355,17 +8365,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@next/third-parties", [\
-      ["npm:14.2.13", {\
-        "packageLocation": "../../../.yarn/berry/cache/@next-third-parties-npm-14.2.13-2fe8bd9957-10c0.zip/node_modules/@next/third-parties/",\
+      ["npm:15.0.0-canary.174", {\
+        "packageLocation": "../../../.yarn/berry/cache/@next-third-parties-npm-15.0.0-canary.174-c221a3f5cb-10c0.zip/node_modules/@next/third-parties/",\
         "packageDependencies": [\
-          ["@next/third-parties", "npm:14.2.13"]\
+          ["@next/third-parties", "npm:15.0.0-canary.174"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:14.2.13", {\
-        "packageLocation": "./.yarn/__virtual__/@next-third-parties-virtual-c64b1a6884/4/.yarn/berry/cache/@next-third-parties-npm-14.2.13-2fe8bd9957-10c0.zip/node_modules/@next/third-parties/",\
+      ["virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.174", {\
+        "packageLocation": "./.yarn/__virtual__/@next-third-parties-virtual-0a456548bc/4/.yarn/berry/cache/@next-third-parties-npm-15.0.0-canary.174-c221a3f5cb-10c0.zip/node_modules/@next/third-parties/",\
         "packageDependencies": [\
-          ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:14.2.13"],\
+          ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.174"],\
           ["@types/next", null],\
           ["@types/react", "npm:18.3.10"],\
           ["next", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:14.2.13"],\
@@ -25787,7 +25797,8 @@ const RAW_RUNTIME_STATE =
           ["@graphql-codegen/cli", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.16.5"],\
           ["@graphql-codegen/typescript", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.9"],\
           ["@graphql-codegen/typescript-operations", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.2.3"],\
-          ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:14.2.13"],\
+          ["@netlify/plugin-csp-nonce", "npm:1.2.10"],\
+          ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.174"],\
           ["@past3lle/assets", "npm:2.1.0"],\
           ["@past3lle/carousel", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
           ["@past3lle/carousel-hooks", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\

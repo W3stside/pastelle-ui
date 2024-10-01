@@ -25,7 +25,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@next/third-parties": "^14.2.13",
+    "@next/third-parties": "15.0.0-canary.174",
     "@past3lle/assets": "^2.1.0",
     "@past3lle/carousel": "^2.1.2-alpha.2",
     "@past3lle/carousel-hooks": "^2.1.2-alpha.0",
@@ -78,6 +78,7 @@
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "4.0.9",
     "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@netlify/plugin-csp-nonce": "^1.2.10",
     "@past3lle/types": "^2.1.0",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/babel-plugin-macros": "^3",
@@ -135,6 +136,9 @@
     "web-vitals": "^3.1.0",
     "workbox-core": "^7.1.0"
   },
+  "resolutions": {
+    "@next/third-parties": "canary"
+  },
   "scripts": {
     "analyze": "NEXT_PUBLIC_ANALYZE_BUNDLE=true yarn build",
     "lint": "yarn dlx prettier --write src --ignore-path ./.prettierignore",
@@ -145,6 +149,7 @@
     "netlify:build": "netlify build",
     "netlify:login": "netlify login",
     "netlify:link": "netlify link",
+    "netlify:dev": "netlify dev",
     "start": "yarn dlx serve@latest dist",
     "serve": "yarn dlx serve dist -l 666",
     "build:analyze": "yarn build && yarn analyze",
