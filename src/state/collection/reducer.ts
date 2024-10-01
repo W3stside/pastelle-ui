@@ -19,6 +19,7 @@ export type CollectionState = {
   collections: {
     [key: string]: CollectionProductMap
   }
+  homepage: BaseProductPageProps | null
   latest: string | null
   // handle name of current on screen product
   currentlyViewing: ProductCurrentlyViewing | null
@@ -28,6 +29,7 @@ export type CollectionState = {
 const initialState: CollectionState = {
   current: null,
   collections: {},
+  homepage: null,
   latest: null,
   currentlyViewing: null,
   loading: false,
@@ -87,6 +89,9 @@ const collectionSlice = createSlice({
     updateLoadingState(state, action: PayloadAction<boolean>) {
       state.loading = action.payload
     },
+    updateHomepage(state, action: PayloadAction<BaseProductPageProps>) {
+      state.homepage = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(hydrateAction, (state, action) => {
@@ -103,5 +108,6 @@ export const {
   updateCurrentlyViewing,
   updateLoadingState,
   updateSingleProductInCollection,
+  updateHomepage,
 } = collectionSlice.actions
 export const collection = collectionSlice.reducer

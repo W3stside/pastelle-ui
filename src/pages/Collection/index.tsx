@@ -100,7 +100,7 @@ export default function Collection({ collection, schemaSEO }: Props) {
   )
 
   // on mobile sizes we set a fixed height
-  const [fixedItemHeight, setFixedItemHeight] = useState<number>(0)
+  const [fixedItemHeight, setFixedItemHeight] = useState<number>(500)
   useEffect(() => {
     const cHeight = container?.clientHeight || 0
 

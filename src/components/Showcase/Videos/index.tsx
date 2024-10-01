@@ -9,13 +9,14 @@ import { useGetShowcaseSettings } from '@/state/user/hooks'
 
 import { ModelInformationOverlay } from './ModelInformationOverlay'
 import dynamic from 'next/dynamic'
+import { useIsMobile } from '@past3lle/hooks'
 
 const ItemVideoContent = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "ITEMVIDEOCONTENT" */ '@/components/Asides/skill/ItemVideoContent'
     ),
-  { ssr: false },
+  { ssr: false }
 )
 
 export type ShowcaseVideosProps = Pick<CollectionPageProps, 'firstPaintOver' | 'videos'> &
@@ -32,11 +33,23 @@ export function SelectedShowcaseVideo({
   hideVideo,
   ...restProps
 }: SelectedShowcaseVideoProps) {
+  const isMobile = useIsMobile()
   if (hideVideo) return null
   return (
     <>
       {selectedVideo ? (
-        <ItemVideoContent {...restProps} videos={[selectedVideo]} currentCarouselIndex={null} />
+        <ItemVideoContent
+          {...restProps}
+          smartFill={
+            isMobile
+              ? undefined
+              : {
+                  full: true,
+                }
+          }
+          videos={[selectedVideo]}
+          currentCarouselIndex={null}
+        />
       ) : (
         fallback
       )}

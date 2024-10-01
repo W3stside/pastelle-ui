@@ -156,17 +156,17 @@ export function useCurrentOrFirstCollection() {
   return currentCollection || Object.values(collections?.collections)?.[0]
 }
 
-export function useGetCurrentOnScreenCollectionProduct() {
-  const collection = useCurrentOrFirstCollection()
+export function useGetCurrentOnScreenCollectionProduct(pathname?: string): BaseProductPageProps | null {
+  const { collections, current, homepage } = useCollection()
 
   const item = useOnScreenProductHandle()
 
-  return item ? collection?.products[item.handle] : undefined
+  const isHomePage = pathname === '/'
+  return item ? (isHomePage ? homepage : collections?.[current?.id || '']?.products?.[item.handle]) : null
 }
 
-export function useCurrentProductMedia(/* isHomepage?: boolean */) {
-  // const homepageItem = useQueryHomepage()
-  const onScreenCollectionItem = useGetCurrentOnScreenCollectionProduct()
+export function useCurrentProductMedia(pathname?: string) {
+  const onScreenCollectionItem = useGetCurrentOnScreenCollectionProduct(pathname)
 
   const currentItem = /* isHomepage ? homepageItem : */ onScreenCollectionItem
 
@@ -286,4 +286,25 @@ export function useGroupCollectionByType(collection?: ProductPageMap): ProductTy
           }, {} as ProductTypeMap),
     [collection]
   )
+}
+
+export function useGetHomepageRedux(): BaseProductPageProps | null {
+  const collectionState = useCollection()
+
+  return collectionState.homepage
+}
+
+export function useGetHomepageMetaAssets(): Pick<
+  BaseProductPageProps,
+  'headerLogo' | 'color' | 'bgColor' | 'altColor' | 'navLogo'
+> | null {
+  const homepage = useGetHomepageRedux()
+
+  return {
+    bgColor: homepage?.bgColor ?? null,
+    color: homepage?.color ?? null,
+    altColor: homepage?.altColor ?? null,
+    navLogo: homepage?.navLogo,
+    headerLogo: homepage?.headerLogo,
+  }
 }

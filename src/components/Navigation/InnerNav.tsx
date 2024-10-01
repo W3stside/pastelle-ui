@@ -54,7 +54,10 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
 
   // state collection data
   const collection = useDeriveCurrentCollection()
-  const product = useGetCurrentOnScreenCollectionProduct()
+
+  // get page meta assets, check pathname
+  const pathname = usePathname()
+  const product = useGetCurrentOnScreenCollectionProduct(pathname)
 
   const { push: navigate } = useRouter()
   const handleNavMove = useCallback(
@@ -77,7 +80,6 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
 
   // check if on home page ("/"")
   // if so, dont render inner nav
-  const pathname = usePathname()
   const onHomePage = pathname === '/'
 
   return (
@@ -114,7 +116,7 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
                         <NavItemMemoed
                           key={collProd.id}
                           product={collProd}
-                          currentProduct={product}
+                          currentProduct={product ?? undefined}
                           handleNavMove={handleNavMove}
                           isNavOpen={isNavOpen}
                         />

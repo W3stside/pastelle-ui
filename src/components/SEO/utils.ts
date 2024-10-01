@@ -1,6 +1,7 @@
 import { CollectionResponseFormatted } from '@/shopify/graphql/hooks'
 import { DEFAULT_COLLECTION_DESCRIPTION, DEFAULT_PRODUCT_DESCRIPTION } from './constants'
 import { BaseProductPageProps } from '../PagesComponents/types'
+import { ProductSchema } from './types'
 
 export function getCollectionSeoSchema(collection: CollectionResponseFormatted | null) {
   if (!collection) return null
@@ -45,7 +46,7 @@ export function getCollectionSeoSchema(collection: CollectionResponseFormatted |
   } as const
 }
 
-export function getProductSeoSchema(product: BaseProductPageProps | null) {
+export function getProductSeoSchema(product: BaseProductPageProps | null): ProductSchema | null {
   if (!product) return null
   return {
     '@context': 'https://schema.org',

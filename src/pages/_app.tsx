@@ -70,5 +70,4 @@ function RootApp({ Component, ...pageProps }: AppProps) {
     </>
   )
 }
-
 export default RootApp
