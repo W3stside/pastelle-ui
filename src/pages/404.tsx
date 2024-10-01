@@ -1,6 +1,6 @@
 import { ButtonVariations } from '@past3lle/components'
 import SEO from '@/components/SEO'
-import { ItemHeader, ProductSubHeader } from '@/components/pages-common/styleds'
+import { ItemHeader, ProductSubHeader } from '@/components/PagesComponents/styleds'
 import { useRouter } from 'next/router'
 import { BackgroundWrapper, ContainerDiv, ButtonPrimary } from '@/components/404/styled'
 

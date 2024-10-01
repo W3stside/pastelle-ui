@@ -35,7 +35,18 @@ export default tseslint.config(
           varsIgnorePattern: "^_",
           ignoreRestSiblings: true
         }
-      ]
+      ],
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'styled-components',
+              message: 'Please import styled-components from "styled-components/macro"',
+            },
+          ],
+        },
+      ],
     },
   },
 )

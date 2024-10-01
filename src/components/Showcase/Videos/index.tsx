@@ -1,7 +1,7 @@
 import useModelSizeSelector from '@/components/ModelSizeSelector'
 import { SHOWCASE_ENABLED } from '@/constants/flags'
 import { ItemVideoContentProps } from '@/components/Asides/skill/ItemVideoContent'
-import { CollectionPageProps } from '@/components/pages-common/types'
+import { CollectionPageProps } from '@/components/PagesComponents/types'
 import { memo } from 'react'
 import { FragmentProductVideoFragment } from '@/shopify/graphql/types'
 import { useGetSelectedProductShowcaseVideo } from '@/state/collection/hooks'
@@ -9,6 +9,7 @@ import { useGetShowcaseSettings } from '@/state/user/hooks'
 
 import { ModelInformationOverlay } from './ModelInformationOverlay'
 import dynamic from 'next/dynamic'
+import { useIsMobile } from '@past3lle/hooks'
 
 const ItemVideoContent = dynamic(
   () =>
@@ -32,11 +33,23 @@ export function SelectedShowcaseVideo({
   hideVideo,
   ...restProps
 }: SelectedShowcaseVideoProps) {
+  const isMobile = useIsMobile()
   if (hideVideo) return null
   return (
     <>
       {selectedVideo ? (
-        <ItemVideoContent {...restProps} videos={[selectedVideo]} currentCarouselIndex={null} />
+        <ItemVideoContent
+          {...restProps}
+          smartFill={
+            isMobile
+              ? undefined
+              : {
+                  full: true,
+                }
+          }
+          videos={[selectedVideo]}
+          currentCarouselIndex={null}
+        />
       ) : (
         fallback
       )}

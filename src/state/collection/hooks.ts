@@ -2,9 +2,9 @@ import { useIsMobile } from '@past3lle/hooks'
 import { ShowcaseVideosProps } from '@/components/Showcase/Videos'
 import { SHOWCASE_ENABLED } from '@/constants/flags'
 import { ShowcaseVideo } from '@/components/Asides/skill/ItemVideoContent'
-import { BaseProductPageProps } from '@/components/pages-common/types'
+import { BaseProductPageProps } from '@/components/PagesComponents/types'
 import { useCallback, useEffect, useMemo } from 'react'
-import { useQueryHomepage } from '@/shopify/graphql/hooks'
+// import { useQueryHomepage } from '@/shopify/graphql/hooks'
 import { FragmentProductVideoFragment, Product } from '@/shopify/graphql/types'
 import { reduceShopifyMediaToShowcaseVideos } from '@/shopify/utils'
 import { useAppDispatch, useAppSelector } from '@/state'
@@ -156,19 +156,19 @@ export function useCurrentOrFirstCollection() {
   return currentCollection || Object.values(collections?.collections)?.[0]
 }
 
-export function useGetCurrentOnScreenCollectionProduct() {
-  const collection = useCurrentOrFirstCollection()
+export function useGetCurrentOnScreenCollectionProduct(pathname?: string): BaseProductPageProps | null {
+  const { collections, current, homepage } = useCollection()
 
   const item = useOnScreenProductHandle()
 
-  return item ? collection?.products[item.handle] : undefined
+  const isHomePage = pathname === '/'
+  return item ? (isHomePage ? homepage : collections?.[current?.id || '']?.products?.[item.handle]) : null
 }
 
-export function useCurrentProductMedia(isHomepage?: boolean) {
-  const homepageItem = useQueryHomepage()
-  const onScreenCollectionItem = useGetCurrentOnScreenCollectionProduct()
+export function useCurrentProductMedia(pathname?: string) {
+  const onScreenCollectionItem = useGetCurrentOnScreenCollectionProduct(pathname)
 
-  const currentItem = isHomepage ? homepageItem : onScreenCollectionItem
+  const currentItem = /* isHomepage ? homepageItem : */ onScreenCollectionItem
 
   return useMemo(
     () => ({
@@ -182,11 +182,18 @@ export function useCurrentProductMedia(isHomepage?: boolean) {
   )
 }
 
-export function useGetAllProductLogos() {
+export function useGetAllProductThemeMedia() {
   const { collection } = useCurrentCollection()
   if (!collection) return null
 
-  return Object.values(collection.products).map(({ headerLogo, navLogo, logo }) => ({ headerLogo, navLogo, logo }))
+  return Object.values(collection.products).map(({ headerLogo, navLogo, logo, color, bgColor, altColor }) => ({
+    headerLogo,
+    navLogo,
+    logo,
+    color,
+    bgColor,
+    altColor,
+  }))
 }
 
 export function useGetProductShowcaseVideos({ videos }: Pick<ShowcaseVideosProps, 'videos'>) {
@@ -279,4 +286,25 @@ export function useGroupCollectionByType(collection?: ProductPageMap): ProductTy
           }, {} as ProductTypeMap),
     [collection],
   )
+}
+
+export function useGetHomepageRedux(): BaseProductPageProps | null {
+  const collectionState = useCollection()
+
+  return collectionState.homepage
+}
+
+export function useGetHomepageMetaAssets(): Pick<
+  BaseProductPageProps,
+  'headerLogo' | 'color' | 'bgColor' | 'altColor' | 'navLogo'
+> | null {
+  const homepage = useGetHomepageRedux()
+
+  return {
+    bgColor: homepage?.bgColor ?? null,
+    color: homepage?.color ?? null,
+    altColor: homepage?.altColor ?? null,
+    navLogo: homepage?.navLogo,
+    headerLogo: homepage?.headerLogo,
+  }
 }

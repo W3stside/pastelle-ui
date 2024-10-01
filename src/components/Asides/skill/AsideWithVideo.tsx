@@ -10,9 +10,9 @@ import ShowcaseVideoControls from '@/components/Showcase/Videos/Settings'
 import useSizeSelector from '@/components/SizeSelector'
 import { PLACEHOLDER_HIGHLIGHT_COLOUR } from '@/constants/config'
 import { FORGE_WEB3_ENABLED, SHOWCASE_ENABLED } from '@/constants/flags'
-import { SmartWrapperNodesAndRefs } from '@/components/pages-common'
-import { CTA_BUTTON_PROP_THEMES } from '@/components/pages-common/constants'
-import { useGetCommonPropsFromProduct as useMapToCommonPropsFromProduct } from '@/components/pages-common/hooks/useGetCommonPropsFromProduct'
+import { SmartWrapperNodesAndRefs } from '@/components/PagesComponents'
+import { CTA_BUTTON_PROP_THEMES } from '@/components/PagesComponents/constants'
+import { useGetCommonPropsFromProduct as useMapToCommonPropsFromProduct } from '@/components/PagesComponents/hooks/useGetCommonPropsFromProduct'
 import {
   HighlightedText,
   PastelleCredit,
@@ -20,8 +20,8 @@ import {
   ProductCredits,
   ProductDescription,
   ProductSubHeader,
-} from '@/components/pages-common/styleds'
-import { SingleProductPageProps as BaseProps } from '@/components/pages-common/types'
+} from '@/components/PagesComponents/styleds'
+import { SingleProductPageProps as BaseProps } from '@/components/PagesComponents/types'
 import { useMemo } from 'react'
 import { useQueryProductVariantByKeyValue } from '@/shopify/graphql/hooks'
 import { getImageSizeMap } from '@/shopify/utils'
@@ -34,19 +34,19 @@ import dynamic from 'next/dynamic'
 const AsideCarousel = dynamic(
   () =>
     import(
-      /* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/components/pages-common/screens/AsideCarousel'
+      /* webpackPrefetch: true,  webpackChunkName: "ASIDECAROUSEL" */ '@/components/PagesComponents/screens/AsideCarousel'
     ),
 )
 const ActionScreen = dynamic(
   () =>
     import(
-      /* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/components/pages-common/screens/ActionsAndChildren'
+      /* webpackPrefetch: true,  webpackChunkName: "ACTIONSCREEN" */ '@/components/PagesComponents/screens/ActionsAndChildren'
     ),
 )
 const Description = dynamic(
   () =>
     import(
-      /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/components/pages-common/screens/DescriptionAndChildren'
+      /* webpackPrefetch: true,  webpackChunkName: "DESCRIPTION" */ '@/components/PagesComponents/screens/DescriptionAndChildren'
     ),
 )
 

@@ -18,10 +18,10 @@ import { ShoppingCartFullWrapper, ShoppingCartHeaderWrapper } from '@/components
 import ThemeToggleBar from '@/components/ThemeToggler'
 import { Web3Button } from '@/components/Web3LoginButton'
 import { Z_INDEXES } from '@/constants/config'
-import { FreeShippingBanner, ProductSubHeader } from '@/components/pages-common/styleds'
+import { FreeShippingBanner, ProductSubHeader } from '@/components/PagesComponents/styleds'
 import { darken, transparentize } from 'polished'
 import { Text } from 'rebass'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import { getThemeColourByKey } from '@/theme'
 import { ThemeModes } from '@/theme'
 import { ShopImageSrcSet } from '@/types'
@@ -33,6 +33,16 @@ const logoShort = PNG_LogoShort_2x as unknown as string
 
 const DEFAULT_BG = transparentize(0.3, getThemeColourByKey(ThemeModes.DARK, 'bg1', BLACK) as string)
 
+export const HeaderH1 = styled.h1`
+  font-size: 0.9rem;
+  margin: 0;
+  font-variation-settings: 'wght' 350;
+  > span {
+    font-size: inherit;
+    font-variation-settings: 'wght' 800;
+    display: inline-block;
+  }
+`
 export const StyledNavLink = styled(Link)`
   display: flex;
   flex-flow: row nowrap;
@@ -324,7 +334,7 @@ export const NetworkCard = styled(YellowCard)`
   `};
 `
 
-export const Pastellecon = styled.div`
+export const Pastellecon = styled.div.attrs({ alt: 'Brand Logo - Pastelle Apparel' })`
   height: 100%;
   width: 100%;
   transition: transform 0.3s ease;

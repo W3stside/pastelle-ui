@@ -5,7 +5,7 @@ import { upToSmall } from '@past3lle/theme'
 import { Z_INDEXES } from '@/constants/config'
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/state'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 import { addBannerMessage, removeBannerMessage } from '../reducer'
 

@@ -4,9 +4,8 @@ import SEO from '@/components/SEO'
 import ShowcaseVideos from '@/components/Showcase/Videos'
 import { PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT, Z_INDEXES } from '@/constants/config'
 import { SHOWCASE_ENABLED } from '@/constants/flags'
-import { SinglePageSmartWrapper } from '@/components/pages-common'
-import { DEFAULT_MEDIA_START_INDEX } from '@/components/pages-common/constants'
-import { useProductWebCarouselActions } from '@/components/pages-common/hooks/useProductCarouselActions'
+import { DEFAULT_MEDIA_START_INDEX } from '@/components/PagesComponents/constants'
+import { useProductWebCarouselActions } from '@/components/PagesComponents/hooks/useProductCarouselActions'
 import { useUpdateCurrentlyViewingProduct } from '@/state/collection/hooks'
 
 import AsideWithVideo from '../../components/Asides/skill/AsideWithVideo'
@@ -17,13 +16,20 @@ import {
   SingleProductScreensContainer,
 } from '../../components/Asides/skill/styled'
 import { queryProductPaths, queryProducts } from '@/shopify/graphql/api/products'
-import { BaseProductPageProps } from '@/components/pages-common/types'
+import { BaseProductPageProps } from '@/components/PagesComponents/types'
 import { mapShopifyProductToProps } from '@/shopify/utils'
 import { BLACK } from '@past3lle/theme'
 import { ProductSchema } from '@/components/SEO/types'
 import { getProductSeoSchema } from '@/components/SEO/utils'
 import { DEFAULT_PRODUCT_DESCRIPTION } from '@/components/SEO/constants'
 import { useProductViewReporter } from '@/analytics/hooks/useProductViewReporter'
+import dynamic from 'next/dynamic'
+import { useIsClientReady } from '@/hooks/useIsClientReady'
+
+const SinglePageSmartWrapper = dynamic(
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "HOMESMARTWRAPPER" */ '@/components/PagesComponents'),
+  { ssr: false },
+)
 
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
@@ -78,6 +84,7 @@ export default function SingleProductPage({ product, schemaSEO }: Props) {
   })
 
   const isMobile = useIsMobile()
+  const clientReady = useIsClientReady()
 
   if (!product || !schemaSEO) return null
 
@@ -94,53 +101,55 @@ export default function SingleProductPage({ product, schemaSEO }: Props) {
         schema={schemaSEO}
       />
       <SinglePageSmartWrapper>
-        {(smartWrapperProps) => (
-          <>
-            <LargeProductAndSizeChartImagesCarousel
-              color={product.color}
-              images={product.images}
-              lockedImages={product.lockedImages}
-              sizeChart={product.sizeChart}
-              currentIndex={currentCarouselIndex}
-              isMobile={isMobile}
-              skillState={product.lockStatus}
-            />
-            <SingleProductContainer id="#item-container" parentAspectRatio={smartWrapperProps.parentAspectRatio}>
-              <SingleProductAsidePanel id="#item-aside-panel" ref={smartWrapperProps.asideContainerRef}>
-                <SingleProductScreensContainer
-                  $calculatedSizes={{
-                    height: smartWrapperProps.asideContainerRef.current?.clientHeight,
-                    width: smartWrapperProps.screensContainerNode?.clientWidth,
-                  }}
-                  ref={smartWrapperProps.setScreensContainerRef}
-                  bgColor={product?.bgColor || BLACK}
-                  navLogo={product?.navLogo}
-                  logo={product?.logo}
-                >
-                  <AsideWithVideo
-                    {...smartWrapperProps}
-                    {...product}
-                    lockStatus={product.lockStatus}
-                    isMobile={isMobile}
-                    carousel={{ index: currentCarouselIndex, onChange: onCarouselChange }}
-                  />
-                </SingleProductScreensContainer>
-              </SingleProductAsidePanel>
-              <ShowcaseVideos
-                videos={product.videos}
-                forceLoad={isMobile}
-                smartFill={SHOWCASE_ENABLED && !isMobile ? { side: true } : undefined}
-                hideVideo={isMobile || !!product?.noVideo}
-                showPoster
-                height={'100%'}
-                zIndex={Z_INDEXES.BEHIND}
-                firstPaintOver
-                currentCarouselIndex={currentCarouselIndex}
-                isMobileWidth={false}
+        {(smartWrapperProps) =>
+          !clientReady ? null : (
+            <>
+              <LargeProductAndSizeChartImagesCarousel
+                color={product.color}
+                images={product.images}
+                lockedImages={product.lockedImages}
+                sizeChart={product.sizeChart}
+                currentIndex={currentCarouselIndex}
+                isMobile={isMobile}
+                skillState={product.lockStatus}
               />
-            </SingleProductContainer>
-          </>
-        )}
+              <SingleProductContainer id="#item-container" parentAspectRatio={smartWrapperProps.parentAspectRatio}>
+                <SingleProductAsidePanel id="#item-aside-panel" ref={smartWrapperProps.asideContainerRef}>
+                  <SingleProductScreensContainer
+                    $calculatedSizes={{
+                      height: smartWrapperProps.asideContainerRef.current?.clientHeight,
+                      width: smartWrapperProps.screensContainerNode?.clientWidth,
+                    }}
+                    ref={smartWrapperProps.setScreensContainerRef}
+                    bgColor={product?.bgColor || BLACK}
+                    navLogo={product?.navLogo}
+                    logo={product?.logo}
+                  >
+                    <AsideWithVideo
+                      {...smartWrapperProps}
+                      {...product}
+                      lockStatus={product.lockStatus}
+                      isMobile={isMobile}
+                      carousel={{ index: currentCarouselIndex, onChange: onCarouselChange }}
+                    />
+                  </SingleProductScreensContainer>
+                </SingleProductAsidePanel>
+                <ShowcaseVideos
+                  videos={product.videos}
+                  forceLoad={isMobile}
+                  smartFill={SHOWCASE_ENABLED && !isMobile ? { side: true } : undefined}
+                  hideVideo={isMobile || !!product?.noVideo}
+                  showPoster
+                  height={'100%'}
+                  zIndex={Z_INDEXES.BEHIND}
+                  firstPaintOver
+                  currentCarouselIndex={currentCarouselIndex}
+                  isMobileWidth={false}
+                />
+              </SingleProductContainer>
+            </>
+          )
+        }
       </SinglePageSmartWrapper>
     </>
   )

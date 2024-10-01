@@ -13,11 +13,11 @@ import { ExternalLink } from '@/components/Navigation/styled'
 import { Text } from '@/components/Text'
 import { TRANSPARENT_HEX, Z_INDEXES } from '@/constants/config'
 import { SocialType } from 'mock/types'
-import { BaseProductPageProps } from '@/components/pages-common/types'
+import { BaseProductPageProps } from '@/components/PagesComponents/types'
 import { darken } from 'polished'
 import { Dribbble, Instagram } from 'react-feather'
 import Link from 'next/link'
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components/macro'
 import { ThemeModes } from '@/theme'
 import { ShopImageSrcSet } from '@/types'
 
@@ -396,10 +396,8 @@ export const ProductContainer = styled(Row)<{
 
     z-index: 2;
 
-    // MEDIA QUERIES --> SMALL and below
     ${({ theme }) => theme.mediaWidth.upToSmall`
-    // corresponds with > CollectionScreensContainer
-    // ios does NOT support overflow-x: clip; so we need this
+      // ios does NOT support overflow-x: clip; so we need this
       @supports not (overflow:clip) {
         position: fixed;
         left: 0;

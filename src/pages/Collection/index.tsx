@@ -3,11 +3,11 @@ import { ArticleFadeInContainer } from '@/components/Layout/Article'
 import SEO from '@/components/SEO'
 import { ScrollingContentPage } from '@/components/ScrollingContentPage'
 import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from '@/constants/sizes'
-import AsideWithVideo from '@/components/Asides/collection/AsideWithVideo'
-import { DEFAULT_MEDIA_START_INDEX } from '@/components/pages-common/constants'
-import { useProductWebCarouselActions } from '@/components/pages-common/hooks/useProductCarouselActions'
-import { AsideWithVideoAuxProps, CollectionPageProps } from '@/components/pages-common/types'
-import { useCallback, useMemo } from 'react'
+// import AsideWithVideo from '@/components/Asides/collection/AsideWithVideo'
+import { DEFAULT_MEDIA_START_INDEX } from '@/components/PagesComponents/constants'
+import { useProductWebCarouselActions } from '@/components/PagesComponents/hooks/useProductCarouselActions'
+import { AsideWithVideoAuxProps, CollectionPageProps } from '@/components/PagesComponents/types'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { buildItemUrl } from '@/utils/navigation'
 import { useRouter } from 'next/router'
 import { CollectionResponseFormatted } from '@/shopify/graphql/hooks'
@@ -20,9 +20,18 @@ import { ShopifyIdType, shortenShopifyId } from '@/shopify/utils'
 import { DEFAULT_COLLECTION_DESCRIPTION } from '@/components/SEO/constants'
 import { getCollectionSeoSchema } from '@/components/SEO/utils'
 import { CollectionSchema } from '@/components/SEO/types'
+import dynamic from 'next/dynamic'
+import { useIsClientReady } from '@/hooks/useIsClientReady'
+import { AnimatedPastelleLoader } from '@/components/Loader'
 
-const IS_SERVER = typeof globalThis?.window == 'undefined'
-const ANCHOR_NODE = IS_SERVER ? null : document
+const CollectionAsideWithVideo = dynamic(
+  import(
+    /* webpackPrefetch: true,  webpackChunkName: "COLLECTIONASIDEWITHVIDEO" */ '@/components/Asides/collection/AsideWithVideo'
+  ),
+)
+
+// const IS_SERVER = typeof globalThis?.window == 'undefined'
+// const ANCHOR_NODE = IS_SERVER ? null : document
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getStaticProps = wrapper.getStaticProps((store) => async (): Promise<{ props: Props }> => {
@@ -78,7 +87,6 @@ interface Props {
 export default function Collection({ collection, schemaSEO }: Props) {
   const { push: navigate } = useRouter()
   const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, (node) => node)
-
   // MOBILE/WEB CAROUSEL
   const { currentIndex: currentCarouselIndex, onChange: onCarouselChange } = useProductWebCarouselActions({
     startIndex: DEFAULT_MEDIA_START_INDEX,
@@ -92,15 +100,18 @@ export default function Collection({ collection, schemaSEO }: Props) {
   )
 
   // on mobile sizes we set a fixed height
-  const fixedItemHeight = useMemo(() => {
+  const [fixedItemHeight, setFixedItemHeight] = useState<number>(500)
+  useEffect(() => {
     const cHeight = container?.clientHeight || 0
 
-    return ((!!collectionProductList && collectionProductList?.length <= 3) || isMobileDeviceOrWidth) && cHeight
-      ? // container height - the header and 70px to fit the next product label
-        isMobileDeviceOrWidth
-        ? cHeight - LAYOUT_REM_HEIGHT_MAP.HEADER * BASE_FONT_SIZE
-        : cHeight
-      : undefined
+    setFixedItemHeight(
+      ((!!collectionProductList && collectionProductList?.length <= 3) || isMobileDeviceOrWidth) && cHeight
+        ? // container height - the header and 70px to fit the next product label
+          isMobileDeviceOrWidth
+          ? cHeight - LAYOUT_REM_HEIGHT_MAP.HEADER * BASE_FONT_SIZE
+          : cHeight
+        : 0,
+    )
   }, [collectionProductList, container?.clientHeight, isMobileDeviceOrWidth])
 
   const onContentClick = useCallback(
@@ -112,11 +123,10 @@ export default function Collection({ collection, schemaSEO }: Props) {
 
   const AsideWithVideoAux = useCallback(
     (props: { onClick?: () => void } & Omit<CollectionPageProps, 'loadInView' | keyof AsideWithVideoAuxProps>) => (
-      <AsideWithVideo
+      <CollectionAsideWithVideo
         {...props}
         firstPaintOver
-        // @ts-expect-error - TODO: fix types
-        loadInViewOptions={{ container: ANCHOR_NODE, conditionalCheck: true }}
+        loadInViewOptions={undefined /* { container: ANCHOR_NODE, conditionalCheck: true } */}
         carousel={{ index: currentCarouselIndex, onChange: onCarouselChange }}
         lockStatus={collectionProductList?.[0]?.lockStatus}
         isMobile={isMobileDeviceOrWidth}
@@ -136,6 +146,8 @@ export default function Collection({ collection, schemaSEO }: Props) {
     [collectionProductList],
   )
 
+  const clientReady = useIsClientReady()
+
   if (!collection || !schemaSEO || !mappedCollectionItems || collectionProductList?.length < 1) return null
 
   return (
@@ -148,26 +160,30 @@ export default function Collection({ collection, schemaSEO }: Props) {
         cannonicalUrl="collection"
         schema={schemaSEO}
       />
-      <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>
-        {mappedCollectionItems && collectionProductList.length > 1 ? (
-          <ScrollingContentPage
-            data={mappedCollectionItems}
-            dataItem={collectionProductList?.[0]}
-            IterableComponent={AsideWithVideoAux}
-            fixedItemHeight={fixedItemHeight}
-            onContentClick={onContentClick}
-            touchAction="none"
-          />
-        ) : (
-          <AsideWithVideoAux
-            {...collectionProductList?.[0]}
-            isActive
-            itemIndex={0}
-            firstPaintOver
-            onClick={onContentClick}
-          />
-        )}
-      </ArticleFadeInContainer>
+      {clientReady ? (
+        <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>
+          {mappedCollectionItems && collectionProductList.length > 1 ? (
+            <ScrollingContentPage
+              data={mappedCollectionItems}
+              dataItem={collectionProductList?.[0]}
+              IterableComponent={AsideWithVideoAux}
+              fixedItemHeight={fixedItemHeight}
+              onContentClick={onContentClick}
+              touchAction="none"
+            />
+          ) : (
+            <AsideWithVideoAux
+              {...collectionProductList?.[0]}
+              isActive
+              itemIndex={0}
+              firstPaintOver
+              onClick={onContentClick}
+            />
+          )}
+        </ArticleFadeInContainer>
+      ) : (
+        <AnimatedPastelleLoader />
+      )}
     </>
   )
 }

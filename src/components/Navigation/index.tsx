@@ -1,14 +1,15 @@
-import { Column, Row, SpinnerCircle, Text } from '@past3lle/components'
+import { Row } from '@past3lle/components'
 import { useIsSmallMediaWidth, useOnResize } from '@past3lle/hooks'
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { Menu, X } from 'react-feather'
 
-import { InnerNavWrapper, MobileNavOrb, NavigationStepsWrapper } from './styled'
+import { MobileNavOrb } from './styled'
 import dynamic from 'next/dynamic'
+import { NavigationFallback } from './NavigationFallback'
 
 const InnerNavigation = dynamic(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "INNER_NAVIGATION" */ './InnerNav'),
-  { ssr: false },
+  { ssr: false, loading: () => <NavigationFallback isSmallNav={false} isNavOpen={false} /> },
 )
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string | null }
@@ -58,24 +59,5 @@ export default function Navigation({
         )}
       </Suspense>
     </>
-  )
-}
-
-function NavigationFallback({ isSmallNav, isNavOpen }: { isSmallNav: boolean; isNavOpen: boolean }) {
-  return (
-    <NavigationStepsWrapper
-      isOpen={isNavOpen}
-      minWidth="9vw"
-      width="16.5rem"
-      currentMedia={{ fallbackColor: 'linear-gradient(1deg, rgb(0 0 0 / 92%) 90%, rgb(0 0 0 / 83%) 20%)' }}
-    >
-      {/* <NavLogo parentNode={parentNode} logoSrcSet={currentProduct?.navLogo} /> */}
-      <InnerNavWrapper $width="100%" height={'100%'}>
-        <Column height="100%" justifyContent={'center'} alignItems={'center'} gap="1rem">
-          <SpinnerCircle size={70} />
-          {isSmallNav && <Text.LargeHeader fontWeight={100}>LOADING NAV. . .</Text.LargeHeader>}
-        </Column>
-      </InnerNavWrapper>
-    </NavigationStepsWrapper>
   )
 }

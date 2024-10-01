@@ -27,9 +27,9 @@ import {
   ProductLogoCssImport,
   ProductScreen,
   ProductScreensContainer,
-} from '@/components/pages-common/styleds'
+} from '@/components/PagesComponents/styleds'
 import { darken, transparentize } from 'polished'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import { ThemeModes } from '@/theme'
 import { simmerAnimationCallback } from '@/theme/animation'
 import { ShopImageSrcSet } from '@/types'

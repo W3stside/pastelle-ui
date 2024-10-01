@@ -2,7 +2,7 @@ import { ApolloError, ApolloQueryResult, useQuery as useRealQuery } from '@apoll
 import { getLockStatus } from '@past3lle/forge-web3'
 import { devError } from '@past3lle/utils'
 import { PRODUCT_AMOUNT, PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from '@/constants/config'
-import { BaseProductPageProps, CollectionMap } from '@/components/pages-common/types'
+import { BaseProductPageProps, CollectionMap } from '@/components/PagesComponents/types'
 import { QUERY_GET_COLLECTION } from '@/shopify/graphql/queries/collections'
 import {
   GetCartQuery,

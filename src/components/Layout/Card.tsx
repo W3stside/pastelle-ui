@@ -1,6 +1,6 @@
 import { CardProps, Text } from 'rebass'
 import { Box } from 'rebass/styled-components'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 const Card = styled(Box)<{ padding?: string; border?: string; borderRadius?: string }>`
   width: 100%;

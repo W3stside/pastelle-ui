@@ -1,10 +1,10 @@
 import { Row } from '@past3lle/components'
 import { WHITE } from '@past3lle/theme'
 import { COLLECTION_PARAM_NAME } from '@/constants/navigation'
-import { ProductSubHeader } from '@/components/pages-common/styleds'
+import { ProductSubHeader } from '@/components/PagesComponents/styleds'
 import { useCallback } from 'react'
 import { useCollection } from '@/state/collection/hooks'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import { useRouter } from 'next/router'
 
 export const CollectionSelector = () => {

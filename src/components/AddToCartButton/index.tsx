@@ -3,11 +3,11 @@ import { addToCartAnalytics } from '@/analytics/events/cartEvents'
 import ErrorMessage from '@/components/ErrorMessage'
 import { TRANSPARENT_HEX } from '@/constants/config'
 import { LAYOUT_REM_HEIGHT_MAP } from '@/constants/sizes'
-import { ProductDescription } from '@/components/pages-common/styleds'
+import { ProductDescription } from '@/components/PagesComponents/styleds'
 import { ForwardedRef, forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { ProductVariantQuery } from '@/shopify/graphql/types'
 import { useAddLineToCartAndUpdateReduxCallback } from '@/state/cart/hooks'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 export interface SpecialThemedButtonProps extends ButtonProps {
   hoverFilter?: string

@@ -10,7 +10,7 @@ import { ProductCarousel } from '@/components/Carousel/ProductCarousels'
 import { Z_INDEXES } from '@/constants/config'
 import { FORGE_WEB3_ENABLED } from '@/constants/flags'
 import { SingleProductScreen } from '@/components/Asides/skill/styled'
-import Logo from '@/components/pages-common/components/Logo'
+import Logo from '@/components/PagesComponents/components/Logo'
 import { memo, useCallback } from 'react'
 import { ThemeModes } from '@/theme'
 

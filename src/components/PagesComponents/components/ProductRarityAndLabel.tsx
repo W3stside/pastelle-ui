@@ -8,7 +8,7 @@ import { LAYOUT_REM_HEIGHT_MAP } from '@/constants/sizes'
 import { useMemo } from 'react'
 import { useQueryProductVariantByKeyValue } from '@/shopify/graphql/hooks'
 import { shortenShopifyId } from '@/shopify/utils'
-import { useTheme } from 'styled-components'
+import { useTheme } from 'styled-components/macro'
 
 import { BaseProductPageProps } from '../types'
 

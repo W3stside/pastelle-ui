@@ -1,9 +1,9 @@
 import { useWindowSize } from '@past3lle/hooks'
 import { MEDIA_WIDTHS } from '@past3lle/theme'
-import { ItemHeader, ItemHeaderProps } from '@/components/pages-common/styleds'
+import { ItemHeader, ItemHeaderProps } from '@/components/PagesComponents/styleds'
 import { useMemo } from 'react'
 import { TextProps } from 'rebass'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 const LogoHeader = styled(ItemHeader)`
   flex: 1 0 auto;

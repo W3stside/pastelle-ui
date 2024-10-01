@@ -1,4 +1,4 @@
-import { BaseProductPageProps } from '@/components/pages-common/types'
+import { BaseProductPageProps } from '@/components/PagesComponents/types'
 import { useEffect } from 'react'
 import { sendProductViewEvent } from '../events/productViewEvents'
 

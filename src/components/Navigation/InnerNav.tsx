@@ -1,12 +1,10 @@
-import { Column } from '@past3lle/components'
 import { useIsSmallMediaWidth } from '@past3lle/hooks'
 import { WHITE } from '@past3lle/theme'
 import LoadingRows from '@/components/Loader/LoadingRows'
-import ThemeToggleBar from '@/components/ThemeToggler'
 import { PLACEHOLDER_HIGHLIGHT_COLOUR } from '@/constants/config'
-import { ProductSubHeader } from '@/components/pages-common/styleds'
-import { BaseProductPageProps } from '@/components/pages-common/types'
-import { Fragment, memo, useCallback, useState } from 'react'
+import { ProductSubHeader } from '@/components/PagesComponents/styleds'
+import { BaseProductPageProps } from '@/components/PagesComponents/types'
+import { memo, useCallback, useState } from 'react'
 import {
   // useCurrentCollection,
   useDeriveCurrentCollection,
@@ -28,9 +26,16 @@ import {
   NavigationStepsWrapper,
   PolicyColumnWrapper,
   SideEffectNavLink,
+  StyledNav,
 } from './styled'
 import { useRouter } from 'next/router'
 import { usePathname, useSearchParams } from 'next/navigation'
+import dynamic from 'next/dynamic'
+
+const ThemeToggleBar = dynamic(
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "THEME_TOGGLE_BAR" */ '@/components/ThemeToggler'),
+  { ssr: false },
+)
 
 interface InnerNavProps {
   isNavOpen: boolean
@@ -49,7 +54,10 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
 
   // state collection data
   const collection = useDeriveCurrentCollection()
-  const product = useGetCurrentOnScreenCollectionProduct()
+
+  // get page meta assets, check pathname
+  const pathname = usePathname()
+  const product = useGetCurrentOnScreenCollectionProduct(pathname)
 
   const { push: navigate } = useRouter()
   const handleNavMove = useCallback(
@@ -72,7 +80,6 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
 
   // check if on home page ("/"")
   // if so, dont render inner nav
-  const pathname = usePathname()
   const onHomePage = pathname === '/'
 
   return (
@@ -89,35 +96,37 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
       {!onHomePage && (
         <InnerNavWrapper $width={isNavOpen ? '90%' : '100%'}>
           <CollectionSelector />
-          <Column>
-            {collection ? (
-              Object.entries(productTypeMap)
-                .reverse()
-                .map(([type, collProductList], i) => (
-                  <Fragment key={i}>
-                    <ProductSubHeader
-                      color={WHITE}
-                      padding="0"
-                      margin="0.5rem 0 0.2rem 0"
-                      fontSize={isNavOpen ? '4rem' : '1.6rem'}
-                      fontWeight={800}
-                    >
-                      {type.toLocaleUpperCase()}S
-                    </ProductSubHeader>
-                    {collProductList.map((collProd) => (
-                      <NavItemMemoed
-                        key={collProd.id}
-                        product={collProd}
-                        currentProduct={product}
-                        handleNavMove={handleNavMove}
-                        isNavOpen={isNavOpen}
-                      />
-                    ))}
-                  </Fragment>
-                ))
-            ) : (
-              <LoadingRows rows={6} />
-            )}
+          <StyledNav>
+            <ul>
+              {collection ? (
+                Object.entries(productTypeMap)
+                  .reverse()
+                  .map(([type, collProductList], i) => (
+                    <li key={i}>
+                      <ProductSubHeader
+                        color={WHITE}
+                        padding="0"
+                        margin="0.5rem 0 0.2rem 0"
+                        fontSize={isNavOpen ? '4rem' : '1.6rem'}
+                        fontWeight={800}
+                      >
+                        {type.toLocaleUpperCase()}S
+                      </ProductSubHeader>
+                      {collProductList.map((collProd) => (
+                        <NavItemMemoed
+                          key={collProd.id}
+                          product={collProd}
+                          currentProduct={product ?? undefined}
+                          handleNavMove={handleNavMove}
+                          isNavOpen={isNavOpen}
+                        />
+                      ))}
+                    </li>
+                  ))
+              ) : (
+                <LoadingRows rows={6} />
+              )}
+            </ul>
             {isDirectReferralView?.type === URLFlowType.SKILL && (
               <ProductSubHeader
                 color={WHITE}
@@ -131,7 +140,7 @@ export default function InnerNavigation({ isNavOpen, toggleNav }: InnerNavProps)
                 FULL COLLECTION
               </ProductSubHeader>
             )}
-          </Column>
+          </StyledNav>
         </InnerNavWrapper>
       )}
 

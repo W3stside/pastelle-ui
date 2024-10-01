@@ -1,9 +1,9 @@
 import { ColumnCenter } from '@past3lle/components'
 import { rotateKeyframe } from '@past3lle/theme'
 import { setBackgroundWithDPI } from '@past3lle/theme'
-import { ProductSubHeader } from '@/components/pages-common/styleds'
+import { ProductSubHeader } from '@/components/PagesComponents/styleds'
 import { ReactNode } from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import { ShopImageSrcSet } from '@/types'
 
 import PastelleCursiveLoader from './PastelleCursiveLoader'
