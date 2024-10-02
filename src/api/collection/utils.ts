@@ -2,7 +2,7 @@ import { CollectionResponseFormatted } from '@/shopify/graphql/hooks/query'
 
 export function collectionProductFromParamsSelector(
   params: { handle?: string | string[]; id?: string | string[] } | undefined = { handle: undefined, id: undefined },
-  latestCollection: CollectionResponseFormatted
+  latestCollection: CollectionResponseFormatted,
 ) {
   const { handle, id } = params
   if (typeof handle !== 'string' && typeof id !== 'string') return null

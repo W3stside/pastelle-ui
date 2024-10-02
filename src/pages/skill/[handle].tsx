@@ -31,7 +31,7 @@ import { collectionProductFromParamsSelector } from '@/api/collection/utils'
 
 const SinglePageSmartWrapper = dynamic(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "HOMESMARTWRAPPER" */ '@/components/PagesComponents'),
-  { ssr: false }
+  { ssr: false },
 )
 
 export async function getStaticPaths() {
@@ -59,7 +59,8 @@ export const getStaticProps = wrapper.getStaticProps((store) => async ({ params 
 
   if (!product)
     throw new Error(
-      'Missing product information with handle/id ' + JSON.stringify(params?.handle || params?.id || 'UNKNOWN PRODUCT!')
+      'Missing product information with handle/id ' +
+        JSON.stringify(params?.handle || params?.id || 'UNKNOWN PRODUCT!'),
     )
 
   // Pass post data to the page via props
