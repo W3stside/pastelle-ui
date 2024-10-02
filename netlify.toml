@@ -16,13 +16,6 @@
   command = "yarn build"
   publish = "dist"
 
-[[plugins]]
-  package = "@netlify/plugin-csp-nonce"
-  [plugins.inputs]
-    reportOnly = true
-    unsafeEval = true
-    path = "/*"
-
 [[headers]]
   for = "/*"
   [headers.values]

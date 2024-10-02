@@ -51,7 +51,6 @@ const RAW_RUNTIME_STATE =
           ["@graphql-codegen/cli", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.16.5"],\
           ["@graphql-codegen/typescript", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.9"],\
           ["@graphql-codegen/typescript-operations", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.2.3"],\
-          ["@netlify/plugin-csp-nonce", "npm:1.2.10"],\
           ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.175"],\
           ["@past3lle/assets", "npm:2.1.0"],\
           ["@past3lle/carousel", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
@@ -8143,15 +8142,6 @@ const RAW_RUNTIME_STATE =
         "packagePeers": [\
           "@opentelemetry/api",\
           "@types/opentelemetry__api"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@netlify/plugin-csp-nonce", [\
-      ["npm:1.2.10", {\
-        "packageLocation": "../../../.yarn/berry/cache/@netlify-plugin-csp-nonce-npm-1.2.10-a17b8570bd-10c0.zip/node_modules/@netlify/plugin-csp-nonce/",\
-        "packageDependencies": [\
-          ["@netlify/plugin-csp-nonce", "npm:1.2.10"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -25749,7 +25739,6 @@ const RAW_RUNTIME_STATE =
           ["@graphql-codegen/cli", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.16.5"],\
           ["@graphql-codegen/typescript", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.9"],\
           ["@graphql-codegen/typescript-operations", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.2.3"],\
-          ["@netlify/plugin-csp-nonce", "npm:1.2.10"],\
           ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.175"],\
           ["@past3lle/assets", "npm:2.1.0"],\
           ["@past3lle/carousel", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
