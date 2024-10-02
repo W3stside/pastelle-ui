@@ -35,19 +35,19 @@ const shopifyConfig: Parameters<typeof ShopifyProvider>[0] = {
 
 function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
   // Inject redux SSR state props
-  const { store, props } = wrapper.useWrappedStore(rest)
-  const pagePropsWithAppAnalytics = useShopifyAnalyticsRouteChange({ pageProps: props.pageProps })
+  const store = wrapper.useStore()
+  const pagePropsWithAppAnalytics = useShopifyAnalyticsRouteChange({ pageProps: rest.pageProps })
 
   return (
     <>
-      <ShopifyProvider {...shopifyConfig}>
-        <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
-          {/* @past3lle hooks data provider */}
-          <PastelleForgeW3Provider>
-            {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
-            <StaticCSSProviders />
-            <ApolloProvider>
-              <Provider store={store}>
+      <Provider store={store}>
+        <ShopifyProvider {...shopifyConfig}>
+          <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
+            {/* @past3lle hooks data provider */}
+            <PastelleForgeW3Provider>
+              {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
+              <StaticCSSProviders />
+              <ApolloProvider>
                 <VersionUpdater />
                 {/* <AppOnlineStatusUpdater /> */}
                 <PastelleStoreUpdaters />
@@ -58,11 +58,11 @@ function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
                     <Component {...pagePropsWithAppAnalytics} />
                   </Layout>
                 </ErrorBoundary>
-              </Provider>
-            </ApolloProvider>
-          </PastelleForgeW3Provider>
-        </ThemeProvider>
-      </ShopifyProvider>
+              </ApolloProvider>
+            </PastelleForgeW3Provider>
+          </ThemeProvider>
+        </ShopifyProvider>
+      </Provider>
       {/* GA */}
       {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID && (
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID} nonce={rest.pageProps.nonce} />

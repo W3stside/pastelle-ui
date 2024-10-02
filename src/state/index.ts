@@ -13,7 +13,7 @@ import { user } from '@/state/user/reducer'
 const IS_SERVER = typeof globalThis?.window == 'undefined'
 const PERSISTED_KEYS: string[] = ['blockchainTransactions', 'cart', 'collection', 'user']
 
-const makeStore = () =>
+const makeStore = ({ reduxWrapperMiddleware }) =>
   configureStore({
     reducer: {
       // APPAREL
@@ -23,12 +23,10 @@ const makeStore = () =>
       modalsAndPopups,
       user,
     },
-    middleware: IS_SERVER
-      ? undefined
-      : (defaultMiddleware) =>
-          defaultMiddleware({
-            thunk: true,
-          }).concat(save({ states: PERSISTED_KEYS, namespace: 'PASTELLE_SHOP' })),
+    middleware: (defaultMiddleware) =>
+      defaultMiddleware({
+        thunk: true,
+      }).concat(IS_SERVER ? [] : save({ states: PERSISTED_KEYS, namespace: 'PASTELLE_SHOP' }), reduxWrapperMiddleware),
     preloadedState: IS_SERVER
       ? undefined
       : load({
