@@ -25,14 +25,14 @@
   for = "/*"
   [headers.values]
     Content-Security-Policy = """
-      default-src 'self' cloudfront.net *.cloudfront.net;
-      media-src https://cdn.shopify.com https://checkout.pastelle.shop https://ik.imagekit.io/pastelle/ cloudfront.net *.cloudfront.net;
+      default-src 'self' https://cloudfront.net https://*.cloudfront.net;
+      media-src https://cdn.shopify.com https://checkout.pastelle.shop https://ik.imagekit.io/pastelle/ https://cloudfront.net https://*.cloudfront.net;
       img-src 'self' https://ik.imagekit.io/pastelle/ https://cdn.shopify.com https://checkout.pastelle.shop https://cryptologos.cc/logos/versions/ethereum-eth-logo-colored.svg https://images.web3auth.io https://web3auth.io/images/ https://user-images.githubusercontent.com https://raw.githubusercontent.com/WalletConnect/walletconnect-assets/ https://explorer-api.walletconnect.com https://*.google-analytics.com https://*.googletagmanager.com data:;
       base-uri 'self';
       object-src 'self';
-      script-src 'nonce-{nonce_value}' 'self' cloudfront.net *.cloudfront.net https://monorail-edge.shopifysvc.com https://tagmanager.google.com https://*.google-analytics.com https://*.googletagmanager.com;
-      script-src-elem 'nonce-{nonce_value}' 'self' https://*.google-analytics.com https://*.googletagmanager.com https://tagmanager.google.com cloudfront.net *.cloudfront.net;
-      connect-src 'self' cloudfront.net *.cloudfront.net https://*.google-analytics.com https://*.googletagmanager.com https://tagmanager.google.com https://polygon-rpc.com https://pastelle.infura-ipfs.io https://ipfs.io/ipfs/ wss://broadcast-server.tor.us https://broadcast-server.tor.us https://admin.openlogin.com/api/ https://explorer-api.walletconnect.com wss://relay.walletconnect.com https://rpc.walletconnect.com https://e3f9fe-2.myshopify.com https://rpc.ankr.com https://pstlcollections.s3.eu-south-2.amazonaws.com https://monorail-edge.shopifysvc.com;
+      script-src 'self' https://cloudfront.net https://*.cloudfront.net https://monorail-edge.shopifysvc.com https://tagmanager.google.com https://*.google-analytics.com https://*.googletagmanager.com;
+      script-src-elem 'self' https://*.google-analytics.com https://*.googletagmanager.com https://tagmanager.google.com https://cloudfront.net https://*.cloudfront.net;
+      connect-src 'self' https://cloudfront.net https://*.cloudfront.net https://*.google-analytics.com https://*.googletagmanager.com https://tagmanager.google.com https://polygon-rpc.com https://pastelle.infura-ipfs.io https://ipfs.io/ipfs/ wss://broadcast-server.tor.us https://broadcast-server.tor.us https://admin.openlogin.com/api/ https://explorer-api.walletconnect.com wss://relay.walletconnect.com https://rpc.walletconnect.com https://e3f9fe-2.myshopify.com https://rpc.ankr.com https://pstlcollections.s3.eu-south-2.amazonaws.com https://monorail-edge.shopifysvc.com;
       manifest-src 'self';
       frame-src https://verify.walletconnect.com https://verify.walletconnect.org https://tagmanager.google.com https://*.google-analytics.com https://*.googletagmanager.com;
       font-src 'self' https://fonts.gstatic.com;

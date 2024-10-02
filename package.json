@@ -150,6 +150,7 @@
     "netlify:login": "netlify login",
     "netlify:link": "netlify link",
     "netlify:dev": "netlify dev",
+    "netlify:help": "netlify --help",
     "start": "yarn dlx serve@latest dist",
     "serve": "yarn dlx serve dist -l 666",
     "build:analyze": "yarn build && yarn analyze",
