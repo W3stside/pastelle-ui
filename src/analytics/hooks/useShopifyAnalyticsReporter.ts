@@ -7,7 +7,6 @@ import {
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
-import { sendPageViewEvents } from '../events/pageViewEvents'
 import { useParams, usePathname } from 'next/navigation'
 
 const ANALYTICS_ENABLED = process.env.NEXT_PUBLIC_DEV_GA == 'true' || process.env.NODE_ENV === 'production'
@@ -43,7 +42,6 @@ export function useShopifyAnalyticsRouteChange({ pageProps }: Props) {
   useEffect(() => {
     const handleRouteChange = () => {
       sendPageView(analytics)
-      sendPageViewEvents({ url: router.route, pageTitle: document.title, pathname, params: JSON.stringify(params) })
     }
 
     // First load event guard

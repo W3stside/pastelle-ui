@@ -33,9 +33,9 @@ const shopifyConfig: Parameters<typeof ShopifyProvider>[0] = {
   languageIsoCode: (process.env.NEXT_PUBLIC_SHOPIFY_LANGUAGE_ISO_CODE as LanguageCode) || 'EN',
 }
 
-function RootApp({ Component, ...pageProps }: AppProps) {
+function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
   // Inject redux SSR state props
-  const { store, props } = wrapper.useWrappedStore(pageProps)
+  const { store, props } = wrapper.useWrappedStore(rest)
   const pagePropsWithAppAnalytics = useShopifyAnalyticsRouteChange({ pageProps: props.pageProps })
 
   return (
@@ -65,7 +65,7 @@ function RootApp({ Component, ...pageProps }: AppProps) {
       </ShopifyProvider>
       {/* GA */}
       {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID && (
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID} />
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID} nonce={rest.pageProps.nonce} />
       )}
     </>
   )
