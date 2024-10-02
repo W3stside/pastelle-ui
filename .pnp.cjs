@@ -51,6 +51,7 @@ const RAW_RUNTIME_STATE =
           ["@graphql-codegen/cli", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.16.5"],\
           ["@graphql-codegen/typescript", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.9"],\
           ["@graphql-codegen/typescript-operations", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.2.3"],\
+          ["@netlify/plugin-csp-nonce", "npm:1.2.10"],\
           ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.175"],\
           ["@past3lle/assets", "npm:2.1.0"],\
           ["@past3lle/carousel", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
@@ -70,6 +71,7 @@ const RAW_RUNTIME_STATE =
           ["@tanstack/query-core", "npm:5.59.0"],\
           ["@tanstack/react-query", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:5.59.0"],\
           ["@trivago/prettier-plugin-sort-imports", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.3.0"],\
+          ["@types/add", "npm:2.0.3"],\
           ["@types/babel-plugin-macros", "npm:3.1.3"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
@@ -93,6 +95,7 @@ const RAW_RUNTIME_STATE =
           ["@use-gesture/react", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:10.3.1"],\
           ["@vitejs/plugin-react", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.3.2"],\
           ["@wagmi/core", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.13.8"],\
+          ["add", "npm:2.0.6"],\
           ["babel-plugin-macros", "npm:3.1.0"],\
           ["babel-plugin-styled-components", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.4"],\
           ["dotenv", "npm:16.4.5"],\
@@ -148,7 +151,8 @@ const RAW_RUNTIME_STATE =
           ["vite-tsconfig-paths", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:5.0.1"],\
           ["wagmi", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.12.16"],\
           ["web-vitals", "npm:3.5.2"],\
-          ["workbox-core", "npm:7.1.0"]\
+          ["workbox-core", "npm:7.1.0"],\
+          ["yarn", "npm:1.22.22"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8143,6 +8147,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@netlify/plugin-csp-nonce", [\
+      ["npm:1.2.10", {\
+        "packageLocation": "../../../.yarn/berry/cache/@netlify-plugin-csp-nonce-npm-1.2.10-a17b8570bd-10c0.zip/node_modules/@netlify/plugin-csp-nonce/",\
+        "packageDependencies": [\
+          ["@netlify/plugin-csp-nonce", "npm:1.2.10"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@netlify/plugins-list", [\
       ["npm:6.80.0", {\
         "packageLocation": "../../../.yarn/berry/cache/@netlify-plugins-list-npm-6.80.0-ef660bcf7e-10c0.zip/node_modules/@netlify/plugins-list/",\
@@ -10875,6 +10888,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@types/add", [\
+      ["npm:2.0.3", {\
+        "packageLocation": "../../../.yarn/berry/cache/@types-add-npm-2.0.3-965be1f3d8-10c0.zip/node_modules/@types/add/",\
+        "packageDependencies": [\
+          ["@types/add", "npm:2.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/babel-plugin-macros", [\
       ["npm:3.1.3", {\
         "packageLocation": "../../../.yarn/berry/cache/@types-babel-plugin-macros-npm-3.1.3-5eb92aa748-10c0.zip/node_modules/@types/babel-plugin-macros/",\
@@ -13213,6 +13235,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["acorn-walk", "npm:8.3.4"],\
           ["acorn", "npm:8.12.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["add", [\
+      ["npm:2.0.6", {\
+        "packageLocation": "../../../.yarn/berry/cache/add-npm-2.0.6-c96b78d852-10c0.zip/node_modules/add/",\
+        "packageDependencies": [\
+          ["add", "npm:2.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -25718,6 +25749,7 @@ const RAW_RUNTIME_STATE =
           ["@graphql-codegen/cli", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.16.5"],\
           ["@graphql-codegen/typescript", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.9"],\
           ["@graphql-codegen/typescript-operations", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.2.3"],\
+          ["@netlify/plugin-csp-nonce", "npm:1.2.10"],\
           ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.175"],\
           ["@past3lle/assets", "npm:2.1.0"],\
           ["@past3lle/carousel", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
@@ -25737,6 +25769,7 @@ const RAW_RUNTIME_STATE =
           ["@tanstack/query-core", "npm:5.59.0"],\
           ["@tanstack/react-query", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:5.59.0"],\
           ["@trivago/prettier-plugin-sort-imports", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.3.0"],\
+          ["@types/add", "npm:2.0.3"],\
           ["@types/babel-plugin-macros", "npm:3.1.3"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
@@ -25760,6 +25793,7 @@ const RAW_RUNTIME_STATE =
           ["@use-gesture/react", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:10.3.1"],\
           ["@vitejs/plugin-react", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.3.2"],\
           ["@wagmi/core", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.13.8"],\
+          ["add", "npm:2.0.6"],\
           ["babel-plugin-macros", "npm:3.1.0"],\
           ["babel-plugin-styled-components", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.4"],\
           ["dotenv", "npm:16.4.5"],\
@@ -25815,7 +25849,8 @@ const RAW_RUNTIME_STATE =
           ["vite-tsconfig-paths", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:5.0.1"],\
           ["wagmi", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.12.16"],\
           ["web-vitals", "npm:3.5.2"],\
-          ["workbox-core", "npm:7.1.0"]\
+          ["workbox-core", "npm:7.1.0"],\
+          ["yarn", "npm:1.22.22"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -32839,6 +32874,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../.yarn/berry/cache/yargs-parser-npm-21.1.1-8fdc003314-10c0.zip/node_modules/yargs-parser/",\
         "packageDependencies": [\
           ["yargs-parser", "npm:21.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["yarn", [\
+      ["npm:1.22.22", {\
+        "packageLocation": "./.yarn/unplugged/yarn-npm-1.22.22-cb63c707fe/node_modules/yarn/",\
+        "packageDependencies": [\
+          ["yarn", "npm:1.22.22"]\
         ],\
         "linkType": "HARD"\
       }]\

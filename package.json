@@ -78,8 +78,10 @@
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "4.0.9",
     "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@netlify/plugin-csp-nonce": "^1.2.10",
     "@past3lle/types": "^2.1.0",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "@types/add": "^2",
     "@types/babel-plugin-macros": "^3",
     "@types/babel__core": "^7",
     "@types/babel__preset-env": "^7",
@@ -101,6 +103,7 @@
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "@vitejs/plugin-react": "^4.3.1",
+    "add": "^2.0.6",
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-styled-components": "^2.1.4",
     "eslint": "^9.10.0",
@@ -133,7 +136,8 @@
     "vite-plugin-node-polyfills": "^0.22.0",
     "vite-tsconfig-paths": "^5.0.1",
     "web-vitals": "^3.1.0",
-    "workbox-core": "^7.1.0"
+    "workbox-core": "^7.1.0",
+    "yarn": "^1.22.22"
   },
   "resolutions": {
     "@next/third-parties": "canary"
