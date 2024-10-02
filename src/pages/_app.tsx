@@ -63,7 +63,6 @@ function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
           </ThemeProvider>
         </ShopifyProvider>
       </Provider>
-      {/* GA */}
       {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID && (
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID} nonce={rest.pageProps.nonce} />
       )}
