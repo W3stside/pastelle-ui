@@ -1,6 +1,6 @@
 [build.environment]
   NETLIFY_BUILD_DEBUG = "true"
-  CSP_NONCE_DISTRIBUTION=1
+  CSP_NONCE_DISTRIBUTION = 1
 
 [build]
   # Default build settings for all branches
