@@ -19,7 +19,9 @@
 [[plugins]]
   package = "@netlify/plugin-csp-nonce"
   [plugins.inputs]
-    reportOnly = false
+    reportOnly = true
+    unsafeEval = true
+    path = "/*"
 
 [[headers]]
   for = "/*"
