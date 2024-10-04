@@ -16,7 +16,7 @@ import { useShopifyAnalyticsRouteChange } from '@/analytics/hooks/useShopifyAnal
 import { Layout } from '@/components/Layout'
 import { CountryCode, LanguageCode } from '@/shopify/graphql/types'
 import { devError } from '@past3lle/utils'
-import { GoogleTagManager } from '@next/third-parties/google'
+import { GoogleTagManager } from '@/analytics/google/GoogleTagManager'
 
 if (!process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN)
   throw new Error('Missing process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!')
@@ -64,7 +64,13 @@ function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
         </ShopifyProvider>
       </Provider>
       {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID && (
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID} nonce={rest.pageProps.nonce} />
+        <GoogleTagManager
+          gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID}
+          // TODO: check. this is required atm to make the netlify edge-function
+          // inject-csp work as it finds <script> tags and injects nonce={SERVER_VALUE}
+          // and afterInteractive (Adding it after body tag) does not allow for this to happen and nonce is empty
+          strategy="beforeInteractive"
+        />
       )}
     </>
   )
