@@ -1,4 +1,4 @@
-import { sendGTMEvent } from '@next/third-parties/google'
+import { sendGTMEvent } from '../google/send'
 
 export function sendEvent(event: string, data: object) {
   return sendGTMEvent({ event, ...data })
