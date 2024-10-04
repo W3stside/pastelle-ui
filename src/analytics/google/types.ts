@@ -1,4 +1,4 @@
-import { ScriptProps } from "next/script"
+import { ScriptProps } from 'next/script'
 
 declare global {
   interface Window {
@@ -7,13 +7,7 @@ declare global {
   }
 }
 
-export type JSONValue =
-  | string
-  | number
-  | boolean
-  | JSONValue[]
-  | { [key: string]: JSONValue }
-
+export type JSONValue = string | number | boolean | JSONValue[] | { [key: string]: JSONValue }
 
 export type GTMParams = {
   gtmId: string
