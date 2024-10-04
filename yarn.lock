@@ -5140,6 +5140,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@netlify/edge-functions@npm:^2.11.0":
+  version: 2.11.0
+  resolution: "@netlify/edge-functions@npm:2.11.0"
+  checksum: 10c0/88a386622c5b35b54bf520e3b2a39ebd47e22f45cff6a791becc6cd5bb5b009cd96e25aa47788360949c488022931c45c5273047ccedbbefd666f7563fb6722c
+  languageName: node
+  linkType: hard
+
 "@netlify/framework-info@npm:^9.8.13":
   version: 9.8.13
   resolution: "@netlify/framework-info@npm:9.8.13"
@@ -5502,18 +5509,6 @@ __metadata:
   version: 14.2.14
   resolution: "@next/swc-win32-x64-msvc@npm:14.2.14"
   conditions: os=win32 & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@next/third-parties@npm:canary":
-  version: 15.0.0-canary.175
-  resolution: "@next/third-parties@npm:15.0.0-canary.175"
-  dependencies:
-    third-party-capital: "npm:1.0.20"
-  peerDependencies:
-    next: ^13.0.0 || ^14.0.0
-    react: ^18.2.0
-  checksum: 10c0/d1c5d54340d01ee1b2bd5a5054fc6e48b03e42768cb18387de4db7391effa777cacbde3a4ef45391db16e5301ace7b28ea3867e8c3039e0e12a465bd357ea0d0
   languageName: node
   linkType: hard
 
@@ -15132,6 +15127,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"htmlrewriter@npm:^0.0.12":
+  version: 0.0.12
+  resolution: "htmlrewriter@npm:0.0.12"
+  checksum: 10c0/e7c22ee5d90ddf1bcb5a625ee56897889bda4a3b1a8aaadae6e7803f3b7748d9479f5b5fbd2a50436c64fc0102a521135a1ed6265c6ace19c60edf884cb548b0
+  languageName: node
+  linkType: hard
+
 "http-cache-semantics@npm:^4.1.1":
   version: 4.1.1
   resolution: "http-cache-semantics@npm:4.1.1"
@@ -19958,7 +19960,7 @@ __metadata:
     "@graphql-codegen/cli": "npm:^2.6.2"
     "@graphql-codegen/typescript": "npm:4.0.9"
     "@graphql-codegen/typescript-operations": "npm:^4.0.1"
-    "@next/third-parties": "npm:15.0.0-canary.174"
+    "@netlify/edge-functions": "npm:^2.11.0"
     "@past3lle/assets": "npm:^2.1.0"
     "@past3lle/carousel": "npm:^2.1.2-alpha.2"
     "@past3lle/carousel-hooks": "npm:^2.1.2-alpha.0"
@@ -20013,6 +20015,7 @@ __metadata:
     eslint-plugin-react-refresh: "npm:^0.4.12"
     globals: "npm:^15.9.0"
     graphql: "npm:^16.8.1"
+    htmlrewriter: "npm:^0.0.12"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
     jotai: "npm:^2.9.3"
@@ -23573,13 +23576,6 @@ __metadata:
   version: 0.2.0
   resolution: "text-table@npm:0.2.0"
   checksum: 10c0/02805740c12851ea5982686810702e2f14369a5f4c5c40a836821e3eefc65ffeec3131ba324692a37608294b0fd8c1e55a2dd571ffed4909822787668ddbee5c
-  languageName: node
-  linkType: hard
-
-"third-party-capital@npm:1.0.20":
-  version: 1.0.20
-  resolution: "third-party-capital@npm:1.0.20"
-  checksum: 10c0/7f45ff156ec9d7e2957a5b39061be22b780ffbd2d93c127252d908e2bff6cdd09f827a95909d457c8096e036f155006a38e355a06ee11cb6d63c7f4b150bbfb0
   languageName: node
   linkType: hard
 

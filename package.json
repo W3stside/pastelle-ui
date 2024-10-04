@@ -25,7 +25,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@next/third-parties": "15.0.0-canary.174",
+    "@netlify/edge-functions": "^2.11.0",
     "@past3lle/assets": "^2.1.0",
     "@past3lle/carousel": "^2.1.2-alpha.2",
     "@past3lle/carousel-hooks": "^2.1.2-alpha.0",
@@ -46,6 +46,7 @@
     "@wagmi/core": "^2.13.5",
     "dotenv": "^16.3.1",
     "graphql": "^16.8.1",
+    "htmlrewriter": "^0.0.12",
     "jotai": "^2.9.3",
     "jotai-devtools": "^0.10.1",
     "lit-html": "^3.2.0",
@@ -137,9 +138,6 @@
     "web-vitals": "^3.1.0",
     "workbox-core": "^7.1.0",
     "yarn": "^1.22.22"
-  },
-  "resolutions": {
-    "@next/third-parties": "canary"
   },
   "scripts": {
     "analyze": "NEXT_PUBLIC_ANALYZE_BUNDLE=true yarn build",

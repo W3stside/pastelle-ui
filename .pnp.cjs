@@ -51,7 +51,7 @@ const RAW_RUNTIME_STATE =
           ["@graphql-codegen/cli", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.16.5"],\
           ["@graphql-codegen/typescript", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.9"],\
           ["@graphql-codegen/typescript-operations", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.2.3"],\
-          ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.175"],\
+          ["@netlify/edge-functions", "npm:2.11.0"],\
           ["@past3lle/assets", "npm:2.1.0"],\
           ["@past3lle/carousel", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
           ["@past3lle/carousel-hooks", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
@@ -106,6 +106,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-refresh", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:0.4.12"],\
           ["globals", "npm:15.10.0"],\
           ["graphql", "npm:16.9.0"],\
+          ["htmlrewriter", "npm:0.0.12"],\
           ["jest", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:29.7.0"],\
           ["jest-environment-jsdom", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:29.7.0"],\
           ["jotai", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.10.0"],\
@@ -7924,6 +7925,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@netlify/edge-functions", [\
+      ["npm:2.11.0", {\
+        "packageLocation": "../../../.yarn/berry/cache/@netlify-edge-functions-npm-2.11.0-ba513293a8-10c0.zip/node_modules/@netlify/edge-functions/",\
+        "packageDependencies": [\
+          ["@netlify/edge-functions", "npm:2.11.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.9.0", {\
         "packageLocation": "../../../.yarn/berry/cache/@netlify-edge-functions-npm-2.9.0-1fd135c409-10c0.zip/node_modules/@netlify/edge-functions/",\
         "packageDependencies": [\
@@ -8312,33 +8320,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/unplugged/@next-swc-win32-x64-msvc-npm-14.2.14-03b2323298/node_modules/@next/swc-win32-x64-msvc/",\
         "packageDependencies": [\
           ["@next/swc-win32-x64-msvc", "npm:14.2.14"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@next/third-parties", [\
-      ["npm:15.0.0-canary.175", {\
-        "packageLocation": "../../../.yarn/berry/cache/@next-third-parties-npm-15.0.0-canary.175-2b922c2959-10c0.zip/node_modules/@next/third-parties/",\
-        "packageDependencies": [\
-          ["@next/third-parties", "npm:15.0.0-canary.175"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.175", {\
-        "packageLocation": "./.yarn/__virtual__/@next-third-parties-virtual-4c9b76c110/4/.yarn/berry/cache/@next-third-parties-npm-15.0.0-canary.175-2b922c2959-10c0.zip/node_modules/@next/third-parties/",\
-        "packageDependencies": [\
-          ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.175"],\
-          ["@types/next", null],\
-          ["@types/react", "npm:18.3.10"],\
-          ["next", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:14.2.14"],\
-          ["react", "npm:18.3.1"],\
-          ["third-party-capital", "npm:1.0.20"]\
-        ],\
-        "packagePeers": [\
-          "@types/next",\
-          "@types/react",\
-          "next",\
-          "react"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -20229,6 +20210,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["htmlrewriter", [\
+      ["npm:0.0.12", {\
+        "packageLocation": "../../../.yarn/berry/cache/htmlrewriter-npm-0.0.12-1900990094-10c0.zip/node_modules/htmlrewriter/",\
+        "packageDependencies": [\
+          ["htmlrewriter", "npm:0.0.12"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["http-cache-semantics", [\
       ["npm:4.1.1", {\
         "packageLocation": "../../../.yarn/berry/cache/http-cache-semantics-npm-4.1.1-1120131375-10c0.zip/node_modules/http-cache-semantics/",\
@@ -25739,7 +25729,7 @@ const RAW_RUNTIME_STATE =
           ["@graphql-codegen/cli", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.16.5"],\
           ["@graphql-codegen/typescript", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.9"],\
           ["@graphql-codegen/typescript-operations", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.2.3"],\
-          ["@next/third-parties", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:15.0.0-canary.175"],\
+          ["@netlify/edge-functions", "npm:2.11.0"],\
           ["@past3lle/assets", "npm:2.1.0"],\
           ["@past3lle/carousel", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
           ["@past3lle/carousel-hooks", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
@@ -25794,6 +25784,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-refresh", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:0.4.12"],\
           ["globals", "npm:15.10.0"],\
           ["graphql", "npm:16.9.0"],\
+          ["htmlrewriter", "npm:0.0.12"],\
           ["jest", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:29.7.0"],\
           ["jest-environment-jsdom", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:29.7.0"],\
           ["jotai", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.10.0"],\
@@ -29987,15 +29978,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../.yarn/berry/cache/text-table-npm-0.2.0-d92a778b59-10c0.zip/node_modules/text-table/",\
         "packageDependencies": [\
           ["text-table", "npm:0.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["third-party-capital", [\
-      ["npm:1.0.20", {\
-        "packageLocation": "../../../.yarn/berry/cache/third-party-capital-npm-1.0.20-63003fae3f-10c0.zip/node_modules/third-party-capital/",\
-        "packageDependencies": [\
-          ["third-party-capital", "npm:1.0.20"]\
         ],\
         "linkType": "HARD"\
       }]\
