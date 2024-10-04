@@ -66,6 +66,7 @@ function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
       {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID && (
         <GoogleTagManager
           gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID}
+          preview={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_DEBUG_MODE}
           // TODO: check. this is required atm to make the netlify edge-function
           // inject-csp work as it finds <script> tags and injects nonce={SERVER_VALUE}
           // and afterInteractive (Adding it after body tag) does not allow for this to happen and nonce is empty
