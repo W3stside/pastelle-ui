@@ -1,4 +1,4 @@
-import { sendEvent } from './base'
+import { gtag } from './base'
 import { Category } from './types'
 
 export function sendPageViewEvents({
@@ -12,7 +12,7 @@ export function sendPageViewEvents({
   params: string
   pathname: string
 }) {
-  sendEvent('page_view', {
+  gtag('event', 'page_view', {
     eventCategory: Category.PAGE_VIEW,
     url, // The URL of the page being viewed
     pageTitle,

@@ -4,10 +4,10 @@ import { load, save } from 'redux-localstorage-simple'
 import { createWrapper } from 'next-redux-wrapper'
 
 // APPAREL
+import { analyticsConsent } from '@/state/analyticsConsent/reducer'
 import { cart } from '@/state/cart/reducer'
 import { collection } from '@/state/collection/reducer'
 import { modalsAndPopups } from '@/state/modalsAndPopups/reducer'
-// MISC
 import { user } from '@/state/user/reducer'
 
 const IS_SERVER = typeof globalThis?.window == 'undefined'
@@ -16,6 +16,8 @@ const PERSISTED_KEYS: string[] = ['blockchainTransactions', 'cart', 'collection'
 const makeStore = ({ reduxWrapperMiddleware }) =>
   configureStore({
     reducer: {
+      // ANALYTICS
+      analyticsConsent,
       // APPAREL
       cart,
       collection,

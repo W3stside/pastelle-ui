@@ -5,9 +5,8 @@ import {
   ShopifyPageViewPayload,
 } from '@shopify/hydrogen-react'
 import { AppProps } from 'next/app'
-import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
-import { useParams, usePathname } from 'next/navigation'
+import { useParams, usePathname, useSearchParams } from 'next/navigation'
 
 const ANALYTICS_ENABLED = process.env.NEXT_PUBLIC_DEV_GA == 'true' || process.env.NODE_ENV === 'production'
 
@@ -36,28 +35,28 @@ export function useShopifyAnalyticsRouteChange({ pageProps }: Props) {
     return [analytics, pagePropsWithAppAnalytics]
   }, [pageProps])
 
-  const router = useRouter()
   const pathname = usePathname()
   const params = useParams()
+  const searchParams = useSearchParams()
   useEffect(() => {
     const handleRouteChange = () => {
-      sendPageView(analytics)
+      sendShopifyPageView(analytics)
     }
 
     // First load event guard
     if (!isInit) {
       isInit = true
-      sendPageView(analytics)
+      sendShopifyPageView(analytics)
     }
 
     // send route events
     handleRouteChange()
-  }, [analytics, router.route, pathname, params])
+  }, [analytics, pathname, params, searchParams])
 
   return pagePropsWithAnalytics
 }
 
-function sendPageView(analyticsPageData: ShopifyPageViewPayload) {
+function sendShopifyPageView(analyticsPageData: ShopifyPageViewPayload) {
   const payload: ShopifyPageViewPayload = {
     ...getClientBrowserParameters(),
     ...analyticsPageData,

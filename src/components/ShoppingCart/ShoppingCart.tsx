@@ -32,6 +32,7 @@ import dynamic from 'next/dynamic'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { goToCheckoutAnalytics } from '@/analytics'
 import { devWarn } from '@past3lle/utils'
+import Link from 'next/link'
 
 const ShoppingCart = dynamic(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ '@/components/ShoppingCart'),
@@ -120,9 +121,13 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
           <ProductSubHeader color={WHITE} fontSize="2.5rem" fontWeight={400} padding={0} margin="2rem 0">
             <span id="lenny-face">Your cart is</span> <strong>empty</strong> <span id="lenny-face">ʕ ͡° ʖ̯ ͡°ʔ</span>
             {!isCollectionPage && (
-              <p onClick={handleNavClick} style={{ cursor: 'pointer' }}>
+              <Link
+                href={COLLECTION_PATHNAME}
+                onClick={handleNavClick}
+                style={{ display: 'flex', marginTop: '0.25rem', fontStyle: 'normal' }}
+              >
                 <u>Check out the full {COLLECTION_PARAM_NAME}</u>!
-              </p>
+              </Link>
             )}
           </ProductSubHeader>
         ) : (
@@ -171,6 +176,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
             buttonVariant={ButtonVariations.SUCCESS}
             disabled={checkoutClicked}
             padding="0"
+            onClick={handleCheckout}
           >
             <CartHeader
               display="flex"
@@ -180,14 +186,13 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
               fontWeight={100}
             >
               <a
-                href={undefined}
+                href={data.cart.checkoutUrl}
                 style={{
                   color: 'ghostwhite',
                   width: '100%',
                   height: '100%',
                   padding: '1rem',
                 }}
-                onClick={handleCheckout}
               >
                 {checkoutClicked ? 'Redirecting to checkout...' : 'Checkout'}
               </a>
@@ -227,7 +232,8 @@ function CartTableHeader({
 }) {
   return (
     <CartTableHeaderWrapper>
-      <CartHeader margin="1rem auto 0 0" letterSpacing={-6} fontSize="6rem">
+      <CartHeader margin="1rem auto 0 0" letterSpacing={-3} fontSize="6rem" display="flex" alignItems="end">
+        <ShoppingCartIcon size={65} />
         CART
       </CartHeader>
       {/* <Strikethrough /> */}

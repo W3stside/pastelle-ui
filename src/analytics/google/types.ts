@@ -2,7 +2,7 @@ import { ScriptProps } from 'next/script'
 
 declare global {
   interface Window {
-    dataLayer?: JSONValue[]
+    dataLayer?: IArguments[]
     [key: string]: unknown
   }
 }
@@ -12,7 +12,7 @@ export type JSONValue = string | number | boolean | JSONValue[] | { [key: string
 export type GTMParams = {
   gtmId: string
   gtmScriptUrl?: string
-  dataLayer?: { [key: string]: JSONValue }
+  dataLayer?: { [key: string]: IArguments }
   dataLayerName?: string
   auth?: string
   preview?: string

@@ -3,7 +3,7 @@ import { GET_CART } from '@/shopify/graphql/queries/cart'
 import { FragmentCartLineFragment, GetCartQuery, ProductVariantQuery } from '@/shopify/graphql/types'
 import { CartState } from '@/state/cart/reducer'
 
-import { sendError, sendEvent } from './base'
+import { sendError, gtag } from './base'
 import { Category } from './types'
 import { mapShopifyProductVariantToGA } from '@/shopify/utils'
 import { devError } from '@past3lle/utils'
@@ -15,7 +15,7 @@ export function addToCartAnalytics(item: ProductVariantQuery['product'], quantit
   })
   if (!mappedData) return
 
-  sendEvent('add_to_cart', mappedData)
+  gtag('event', 'add_to_cart', mappedData)
 }
 
 export function removeFromCartAnalytics(item: FragmentCartLineFragment['merchandise']) {
@@ -26,7 +26,7 @@ export function removeFromCartAnalytics(item: FragmentCartLineFragment['merchand
 
   if (!mappedData) return
 
-  sendEvent('remove_from_cart', mappedData)
+  gtag('event', 'remove_from_cart', mappedData)
 }
 
 export async function viewCartAnalytics(cart: CartState) {
@@ -56,7 +56,7 @@ export async function viewCartAnalytics(cart: CartState) {
       )
 
       if (mappedData) {
-        sendEvent('view_cart', {
+        gtag('event', 'view_cart', {
           ...params,
           items: mappedData,
         })
@@ -79,7 +79,7 @@ export async function goToCheckoutAnalytics(cart?: GetCartQuery['cart']) {
     'merchandise' in node ? _shopifyCartLineToGA(node, node.quantity, Category.ECOMMERCE, index) : null,
   )
 
-  sendEvent('begin_checkout', {
+  gtag('event', 'begin_checkout', {
     ...params,
     items: mappedData || [],
   })

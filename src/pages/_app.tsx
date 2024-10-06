@@ -6,17 +6,19 @@ import { StaticCSSProviders, PastelleStoreUpdaters, ThemedCSSProviders } from 'P
 import { Provider } from 'react-redux'
 import ApolloProvider from '@/shopify/graphql/ApolloProvider'
 import { wrapper } from '@/state'
+import { AnalyticsConsentUpdater } from '@/state/analyticsConsent/updater'
 import { VersionUpdater } from '@/state/version/updater'
 import { pastelleTheme, ThemeModes } from '@/theme'
 import { getLocalStorageThemeModeOrDefault } from '@/utils/localstorage'
 import { AppProps } from 'next/app'
 
 import { ShopifyProvider } from '@shopify/hydrogen-react'
-import { useShopifyAnalyticsRouteChange } from '@/analytics/hooks/useShopifyAnalyticsReporter'
+import { useShopifyAnalyticsRouteChange as useShopifyAnalytics } from '@/analytics/hooks/useShopifyAnalyticsReporter'
 import { Layout } from '@/components/Layout'
 import { CountryCode, LanguageCode } from '@/shopify/graphql/types'
 import { devError } from '@past3lle/utils'
 import { GoogleTagManager } from '@/analytics/google/GoogleTagManager'
+import { useGoogleTagManagerConsentInit } from '@/analytics/google/hooks'
 
 if (!process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN)
   throw new Error('Missing process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!')
@@ -36,7 +38,9 @@ const shopifyConfig: Parameters<typeof ShopifyProvider>[0] = {
 function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
   // Inject redux SSR state props
   const store = wrapper.useStore()
-  const pagePropsWithAppAnalytics = useShopifyAnalyticsRouteChange({ pageProps: rest.pageProps })
+  const pagePropsWithAppAnalytics = useShopifyAnalytics({ pageProps: rest.pageProps })
+  // GA consent
+  useGoogleTagManagerConsentInit()
 
   return (
     <>
@@ -48,6 +52,8 @@ function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
               {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
               <StaticCSSProviders />
               <ApolloProvider>
+                {/* GA/GTM Consent Updater */}
+                <AnalyticsConsentUpdater />
                 <VersionUpdater />
                 {/* <AppOnlineStatusUpdater /> */}
                 <PastelleStoreUpdaters />
@@ -66,7 +72,6 @@ function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
       {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID && (
         <GoogleTagManager
           gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID}
-          preview={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_DEBUG_MODE}
           // TODO: check. this is required atm to make the netlify edge-function
           // inject-csp work as it finds <script> tags and injects nonce={SERVER_VALUE}
           // and afterInteractive (Adding it after body tag) does not allow for this to happen and nonce is empty

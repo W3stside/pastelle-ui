@@ -2,7 +2,6 @@ import { Row } from '@past3lle/components'
 import { OFF_WHITE } from '@past3lle/theme'
 import { ProductSubHeader } from '@/components/PagesComponents/styleds'
 import { ReactNode } from 'react'
-import { pastelleTheme } from '@/theme'
 
 import { CartLineWrapper } from './styled'
 
@@ -12,11 +11,12 @@ export const QuantityBubble: React.FC<{ children: ReactNode }> = ({ children }) 
     alignItems="center"
     justifyContent="center"
     margin="0.5rem"
-    fontSize="1.5rem"
-    fontWeight={300}
-    width={30}
-    height={30}
-    backgroundColor={pastelleTheme.blackOpaqueMore}
+    fontSize="2rem"
+    fontStyle="normal"
+    fontWeight={700}
+    width={40}
+    height={40}
+    backgroundColor="#458445"
     style={{ position: 'absolute', bottom: 0, left: 0, borderRadius: 30 }}
   >
     {children}

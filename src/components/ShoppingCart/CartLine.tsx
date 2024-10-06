@@ -28,11 +28,11 @@ export default function CartLine({ line }: { line: FragmentCartLineFragment }) {
       ? (e: React.MouseEvent<SVGElement, MouseEvent>) => {
           e.stopPropagation()
           setRemoveOperationLoading(true)
-          removeFromCartAnalytics(line.merchandise)
           removeCartLineCallback(
             { lineIds: [line.id] },
             {
               onCompleted: () => {
+                removeFromCartAnalytics(line.merchandise)
                 cleanTimeout(() => setRemoveOperationLoading(false), 1000)
               },
             },

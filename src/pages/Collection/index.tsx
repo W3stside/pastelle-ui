@@ -96,8 +96,9 @@ export default function Collection({ data: collection, schema, ...rest }: Props)
         isMobile={isMobileDeviceOrWidth}
       />
     ),
+    // Can safely ignore this as the IDs are unique
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [collection],
+    [collection?.id],
   )
 
   const mappedCollectionItems = useMemo(

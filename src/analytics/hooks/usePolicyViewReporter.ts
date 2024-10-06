@@ -8,5 +8,7 @@ export function usePolicyViewReporter(
 ) {
   useEffect(() => {
     if (policy) sendPolicyViewEvent(name, policy)
-  }, [name, policy])
+    // Can safely ignore policy entirely as the body text is unique
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name, policy?.body])
 }

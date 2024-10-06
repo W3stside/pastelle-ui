@@ -145,9 +145,15 @@ export const CartHeader = styled(ItemHeader).attrs((props) => ({
   itemColor: TRANSPARENT_HEX,
   animation: false,
 }))`
+  font-variation-settings: 'wght' 700;
   > a {
     text-decoration: none;
     color: ${OFF_WHITE};
+  }
+  > svg:first-child {
+    max-width: 100% !important;
+    min-width: 6.5rem;
+    margin-right: 0.4rem;
   }
 `
 export const CartTableHeaderBaseWrapper = styled(Row)`
