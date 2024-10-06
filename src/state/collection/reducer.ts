@@ -1,9 +1,7 @@
-import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { BaseProductPageProps } from '@/components/PagesComponents/types'
 import { Product } from '@/shopify/graphql/types'
 import { ShopifyId } from '@/shopify/utils'
-import { HYDRATE } from 'next-redux-wrapper'
-import { AppState } from '..'
 
 export interface ProductCurrentlyViewing {
   handle: Product['handle']
@@ -39,7 +37,6 @@ type UpdateCollectionsParams = { collections: CollectionProductMap[]; loading: b
 type UpdateCollectionParams = { id?: string; locked?: boolean; loading: boolean }
 type UpdateProductInCollectionParams = { id: string; product: CollectionProductMap['products'][string] }
 
-const hydrateAction = createAction<AppState>(HYDRATE)
 const collectionSlice = createSlice({
   name: 'collection',
   initialState,
@@ -92,13 +89,6 @@ const collectionSlice = createSlice({
     updateHomepage(state, action: PayloadAction<BaseProductPageProps>) {
       state.homepage = action.payload
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(hydrateAction, (state, action) => {
-      const nextState = { ...state, ...action.payload.collection }
-
-      return nextState
-    })
   },
 })
 

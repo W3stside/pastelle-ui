@@ -2,14 +2,15 @@
 
 import { CookieBanner } from '@past3lle/components'
 import { devDebug } from '@past3lle/utils'
-import { initAnalytics } from '@/analytics'
 import { useAppColourTheme } from '@/state/user/hooks'
 import styled from 'styled-components/macro'
 import { transparentize, upToExtraSmall } from '@past3lle/theme'
 import { useIsClientReady } from '@/hooks/useIsClientReady'
+import { useDispatchGoogleConsent } from '@/state/analyticsConsent/hooks'
 
 export default function CookiesBanner() {
   const { mode } = useAppColourTheme()
+  const dispatchConsent = useDispatchGoogleConsent()
 
   const isClientReady = useIsClientReady()
 
@@ -76,10 +77,16 @@ export default function CookiesBanner() {
             <p>Closing the banner will submit the current selected options. By default that is just the essentials.</p>
           </div>
         }
-        onAcceptAdvertising={devDebug}
-        onSaveAndClose={(cookieState) => {
-          devDebug('COOKIE BANNER SAVED AND CLOSED.', cookieState)
-          initAnalytics(cookieState)
+        onAcceptAdvertising={(cookies) => dispatchConsent({ ad_storage: cookies.advertising ? 'granted' : 'denied' })}
+        onSaveAndClose={(cookies) => {
+          devDebug('COOKIE BANNER SAVED AND CLOSED.', cookies)
+          dispatchConsent({
+            ad_storage: cookies.advertising ? 'granted' : 'denied',
+            ad_personalization: cookies.advertising ? 'granted' : 'denied',
+            ad_user_data: 'granted',
+            marketing_storage: cookies.marketing ? 'granted' : 'denied',
+            analytics_storage: 'granted',
+          })
         }}
       />
     </CookieBannerWrapper>

@@ -18,6 +18,8 @@ export interface CookiePreferences {
   analytics: boolean
   marketing?: boolean
   advertising?: boolean
+  adPersonalisation?: boolean
+  adUserData?: boolean
 }
 
 export enum Dimensions {

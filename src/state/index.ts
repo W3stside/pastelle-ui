@@ -4,18 +4,20 @@ import { load, save } from 'redux-localstorage-simple'
 import { createWrapper } from 'next-redux-wrapper'
 
 // APPAREL
+import { analyticsConsent } from '@/state/analyticsConsent/reducer'
 import { cart } from '@/state/cart/reducer'
 import { collection } from '@/state/collection/reducer'
 import { modalsAndPopups } from '@/state/modalsAndPopups/reducer'
-// MISC
 import { user } from '@/state/user/reducer'
 
 const IS_SERVER = typeof globalThis?.window == 'undefined'
 const PERSISTED_KEYS: string[] = ['blockchainTransactions', 'cart', 'collection', 'user']
 
-const makeStore = () =>
+const makeStore = ({ reduxWrapperMiddleware }) =>
   configureStore({
     reducer: {
+      // ANALYTICS
+      analyticsConsent,
       // APPAREL
       cart,
       collection,
@@ -23,12 +25,10 @@ const makeStore = () =>
       modalsAndPopups,
       user,
     },
-    middleware: IS_SERVER
-      ? undefined
-      : (defaultMiddleware) =>
-          defaultMiddleware({
-            thunk: true,
-          }).concat(save({ states: PERSISTED_KEYS, namespace: 'PASTELLE_SHOP' })),
+    middleware: (defaultMiddleware) =>
+      defaultMiddleware({
+        thunk: true,
+      }).concat(IS_SERVER ? [] : save({ states: PERSISTED_KEYS, namespace: 'PASTELLE_SHOP' }), reduxWrapperMiddleware),
     preloadedState: IS_SERVER
       ? undefined
       : load({

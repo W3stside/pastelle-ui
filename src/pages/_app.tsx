@@ -6,17 +6,19 @@ import { StaticCSSProviders, PastelleStoreUpdaters, ThemedCSSProviders } from 'P
 import { Provider } from 'react-redux'
 import ApolloProvider from '@/shopify/graphql/ApolloProvider'
 import { wrapper } from '@/state'
+import { AnalyticsConsentUpdater } from '@/state/analyticsConsent/updater'
 import { VersionUpdater } from '@/state/version/updater'
 import { pastelleTheme, ThemeModes } from '@/theme'
 import { getLocalStorageThemeModeOrDefault } from '@/utils/localstorage'
 import { AppProps } from 'next/app'
 
 import { ShopifyProvider } from '@shopify/hydrogen-react'
-import { useShopifyAnalyticsRouteChange } from '@/analytics/hooks/useShopifyAnalyticsReporter'
+import { useShopifyAnalyticsRouteChange as useShopifyAnalytics } from '@/analytics/hooks/useShopifyAnalyticsReporter'
 import { Layout } from '@/components/Layout'
 import { CountryCode, LanguageCode } from '@/shopify/graphql/types'
 import { devError } from '@past3lle/utils'
-import { GoogleTagManager } from '@next/third-parties/google'
+import { GoogleTagManager } from '@/analytics/google/GoogleTagManager'
+import { useGoogleTagManagerConsentInit } from '@/analytics/google/hooks'
 
 if (!process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN)
   throw new Error('Missing process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!')
@@ -33,21 +35,25 @@ const shopifyConfig: Parameters<typeof ShopifyProvider>[0] = {
   languageIsoCode: (process.env.NEXT_PUBLIC_SHOPIFY_LANGUAGE_ISO_CODE as LanguageCode) || 'EN',
 }
 
-function RootApp({ Component, ...pageProps }: AppProps) {
+function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
   // Inject redux SSR state props
-  const { store, props } = wrapper.useWrappedStore(pageProps)
-  const pagePropsWithAppAnalytics = useShopifyAnalyticsRouteChange({ pageProps: props.pageProps })
+  const store = wrapper.useStore()
+  const pagePropsWithAppAnalytics = useShopifyAnalytics({ pageProps: rest.pageProps })
+  // GA consent
+  useGoogleTagManagerConsentInit()
 
   return (
     <>
-      <ShopifyProvider {...shopifyConfig}>
-        <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
-          {/* @past3lle hooks data provider */}
-          <PastelleForgeW3Provider>
-            {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
-            <StaticCSSProviders />
-            <ApolloProvider>
-              <Provider store={store}>
+      <Provider store={store}>
+        <ShopifyProvider {...shopifyConfig}>
+          <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
+            {/* @past3lle hooks data provider */}
+            <PastelleForgeW3Provider>
+              {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
+              <StaticCSSProviders />
+              <ApolloProvider>
+                {/* GA/GTM Consent Updater */}
+                <AnalyticsConsentUpdater />
                 <VersionUpdater />
                 {/* <AppOnlineStatusUpdater /> */}
                 <PastelleStoreUpdaters />
@@ -58,14 +64,19 @@ function RootApp({ Component, ...pageProps }: AppProps) {
                     <Component {...pagePropsWithAppAnalytics} />
                   </Layout>
                 </ErrorBoundary>
-              </Provider>
-            </ApolloProvider>
-          </PastelleForgeW3Provider>
-        </ThemeProvider>
-      </ShopifyProvider>
-      {/* GA */}
+              </ApolloProvider>
+            </PastelleForgeW3Provider>
+          </ThemeProvider>
+        </ShopifyProvider>
+      </Provider>
       {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID && (
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID} />
+        <GoogleTagManager
+          gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID}
+          // TODO: check. this is required atm to make the netlify edge-function
+          // inject-csp work as it finds <script> tags and injects nonce={SERVER_VALUE}
+          // and afterInteractive (Adding it after body tag) does not allow for this to happen and nonce is empty
+          strategy="beforeInteractive"
+        />
       )}
     </>
   )

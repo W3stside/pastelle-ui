@@ -28,15 +28,17 @@ export async function getStaticProps({ params }) {
 
   if (!params?.policy) throw new Error('Missing policy param!')
 
-  return { props: { name: params.policy, policy: policies?.[_appendString(params.policy, 'Policy')] } }
+  return { props: { data: { name: params.policy, policy: policies?.[_appendString(params.policy, 'Policy')] } } }
 }
 
 interface Props {
-  name: string
-  policy: Omit<PoliciesQuery['shop'], '__typename'>[keyof Omit<PoliciesQuery['shop'], '__typename'>]
+  data: {
+    name: string
+    policy: Omit<PoliciesQuery['shop'], '__typename'>[keyof Omit<PoliciesQuery['shop'], '__typename'>]
+  }
 }
 
-export default function Policies({ name, policy }: Props) {
+export default function Policies({ data: { name, policy } }: Props) {
   usePolicyViewReporter(name, policy)
   return <PolicyContent policy={policy} />
 }

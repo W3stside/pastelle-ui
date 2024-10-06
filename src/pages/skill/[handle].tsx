@@ -2,7 +2,7 @@
 import { useIsMobile } from '@past3lle/hooks'
 import SEO from '@/components/SEO'
 import ShowcaseVideos from '@/components/Showcase/Videos'
-import { PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT, Z_INDEXES } from '@/constants/config'
+import { Z_INDEXES } from '@/constants/config'
 import { SHOWCASE_ENABLED } from '@/constants/flags'
 import { DEFAULT_MEDIA_START_INDEX } from '@/components/PagesComponents/constants'
 import { useProductWebCarouselActions } from '@/components/PagesComponents/hooks/useProductCarouselActions'
@@ -15,9 +15,8 @@ import {
   SingleProductContainer,
   SingleProductScreensContainer,
 } from '../../components/Asides/skill/styled'
-import { queryProductPaths, queryProducts } from '@/shopify/graphql/api/products'
+import { queryProductPaths } from '@/shopify/graphql/api/products'
 import { BaseProductPageProps } from '@/components/PagesComponents/types'
-import { mapShopifyProductToProps } from '@/shopify/utils'
 import { BLACK } from '@past3lle/theme'
 import { ProductSchema } from '@/components/SEO/types'
 import { getProductSeoSchema } from '@/components/SEO/utils'
@@ -25,6 +24,10 @@ import { DEFAULT_PRODUCT_DESCRIPTION } from '@/components/SEO/constants'
 import { useProductViewReporter } from '@/analytics/hooks/useProductViewReporter'
 import dynamic from 'next/dynamic'
 import { useIsClientReady } from '@/hooks/useIsClientReady'
+import { AnimatedPastelleLoader } from '@/components/Loader'
+import { fetchLatestCollectionAndUpdateStore } from '@/api/collection'
+import { wrapper } from '@/state'
+import { collectionProductFromParamsSelector } from '@/api/collection/utils'
 
 const SinglePageSmartWrapper = dynamic(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "HOMESMARTWRAPPER" */ '@/components/PagesComponents'),
@@ -48,30 +51,33 @@ export async function getStaticPaths() {
 }
 
 // This also gets called at build time
-export async function getStaticProps({ params }) {
-  const {
-    products: { nodes },
-  } = await queryProducts({
-    amount: 1,
-    imageAmt: PRODUCT_IMAGES_AMOUNT,
-    videoAmt: PRODUCT_VIDEOS_AMOUNT,
-    query: params?.handle ? `title:${params.handle}` : `id:${params.id}`,
-  })
+export const getStaticProps = wrapper.getStaticProps((store) => async ({ params }) => {
+  // 1. Fetch store collection data from gql
+  // 2. Save collection data to the redux store
+  const [latestCollection] = await fetchLatestCollectionAndUpdateStore(store)
+  const product = collectionProductFromParamsSelector(params, latestCollection)
 
-  if (!nodes?.[0]) throw new Error('Missing product information with id ' + JSON.stringify(params.id))
-
-  const [product] = mapShopifyProductToProps(nodes)
+  if (!product)
+    throw new Error(
+      'Missing product information with handle/id ' +
+        JSON.stringify(params?.handle || params?.id || 'UNKNOWN PRODUCT!'),
+    )
 
   // Pass post data to the page via props
-  return { props: { product, schemaSEO: getProductSeoSchema(product) } }
-}
+  return { props: { data: product, schema: getProductSeoSchema(product) } }
+})
 
 interface Props {
-  product: BaseProductPageProps | undefined
-  schemaSEO: ProductSchema | null
+  data: BaseProductPageProps | undefined
+  schema: ProductSchema | null
 }
 
-export default function SingleProductPage({ product, schemaSEO }: Props) {
+export default function SingleProductPage({ data: product, schema, ...rest }: Props) {
+  // TODO: fix this. issue with hydration always being true
+  // https://github.com/kirill-konshin/next-redux-wrapper/issues/571
+  // We need this to sync client/server side data and the redux store
+  wrapper.useHydration(rest)
+
   // Update GA
   useProductViewReporter(product)
 
@@ -86,7 +92,8 @@ export default function SingleProductPage({ product, schemaSEO }: Props) {
   const isMobile = useIsMobile()
   const clientReady = useIsClientReady()
 
-  if (!product || !schemaSEO) return null
+  const showLoader = !product || !schema
+  if (showLoader) return <AnimatedPastelleLoader />
 
   return (
     <>
@@ -98,7 +105,7 @@ export default function SingleProductPage({ product, schemaSEO }: Props) {
         }
         image={product.images?.[0].url1280_2x}
         cannonicalUrl={`skill/${product.handle}`}
-        schema={schemaSEO}
+        schema={schema}
       />
       <SinglePageSmartWrapper>
         {(smartWrapperProps) =>

@@ -1,7 +1,5 @@
 import { Column, Row } from '@past3lle/components'
 import { useIsMediumMediaWidth } from '@past3lle/hooks'
-import Navigation from '@/components/Navigation'
-import { ShoppingCartHeader } from '@/components/ShoppingCart/ShoppingCart'
 import { Web3LoginButton } from '@/components/Web3LoginButton'
 import { FREE_SHIPPING_THRESHOLD, TRANSPARENT_HEX } from '@/constants/config'
 import { COLLECTION_PATHNAME } from '@/constants/navigation'
@@ -11,36 +9,43 @@ import { useState } from 'react'
 import { Truck } from 'react-feather'
 
 import { HeaderDrawerButton, HeaderFrame, HeaderH1, Pastellecon, Title } from './styleds'
-import { useIsClientReady } from '@/hooks/useIsClientReady'
 import dynamic from 'next/dynamic'
 import { useHeaderMedia } from './hooks'
 
-// Relies on client side tech - load async // SSR = false
+const DynamicNavigation = dynamic(
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "NAVIGATION" */ '@/components/Navigation'),
+  { ssr: true },
+)
+
 const DynamicThemeToggler = dynamic(
   () =>
     import(/* webpackPrefetch: true,  webpackChunkName: "THEME_TOGGLE_BAR" */ './styleds').then(
       (module) => module.StyledThemeToggleBar,
     ),
-  { ssr: true },
+  { ssr: false },
 )
-// Relies on client side tech - load async // SSR = false
 const DynamicHeaderRow = dynamic(
   () =>
     import(/* webpackPrefetch: true,  webpackChunkName: "HEADER_ROW" */ './styleds').then((module) => module.HeaderRow),
-  { ssr: true },
+  { ssr: false },
 )
-// Relies on client side tech - load async // SSR = false
 const DynamicFreeShippingBanner = dynamic(
   () =>
     import(
       /* webpackPrefetch: true,  webpackChunkName: "FREE_SHIPPING_BANNER" */ '@/components/PagesComponents/styleds'
     ).then((module) => module.FreeShippingBanner),
-  { ssr: true },
+  { ssr: false },
+)
+// Relies on client side tech - load async // SSR = false
+const DynamicShoppingCartHeader = dynamic(
+  () =>
+    import(
+      /* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART_HEADER" */ '@/components/ShoppingCart/ShoppingCart'
+    ).then((module) => module.ShoppingCartHeader),
+  { ssr: false },
 )
 
 export default function Header() {
-  const clientReady = useIsClientReady()
-
   // const isEnabled = useMemo(() => isWeb3Enabled(), [])
   const isMediumOrBelow = useIsMediumMediaWidth()
   // Header content: logos and color
@@ -92,9 +97,9 @@ export default function Header() {
             </DynamicFreeShippingBanner>
           )}
           {/* SHOPPING CART */}
-          <ShoppingCartHeader styleProps={{ justifyContent: 'flex-end', maxWidth: 'min-content' }} />
+          <DynamicShoppingCartHeader styleProps={{ justifyContent: 'flex-end', maxWidth: 'min-content' }} />
         </Row>
-        {clientReady && isMediumOrBelow && <Navigation navOrbProps={{ bgColor: TRANSPARENT_HEX, menuSize: 30 }} />}
+        {isMediumOrBelow && <DynamicNavigation navOrbProps={{ bgColor: TRANSPARENT_HEX, menuSize: 30 }} />}
       </DynamicHeaderRow>
     </HeaderFrame>
   )

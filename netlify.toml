@@ -1,3 +1,6 @@
+[dev]
+framework = "next"
+
 [build.environment]
   NETLIFY_BUILD_DEBUG = "true"
 
@@ -19,17 +22,9 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Content-Security-Policy = """
-      default-src 'self' cloudfront.net *.cloudfront.net;
-      media-src https://cdn.shopify.com https://checkout.pastelle.shop https://ik.imagekit.io/pastelle/ cloudfront.net *.cloudfront.net;
-      img-src 'self' https://ik.imagekit.io/pastelle/ https://cdn.shopify.com https://checkout.pastelle.shop https://cryptologos.cc/logos/versions/ethereum-eth-logo-colored.svg https://images.web3auth.io https://web3auth.io/images/ https://user-images.githubusercontent.com https://raw.githubusercontent.com/WalletConnect/walletconnect-assets/ https://explorer-api.walletconnect.com https://*.google-analytics.com https://*.googletagmanager.com data:;
-      base-uri 'self';
-      object-src 'self';
-      script-src 'unsafe-inline' https://monorail-edge.shopifysvc.com https://tagmanager.google.com https://*.google-analytics.com https://*.googletagmanager.com 'self' cloudfront.net *.cloudfront.net 'sha256-jwsanj4WKKtrMM+7Khy+zjXFPYb+YaRZ/mLaS40iTgE=';
-      script-src-elem 'unsafe-inline' https://*.google-analytics.com https://*.googletagmanager.com https://tagmanager.google.com 'self' cloudfront.net *.cloudfront.net 'sha256-jwsanj4WKKtrMM+7Khy+zjXFPYb+YaRZ/mLaS40iTgE=';
-      connect-src 'self' cloudfront.net *.cloudfront.net https://*.google-analytics.com https://*.googletagmanager.com https://tagmanager.google.com https://polygon-rpc.com https://pastelle.infura-ipfs.io https://ipfs.io/ipfs/ wss://broadcast-server.tor.us https://broadcast-server.tor.us https://admin.openlogin.com/api/ https://explorer-api.walletconnect.com wss://relay.walletconnect.com https://rpc.walletconnect.com https://e3f9fe-2.myshopify.com https://rpc.ankr.com https://pstlcollections.s3.eu-south-2.amazonaws.com https://monorail-edge.shopifysvc.com;
-      manifest-src 'self';
-      frame-src https://verify.walletconnect.com https://verify.walletconnect.org https://tagmanager.google.com https://*.google-analytics.com https://*.googletagmanager.com;
-      font-src 'self' https://fonts.gstatic.com;
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    """
+    Content-Security-Policy = "default-src 'self' https://cloudfront.net https://*.cloudfront.net; media-src https://cdn.shopify.com https://checkout.pastelle.shop https://ik.imagekit.io/pastelle/ https://cloudfront.net https://*.cloudfront.net; img-src 'self' https://ik.imagekit.io/pastelle/ https://cdn.shopify.com https://checkout.pastelle.shop https://cryptologos.cc/logos/versions/ethereum-eth-logo-colored.svg https://images.web3auth.io https://web3auth.io/images https://user-images.githubusercontent.com https://raw.githubusercontent.com/WalletConnect/walletconnect-assets https://explorer-api.walletconnect.com https://*.google-analytics.com https://*.googletagmanager.com data:; base-uri 'self'; object-src 'self'; script-src 'self' https://cloudfront.net https://*.cloudfront.net https://monorail-edge.shopifysvc.com https://tagmanager.google.com https://*.google-analytics.com https://*.googletagmanager.com 'unsafe-eval'; script-src-elem 'self' https://*.google-analytics.com https://*.googletagmanager.com https://tagmanager.google.com https://cloudfront.net https://*.cloudfront.net; connect-src 'self' https://cloudfront.net https://*.cloudfront.net https://*.google-analytics.com https://*.googletagmanager.com https://tagmanager.google.com https://polygon-rpc.com https://pastelle.infura-ipfs.io https://ipfs.io/ipfs wss://broadcast-server.tor.us https://broadcast-server.tor.us https://admin.openlogin.com/api https://explorer-api.walletconnect.com wss://relay.walletconnect.com https://rpc.walletconnect.com https://e3f9fe-2.myshopify.com https://rpc.ankr.com https://pstlcollections.s3.eu-south-2.amazonaws.com https://monorail-edge.shopifysvc.com; manifest-src 'self'; frame-src https://verify.walletconnect.com https://verify.walletconnect.org https://tagmanager.google.com https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
+
+[[edge_functions]]
+  cache = "manual"
+  path = "/*"
+  function = "inject-csp-nonce"

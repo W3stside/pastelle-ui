@@ -1,6 +1,6 @@
 import { devDebug, devError } from '@past3lle/utils'
-import { sendEvent } from '@/analytics/events/base'
 import { CookiePreferences, Explorers } from './events/types'
+import { updateConsent } from './events/base'
 
 const EXPLORER_HOSTNAMES: { [hostname: string]: true } = {
   'etherscan.io': true,
@@ -49,11 +49,13 @@ export function detectExplorer(href: string) {
   }
 }
 
-export function initAnalytics({ interacted, marketing, advertising }: CookiePreferences) {
+export function initAnalytics({ interacted, marketing, advertising, adPersonalisation }: CookiePreferences) {
   if (interacted) {
     const adStorageConsent = advertising ? 'granted' : 'denied'
     const analyticsStorageConsent = 'granted'
     const marketingStorageConsent = marketing ? 'granted' : 'denied'
+    const userData = 'granted'
+    const personalisation = adPersonalisation ? 'granted' : 'denied'
 
     devDebug('COOKIES INTERACTED WITH - SETTING GTAG CONSENT')
     devDebug(`
@@ -62,12 +64,12 @@ export function initAnalytics({ interacted, marketing, advertising }: CookiePref
       MARKETING: ${marketingStorageConsent}
     `)
 
-    sendEvent('consent_update', {
-      consent: {
-        ad_storage: adStorageConsent,
-        analytics_storage: analyticsStorageConsent,
-        marketing_storage: marketingStorageConsent,
-      },
+    updateConsent({
+      ad_storage: adStorageConsent,
+      analytics_storage: analyticsStorageConsent,
+      marketing_storage: marketingStorageConsent,
+      ad_personalization: personalisation,
+      ad_user_data: userData,
     })
   }
 }

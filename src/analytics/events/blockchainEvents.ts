@@ -1,9 +1,9 @@
 import { detectExplorer } from '../utils'
-import { sendEvent } from './base'
+import { gtag } from './base'
 import { Category } from './types'
 
 export function blockchainAccountAnalytics(wallet: string) {
-  sendEvent('blockchain__account', {
+  gtag('event', 'blockchain__account', {
     eventCategory: Category.BLOCKCHAIN,
     label: 'blockchain__wallet',
     value: wallet,
@@ -11,7 +11,7 @@ export function blockchainAccountAnalytics(wallet: string) {
 }
 
 export function blockchainChainAnalytics(id?: number) {
-  sendEvent('blockchain__chain_id', {
+  gtag('event', 'blockchain__chain_id', {
     eventCategory: Category.BLOCKCHAIN,
     label: 'blockchain__chain_id',
     value: id || 'web3_disconnected',
@@ -22,7 +22,7 @@ export function externalLinkAnalytics(href: string) {
   const explorer = detectExplorer(href)
 
   if (explorer) {
-    sendEvent('blockchain__view_on_explorer', {
+    gtag('event', 'blockchain__view_on_explorer', {
       eventCategory: Category.EXTERNAL_LINK,
       eventAction: `View on ${explorer}`,
       label: href,

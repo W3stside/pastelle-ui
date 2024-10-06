@@ -3,7 +3,6 @@ import { ArticleFadeInContainer } from '@/components/Layout/Article'
 import SEO from '@/components/SEO'
 import { ScrollingContentPage } from '@/components/ScrollingContentPage'
 import { BASE_FONT_SIZE, LAYOUT_REM_HEIGHT_MAP } from '@/constants/sizes'
-// import AsideWithVideo from '@/components/Asides/collection/AsideWithVideo'
 import { DEFAULT_MEDIA_START_INDEX } from '@/components/PagesComponents/constants'
 import { useProductWebCarouselActions } from '@/components/PagesComponents/hooks/useProductCarouselActions'
 import { AsideWithVideoAuxProps, CollectionPageProps } from '@/components/PagesComponents/types'
@@ -11,18 +10,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { buildItemUrl } from '@/utils/navigation'
 import { useRouter } from 'next/router'
 import { CollectionResponseFormatted } from '@/shopify/graphql/hooks'
-import { formattedCollectionQuery } from '@/shopify/graphql/api/collection'
-import { PRODUCT_IMAGES_AMOUNT, PRODUCT_VIDEOS_AMOUNT } from '@/constants/config'
-import { ProductCollectionSortKeys } from '@/shopify/graphql/types'
 import { wrapper } from '@/state'
-import { updateCollections, updateCurrentCollection } from '@/state/collection/reducer'
-import { ShopifyIdType, shortenShopifyId } from '@/shopify/utils'
 import { DEFAULT_COLLECTION_DESCRIPTION } from '@/components/SEO/constants'
 import { getCollectionSeoSchema } from '@/components/SEO/utils'
 import { CollectionSchema } from '@/components/SEO/types'
 import dynamic from 'next/dynamic'
 import { useIsClientReady } from '@/hooks/useIsClientReady'
 import { AnimatedPastelleLoader } from '@/components/Loader'
+import { fetchLatestCollectionAndUpdateStore } from '@/api/collection'
 
 const CollectionAsideWithVideo = dynamic(
   import(
@@ -30,61 +25,30 @@ const CollectionAsideWithVideo = dynamic(
   ),
 )
 
-// const IS_SERVER = typeof globalThis?.window == 'undefined'
-// const ANCHOR_NODE = IS_SERVER ? null : document
-
 // eslint-disable-next-line react-refresh/only-export-components
 export const getStaticProps = wrapper.getStaticProps((store) => async (): Promise<{ props: Props }> => {
-  const collections = await formattedCollectionQuery({
-    collectionAmount: 1,
-    // always show the latest collection
-    productAmt: 10,
-    imageAmt: PRODUCT_IMAGES_AMOUNT,
-    videoAmt: PRODUCT_VIDEOS_AMOUNT,
-    // reverse array to get first as latest
-    reverse: true,
-    productSortKey: ProductCollectionSortKeys.BestSelling,
-  })
-
-  if (collections.length) {
-    const formattedCollections = collections.map(({ collectionProductMap, locked, id, title }) => ({
-      products: collectionProductMap,
-      locked,
-      id: shortenShopifyId(id as ShopifyIdType, 'Collection'),
-      title,
-    }))
-
-    store.dispatch(
-      updateCollections({
-        collections: formattedCollections,
-        loading: false,
-      }),
-    )
-
-    if (formattedCollections?.[0]?.id) {
-      store.dispatch(
-        updateCurrentCollection({
-          id: formattedCollections[0].id,
-          locked: formattedCollections[0]?.locked,
-          loading: false,
-        }),
-      )
-    }
-  }
+  // 1. Fetch store collection data from gql
+  // 2. Save collection data to the redux store
+  const [latestCollection] = await fetchLatestCollectionAndUpdateStore(store)
 
   return {
     props: {
-      collection: collections?.[0] ?? null,
-      schemaSEO: getCollectionSeoSchema(collections?.[0]),
+      data: latestCollection ?? null,
+      schema: getCollectionSeoSchema(latestCollection),
     },
   }
 })
 
 interface Props {
-  collection: CollectionResponseFormatted | null
-  schemaSEO: CollectionSchema | null
+  data: CollectionResponseFormatted | null
+  schema: CollectionSchema | null
 }
-export default function Collection({ collection, schemaSEO }: Props) {
+export default function Collection({ data: collection, schema, ...rest }: Props) {
+  // TODO: fix this. issue with hydration always being true
+  // https://github.com/kirill-konshin/next-redux-wrapper/issues/571
+  // We need this to sync client/server side data and the redux store
+  wrapper.useHydration(rest)
+
   const { push: navigate } = useRouter()
   const [container, setContainerRef] = useStateRef<HTMLElement | null>(null, (node) => node)
   // MOBILE/WEB CAROUSEL
@@ -132,8 +96,9 @@ export default function Collection({ collection, schemaSEO }: Props) {
         isMobile={isMobileDeviceOrWidth}
       />
     ),
+    // Can safely ignore this as the IDs are unique
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [collection],
+    [collection?.id],
   )
 
   const mappedCollectionItems = useMemo(
@@ -148,7 +113,8 @@ export default function Collection({ collection, schemaSEO }: Props) {
 
   const clientReady = useIsClientReady()
 
-  if (!collection || !schemaSEO || !mappedCollectionItems || collectionProductList?.length < 1) return null
+  const showLoader = !collection || !mappedCollectionItems || collectionProductList?.length < 1
+  if (showLoader) return <AnimatedPastelleLoader />
 
   return (
     <>
@@ -158,7 +124,7 @@ export default function Collection({ collection, schemaSEO }: Props) {
         description={collection.seo.description || DEFAULT_COLLECTION_DESCRIPTION}
         image={collection.image || ''}
         cannonicalUrl="collection"
-        schema={schemaSEO}
+        schema={schema}
       />
       {clientReady ? (
         <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>

@@ -44,16 +44,19 @@ export const getStaticProps = wrapper.getStaticProps((store) => async (): Promis
   }
 
   // Pass post data to the page via props
-  return { props: { homepage, schemaSEO: getProductSeoSchema(homepage) } }
+  return { props: { data: homepage, schema: getProductSeoSchema(homepage) } }
 })
 
 type Props = {
-  homepage: ReturnType<typeof mapShopifyHomepageToProps> | null
-  schemaSEO: ProductSchema | null
+  data: ReturnType<typeof mapShopifyHomepageToProps> | null
+  schema: ProductSchema | null
 }
 
-export default function Home({ homepage, schemaSEO }: Props) {
-  if (!homepage || !schemaSEO) return null
+export default function Home({ data: homepage, schema, ...rest }: Props) {
+  // We need this to sync client/server side data and the redux store
+  wrapper.useHydration(rest)
+
+  if (!homepage || !schema) return <AnimatedPastelleLoader />
 
   return (
     <>
@@ -63,7 +66,7 @@ export default function Home({ homepage, schemaSEO }: Props) {
         description="Discover avant-garde streetwear made from organic materials. Designed by local artists in Portugal, PASTELLE APPAREL's heavyweight pieces (250gsm+) redefine urban fashion."
         image=""
         cannonicalUrl=""
-        schema={schemaSEO}
+        schema={schema}
       />
       <SinglePageSmartWrapper>
         {({ parentAspectRatio, ...restProps }) => (
