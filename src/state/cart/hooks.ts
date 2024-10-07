@@ -44,7 +44,7 @@ export function useRemoveCartLineAndUpdateReduxCallback() {
     removeCartLineCallback: useCallback(
       ({ lineIds }: Pick<RemoveLineParams, 'lineIds'>, options?: MutationHookOptions) =>
         removeCartLineAndUpdateStore({ cartId, lineIds, options, removeCartLine, updateCartInfo }),
-      [removeCartLine, cartId, updateCartInfo]
+      [removeCartLine, cartId, updateCartInfo],
     ),
   }
 }
@@ -59,7 +59,7 @@ export function useUpdateCartLineAndUpdateReduxCallback() {
     updateCartLineCallback: useCallback(
       ({ lineId, quantity }: Pick<UpdateLineParams, 'lineId' | 'quantity'>) =>
         updateCartLineAndUpdateStore({ cartId, quantity, lineId, updateCartLine, updateCartInfo }),
-      [updateCartLine, cartId, updateCartInfo]
+      [updateCartLine, cartId, updateCartInfo],
     ),
   }
 }
@@ -78,7 +78,7 @@ export function useAddLineToCartAndUpdateReduxCallback() {
     addLineToCartCallback: useCallback(
       ({ merchandiseId, quantity }: AddLineToCartProps) =>
         addCartLineAndUpdateStore({ cartId, quantity, merchandiseId, addNewCartLine, updateCartInfo }),
-      [addNewCartLine, cartId, updateCartInfo]
+      [addNewCartLine, cartId, updateCartInfo],
     ),
   }
 }
@@ -116,7 +116,7 @@ export function useToggleCartAndState(): [boolean, (state: boolean, cart: CartSt
 
       dispatch(showOpen)
     },
-    [dispatch, removeSearchParams, setSearchParams]
+    [dispatch, removeSearchParams, setSearchParams],
   )
   return [cartOpen, viewCartCallback]
 }
