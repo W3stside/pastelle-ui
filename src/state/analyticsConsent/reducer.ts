@@ -34,7 +34,7 @@ const analyticsConsentSlice = createSlice({
     },
     updateGoogleAnalyticsConsent(
       state,
-      { payload }: PayloadAction<MakeOptional<GoogleAnalyticsConsentState, keyof GoogleAnalyticsConsentState>>
+      { payload }: PayloadAction<MakeOptional<GoogleAnalyticsConsentState, keyof GoogleAnalyticsConsentState>>,
     ) {
       if (!state.google.configured) state.google.configured = true
 

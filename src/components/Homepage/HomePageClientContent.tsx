@@ -95,7 +95,9 @@ export default function HomepageMainContent({
           containerNode={screensContainerNode}
           carousel={{
             touchAction: 'pan-y',
-            data: isMobile ? [homepage.videos[process.env.NEXT_PUBLIC_SHOW_LQ_HOME_VIDEO ? 1 : 0], ...imageSrcSet] : imageSrcSet,
+            data: isMobile
+              ? [homepage.videos[process.env.NEXT_PUBLIC_SHOW_LQ_HOME_VIDEO ? 1 : 0], ...imageSrcSet]
+              : imageSrcSet,
             imageProps: {
               style: {
                 maxWidth: OVERSIZED_CAROUSEL_MEDIA_WIDTH,

@@ -12,7 +12,7 @@ export function useDispatchGoogleConsent() {
   return useCallback(
     (params: MakeOptional<GoogleAnalyticsConsentState, keyof GoogleAnalyticsConsentState>) =>
       dispatch(updateGoogleAnalyticsConsent(params)),
-    [dispatch]
+    [dispatch],
   )
 }
 
