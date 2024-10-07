@@ -4,7 +4,7 @@
   "description": "PASTELLE Web Interface",
   "homepage": "/",
   "private": true,
-  "version": "2.2.4",
+  "version": "2.2.5",
   "engines": {
     "node": "^18.8 || >=20"
   },
