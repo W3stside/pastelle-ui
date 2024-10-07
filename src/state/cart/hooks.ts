@@ -109,9 +109,10 @@ export function useToggleCartAndState(): [boolean, (state: boolean, cart: CartSt
 
   const viewCartCallback = useCallback(
     (showOpen: boolean, cart: CartState | null) => {
-      if (showOpen && !!cart) viewCartAnalytics(cart)
-
-      if (showOpen) setSearchParams('peek', SearchParamQuickViews.CART)
+      if (showOpen) {
+        if (cart?.totalQuantity) viewCartAnalytics(cart)
+        setSearchParams('peek', SearchParamQuickViews.CART)
+      }
       else router.back()
 
       dispatch(showOpen)
