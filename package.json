@@ -79,6 +79,7 @@
     "@graphql-codegen/cli": "^2.6.2",
     "@graphql-codegen/typescript": "4.0.9",
     "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@netlify/edge-bundler": "^12.2.3",
     "@past3lle/types": "^2.1.0",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/add": "^2",
@@ -178,5 +179,10 @@
   "license": "GPL-3.0-or-later",
   "main": "index.js",
   "repository": "git@github.com:PAST3LLE/shop-ui.git",
-  "author": "virgil-pastelle <doohhello@gmail.com>"
+  "author": "virgil-pastelle <doohhello@gmail.com>",
+  "dependenciesMeta": {
+    "@netlify/edge-bundler@12.2.3": {
+      "unplugged": true
+    }
+  }
 }

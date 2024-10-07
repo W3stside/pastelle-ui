@@ -194,7 +194,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
                   padding: '1rem',
                 }}
               >
-                {checkoutClicked ? 'Redirecting to checkout...' : 'Checkout'}
+                {checkoutClicked ? 'Working...' : 'Checkout'}
               </a>
             </CartHeader>
           </Button>

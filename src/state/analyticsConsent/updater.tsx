@@ -1,6 +1,7 @@
-import { useGoogleTagManagerConsent } from '@/analytics/google/hooks'
+import { useGtagConfigAndConsent } from '@/analytics/google/hooks'
 
 export function AnalyticsConsentUpdater() {
-  useGoogleTagManagerConsent()
+  // Gtag.js consent
+  useGtagConfigAndConsent()
   return null
 }

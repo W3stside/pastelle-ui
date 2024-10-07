@@ -5102,7 +5102,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/edge-bundler@npm:12.2.3":
+"@netlify/edge-bundler@npm:12.2.3, @netlify/edge-bundler@npm:^12.2.3":
   version: 12.2.3
   resolution: "@netlify/edge-bundler@npm:12.2.3"
   dependencies:
@@ -19960,6 +19960,7 @@ __metadata:
     "@graphql-codegen/cli": "npm:^2.6.2"
     "@graphql-codegen/typescript": "npm:4.0.9"
     "@graphql-codegen/typescript-operations": "npm:^4.0.1"
+    "@netlify/edge-bundler": "npm:^12.2.3"
     "@netlify/edge-functions": "npm:^2.11.0"
     "@past3lle/assets": "npm:^2.1.0"
     "@past3lle/carousel": "npm:^2.1.2-alpha.2"
@@ -20062,6 +20063,9 @@ __metadata:
     web-vitals: "npm:^3.1.0"
     workbox-core: "npm:^7.1.0"
     yarn: "npm:^1.22.22"
+  dependenciesMeta:
+    "@netlify/edge-bundler@12.2.3":
+      unplugged: true
   languageName: unknown
   linkType: soft
 

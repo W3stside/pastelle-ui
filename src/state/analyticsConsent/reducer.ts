@@ -9,16 +9,19 @@ export interface GoogleAnalyticsConsentState {
   marketing_storage: 'granted' | 'denied'
 }
 export interface AnalyticsState {
-  google: GoogleAnalyticsConsentState
+  google: { configured: boolean; consent: GoogleAnalyticsConsentState }
 }
 
 export const initialState: AnalyticsState = {
   google: {
-    ad_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    analytics_storage: 'granted',
-    marketing_storage: 'denied',
+    configured: false,
+    consent: {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'granted',
+      marketing_storage: 'denied',
+    },
   },
 }
 
@@ -26,16 +29,24 @@ const analyticsConsentSlice = createSlice({
   name: 'analyticsConsent',
   initialState,
   reducers: {
+    setGoogleAnalyticsConfigured(state, { payload }: PayloadAction<boolean>) {
+      state.google.configured = payload
+    },
     updateGoogleAnalyticsConsent(
       state,
-      { payload }: PayloadAction<MakeOptional<GoogleAnalyticsConsentState, keyof GoogleAnalyticsConsentState>>,
+      { payload }: PayloadAction<MakeOptional<GoogleAnalyticsConsentState, keyof GoogleAnalyticsConsentState>>
     ) {
+      if (!state.google.configured) state.google.configured = true
+
       state.google = {
         ...state.google,
-        ...payload,
+        consent: {
+          ...state.google.consent,
+          ...payload,
+        },
       }
     },
   },
 })
-export const { updateGoogleAnalyticsConsent } = analyticsConsentSlice.actions
+export const { updateGoogleAnalyticsConsent, setGoogleAnalyticsConfigured } = analyticsConsentSlice.actions
 export const analyticsConsent = analyticsConsentSlice.reducer

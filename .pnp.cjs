@@ -51,6 +51,7 @@ const RAW_RUNTIME_STATE =
           ["@graphql-codegen/cli", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.16.5"],\
           ["@graphql-codegen/typescript", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.9"],\
           ["@graphql-codegen/typescript-operations", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.2.3"],\
+          ["@netlify/edge-bundler", "npm:12.2.3"],\
           ["@netlify/edge-functions", "npm:2.11.0"],\
           ["@past3lle/assets", "npm:2.1.0"],\
           ["@past3lle/carousel", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
@@ -7894,7 +7895,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@netlify/edge-bundler", [\
       ["npm:12.2.3", {\
-        "packageLocation": "../../../.yarn/berry/cache/@netlify-edge-bundler-npm-12.2.3-cd2aa00b4a-10c0.zip/node_modules/@netlify/edge-bundler/",\
+        "packageLocation": "./.yarn/unplugged/@netlify-edge-bundler-npm-12.2.3-cd2aa00b4a/node_modules/@netlify/edge-bundler/",\
         "packageDependencies": [\
           ["@netlify/edge-bundler", "npm:12.2.3"],\
           ["@import-maps/resolve", "npm:1.0.1"],\
@@ -25729,6 +25730,7 @@ const RAW_RUNTIME_STATE =
           ["@graphql-codegen/cli", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.16.5"],\
           ["@graphql-codegen/typescript", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.9"],\
           ["@graphql-codegen/typescript-operations", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.2.3"],\
+          ["@netlify/edge-bundler", "npm:12.2.3"],\
           ["@netlify/edge-functions", "npm:2.11.0"],\
           ["@past3lle/assets", "npm:2.1.0"],\
           ["@past3lle/carousel", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:2.1.2"],\
