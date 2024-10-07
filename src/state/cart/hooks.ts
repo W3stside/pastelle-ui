@@ -112,8 +112,7 @@ export function useToggleCartAndState(): [boolean, (state: boolean, cart: CartSt
       if (showOpen) {
         if (cart?.totalQuantity) viewCartAnalytics(cart)
         setSearchParams('peek', SearchParamQuickViews.CART)
-      }
-      else router.back()
+      } else router.back()
 
       dispatch(showOpen)
     },
