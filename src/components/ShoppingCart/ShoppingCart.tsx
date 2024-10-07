@@ -29,17 +29,18 @@ import {
 } from './styled'
 import { BoxProps } from 'rebass'
 import dynamic from 'next/dynamic'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 import { goToCheckoutAnalytics } from '@/analytics'
 import { devWarn } from '@past3lle/utils'
 import Link from 'next/link'
 
 const ShoppingCart = dynamic(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ '@/components/ShoppingCart'),
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART" */ '@/components/ShoppingCart')
 )
 
 const CartLine = dynamic(
-  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART_LINE" */ 'components/ShoppingCart/CartLine'),
+  () => import(/* webpackPrefetch: true,  webpackChunkName: "SHOPPING_CART_LINE" */ 'components/ShoppingCart/CartLine')
 )
 
 function ShoppingCartQuantity({ totalQuantity }: Pick<CartState, 'totalQuantity'>) {
@@ -95,7 +96,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
 
   const handleNavClick = useCallback(() => {
     closeCartPanel()
-    navigate(COLLECTION_PATHNAME)
+    navigate(COLLECTION_PATHNAME, undefined, { shallow: true })
   }, [closeCartPanel, navigate])
 
   const isMobileWidth = useIsExtraSmallMediaWidth()
@@ -120,15 +121,13 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
         ) : isEmptyCart ? (
           <ProductSubHeader color={WHITE} fontSize="2.5rem" fontWeight={400} padding={0} margin="2rem 0">
             <span id="lenny-face">Your cart is</span> <strong>empty</strong> <span id="lenny-face">ʕ ͡° ʖ̯ ͡°ʔ</span>
-            {!isCollectionPage && (
-              <Link
-                href={COLLECTION_PATHNAME}
-                onClick={handleNavClick}
-                style={{ display: 'flex', marginTop: '0.25rem', fontStyle: 'normal' }}
-              >
-                <u>Check out the full {COLLECTION_PARAM_NAME}</u>!
-              </Link>
-            )}
+            <Link
+              href={COLLECTION_PATHNAME}
+              onClick={isCollectionPage ? closeCartPanel : handleNavClick}
+              style={{ display: 'flex', marginTop: '0.25rem', fontStyle: 'normal' }}
+            >
+              <u>Check out the full {COLLECTION_PARAM_NAME}</u>!
+            </Link>
           </ProductSubHeader>
         ) : (
           cartLines?.map(
@@ -137,7 +136,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
                 <Suspense key={line.id} fallback={<CartLineFallback key={line.id} />}>
                   <CartLine key={line.id} line={line} />
                 </Suspense>
-              ),
+              )
           )
         )}
       </ShoppingCartPanelContentWrapper>

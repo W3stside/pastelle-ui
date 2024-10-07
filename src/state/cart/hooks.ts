@@ -13,7 +13,6 @@ import {
 import { useAppDispatch, useAppSelector } from '@/state'
 
 import { CartState, CreateCartParams, UpdateCartInfoParams, createCart, setShowCart, updateCartInfo } from './reducer'
-import { useRouter } from 'next/navigation'
 import { useSearchParamsStore } from '@/hooks/useSearchParamsStore'
 
 export function useCreateCartDispatch() {
@@ -45,7 +44,7 @@ export function useRemoveCartLineAndUpdateReduxCallback() {
     removeCartLineCallback: useCallback(
       ({ lineIds }: Pick<RemoveLineParams, 'lineIds'>, options?: MutationHookOptions) =>
         removeCartLineAndUpdateStore({ cartId, lineIds, options, removeCartLine, updateCartInfo }),
-      [removeCartLine, cartId, updateCartInfo],
+      [removeCartLine, cartId, updateCartInfo]
     ),
   }
 }
@@ -60,7 +59,7 @@ export function useUpdateCartLineAndUpdateReduxCallback() {
     updateCartLineCallback: useCallback(
       ({ lineId, quantity }: Pick<UpdateLineParams, 'lineId' | 'quantity'>) =>
         updateCartLineAndUpdateStore({ cartId, quantity, lineId, updateCartLine, updateCartInfo }),
-      [updateCartLine, cartId, updateCartInfo],
+      [updateCartLine, cartId, updateCartInfo]
     ),
   }
 }
@@ -79,7 +78,7 @@ export function useAddLineToCartAndUpdateReduxCallback() {
     addLineToCartCallback: useCallback(
       ({ merchandiseId, quantity }: AddLineToCartProps) =>
         addCartLineAndUpdateStore({ cartId, quantity, merchandiseId, addNewCartLine, updateCartInfo }),
-      [addNewCartLine, cartId, updateCartInfo],
+      [addNewCartLine, cartId, updateCartInfo]
     ),
   }
 }
@@ -104,19 +103,20 @@ export function useToggleCartAndState(): [boolean, (state: boolean, cart: CartSt
   const cartOpen = useAppSelector((state) => state.cart.showCart)
   const dispatch = useOpenOrCloseCart()
 
-  const router = useRouter()
-  const [, setSearchParams] = useSearchParamsStore()
+  const [, setSearchParams, removeSearchParams] = useSearchParamsStore()
 
   const viewCartCallback = useCallback(
     (showOpen: boolean, cart: CartState | null) => {
       if (showOpen) {
         if (cart?.totalQuantity) viewCartAnalytics(cart)
-        setSearchParams('peek', SearchParamQuickViews.CART)
-      } else router.back()
+        setSearchParams('peek', SearchParamQuickViews.CART, undefined, { shallow: true })
+      } else {
+        removeSearchParams('peek', { shallow: true })
+      }
 
       dispatch(showOpen)
     },
-    [dispatch, router, setSearchParams],
+    [dispatch, removeSearchParams, setSearchParams]
   )
   return [cartOpen, viewCartCallback]
 }
