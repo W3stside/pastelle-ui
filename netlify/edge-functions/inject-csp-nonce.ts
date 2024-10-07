@@ -23,18 +23,23 @@ export default async (_: Request, context: Context) => {
     // Append 'nonce-{nonce}' to script-src and script-src-elem directives
     csp = csp.replace(/(script-src[^;]*)(;|$)/, (_, p1, p2) => `${p1} 'nonce-${nonce}'${p2}`)
     csp = csp.replace(/(script-src-elem[^;]*)(;|$)/, (_, p1, p2) => `${p1} 'nonce-${nonce}'${p2}`)
-    if (isProd) csp.replace(/ 'unsafe-eval'/, '')
+    if (isProd) {
+      csp.replace(/ 'unsafe-eval'/, '')
+      console.log(
+        '[netlify/edge-functions/inject-csp-nonce.ts] PROD detected, remove unsafe-eval directive from script-src CSP. New CSP:',
+        csp
+      )
+    }
     // Update the header
     newResponse.headers.set('Content-Security-Policy', csp)
   }
 
   // If the response is HTML, inject the nonce into script tags
-
   if (contentType && contentType.includes('text/html')) {
     return new HTMLRewriter()
       .on('script', {
         element(element) {
-          if (element.getAttribute('id')?.includes('_next-gtm')) {
+          if (element.getAttribute('id')?.includes('_pastelle-gtag')) {
             element.setAttribute('nonce', nonce)
           }
         },

@@ -15,7 +15,7 @@ export function GoogleTagManager(props: Omit<GTMParams, 'preview'>) {
 
   return (
     <>
-      <Script id="gtag-uri" nonce={nonce} strategy={strategy} src={`${gtmScriptUrl}?id=${gtmId}`} />
+      <Script id="_pastelle-gtag" nonce={nonce} strategy={strategy} src={`${gtmScriptUrl}?id=${gtmId}`} />
     </>
   )
 }
