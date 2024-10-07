@@ -9,7 +9,7 @@ import { NavigationFallback } from './NavigationFallback'
 
 const InnerNavigation = dynamic(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "INNER_NAVIGATION" */ './InnerNav'),
-  { ssr: false, loading: () => <NavigationFallback isSmallNav={false} isNavOpen={false} /> },
+  { ssr: false /* , loading: () => <NavigationFallback isSmallNav={false} isNavOpen={false} /> */ },
 )
 
 export type MobileNavProps = { menuSize?: number; bgColor?: string | null }

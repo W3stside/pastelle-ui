@@ -1,10 +1,9 @@
-import { ReadonlyURLSearchParams, usePathname, useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/router'
+import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
 
 export function useSearchParamsStore(): [
   ReadonlyURLSearchParams | null,
-  (key: string, value: string) => Promise<boolean>,
+  (key: string, value: string) => void,
 ] {
   const pathname = usePathname()
   const router = useRouter()

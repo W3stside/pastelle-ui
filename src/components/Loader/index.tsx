@@ -37,6 +37,7 @@ export const AnimatedContainer = styled(ColumnCenter).attrs((props) => ({
   height: '100%',
   justifyContent: 'center',
 }))<{ showBg?: boolean }>`
+  width: 100vw;
   ${({ theme, showBg = true }) =>
     showBg &&
     setBackgroundWithDPI(theme, MODDED_PT_URL_LIST, {

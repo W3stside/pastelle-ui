@@ -5,7 +5,7 @@ import { ProductSubHeader } from '@/components/PagesComponents/styleds'
 import { useCallback } from 'react'
 import { useCollection } from '@/state/collection/hooks'
 import styled from 'styled-components/macro'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 export const CollectionSelector = () => {
   const { current, collections } = useCollection()
