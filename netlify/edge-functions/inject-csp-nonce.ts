@@ -39,14 +39,16 @@ export default async (_: Request, context: Context) => {
   // If the response is HTML, inject the nonce into script tags
   if (contentType && contentType.includes('text/html')) {
     // We inject the gtag.js scripts after the <head> tag
+    // and mutate the response
+    // and set the nonce
     return new HTMLRewriter()
       .on('head', {
         element(element) {
           // Insert GTA script tag right after the <head> tag
-          element.after(
+          element.prepend(
             `
-            <script async id="_pastelle-gtag" src="https://www.googletagmanager.com/gtag/js?id=${GA_TAG_ID}"></script>
-            <script id="_pastelle-gtag-init">
+            <script async id="_pastelle-gtag" src="https://www.googletagmanager.com/gtag/js?id=${GA_TAG_ID}" nonce="${nonce}"></script>
+            <script id="_pastelle-gtag-init" nonce="${nonce}">
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
@@ -62,13 +64,6 @@ export default async (_: Request, context: Context) => {
           `,
             { html: true }
           )
-        },
-      })
-      .on('script', {
-        element(element) {
-          if (element.getAttribute('id')?.includes('_pastelle-gtag')) {
-            element.setAttribute('nonce', nonce)
-          }
         },
       })
       .transform(newResponse)
