@@ -5,6 +5,8 @@ import { HTMLRewriter } from 'https://ghuc.cc/worker-tools/html-rewriter/index.t
 
 export default async (_: Request, context: Context) => {
   const response = await context.next()
+  const GA_TAG_ID = Netlify.env.get('NEXT_PUBLIC_GOOGLE_GA_MEASUREMENT_ID')
+  console.log('🚀 ~ GA_TAG_ID:', GA_TAG_ID)
 
   // Clone the response so we can modify it
   const newResponse = new Response(response.body, response)
@@ -36,15 +38,35 @@ export default async (_: Request, context: Context) => {
 
   // If the response is HTML, inject the nonce into script tags
   if (contentType && contentType.includes('text/html')) {
+    // We inject the gtag.js scripts after the <head> tag
+    // and mutate the response
+    // and set the nonce
     return new HTMLRewriter()
-      .on('script', {
+      .on('head', {
         element(element) {
-          if (element.getAttribute('id')?.includes('_pastelle-gtag')) {
-            element.setAttribute('nonce', nonce)
-          }
+          // Insert GTA script tag right after the <head> tag
+          element.prepend(
+            `
+            <script async id="_pastelle-gtag" src="https://www.googletagmanager.com/gtag/js?id=${GA_TAG_ID}" nonce="${nonce}"></script>
+            <script id="_pastelle-gtag-init" nonce="${nonce}">
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_TAG_ID}');
+              gtag('consent', 'default', {
+                ad_storage: 'denied',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied',
+                marketing_storage: 'denied',
+                analytics_storage: 'granted'
+              })
+            </script>
+          `,
+            { html: true }
+          )
         },
       })
-      .transform(await context.next())
+      .transform(newResponse)
   } else {
     // just return response
     return newResponse
