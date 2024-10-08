@@ -22,7 +22,7 @@ import { fetchLatestCollectionAndUpdateStore } from '@/api'
 const CollectionAsideWithVideo = dynamic(
   import(
     /* webpackPrefetch: true,  webpackChunkName: "COLLECTIONASIDEWITHVIDEO" */ '@/components/Asides/collection/AsideWithVideo'
-  ),
+  )
 )
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -60,7 +60,7 @@ export default function Collection({ data: collection, schema, ...rest }: Props)
 
   const collectionProductList = useMemo(
     () => collection?.collectionProductList || [],
-    [collection?.collectionProductList],
+    [collection?.collectionProductList]
   )
 
   // on mobile sizes we set a fixed height
@@ -74,7 +74,7 @@ export default function Collection({ data: collection, schema, ...rest }: Props)
           isMobileDeviceOrWidth
           ? cHeight - LAYOUT_REM_HEIGHT_MAP.HEADER * BASE_FONT_SIZE
           : cHeight
-        : 0,
+        : 0
     )
   }, [collectionProductList, container?.clientHeight, isMobileDeviceOrWidth])
 
@@ -82,7 +82,7 @@ export default function Collection({ data: collection, schema, ...rest }: Props)
     (handle?: string) => {
       if (handle) navigate(buildItemUrl(handle))
     },
-    [navigate],
+    [navigate]
   )
 
   const AsideWithVideoAux = useCallback(
@@ -98,7 +98,7 @@ export default function Collection({ data: collection, schema, ...rest }: Props)
     ),
     // Can safely ignore this as the IDs are unique
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [collection?.id],
+    [collection?.id]
   )
 
   const mappedCollectionItems = useMemo(
@@ -108,7 +108,7 @@ export default function Collection({ data: collection, schema, ...rest }: Props)
         if (item?.lockedImages?.[0]?.url) newItem.images = item.lockedImages
         return newItem
       }),
-    [collectionProductList],
+    [collectionProductList]
   )
 
   const clientReady = useIsClientReady()
