@@ -75,7 +75,7 @@ export default function SinglePageSmartWrapper({ children }: SmartWrapperFunctio
       screensContainerNode,
       setScreensContainerRef,
     }),
-    [parentAspectRatio, rootContainerNode, screensContainerNode, setScreensContainerRef]
+    [parentAspectRatio, rootContainerNode, screensContainerNode, setScreensContainerRef],
   )
 
   const childrenWithProps = children?.(memoisedProps)
