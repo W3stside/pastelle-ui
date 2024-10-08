@@ -95,8 +95,8 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
   const isCollectionPage = checkIsCollectionPage({ pathname })
 
   const handleNavClick = useCallback(() => {
-    closeCartPanel()
     navigate(COLLECTION_PATHNAME, undefined, { shallow: true })
+    closeCartPanel()
   }, [closeCartPanel, navigate])
 
   const isMobileWidth = useIsExtraSmallMediaWidth()
@@ -184,7 +184,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
               fontSize={isMobileWidth ? '2rem' : '2.6rem'}
               fontWeight={100}
             >
-              <a
+              <Link
                 href={data.cart.checkoutUrl}
                 style={{
                   color: 'ghostwhite',
@@ -194,7 +194,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
                 }}
               >
                 {checkoutClicked ? 'Working...' : 'Checkout'}
-              </a>
+              </Link>
             </CartHeader>
           </Button>
         </CartTableHeaderBaseWrapper>

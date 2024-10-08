@@ -1,8 +1,7 @@
 import { ErrorBoundary } from '@past3lle/components'
 import { ThemeProvider } from '@past3lle/theme'
-import { PastelleForgeW3Provider } from '@/blockchain/provider/ForgeW3Provider'
 import { AppErrorFallback } from '@/components/Error/fallbacks/AppErrorFallback'
-import { StaticCSSProviders, PastelleStoreUpdaters, ThemedCSSProviders } from 'Providers'
+import { PastelleStoreUpdaters, StaticCSSProviders, ThemedCSSProviders } from 'Providers'
 import { Provider } from 'react-redux'
 import ApolloProvider from '@/shopify/graphql/ApolloProvider'
 import { wrapper } from '@/state'
@@ -40,31 +39,28 @@ function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
   const pagePropsWithAppAnalytics = useShopifyAnalytics({ pageProps: rest.pageProps })
   return (
     <>
-      <Provider store={store}>
-        <ShopifyProvider {...shopifyConfig}>
-          <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
-            {/* @past3lle hooks data provider */}
-            <PastelleForgeW3Provider>
-              {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
-              <StaticCSSProviders />
-              <ApolloProvider>
-                {/* GA/GTM Consent Updater */}
-                <AnalyticsConsentUpdater />
-                <VersionUpdater />
-                {/* <AppOnlineStatusUpdater /> */}
-                <PastelleStoreUpdaters />
-                {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-                <ThemedCSSProviders />
-                <ErrorBoundary fallback={<AppErrorFallback />}>
-                  <Layout>
-                    <Component {...pagePropsWithAppAnalytics} />
-                  </Layout>
-                </ErrorBoundary>
-              </ApolloProvider>
-            </PastelleForgeW3Provider>
-          </ThemeProvider>
-        </ShopifyProvider>
-      </Provider>
+      <ShopifyProvider {...shopifyConfig}>
+        <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
+          {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
+          <StaticCSSProviders />
+          <ApolloProvider>
+            <Provider store={store}>
+              {/* GA/GTM Consent Updater */}
+              <AnalyticsConsentUpdater />
+              <VersionUpdater />
+              {/* <AppOnlineStatusUpdater /> */}
+              <PastelleStoreUpdaters />
+              {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
+              <ThemedCSSProviders />
+              <ErrorBoundary fallback={<AppErrorFallback />}>
+                <Layout>
+                  <Component {...pagePropsWithAppAnalytics} />
+                </Layout>
+              </ErrorBoundary>
+            </Provider>
+          </ApolloProvider>
+        </ThemeProvider>
+      </ShopifyProvider>
       {process.env.NEXT_PUBLIC_GOOGLE_GA_MEASUREMENT_ID && (
         <GoogleTagManager
           gtmId={process.env.NEXT_PUBLIC_GOOGLE_GA_MEASUREMENT_ID}

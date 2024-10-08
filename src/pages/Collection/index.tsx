@@ -17,7 +17,7 @@ import { CollectionSchema } from '@/components/SEO/types'
 import dynamic from 'next/dynamic'
 import { useIsClientReady } from '@/hooks/useIsClientReady'
 import { AnimatedPastelleLoader } from '@/components/Loader'
-import { fetchLatestCollectionAndUpdateStore } from '@/api/collection'
+import { fetchLatestCollectionAndUpdateStore } from '@/api'
 
 const CollectionAsideWithVideo = dynamic(
   import(

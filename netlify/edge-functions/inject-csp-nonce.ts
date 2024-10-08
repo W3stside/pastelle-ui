@@ -55,5 +55,5 @@ export const config: IntegrationsConfig = {
   path: '/*',
   name: 'inject-csp-nonce',
   cache: 'manual',
-  onError: 'bypass',
+  onError: 'fail',
 }

@@ -132,7 +132,9 @@ const RAW_RUNTIME_STATE =
           ["react-markdown", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:5.0.3"],\
           ["react-redux", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:7.2.9"],\
           ["rebass", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.7"],\
+          ["redux", "npm:5.0.1"],\
           ["redux-localstorage-simple", "npm:2.5.1"],\
+          ["redux-persist", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:6.0.0"],\
           ["sharp", "npm:0.33.5"],\
           ["source-map-explorer", "npm:2.5.3"],\
           ["styled-components", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:5.3.11"],\
@@ -25811,7 +25813,9 @@ const RAW_RUNTIME_STATE =
           ["react-markdown", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:5.0.3"],\
           ["react-redux", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:7.2.9"],\
           ["rebass", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:4.0.7"],\
+          ["redux", "npm:5.0.1"],\
           ["redux-localstorage-simple", "npm:2.5.1"],\
+          ["redux-persist", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:6.0.0"],\
           ["sharp", "npm:0.33.5"],\
           ["source-map-explorer", "npm:2.5.3"],\
           ["styled-components", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:5.3.11"],\
@@ -27729,6 +27733,13 @@ const RAW_RUNTIME_STATE =
           ["@babel/runtime", "npm:7.25.6"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:5.0.1", {\
+        "packageLocation": "../../../.yarn/berry/cache/redux-npm-5.0.1-f8e6b1cb23-10c0.zip/node_modules/redux/",\
+        "packageDependencies": [\
+          ["redux", "npm:5.0.1"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["redux-localstorage-simple", [\
@@ -27737,6 +27748,32 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["redux-localstorage-simple", "npm:2.5.1"],\
           ["merge", "npm:2.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["redux-persist", [\
+      ["npm:6.0.0", {\
+        "packageLocation": "../../../.yarn/berry/cache/redux-persist-npm-6.0.0-56dad69feb-10c0.zip/node_modules/redux-persist/",\
+        "packageDependencies": [\
+          ["redux-persist", "npm:6.0.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:6.0.0", {\
+        "packageLocation": "./.yarn/__virtual__/redux-persist-virtual-4654cf93eb/4/.yarn/berry/cache/redux-persist-npm-6.0.0-56dad69feb-10c0.zip/node_modules/redux-persist/",\
+        "packageDependencies": [\
+          ["redux-persist", "virtual:a778f57b6f77329f43bc2737656878022a967e737e4586ccf35c470acaeef18182eab3cc6c2823165183b8cb9f6c1847b77a8f76e3a85cb145aa6814cc4c3d4e#npm:6.0.0"],\
+          ["@types/react", "npm:18.3.10"],\
+          ["@types/redux", null],\
+          ["react", "npm:18.3.1"],\
+          ["redux", "npm:5.0.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "@types/redux",\
+          "react",\
+          "redux"\
         ],\
         "linkType": "HARD"\
       }]\
