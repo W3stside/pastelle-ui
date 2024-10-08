@@ -32,7 +32,7 @@ export async function fetchLatestCollectionAndUpdateStore(store: AppStore) {
       updateCollections({
         collections: formattedCollections,
         loading: false,
-      })
+      }),
     )
 
     if (formattedCollections?.[0]?.id) {
@@ -41,7 +41,7 @@ export async function fetchLatestCollectionAndUpdateStore(store: AppStore) {
           id: formattedCollections[0].id,
           locked: formattedCollections[0]?.locked,
           loading: false,
-        })
+        }),
       )
     }
   }
