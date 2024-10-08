@@ -22,7 +22,7 @@ export function formatShopifyCurrency(amount: number, options: { locales: string
   }
 }
 
-export function getNodeAspectRatio(node: HTMLElement | undefined | null) {
+export function getNodeAspectRatio(node: HTMLElement | undefined | null, defaults?: { width: number; height: number }) {
   if (!node) return undefined
-  return node.clientWidth / node.clientHeight
+  return (node.clientWidth || defaults?.width || 0) / (node.clientHeight || defaults?.height || 1)
 }

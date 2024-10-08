@@ -14,7 +14,7 @@ import { updateCurrentlyViewing, updateHomepage } from '@/state/collection/reduc
 
 const SinglePageSmartWrapper = dynamic(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "HOMESMARTWRAPPER" */ '@/components/PagesComponents'),
-  { ssr: false, loading: () => <AnimatedPastelleLoader /> },
+  { ssr: false, loading: () => <AnimatedPastelleLoader /> }
 )
 
 const VIDEO_CSS = `
@@ -64,10 +64,12 @@ export default function Home({ data: homepage, schema, ...rest }: Props) {
         title="Organic Avant-Garde Streetwear | PASTELLE APPAREL"
         name="PASTELLE APPAREL"
         description="Discover avant-garde streetwear made from organic materials. Designed by local artists in Portugal, PASTELLE APPAREL's heavyweight pieces (250gsm+) redefine urban fashion."
-        image=""
+        image="https://pastelle.shop/_next/static/media/pastelle-ivory-outlined.a1b38352.svg"
+        // root
         cannonicalUrl=""
         schema={schema}
       />
+
       <SinglePageSmartWrapper>
         {({ parentAspectRatio, ...restProps }) => (
           <SingleProductContainer id="#item-container" parentAspectRatio={parentAspectRatio}>
