@@ -29,7 +29,8 @@ import {
 } from './styled'
 import { BoxProps } from 'rebass'
 import dynamic from 'next/dynamic'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 import { goToCheckoutAnalytics } from '@/analytics'
 import { devWarn } from '@past3lle/utils'
 import Link from 'next/link'
@@ -94,8 +95,8 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
   const isCollectionPage = checkIsCollectionPage({ pathname })
 
   const handleNavClick = useCallback(() => {
+    navigate(COLLECTION_PATHNAME, undefined, { shallow: true })
     closeCartPanel()
-    navigate(COLLECTION_PATHNAME)
   }, [closeCartPanel, navigate])
 
   const isMobileWidth = useIsExtraSmallMediaWidth()
@@ -120,15 +121,13 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
         ) : isEmptyCart ? (
           <ProductSubHeader color={WHITE} fontSize="2.5rem" fontWeight={400} padding={0} margin="2rem 0">
             <span id="lenny-face">Your cart is</span> <strong>empty</strong> <span id="lenny-face">ʕ ͡° ʖ̯ ͡°ʔ</span>
-            {!isCollectionPage && (
-              <Link
-                href={COLLECTION_PATHNAME}
-                onClick={handleNavClick}
-                style={{ display: 'flex', marginTop: '0.25rem', fontStyle: 'normal' }}
-              >
-                <u>Check out the full {COLLECTION_PARAM_NAME}</u>!
-              </Link>
-            )}
+            <Link
+              href={COLLECTION_PATHNAME}
+              onClick={isCollectionPage ? closeCartPanel : handleNavClick}
+              style={{ display: 'flex', marginTop: '0.25rem', fontStyle: 'normal' }}
+            >
+              <u>Check out the full {COLLECTION_PARAM_NAME}</u>!
+            </Link>
           </ProductSubHeader>
         ) : (
           cartLines?.map(
@@ -185,7 +184,7 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
               fontSize={isMobileWidth ? '2rem' : '2.6rem'}
               fontWeight={100}
             >
-              <a
+              <Link
                 href={data.cart.checkoutUrl}
                 style={{
                   color: 'ghostwhite',
@@ -194,8 +193,8 @@ export function ShoppingCartPanel({ cartId, closeCartPanel }: { cartId: string; 
                   padding: '1rem',
                 }}
               >
-                {checkoutClicked ? 'Redirecting to checkout...' : 'Checkout'}
-              </a>
+                {checkoutClicked ? 'Working...' : 'Checkout'}
+              </Link>
             </CartHeader>
           </Button>
         </CartTableHeaderBaseWrapper>

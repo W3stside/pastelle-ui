@@ -17,7 +17,7 @@ import { CollectionSchema } from '@/components/SEO/types'
 import dynamic from 'next/dynamic'
 import { useIsClientReady } from '@/hooks/useIsClientReady'
 import { AnimatedPastelleLoader } from '@/components/Loader'
-import { fetchLatestCollectionAndUpdateStore } from '@/api/collection'
+import { fetchLatestCollectionAndUpdateStore } from '@/api'
 
 const CollectionAsideWithVideo = dynamic(
   import(
@@ -126,7 +126,7 @@ export default function Collection({ data: collection, schema, ...rest }: Props)
         cannonicalUrl="collection"
         schema={schema}
       />
-      {clientReady ? (
+      {clientReady && (
         <ArticleFadeInContainer id="COLLECTION-ARTICLE" ref={setContainerRef}>
           {mappedCollectionItems && collectionProductList.length > 1 ? (
             <ScrollingContentPage
@@ -147,8 +147,6 @@ export default function Collection({ data: collection, schema, ...rest }: Props)
             />
           )}
         </ArticleFadeInContainer>
-      ) : (
-        <AnimatedPastelleLoader />
       )}
     </>
   )

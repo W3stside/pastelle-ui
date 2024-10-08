@@ -13,7 +13,6 @@ import {
 import { useAppDispatch, useAppSelector } from '@/state'
 
 import { CartState, CreateCartParams, UpdateCartInfoParams, createCart, setShowCart, updateCartInfo } from './reducer'
-import { useRouter } from 'next/navigation'
 import { useSearchParamsStore } from '@/hooks/useSearchParamsStore'
 
 export function useCreateCartDispatch() {
@@ -104,20 +103,20 @@ export function useToggleCartAndState(): [boolean, (state: boolean, cart: CartSt
   const cartOpen = useAppSelector((state) => state.cart.showCart)
   const dispatch = useOpenOrCloseCart()
 
-  const router = useRouter()
-  const [, setSearchParams] = useSearchParamsStore()
+  const [, setSearchParams, removeSearchParams] = useSearchParamsStore()
 
   const viewCartCallback = useCallback(
     (showOpen: boolean, cart: CartState | null) => {
       if (showOpen) {
         if (cart?.totalQuantity) viewCartAnalytics(cart)
-        setSearchParams('peek', SearchParamQuickViews.CART)
+        setSearchParams('peek', SearchParamQuickViews.CART, undefined, { shallow: true })
+      } else {
+        removeSearchParams('peek', { shallow: true })
       }
-      else router.back()
 
       dispatch(showOpen)
     },
-    [dispatch, router, setSearchParams],
+    [dispatch, removeSearchParams, setSearchParams],
   )
   return [cartOpen, viewCartCallback]
 }

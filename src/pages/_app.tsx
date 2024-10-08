@@ -1,8 +1,7 @@
 import { ErrorBoundary } from '@past3lle/components'
 import { ThemeProvider } from '@past3lle/theme'
-import { PastelleForgeW3Provider } from '@/blockchain/provider/ForgeW3Provider'
 import { AppErrorFallback } from '@/components/Error/fallbacks/AppErrorFallback'
-import { StaticCSSProviders, PastelleStoreUpdaters, ThemedCSSProviders } from 'Providers'
+import { PastelleStoreUpdaters, StaticCSSProviders, ThemedCSSProviders } from 'Providers'
 import { Provider } from 'react-redux'
 import ApolloProvider from '@/shopify/graphql/ApolloProvider'
 import { wrapper } from '@/state'
@@ -18,7 +17,6 @@ import { Layout } from '@/components/Layout'
 import { CountryCode, LanguageCode } from '@/shopify/graphql/types'
 import { devError } from '@past3lle/utils'
 import { GoogleTagManager } from '@/analytics/google/GoogleTagManager'
-import { useGoogleTagManagerConsentInit } from '@/analytics/google/hooks'
 
 if (!process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN)
   throw new Error('Missing process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!')
@@ -39,39 +37,33 @@ function RootApp({ Component, ...rest }: AppProps<{ nonce: string }>) {
   // Inject redux SSR state props
   const store = wrapper.useStore()
   const pagePropsWithAppAnalytics = useShopifyAnalytics({ pageProps: rest.pageProps })
-  // GA consent
-  useGoogleTagManagerConsentInit()
-
   return (
     <>
-      <Provider store={store}>
-        <ShopifyProvider {...shopifyConfig}>
-          <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
-            {/* @past3lle hooks data provider */}
-            <PastelleForgeW3Provider>
-              {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
-              <StaticCSSProviders />
-              <ApolloProvider>
-                {/* GA/GTM Consent Updater */}
-                <AnalyticsConsentUpdater />
-                <VersionUpdater />
-                {/* <AppOnlineStatusUpdater /> */}
-                <PastelleStoreUpdaters />
-                {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
-                <ThemedCSSProviders />
-                <ErrorBoundary fallback={<AppErrorFallback />}>
-                  <Layout>
-                    <Component {...pagePropsWithAppAnalytics} />
-                  </Layout>
-                </ErrorBoundary>
-              </ApolloProvider>
-            </PastelleForgeW3Provider>
-          </ThemeProvider>
-        </ShopifyProvider>
-      </Provider>
-      {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID && (
+      <ShopifyProvider {...shopifyConfig}>
+        <ThemeProvider theme={pastelleTheme} defaultMode={getLocalStorageThemeModeOrDefault(ThemeModes.DARK)}>
+          {/* Provides all top level CSS NOT dynamically adjustable by the ThemeProvider */}
+          <StaticCSSProviders />
+          <ApolloProvider>
+            <Provider store={store}>
+              {/* GA/GTM Consent Updater */}
+              <AnalyticsConsentUpdater />
+              <VersionUpdater />
+              {/* <AppOnlineStatusUpdater /> */}
+              <PastelleStoreUpdaters />
+              {/* Provides all top level CSS dynamically adjustable by the ThemeProvider */}
+              <ThemedCSSProviders />
+              <ErrorBoundary fallback={<AppErrorFallback />}>
+                <Layout>
+                  <Component {...pagePropsWithAppAnalytics} />
+                </Layout>
+              </ErrorBoundary>
+            </Provider>
+          </ApolloProvider>
+        </ThemeProvider>
+      </ShopifyProvider>
+      {process.env.NEXT_PUBLIC_GOOGLE_GA_MEASUREMENT_ID && (
         <GoogleTagManager
-          gtmId={process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID}
+          gtmId={process.env.NEXT_PUBLIC_GOOGLE_GA_MEASUREMENT_ID}
           // TODO: check. this is required atm to make the netlify edge-function
           // inject-csp work as it finds <script> tags and injects nonce={SERVER_VALUE}
           // and afterInteractive (Adding it after body tag) does not allow for this to happen and nonce is empty

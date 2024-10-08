@@ -24,7 +24,7 @@ export function sendError(error: Error, type?: string) {
   })
 }
 
-export function updateConsent(consent: AnalyticsState['google'], type: 'update' | 'default' = 'update') {
+export function updateConsent(consent: AnalyticsState['google']['consent'], type: 'update' | 'default' = 'update') {
   if (!consent) return devWarn('[events/base.ts]::sendConsent --> No consent data. Bailing.')
 
   return gtag('consent', type, consent)

@@ -1,3 +1,5 @@
+'use client'
+
 import { ShoppingCartPanel } from '@/components/ShoppingCart/ShoppingCart'
 import { useGetCartState, useToggleCartAndState } from '@/state/cart/hooks'
 

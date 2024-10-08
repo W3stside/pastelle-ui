@@ -4,37 +4,18 @@ import Script from 'next/script'
 
 import type { GTMParams } from './types'
 
-export function GoogleTagManager(props: Omit<GTMParams, 'preview'>) {
-  const {
-    gtmId,
-    gtmScriptUrl = 'https://www.googletagmanager.com/gtag/js',
-    dataLayerName = 'dataLayer',
-    // dataLayer,
-    auth,
-    nonce,
-    strategy,
-  } = props
+import { devWarn } from '@past3lle/utils'
 
-  const gtmLayer = dataLayerName !== 'dataLayer' ? `&l=${dataLayerName}` : ''
-  const gtmAuth = auth ? `&gtm_auth=${auth}` : ''
+if (!process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID) {
+  devWarn('Missing GoogleTagManager tag id. Check .env. Not throwing and app continuing without GA.')
+}
+
+export function GoogleTagManager(props: Omit<GTMParams, 'preview'>) {
+  const { gtmId, gtmScriptUrl = 'https://www.googletagmanager.com/gtag/js', nonce, strategy } = props
 
   return (
     <>
-      <Script
-        id="_next-gtm"
-        data-ntpc="GTM"
-        nonce={nonce}
-        strategy={strategy}
-        src={`${gtmScriptUrl}?id=${gtmId}${gtmLayer}${gtmAuth}`}
-      />
-      <noscript>
-        <iframe
-          src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-          height="0"
-          width="0"
-          style={{ display: 'none', visibility: 'hidden' }}
-        ></iframe>
-      </noscript>
+      <Script id="_pastelle-gtag" nonce={nonce} strategy={strategy} src={`${gtmScriptUrl}?id=${gtmId}`} />
     </>
   )
 }

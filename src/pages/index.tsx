@@ -14,7 +14,7 @@ import { updateCurrentlyViewing, updateHomepage } from '@/state/collection/reduc
 
 const SinglePageSmartWrapper = dynamic(
   () => import(/* webpackPrefetch: true,  webpackChunkName: "HOMESMARTWRAPPER" */ '@/components/PagesComponents'),
-  { ssr: false, loading: () => <AnimatedPastelleLoader /> },
+  { ssr: false, loading: () => <AnimatedPastelleLoader /> }
 )
 
 const VIDEO_CSS = `
