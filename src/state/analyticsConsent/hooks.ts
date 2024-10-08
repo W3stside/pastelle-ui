@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '..'
-import { GoogleAnalyticsConsentState, updateGoogleAnalyticsConsent } from './reducer'
+import { GoogleAnalyticsConsentState, updateGoogleAnalyticsConsent, setGoogleAnalyticsConfigured } from './reducer'
 import { MakeOptional } from '@past3lle/types'
 
 export function useGoogleAnalyticsConsentSelector() {
@@ -14,4 +14,9 @@ export function useDispatchGoogleConsent() {
       dispatch(updateGoogleAnalyticsConsent(params)),
     [dispatch],
   )
+}
+
+export function useDispatchGoogleAnalyticsConfigured() {
+  const dispatch = useAppDispatch()
+  return useCallback((params: boolean) => dispatch(setGoogleAnalyticsConfigured(params)), [dispatch])
 }

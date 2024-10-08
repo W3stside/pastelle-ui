@@ -18,18 +18,18 @@ export default function ShowcaseVideoControls({ isMobile, ...containerProps }: B
   const [{ autoplay, status }, updateSettings] = useUpdateShowcaseVideoSettings()
 
   const handlePauseVideo = useCallback(() => {
-    pauseShowcaseVideoAnalytics()
     updateSettings({ autoplay, status: 'pause' })
+    pauseShowcaseVideoAnalytics()
   }, [autoplay, updateSettings])
 
   const handlePlayVideo = useCallback(() => {
-    playShowcaseVideoAnalytics()
     updateSettings({ autoplay, status: 'play' })
+    playShowcaseVideoAnalytics()
   }, [autoplay, updateSettings])
 
   const handleToggleAutoplay = useCallback(() => {
-    toggleShowcaseAutoplayAnalytics(!autoplay)
     updateSettings({ autoplay: !autoplay, status })
+    toggleShowcaseAutoplayAnalytics(!autoplay)
   }, [autoplay, status, updateSettings])
 
   const { mode } = useTheme()

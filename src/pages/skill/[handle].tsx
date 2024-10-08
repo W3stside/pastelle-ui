@@ -25,7 +25,7 @@ import { useProductViewReporter } from '@/analytics/hooks/useProductViewReporter
 import dynamic from 'next/dynamic'
 import { useIsClientReady } from '@/hooks/useIsClientReady'
 import { AnimatedPastelleLoader } from '@/components/Loader'
-import { fetchLatestCollectionAndUpdateStore } from '@/api/collection'
+import { fetchLatestCollectionAndUpdateStore } from '@/api'
 import { wrapper } from '@/state'
 import { collectionProductFromParamsSelector } from '@/api/collection/utils'
 

@@ -64,6 +64,11 @@ const FixedContainer = styled(AnimatedContainer)<StyleParams>`
   right: ${({ right = '25%' }) => right};
   width: ${({ width = 'auto' }) => width};
 
+  img {
+    width: auto;
+    height: auto;
+  }
+
   ${({ showBg = true }) => !showBg && `background: unset;`}
 
   z-index: 0;

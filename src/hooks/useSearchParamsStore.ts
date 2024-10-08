@@ -1,9 +1,13 @@
-import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { ReadonlyURLSearchParams, usePathname, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 
+type NavigateUrlAs = Parameters<ReturnType<typeof useRouter>['replace']>[1]
+type NavigateOptions = Parameters<ReturnType<typeof useRouter>['replace']>[2]
 export function useSearchParamsStore(): [
   ReadonlyURLSearchParams | null,
-  (key: string, value: string) => void,
+  (key: string, value: string, url?: NavigateUrlAs, options?: NavigateOptions) => void,
+  (key: string, options?: NavigateOptions) => void,
 ] {
   const pathname = usePathname()
   const router = useRouter()
@@ -22,9 +26,19 @@ export function useSearchParamsStore(): [
   )
 
   const setSearchParams = useCallback(
-    (key: string, value: string) => router.push(pathname + '?' + createQueryString(key, value)),
+    (key: string, value: string, url?: NavigateUrlAs, options?: NavigateOptions) =>
+      router.replace({ pathname, query: createQueryString(key, value) }, url, options),
     [createQueryString, pathname, router],
   )
 
-  return [searchParams, setSearchParams]
+  const removeSearchParams = useCallback(
+    (key: string, options?: NavigateOptions) => {
+      const params = new URLSearchParams(searchParams)
+      params.delete(key)
+      router.replace({ pathname, query: params.toString() }, undefined, options)
+    },
+    [pathname, router, searchParams],
+  )
+
+  return [searchParams, setSearchParams, removeSearchParams]
 }
