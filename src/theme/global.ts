@@ -8,6 +8,15 @@ export const CustomStaticGlobalCSSProvider = createGlobalStyle`
   
   body {
     overflow: hidden;
+
+    .pastelle-toast {
+      background: royalblue;
+      font-size: 2.2rem;
+      color: ghostwhite;
+      svg {
+        color: ghostwhite;
+      }
+    }
     
     > div#__next {
       // height: calc(18rem + 100vh);
