@@ -131,6 +131,7 @@
     "source-map-explorer": "^2.5.3",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
+    "tsc": "^2.0.4",
     "tslib": "^2.7.0",
     "typescript": "latest",
     "typescript-eslint": "^8.6.0",
@@ -144,11 +145,13 @@
     "yarn": "^1.22.22"
   },
   "scripts": {
+    "postinstall": "yarn dlx @yarnpkg/sdks vscode",
     "analyze": "NEXT_PUBLIC_ANALYZE_BUNDLE=true yarn build",
     "lint": "yarn dlx prettier --write src --ignore-path ./.prettierignore",
     "start:mock": "NEXT_PUBLIC_IS_MOCK=true && yarn start",
     "dev": "next dev",
     "build": "next build",
+    "check-types": "tsc --noEmit",
     "sitemap:generate": "yarn next-sitemap --config next-sitemap.config.mjs",
     "netlify": "netlify",
     "netlify:build": "netlify build",

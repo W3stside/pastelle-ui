@@ -13,19 +13,19 @@ interface ToastProps {
 export function PastelleToast({ header, body, isMobile }: ToastProps) {
   return (
     <ToastContainer isMobile={isMobile}>
-      <Text.Main>{header}</Text.Main>
       <Row>
-        <img src={PNG_LogoCircle_2x} />
-        <Text.ProductText backgroundColor="#6495edb3">{body}</Text.ProductText>
+        <img src={PNG_LogoCircle_2x as unknown as string} />
+        <Text.Main>{header}</Text.Main>
       </Row>
+      <Text.ProductText className="toast-body-text" backgroundColor="#6495edb3">{body}</Text.ProductText>
     </ToastContainer>
   )
 }
 
 const ToastContainer = styled.div<{ isMobile: boolean }>`
-  > ${Text.Main} {
+  gap: 0.5rem;
+  > ${Row} > ${Text.Main} {
     font-size: 1.5rem;
-    margin-bottom: 0.5rem;
     color: ghostwhite;
   }
   img {
@@ -34,12 +34,14 @@ const ToastContainer = styled.div<{ isMobile: boolean }>`
     margin-right: 1rem;
   }
 
-  ${Row} > div {
+  > div.toast-body-text {
+    margin-top: 0.5rem;
     color: ghostwhite;
     font-weight: 900;
     border-radius: 3px;
     padding: 1px 8px;
     width: auto;
-    font-size: ${(props) => (props.isMobile ? '3.5rem' : '2.5rem')};
+    font-size: ${(props) => (props.isMobile ? '3.2rem' : '2.5rem')};
+    text-align: center;
   }
 `

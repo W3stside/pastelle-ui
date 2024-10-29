@@ -19,6 +19,7 @@ import ProductRarityAndLabel from '../components/ProductRarityAndLabel'
 import { useProductWebCarouselActions } from '../hooks/useProductCarouselActions'
 import { ScrollingProductLabel } from '../styleds'
 import { BaseScreensProps, WithContainerNode } from './types'
+import { SaleBanner } from '../components/SaleBanner'
 
 export type CarouselScreenProps = Omit<ProductCarousel, 'axis' | 'children' | 'animationProps'> &
   WithTouchAction &
@@ -78,15 +79,16 @@ export default memo<AsideCarouselProps>(function AsideCarouselScreen({
       ),
     // Ignore onCarouselChange
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [onCarouselItemClick],
+    [onCarouselItemClick]
   )
 
   return (
     <SingleProductScreen>
       {/* Breadcrumbs */}
       {!!breadcrumbs?.breadcrumbs && (
-        <ScrollingProductLabel height={ITEM_LABEL_HEIGHT} logo={headerLogo} padding={'0.25rem'}>
+        <ScrollingProductLabel height={ITEM_LABEL_HEIGHT} logo={headerLogo} padding={'0.25rem'} flexDirection="column">
           <Breadcrumbs lastCrumb={breadcrumbs?.lastCrumb} breadcrumbs={breadcrumbs.breadcrumbs} color={bgColor} />
+          <SaleBanner />
         </ScrollingProductLabel>
       )}
       {/* Product carousel */}

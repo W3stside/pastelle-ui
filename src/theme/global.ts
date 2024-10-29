@@ -1,22 +1,27 @@
+import { Z_INDEXES } from '@/constants/config'
 import { createGlobalStyle } from 'styled-components/macro'
 
 export const CustomStaticGlobalCSSProvider = createGlobalStyle`
-  html, body {
-    font-family: 'Roboto Flex', system-ui;
-    font-variation-settings: 'wght' 300;
-  }
-  
-  body {
-    overflow: hidden;
-
-    .pastelle-toast {
-      background: royalblue;
-      font-size: 2.2rem;
-      color: ghostwhite;
-      svg {
-        color: ghostwhite;
-      }
+  :root {
+    --toastify-z-index: ${Z_INDEXES.HEADER - 10};
     }
+    
+    html, body {
+      font-family: 'Roboto Flex', system-ui;
+      font-variation-settings: 'wght' 300;
+      }
+      
+      body {
+        overflow: hidden;
+        
+      .pastelle-toast {
+        background: royalblue;
+        font-size: 2.2rem;
+        color: ghostwhite;
+        svg {
+          color: ghostwhite;
+        }
+      }
     
     > div#__next {
       // height: calc(18rem + 100vh);
